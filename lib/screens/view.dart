@@ -332,10 +332,10 @@ class _ViewNotePageState extends State<ViewNotePage> {
             initialTime: TimeOfDay(hour:10,minute: 10 ),
           );
           if (response!=null)
-          setState(() async {
+          setState(()  {
           rem_date= date;
           date= DateTime(date.year,date.month,date.day,response.hour,response.minute);
-
+          });
           var scheduledNotificationDateTime =
          date;
           var androidPlatformChannelSpecifics =
@@ -363,7 +363,7 @@ class _ViewNotePageState extends State<ViewNotePage> {
             alarm = 1;
           });
           await NotesDatabaseService.db.addReminderInDB(rem);
-        });}
+        }
 
     } else {
       showDialog(

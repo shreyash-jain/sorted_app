@@ -24,7 +24,7 @@ class NoteCardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var formatter = new DateFormat('Hm');
-    double height=110;
+    double height=115;
     if (eventData.content.length>0){
       height+=(20*(eventData.content.length/30));
 
@@ -39,13 +39,15 @@ class NoteCardComponent extends StatelessWidget {
     return Container(
 
         margin: EdgeInsets.fromLTRB(10, 8, 10, 8),
-
+        color: Colors.transparent,
         child: Material(
           borderRadius: BorderRadius.circular(16),
           clipBehavior: Clip.antiAlias,
-
+          color: Colors.transparent,
           child: Container(
             width: double.infinity,
+            color: Colors.transparent,
+
 
             padding: EdgeInsets.only(left: 16,right: 16),
 
@@ -63,10 +65,20 @@ class NoteCardComponent extends StatelessWidget {
 
 
 
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(100.0),
-                  ),
+              decoration: new BoxDecoration(
+                borderRadius: new BorderRadius.all(
+                  Radius.circular((100)),
+                ),
+                gradient: new LinearGradient(
+                    colors: [
+                      const Color(0xFF00c6ff),
+                     Theme.of(context).primaryColor,
+                    ],
+                    begin: const FractionalOffset(.2, .2),
+                    end: const FractionalOffset(1.0, 1.00),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+              ),
 
                   child: Column(
 
@@ -110,6 +122,7 @@ class NoteCardComponent extends StatelessWidget {
 
                   child:Column(
 
+
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -119,8 +132,16 @@ class NoteCardComponent extends StatelessWidget {
                         child:Container(
                           padding: EdgeInsets.only(left:2,top: 4,bottom: 4),
                           decoration: BoxDecoration(
-                              color: (eventData.duration==0)?Colors.blue:null,
-                              borderRadius: BorderRadius.circular(18.0),
+                              gradient: new LinearGradient(
+                                  colors: [
+                                    const Color(0xFF00c6ff),
+                                    Theme.of(context).primaryColor,
+                                  ],
+                                  begin: const FractionalOffset(.2, .2),
+                                  end: const FractionalOffset(1.0, 1.00),
+                                  stops: [0.0, 1.0],
+                                  tileMode: TileMode.clamp),
+                              borderRadius: BorderRadius.circular(20.0),
                               boxShadow: [
                                
                               ]
@@ -131,7 +152,7 @@ class NoteCardComponent extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Padding(
-                              padding: (eventData.duration==0)? EdgeInsets.only(left:12):EdgeInsets.all(0),
+                              padding: (eventData.duration==0)? EdgeInsets.only(left:12):EdgeInsets.only(left:8),
                               child:Text(
                                 '${eventData.title.trim().length <= 18 ? eventData.title.trim() : eventData.title.trim().substring(0, 18) + '...'}',
 
@@ -139,7 +160,7 @@ class NoteCardComponent extends StatelessWidget {
 
                                   color: (eventData.duration==0)?Colors.white:null,
                                     fontFamily: 'ZillaSlab',
-                                    fontSize: 24,
+                                    fontSize: 22,
                                     fontWeight: FontWeight.bold),
                               ),),
 
@@ -236,7 +257,7 @@ class NoteCardComponent extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     color: Color(0xFFAFB4C6),
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     decoration: this_todo.isDone
                         ? TextDecoration.lineThrough
                         : TextDecoration.none
@@ -244,23 +265,23 @@ class NoteCardComponent extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
+      Flexible(child:Padding(
               padding:
                   EdgeInsets.only(left: 20.0, bottom: 0, top: 4, right: 8),
-              child: Text(
-                this_todo.description,
-
+               child:Text(
+                this_todo.description+"jdjjjjdnhello",
+                overflow: TextOverflow.fade,
                 style: TextStyle(
                   fontFamily: 'ZillaSlab',
                   color: Color(0xFFAFB4C6),
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                     decoration: this_todo.isDone
                         ? TextDecoration.lineThrough
                         : TextDecoration.none
 
                 ),
               ),
-            ),
+            ),),
           ],
         ),
       ),

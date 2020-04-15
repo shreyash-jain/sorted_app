@@ -1,7 +1,8 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:notes/components/FadeAnimation.dart';
 import 'package:notes/components/LibraryCards.dart';
 import 'package:notes/components/bookcards.dart';
 import 'package:notes/components/faderoute.dart';
@@ -75,47 +76,106 @@ class _AddQuestionState extends State<LibraryQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+backgroundColor: Theme.of(context).primaryColor,
+
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+
+      SliverSafeArea(
+        top: false,
+        sliver: SliverAppBar(
+          backgroundColor:    Color(0xFFAFB4C6).withOpacity(.9),
+          actions: <Widget>[
+
+          ],
+          leading: IconButton(
+            icon: const Icon(OMIcons.arrowBack),
+            tooltip: 'Add new entry',
+            onPressed: () { Navigator.pop(context);},
+          ),
+          expandedHeight: 250,
+          pinned: true,
+          primary:true,
+          shape: RoundedRectangleBorder(
+            borderRadius:  BorderRadius.only(bottomRight: Radius.circular(45.0)),
+
+          ),
+          flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                "Library Questions",
+                style: TextStyle(
+                    fontFamily: 'ZillaSlab',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    color: Colors.white),
+                overflow: TextOverflow.clip,
+                softWrap: false,
+              ),
 
 
-      body: AnimatedContainer(
+              background: Container(
+                padding: EdgeInsets.only(top:120,left:73),
+                child:FadeAnimation(1.6, Container(
+
+                    child:Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+
+
+
+                        Text("",style: TextStyle(
+                            fontFamily: 'ZillaSlab',
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black26
+                        ),
+                          textAlign: TextAlign.left,),
+                      ],)
+                )),
+                decoration: new BoxDecoration(
+
+                  gradient: new LinearGradient(
+                      colors: [
+                        const Color(0xFF00c6ff),
+                        Theme
+                            .of(context)
+                            .primaryColor,
+                      ],
+                      stops: [0.0, 1.0],
+                      begin: FractionalOffset.topCenter,
+                      end: FractionalOffset.bottomCenter,
+                      tileMode: TileMode.clamp),
+                ),
+              )
+          ),
+
+        ),
+
+      ),
+
+    ],
+    body: Container(
+    height: MediaQuery.of(context).size.height ,
+    decoration: BoxDecoration(
+    color: Theme.of(context).scaffoldBackgroundColor,
+    borderRadius: BorderRadius.only(topLeft: Radius.circular(75.0)),
+    ),
+
+    child:AnimatedContainer(
         duration: Duration(milliseconds: 200),
         child: ListView(
           physics: BouncingScrollPhysics(),
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) =>
-                                SettingsPage(changeTheme: widget.changeTheme)));
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
-                    padding: EdgeInsets.all(16),
-                    alignment: Alignment.centerRight,
-                    child: Icon(
-                      OMIcons.settings,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.grey.shade600
-                          : Colors.grey.shade300,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            buildHeaderWidget(context),
-            Container(height: 32),
+
+
+
             ...buildNoteComponentsList(),
           ],
         ),
         margin: EdgeInsets.only(top: 2),
         padding: EdgeInsets.only(left: 15, right: 15),
-      ),
+      ),)),
     );
   }
 
@@ -132,28 +192,7 @@ class _AddQuestionState extends State<LibraryQuestion> {
     return noteComponentsList;
   }
 
-  Widget buildHeaderWidget(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeIn,
-          margin: EdgeInsets.only(top: 8, bottom: 32, left: 10),
-          width: headerShouldHide ? 0 : null,
-          child: Text(
-            'Library Questions',
-            style: TextStyle(
-                fontFamily: 'ZillaSlab',
-                fontWeight: FontWeight.w700,
-                fontSize: 28,
-                color: Theme.of(context).primaryColor),
-            overflow: TextOverflow.clip,
-            softWrap: false,
-          ),
-        ),
-      ],
-    );
-  }
+
 
   editQuestion(QuestionModel quesData) async {
     setState(() {
@@ -176,11 +215,11 @@ class _AddQuestionState extends State<LibraryQuestion> {
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1)),
                 onPressed: () async {
-                  quesData.archive=1;
 
-                  await NotesDatabaseService.db.updateLibraryQuestionInDB(quesData);
+
+
                   quesData.archive=0;
-                  await NotesDatabaseService.db.addQuestionInDB(quesData);
+                  await NotesDatabaseService.db.updateQuestionInDB(quesData);
                   refetchNotebookFromDB();
                   widget.triggerRefetch();
                   Navigator.pop(context);

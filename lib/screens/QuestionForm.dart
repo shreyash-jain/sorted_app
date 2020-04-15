@@ -44,7 +44,7 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
   List<String> _locations = ['Daily', 'Weekly', 'Monthly'];
   String _selectedType;
   int selected_type;
-  List<String> _types = ['Write', 'Choice', 'Count', 'Time'];
+  List<String> _types = ['Write', 'Choice', 'Count'];
 
 
   @override
@@ -56,6 +56,7 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
           ans2: '',
           ans3: '',
           title: '',
+          weight: 0,
           correct_ans: 0,
           priority: 5,
           archive: 0,
@@ -170,11 +171,6 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
 
                                   type = 2;
                                 });
-                              } else if (_selectedType == "Time") {
-                                setState(() {
-
-                                  type = 3;
-                                });
                               }
                             });
                           },
@@ -242,7 +238,7 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
                                 fontFamily: 'ZillaSlab',
                                 fontWeight: FontWeight.w700,
                                 fontSize: 22,
-                                color: Colors.white),
+                                color: Theme.of(context).primaryColor),
                           ),
                           value: _selectedLocation,
                           onChanged: (newValue) {
@@ -283,6 +279,7 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
               filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
               child: Container(
                 height: 80,
+                margin: EdgeInsets.only(top:6),
                 color: Theme.of(context).canvasColor.withOpacity(0.3),
                 child: SafeArea(
                   child: Row(
@@ -292,12 +289,7 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
                         onPressed: handleBack,
                       ),
                       Spacer(),
-                      IconButton(
-                        icon: Icon(Icons.delete_outline),
-                        onPressed: () {
-                          handleDelete();
-                        },
-                      ),
+
                       AnimatedContainer(
                         margin: EdgeInsets.only(left: 10),
                         duration: Duration(milliseconds: 200),
@@ -481,7 +473,7 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'With Answer as a short Discription',
+                'With Answer as a\nshort Discription',
                 style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontWeight: FontWeight.w700,
@@ -499,7 +491,7 @@ class _EditQuestionPageState extends State<EditQuestionPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'With Answer as a Count or a Number',
+                'With Answer as a\nCount or a Number',
                 style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontWeight: FontWeight.w700,

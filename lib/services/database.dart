@@ -3,10 +3,17 @@
 import 'package:intl/intl.dart';
 import 'package:notes/data/answer.dart';
 import 'package:notes/data/date.dart';
+import 'package:notes/data/eCat.dart';
 import 'package:notes/data/event.dart';
+import 'package:notes/data/rEvent.dart';
+import 'package:notes/data/expense.dart';
+import 'package:notes/data/friend.dart';
 import 'package:notes/data/notebook.dart';
 import 'package:notes/data/question.dart';
 import 'package:notes/data/reminder.dart';
+import 'package:notes/data/activity.dart';
+import 'package:notes/data/user_activity.dart';
+import 'package:notes/data/activityLog.dart';
 import 'package:notes/data/todo.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -56,7 +63,8 @@ class NotesDatabaseService {
           "id INTEGER PRIMARY KEY, "
           "date TEXT, "
           "time_start TEXT, "
-          "time_end TEXT "
+          "time_end TEXT, "
+          "survey INTEGER "
       /*SQLITE doesn't have boolean type
         so we store isDone as integer where 0 is false
         and 1 is true*/
@@ -67,15 +75,54 @@ class NotesDatabaseService {
           "todo_id INTEGER, "
           "date_id INTEGER, "
           "content TEXT, "
+          "a_id INTEGER, "
           "title TEXT, "
           "date TEXT, "
           "time TEXT, "
           "isImportant INTEGER, "
       "duration DOUBLE, "
-      "reminder INTEGER "
+      "r_id INTEGER "
+          ")");
+      await db.execute("CREATE TABLE Revents ("
+          "id INTEGER PRIMARY KEY, "
+          "event_id INTEGER, "
+          "end_date TEXT, "
+          "start_date TEXT, "
+          "sun INTEGER, "
+          "mon INTEGER, "
+          "tue INTEGER, "
+          "wed INTEGER, "
+          "thu INTEGER, "
+          "fri INTEGER, "
+          "sat INTEGER "
+          ")");
+
+      await db.execute("CREATE TABLE Expenses ("
+          "id INTEGER PRIMARY KEY, "
+          "friend_id INTEGER, "
+          "cat_id INTEGER, "
+          "content TEXT, "
+          "title TEXT, "
+          "date TEXT, "
+          "money DOUBLE, "
+          "type INTEGER "
           ")");
       await db.execute(
+          'CREATE TABLE Friends (id INTEGER PRIMARY KEY, name TEXT, total DOUBLE)');
+      await db.execute(
+          'CREATE TABLE Cats (id INTEGER PRIMARY KEY, image TEXT,name TEXT, total DOUBLE)');
+
+      await db.execute(
           'CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT, value INTEGER, num REAL)');
+
+      await db.execute(
+          'CREATE TABLE Activity (id INTEGER PRIMARY KEY, image TEXT,name TEXT, weight INTEGER)');
+
+      await db.execute(
+          'CREATE TABLE User_Activity (id INTEGER PRIMARY KEY, name TEXT, image TEXT, a_id INTEGER)');
+
+      await db.execute(
+          'CREATE TABLE Alog (id INTEGER PRIMARY KEY,a_id INTEGER, duration INTEGER, date TEXT)');
 
       await db.execute(
           '''CREATE TABLE Notes (_id INTEGER PRIMARY KEY, book_id INTEGER, title TEXT, content TEXT, date TEXT, isImportant INTEGER);''');
@@ -84,11 +131,9 @@ class NotesDatabaseService {
           '''CREATE TABLE Notebooks (_id INTEGER PRIMARY KEY, title TEXT, notes_num INTEGER, date TEXT, isImportant INTEGER);''');
       print('New table created at 2 $path');
       await db.execute(
-          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER);''');
+          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
       print('New table created at 3 $path');
-      await db.execute(
-          '''CREATE TABLE Library (_id INTEGER PRIMARY KEY, title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER);''');
-      await db.execute(
+         await db.execute(
           '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY,q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,streak INTEGER,discription TEXT);''');
       print('New table created at 4 $path');
       await db.execute(
@@ -159,6 +204,8 @@ class NotesDatabaseService {
     }
     return notesList;
   }
+
+
   Future<List<AnswerModel>> getAllAnswersFromDB() async {
     final db = await database;
     List<AnswerModel> notesList = [];
@@ -211,6 +258,76 @@ print(text);
     }
     return remList;
   }
+  Future<List<UserAModel>> getUserActiviyFromDB() async {
+    final db = await database;
+    List<UserAModel> remList = [];
+    List<Map> maps = await db.query('User_Activity',
+        columns: ['id', 'image', 'name', 'a_id']);
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        remList.add(UserAModel.fromMap(map));
+      });
+    }
+    return remList;
+  }
+
+  Future<List<UserAModel>> getUserActiviyAfterFromDB(int id) async {
+    final db = await database;
+    List<UserAModel> remList = [];
+    List<Map> maps = await db.query('User_Activity',
+        columns: ['id', 'image', 'name', 'a_id'],
+    where: 'id > ?',
+    whereArgs: [id]);
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        remList.add(UserAModel.fromMap(map));
+
+      });
+    }
+    return remList;
+  }
+  Future<List<ActivityModel>> getActiviyAfterFromDB(int id) async {
+    final db = await database;
+    List<ActivityModel> remList = [];
+    List<Map> maps = await db.query('Activity',
+        columns: ['id', 'image', 'name', 'weight'],
+        where: 'id > ?',
+        whereArgs: [id]);
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        remList.add(ActivityModel.fromMap(map));
+
+      });
+    }
+    return remList;
+  }
+
+  Future<List<FriendModel>> getFriendsDB() async {
+    final db = await database;
+    List<FriendModel> remList = [];
+    List<Map> maps = await db.query('Friends',
+        columns: ['id',  'name', 'total']);
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        remList.add(FriendModel.fromMap(map));
+
+      });
+    }
+    return remList;
+  }
+  Future<List<CatModel>> getCatsFromDB() async {
+    final db = await database;
+    List<CatModel> remList = [];
+    List<Map> maps = await db.query('Cats',
+        columns: ['id', 'image' ,'name', 'total']);
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        remList.add(CatModel.fromMap(map));
+
+      });
+    }
+    return remList;
+  }
 
   Future<List<NoteBookModel>> getNotebookFromDB() async {
     final db = await database;
@@ -242,8 +359,13 @@ print(text);
       'archive',
       'ans1',
       'ans2',
+      'weight',
+      'last_date',
       'ans3'
-    ]);
+    ],
+      where: 'archive =?',
+      whereArgs: [0]
+    );
     if (maps.length > 0) {
       maps.forEach((map) {
         QList.add(QuestionModel.fromMap(map));
@@ -255,7 +377,7 @@ print(text);
     final db = await database;
     List<QuestionModel> QList = [];
     print('questions updated....');
-    List<Map> maps = await db.query('Library', columns: [
+    List<Map> maps = await db.query('Questions', columns: [
       '_id',
       'title',
       'num_ans',
@@ -266,10 +388,12 @@ print(text);
       'archive',
           'ans1',
       'ans2',
+      'weight',
+      'last_date',
       'ans3'
     ],
-        where: 'archive=?',
-        whereArgs: [0]);
+        where: 'archive =?',
+        whereArgs: [1]);
     if (maps.length > 0) {
       maps.forEach((map) {
         QList.add(QuestionModel.fromMap(map));
@@ -282,7 +406,7 @@ print(text);
     final db = await database;
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title', 'time','content', 'date', 'isImportant','reminder','duration','date_id','todo_id']
+        columns: ['id', 'title','a_id', 'time','content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
     ,
         where: 'date_id=?',
         whereArgs: [query]);
@@ -293,12 +417,28 @@ print(text);
     }
     return eventsList;
   }
+
+  Future<EventModel> getEventOfReventFromDB(int query) async {
+    final db = await database;
+    List<EventModel> eventsList = [];
+    List<Map> maps = await db.query('Events',
+        columns: ['id', 'title','a_id', 'time','content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
+        ,
+        where: 'r_id=?',
+        whereArgs: [query]);
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        eventsList.add(EventModel.fromMap(map));
+      });
+    }
+    return eventsList[0];
+  }
   Future<List<EventModel>> getEventsFromDB() async {
     final db = await database;
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
 
-        columns: ['id', 'title', 'time','content', 'date', 'isImportant','reminder','duration','date_id','todo_id']
+        columns: ['id', 'title', 'a_id','time','content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
 
         );
     if (maps.length > 0) {
@@ -308,11 +448,52 @@ print(text);
     }
     return eventsList;
   }
+  Future<List<ExpenseModel>> getExpensesFromDB() async {
+    final db = await database;
+    List<ExpenseModel> eventsList = [];
+    List<Map> maps = await db.query('Expenses',
+
+        columns: ['id', 'title', 'cat_id','content', 'date', 'friend_id','money','type']
+
+    );
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        eventsList.add(ExpenseModel.fromMap(map));
+      });
+    }
+    return eventsList;
+  }
+
+  Future<List<ReventModel>> getReventsWithFilterDayFromDB(int day) async {
+    final db = await database;
+    String weekday;
+
+    if (day==1) weekday='sun';
+    else  if (day==2) weekday='mon';
+    else  if (day==3) weekday='tue';
+    else  if (day==4) weekday='wed';
+    else  if (day==5) weekday='thu';
+    else  if (day==6) weekday='fri';
+    else  if (day==7) weekday='sat';
+    List<ReventModel> eventsList = [];
+    List<Map> maps = await db.query('Revents',
+        columns: ['id',  'start_date', 'end_date', 'event_id', 'sun','mon','tue','wed','thu','fri','sat']
+        ,
+        where: weekday+'=1',
+       );
+    print(maps.length.toString()+" shreyash");
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        eventsList.add(ReventModel.fromMap(map));
+      });
+    }
+    return eventsList;
+  }
   Future<EventModel> getEventFromDB(int query) async {
     final db = await database;
     List<EventModel> event = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title','time', 'content', 'date', 'isImportant','reminder','duration','date_id','todo_id']
+        columns: ['id', 'title','a_id','time', 'content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
         ,
         where: 'id=?',
         whereArgs: [query]);
@@ -362,18 +543,13 @@ print(text);
     print('Reminder deleted');
   }
 
-  deleteQuestionInDB(QuestionModel quesToDelete) async {
+  deleteReventInDB(ReventModel remToDelete) async {
     final db = await database;
-    await db
-        .delete('Questions', where: '_id = ?', whereArgs: [quesToDelete.id]);
-    print('Question deleted');
+    await db.delete('Revents', where: 'id = ?', whereArgs: [remToDelete.id]);
+    print('Revent deleted');
   }
-  deleteLibraryQuestionInDB(QuestionModel quesToDelete) async {
-    final db = await database;
-    await db
-        .delete('Library', where: '_id = ?', whereArgs: [quesToDelete.id]);
-    print('Question deleted');
-  }
+
+
 
   deleteNotebookInDB(NoteBookModel noteToDelete) async {
     final db = await database;
@@ -403,25 +579,14 @@ print(text);
     if (!newQues.title.trim().isEmpty) {
       int id = await db.transaction((transaction) {
         transaction.rawInsert(
-            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority});');
+            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight});');
       });
       print("insert Question with id: " + id.toString());
       newQues.id = id;
       return newQues;
     }
   }
-  Future<QuestionModel> addLibraryQuestionInDB(QuestionModel newQues) async {
-    final db = await database;
-    if (!newQues.title.trim().isEmpty) {
-      int id = await db.transaction((transaction) {
-        transaction.rawInsert(
-            'INSERT into Library(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority});');
-      });
-      print("insert Question with id: " + id.toString());
-      newQues.id = id;
-      return newQues;
-    }
-  }
+
 
   Future<ReminderModel> addReminderInDB(ReminderModel newRem) async {
     final db = await database;
@@ -444,13 +609,23 @@ print(text);
     newAns.id = id;
     return newAns;
   }
+  Future<AlogModel> addActivityLogInDB(AlogModel newAns) async {
+    final db = await database;
+    int id = await db.transaction((transaction) {
+      transaction.rawInsert(
+          'INSERT into Alog(a_id, duration, date ) VALUES (${newAns.a_id},${newAns.duration},  "${newAns.date.toIso8601String()}");');
+    });
+
+    newAns.id = id;
+    return newAns;
+  }
 
 
   Future<DateModel> getDateByIdFromDB(int query) async {
     final db = await database;
     List<DateModel> event = [];
     List<Map> maps = await db.query('Dates',
-        columns: ['id',  'date', 'time_start','time_end']
+        columns: ['id',  'date', 'time_start','time_end','survey']
         ,
         where: 'id=?',
         whereArgs: [query]);
@@ -484,7 +659,7 @@ print(text);
     final db = await database;
     List<DateModel> event = [];
     List<Map> maps = await db.query('Dates',
-        columns: ['id',  'date', 'time_start','time_end']
+        columns: ['id',  'date', 'time_start','time_end','survey']
         ,
         where: 'date LIKE ?',
         whereArgs:["%$query%"]);
@@ -500,6 +675,29 @@ print(text);
     }
 
   }
+
+  Future<ReventModel> getReventByIdFromDB(int query) async {
+    print(query);
+    final db = await database;
+    List<ReventModel> event = [];
+    List<Map> maps = await db.query('Revents',
+        columns: ['id',  'start_date', 'end_date', 'event_id', 'sun','mon','tue','wed','thu','fri','sat']
+        ,
+        where: 'id=?',
+        whereArgs:[query]);
+    if (maps.length >= 1) {
+      maps.forEach((map) {
+        event.add(ReventModel.fromMap(map));
+      });
+      return event[0];
+    }
+    else {
+
+      return null;
+    }
+
+  }
+
   Future<List<Todo>> getTodos( int query) async {
     final db = await database;
     print("kaisemujhe");
@@ -535,11 +733,13 @@ print(text);
         where: '_id = ?', whereArgs: [updatedQues.id]);
 
   }
-  updateLibraryQuestionInDB(QuestionModel updatedQues) async {
+
+  updateReventInDB(ReventModel updatedQues) async {
     final db = await database;
 
-    await db.update('Library', updatedQues.toMap(),
-        where: '_id = ?', whereArgs: [updatedQues.id]);
+    await db.update('Revents', updatedQues.toMap(),
+        where: 'id = ?', whereArgs: [updatedQues.id]);
+    print("updated revent "+ updatedQues.id.toString() +" sun -> "+updatedQues.sun.toString()+" "+updatedQues.mon.toString()+" "+updatedQues.tue.toString()+" "+updatedQues.wed.toString()+" "+updatedQues.thu.toString()+" "+updatedQues.fri.toString()+" "+updatedQues.sat.toString());
 
   }
 
@@ -567,6 +767,12 @@ print(text);
     await db.delete('Events', where: 'id = ?', whereArgs: [eventToDelete.id]);
     print('Event deleted');
   }
+  deleteUserActivityInDB(UserAModel actToDelete) async {
+    final db = await database;
+    await db.delete('Events', where: 'id = ?', whereArgs: [actToDelete.id]);
+    print('User Activity deleted');
+  }
+
 
   Future<NotesModel> addNoteInDB(NotesModel newNote) async {
     final db = await database;
@@ -581,7 +787,67 @@ print(text);
     print('Note added: ${newNote.title} ${newNote.content}');
     return newNote;
   }
+  Future<ExpenseModel> addExpense(ExpenseModel newExpense) async{
+    final db = await database;
+    await db.transaction((transaction) async {
+      var formatter = new DateFormat('dd-MM-yyyy');
+      String formatted_date = formatter.format(newExpense.date);
 
+      int id = await transaction.rawInsert(
+          'INSERT into Expenses(title, type, content, money, date, cat_id, friend_id) VALUES ("${newExpense.title}",${newExpense.type} , "${newExpense.content}", ${newExpense.money},"${formatted_date}", ${newExpense.cat_id}, ${newExpense.friend_id} );');
+      newExpense.id = id;
+      print('Expense added: ${id}');
+    });
+    return newExpense;
+  }
+  Future<CatModel> addCat(CatModel newActivity) async{
+    final db = await database;
+    await db.transaction((transaction) async {
+
+
+      int id = await transaction.rawInsert(
+          'INSERT into Cats (name, image, total) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.total});');
+      newActivity.id = id;
+      print('Activity added: ${id}');
+    });
+    return newActivity;
+  }
+  Future<FriendModel> addFriend(FriendModel newActivity) async{
+    final db = await database;
+    await db.transaction((transaction) async {
+
+
+      int id = await transaction.rawInsert(
+          'INSERT into Friends (name,  total) VALUES ("${newActivity.name}" , ${newActivity.total});');
+      newActivity.id = id;
+      print('Activity added: ${id}');
+    });
+    return newActivity;
+  }
+  Future<ActivityModel> addActivity(ActivityModel newActivity) async{
+    final db = await database;
+    await db.transaction((transaction) async {
+
+
+      int id = await transaction.rawInsert(
+          'INSERT into Activity(name, image, weight) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.weight});');
+      newActivity.id = id;
+      print('Activity added: ${id}');
+    });
+    return newActivity;
+  }
+  Future<UserAModel> addUserActivity(UserAModel newActivity) async{
+    final db = await database;
+    await db.transaction((transaction) async {
+
+
+      int id = await transaction.rawInsert(
+          'INSERT into User_Activity(name, image, a_id) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.a_id});');
+      newActivity.id = id;
+      print('Activity added: ${id}');
+    });
+    return newActivity;
+  }
   Future<DateModel> addDateInDB(DateModel newDate) async {
     final db = await database;
 
@@ -589,7 +855,7 @@ print(text);
       var formatter = new DateFormat('dd-MM-yyyy');
       String formatted_date = formatter.format(newDate.date);
       int id = await transaction.rawInsert(
-          'INSERT into Dates(time_start, time_end, date) VALUES ("${newDate.time_start.toIso8601String()}","${newDate.time_end.toIso8601String()}" , "${formatted_date}");');
+          'INSERT into Dates(time_start, time_end, date, survey) VALUES ("${newDate.time_start.toIso8601String()}","${newDate.time_end.toIso8601String()}" , "${formatted_date}",${newDate.survey});');
       newDate.id = id;
       print('Date added: $formatted_date ${id}');
     });
@@ -597,6 +863,23 @@ print(text);
 
     return newDate;
   }
+  Future<ReventModel> addReventInDB(ReventModel newRevent) async {
+    final db = await database;
+
+    await db.transaction((transaction) async {
+
+
+      int id = await transaction.rawInsert(
+          'INSERT into Revents(start_date, end_date, event_id, sun,mon,tue,wed,thu,fri,sat) VALUES ("${newRevent.start_date.toIso8601String()}","${newRevent.end_date.toIso8601String()}" , ${newRevent.event_id},${newRevent.sun},${newRevent.mon},${newRevent.tue},${newRevent.wed},${newRevent.thu},${newRevent.fri},${newRevent.sat});');
+      newRevent.id = id;
+
+    });
+
+
+    return newRevent;
+  }
+
+
   Future<int> fun() async {
     final db = await database;
     await db.transaction((txn) async {
@@ -613,12 +896,14 @@ print(text);
   Future<EventModel> addEventInDB(EventModel newEvent) async {
     final db = await database;
 
-    int id = await db.transaction((transaction) async{
-      transaction.rawInsert(
-          'INSERT into Events(title, content, date, isImportant, duration, reminder, todo_id,date_id,time) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.reminder},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}");');
+    await db.transaction((transaction) async{
+      int id=await transaction.rawInsert(
+          'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id});');
+      newEvent.id = id;
+
     });
-    newEvent.id = id;
-    print('Event added: ${newEvent.title} $id');
+
+
     return newEvent;
   }
 

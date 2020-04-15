@@ -58,6 +58,7 @@ class NoteComponent extends StatelessWidget {
             highlightColor: color.withAlpha(10),
             child: Container(
               padding: EdgeInsets.all(16),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -135,15 +136,29 @@ class AddNoteCardComponent extends StatelessWidget {
     return Container(
         margin: EdgeInsets.fromLTRB(10, 8, 10, 8),
         height: 110,
-        decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
-          borderRadius: BorderRadius.circular(16),
-        ),
+
         child: Material(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           clipBehavior: Clip.antiAlias,
           child: Container(
-            padding: EdgeInsets.all(16),
+            decoration:
+            new BoxDecoration(
+              borderRadius: new BorderRadius.all(
+                Radius.circular((20)),
+              ),
+              gradient: new LinearGradient(
+                  colors: [
+                    const Color(0xFF00c6ff),
+                    Theme
+                        .of(context)
+                        .primaryColor,
+                  ],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(1.0, 1.00),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
+            padding: EdgeInsets.all(20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -153,7 +168,7 @@ class AddNoteCardComponent extends StatelessWidget {
                     children: <Widget>[
                       Icon(
                         Icons.add,
-                        color: Theme.of(context).primaryColor,
+                        color: Colors.white,
                       ),
                       Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -161,7 +176,7 @@ class AddNoteCardComponent extends StatelessWidget {
                             'Add new note',
                             style: TextStyle(
                                 fontFamily: 'ZillaSlab',
-                                color: Theme.of(context).primaryColor,
+                                  color: Colors.white,
                                 fontSize: 20),
                           ))
                     ],

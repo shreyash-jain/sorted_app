@@ -9,22 +9,24 @@ class EventModel {
   int todo_id;
   double duration;
   int date_id;
-  int reminder;
+  int r_id;
   DateTime time;
+  int a_id;
 
 
   EventModel(
-      {this.id, this.title,this.time, this.content, this.isImportant, this.date, this.todo_id, this.duration, this.reminder, this.date_id});
+      {this.id,this.title,this.time, this.content, this.isImportant, this.date, this.todo_id, this.duration, this.r_id, this.date_id, this.a_id,});
 
   EventModel.fromMap(Map<String, dynamic> map) {
     this.id = map['id'];
-    this.reminder = map['reminder'];
+    this.r_id = map['r_id'];
     this.date_id = map['date_id'];
     this.duration = map['duration'];
     this.todo_id = map['todo_id'];
 this.time=DateTime.parse(map['time']);
     this.title = map['title'];
     this.content = map['content'];
+    this.a_id=map['a_id'];
     this.date = DateTime.parse(map['date']);
     this.isImportant = map['isImportant'] == 1 ? true : false;
   }
@@ -33,10 +35,11 @@ this.time=DateTime.parse(map['time']);
     return <String, dynamic>{
       'id': this.id,
       'title': this.title,
+      'a_id':this.a_id,
       'content': this.content,
       'isImportant': this.isImportant == true ? 1 : 0,
       'date': this.date.toIso8601String(),
-      'reminder': this.reminder,
+      'r_id': this.r_id,
       'todo_id': this.todo_id,
       'duration': this.duration,
       'date_id': this.date_id,

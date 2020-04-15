@@ -110,9 +110,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   Center(
                       child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                     child: Text(
-                      'Shreyash',
+                      'Shreyash Jain\n\nSuchit Sahoo',
                       style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 24),
                     ),
                   )),
@@ -187,6 +187,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void openGitHub() {
-
+    launch("https://github.com/shreyash-jain/sorted_app");
   }
 }

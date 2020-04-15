@@ -150,14 +150,14 @@ class AddNoteCardComponent extends StatelessWidget {
                   )));
         },
         child:Container(
-        margin: EdgeInsets.fromLTRB(10, 8, 10, 8),
+        margin: EdgeInsets.fromLTRB(20, 0, 10, 8),
         height: 60,
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).primaryColor, width: 2),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(75),
         ),
         child: Material(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(75),
           clipBehavior: Clip.antiAlias,
           child: Container(
             padding: EdgeInsets.only(top:8,bottom:8),

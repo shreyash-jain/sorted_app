@@ -149,6 +149,7 @@ class EditorPageState extends State<EditorPage> {
         bottom: PreferredSize(
           child: GestureDetector(
             onTap: () {
+              titleController.clear();
               _settingModalBottomSheet(context);
             },
             child: Align(
@@ -367,14 +368,16 @@ class EditorPageState extends State<EditorPage> {
                     controller: titleController,
                     keyboardType: TextInputType.multiline,
                     maxLines: 1,
+                    maxLength: 16,
                     onSubmitted: (text) {
-                      titleFocus.unfocus();
-                      currentNote.title = titleController.text;
-                      setState(() {
-                        title_text = currentNote.title;
-                      });
-                      Navigator.pop(context);
-                    },
+                      if (titleController.text.length>0) {
+                        titleFocus.unfocus();
+                        currentNote.title = titleController.text;
+                        setState(() {
+                          title_text = currentNote.title;
+                        });
+                        Navigator.pop(context);
+                      } },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
                         fontFamily: 'ZillaSlab',
@@ -398,14 +401,16 @@ class EditorPageState extends State<EditorPage> {
                     new RaisedButton(
                       child: new Text('Add'),
                       onPressed: () async {
-                        //handleSave();
-                        setState(() {
-                          currentNote.title = titleController.text;
-                          title_text = currentNote.title;
-                        });
-                        Navigator.pop(context);
-                      },
-                    ),
+                        if (titleController.text.length > 0) {
+                          //handleSave();
+                          setState(() {
+                            currentNote.title = titleController.text;
+                            title_text = currentNote.title;
+                          });
+                          Navigator.pop(context);
+                        }
+
+                      } ),
                     new RaisedButton(
                         child: new Text('Cancel'),
                         onPressed: () {

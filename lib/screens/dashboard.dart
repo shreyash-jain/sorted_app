@@ -10,7 +10,7 @@ import 'package:notes/data/notebook.dart';
 import 'package:notes/data/theme.dart';
 import 'package:notes/screens/ListQuestion.dart';
 import 'package:notes/screens/NotesList.dart';
-import 'package:notes/screens/edit.dart';
+import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/screens/home.dart';
 import 'package:notes/screens/view.dart';
 import 'package:notes/services/database.dart';
@@ -127,25 +127,41 @@ class _MyDashState extends State<MyDashPage> {
 
 
               background: Container(
-                padding: EdgeInsets.only(top:120,left:73),
-                child:FadeAnimation(1.6, Container(
 
-                    child:Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
+                child:Stack(children: <Widget>[
+
+                  Padding(
+                    padding: EdgeInsets.only(left:0,top:60),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child:Icon(
+                        OMIcons.note,color: Theme.of(context).cardColor.withOpacity(.08),size: 300,
+                      ),
+                    ),
+                  ),
+
+                  FadeAnimation(1.6, Container(
+                      padding: EdgeInsets.only(top:120,left:73),
 
 
 
-                        Text("Keep your\nNotes organized",style: TextStyle(
-                            fontFamily: 'ZillaSlab',
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black26
-                        ),
-                          textAlign: TextAlign.left,),
-                      ],)
-                )),
+                      child:Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+
+
+
+                          Text("Keep your\nNotes organized",style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              fontSize: 32.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54
+                          ),
+                            textAlign: TextAlign.left,),
+                        ],)
+                  )),
+                ],),
                 decoration: new BoxDecoration(
 
                   gradient: new LinearGradient(

@@ -5,14 +5,17 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:notes/components/FadeAnimation.dart';
+import 'package:notes/components/animated_button.dart';
 import 'package:notes/components/faderoute.dart';
 import 'package:notes/data/activityLog.dart';
 import 'package:notes/data/animated-wave.dart';
 import 'package:notes/data/answer.dart';
 import 'package:notes/data/custom_slider_thumb_circle.dart';
 import 'package:notes/data/custom_slider_thumb_circle_text.dart';
+import 'package:notes/data/date.dart';
 import 'package:notes/data/eCat.dart';
 import 'package:notes/data/expense.dart';
 import 'package:notes/data/friend.dart';
@@ -28,9 +31,11 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class DisplayQuestions extends StatefulWidget {
   Function(Brightness brightness) changeTheme;
   String payload;
-  DisplayQuestions({Key key,String payload, Function(Brightness brightness) changeTheme})
+  DateTime setDate;
+  DisplayQuestions({Key key,String payload, Function(Brightness brightness) changeTheme,DateTime setDate})
       : super(key: key) {
     this.changeTheme = changeTheme;
+    this.setDate=setDate;
     this.payload=payload;
   }
 
@@ -64,7 +69,8 @@ List<UserAModel> userAct =[];
   int current_page=0;
   int _start = 600;
   int _extra =600;
-  double _value=0;
+  double _valueDay=0;
+  double _valueWork=0;
   List<double> _value_act=[];
 int started=0;
   QuestionModel currentQues;
@@ -83,11 +89,14 @@ int started=0;
     Icons.sentiment_satisfied,
     Icons.sentiment_very_satisfied
   ];
-  double page_offset = 0;
+  double page_offsetDay = 0;
+  double page_offsetWork = 0;
   List<String> below_texs = ["Really terrible", "somewhat bad", "just okay", "Pretty good", "Awesome"];
   List<String> below_texsWork = ["No work", "Bad Day", "Could be better", "I'm Satisfied", "Best day"];
 
+  int timeline=0;
   int _numPages = 3;
+  String questiosn_name="How was my day ?";
   FocusNode titleFocus = FocusNode();
   FocusNode expenseTitleFocus = FocusNode();
   FocusNode expenseContentFocus = FocusNode();
@@ -113,11 +122,15 @@ int started=0;
       ),
     ),
   );
-  final scontroller =
+  final scontrollerDay =
+  PageController(viewportFraction: 0.4, initialPage: 0, keepPage: false);
+  final scontrollerWork =
   PageController(viewportFraction: 0.4, initialPage: 0, keepPage: false);
 
   final controller =
       PageController(viewportFraction: 1.0, initialPage: 0, keepPage: false);
+
+  IconData backicon=Icons.person_pin;
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
     for (int i = 0; i < _numPages; i++) {
@@ -140,32 +153,21 @@ int started=0;
             FadeRoute(page:MyApp(false)));
       }
     });
-    scontroller.addListener(() {
+    scontrollerDay.addListener(() {
       setState(() =>
-      page_offset = scontroller.page); //<-- add listener and set state
+      page_offsetDay = scontrollerDay.page); //<-- add listener and set state
+    });
+    scontrollerWork.addListener(() {
+      setState(() =>
+      page_offsetWork = scontrollerWork.page); //<-- add listener and set state
     });
 
-    rippleController = AnimationController(
-        vsync: this,
-        duration: Duration(seconds: 1)
-    );
-    rippleAnimation = Tween<double>(
-        begin: 80.0,
-        end: 90.0
-    ).animate(rippleController)..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        rippleController.reverse();
-      } else if(status == AnimationStatus.dismissed) {
-        rippleController.forward();
-      }
-    });
+
+
     NotesDatabaseService.db.init();
     setQuesFromDB();
-    scaleAnimation = Tween<double>(
-        begin: 1.0,
-        end: 35.0
-    ).animate(scaleController);
-    rippleController.forward();
+
+
   }
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
@@ -192,14 +194,14 @@ int started=0;
       quesList = fetchedQues;
       friendsList=fetchedFriends;
       userAct=fetchedActivities;
-      AnswerModel temp = AnswerModel(content: "",res1: 0,res2: 0,res3: 0,streak: 0);
+      AnswerModel temp = AnswerModel(content: "",res1: 0,res2: 0,res3: 0,a_rating: 0);
       for (var i = 0; i < userAct.length; i++) {
         _value_act.add(0);
       }
       TextEditingController temp_text = TextEditingController();
       for (var i = 0; i < quesList.length; i++) {
         titleController.add(TextEditingController());
-        AnswerModel temp =new AnswerModel(content: "hbh",res1: 0,res2: 0,res3: 0,streak: 0);
+        AnswerModel temp =new AnswerModel(content: "hbh",res1: 0,res2: 0,res3: 0,a_rating: 0,date_id: 0);
         ansList.add(temp);
         write_about_today.add(0);
       }
@@ -210,6 +212,8 @@ int started=0;
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.transparent,
@@ -239,6 +243,11 @@ int started=0;
 
       children: <Widget>[
 
+        FadeAnimation(.6, Container(
+            margin: EdgeInsets.only(top:0,left:0),
+            alignment: Alignment.center,
+            child:  Icon(backicon,size: 350,color:Theme.of(context).cardColor.withOpacity(.05)))),
+
         PageView.builder(
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
@@ -246,18 +255,49 @@ int started=0;
                 onPageChanged: (int page) {
 
                   setState(() {
+
                     titleFocus.unfocus();
                     current_page = page;
+                    questiosn_name=quesList[current_page].title;
                     expense_type=0;
+                    if (current_page==0){
+                      backicon=Icons.person_pin;
+                    }
+                    else if (current_page==1){
+                      backicon=Icons.work;
+                    }
+                    else if (current_page==2){
+                      backicon=Icons.wb_sunny;
+                    }
+                    else if (quesList[current_page].id==4){
+                      backicon=Icons.calendar_today;
+                    }
+                    else if (quesList[current_page].id==5){
+                      backicon=Icons.monetization_on;
+                    }
+                    else if (quesList[current_page].id==6){
+                      backicon=Icons.access_time;
+                    }
+                     else if (quesList[current_page].type==1){
+                    backicon=Icons.edit;
+                    }
+                    else if (quesList[current_page].type==3){
+                      backicon=Icons.check_circle;
+                    }
+                    else if (quesList[current_page].type==2){
+                      backicon=Icons.filter_1;
+                    }
                   });
                 },
                 itemBuilder: (context, position) {
+
+
                   print("grey.shade900 : " + position.toString());
                   int type = quesList[position].type;
                   ansList[position].q_id = 0;
-                  ansList[position].streak = 0;
-                  ansList[position].date = DateTime.now();
-                  ansList[position].content="bla";
+
+
+
 
                   return Stack(
                     children:[
@@ -285,9 +325,40 @@ int started=0;
                               padding: const EdgeInsets.all(0.0),
                               child: Align(
                                 alignment: Alignment.bottomCenter,
-                                child: RaisedButton(
+                                child:
+
+                                AnimatedButton(
+                                  onTap: () {
+                                    print("animated button pressed");
+                                    handleSave();
+                                  },
+                                  animationDuration: const Duration(milliseconds: 2000),
+                                  initialText: "Submit ?",
+                                  finalText: "Submitted",
+                                  iconData: Icons.check,
+                                  iconSize:80,
+                                  buttonStyle: ButtonStyle(
+                                    primaryColor: Colors.blue,
+
+                                    secondaryColor: Colors.white,
+                                    elevation: 20.0,
+                                    initialTextStyle:TextStyle(
+                                        fontFamily: 'ZillaSlab',
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800),
+                                    finalTextStyle: TextStyle(
+                                        fontFamily: 'ZillaSlab',
+                                        fontSize: 22,
+                                        color:Colors.blueAccent,
+                                        fontWeight: FontWeight.w800),
+                                    borderRadius:30,
+                                  ),
+                                ),/*RaisedButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: new BorderRadius.circular(20.0),
+
+
 
                                   ),
                                   color: Colors.white30,
@@ -303,7 +374,7 @@ int started=0;
                                         color: Colors.white,
                                         fontWeight: FontWeight.w800),
                                   ),
-                                ),
+                                ),*/
                               ),
                             )
                         ],
@@ -330,7 +401,7 @@ int started=0;
 
               child: Text(
 
-                quesList[current_page].title,
+                questiosn_name,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     fontFamily: 'ZillaSlab',
@@ -360,7 +431,7 @@ int started=0;
                 alignment: FractionalOffset.topRight,
                 child: GestureDetector(
                   onTap: () {
-                    controller.animateToPage(current_page+1,
+                    controller.animateToPage(quesList.length,
                       duration: Duration(milliseconds:1200),
                       curve: Curves.easeInOut,
                     );
@@ -523,14 +594,19 @@ int started=0;
     ),
     ),*/
           if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
-            height: 140,
+            height: 150,
             speed: 0.9,
             offset: pi,
           )))),
           if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
-            height: 120,
+            height: 110,
             speed: .7,
             offset: pi/2,
+          )))),
+          if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
+            height: 130,
+            speed: .7,
+            offset: pi/4,
           )))),
     ]
       )));
@@ -605,7 +681,7 @@ int started=0;
 
                         Expanded(
                           child:PageView.builder(
-                            controller: scontroller,
+                            controller: scontrollerDay,
                             physics:new NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
 
@@ -615,11 +691,11 @@ int started=0;
 
 
 
-                              return _buildIcons(
+                              return _buildIconsDay(
                                   index,
                                   iconsList[index],
                                   below_texs[index],
-                                  page_offset-index
+                                  page_offsetDay-index
                               );
                             },
                           ),),
@@ -672,28 +748,29 @@ int started=0;
                                       ),
                                       child: Slider(
 
-                                          value: _value,
+                                          value: _valueDay,
                                           onChanged: (value) {
                                             setState(() {
-                                              _value = value;
-                                              if (_value<.2 ){
-                                                scontroller.animateToPage(0, duration: const Duration(milliseconds: 500),
+                                              ansList[current_page].a_rating=_valueDay*5;
+                                              _valueDay = value;
+                                              if (_valueDay<.2 ){
+                                                scontrollerDay.animateToPage(0, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
-                                              else if (_value<.4 ){
-                                                scontroller.animateToPage(1, duration: const Duration(milliseconds: 500),
+                                              else if (_valueDay<.4 ){
+                                                scontrollerDay.animateToPage(1, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
-                                              else if (_value<.6 ){
-                                                scontroller.animateToPage(2, duration: const Duration(milliseconds: 500),
+                                              else if (_valueDay<.6 ){
+                                                scontrollerDay.animateToPage(2, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
-                                              else if(_value<.8){
-                                                scontroller.animateToPage(3, duration: const Duration(milliseconds: 500),
+                                              else if(_valueDay<.8){
+                                                scontrollerDay.animateToPage(3, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
                                               else {
-                                                scontroller.animateToPage(4, duration: const Duration(milliseconds: 500),
+                                                scontrollerDay.animateToPage(4, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
                                             });
@@ -808,7 +885,7 @@ int started=0;
 
                         Expanded(
                           child:PageView.builder(
-                            controller: scontroller,
+                            controller: scontrollerWork,
                             physics:new NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
 
@@ -818,11 +895,11 @@ int started=0;
 
 
 
-                              return _buildIcons(
+                              return _buildIconsWork(
                                   index,
                                   iconsListWork[index],
                                   below_texsWork[index],
-                                  page_offset-index
+                                  page_offsetWork-index
                               );
                             },
                           ),),
@@ -875,28 +952,30 @@ int started=0;
                                       ),
                                       child: Slider(
 
-                                          value: _value,
+                                          value: _valueWork,
                                           onChanged: (value) {
                                             setState(() {
-                                              _value = value;
-                                              if (_value<.2 ){
-                                                scontroller.animateToPage(0, duration: const Duration(milliseconds: 500),
+                                              _valueWork = value;
+                                              ansList[current_page].a_rating=_valueWork*5;
+                                              print(ansList[current_page].a_rating.toString() +" "+current_page.toString());
+                                              if (_valueWork<.2 ){
+                                                scontrollerWork.animateToPage(0, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
-                                              else if (_value<.4 ){
-                                                scontroller.animateToPage(1, duration: const Duration(milliseconds: 500),
+                                              else if (_valueWork<.4 ){
+                                                scontrollerWork.animateToPage(1, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
-                                              else if (_value<.6 ){
-                                                scontroller.animateToPage(2, duration: const Duration(milliseconds: 500),
+                                              else if (_valueWork<.6 ){
+                                                scontrollerWork.animateToPage(2, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
-                                              else if(_value<.8){
-                                                scontroller.animateToPage(3, duration: const Duration(milliseconds: 500),
+                                              else if(_valueWork<.8){
+                                                scontrollerWork.animateToPage(3, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
                                               else {
-                                                scontroller.animateToPage(4, duration: const Duration(milliseconds: 500),
+                                                scontrollerWork.animateToPage(4, duration: const Duration(milliseconds: 500),
                                                     curve: Curves.easeInOut);
                                               }
                                             });
@@ -1848,7 +1927,7 @@ cursorColor: Colors.black,
 
               Expanded(
                 child:PageView.builder(
-                  controller: scontroller,
+                  controller: scontrollerDay,
                   physics:new NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
 
@@ -1858,11 +1937,11 @@ cursorColor: Colors.black,
 
 
 
-                    return _buildIcons(
+                    return _buildIconsWork(
                         index,
                         iconsList[index],
                         below_texs[index],
-                        page_offset-index
+                        page_offsetDay-index
                     );
                   },
                 ),),
@@ -1911,34 +1990,7 @@ cursorColor: Colors.black,
                               activeTickMarkColor: Colors.white,
                               inactiveTickMarkColor: Colors.red.withOpacity(.7),
                             ),
-                            child: Slider(
-
-                                value: _value,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value = value;
-                                    if (_value<.2 ){
-                                      scontroller.animateToPage(0, duration: const Duration(milliseconds: 1000),
-                                          curve: Curves.easeInOut);
-                                    }
-                                    else if (_value<.4 ){
-                                      scontroller.animateToPage(1, duration: const Duration(milliseconds: 1000),
-                                          curve: Curves.easeInOut);
-                                    }
-                                    else if (_value<.6 ){
-                                      scontroller.animateToPage(2, duration: const Duration(milliseconds: 1000),
-                                          curve: Curves.easeInOut);
-                                    }
-                                    else if(_value<.8){
-                                      scontroller.animateToPage(3, duration: const Duration(milliseconds: 1000),
-                                          curve: Curves.easeInOut);
-                                    }
-                                    else {
-                                      scontroller.animateToPage(4, duration: const Duration(milliseconds: 1000),
-                                          curve: Curves.easeInOut);
-                                    }
-                                  });
-                                }),
+                            child: null
                           ),
                         ),
                       ),
@@ -1983,17 +2035,25 @@ cursorColor: Colors.black,
           return Padding(
               padding: EdgeInsets.only(
               bottom: 0,
-          left: 20,
-          top: 10),
+          left: 0,
+          top: 0),
           child:Container(
+
             alignment: Alignment.topCenter,
+            decoration: new BoxDecoration(
+              borderRadius: new BorderRadius.only(
+                topLeft:Radius.circular((48 * .3)),
+                topRight: Radius.circular((48 * .3)),
+              ),
+              color:Theme.of(context).primaryColor,
+            ),
             child: Wrap(
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
                       bottom: 0,
-                      left: 0,
-                      top: 0),
+                      left: 20,
+                      top: 20),
                   child: TextField(
                     focusNode: FriendNameFocus,
 
@@ -2011,13 +2071,14 @@ cursorColor: Colors.black,
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
                         fontFamily: 'ZillaSlab',
-                        fontSize: 20,
+                        fontSize: 28,
+                        color: Colors.white60,
                         fontWeight: FontWeight.w700),
                     decoration: InputDecoration.collapsed(
                       hintText: 'type your friend name',
                       hintStyle: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize:20,
+                          color: Colors.white,
+                          fontSize:28,
                           fontFamily: 'ZillaSlab',
                           fontWeight: FontWeight.w700),
                       border: InputBorder.none,
@@ -2347,7 +2408,68 @@ cursorColor: Colors.black,
 
     else return Icons.scatter_plot;
   }
-  Widget  _buildIcons(int index, IconData this_icon, String bottom_text,
+  Widget  _buildIconsWork(int index, IconData this_icon, String bottom_text,
+      double offset) {
+    double gauss = exp(-(pow((offset.abs() - 0.5), 2) /
+        0.08)); //<--caluclate Gaussian function
+    return Transform.scale(
+      scale: 1 / (0.6 + offset.abs()),
+      child: GestureDetector(
+
+
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 5),
+          height: 102,
+          width: 75,
+          decoration: BoxDecoration(
+            color
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(20.0),
+
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Transform.translate(
+                offset: Offset(-32 * gauss * offset.sign, 0),
+                child: Padding(
+
+                    padding: EdgeInsets.only(
+                        left: 8, bottom: 0, top: 20, right: 8),
+                    child: Align(
+                      alignment: Alignment(offset, 0),
+                      child: Icon(this_icon, size: 48,color: Colors.white54,
+                      ),)
+
+                ),),
+              Transform.translate(
+                offset: Offset(-32 * gauss * offset.sign, 0),
+
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 8, bottom: 20, top: 8, right: 8),
+                  child: AnimatedDefaultTextStyle(
+                    style: offset == 0
+                        ? TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+
+                        fontWeight: FontWeight.w500)
+                        : TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400),
+                    duration: const Duration(milliseconds: 200),
+                    child: Text(bottom_text, textAlign: TextAlign.center,),
+                  ),
+                ),)
+            ],
+          ),
+        ),
+      ),);
+  }
+  Widget  _buildIconsDay(int index, IconData this_icon, String bottom_text,
       double offset) {
     double gauss = exp(-(pow((offset.abs() - 0.5), 2) /
         0.08)); //<--caluclate Gaussian function
@@ -2445,11 +2567,42 @@ cursorColor: Colors.black,
   }
 
   void handleSave() async {
+    DateModel this_date;
+
+    DateTime date = widget.setDate;
+
+    var formatter = new DateFormat('dd-MM-yyyy');
+    String formatted_date = formatter.format(date);
+    print("formatted date: " + formatted_date);
+    var fetchedDate =
+    await NotesDatabaseService.db.getDateByDateFromDB(formatted_date);
+    setState(() {
+      this_date = fetchedDate;
+    });
+
+    if (this_date == null) {
+      DateModel newDate = DateModel(
+          date: date,
+          time_start: DateTime.now(),
+          time_end: DateTime.now(),
+          survey: 0);
+      var added_date = await NotesDatabaseService.db.addDateInDB(newDate);
+      setState(() {
+        this_date = added_date;
+      });
+    }
+    this_date.survey=1;
+    await NotesDatabaseService.db.updateDateInDB(this_date);
+
+
     for (var i = 0; i < quesList.length; i++) {
       quesList[i].last_date=DateTime.now();
       print(ansList[i].content);
+      print(ansList[i].a_rating);
       print(titleController[i].text);
+      ansList[i].date=date;
       ansList[i].q_id=quesList[i].id;
+
       ansList[i].discription=quesList[i].title;
       ansList[i].content=titleController[i].text;
       await NotesDatabaseService.db.updateQuestionInDB(quesList[i]);

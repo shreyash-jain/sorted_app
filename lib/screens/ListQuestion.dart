@@ -12,7 +12,7 @@ import 'package:notes/data/question.dart';
 import 'package:notes/data/theme.dart';
 import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/dashboard.dart';
-import 'package:notes/screens/edit.dart';
+import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/screens/home.dart';
 import 'package:notes/screens/view.dart';
 import 'package:notes/services/database.dart';
@@ -128,41 +128,61 @@ class _AddQuestionState extends State<ListQuestion> {
               ),
 
 
-              background: Container(
-                padding: EdgeInsets.only(top:120,left:73),
-                child:FadeAnimation(1.6, Container(
-
-                    child:Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
+              background:
 
 
 
-                        Text("Track your\ndaily life",style: TextStyle(
-                            fontFamily: 'ZillaSlab',
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black26
+                Container(
+
+
+                  decoration: new BoxDecoration(
+
+                    gradient: new LinearGradient(
+                        colors: [
+                          const Color(0xFF00c6ff),
+                          Theme
+                              .of(context)
+                              .primaryColor
+
+
+                        ],
+                        stops: [0.0, 1.0],
+                        begin: FractionalOffset.topCenter,
+                        end: FractionalOffset.bottomCenter,
+                        tileMode: TileMode.clamp),
+                  ),
+                  child: Stack(children: <Widget>[
+
+                    Padding(
+                      padding: EdgeInsets.only(left:0,top:60),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child:Icon(
+                          Icons.question_answer,color: Theme.of(context).cardColor.withOpacity(.07),size: 300,
                         ),
-                          textAlign: TextAlign.left,),
-                      ],)
-                )),
-                decoration: new BoxDecoration(
+                      ),
+                    ),
+                    FadeAnimation(1.6, Container(
 
-                  gradient: new LinearGradient(
-                      colors: [
-                        const Color(0xFF00c6ff),
-                        Theme
-                            .of(context)
-                            .primaryColor,
-                      ],
-                      stops: [0.0, 1.0],
-                      begin: FractionalOffset.topCenter,
-                      end: FractionalOffset.bottomCenter,
-                      tileMode: TileMode.clamp),
-                ),
-              )
+                        padding: EdgeInsets.only(top:120,left:73),
+                      child:Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+
+
+
+                          Text("Track your\ndaily life",style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              fontSize: 32.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black26
+                          ),
+                            textAlign: TextAlign.left,),
+                        ],)
+                  ))]),
+                )
+
           ),
 
         ),

@@ -1,0 +1,77 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\app\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-th\\values-th.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\values-th\\values-th.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "28",
+                        "startColumns": "4",
+                        "startOffsets": "3647",
+                        "endColumns": "100",
+                        "endOffsets": "3743"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\biometric-1.0.0-alpha04.aar\\26e9a2b26a4a226831d016dfed11d93a\\res\\values-th\\values-th.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,180,279,392,519,645,765,889",
+                        "endColumns": "124,98,112,126,125,119,123,94",
+                        "endOffsets": "175,274,387,514,640,760,884,979"
+                    },
+                    "to": {
+                        "startLines": "2,21,22,23,24,25,26,27",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,2843,2942,3055,3182,3308,3428,3552",
+                        "endColumns": "124,98,112,126,125,119,123,94",
+                        "endOffsets": "225,2937,3050,3177,3303,3423,3547,3642"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\jetified-play-services-basement-17.0.0.aar\\6ef2c95a64ee9f68d34714fc2b60aeaf\\res\\values-th\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "187",
+                        "endOffsets": "434"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "1358",
+                        "endColumns": "187",
+                        "endOffsets": "1541"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-17.1.0.aar\\aacee103f57de802e765e48391620ab1\\res\\values-th\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "245,349,528,649,754,949,1071,1216,1349,1552,1655,1833,1953,2152,2329,2419,2513",
+                        "endColumns": "103,178,120,104,194,121,144,132,202,102,177,119,198,176,89,93,108",
+                        "endOffsets": "348,527,648,753,948,1070,1215,1348,1551,1654,1832,1952,2151,2328,2418,2512,2621"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "230,338,517,642,751,946,1072,1221,1546,1749,1856,2034,2158,2357,2538,2632,2730",
+                        "endColumns": "107,178,124,108,194,125,148,136,202,106,177,123,198,180,93,97,112",
+                        "endOffsets": "333,512,637,746,941,1067,1216,1353,1744,1851,2029,2153,2352,2533,2627,2725,2838"
+                    }
+                }
+            ]
+        }
+    ]
+}

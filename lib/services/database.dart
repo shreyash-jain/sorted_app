@@ -7,6 +7,7 @@ import 'package:notes/data/eCat.dart';
 import 'package:notes/data/event.dart';
 import 'package:notes/data/rEvent.dart';
 import 'package:notes/data/expense.dart';
+import 'package:notes/data/timeline.dart';
 import 'package:notes/data/friend.dart';
 import 'package:notes/data/notebook.dart';
 import 'package:notes/data/question.dart';
@@ -54,6 +55,7 @@ class NotesDatabaseService {
           "event_id INTEGER, "
           "position INTEGER, "
           "description TEXT, "
+          "saved_ts TEXT, "
       /*SQLITE doesn't have boolean type
         so we store isDone as integer where 0 is false
         and 1 is true*/
@@ -64,6 +66,14 @@ class NotesDatabaseService {
           "date TEXT, "
           "time_start TEXT, "
           "time_end TEXT, "
+          "saved_ts TEXT, "
+          "dayName TEXT, "
+          "ImageUrl TEXT, "
+          "a_rating DOUBLE, "
+          "p_rating DOUBLE, "
+          "l_streak INTEGER, "
+          "l_interval INTEGER, "
+          "c_streak INTEGER, "
           "survey INTEGER "
       /*SQLITE doesn't have boolean type
         so we store isDone as integer where 0 is false
@@ -76,7 +86,9 @@ class NotesDatabaseService {
           "date_id INTEGER, "
           "content TEXT, "
           "a_id INTEGER, "
+          "saved_ts TEXT, "
           "title TEXT, "
+          "timeline_id INTEGER, "
           "date TEXT, "
           "time TEXT, "
           "isImportant INTEGER, "
@@ -90,6 +102,7 @@ class NotesDatabaseService {
           "start_date TEXT, "
           "sun INTEGER, "
           "mon INTEGER, "
+          "saved_ts TEXT, "
           "tue INTEGER, "
           "wed INTEGER, "
           "thu INTEGER, "
@@ -101,60 +114,61 @@ class NotesDatabaseService {
           "id INTEGER PRIMARY KEY, "
           "friend_id INTEGER, "
           "cat_id INTEGER, "
+          "date_id INTEGER, "
           "content TEXT, "
           "title TEXT, "
+          "saved_ts TEXT, "
           "date TEXT, "
           "money DOUBLE, "
           "type INTEGER "
           ")");
       await db.execute(
-          'CREATE TABLE Friends (id INTEGER PRIMARY KEY, name TEXT, total DOUBLE)');
+          'CREATE TABLE Friends (id INTEGER PRIMARY KEY, saved_ts TEXT, name TEXT, total DOUBLE)');
       await db.execute(
-          'CREATE TABLE Cats (id INTEGER PRIMARY KEY, image TEXT,name TEXT, total DOUBLE)');
+          'CREATE TABLE Cats (id INTEGER PRIMARY KEY, saved_ts TEXT, image TEXT,name TEXT, total DOUBLE)');
 
       await db.execute(
           'CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT, value INTEGER, num REAL)');
 
       await db.execute(
-          'CREATE TABLE Activity (id INTEGER PRIMARY KEY, image TEXT,name TEXT, weight INTEGER)');
+          'CREATE TABLE Activity (id INTEGER PRIMARY KEY,  saved_ts TEXT,image TEXT,name TEXT, weight INTEGER)');
 
       await db.execute(
-          'CREATE TABLE User_Activity (id INTEGER PRIMARY KEY, name TEXT, image TEXT, a_id INTEGER)');
+          'CREATE TABLE User_Activity (id INTEGER PRIMARY KEY, saved_ts TEXT, name TEXT, image TEXT, a_id INTEGER)');
 
       await db.execute(
-          'CREATE TABLE Alog (id INTEGER PRIMARY KEY,a_id INTEGER, duration INTEGER, date TEXT)');
+          'CREATE TABLE Alog (id INTEGER PRIMARY KEY,a_id INTEGER, saved_ts TEXT, duration INTEGER, date TEXT)');
 
       await db.execute(
-          '''CREATE TABLE Notes (_id INTEGER PRIMARY KEY, book_id INTEGER, title TEXT, content TEXT, date TEXT, isImportant INTEGER);''');
+          '''CREATE TABLE Timelines (id INTEGER PRIMARY KEY, saved_ts TEXT,status INTEGER, title TEXT, content TEXT, date TEXT);''');
+
+      await db.execute(
+          '''CREATE TABLE Notes (_id INTEGER PRIMARY KEY, saved_ts TEXT, c_keywords TEXT,c_summary TEXT, s_value DOUBLE, book_id INTEGER, title TEXT, content TEXT, date TEXT, isImportant INTEGER);''');
       print('New table created at 1 $path');
       await db.execute(
-          '''CREATE TABLE Notebooks (_id INTEGER PRIMARY KEY, title TEXT, notes_num INTEGER, date TEXT, isImportant INTEGER);''');
+          '''CREATE TABLE Notebooks (_id INTEGER PRIMARY KEY, saved_ts TEXT,title TEXT, notes_num INTEGER, date TEXT, isImportant INTEGER);''');
       print('New table created at 2 $path');
       await db.execute(
-          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
+          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, saved_ts TEXT,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
       print('New table created at 3 $path');
          await db.execute(
-          '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY,q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,streak INTEGER,discription TEXT);''');
+          '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY, saved_ts TEXT, c_summary TEXT,c_keywords TEXT,p_rating DOUBLE,p_ans INTEGER,  q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,a_rating DOUBLE,discription TEXT);''');
       print('New table created at 4 $path');
       await db.execute(
-          '''CREATE TABLE Reminders (_id INTEGER PRIMARY KEY,note_id INTEGER, type INTEGER,content TEXT, date TEXT);''');
+          '''CREATE TABLE Reminders (_id INTEGER PRIMARY KEY, saved_ts TEXT,note_id INTEGER, type INTEGER,content TEXT, date TEXT);''');
       print('New table created at $path');
     });
 
   }
 
-  Future<int> createTodo(Todo todo) async {
-    final db = await database;
-    var result = db.insert('Todo', todo.toDatabaseJson());
-    return result;
-  }
+
   Future<List<NotesModel>> getNotesFromDB(int id) async {
     final db = await database;
     List<NotesModel> notesList = [];
     String strId = id.toString();
     List<Map> maps = await db.query('Notes',
         where: "book_id=" + strId,
-        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant']);
+        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant' , 'saved_ts' , 'c_keywords' , 'c_summary' , 's_map']);
     if (maps.length > 0) {
       maps.forEach((map) {
         notesList.add(NotesModel.fromMap(map));
@@ -172,7 +186,7 @@ class NotesDatabaseService {
     String strId = id.toString();
     List<Map> maps = await db.query('Notes',
         where: "_id=" + strId,
-        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant']);
+        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant', 'saved_ts' , 'c_keywords' , 'c_summary' , 's_map']);
     if (maps.length > 0) {
       maps.forEach((map) {
         notesList.add(NotesModel.fromMap(map));
@@ -191,7 +205,7 @@ class NotesDatabaseService {
 
     List<Map> maps = await db.query('Notes',
 
-        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant']);
+        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant','saved_ts' , 'c_keywords' , 'c_summary' , 's_value']);
     print(maps.length);
     if (maps.length > 0) {
       maps.forEach((map) {
@@ -212,7 +226,7 @@ class NotesDatabaseService {
 
     List<Map> maps = await db.query('Answers',
 
-        columns: ['_id', 'q_id' , 'response1' ,'response2' ,'response3' ,'content' , 'date' ,'streak','discription' ]);
+        columns: ['_id', 'q_id' , 'response1' ,'response2' ,'response3' ,'content' , 'date' ,'a_rating','discription','p_rating' ,'p_ans', 'c_keywords', 'c_summary', 'saved_ts']);
     print(maps.length);
     var csv = mapListToCsv(maps);
     String text;
@@ -250,7 +264,7 @@ print(text);
     final db = await database;
     List<ReminderModel> remList = [];
     List<Map> maps = await db.query('Reminders',
-        columns: ['_id', 'note_id', 'type', 'content', 'date']);
+        columns: ['_id', 'note_id', 'type', 'content', 'date','saved_ts']);
     if (maps.length > 0) {
       maps.forEach((map) {
         remList.add(ReminderModel.fromMap(map));
@@ -258,11 +272,43 @@ print(text);
     }
     return remList;
   }
+
+  Future<List<TimelineModel>> getTimelinesFromDB() async {
+    final db = await database;
+    List<TimelineModel> remList = [];
+    List<Map> maps = await db.query('Timelines',
+        columns: ['id', 'status', 'title', 'content', 'date','saved_ts']);
+    if (maps.length > 0) {
+
+      maps.forEach((map) {
+        remList.add(TimelineModel.fromMap(map));
+      });
+    }
+    return remList;
+  }
+
+  Future<TimelineModel> getTimelineFromIdFromDB(int id) async {
+    final db = await database;
+    print("sj "+id.toString());
+    List<TimelineModel> remList = [];
+    List<Map> maps = await db.query('Timelines',
+        columns: ['id', 'status', 'title', 'content', 'date','saved_ts'],
+        where: 'id = ?',
+        whereArgs: [id]);
+    if (maps.length > 0) {
+
+      maps.forEach((map) {
+        remList.add(TimelineModel.fromMap(map));
+      });
+    }
+    print(remList[0].title);
+    return remList[0];
+  }
   Future<List<UserAModel>> getUserActiviyFromDB() async {
     final db = await database;
     List<UserAModel> remList = [];
     List<Map> maps = await db.query('User_Activity',
-        columns: ['id', 'image', 'name', 'a_id']);
+        columns: ['id', 'image', 'name', 'a_id','saved_ts']);
     if (maps.length > 0) {
       maps.forEach((map) {
         remList.add(UserAModel.fromMap(map));
@@ -275,7 +321,7 @@ print(text);
     final db = await database;
     List<UserAModel> remList = [];
     List<Map> maps = await db.query('User_Activity',
-        columns: ['id', 'image', 'name', 'a_id'],
+        columns: ['id', 'image', 'name', 'a_id','saved_ts'],
     where: 'id > ?',
     whereArgs: [id]);
     if (maps.length > 0) {
@@ -290,7 +336,7 @@ print(text);
     final db = await database;
     List<ActivityModel> remList = [];
     List<Map> maps = await db.query('Activity',
-        columns: ['id', 'image', 'name', 'weight'],
+        columns: ['id', 'image', 'name', 'weight','saved_ts'],
         where: 'id > ?',
         whereArgs: [id]);
     if (maps.length > 0) {
@@ -306,7 +352,7 @@ print(text);
     final db = await database;
     List<FriendModel> remList = [];
     List<Map> maps = await db.query('Friends',
-        columns: ['id',  'name', 'total']);
+        columns: ['id',  'name', 'total','saved_ts']);
     if (maps.length > 0) {
       maps.forEach((map) {
         remList.add(FriendModel.fromMap(map));
@@ -319,7 +365,7 @@ print(text);
     final db = await database;
     List<CatModel> remList = [];
     List<Map> maps = await db.query('Cats',
-        columns: ['id', 'image' ,'name', 'total']);
+        columns: ['id', 'image' ,'name', 'total','saved_ts']);
     if (maps.length > 0) {
       maps.forEach((map) {
         remList.add(CatModel.fromMap(map));
@@ -334,7 +380,7 @@ print(text);
     List<NoteBookModel> notesList = [];
     print('Note updated....');
     List<Map> maps = await db.query('Notebooks',
-        columns: ['_id', 'title', 'notes_num', 'date', 'isImportant']);
+        columns: ['_id', 'title', 'notes_num', 'date', 'isImportant','saved_ts']);
     if (maps.length > 0) {
       maps.forEach((map) {
         print('Note updated....  ' + NoteBookModel.fromMap(map).toString());
@@ -360,6 +406,12 @@ print(text);
       'ans1',
       'ans2',
       'weight',
+      'c_streak',
+      'l_streak',
+      'l_interval',
+      'v_streak',
+      'saved_ts',
+      'showDashboard',
       'last_date',
       'ans3'
     ],
@@ -386,10 +438,16 @@ print(text);
       'priority',
       'correct_ans',
       'archive',
-          'ans1',
+      'ans1',
       'ans2',
       'weight',
       'last_date',
+      'c_streak',
+      'l_streak',
+      'l_interval',
+      'v_streak',
+      'saved_ts',
+      'showDashboard',
       'ans3'
     ],
         where: 'archive =?',
@@ -406,7 +464,7 @@ print(text);
     final db = await database;
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title','a_id', 'time','content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
+        columns: ['id', 'title','a_id', 'time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
     ,
         where: 'date_id=?',
         whereArgs: [query]);
@@ -418,11 +476,27 @@ print(text);
     return eventsList;
   }
 
+      Future<List<EventModel>> getEventsOfTimelineFromDB(int query) async {
+        final db = await database;
+        List<EventModel> eventsList = [];
+        List<Map> maps = await db.query('Events',
+            columns: ['id', 'title','a_id', 'time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
+            ,
+            where: 'timeline_id=?',
+            whereArgs: [query]);
+        print("timelines "+ maps.length.toString() );
+        if (maps.length > 0) {
+          maps.forEach((map) {
+            eventsList.add(EventModel.fromMap(map));
+          });
+        }
+        return eventsList;
+      }
   Future<EventModel> getEventOfReventFromDB(int query) async {
     final db = await database;
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title','a_id', 'time','content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
+        columns: ['id', 'title','a_id', 'time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
         ,
         where: 'r_id=?',
         whereArgs: [query]);
@@ -438,7 +512,7 @@ print(text);
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
 
-        columns: ['id', 'title', 'a_id','time','content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
+        columns: ['id', 'title', 'a_id','time','content','saved_ts', 'date', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
 
         );
     if (maps.length > 0) {
@@ -453,7 +527,7 @@ print(text);
     List<ExpenseModel> eventsList = [];
     List<Map> maps = await db.query('Expenses',
 
-        columns: ['id', 'title', 'cat_id','content', 'date', 'friend_id','money','type']
+        columns: ['id', 'title', 'cat_id','date_id','saved_ts','content', 'date', 'friend_id','money','type']
 
     );
     if (maps.length > 0) {
@@ -468,6 +542,7 @@ print(text);
     final db = await database;
     String weekday;
 
+    print("day: "+ day.toString());
     if (day==1) weekday='sun';
     else  if (day==2) weekday='mon';
     else  if (day==3) weekday='tue';
@@ -477,14 +552,31 @@ print(text);
     else  if (day==7) weekday='sat';
     List<ReventModel> eventsList = [];
     List<Map> maps = await db.query('Revents',
-        columns: ['id',  'start_date', 'end_date', 'event_id', 'sun','mon','tue','wed','thu','fri','sat']
+        columns: ['id',  'start_date', 'end_date', 'event_id','saved_ts', 'sun','mon','tue','wed','thu','fri','sat']
         ,
-        where: weekday+'=1',
+
+      where: '$weekday=1',
        );
     print(maps.length.toString()+" shreyash");
+
     if (maps.length > 0) {
+      int i=0;
       maps.forEach((map) {
         eventsList.add(ReventModel.fromMap(map));
+        print("sun" +eventsList[i].sun.toString());
+        print("mon"+eventsList[i].mon.toString());
+            print("tue"+eventsList[i].tue.toString());
+            print("wed"+eventsList[i].wed.toString());
+
+        print("thu"+eventsList[i].thu.toString());
+
+        print("fri"+eventsList[i].fri.toString());
+
+        print("sat"+eventsList[i].sat.toString());
+        print("next");
+
+
+        i++;
       });
     }
     return eventsList;
@@ -493,7 +585,7 @@ print(text);
     final db = await database;
     List<EventModel> event = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title','a_id','time', 'content', 'date', 'isImportant','r_id','duration','date_id','todo_id']
+        columns: ['id', 'title','a_id','time','saved_ts', 'content', 'date', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
         ,
         where: 'id=?',
         whereArgs: [query]);
@@ -509,7 +601,7 @@ print(text);
     List<NoteBookModel> notesList = [];
     print('Note updated....');
     List<Map> maps = await db.query('Notebooks',
-        columns: ['_id', 'title', 'notes_num', 'date', 'isImportant'],
+        columns: ['_id', 'title', 'notes_num','saved_ts', 'date', 'isImportant'],
     where: '_id=?',
     whereArgs: [id]);
     if (maps.length > 0) {
@@ -527,6 +619,7 @@ print(text);
           id.toString(),
     );
   }
+
 
   decreaseNotebookInDB(int id) async {
     final db = await database;
@@ -564,7 +657,7 @@ print(text);
     List<NoteBookModel> notesList = [];
     List<Map> maps = await db.query('Notebooks',
         where: "_id=" + name,
-        columns: ['_id', 'title', 'notes_num', 'date', 'isImportant']);
+        columns: ['_id', 'title', 'notes_num','saved_ts', 'date', 'isImportant']);
     if (maps.length > 0) {
       maps.forEach((map) {
         print('Note updated....  ' + NoteBookModel.fromMap(map).toString());
@@ -576,10 +669,16 @@ print(text);
 
   Future<QuestionModel> addQuestionInDB(QuestionModel newQues) async {
     final db = await database;
+    if (newQues.saved_ts==null)newQues.saved_ts=DateTime.now();
+    if (newQues.v_streak==null)newQues.v_streak="[]";
+    if (newQues.showDashboard==null)newQues.showDashboard=0;
+    if (newQues.c_streak==null)newQues.c_streak=0;
+    if (newQues.l_streak==null)newQues.l_streak=0;
+    if (newQues.l_interval==null)newQues.l_interval=0;
     if (!newQues.title.trim().isEmpty) {
       int id = await db.transaction((transaction) {
         transaction.rawInsert(
-            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight});');
+            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight,c_streak,l_streak,l_interval,v_streak,saved_ts,showDashboard) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight}, ${newQues.c_streak},${newQues.l_streak},${newQues.l_interval},"${newQues.v_streak}","${newQues.saved_ts.toIso8601String()}",${newQues.showDashboard});');
       });
       print("insert Question with id: " + id.toString());
       newQues.id = id;
@@ -587,12 +686,29 @@ print(text);
     }
   }
 
+  Future<TimelineModel> addTimelineInDB(TimelineModel newTimeline) async {
+    final db = await database;
+    if (newTimeline.saved_ts==null)newTimeline.saved_ts=DateTime.now();
+    print(newTimeline.title);
+    if (!newTimeline.title.trim().isEmpty) {
+      print("mello");
+      int id = await db.transaction((transaction) {
+        transaction.rawInsert(
+            'INSERT into Timelines(title, content, status, date, saved_ts) VALUES ("${newTimeline.title}","${newTimeline.content}", ${newTimeline.status},"${newTimeline.date.toIso8601String()}",${newTimeline.saved_ts.toIso8601String()}");');
+      });
+      print("insert Timeline with id: " + id.toString());
+      newTimeline.id = id;
+      return newTimeline;
+    }
+    return newTimeline;
+  }
 
   Future<ReminderModel> addReminderInDB(ReminderModel newRem) async {
     final db = await database;
+    if (newRem.saved_ts==null)newRem.saved_ts=DateTime.now();
     int id = await db.transaction((transaction) {
       transaction.rawInsert(
-          'INSERT into Reminders(note_id, type, content, date) VALUES ("${newRem.note_id}",${newRem.type}, "${newRem.content}","${newRem.date.toIso8601String()}");');
+          'INSERT into Reminders(note_id, type, content, date, saved_ts) VALUES ("${newRem.note_id}",${newRem.type}, "${newRem.content}","${newRem.date.toIso8601String()}","${newRem.saved_ts.toIso8601String()}");');
     });
     print("insert Reminder with id: " + id.toString());
     newRem.id = id;
@@ -601,9 +717,14 @@ print(text);
 
   Future<AnswerModel> addAnswerInDB(AnswerModel newAns) async {
     final db = await database;
+    if (newAns.saved_ts==null)newAns.saved_ts=DateTime.now();
+    if (newAns.c_keywords==null)newAns.c_keywords="";
+    if (newAns.c_summary==null)newAns.c_summary="";
+    if (newAns.p_rating==null)newAns.p_rating=0;
+    if (newAns.p_ans==null)newAns.p_ans=0;
     int id = await db.transaction((transaction) {
       transaction.rawInsert(
-          'INSERT into Answers(q_id, streak, response1,response2,response3,content,date,discription) VALUES ("${newAns.q_id}","${newAns.streak}", "${newAns.res1}", "${newAns.res2}", ${newAns.res3},"${newAns.content}","${newAns.date.toIso8601String()}","${newAns.discription}");');
+          'INSERT into Answers(q_id, a_rating, response1,response2,response3,content,date,discription,c_summary,c_keywords,p_ans,p_rating,saved_ts) VALUES ("${newAns.q_id}","${newAns.a_rating}", "${newAns.res1}", "${newAns.res2}", ${newAns.res3},"${newAns.content}","${newAns.date.toIso8601String()}","${newAns.discription}","${newAns.c_summary}","${newAns.c_keywords}", ${newAns.p_ans},${newAns.p_rating},"${newAns.saved_ts.toIso8601String()}");');
     });
     print("going in "+ newAns.content);
     newAns.id = id;
@@ -611,9 +732,10 @@ print(text);
   }
   Future<AlogModel> addActivityLogInDB(AlogModel newAns) async {
     final db = await database;
+    if (newAns.saved_ts==null)newAns.saved_ts=DateTime.now();
     int id = await db.transaction((transaction) {
       transaction.rawInsert(
-          'INSERT into Alog(a_id, duration, date ) VALUES (${newAns.a_id},${newAns.duration},  "${newAns.date.toIso8601String()}");');
+          'INSERT into Alog(a_id, duration, date, saved_ts ) VALUES (${newAns.a_id},${newAns.duration},  "${newAns.date.toIso8601String()}", "${newAns.saved_ts.toIso8601String()}");');
     });
 
     newAns.id = id;
@@ -625,7 +747,7 @@ print(text);
     final db = await database;
     List<DateModel> event = [];
     List<Map> maps = await db.query('Dates',
-        columns: ['id',  'date', 'time_start','time_end','survey']
+        columns: ['id',  'date', 'time_start','time_end','survey','ImageUrl','dayName','p_rating','a_rating','c_streak','l_streak','l_interval','saved_ts']
         ,
         where: 'id=?',
         whereArgs: [query]);
@@ -643,11 +765,12 @@ print(text);
   }
   Future<NoteBookModel> addNoteBookInDB(NoteBookModel newNote) async {
     final db = await database;
+    if (newNote.saved_ts==null)newNote.saved_ts=DateTime.now();
     if (newNote.title.trim().isEmpty) newNote.title = 'Untitled Notebook';
     newNote.notes_num = 0;
     int id = await db.transaction((transaction) {
       transaction.rawInsert(
-          'INSERT into Notebooks(title, notes_num, date, isImportant) VALUES ("${newNote.title}", "${newNote.notes_num}", "${newNote.date.toIso8601String()}",${newNote.isImportant == true ? 1 : 0});');
+          'INSERT into Notebooks(title, notes_num, date, isImportant, saved_ts) VALUES ("${newNote.title}", "${newNote.notes_num}", "${newNote.date.toIso8601String()}",${newNote.isImportant == true ? 1 : 0},"${newNote.saved_ts.toIso8601String()}"),;');
     });
     newNote.id = id;
     print('Notebook added id: ' + id.toString());
@@ -659,7 +782,7 @@ print(text);
     final db = await database;
     List<DateModel> event = [];
     List<Map> maps = await db.query('Dates',
-        columns: ['id',  'date', 'time_start','time_end','survey']
+        columns: ['id',  'date', 'time_start','time_end','survey','dayName','p_rating','a_rating','c_streak','l_streak','l_interval','saved_ts']
         ,
         where: 'date LIKE ?',
         whereArgs:["%$query%"]);
@@ -681,7 +804,7 @@ print(text);
     final db = await database;
     List<ReventModel> event = [];
     List<Map> maps = await db.query('Revents',
-        columns: ['id',  'start_date', 'end_date', 'event_id', 'sun','mon','tue','wed','thu','fri','sat']
+        columns: ['id',  'start_date', 'end_date', 'event_id', 'sun','mon','tue','wed','thu','fri','sat','saved_ts']
         ,
         where: 'id=?',
         whereArgs:[query]);
@@ -726,11 +849,33 @@ print(text);
     print('Note updated: ${updatedNote.title} ${updatedNote.content}');
     print('Note updated: ${updatedNote.title} ${updatedNote.content}');
   }
+  updateTimelineInDB(TimelineModel updatedTimeline) async {
+    final db = await database;
+
+    await db.update('Timelines', updatedTimeline.toMap(),
+        where: 'id = ?', whereArgs: [updatedTimeline.id]);
+
+  }
+  updateAnswerInDB(AnswerModel updatedTimeline) async {
+    final db = await database;
+
+    await db.update('Answers', updatedTimeline.toMap(),
+        where: 'id = ?', whereArgs: [updatedTimeline.id]);
+
+  }
   updateQuestionInDB(QuestionModel updatedQues) async {
     final db = await database;
 
     await db.update('Questions', updatedQues.toMap(),
         where: '_id = ?', whereArgs: [updatedQues.id]);
+
+  }
+
+  updateExpensesInDB(ExpenseModel updatedExpense) async {
+    final db = await database;
+
+    await db.update('Expenses', updatedExpense.toMap(),
+        where: 'id = ?', whereArgs: [updatedExpense.id]);
 
   }
 
@@ -746,7 +891,7 @@ print(text);
   updateDateInDB(DateModel updatedDate) async {
     final db = await database;
     await db.update('Dates', updatedDate.toMap(),
-        where: '_id = ?', whereArgs: [updatedDate.id]);
+        where: 'id = ?', whereArgs: [updatedDate.id]);
     print('Date updated ');
   }
   updateEventInDB(EventModel updatedEvent) async {
@@ -762,6 +907,11 @@ print(text);
     await db.delete('Notes', where: '_id = ?', whereArgs: [noteToDelete.id]);
     print('Note deleted');
   }
+  deleteTimelineInDB(TimelineModel timelineToDelete) async {
+    final db = await database;
+    await db.delete('Timelines', where: 'id = ?', whereArgs: [timelineToDelete.id]);
+    print('Timeline deleted');
+  }
   deleteEventInDB(EventModel eventToDelete) async {
     final db = await database;
     await db.delete('Events', where: 'id = ?', whereArgs: [eventToDelete.id]);
@@ -776,12 +926,16 @@ print(text);
 
   Future<NotesModel> addNoteInDB(NotesModel newNote) async {
     final db = await database;
-    if (newNote.title.trim().isEmpty) newNote.title = 'Untitled Note';
+    if(newNote.s_value==null)newNote.s_value=0;
+    if(newNote.c_summary==null)newNote.c_summary="0";
+    if(newNote.c_keywords==null)newNote.c_keywords="0";
+    if(newNote.saved_ts==null)newNote.saved_ts=DateTime.now();
+    if (newNote.title.trim().isEmpty) newNote.title = 'Note without name';
     newNote.content = newNote.content.replaceAll('"', "\'");
     print("replaced : " + newNote.content);
     int id = await db.transaction((transaction) {
       transaction.rawInsert(
-          'INSERT into Notes(title, book_id, content, date, isImportant) VALUES ("${newNote.title}","${newNote.book_id}", "${newNote.content}", "${newNote.date.toIso8601String()}", ${newNote.isImportant == true ? 1 : 0});');
+          'INSERT into Notes(title, book_id, content, date, isImportant,saved_ts,c_keywords,c_summary,s_value) VALUES ("${newNote.title}","${newNote.book_id}", "${newNote.content}", "${newNote.date.toIso8601String()}", ${newNote.isImportant == true ? 1 : 0},"${newNote.saved_ts.toIso8601String()}","${newNote.c_summary}","${newNote.c_keywords}",${newNote.s_value});');
     });
     newNote.id = id;
     print('Note added: ${newNote.title} ${newNote.content}');
@@ -789,12 +943,12 @@ print(text);
   }
   Future<ExpenseModel> addExpense(ExpenseModel newExpense) async{
     final db = await database;
+    if(newExpense.saved_ts==null)newExpense.saved_ts=DateTime.now();
     await db.transaction((transaction) async {
-      var formatter = new DateFormat('dd-MM-yyyy');
-      String formatted_date = formatter.format(newExpense.date);
+
 
       int id = await transaction.rawInsert(
-          'INSERT into Expenses(title, type, content, money, date, cat_id, friend_id) VALUES ("${newExpense.title}",${newExpense.type} , "${newExpense.content}", ${newExpense.money},"${formatted_date}", ${newExpense.cat_id}, ${newExpense.friend_id} );');
+          'INSERT into Expenses(title, type, content, money, date, cat_id, saved_ts,friend_id,date_id) VALUES ("${newExpense.title}",${newExpense.type} , "${newExpense.content}", ${newExpense.money},"${newExpense.date.toIso8601String()}", ${newExpense.cat_id},"${newExpense.saved_ts.toIso8601String()}", ${newExpense.friend_id},${newExpense.date_id} );');
       newExpense.id = id;
       print('Expense added: ${id}');
     });
@@ -802,11 +956,12 @@ print(text);
   }
   Future<CatModel> addCat(CatModel newActivity) async{
     final db = await database;
+    if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
     await db.transaction((transaction) async {
 
 
       int id = await transaction.rawInsert(
-          'INSERT into Cats (name, image, total) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.total});');
+          'INSERT into Cats (name, image, total,saved_ts) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.total},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
     });
@@ -814,11 +969,12 @@ print(text);
   }
   Future<FriendModel> addFriend(FriendModel newActivity) async{
     final db = await database;
+    if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
     await db.transaction((transaction) async {
 
 
       int id = await transaction.rawInsert(
-          'INSERT into Friends (name,  total) VALUES ("${newActivity.name}" , ${newActivity.total});');
+          'INSERT into Friends (name,  total, saved_ts) VALUES ("${newActivity.name}" , ${newActivity.total},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
     });
@@ -826,11 +982,12 @@ print(text);
   }
   Future<ActivityModel> addActivity(ActivityModel newActivity) async{
     final db = await database;
+    if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
     await db.transaction((transaction) async {
 
 
       int id = await transaction.rawInsert(
-          'INSERT into Activity(name, image, weight) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.weight});');
+          'INSERT into Activity(name, image, weight,saved_ts) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.weight},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
     });
@@ -838,11 +995,12 @@ print(text);
   }
   Future<UserAModel> addUserActivity(UserAModel newActivity) async{
     final db = await database;
+    if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
     await db.transaction((transaction) async {
 
 
       int id = await transaction.rawInsert(
-          'INSERT into User_Activity(name, image, a_id) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.a_id});');
+          'INSERT into User_Activity(name, image, a_id,saved_ts) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.a_id},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
     });
@@ -850,12 +1008,20 @@ print(text);
   }
   Future<DateModel> addDateInDB(DateModel newDate) async {
     final db = await database;
+    if(newDate.saved_ts==null)newDate.saved_ts=DateTime.now();
+    if (newDate.l_interval==null)newDate.l_interval=0;
+    if (newDate.l_streak==null)newDate.l_streak=0;
+    if (newDate.c_streak==null)newDate.c_streak=0;
+    if (newDate.p_rating==null)newDate.p_rating=0;
+    if (newDate.a_rating==null)newDate.a_rating=0;
+    if (newDate.ImageUrl==null)newDate.ImageUrl="https://i.picsum.photos/id/108/200/300.jpg";
+    if (newDate.dayName==null)newDate.dayName="";
 
     await db.transaction((transaction) async {
       var formatter = new DateFormat('dd-MM-yyyy');
       String formatted_date = formatter.format(newDate.date);
       int id = await transaction.rawInsert(
-          'INSERT into Dates(time_start, time_end, date, survey) VALUES ("${newDate.time_start.toIso8601String()}","${newDate.time_end.toIso8601String()}" , "${formatted_date}",${newDate.survey});');
+          'INSERT into Dates(time_start, time_end, date, survey, ImageUrl, dayName, p_rating, a_rating, c_streak, l_streak, l_interval, saved_ts) VALUES ("${newDate.time_start.toIso8601String()}","${newDate.time_end.toIso8601String()}" , "${formatted_date}",${newDate.survey},"${newDate.ImageUrl}","${newDate.dayName}",${newDate.p_rating},${newDate.a_rating},${newDate.c_streak},${newDate.l_streak},${newDate.l_interval},"${newDate.saved_ts.toIso8601String()}");');
       newDate.id = id;
       print('Date added: $formatted_date ${id}');
     });
@@ -865,13 +1031,14 @@ print(text);
   }
   Future<ReventModel> addReventInDB(ReventModel newRevent) async {
     final db = await database;
-
+    if(newRevent.saved_ts==null)newRevent.saved_ts=DateTime.now();
     await db.transaction((transaction) async {
 
 
       int id = await transaction.rawInsert(
-          'INSERT into Revents(start_date, end_date, event_id, sun,mon,tue,wed,thu,fri,sat) VALUES ("${newRevent.start_date.toIso8601String()}","${newRevent.end_date.toIso8601String()}" , ${newRevent.event_id},${newRevent.sun},${newRevent.mon},${newRevent.tue},${newRevent.wed},${newRevent.thu},${newRevent.fri},${newRevent.sat});');
+          'INSERT into Revents(start_date, end_date, event_id, sun,mon,tue,wed,thu,fri,sat,saved_ts) VALUES ("${newRevent.start_date.toIso8601String()}","${newRevent.end_date.toIso8601String()}" , ${newRevent.event_id},${newRevent.sun},${newRevent.mon},${newRevent.tue},${newRevent.wed},${newRevent.thu},${newRevent.fri},${newRevent.sat},"${newRevent.saved_ts.toIso8601String()}");');
       newRevent.id = id;
+      print("Revent saved");
 
     });
 
@@ -895,10 +1062,10 @@ print(text);
   }
   Future<EventModel> addEventInDB(EventModel newEvent) async {
     final db = await database;
-
+    if(newEvent.saved_ts==null)newEvent.saved_ts=DateTime.now();
     await db.transaction((transaction) async{
       int id=await transaction.rawInsert(
-          'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id});');
+          'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id,timeline_id,saved_ts) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id},${newEvent.timeline_id},"${newEvent.saved_ts.toIso8601String()}");');
       newEvent.id = id;
 
     });

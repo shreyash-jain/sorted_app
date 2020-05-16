@@ -374,7 +374,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color:  Colors.black.withOpacity(.8)
+                    color:  Colors.indigo
                 ),
                 child: InkWell(
                   onTap: () {

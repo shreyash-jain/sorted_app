@@ -1,0 +1,68 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\values-cs\\values-cs.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\values-cs\\values-cs.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1033",
+                        "endColumns": "100",
+                        "endOffsets": "1129"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\biometric-1.0.0-alpha04.aar\\26e9a2b26a4a226831d016dfed11d93a\\res\\values-cs\\values-cs.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,183,273,396,540,670,804,935",
+                        "endColumns": "127,89,122,143,129,133,130,97",
+                        "endOffsets": "178,268,391,535,665,799,930,1028"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-cs\\values-cs.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\values-cs\\values-cs.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1033",
+                        "endColumns": "100",
+                        "endOffsets": "1129"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\biometric-1.0.0-alpha04.aar\\26e9a2b26a4a226831d016dfed11d93a\\res\\values-cs\\values-cs.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,183,273,396,540,670,804,935",
+                        "endColumns": "127,89,122,143,129,133,130,97",
+                        "endOffsets": "178,268,391,535,665,799,930,1028"
+                    }
+                }
+            ]
+        }
+    ]
+}

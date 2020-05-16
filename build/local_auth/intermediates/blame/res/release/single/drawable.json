@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\fingerprint_warning_icon.xml",
+        "source": "C:\\Users\\Shreyash\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\local_auth-0.5.3\\android\\src\\main\\res\\drawable\\fingerprint_warning_icon.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\ic_done_white_24dp.xml",
+        "source": "C:\\Users\\Shreyash\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\local_auth-0.5.3\\android\\src\\main\\res\\drawable\\ic_done_white_24dp.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\fingerprint_initial_icon.xml",
+        "source": "C:\\Users\\Shreyash\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\local_auth-0.5.3\\android\\src\\main\\res\\drawable\\fingerprint_initial_icon.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\ic_fingerprint_white_24dp.xml",
+        "source": "C:\\Users\\Shreyash\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\local_auth-0.5.3\\android\\src\\main\\res\\drawable\\ic_fingerprint_white_24dp.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\notification_tile_bg.xml",
+        "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\drawable\\notification_tile_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\notification_bg_low.xml",
+        "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\drawable\\notification_bg_low.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\fingerprint_success_icon.xml",
+        "source": "C:\\Users\\Shreyash\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\local_auth-0.5.3\\android\\src\\main\\res\\drawable\\fingerprint_success_icon.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\notification_bg.xml",
+        "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\drawable\\notification_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\notification_icon_background.xml",
+        "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\drawable\\notification_icon_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\res\\merged\\release\\drawable\\ic_priority_high_white_24dp.xml",
+        "source": "C:\\Users\\Shreyash\\AppData\\Roaming\\Pub\\Cache\\hosted\\pub.dartlang.org\\local_auth-0.5.3\\android\\src\\main\\res\\drawable\\ic_priority_high_white_24dp.xml"
+    }
+]

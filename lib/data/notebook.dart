@@ -7,9 +7,9 @@ class NoteBookModel {
   int notes_num;
   bool isImportant;
   DateTime date;
-
+  DateTime saved_ts;
   NoteBookModel(
-      {this.id, this.title, this.notes_num, this.isImportant, this.date});
+      {this.id, this.title,   this.saved_ts,this.notes_num, this.isImportant, this.date});
 
   NoteBookModel.fromMap(Map<String, dynamic> map) {
     this.id = map['_id'];
@@ -17,6 +17,7 @@ class NoteBookModel {
     this.notes_num = map['notes_num'];
     this.date = DateTime.parse(map['date']);
     this.isImportant = map['isImportant'] == 1 ? true : false;
+    this.saved_ts =DateTime.parse(map['saved_ts']);
   }
 
   Map<String, dynamic> toMap() {
@@ -25,7 +26,8 @@ class NoteBookModel {
       'title': this.title,
       'notes_num': this.notes_num,
       'isImportant': this.isImportant == true ? 1 : 0,
-      'date': this.date.toIso8601String()
+      'date': this.date.toIso8601String(),
+      'saved_ts':this.saved_ts.toIso8601String()
     };
   }
 

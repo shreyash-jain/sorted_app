@@ -4,7 +4,7 @@ class UserAModel {
   int id;
   String name;
   String image;
-
+  DateTime saved_ts;
 
   int a_id;
 
@@ -12,7 +12,7 @@ class UserAModel {
       {this.id,
         this.name,
         this.image,
-
+       this.saved_ts,
         this.a_id});
 
   UserAModel.fromMap(Map<String, dynamic> map) {
@@ -20,7 +20,7 @@ class UserAModel {
     this.a_id = map['a_id'];
     this.name = map['name'];
     this.image = map['image'];
-
+    this.saved_ts =DateTime.parse(map['saved_ts']);
   }
 
   Map<String, dynamic> toMap() {
@@ -28,8 +28,8 @@ class UserAModel {
       'id': this.id,
       'name': this.name,
       'image': this.image,
-      'a_id': this.a_id
-
+      'a_id': this.a_id,
+      'saved_ts':this.saved_ts.toIso8601String()
     };
   }
 

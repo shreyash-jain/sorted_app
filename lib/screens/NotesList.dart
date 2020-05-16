@@ -13,7 +13,7 @@ import 'package:notes/data/theme.dart';
 import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/ListQuestion.dart';
 import 'package:notes/screens/dashboard.dart';
-import 'package:notes/screens/edit.dart';
+import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/screens/richedit.dart';
 import 'package:notes/screens/view.dart';
 import 'package:notes/services/database.dart';
@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyNotesPage> {
                             fontFamily: 'ZillaSlab',
                             fontSize: 32.0,
                             fontWeight: FontWeight.w400,
-                            color: Colors.black26
+                            color: Colors.black54
                         ),
                           textAlign: TextAlign.left,),
                       ],)

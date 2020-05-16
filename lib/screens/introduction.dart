@@ -10,6 +10,7 @@ import 'package:notes/data/user_activity.dart';
 import 'package:notes/main.dart';
 
 import 'package:notes/screens/home.dart';
+import 'package:notes/services/auth.dart';
 import 'package:notes/services/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/FadeAnimation.dart';
@@ -52,8 +53,10 @@ String avatar='assets/images/male1.png';
     scaleController = AnimationController(
         vsync: this,
         duration: Duration(seconds: 1)
-    )..addStatusListener((status) {
+    )..addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
+
+        await authService.googleSignIn();
         Navigator.of(context).pop();
         Navigator.push(context,
             FadeRoute(page:MyApp(false)));
@@ -410,7 +413,7 @@ String avatar='assets/images/male1.png';
                                       color: Colors.white.withOpacity(.8)
                                   ),
                                 ),),),),
-                            Padding(padding :EdgeInsets.only(top:280,right:20),
+                            Padding(padding :EdgeInsets.only(top:300,right:20),
                               child:FadeAnimation(2.6, Container(
 
                                   child: Text(
@@ -436,7 +439,12 @@ String avatar='assets/images/male1.png';
                                       color: Colors.white.withOpacity(.8)
                                   ),
                                 ),),),),
+
+
                           ],
+
+
+
                         ),
                       ),
                     ],

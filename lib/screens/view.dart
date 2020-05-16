@@ -10,7 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:notes/data/models.dart';
 import 'package:notes/data/reminder.dart';
-import 'package:notes/screens/edit.dart';
+
 import 'package:notes/screens/richedit.dart';
 import 'package:notes/services/database.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';

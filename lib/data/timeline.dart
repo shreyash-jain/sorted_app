@@ -1,47 +1,41 @@
 import 'dart:math';
 
-class NotesModel {
+class TimelineModel {
   int id;
   String title;
   String content;
-  bool isImportant;
-  DateTime date;
-  int book_id;
+  DateTime saved_ts;
 
-  NotesModel(
+  DateTime date;
+  int status;  // 1 -> ongoing ; 2 -> paused ; 3 -> completed
+
+  TimelineModel(
       {this.id,
         this.title,
         this.content,
-        this.isImportant,
+        this.saved_ts,
         this.date,
-        this.book_id});
+        this.status});
 
-  NotesModel.fromMap(Map<String, dynamic> map) {
-    this.id = map['_id'];
-    this.book_id = map['book_id'];
+  TimelineModel.fromMap(Map<String, dynamic> map) {
+    this.id = map['id'];
+    this.status = map['book_id'];
     this.title = map['title'];
     this.content = map['content'];
     this.date = DateTime.parse(map['date']);
-    this.isImportant = map['isImportant'] == 1 ? true : false;
+    this.saved_ts =DateTime.parse(map['saved_ts']);
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      '_id': this.id,
+      'id': this.id,
       'title': this.title,
       'content': this.content,
-      'book_id': this.book_id,
-      'isImportant': this.isImportant == true ? 1 : 0,
+      'book_id': this.status,
+      'saved_ts':this.saved_ts.toIso8601String(),
       'date': this.date.toIso8601String()
     };
   }
 
-  NotesModel.random() {
-    this.id = Random(10).nextInt(1000) + 1;
-    this.title = 'Lorem Ipsum ' * (Random().nextInt(4) + 1);
-    this.content = 'Lorem Ipsum ' * (Random().nextInt(4) + 1);
-    this.isImportant = Random().nextBool();
-    this.date = DateTime.now().add(Duration(hours: Random().nextInt(100)));
-    this.book_id = Random(10).nextInt(1000) + 1;
-  }
+
 }

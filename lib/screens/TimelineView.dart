@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:notes/components/timeline_card.dart';
 import 'package:notes/data/date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:notes/data/models.dart';
 import 'package:notes/data/notebook.dart';
 import 'package:notes/data/rEvent.dart';
 import 'package:notes/data/theme.dart';
+import 'package:notes/data/timeline.dart';
 import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/ListQuestion.dart';
 import 'package:notes/screens/dashboard.dart';
@@ -69,13 +71,15 @@ import '../components/BluePainter.dart';
 Color primaryColor = Color.fromARGB(255, 58, 149, 255);
 final int id = 0;
 
-class EventView extends StatefulWidget {
+class TimelineView extends StatefulWidget {
   Function(Brightness brightness) changeTheme;
 
 
-  EventView(
+
+  TimelineView(
       {Key key,
       this.title,
+        this.this_timeline,
       Function(Brightness brightness) changeTheme,
   })
       : super(key: key) {
@@ -83,12 +87,13 @@ class EventView extends StatefulWidget {
   }
 
   final String title;
+  final TimelineModel this_timeline;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<EventView> {
+class _MyHomePageState extends State<TimelineView> with TickerProviderStateMixin  {
   List<NoteBookModel> notebookList = [];
   bool isFlagOn = false;
  int current_position=50;
@@ -100,47 +105,61 @@ class _MyHomePageState extends State<EventView> {
   TextEditingController searchController = TextEditingController();
   ThemeData theme = appThemeLight;
   DateTime selectedDate=DateTime.now();
+  AnimationController rippleController;
+
+  Animation<double> rippleAnimation;
+
   List<EventModel> eventsListtoday = [];
   bool isSearchEmpty = true;
   DateTime today=DateTime.now();
   var formatter_date = new DateFormat('dd-MM-yyyy');
   var formatter_date_builder = new DateFormat('EEE\nd');
   HashMap hashMap_today = new HashMap<int, List<Todo>>();
-  ScrollController _controller = ScrollController(initialScrollOffset: 3180);
+  ScrollController _controller = ScrollController(initialScrollOffset: 0);
   List<Todo> TodaytodoList = [];
   @override
   void initState() {
     super.initState();
     get_today_todo(DateTime.now());
+
+    rippleController = AnimationController(
+        vsync: this,
+        duration: Duration(seconds: 1)
+    );
+    rippleAnimation = Tween<double>(
+        begin:0,
+        end: 49.0
+    ).animate(rippleController)..addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        rippleController.reverse();
+      } else if(status == AnimationStatus.dismissed) {
+        rippleController.forward();
+      }
+    });
+    rippleController.forward();
+  }
+  @override
+  void dispose() {
+    rippleController.dispose();
+
+    super.dispose();
   }
   get_today_todo(DateTime at_date) async {
 
     String formatted_date = formatter_date.format(at_date);
     print("formatted date: " + formatted_date);
     DateModel this_date;
-    int weekday=at_date.weekday;
-    weekday=weekday+1;
-    if (weekday>7)
-      weekday=weekday%7;
-    print(weekday);
-    List<ReventModel> days_Revents;
-    var days_Revents_var = await NotesDatabaseService.db.getReventsWithFilterDayFromDB(weekday);
 
-    var fetchedDate = await NotesDatabaseService.db.getDateByDateFromDB(
-        formatted_date);
-    setState(()  {
-       this_date = fetchedDate;
-      days_Revents = days_Revents_var;
-    });
-    if (this_date != null) {
-      var fetchedEvents = await NotesDatabaseService.db.getEventsOfDateFromDB(
-          this_date.id);
+
+
+
+      var fetchedEvents = await NotesDatabaseService.db.getEventsOfTimelineFromDB(widget.this_timeline.id);
 
       setState(()  {
         eventsListtoday = fetchedEvents;
       });
 
-    }
+
 
     for (var i = 0; i < eventsListtoday.length; i++) {
       if (eventsListtoday[i].todo_id != 0) {
@@ -153,17 +172,7 @@ class _MyHomePageState extends State<EventView> {
 
       }
     }
-    for (var i=0;i<days_Revents.length;i++){
-      int diffDaysStart = at_date.difference(days_Revents[i].start_date).inDays;
-      int diffDaysEnd = at_date.difference(days_Revents[i].end_date).inDays;
-      if ((diffDaysStart == 0 && at_date.day == days_Revents[i].start_date.day) ||(diffDaysEnd == 0 && at_date.day == days_Revents[i].end_date.day) || (at_date.isAfter(days_Revents[i].start_date) && at_date.isBefore(days_Revents[i].end_date) )){
-        var fetchedEventFromR= await NotesDatabaseService.db.getEventOfReventFromDB(days_Revents[i].event_id);
-        setState(() {
-          eventsListtoday.add(fetchedEventFromR);
-        });
 
-      }
-    }
   }
 
   void refetchEventsFromDB() async {
@@ -179,58 +188,9 @@ class _MyHomePageState extends State<EventView> {
       Padding(
         padding: const EdgeInsets.only(left:33.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Material(
 
-                shape: StadiumBorder(),
-
-                child: Ink(
-                  decoration:
-                  new BoxDecoration(
-                    borderRadius: new BorderRadius.all(
-                      Radius.circular((40)),
-                    ),
-                    gradient: new LinearGradient(
-                        colors: [
-                          const Color(0xFF00c6ff),
-                          Theme
-                              .of(context)
-                              .primaryColor,
-                        ],
-                        begin: const FractionalOffset(0.0, 0.0),
-                        end: const FractionalOffset(1.0, 1.00),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  child:
-                  FloatingActionButton(
-                    elevation: 0,
-
-
-                    heroTag: "btn1",
-
-                    backgroundColor: Colors.transparent,
-                    onPressed: () async {
-                      var formatter = new DateFormat('d MMMM, EEE');
-                      setState(() {
-                        selectedDate=selectedDate.subtract(Duration(days: 1));
-                        formatted = formatter.format(selectedDate);
-                        double current_pos=_controller.position.pixels-65;
-                        _controller.animateTo(current_pos, duration: new Duration(seconds: 1), curve: Curves.ease);
-
-                        current_position--;
-                        eventsListtoday.clear();
-                        hashMap_today.clear();
-                        TodaytodoList.clear();
-                      });
-                      setState(() {
-                        get_today_todo(selectedDate);
-                      });
-                    },
-
-                    child: Icon(Icons.arrow_back_ios),
-                  ),)),
             Material(
                 shape: StadiumBorder(),
 
@@ -258,59 +218,19 @@ class _MyHomePageState extends State<EventView> {
                     heroTag: "btn2",
                     backgroundColor: Colors.transparent,
                     onPressed: () async {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
 
+                              builder: (context) =>
+
+                                  AddEventPage(triggerRefetch: refetchEventsFromDB,event_tl: widget.this_timeline,)));
                     },
-                    label: Text('Event'.toUpperCase(),
+                    label: Text(''.toUpperCase(),
                         style: TextStyle(color: Colors.white)),
                     icon: Icon(Icons.add),
                   ),)),
-            Material(
-                shape: StadiumBorder(),
 
-                child: Ink(
-                  decoration:
-                  new BoxDecoration(
-                    borderRadius: new BorderRadius.all(
-                      Radius.circular((40)),
-                    ),
-                    gradient: new LinearGradient(
-                        colors: [
-                          const Color(0xFF00c6ff),
-                          Theme
-                              .of(context)
-                              .primaryColor,
-                        ],
-                        begin: const FractionalOffset(1.0, 1.0),
-                        end: const FractionalOffset(0.0, 0.00),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  child:
-                  FloatingActionButton(
-                    elevation: 0,
-                    heroTag: "btn3",
-                    backgroundColor: Colors.transparent,
-                    onPressed: () async {
-
-                      var formatter = new DateFormat('d MMMM, EEE');
-                      setState(() {
-                        selectedDate=selectedDate.add(Duration(days: 1));
-                        current_position++;
-                        double current_pos=_controller.position.pixels+65;
-                        _controller.animateTo(current_pos, duration: new Duration(seconds: 1), curve: Curves.ease);
-                        formatted = formatter.format(selectedDate);
-                        eventsListtoday.clear();
-                        hashMap_today.clear();
-                        TodaytodoList.clear();
-                      });
-                      setState(() {
-                        get_today_todo(selectedDate);
-                      });
-                    },
-
-                    child:Icon(Icons.arrow_forward_ios),
-
-                  ),)),
           ],
         ),
       ),
@@ -339,7 +259,7 @@ class _MyHomePageState extends State<EventView> {
           ),
           flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                formatted,
+                widget.this_timeline.title,
                 style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontWeight: FontWeight.w700,
@@ -351,61 +271,71 @@ class _MyHomePageState extends State<EventView> {
 
 
               background: Container(
-                padding: EdgeInsets.only(top:100,left:73),
+                padding: EdgeInsets.only(top:45,left:73),
                 child:FadeAnimation(1.6, Container(
 
-                    child:Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child:Stack(children: <Widget>[
 
-                      children: <Widget>[
-
-
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-
-
-
-                          Text("My\nTimetable",style: TextStyle(
-                              fontFamily: 'ZillaSlab',
-                              fontSize: 32.0,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black26
+                      Padding(
+                        padding: EdgeInsets.only(left:0,top:0),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child:Icon(
+                            OMIcons.timeline,color: Theme.of(context).cardColor.withOpacity(.10),size: 300,
                           ),
-                            textAlign: TextAlign.left,),
-                        ],),
-                      if (current_position==50)Padding(
-                          padding: EdgeInsets.only(top: 6),
-                          child:
-                      Text("Today",style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white60
+                        ),
                       ),
-                        textAlign: TextAlign.left,),),
-                        if (current_position==51)Padding(
-                          padding: EdgeInsets.only(top: 6),
-                          child:
-                          Text("Tomorrow",style: TextStyle(
-                              fontFamily: 'ZillaSlab',
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white60
-                          ),
-                            textAlign: TextAlign.left,),),
-                        if (current_position==49)Padding(
-                          padding: EdgeInsets.only(top: 6),
-                          child:
-                          Text("Yesterday",style: TextStyle(
-                              fontFamily: 'ZillaSlab',
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white60
-                          ),
-                            textAlign: TextAlign.left,),),
 
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children:<Widget>[
+
+
+                            SizedBox(height: 60,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+
+
+
+
+                                Text("Start Date : ${formatter_date.format(widget.this_timeline.date)}",style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black45
+                                ),
+                                  textAlign: TextAlign.left,),
+                              ],),
+                            SizedBox(height: 10,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+
+
+
+
+                                Text("Status : Ongoing",style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black45
+                                ),
+                                  textAlign: TextAlign.left,),
+
+                                Padding(
+                                    padding:EdgeInsets.only(top:4,left:4),
+                                    child:Icon(Icons.repeat,color: Colors.black.withOpacity(.4),))
+                              ],),
+
+
+
+
+
+                          ]),
                     ],)
                 )),
                 decoration: new BoxDecoration(
@@ -443,19 +373,21 @@ class _MyHomePageState extends State<EventView> {
         },
         child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
-          child: ListView(
+    child:MediaQuery.removePadding(
+    removeTop: true,
+    context: context, child: ListView(
 
             children: <Widget>[
 
-              buildHeaderWidget(context),
 
 
-              Container(height: 32),
+
+              Container(height: 0),
               ...buildNoteComponentsList(),
 
-              Container(height: 100)
+              Container(height: 0)
             ],
-          ),
+          ),),
 
 
         ),
@@ -498,39 +430,30 @@ class _MyHomePageState extends State<EventView> {
 
 
     int position = 1;
-    asked.forEach((event) {
-      if (event.duration == 0) {
-        List<Todo> TodoList = [];
-        if (event.todo_id != 0) {
-          TodoList = hashMap_asked[event.id];
-        }
 
-        noteComponentsList.add(NoteCardComponent(
-          eventData: event,
-          onTapAction: setIsdone,
-          openEvent:null,
-          todoList: (TodoList != null) ? TodoList : null,
-          position: position,
-        ));
-      }
-    });
-    asked.forEach((event) {
-      if (event.duration != 0) {
-        List<Todo> TodoList = [];
-        if (event.todo_id != 0) {
-          TodoList = hashMap_asked[event.id];
-        }
+    noteComponentsList.add(
+        MediaQuery.removePadding(
+            removeTop: true,
+            context: context,
+        child:ListView.builder(
+          shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemCount: asked.length ,
+        controller: _controller,
+        itemBuilder: (BuildContext context, int index) {
+          List<Todo> TodoList = [];
+          if (asked[index].todo_id != 0) {
+            TodoList = hashMap_asked[asked[index].id];
+          }
+          if(index==0){
+            rippleController.forward();
+          }
 
-        noteComponentsList.add(NoteCardComponent(
-          eventData: event,
-          onTapAction: setIsdone,
-          openEvent: null,
-          todoList: (TodoList != null) ? TodoList : null,
-          position: position,
-        ));
-        position = position + 1;
-      }
-    });
+          return _TimelineCard(index,  asked[index],null,TodoList, index+1,setIsdone);
+
+        }
+    )));
+
     if (asked.length==0){
       noteComponentsList.add(buildNoListItem(context));
     }
@@ -556,14 +479,14 @@ class _MyHomePageState extends State<EventView> {
                       AddEventPage(triggerRefetch: refetchEventsFromDB)));
         },
         child:Container(
-            margin: EdgeInsets.fromLTRB(30, 0, 20, 8),
+            margin: EdgeInsets.fromLTRB(30, 30, 20, 8),
 
             decoration: BoxDecoration(
               border: Border.all(color: Theme.of(context).primaryColor, width: 2),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(65.0),topRight:Radius.circular(20.0) ,bottomRight:Radius.circular(20.0) ,bottomLeft:Radius.circular(20.0) ),
             ),
             child: Material(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(65.0),topRight:Radius.circular(20.0) ,bottomRight:Radius.circular(20.0) ,bottomLeft:Radius.circular(20.0) ),
               clipBehavior: Clip.antiAlias,
               child: Container(
                 padding: EdgeInsets.only(top:8,bottom:8),
@@ -573,7 +496,7 @@ class _MyHomePageState extends State<EventView> {
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'You have no events',
+                          'You have no events\nin this Timeline',textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'ZillaSlab',
                               color: Theme.of(context).primaryColor,
@@ -639,19 +562,7 @@ class _MyHomePageState extends State<EventView> {
 
             child:Padding(
               padding: EdgeInsets.only(left: 10),
-              child:ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 100 ,
-              controller: _controller,
-                itemBuilder: (BuildContext context, int index) {
-
-                  return _buildActivityCard(
-                      index,
-                      today.add(Duration(days: index-50))
-                  );
-
-                }
-            ),),
+              ),
 
 
 
@@ -755,6 +666,443 @@ class _MyHomePageState extends State<EventView> {
           ],
         ),
       ),),
+    );
+  }
+
+  Widget _TimelineCard(int index,
+      EventModel eventData,Function(EventModel eventData) openEvent, List<Todo> todoList,int position,Function(Todo todoData) onTapAction) {
+    var formatter_date = new DateFormat('d MMM\ny');
+    var formatter = new DateFormat('Hm');
+    double height = 300;
+    if (eventData.content.length > 0) {
+      height += (20 * (eventData.content.length / 30));
+    }
+    if (todoList.length > 0) {
+      height += (36 * todoList.length);
+    }
+    String neatDate = formatter.format(eventData.time);
+    if (eventData.duration == 0) neatDate = "All Day  < ";
+    else {
+      neatDate =  eventData.duration.floor().toString()+" mins";
+    }
+
+    String side_text="";
+    if (index==0) side_text="Start     ";
+    else if (index==eventsListtoday.length-1)side_text="End";
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        color: Colors.transparent,
+        child: Material(
+          borderRadius: BorderRadius.circular(16),
+          clipBehavior: Clip.antiAlias,
+          color: Colors.transparent,
+          child: Container(
+              width: double.infinity,
+              color: Colors.transparent,
+              padding: EdgeInsets.only(left: 4, right: 4),
+              child: Stack(children: <Widget>[
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Container(
+                      width: 120,
+                      height: height,
+
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Container(
+
+                              margin: EdgeInsets.only(bottom: 5),
+                              width: 4,
+                              height: height / 2-35,
+                              decoration: new BoxDecoration(
+                                borderRadius:
+                                BorderRadius.only(bottomRight:Radius.circular(75.0),bottomLeft:Radius.circular(75.0) ),
+                                gradient: new LinearGradient(
+                                    colors: [
+                                      Colors.grey.withOpacity(.2),
+                                      Colors.grey.withOpacity(.2)
+                                    ],
+                                    begin: const FractionalOffset(.2, .2),
+                                    end: const FractionalOffset(1.0, 1.00),
+                                    stops: [0.0, 1.0],
+                                    tileMode: TileMode.clamp),
+                              ),
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 18, right: 8, top: 0),
+                                        child: Text(
+                                          position.toString(),
+                                          style: TextStyle(
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize: 45,
+                                              color: (Theme.of(context).brightness == Brightness.dark)?Colors.white.withOpacity(.3):Colors.black45.withOpacity(.1),
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                  ])),
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                width: 10,
+                                  height:10,
+                                decoration: new BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(75.0)),
+
+                                ),
+
+
+                              )
+                            ],
+                          ),
+
+                          Padding(
+                              padding: EdgeInsets.only(left: 8, right: 8, top: 0),
+                              child: Text(
+                                formatter_date.format(eventData.date),textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize:18,
+                                    color: (Theme.of(context).brightness == Brightness.dark)?Colors.white:Colors.black45,
+
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          Container(
+
+                            margin: EdgeInsets.only(top: 5),
+                            width: 4,
+                            height: height / 2-35,
+                            decoration: new BoxDecoration(
+                              borderRadius:
+                              BorderRadius.only(topRight:Radius.circular(75.0),topLeft:Radius.circular(75.0) ),
+                              gradient: new LinearGradient(
+                                  colors: [
+                                    Colors.grey.withOpacity(.2),
+                                    Colors.grey.withOpacity(.2)
+                                  ],
+                                  begin: const FractionalOffset(.2, .2),
+                                  end: const FractionalOffset(1.0, 1.00),
+                                  stops: [0.0, 1.0],
+                                  tileMode: TileMode.clamp),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Flexible(
+                      child: Container(
+                        height: height-15,
+
+                        margin: EdgeInsets.only(top: 10),
+                        padding:EdgeInsets.all(10),
+
+                        decoration: new BoxDecoration(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(20.0) ),
+                          gradient: new LinearGradient(
+                              colors: [
+                                Theme.of(context).cardColor.withOpacity(.5),
+                                Theme.of(context).cardColor.withOpacity(.5),
+
+                              ],
+                              begin: const FractionalOffset(.2, .2),
+                              end: const FractionalOffset(1.0, 1.00),
+                              stops: [0.0, 1.0],
+                              tileMode: TileMode.clamp),
+                        ),
+                        child:Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            GestureDetector(
+                                onTap: () {
+                                  openEvent(eventData);
+                                },
+                                child: Container(
+                                  padding:
+                                  EdgeInsets.only(left: 2, top: 4, bottom: 4),
+                                  decoration:
+                                       BoxDecoration(
+                                    gradient: new LinearGradient(
+                                        colors: [
+                                          const Color(0xFF00c6ff),
+                                          Theme.of(context).primaryColor,
+                                        ],
+                                        begin: const FractionalOffset(.2, .2),
+                                        end: const FractionalOffset(1.0, 1.00),
+                                        stops: [0.0, 1.0],
+                                        tileMode: TileMode.clamp),
+                                    borderRadius: BorderRadius.circular(20.0),
+
+
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 12),
+
+                                        child: Text(
+                                          '${eventData.title.trim().length <= 18 ? eventData.title.trim() : eventData.title.trim().substring(0, 18) + '...'}',
+                                          style: TextStyle(
+                                              color: Colors.white,
+
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 16,
+                                      ),
+
+                                    ],
+                                  ),
+                                )),
+
+                            Padding(
+                              padding: EdgeInsets.only(top:10,left: 4),
+                              child:Text(
+                              'Duration : $neatDate',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'ZillaSlab',
+                                  color: (Theme.of(context).brightness==Brightness.dark)?Colors.white70:Colors.black26,
+
+                                  fontWeight:
+                                  FontWeight.w500
+                              ),
+                            ),),
+                            if (eventData.content != "")
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin:
+                                    EdgeInsets.only(top: 12, left: 8, bottom: 12),
+                                    child: Text(
+                                      '${eventData.content}',
+                                      style: TextStyle(
+                                          fontFamily: 'ZillaSlab',
+                                          fontSize: 18,
+                                          color: Colors.grey.shade400),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            if (eventData.content == "")
+                              SizedBox(
+                                height: 16,
+                              ),
+                            if (todoList != null && todoList.length != 0)
+                              Container(
+                                  padding: EdgeInsets.only(top: 4, bottom: 16),
+                                  decoration: BoxDecoration(
+                                    color: (Theme.of(context).brightness ==
+                                        Brightness.dark)
+                                        ? Theme.of(context).cardColor
+                                        : Color(0xFFF5F7FB),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: ListView.builder(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: todoList.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return _buildCategoryCard(
+                                            context,
+                                            index,
+                                            todoList[index],
+                                            onTapAction
+                                        );
+                                      })),
+                            if (todoList != null && todoList.length != 0)
+                              SizedBox(
+                                height: 16,
+                              )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      RotatedBox(
+
+                          quarterTurns: -1,
+                          child:Padding(
+                              padding: EdgeInsets.only(top:30
+                              ),
+                              child: Text(
+                                side_text,
+                                style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 16,
+                                    color:   (Theme.of(context).brightness == Brightness.dark)?Colors.white.withOpacity(0.9):Colors.black87
+                                    ,fontWeight: FontWeight.bold),
+                              ))),
+                    ]),
+
+                    FadeAnimation(.6, Container(
+                        height: 50,
+                        width: 50,
+
+                        margin: EdgeInsets.only(top:85,left: 35),
+
+                        child:Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+
+                            AnimatedBuilder(
+                              animation: rippleAnimation,
+                              builder: (context, child) => Container(
+                                width: rippleAnimation.value,
+                                height: rippleAnimation.value,
+
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:   Theme.of(context).textSelectionHandleColor.withOpacity((rippleAnimation.value*2)/100)
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+
+
+
+                                    },
+                                    child:  Container(
+                                      width: 10,
+                                      height:10,
+                                      decoration: new BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(75.0)),
+
+                                      ),
+                                    ),
+
+                                  ),
+
+                                ),
+                              ),
+                            )
+                          ],))
+
+                ),
+
+                FadeAnimation(.6, Container(
+                    height: 50,
+                    width: 50,
+
+                    margin: EdgeInsets.only(top:85,left: 35),
+
+                    child:Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+
+                        AnimatedBuilder(
+                          animation: rippleAnimation,
+                          builder: (context, child) => Container(
+                            width: 24-rippleAnimation.value/4,
+                            height: 24-rippleAnimation.value/4,
+
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:   (Theme.of(context).brightness == Brightness.dark)?Colors.white:Colors.black87
+                              ),
+                              child: InkWell(
+                                onTap: () {
+
+
+
+                                },
+                                child:  Container(
+                                  width: 10,
+                                  height:10,
+                                  decoration: new BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(75.0)),
+
+                                  ),
+                                ),
+
+                              ),
+
+                            ),
+                          ),
+                        )
+                      ],))
+
+                )
+              ],)
+          ),
+        ));
+  }
+  Widget _buildCategoryCard(BuildContext context, int index, Todo this_todo, Function(Todo todoData) onTapAction) {
+    return GestureDetector(
+      onTap: () {
+        onTapAction(this_todo);
+        print("touched " + this_todo.description);
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 20.0, bottom: 0, top: 4, right: 8),
+              child: Text(
+                (index + 1).toString(),
+                style: TextStyle(
+                    fontFamily: 'ZillaSlab',
+                    color: Color(0xFFAFB4C6),
+                    fontSize: 16.0,
+                    decoration: this_todo.isDone
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none),
+              ),
+            ),
+            Flexible(
+              child: Padding(
+                padding:
+                EdgeInsets.only(left: 20.0, bottom: 0, top: 4, right: 8),
+                child: Text(
+                  this_todo.description,
+                  overflow: TextOverflow.fade,
+                  style: TextStyle(
+                      fontFamily: 'ZillaSlab',
+                      color: Color(0xFFAFB4C6),
+                      fontSize: 18.0,
+                      decoration: this_todo.isDone
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

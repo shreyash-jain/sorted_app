@@ -4,6 +4,7 @@ class CatModel {
   int id;
   String name;
   String image;
+  DateTime saved_ts;
 
 
   double total;
@@ -12,6 +13,7 @@ class CatModel {
       {this.id,
         this.name,
         this.image,
+        this.saved_ts,
 
         this.total});
 
@@ -20,6 +22,7 @@ class CatModel {
     this.total = map['total'];
     this.name = map['name'];
     this.image = map['image'];
+    this.saved_ts =DateTime.parse(map['saved_ts']);
 
   }
 
@@ -28,7 +31,8 @@ class CatModel {
       'id': this.id,
       'name': this.name,
       'image': this.image,
-      'total': this.total
+      'total': this.total,
+      'saved_ts':this.saved_ts.toIso8601String()
 
     };
   }

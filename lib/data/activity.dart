@@ -4,6 +4,7 @@ class ActivityModel {
   int id;
   String name;
   String image;
+  DateTime saved_ts;
 
 
   int weight;
@@ -12,6 +13,7 @@ class ActivityModel {
       {this.id,
         this.name,
         this.image,
+        this.saved_ts,
 
         this.weight});
 
@@ -20,6 +22,7 @@ class ActivityModel {
     this.weight = map['weight'];
     this.name = map['name'];
     this.image = map['image'];
+    this.saved_ts =DateTime.parse(map['saved_ts']);
 
   }
 
@@ -28,7 +31,8 @@ class ActivityModel {
       'id': this.id,
       'name': this.name,
       'image': this.image,
-      'weight': this.weight
+      'weight': this.weight,
+      'saved_ts':this.saved_ts.toIso8601String()
 
     };
   }

@@ -1,0 +1,77 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\app\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-ne\\values-ne.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\values-ne\\values-ne.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "28",
+                        "startColumns": "4",
+                        "startOffsets": "3913",
+                        "endColumns": "100",
+                        "endOffsets": "4009"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\biometric-1.0.0-alpha04.aar\\26e9a2b26a4a226831d016dfed11d93a\\res\\values-ne\\values-ne.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,187,277,399,527,659,791,939",
+                        "endColumns": "131,89,121,127,131,131,147,95",
+                        "endOffsets": "182,272,394,522,654,786,934,1030"
+                    },
+                    "to": {
+                        "startLines": "2,21,22,23,24,25,26,27",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,3065,3155,3277,3405,3537,3669,3817",
+                        "endColumns": "131,89,121,127,131,131,147,95",
+                        "endOffsets": "232,3150,3272,3400,3532,3664,3812,3908"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-17.1.0.aar\\aacee103f57de802e765e48391620ab1\\res\\values-ne\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "245,358,548,680,795,1025,1159,1295,1425,1664,1780,1975,2110,2317,2495,2587,2685",
+                        "endColumns": "112,189,131,114,229,133,135,129,238,115,194,134,206,177,91,97,116",
+                        "endOffsets": "357,547,679,794,1024,1158,1294,1424,1663,1779,1974,2109,2316,2494,2586,2684,2801"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "237,354,544,680,799,1029,1167,1307,1664,1903,2023,2218,2357,2564,2746,2842,2944",
+                        "endColumns": "116,189,135,118,229,137,139,133,238,119,194,138,206,181,95,101,120",
+                        "endOffsets": "349,539,675,794,1024,1162,1302,1436,1898,2018,2213,2352,2559,2741,2837,2939,3060"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\jetified-play-services-basement-17.0.0.aar\\6ef2c95a64ee9f68d34714fc2b60aeaf\\res\\values-ne\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "222",
+                        "endOffsets": "469"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "1441",
+                        "endColumns": "222",
+                        "endOffsets": "1659"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -13,7 +13,7 @@ import 'package:notes/data/theme.dart';
 import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/ListQuestion.dart';
 import 'package:notes/screens/dashboard.dart';
-import 'package:notes/screens/edit.dart';
+import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/screens/richedit.dart';
 import 'package:notes/screens/view.dart';
 import 'package:notes/services/database.dart';
@@ -51,7 +51,7 @@ import 'package:notes/screens/ListQuestion.dart';
 import 'package:notes/screens/Survey_start.dart';
 import 'package:notes/screens/addEvent.dart';
 import 'package:notes/screens/dashboard.dart';
-import 'package:notes/screens/edit.dart';
+import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/screens/richedit.dart';
 import 'package:notes/screens/view.dart';
 import 'package:notes/services/database.dart';
@@ -91,7 +91,7 @@ class EventView extends StatefulWidget {
 class _MyHomePageState extends State<EventView> {
   List<NoteBookModel> notebookList = [];
   bool isFlagOn = false;
-
+ int current_position=50;
   static var formatter = new DateFormat('d MMMM, EEE');
   static DateTime TofillDate=DateTime.now();
   String formatted=formatter.format(TofillDate);
@@ -104,8 +104,9 @@ class _MyHomePageState extends State<EventView> {
   bool isSearchEmpty = true;
   DateTime today=DateTime.now();
   var formatter_date = new DateFormat('dd-MM-yyyy');
+  var formatter_date_builder = new DateFormat('EEE\nd');
   HashMap hashMap_today = new HashMap<int, List<Todo>>();
-
+  ScrollController _controller = ScrollController(initialScrollOffset: 3180);
   List<Todo> TodaytodoList = [];
   @override
   void initState() {
@@ -141,6 +142,19 @@ class _MyHomePageState extends State<EventView> {
 
     }
 
+
+    for (var i=0;i<days_Revents.length;i++){
+      int diffDaysStart = at_date.difference(days_Revents[i].start_date).inDays;
+      int diffDaysEnd = at_date.difference(days_Revents[i].end_date).inDays;
+      if ((diffDaysStart == 0 && at_date.day == days_Revents[i].start_date.day) ||(diffDaysEnd == 0 && at_date.day == days_Revents[i].end_date.day) || (at_date.isAfter(days_Revents[i].start_date) && at_date.isBefore(days_Revents[i].end_date) )){
+        var fetchedEventFromR= await NotesDatabaseService.db.getEventOfReventFromDB(days_Revents[i].id);
+        setState(() {
+          eventsListtoday.add(fetchedEventFromR);
+        });
+
+      }
+    }
+
     for (var i = 0; i < eventsListtoday.length; i++) {
       if (eventsListtoday[i].todo_id != 0) {
         var fetchedtodo = await NotesDatabaseService.db.getTodos(
@@ -152,20 +166,11 @@ class _MyHomePageState extends State<EventView> {
 
       }
     }
-    for (var i=0;i<days_Revents.length;i++){
-      int diffDaysStart = at_date.difference(days_Revents[i].start_date).inDays;
-      int diffDaysEnd = at_date.difference(days_Revents[i].end_date).inDays;
-      if ((diffDaysStart == 0 && at_date.day == days_Revents[i].start_date.day) ||(diffDaysEnd == 0 && at_date.day == days_Revents[i].end_date.day) || (at_date.isAfter(days_Revents[i].start_date) && at_date.isBefore(days_Revents[i].end_date) )){
-        var fetchedEventFromR= await NotesDatabaseService.db.getEventOfReventFromDB(days_Revents[i].event_id);
-        setState(() {
-          eventsListtoday.add(fetchedEventFromR);
-        });
-
-      }
-    }
   }
 
-
+  void refetchEventsFromDB() async {
+    await get_today_todo(selectedDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +179,7 @@ class _MyHomePageState extends State<EventView> {
 
       floatingActionButton:
       Padding(
-        padding: const EdgeInsets.only(left:28.0),
+        padding: const EdgeInsets.only(left:33.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -213,6 +218,10 @@ class _MyHomePageState extends State<EventView> {
                       setState(() {
                         selectedDate=selectedDate.subtract(Duration(days: 1));
                         formatted = formatter.format(selectedDate);
+                        double current_pos=_controller.position.pixels-65;
+                        _controller.animateTo(current_pos, duration: new Duration(seconds: 1), curve: Curves.ease);
+
+                        current_position--;
                         eventsListtoday.clear();
                         hashMap_today.clear();
                         TodaytodoList.clear();
@@ -252,6 +261,13 @@ class _MyHomePageState extends State<EventView> {
                     backgroundColor: Colors.transparent,
                     onPressed: () async {
 
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+
+                              builder: (context) =>
+
+                                  AddEventPage(triggerRefetch: refetchEventsFromDB,event_date: selectedDate,)));
                     },
                     label: Text('Event'.toUpperCase(),
                         style: TextStyle(color: Colors.white)),
@@ -288,6 +304,9 @@ class _MyHomePageState extends State<EventView> {
                       var formatter = new DateFormat('d MMMM, EEE');
                       setState(() {
                         selectedDate=selectedDate.add(Duration(days: 1));
+                        current_position++;
+                        double current_pos=_controller.position.pixels+65;
+                        _controller.animateTo(current_pos, duration: new Duration(seconds: 1), curve: Curves.ease);
                         formatted = formatter.format(selectedDate);
                         eventsListtoday.clear();
                         hashMap_today.clear();
@@ -341,24 +360,73 @@ class _MyHomePageState extends State<EventView> {
 
 
               background: Container(
-                padding: EdgeInsets.only(top:120,left:73),
+                padding: EdgeInsets.only(top:100,left:73),
                 child:FadeAnimation(1.6, Container(
 
-                    child:Row(
+                    child:Stack(children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left:0,top:0),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child:Icon(
+                            Icons.today,color: Theme.of(context).cardColor.withOpacity(.10),size: 300,
+                          ),
+                        ),
+                      ),
+
+                      Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+
                       children: <Widget>[
 
 
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
 
-                        Text("My\nTimetable",style: TextStyle(
-                            fontFamily: 'ZillaSlab',
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black26
-                        ),
-                          textAlign: TextAlign.left,),
-                      ],)
+
+
+                            Text("My\nTimetable",style: TextStyle(
+                                fontFamily: 'ZillaSlab',
+                                fontSize: 32.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black54
+                            ),
+                              textAlign: TextAlign.left,),
+                          ],),
+                        if (current_position==50)Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child:
+                          Text("Today",style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white60
+                          ),
+                            textAlign: TextAlign.left,),),
+                        if (current_position==51)Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child:
+                          Text("Tomorrow",style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white60
+                          ),
+                            textAlign: TextAlign.left,),),
+                        if (current_position==49)Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child:
+                          Text("Yesterday",style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white60
+                          ),
+                            textAlign: TextAlign.left,),),
+
+                      ],)],)
                 )),
                 decoration: new BoxDecoration(
 
@@ -396,7 +464,7 @@ class _MyHomePageState extends State<EventView> {
         child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
           child: ListView(
-            physics: BouncingScrollPhysics(),
+
             children: <Widget>[
 
               buildHeaderWidget(context),
@@ -408,8 +476,8 @@ class _MyHomePageState extends State<EventView> {
               Container(height: 100)
             ],
           ),
-          margin: EdgeInsets.only(top: 2),
-          padding: EdgeInsets.only(left: 0, right: 0),
+
+
         ),
       ),)),
     );
@@ -483,6 +551,9 @@ class _MyHomePageState extends State<EventView> {
         position = position + 1;
       }
     });
+    if (asked==null || asked.length==0){
+      noteComponentsList.add(buildNoListItem(context));
+    }
 
     return noteComponentsList;
   }
@@ -493,23 +564,86 @@ class _MyHomePageState extends State<EventView> {
     print(todoData.isDone);
     get_today_todo(selectedDate);
   }
+  Widget buildNoListItem(BuildContext context) {
+    return GestureDetector(
+        onTap: (){
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+
+                  builder: (context) =>
+
+                      AddEventPage(triggerRefetch: refetchEventsFromDB,event_date: selectedDate,)));
+        },
+        child:Container(
+            margin: EdgeInsets.fromLTRB(30, 0, 20, 8),
+
+            decoration: BoxDecoration(
+              border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Material(
+              borderRadius: BorderRadius.circular(20),
+              clipBehavior: Clip.antiAlias,
+              child: Container(
+                padding: EdgeInsets.only(top:8,bottom:8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'You have no events\non this day',textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        )),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.add,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Add an event ?',
+                                style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 16),
+                              ))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )));}
   Widget buildHeaderWidget(BuildContext context) {
     return Column(
 
+
+      mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start ,
     children: <Widget>[
 
         AnimatedContainer(
           duration: Duration(milliseconds: 200),
           curve: Curves.easeIn,
-          margin: EdgeInsets.only(top:0, bottom: 0, left: 25,right:25),
+          margin: EdgeInsets.only(top:0, bottom: 0, left: 13,right:0),
           width: headerShouldHide ? 0 : null,
           child: Container(
+            height: 80,
             margin: EdgeInsets.only(left: 12),
             padding: EdgeInsets.all(8),
             decoration:
             new BoxDecoration(
-              borderRadius: new BorderRadius.only(topLeft:  Radius.circular(75.0),topRight:   Radius.circular((20)),bottomLeft:   Radius.circular((20)),bottomRight:   Radius.circular((20)),),
+              borderRadius: new BorderRadius.only(topLeft:  Radius.circular(75.0),topRight:   Radius.circular((0)),bottomLeft:   Radius.circular((20)),bottomRight:   Radius.circular((0)),),
               gradient: new LinearGradient(
                   colors: [
                     const Color(0xFF00c6ff),
@@ -523,53 +657,26 @@ class _MyHomePageState extends State<EventView> {
                   tileMode: TileMode.clamp),
             ),
 
-            child:
+            child:Padding(
+              padding: EdgeInsets.only(left: 10),
+              child:ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 100 ,
+              controller: _controller,
+                itemBuilder: (BuildContext context, int index) {
+
+                  return _buildActivityCard(
+                      index,
+                      today.add(Duration(days: index-50))
+                  );
+
+                }
+            ),),
 
 
 
 
-    GestureDetector(
-    onTap: () async {
-      final DateTime ndate = await showDatePicker(
-          context: context,
 
-
-          initialDate: selectedDate,
-          firstDate: DateTime.now().subtract(new Duration(days: 1000)),
-          lastDate:DateTime.now().add(new Duration(days: 100)));
-      if (ndate != null ){
-
-        var formatter = new DateFormat('d MMMM, EEE');
-        setState(() {
-          selectedDate=ndate;
-          formatted = formatter.format(ndate);
-          eventsListtoday.clear();
-          hashMap_today.clear();
-          TodaytodoList.clear();
-        });
-        setState(() {
-          get_today_todo(ndate);
-        });
-
-      }
-    },
-    child:Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Icon(Icons.event,size:25),
-          Text("Change Date" ,
-
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'ZillaSlab',
-              fontWeight: FontWeight.w700,
-              fontSize: 22,
-              color: Colors.white),),
-
-        ],
-
-    )
-    ),
           )
         ),
       ],
@@ -580,7 +687,96 @@ class _MyHomePageState extends State<EventView> {
 
 
 
+  Widget _buildActivityCard(int index,
+      DateTime this_date) {
+    String count= "";
+   
+    return GestureDetector(
+      onTap: () {
+        setState(() {
 
+
+          current_position=index;
+         
+        });
+
+        var formatter = new DateFormat('d MMMM, EEE');
+        setState(() {
+          selectedDate=this_date;
+          formatted = formatter.format(this_date);
+          eventsListtoday.clear();
+          hashMap_today.clear();
+          TodaytodoList.clear();
+        });
+        setState(() {
+          get_today_todo(this_date);
+        });
+      },
+      child: Padding(
+
+        padding:EdgeInsets.only(),child:Container(
+        margin: EdgeInsets.symmetric(vertical: 1, horizontal: 3),
+        height: 100,
+        width: 60,
+
+        child: Stack(
+
+          children: <Widget>[
+            if (current_position!=index)Align(
+                alignment: Alignment.bottomCenter,
+                child:Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+                        borderRadius:  BorderRadius.all( Radius.circular(10.0) ),
+                        color: (index==50)?Colors.indigo.withOpacity(.5):Colors.white30
+                    )
+
+                )
+            ),
+
+            Container(
+
+
+
+                decoration: BoxDecoration(
+                  // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+                    borderRadius:  BorderRadius.all( Radius.circular(10.0) ),
+                   color: (current_position==index)?Colors.white30:Colors.transparent
+                )
+
+
+            ),
+
+         Padding(
+              padding: EdgeInsets.all(4),
+
+              child:Align(
+
+                alignment: Alignment.center,
+                child: Text(
+                  formatter_date_builder.format(this_date),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+
+                      color: (index==50)?Colors.white70:Colors.white ,
+                      fontFamily: 'ZillaSlab',
+                      fontSize: 20,
+
+                      fontWeight: (index==50)?FontWeight.bold:FontWeight.w500),
+
+                ),),
+            ),
+
+            
+
+
+          ],
+        ),
+      ),),
+    );
+  }
 
 
 

@@ -7,10 +7,10 @@ class ReventModel {
   DateTime start_date;
   int event_id;
   int sun,mon,tue,wed,thu,fri,sat;
-
+  DateTime saved_ts;
   ReventModel(
       {this.id,
-
+        this.saved_ts,
         this.end_date,
         this.event_id,
         this.start_date,
@@ -26,7 +26,7 @@ class ReventModel {
   ReventModel.fromMap(Map<String, dynamic> map) {
     this.id = map['id'];
     this.event_id = map['event_id'];
-
+    this.saved_ts =DateTime.parse(map['saved_ts']);
     this.start_date = DateTime.parse(map['start_date']);
     this.end_date = DateTime.parse(map['end_date']);
     this.sun=map['sun'];
@@ -55,6 +55,7 @@ class ReventModel {
       'thu':this.thu,
       'fri':this.fri,
       'sat':this.sat,
+      'saved_ts':this.saved_ts.toIso8601String()
     };
   }
 

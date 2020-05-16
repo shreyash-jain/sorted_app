@@ -12,7 +12,7 @@ import 'package:notes/data/question.dart';
 import 'package:notes/data/theme.dart';
 import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/dashboard.dart';
-import 'package:notes/screens/edit.dart';
+import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/screens/home.dart';
 import 'package:notes/screens/view.dart';
 import 'package:notes/services/database.dart';

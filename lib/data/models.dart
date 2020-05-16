@@ -7,6 +7,10 @@ class NotesModel {
   bool isImportant;
   DateTime date;
   int book_id;
+  String c_summary;
+  String c_keywords;
+  double s_value;
+  DateTime saved_ts;
 
   NotesModel(
       {this.id,
@@ -14,6 +18,10 @@ class NotesModel {
         this.content,
         this.isImportant,
         this.date,
+        this.saved_ts,
+        this.c_keywords,
+        this.c_summary,
+        this.s_value,
         this.book_id});
 
   NotesModel.fromMap(Map<String, dynamic> map) {
@@ -23,6 +31,10 @@ class NotesModel {
     this.content = map['content'];
     this.date = DateTime.parse(map['date']);
     this.isImportant = map['isImportant'] == 1 ? true : false;
+    this.saved_ts =DateTime.parse(map['saved_ts']);
+    this.c_keywords=map['c_keywords'];
+    this.c_summary=map['c_summary'];
+    this.s_value=map['s_value'];
   }
 
   Map<String, dynamic> toMap() {
@@ -32,6 +44,10 @@ class NotesModel {
       'content': this.content,
       'book_id': this.book_id,
       'isImportant': this.isImportant == true ? 1 : 0,
+      'saved_ts':this.saved_ts.toIso8601String(),
+      'c_summary':this.c_summary,
+      'c_keywords':this.c_keywords,
+      's_value':this.s_value,
       'date': this.date.toIso8601String()
     };
   }

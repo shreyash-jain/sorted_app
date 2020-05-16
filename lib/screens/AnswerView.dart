@@ -69,11 +69,11 @@ import '../components/BluePainter.dart';
 Color primaryColor = Color.fromARGB(255, 58, 149, 255);
 final int id = 0;
 
-class EventView extends StatefulWidget {
+class AnswerView extends StatefulWidget {
   Function(Brightness brightness) changeTheme;
 
 
-  EventView(
+  AnswerView(
       {Key key,
       this.title,
       Function(Brightness brightness) changeTheme,
@@ -88,10 +88,10 @@ class EventView extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<EventView> {
+class _MyHomePageState extends State<AnswerView> {
   List<NoteBookModel> notebookList = [];
   bool isFlagOn = false;
- int current_position=50;
+ int current_position=100;
   static var formatter = new DateFormat('d MMMM, EEE');
   static DateTime TofillDate=DateTime.now();
   String formatted=formatter.format(TofillDate);
@@ -106,8 +106,10 @@ class _MyHomePageState extends State<EventView> {
   var formatter_date = new DateFormat('dd-MM-yyyy');
   var formatter_date_builder = new DateFormat('EEE\nd');
   HashMap hashMap_today = new HashMap<int, List<Todo>>();
-  ScrollController _controller = ScrollController(initialScrollOffset: 3180);
+  ScrollController _controller = ScrollController(initialScrollOffset: 6460);
   List<Todo> TodaytodoList = [];
+
+  int view_type=1;
   @override
   void initState() {
     super.initState();
@@ -360,7 +362,7 @@ class _MyHomePageState extends State<EventView> {
 
 
               background: Container(
-                padding: EdgeInsets.only(top:100,left:73),
+                padding: EdgeInsets.only(top:40,left:0),
                 child:FadeAnimation(1.6, Container(
 
                     child:Stack(children: <Widget>[
@@ -369,7 +371,7 @@ class _MyHomePageState extends State<EventView> {
                         child: Align(
                           alignment: Alignment.topCenter,
                           child:Icon(
-                            Icons.today,color: Theme.of(context).cardColor.withOpacity(.10),size: 300,
+                            OMIcons.edit,color: Theme.of(context).cardColor.withOpacity(.10),size: 270,
                           ),
                         ),
                       ),
@@ -378,25 +380,142 @@ class _MyHomePageState extends State<EventView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
 
                       children: <Widget>[
-
-
                         Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+
+                              Padding(padding: EdgeInsets.only(top:0),child:AnimatedContainer(
+                                  alignment: Alignment.center,
+                                  duration: Duration(milliseconds: 400),
+
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.indigo.withOpacity(.2), width: 1),
+                                      borderRadius:  BorderRadius.all( Radius.circular(30.0) ),
+                                      color: Theme.of(context).scaffoldBackgroundColor
+                                  ),
+                                  height:46,
+                                  width: 245,
+                                  child:Row(children: <Widget>[
+
+                          Container(
+
+                            decoration: BoxDecoration(
+
+                              boxShadow: [
+                                (view_type==1)? BoxShadow(
+                                    offset: Offset(4, 8),
+                                    color: Colors.black.withAlpha(50),
+                                    blurRadius: 16):BoxShadow(
+                                    offset: Offset(0, 8),
+                                    color: Colors.black.withAlpha(0),
+                                    blurRadius: 16)
+                              ],
+
+                            ),
+
+                            child:Padding(
+                              padding: EdgeInsets.only(left:0,),
+                              child: Align(
+
+                                alignment: Alignment.center,
+                                child:RaisedButton(
+                                  onPressed:(){
+                                    print("hello");
+
+                                    setState(() {
+                                      view_type=1;
+
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(30.0),
+
+                                  ),
+
+
+                                  color: (view_type==1)?Theme.of(context).cardColor:Colors.transparent,
+                                  elevation: 0,
+                                  padding: const EdgeInsets.all(12),
+                                  child: new Text(
+                                    "Date view",style: TextStyle(
+                                      fontFamily: 'ZillaSlab',
+                                      fontSize: 16,
+
+
+
+                                    ),
+                                  ),
+                                ),),),),
+                          Container(
+                            decoration: BoxDecoration(
+
+                              boxShadow: [
+                                (view_type==2)? BoxShadow(
+                                    offset: Offset(4, 8),
+                                    color: Colors.black.withAlpha(50),
+                                    blurRadius: 16):BoxShadow(
+                                    offset: Offset(0, 8),
+                                    color: Colors.black.withAlpha(0),
+                                    blurRadius: 16)
+                              ],
+
+                            ),
+
+                            child:Padding(
+                              padding: EdgeInsets.only(right:0,left: 2),
+                              child: Align(
+
+                                alignment: Alignment.center,
+                                child:RaisedButton(
+                                  onPressed:(){
+                                    setState(() {
+                                      view_type=2;
+
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(30.0),
+
+                                  ),
+
+
+                                  color: (view_type==2)?Theme.of(context).cardColor:Colors.transparent,
+
+                                  elevation: 0,
+                                  padding: const EdgeInsets.all(12),
+                                  child: new Text(
+                                    "Question view",style: TextStyle(
+                                      fontFamily: 'ZillaSlab',
+                                      fontSize: 16,
+
+
+
+                                      ),
+                                  ),
+                                ),),),)
+                        ],))),]),
+
+
+                        SizedBox(height: 10,),
+                        Padding(
+                            padding: EdgeInsets.only(left:73),
+                            child:Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
 
 
 
-                            Text("My\nTimetable",style: TextStyle(
+                            Text("My\nAnswers",style: TextStyle(
                                 fontFamily: 'ZillaSlab',
                                 fontSize: 32.0,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black54
                             ),
                               textAlign: TextAlign.left,),
-                          ],),
-                        if (current_position==50)Padding(
-                          padding: EdgeInsets.only(top: 6),
+                          ],)),
+                        if (current_position==100)Padding(
+                          padding: EdgeInsets.only(top: 6,left:73),
                           child:
                           Text("Today",style: TextStyle(
                               fontFamily: 'ZillaSlab',
@@ -405,8 +524,8 @@ class _MyHomePageState extends State<EventView> {
                               color: Colors.white60
                           ),
                             textAlign: TextAlign.left,),),
-                        if (current_position==51)Padding(
-                          padding: EdgeInsets.only(top: 6),
+                        if (current_position==101)Padding(
+                          padding: EdgeInsets.only(top: 6,left:73),
                           child:
                           Text("Tomorrow",style: TextStyle(
                               fontFamily: 'ZillaSlab',
@@ -415,8 +534,8 @@ class _MyHomePageState extends State<EventView> {
                               color: Colors.white60
                           ),
                             textAlign: TextAlign.left,),),
-                        if (current_position==49)Padding(
-                          padding: EdgeInsets.only(top: 6),
+                        if (current_position==99)Padding(
+                          padding: EdgeInsets.only(top: 6,left:73),
                           child:
                           Text("Yesterday",style: TextStyle(
                               fontFamily: 'ZillaSlab',
@@ -463,10 +582,58 @@ class _MyHomePageState extends State<EventView> {
         },
         child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
-          child: ListView(
+          child: MediaQuery.removePadding(
+    removeTop: true,
+    context: context, child:ListView(
 
             children: <Widget>[
 
+              Stack(children: <Widget>[
+
+
+                Padding(
+                  padding :EdgeInsets.only(left:60,top:10),
+                  child:Text("GO TO A DATE",style: TextStyle(
+                      fontFamily: 'ZillaSlab',
+                      fontSize: 26,
+                      color:Colors.grey.withOpacity(.6),
+
+
+                  ),
+                    textAlign: TextAlign.left,),),
+
+
+            Container(
+              margin: EdgeInsets.only(left:310,top: 4),
+              width: 36,
+              height: 36,
+
+              decoration:
+              new BoxDecoration(
+                borderRadius: new BorderRadius.all(  Radius.circular(60.0)),
+              //  border: Border.all(color: Colors.grey.shade400, width: 2),
+
+              ),
+              child:Padding(
+                  padding :EdgeInsets.only(left:0,top:4),
+                  child:Icon(OMIcons.navigateNext,size: 40,color: Colors.grey.withOpacity(.6),),)),
+                Container(
+                    margin: EdgeInsets.only(left:320,top: 4),
+                    width: 36,
+                    height: 36,
+
+                    decoration:
+                    new BoxDecoration(
+                      borderRadius: new BorderRadius.all(  Radius.circular(60.0)),
+                      //  border: Border.all(color: Colors.grey.shade400, width: 2),
+
+                    ),
+                    child:Padding(
+                      padding :EdgeInsets.only(left:0,top:4),
+                      child:Icon(OMIcons.navigateNext,size: 40,color: Colors.grey.withOpacity(.4),),)),
+
+              ],),
+              Container(height: 10),
               buildHeaderWidget(context),
 
 
@@ -475,7 +642,7 @@ class _MyHomePageState extends State<EventView> {
 
               Container(height: 100)
             ],
-          ),
+          )),
 
 
         ),
@@ -661,13 +828,13 @@ class _MyHomePageState extends State<EventView> {
               padding: EdgeInsets.only(left: 10),
               child:ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 100 ,
+                itemCount: 200 ,
               controller: _controller,
                 itemBuilder: (BuildContext context, int index) {
 
                   return _buildActivityCard(
                       index,
-                      today.add(Duration(days: index-50))
+                      today.add(Duration(days: index-100))
                   );
 
                 }
@@ -730,7 +897,7 @@ class _MyHomePageState extends State<EventView> {
                     decoration: BoxDecoration(
                       // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
                         borderRadius:  BorderRadius.all( Radius.circular(10.0) ),
-                        color: (index==50)?Colors.indigo.withOpacity(.5):Colors.white30
+                        color: (index==100)?Colors.indigo.withOpacity(.5):Colors.white30
                     )
 
                 )
@@ -764,7 +931,7 @@ class _MyHomePageState extends State<EventView> {
                       fontFamily: 'ZillaSlab',
                       fontSize: 20,
 
-                      fontWeight: (index==50)?FontWeight.bold:FontWeight.w500),
+                      fontWeight: (index==100)?FontWeight.bold:FontWeight.w500),
 
                 ),),
             ),

@@ -5,11 +5,13 @@ import 'package:notes/data/activity.dart';
 import 'package:notes/data/eCat.dart';
 import 'package:notes/data/notebook.dart';
 import 'package:notes/data/question.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notes/data/user_activity.dart';
 import 'package:notes/screens/onboard.dart';
 import 'package:notes/screens/introduction.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/screens/todo_screen.dart';
+import 'package:notes/services/auth.dart';
 import 'package:notes/services/database.dart';
 import 'package:notes/services/service_locator.dart';
 import 'package:notes/services/sharedPref.dart';
@@ -23,8 +25,10 @@ SharedPreferences prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
+  bool biometric = prefs.getBool('biometric');
+  if (biometric==null) biometric=false;
   setupLocator();
-  runApp(new MyApp(true));
+  runApp(new MyApp(biometric));
 }
 
 class MyApp extends StatefulWidget {
@@ -127,7 +131,41 @@ class _MyAppState extends State<MyApp> {
 
 
     if((!widget.check_biometric && (firstTime != null && !firstTime))||(widget.check_biometric && _authorized=='Authorized' && (firstTime != null && !firstTime))) {
-      return MyHomePage(title: 'Home',changeTheme: setTheme);
+      return
+      StreamBuilder(
+          stream: authService.user,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final Firestore _db = Firestore.instance;
+              DocumentReference ref = _db.collection('users').document(snapshot.data.uid).collection("user_data").document("data");
+
+
+               ref.setData({
+
+                'lastSeen': DateTime.now()
+              }, merge: true);
+              return MyHomePage(title: 'Home',changeTheme: setTheme);
+            }else if (firstTime==null || snapshot.hasData==false) return OnboardingScreen();
+            else {
+              return Scaffold(
+                backgroundColor: Theme.of(context).primaryColor,
+                body: Align(
+                    alignment: Alignment.topCenter,
+                    child:Padding(
+                      padding: EdgeInsets.all(80),
+                      child:Text("Stay Sorted",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 36.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+
+
+                      )),
+                    )
+                ),
+              );
+            }
+          });
     }
 
     else if (firstTime==null) return OnboardingScreen();
@@ -178,6 +216,7 @@ class _MyAppState extends State<MyApp> {
     }
     //
     else {
+      prefs.setBool('biometric',false);
       prefs.setBool('first_main', false);
       firstmain = prefs.getBool('first_main');
       var notebooks=await NotesDatabaseService.db.getNotebookFromDB();

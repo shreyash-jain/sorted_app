@@ -6,7 +6,8 @@ class ExpenseModel {
   int id;
   String title;
   String content;
-
+  DateTime saved_ts;
+  int date_id;
   DateTime date;
   int cat_id;
   int friend_id;
@@ -15,8 +16,10 @@ class ExpenseModel {
   ExpenseModel(
       {this.id,
         this.title,
+        this.date_id,
         this.type,
         this.friend_id,
+        this.saved_ts,
         this.content,
         this.money,
         this.date,
@@ -27,25 +30,29 @@ class ExpenseModel {
     this.id = map['id'];
     this.cat_id = map['cat_id'];
     this.title = map['title'];
+    this.date_id =map['date_id'];
     this.content = map['content'];
-    this.date = formatter.parse(map['date']);
+    this.date = DateTime.parse(map['date']);
    this.type=map['type'];
    this.friend_id=map['friend_id'];
    this.money=map['money'];
+    this.saved_ts =DateTime.parse(map['saved_ts']);
   }
 
   Map<String, dynamic> toMap() {
-    var formatter = new DateFormat('dd-MM-yyyy');
-    String formatted_date = formatter.format(this.date);
+
+
     return <String, dynamic>{
       'id': this.id,
       'title': this.title,
       'content': this.content,
       'cat_id': this.cat_id,
+      'date_id':this.date_id,
       'money': this.money,
       'friend_id': this.friend_id,
       'type': this.type,
-      'date': formatted_date
+      'date': this.date.toIso8601String(),
+      'saved_ts':this.saved_ts.toIso8601String()
     };
   }
 

@@ -6,10 +6,11 @@ class AlogModel {
   DateTime date;
   int a_id;
   int duration;
-
+  DateTime saved_ts;
   AlogModel(
       {this.id,
        this.duration,
+        this.saved_ts,
         this.date,
         this.a_id});
 
@@ -18,6 +19,7 @@ class AlogModel {
     this.a_id = map['a_id'];
     this.duration=map['duration'];
     this.date = DateTime.parse(map['date']);
+    this.saved_ts =DateTime.parse(map['saved_ts']);
 
   }
 
@@ -26,7 +28,7 @@ class AlogModel {
       'id': this.id,
      'duration':this.duration,
       'a_id': this.a_id,
-
+      'saved_ts':this.saved_ts.toIso8601String(),
       'date': this.date.toIso8601String()
     };
   }

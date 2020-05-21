@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:notes/components/faderoute.dart';
 import 'package:notes/data/theme.dart';
+import 'package:notes/main.dart';
 import 'package:notes/screens/introduction.dart';
+import 'package:notes/services/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -35,11 +37,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
     scaleController = AnimationController(
         vsync: this,
         duration: Duration(seconds: 1)
-    )..addStatusListener((status) {
+    )..addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
+
+        await authService.googleSignIn();
+
+
+
         Navigator.of(context).pop();
         Navigator.push(context,
             FadeRoute(page: IntroductionScreen(),));
+
 
       }
     });

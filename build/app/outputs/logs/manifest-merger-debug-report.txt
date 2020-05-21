@@ -21,6 +21,7 @@ MERGED from [:firebase_auth_web] C:\Users\Shreyash\Documents\sorted_app\build\fi
 MERGED from [:local_auth] C:\Users\Shreyash\Documents\sorted_app\build\local_auth\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences] C:\Users\Shreyash\Documents\sorted_app\build\shared_preferences\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_keyboard_visibility] C:\Users\Shreyash\Documents\sorted_app\build\flutter_keyboard_visibility\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
+MERGED from [:device_info] C:\Users\Shreyash\Documents\sorted_app\build\device_info\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 MERGED from [:share] C:\Users\Shreyash\Documents\sorted_app\build\share\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 MERGED from [:moor_ffi] C:\Users\Shreyash\Documents\sorted_app\build\moor_ffi\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-9:12
 MERGED from [:google_sign_in_web] C:\Users\Shreyash\Documents\sorted_app\build\google_sign_in_web\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
@@ -293,6 +294,8 @@ MERGED from [:shared_preferences] C:\Users\Shreyash\Documents\sorted_app\build\s
 MERGED from [:shared_preferences] C:\Users\Shreyash\Documents\sorted_app\build\shared_preferences\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_keyboard_visibility] C:\Users\Shreyash\Documents\sorted_app\build\flutter_keyboard_visibility\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_keyboard_visibility] C:\Users\Shreyash\Documents\sorted_app\build\flutter_keyboard_visibility\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:device_info] C:\Users\Shreyash\Documents\sorted_app\build\device_info\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:device_info] C:\Users\Shreyash\Documents\sorted_app\build\device_info\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:share] C:\Users\Shreyash\Documents\sorted_app\build\share\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:share] C:\Users\Shreyash\Documents\sorted_app\build\share\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:moor_ffi] C:\Users\Shreyash\Documents\sorted_app\build\moor_ffi\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-44

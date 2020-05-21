@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:notes/services/auth.dart';
+import 'package:notes/services/database.dart';
 import 'package:notes/services/sharedPref.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +24,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   String selectedTheme;
   SharedPreferences prefs;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   FocusNode BudgetFocus = FocusNode();
   TextEditingController BudgetTitle = TextEditingController();
   int selected_currency=1;
@@ -260,7 +263,12 @@ class _SettingsPageState extends State<SettingsPage> {
                         height:10,
                       ),
                 MaterialButton(
-                  onPressed: () => authService.signOut(),
+                  onPressed: () async {
+                    NotesDatabaseService.db.cleanDatabase();
+                  FirebaseUser user = await _auth.currentUser();
+                    authService.signOut(user);
+
+                    },
                   color: Colors.red.withOpacity(.8),
                   shape: RoundedRectangleBorder(
 

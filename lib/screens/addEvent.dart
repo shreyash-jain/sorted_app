@@ -235,7 +235,7 @@ class _AddEventPageState extends State<AddEventPage>
   @override
   void dispose() {
     icon_controller.dispose();
-    _timer.cancel();
+   // _timer.cancel();
     _pageController.dispose();
 
     super.dispose();

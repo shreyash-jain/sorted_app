@@ -57,11 +57,11 @@ class _ViewNotePageState extends State<ViewNotePage> {
       height = height + (20 * (lines - 10)) + 50;
     }
     final document = _loadDocument();
-    _loadDocument().then((document) {
+
       setState(() {
         _controller = ZefyrController(document);
       });
-    });
+
     _focusNode = FocusNode();
   }
 
@@ -311,7 +311,7 @@ class _ViewNotePageState extends State<ViewNotePage> {
         });
   }
 
-  Future<NotusDocument> _loadDocument() async {
+ NotusDocument _loadDocument()  {
     return NotusDocument.fromJson(jsonDecode(widget.currentNote.content));
   }
 

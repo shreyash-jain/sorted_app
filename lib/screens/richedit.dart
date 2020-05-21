@@ -76,11 +76,11 @@ class EditorPageState extends State<EditorPage> {
     title_text = currentNote.title;
     titleController.text = currentNote.title;
     final document = _loadDocument();
-    _loadDocument().then((document) {
+
       setState(() {
         _controller = ZefyrController(document);
       });
-    });
+
     _focusNode = FocusNode();
   }
   LoadNotebooks() async {
@@ -248,7 +248,7 @@ class EditorPageState extends State<EditorPage> {
 
   });});}
 
-  Future<NotusDocument> _loadDocument() async {
+ NotusDocument _loadDocument()  {
     if (currentNote.content.trim() == "") {
       final Delta delta = Delta()..insert("\n");
       return NotusDocument.fromDelta(delta);

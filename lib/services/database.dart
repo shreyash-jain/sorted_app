@@ -1,5 +1,11 @@
 
 
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:notes/data/answer.dart';
 import 'package:notes/data/date.dart';
@@ -16,16 +22,48 @@ import 'package:notes/data/activity.dart';
 import 'package:notes/data/user_activity.dart';
 import 'package:notes/data/activityLog.dart';
 import 'package:notes/data/todo.dart';
+import 'package:notes/services/auth.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rxdart/src/observables/observable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_porter/utils/csv_utils.dart';
 import '../data/models.dart';
 import 'dart:io';
 final todoTABLE = 'Todo';
+
+List<String> tables=[
+  "Todo",
+  "Dates",
+  "Events",
+  "Revents",
+  "Expenses",
+  "Friends",
+  "Cats",
+  "Activity",
+  "User_Activity",
+  "Alog",
+  "Timelines",
+  "Notes",
+  "Notebooks",
+  "Questions",
+  "Answers",
+  "Reminders"
+
+
+
+
+
+];
+
 class NotesDatabaseService {
   String path;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Firestore _fireDB = Firestore.instance;
+ final FirebaseDatabase fbDB= FirebaseDatabase.instance;
+  final _random = new Random();
 
+  Batch batch;
   NotesDatabaseService._();
 
   static final NotesDatabaseService db = NotesDatabaseService
@@ -71,6 +109,7 @@ class NotesDatabaseService {
           "ImageUrl TEXT, "
           "a_rating DOUBLE, "
           "p_rating DOUBLE, "
+
           "l_streak INTEGER, "
           "l_interval INTEGER, "
           "c_streak INTEGER, "
@@ -152,7 +191,7 @@ class NotesDatabaseService {
           '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, saved_ts TEXT,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
       print('New table created at 3 $path');
          await db.execute(
-          '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY, saved_ts TEXT, c_summary TEXT,c_keywords TEXT,p_rating DOUBLE,p_ans INTEGER,  q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,a_rating DOUBLE,discription TEXT);''');
+          '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY, date_id INTEGER, saved_ts TEXT, c_summary TEXT,c_keywords TEXT,p_rating DOUBLE,p_ans INTEGER,  q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,a_rating DOUBLE,discription TEXT);''');
       print('New table created at 4 $path');
       await db.execute(
           '''CREATE TABLE Reminders (_id INTEGER PRIMARY KEY, saved_ts TEXT,note_id INTEGER, type INTEGER,content TEXT, date TEXT);''');
@@ -162,13 +201,50 @@ class NotesDatabaseService {
   }
 
 
+  Stream<double> GetCloudData() async* {
+    yield (0);
+    FirebaseUser user = await _auth.currentUser();
+    final db = await database;
+    batch = db.batch();
+    double progress=0;
+    for (int i=0;i<tables.length;i++){
+      QuerySnapshot snapShot = await _fireDB.collection('users').document(user.uid).collection(tables[i]).getDocuments();
+      if (snapShot != null && snapShot.documents.length!=0){
+
+
+        final List<DocumentSnapshot> documents = snapShot.documents;
+
+        for (int j=0;j<documents.length;j++){
+
+
+          batch.insert((tables[i]),documents[j].data);
+
+
+        }
+        progress+=(.5/tables.length);
+        yield(progress);
+
+      }
+
+
+
+
+    }
+    await batch.commit(noResult: true);
+
+
+
+    yield (1);
+
+
+  }
   Future<List<NotesModel>> getNotesFromDB(int id) async {
     final db = await database;
     List<NotesModel> notesList = [];
     String strId = id.toString();
     List<Map> maps = await db.query('Notes',
         where: "book_id=" + strId,
-        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant' , 'saved_ts' , 'c_keywords' , 'c_summary' , 's_map']);
+        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant' , 'saved_ts' , 'c_keywords' , 'c_summary' , 's_value']);
     if (maps.length > 0) {
       maps.forEach((map) {
         notesList.add(NotesModel.fromMap(map));
@@ -176,7 +252,7 @@ class NotesDatabaseService {
     }
     for (var i = 0; i < notesList.length; i++) {
       print("idhar" + notesList[i].content);
-      notesList[i].content = notesList[i].content.replaceAll("'", '"');
+      notesList[i].content = notesList[i].content.replaceAll("*%", '"');
     }
     return notesList;
   }
@@ -186,7 +262,7 @@ class NotesDatabaseService {
     String strId = id.toString();
     List<Map> maps = await db.query('Notes',
         where: "_id=" + strId,
-        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant', 'saved_ts' , 'c_keywords' , 'c_summary' , 's_map']);
+        columns: ['_id', 'title', 'book_id', 'content', 'date', 'isImportant', 'saved_ts' , 'c_keywords' , 'c_summary' , 's_value']);
     if (maps.length > 0) {
       maps.forEach((map) {
         notesList.add(NotesModel.fromMap(map));
@@ -194,11 +270,86 @@ class NotesDatabaseService {
     }
     for (var i = 0; i < notesList.length; i++) {
       print("idhar" + notesList[i].content);
-      notesList[i].content = notesList[i].content.replaceAll("'", '"');
+      notesList[i].content = notesList[i].content.replaceAll("*%", '"');
     }
     return notesList[0];
   }
 
+
+  Future<int> getCloudId() async {
+
+    FirebaseUser user = await _auth.currentUser();
+    int ans=0;
+    DocumentReference document = _fireDB.collection('users').document(user.uid).collection("user_data").document("data");
+
+    await document.get().then((value) {
+      print(value.data.containsKey("signInId").toString());
+      print(value.data['signInId']);
+      ans=value.data['signInId'];
+      return ans;
+
+
+    });
+    return ans;
+
+  }
+
+
+  int next(int min, int max) => min + _random.nextInt(max - min);
+  Future<int> makeSingleSignIn() async {
+    FirebaseUser user = await _auth.currentUser();
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("user_data").document("data");
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String deviceName="";
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      print('Running on ${androidInfo.model}');
+
+      deviceName=androidInfo.model;
+    }
+
+    else {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      print('Running on ${iosInfo.utsname.machine}');  //
+      deviceName=iosInfo.utsname.machine;    }
+    int deviceId=next(1,4294967290);
+    try {
+      ref.setData({
+        'signInId': deviceId,
+        'deviceName': deviceName,
+
+      }, merge: true);
+
+     // await prefs.setInt('signInId', deviceId);
+    }
+
+
+    catch (error) {
+      print("hello is there");// executed for errors of all types other than Exception
+    }
+
+    return deviceId;
+  }
+  Future<String> getCloudDevice() async {
+
+    FirebaseUser user = await _auth.currentUser();
+    DocumentReference document =  _fireDB.collection('users').document(user.uid).collection("user_data").document("data");
+
+    String ans;
+    await document.get().then((value) {
+      print(value.data.containsKey("deviceName").toString());
+      print(value.data['deviceName']);
+      ans=value.data['deviceName'];
+      return ans;
+
+
+    }
+
+    );
+
+    return ans;
+
+  }
   Future<List<NotesModel>> getAllNotesFromDB() async {
     final db = await database;
     List<NotesModel> notesList = [];
@@ -214,7 +365,7 @@ class NotesDatabaseService {
     }
     for (var i = 0; i < notesList.length; i++) {
       print("idhar" + notesList[i].content);
-      notesList[i].content = notesList[i].content.replaceAll("'", '"');
+      notesList[i].content = notesList[i].content.replaceAll("*%", '"');
     }
     return notesList;
   }
@@ -676,12 +827,27 @@ print(text);
     if (newQues.l_streak==null)newQues.l_streak=0;
     if (newQues.l_interval==null)newQues.l_interval=0;
     if (!newQues.title.trim().isEmpty) {
-      int id = await db.transaction((transaction) {
-        transaction.rawInsert(
+     await db.transaction((transaction) async {
+        int id = await transaction.rawInsert(
             'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight,c_streak,l_streak,l_interval,v_streak,saved_ts,showDashboard) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight}, ${newQues.c_streak},${newQues.l_streak},${newQues.l_interval},"${newQues.v_streak}","${newQues.saved_ts.toIso8601String()}",${newQues.showDashboard});');
-      });
-      print("insert Question with id: " + id.toString());
-      newQues.id = id;
+        print("insert Question with id: " + id.toString());
+        newQues.id = id;
+        FirebaseUser user = await _auth.currentUser();
+
+        DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Questions").document(newQues.id.toString());
+
+
+        ref.setData(newQues.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+          print("nhi chala\n"),print("hello")
+        }).timeout(Duration(seconds: 2),onTimeout:() {
+
+          //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+          print("timeout nhi chala\n");
+        });
+
+     });
+
       return newQues;
     }
   }
@@ -692,12 +858,27 @@ print(text);
     print(newTimeline.title);
     if (!newTimeline.title.trim().isEmpty) {
       print("mello");
-      int id = await db.transaction((transaction) {
-        transaction.rawInsert(
+      await db.transaction((transaction) async {
+        int id = await transaction.rawInsert(
             'INSERT into Timelines(title, content, status, date, saved_ts) VALUES ("${newTimeline.title}","${newTimeline.content}", ${newTimeline.status},"${newTimeline.date.toIso8601String()}",${newTimeline.saved_ts.toIso8601String()}");');
+        print("insert Timeline with id: " + id.toString());
+        newTimeline.id = id;
+        FirebaseUser user = await _auth.currentUser();
+
+        DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Timelines").document(newTimeline.id.toString());
+
+
+        ref.setData(newTimeline.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+          print("nhi chala\n"),print("hello")
+        }).timeout(Duration(seconds: 2),onTimeout:() {
+
+          //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+          print("timeout nhi chala\n");
+        });
+
       });
-      print("insert Timeline with id: " + id.toString());
-      newTimeline.id = id;
+
       return newTimeline;
     }
     return newTimeline;
@@ -706,12 +887,29 @@ print(text);
   Future<ReminderModel> addReminderInDB(ReminderModel newRem) async {
     final db = await database;
     if (newRem.saved_ts==null)newRem.saved_ts=DateTime.now();
-    int id = await db.transaction((transaction) {
-      transaction.rawInsert(
+    await db.transaction((transaction) async {
+      int id= await transaction.rawInsert(
           'INSERT into Reminders(note_id, type, content, date, saved_ts) VALUES ("${newRem.note_id}",${newRem.type}, "${newRem.content}","${newRem.date.toIso8601String()}","${newRem.saved_ts.toIso8601String()}");');
+
+
+      print("insert Reminder with id: " + id.toString());
+      newRem.id = id;
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Reminders").document(newRem.id.toString());
+
+
+      ref.setData(newRem.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
     });
-    print("insert Reminder with id: " + id.toString());
-    newRem.id = id;
+
     return newRem;
   }
 
@@ -722,23 +920,53 @@ print(text);
     if (newAns.c_summary==null)newAns.c_summary="";
     if (newAns.p_rating==null)newAns.p_rating=0;
     if (newAns.p_ans==null)newAns.p_ans=0;
-    int id = await db.transaction((transaction) {
-      transaction.rawInsert(
+    await db.transaction((transaction) async {
+      int id=await transaction.rawInsert(
           'INSERT into Answers(q_id, a_rating, response1,response2,response3,content,date,discription,c_summary,c_keywords,p_ans,p_rating,saved_ts) VALUES ("${newAns.q_id}","${newAns.a_rating}", "${newAns.res1}", "${newAns.res2}", ${newAns.res3},"${newAns.content}","${newAns.date.toIso8601String()}","${newAns.discription}","${newAns.c_summary}","${newAns.c_keywords}", ${newAns.p_ans},${newAns.p_rating},"${newAns.saved_ts.toIso8601String()}");');
+      newAns.id = id;
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Answers").document(newAns.id.toString());
+
+
+      ref.setData(newAns.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
     });
     print("going in "+ newAns.content);
-    newAns.id = id;
+
     return newAns;
   }
   Future<AlogModel> addActivityLogInDB(AlogModel newAns) async {
     final db = await database;
     if (newAns.saved_ts==null)newAns.saved_ts=DateTime.now();
-    int id = await db.transaction((transaction) {
-      transaction.rawInsert(
+    await db.transaction((transaction) async{
+      int id= await transaction.rawInsert(
           'INSERT into Alog(a_id, duration, date, saved_ts ) VALUES (${newAns.a_id},${newAns.duration},  "${newAns.date.toIso8601String()}", "${newAns.saved_ts.toIso8601String()}");');
+      newAns.id = id;
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Alog").document(newAns.id.toString());
+
+
+      ref.setData(newAns.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
     });
 
-    newAns.id = id;
+
     return newAns;
   }
 
@@ -768,15 +996,32 @@ print(text);
     if (newNote.saved_ts==null)newNote.saved_ts=DateTime.now();
     if (newNote.title.trim().isEmpty) newNote.title = 'Untitled Notebook';
     newNote.notes_num = 0;
-    int id = await db.transaction((transaction) {
-      transaction.rawInsert(
-          'INSERT into Notebooks(title, notes_num, date, isImportant, saved_ts) VALUES ("${newNote.title}", "${newNote.notes_num}", "${newNote.date.toIso8601String()}",${newNote.isImportant == true ? 1 : 0},"${newNote.saved_ts.toIso8601String()}"),;');
+    await db.transaction((transaction) async {
+      int id = await transaction.rawInsert(
+          'INSERT into Notebooks(title, notes_num, date, isImportant, saved_ts) VALUES ("${newNote.title}", "${newNote.notes_num}", "${newNote.date.toIso8601String()}",${newNote.isImportant == true ? 1 : 0},"${newNote.saved_ts.toIso8601String()}");');
+      newNote.id = id;
+      print('Notebook added id: ' + id.toString());
+      print('Notebook added: ${newNote.title} ${newNote.notes_num}');
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Notebooks").document(newNote.id.toString());
+
+
+      ref.setData(newNote.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
+
+      return newNote;
     });
-    newNote.id = id;
-    print('Notebook added id: ' + id.toString());
-    print('Notebook added: ${newNote.title} ${newNote.notes_num}');
-    return newNote;
   }
+
+
   Future<DateModel> getDateByDateFromDB(String query) async {
     print(query);
     final db = await database;
@@ -843,9 +1088,22 @@ print(text);
 
   updateNoteInDB(NotesModel updatedNote) async {
     final db = await database;
-    updatedNote.content = updatedNote.content.replaceAll('"', "\'");
+    updatedNote.content = updatedNote.content.replaceAll('"', "\*%");
     await db.update('Notes', updatedNote.toMap(),
         where: '_id = ?', whereArgs: [updatedNote.id]);
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Notes").document(updatedNote.id.toString());
+
+
+    ref.setData(updatedNote.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
     print('Note updated: ${updatedNote.title} ${updatedNote.content}');
     print('Note updated: ${updatedNote.title} ${updatedNote.content}');
   }
@@ -854,6 +1112,19 @@ print(text);
 
     await db.update('Timelines', updatedTimeline.toMap(),
         where: 'id = ?', whereArgs: [updatedTimeline.id]);
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Timelines").document(updatedTimeline.id.toString());
+
+
+    ref.setData(updatedTimeline.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
 
   }
   updateAnswerInDB(AnswerModel updatedTimeline) async {
@@ -861,6 +1132,19 @@ print(text);
 
     await db.update('Answers', updatedTimeline.toMap(),
         where: 'id = ?', whereArgs: [updatedTimeline.id]);
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Answers").document(updatedTimeline.id.toString());
+
+
+    ref.setData(updatedTimeline.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
 
   }
   updateQuestionInDB(QuestionModel updatedQues) async {
@@ -868,6 +1152,19 @@ print(text);
 
     await db.update('Questions', updatedQues.toMap(),
         where: '_id = ?', whereArgs: [updatedQues.id]);
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Questions").document(updatedQues.id.toString());
+
+
+    ref.setData(updatedQues.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
 
   }
 
@@ -876,6 +1173,19 @@ print(text);
 
     await db.update('Expenses', updatedExpense.toMap(),
         where: 'id = ?', whereArgs: [updatedExpense.id]);
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Expenses").document(updatedExpense.id.toString());
+
+
+    ref.setData(updatedExpense.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
 
   }
 
@@ -884,6 +1194,20 @@ print(text);
 
     await db.update('Revents', updatedQues.toMap(),
         where: 'id = ?', whereArgs: [updatedQues.id]);
+
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Revents").document(updatedQues.id.toString());
+
+
+    ref.setData(updatedQues.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
     print("updated revent "+ updatedQues.id.toString() +" sun -> "+updatedQues.sun.toString()+" "+updatedQues.mon.toString()+" "+updatedQues.tue.toString()+" "+updatedQues.wed.toString()+" "+updatedQues.thu.toString()+" "+updatedQues.fri.toString()+" "+updatedQues.sat.toString());
 
   }
@@ -892,6 +1216,19 @@ print(text);
     final db = await database;
     await db.update('Dates', updatedDate.toMap(),
         where: 'id = ?', whereArgs: [updatedDate.id]);
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Dates").document(updatedDate.id.toString());
+
+
+    ref.setData(updatedDate.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
     print('Date updated ');
   }
   updateEventInDB(EventModel updatedEvent) async {
@@ -899,12 +1236,26 @@ print(text);
     await db.update('Events', updatedEvent.toMap(),
 
         where: 'id = ?', whereArgs: [updatedEvent.id]);
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Events").document(updatedEvent.id.toString());
+
+
+    ref.setData(updatedEvent.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
     print('Event updated: ${updatedEvent.title} ${updatedEvent.content}');
   }
 
   deleteNoteInDB(NotesModel noteToDelete) async {
     final db = await database;
     await db.delete('Notes', where: '_id = ?', whereArgs: [noteToDelete.id]);
+
     print('Note deleted');
   }
   deleteTimelineInDB(TimelineModel timelineToDelete) async {
@@ -931,15 +1282,43 @@ print(text);
     if(newNote.c_keywords==null)newNote.c_keywords="0";
     if(newNote.saved_ts==null)newNote.saved_ts=DateTime.now();
     if (newNote.title.trim().isEmpty) newNote.title = 'Note without name';
-    newNote.content = newNote.content.replaceAll('"', "\'");
+    newNote.content = newNote.content.replaceAll('"', "\*%");
     print("replaced : " + newNote.content);
-    int id = await db.transaction((transaction) {
-      transaction.rawInsert(
+    await db.transaction((transaction)async {
+      int id=await transaction.rawInsert(
           'INSERT into Notes(title, book_id, content, date, isImportant,saved_ts,c_keywords,c_summary,s_value) VALUES ("${newNote.title}","${newNote.book_id}", "${newNote.content}", "${newNote.date.toIso8601String()}", ${newNote.isImportant == true ? 1 : 0},"${newNote.saved_ts.toIso8601String()}","${newNote.c_summary}","${newNote.c_keywords}",${newNote.s_value});');
+
+      newNote.id = id;
+      print('Note added: ${newNote.title} ${newNote.content}');
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Notes").document(newNote.id.toString());
+
+
+      ref.setData(newNote.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+      return newNote;
     });
-    newNote.id = id;
-    print('Note added: ${newNote.title} ${newNote.content}');
-    return newNote;
+
+  }
+  Future<int> fun1() async {
+    final db = await database;
+    await db.transaction((txn) async {
+      int id1 = await txn.rawInsert(
+          'INSERT INTO Test(name, value, num) VALUES("some name", 1234, 456.789)');
+      print('inserted1: $id1');
+      int id2 = await txn.rawInsert(
+          'INSERT INTO Test(name, value, num) VALUES(?, ?, ?)',
+          ['another name', 12345678, 3.1416]);
+      print('inserted2: $id2');
+      return id1;
+    });
   }
   Future<ExpenseModel> addExpense(ExpenseModel newExpense) async{
     final db = await database;
@@ -951,6 +1330,20 @@ print(text);
           'INSERT into Expenses(title, type, content, money, date, cat_id, saved_ts,friend_id,date_id) VALUES ("${newExpense.title}",${newExpense.type} , "${newExpense.content}", ${newExpense.money},"${newExpense.date.toIso8601String()}", ${newExpense.cat_id},"${newExpense.saved_ts.toIso8601String()}", ${newExpense.friend_id},${newExpense.date_id} );');
       newExpense.id = id;
       print('Expense added: ${id}');
+
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Expenses").document(newExpense.id.toString());
+
+
+      ref.setData(newExpense.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
     });
     return newExpense;
   }
@@ -964,8 +1357,23 @@ print(text);
           'INSERT into Cats (name, image, total,saved_ts) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.total},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Cats").document(newActivity.id.toString());
+
+
+      ref.setData(newActivity.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
+      return newActivity;
     });
-    return newActivity;
+
   }
   Future<FriendModel> addFriend(FriendModel newActivity) async{
     final db = await database;
@@ -977,8 +1385,24 @@ print(text);
           'INSERT into Friends (name,  total, saved_ts) VALUES ("${newActivity.name}" , ${newActivity.total},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
+
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Friends").document(newActivity.id.toString());
+
+
+      ref.setData(newActivity.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
+      return newActivity;
     });
-    return newActivity;
+
   }
   Future<ActivityModel> addActivity(ActivityModel newActivity) async{
     final db = await database;
@@ -990,8 +1414,22 @@ print(text);
           'INSERT into Activity(name, image, weight,saved_ts) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.weight},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Activity").document(newActivity.id.toString());
+
+
+      ref.setData(newActivity.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+      return newActivity;
     });
-    return newActivity;
+
   }
   Future<UserAModel> addUserActivity(UserAModel newActivity) async{
     final db = await database;
@@ -1003,6 +1441,20 @@ print(text);
           'INSERT into User_Activity(name, image, a_id,saved_ts) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.a_id},"${newActivity.saved_ts.toIso8601String()}");');
       newActivity.id = id;
       print('Activity added: ${id}');
+
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("User_Activity").document(newActivity.id.toString());
+
+
+      ref.setData(newActivity.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
     });
     return newActivity;
   }
@@ -1024,6 +1476,19 @@ print(text);
           'INSERT into Dates(time_start, time_end, date, survey, ImageUrl, dayName, p_rating, a_rating, c_streak, l_streak, l_interval, saved_ts) VALUES ("${newDate.time_start.toIso8601String()}","${newDate.time_end.toIso8601String()}" , "${formatted_date}",${newDate.survey},"${newDate.ImageUrl}","${newDate.dayName}",${newDate.p_rating},${newDate.a_rating},${newDate.c_streak},${newDate.l_streak},${newDate.l_interval},"${newDate.saved_ts.toIso8601String()}");');
       newDate.id = id;
       print('Date added: $formatted_date ${id}');
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Dates").document(newDate.id.toString());
+
+
+      ref.setData(newDate.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
     });
 
 
@@ -1039,6 +1504,19 @@ print(text);
           'INSERT into Revents(start_date, end_date, event_id, sun,mon,tue,wed,thu,fri,sat,saved_ts) VALUES ("${newRevent.start_date.toIso8601String()}","${newRevent.end_date.toIso8601String()}" , ${newRevent.event_id},${newRevent.sun},${newRevent.mon},${newRevent.tue},${newRevent.wed},${newRevent.thu},${newRevent.fri},${newRevent.sat},"${newRevent.saved_ts.toIso8601String()}");');
       newRevent.id = id;
       print("Revent saved");
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Revents").document(newRevent.id.toString());
+
+
+      ref.setData(newRevent.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
 
     });
 
@@ -1068,6 +1546,20 @@ print(text);
           'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id,timeline_id,saved_ts) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id},${newEvent.timeline_id},"${newEvent.saved_ts.toIso8601String()}");');
       newEvent.id = id;
 
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Events").document(newEvent.id.toString());
+
+
+      ref.setData(newEvent.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
     });
 
 
@@ -1075,7 +1567,22 @@ print(text);
   }
 
 
+   Future<void> cleanDatabase() async {
+    try{
+      final db = await database;
+      await db.transaction((txn) async {
+        var batch = txn.batch();
+        for (int i=0;i<tables.length;i++){
+          batch.delete(tables[i]);
+        }
 
+        await batch.commit();
+        print("deleted all data");
+      });
+    } catch(error){
+      throw Exception('DbBase.cleanDatabase: ' + error.toString());
+    }
+  }
 
 
   //We are not going to use this in the demo

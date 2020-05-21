@@ -38,6 +38,8 @@ dependencies:
   smooth_page_indicator: ^0.1.4
   flutter_datetime_picker: 1.2.5
   zefyr: ^0.10.0
+  device_info: ^0.4.2+4
+  async: ^2.4.0
   firebase_auth: ^0.16.0
   google_sign_in: ^4.1.1
   firebase_database: ^3.0.7
@@ -75,7 +77,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-      - assets/images/
+      -  assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

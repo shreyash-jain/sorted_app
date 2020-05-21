@@ -11,6 +11,7 @@ import 'package:notes/screens/onboard.dart';
 import 'package:notes/screens/introduction.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/screens/todo_screen.dart';
+import 'package:notes/screens/view.dart';
 import 'package:notes/services/auth.dart';
 import 'package:notes/services/database.dart';
 import 'package:notes/services/service_locator.dart';
@@ -46,7 +47,9 @@ class _MyAppState extends State<MyApp> {
   List<BiometricType> _availableBiometrics;
   String _authorized = 'Not Authorized';
   bool _isAuthenticating = false;
+  int inlet=0;
 
+  bool isLoading=true;
   Future<void> _checkBiometrics() async {
     bool canCheckBiometrics;
     try {
@@ -107,6 +110,8 @@ class _MyAppState extends State<MyApp> {
     auth.stopAuthentication();
   }*/
   bool firstTime;
+  int prefSignIn;
+
 
   @override
   void initState() {
@@ -130,12 +135,23 @@ class _MyAppState extends State<MyApp> {
   Widget _getStartupScreen() {
 
 
+
     if((!widget.check_biometric && (firstTime != null && !firstTime))||(widget.check_biometric && _authorized=='Authorized' && (firstTime != null && !firstTime))) {
+     print("streamed");
+     inlet=1;
+
+
       return
       StreamBuilder(
           stream: authService.user,
           builder: (context, snapshot) {
+            print("streamed 0.0 $inlet");
+            getStarted();
             if (snapshot.hasData) {
+
+
+              print("streamed 1.0");
+
               final Firestore _db = Firestore.instance;
               DocumentReference ref = _db.collection('users').document(snapshot.data.uid).collection("user_data").document("data");
 
@@ -144,25 +160,72 @@ class _MyAppState extends State<MyApp> {
 
                 'lastSeen': DateTime.now()
               }, merge: true);
+
+
+
+              inlet=0;
+              isLoading=false;
               return MyHomePage(title: 'Home',changeTheme: setTheme);
-            }else if (firstTime==null || snapshot.hasData==false) return OnboardingScreen();
-            else {
+            }
+            else if (firstTime==null ) {
+              print("streamed 2.0");
               return Scaffold(
                 backgroundColor: Theme.of(context).primaryColor,
-                body: Align(
-                    alignment: Alignment.topCenter,
-                    child:Padding(
-                      padding: EdgeInsets.all(80),
-                      child:Text("Stay Sorted",style: TextStyle(
-                        fontFamily: 'ZillaSlab',
-                        fontSize: 36.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                body:Stack(children: <Widget>[
+
+                  Align(
+                      alignment: Alignment.topCenter,
+                      child:Padding(
+                        padding: EdgeInsets.all(80),
+                        child:Text("Stay Sorted",style: TextStyle(
+                          fontFamily: 'ZillaSlab',
+                          fontSize: 36.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
 
 
-                      )),
-                    )
-                ),
+                        )),
+                      )
+                  ),
+
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child:Padding(
+                        padding: EdgeInsets.all(80),
+                        child:RaisedButton(
+                          onPressed: () async {
+                            Navigator.pop(context);
+
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+                                  OnboardingScreen()),
+
+                            );
+                          },
+                          child: const Text('Get Started', style: TextStyle(fontSize: 20)),
+                        ),
+                      )
+                  ),
+
+                ],)
+
+
+              );
+
+
+
+             }
+
+            else {
+              print("streamed 3.0");
+              return Scaffold(
+                backgroundColor: Color.fromRGBO(0,153,204, 1),
+                body: Container(
+                  child: Center(
+
+                  ),
+                )
               );
             }
           });
@@ -170,22 +233,25 @@ class _MyAppState extends State<MyApp> {
 
     else if (firstTime==null) return OnboardingScreen();
     else {
+      print("streamed 4.0");
       return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: Align(
-          alignment: Alignment.topCenter,
-          child:Padding(
-            padding: EdgeInsets.all(80),
-            child:Text("Stay Sorted",style: TextStyle(
-              fontFamily: 'ZillaSlab',
-              fontSize: 36.0,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-
-
-            )),
-          )
-        ),
+        body: Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Text("Loading...",
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontFamily: 'ZillaSlab',
+                        fontWeight: FontWeight.w700))
+              ],
+            ),
+          ),
+        )
       );
     }
   }
@@ -218,243 +284,7 @@ class _MyAppState extends State<MyApp> {
     else {
       prefs.setBool('biometric',false);
       prefs.setBool('first_main', false);
-      firstmain = prefs.getBool('first_main');
-      var notebooks=await NotesDatabaseService.db.getNotebookFromDB();
-      List<NoteBookModel> check=notebooks;
 
-      if (!firstmain && check.length==0){
-
-
-        prefs.setBool('first_main', true);
-        NoteBookModel quicknote = new NoteBookModel(title: "Quick Notes",
-            notes_num: 0,
-            isImportant: true,
-            date: DateTime.now());
-        await NotesDatabaseService.db.addNoteBookInDB(quicknote);
-
-        CatModel newcat= new CatModel(name: "Food/Drink",image:"Icons.restaurant",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Bills",image:"Icons.receipt",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Entertainment",image:"Icons.movie_filter",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Health",image:"Icons.healing",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Transport",image:"Icons.directions_bus",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Fuel",image:"Icons.ev_station",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "ATM",image:"Icons.local_atm",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Investment",image:"Icons.trending_up",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Rent",image:"Icons.home",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Education",image:"Icons.library_books",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-        newcat= new CatModel(name: "Other",image:"Icons.scatter_plot",total: 0);
-        await NotesDatabaseService.db.addCat(newcat);
-
-        QuestionModel newQuestion = new QuestionModel(title: "How was my day ?",
-            type: 0,
-            interval: 1,
-            priority: 5,
-            archive: 0,
-            weight: .5,
-            correct_ans: 0,
-            num_ans: 0,
-            ans1: "",
-            ans2: "",
-            last_date: DateTime.now(),
-            ans3: "");
-
-        newQuestion.archive=0;
-        newQuestion.priority=5;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-
-        newQuestion.priority=4;
-        newQuestion.title = "How was my work ?";
-
-        newQuestion.weight=.2;
-        newQuestion.archive=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Something Interesting happended today ?";
-        newQuestion.weight=0.3;
-        newQuestion.archive=0;
-        newQuestion.priority=5;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Any Plans for tomorrow ?";
-        newQuestion.priority=4;
-        newQuestion.weight=0.3;
-        newQuestion.archive=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "How about today's finances ?";
-        newQuestion.archive=0;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Today's Activities";
-        newQuestion.archive=0;
-        newQuestion.priority=3;
-        newQuestion.weight=.4;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "How was my school/college ?";
-        newQuestion.weight=.2;
-        newQuestion.archive=1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Anything I learned today ?";
-        newQuestion.weight=0;
-        newQuestion.archive=1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Describe your meditation experience ?";
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Did I buy something new today ?";
-        newQuestion.weight=0;
-        newQuestion.archive=1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-
-
-        newQuestion.title = "How many hours I studied ?";
-        newQuestion.type = 2;
-        newQuestion.weight=.2;
-        newQuestion.archive=1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "How many hours I wasted ?";
-        newQuestion.type = 2;
-        newQuestion.weight=-0.2;
-        newQuestion.archive=1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "How many hours I used social media ?";
-        newQuestion.type = 2;
-        newQuestion.archive=0;
-        newQuestion.priority=2;
-
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "How many hours I slept today ?";
-        newQuestion.type = 2;
-        newQuestion.archive=0;
-        newQuestion.weight=-0.1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "How many Liters of water I drink ?";
-        newQuestion.type = 2;
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "How much time did I spend in meditating ?";
-        newQuestion.type = 2;
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Did I had some Helath issues last week ?";
-        newQuestion.type = 2;
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        newQuestion.priority=1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Satisfied by my today's work ?";
-        newQuestion.type = 1;
-        newQuestion.num_ans = 3;
-        newQuestion.weight=.2;
-        newQuestion.ans1 = "Yes";
-        newQuestion.ans2 = "No";
-        newQuestion.ans3 = "May be";
-        newQuestion.archive=1;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Did i excercised today ?";
-        newQuestion.type = 1;
-        newQuestion.num_ans = 3;
-        newQuestion.ans1 = "Yes";
-        newQuestion.ans2 = "No";
-        newQuestion.ans3 = "May be";
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Did you meditate today ?";
-        newQuestion.type = 1;
-        newQuestion.num_ans = 3;
-        newQuestion.ans1 = "Yes";
-        newQuestion.ans2 = "No";
-        newQuestion.ans3 = "May be";
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Had my meals on time ?";
-        newQuestion.type = 1;
-        newQuestion.num_ans = 3;
-        newQuestion.ans1 = "Yes";
-        newQuestion.ans2 = "No";
-        newQuestion.ans3 = "May be";
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-        newQuestion.title = "Followed my skin regimen today ?";
-        newQuestion.type = 1;
-        newQuestion.num_ans = 3;
-        newQuestion.ans1 = "Yes";
-        newQuestion.ans2 = "No";
-        newQuestion.ans3 = "May be";
-        newQuestion.archive=1;
-        newQuestion.weight=0;
-        await NotesDatabaseService.db.addQuestionInDB(newQuestion);
-
-        ActivityModel basic_act= new ActivityModel(name:"Work",image:"work",weight:10);
-        var updated= await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act=updated;
-        UserAModel basic_user_act= new UserAModel(name:"Work",image:"work",a_id:basic_act.id);
-        await NotesDatabaseService.db.addUserActivity(basic_user_act);
-        basic_act= new ActivityModel(name:"Family",image:"family",weight:10);
-        updated= await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act=updated;
-        basic_user_act= new UserAModel(name:"Family",image:"family",a_id:basic_act.id);
-        await NotesDatabaseService.db.addUserActivity(basic_user_act);
-        basic_act= new ActivityModel(name:"Relation",image:"relationship",weight:10);
-        updated= await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act=updated;
-        basic_user_act= new UserAModel(name:"Relation",image:"relationship",a_id:basic_act.id);
-        await NotesDatabaseService.db.addUserActivity(basic_user_act);
-        basic_act= new ActivityModel(name:"Studies",image:"education",weight:10);
-        updated= await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act=updated;
-        basic_user_act= new UserAModel(name:"Studies",image:"education",a_id:basic_act.id);
-        await NotesDatabaseService.db.addUserActivity(basic_user_act);
-        basic_act= new ActivityModel(name:"Friends",image:"friends",weight:10);
-        updated= await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act=updated;
-        basic_user_act= new UserAModel(name:"Friends",image:"friends",a_id:basic_act.id);
-        await NotesDatabaseService.db.addUserActivity(basic_user_act);
-        basic_act= new ActivityModel(name:"Exercise",image:"exercise",weight:10);
-        updated= await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act=updated;
-        basic_user_act= new UserAModel(name:"Exercise",image:"exercise",a_id:basic_act.id);
-        await NotesDatabaseService.db.addUserActivity(basic_user_act);
-        basic_act= new ActivityModel(name:"Music",image:"music",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Sports",image:"sports",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Meditation",image:"meditation",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Arts",image:"arts",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"PC Games",image:"games",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Movies",image:"movies",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Coding",image:"coding",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"TV Series",image:"tv_series",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Reading",image:"reading",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Writing",image:"writing",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Cooking",image:"cooking",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-        basic_act= new ActivityModel(name:"Travel",image:"travel",weight:2);
-        await NotesDatabaseService.db.addActivity(basic_act);
-
-
-      }
 
 
     }
@@ -463,6 +293,8 @@ class _MyAppState extends State<MyApp> {
 
     prefs = await SharedPreferences.getInstance();
     firstTime = prefs.getBool('onboard');
+    prefSignIn=prefs.getInt('signInId');
+
 
 
 

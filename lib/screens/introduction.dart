@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:notes/components/animated_button.dart';
 import 'package:notes/components/faderoute.dart';
 import 'package:notes/data/activity.dart';
 import 'package:notes/data/animated-wave.dart';
@@ -36,8 +38,11 @@ class _OnboardingScreenState extends State<IntroductionScreen> with TickerProvid
   List< ActivityModel> AllActivityList =[];
   List< ActivityModel> AlladdedList =[];
   FocusNode nameFocus = FocusNode();
+  bool old_user=false;
 String avatar='assets/images/male1.png';
   int avatar_position=-1;
+  bool _loading;
+  double _progressValue;
 
   var activity_position;
   List<Widget> _buildPageIndicator() {
@@ -56,13 +61,14 @@ String avatar='assets/images/male1.png';
     )..addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
 
-        await authService.googleSignIn();
+
         Navigator.of(context).pop();
         Navigator.push(context,
             FadeRoute(page:MyApp(false)));
       }
     });
-
+    _loading = false;
+    _progressValue = 0.0;
     rippleController = AnimationController(
         vsync: this,
         duration: Duration(seconds: 1)
@@ -98,7 +104,12 @@ String avatar='assets/images/male1.png';
     scaleController.dispose();
     super.dispose();
   }
+  setInitials(){
 
+    nameController.text=prefs.getString("google_name");
+    old_user=prefs.getBool("old_user");
+
+  }
   void _initialize() {
     background = TweenSequence<Color>([
       TweenSequenceItem(
@@ -156,6 +167,7 @@ String avatar='assets/images/male1.png';
   getStarted() async {
 
     prefs = await SharedPreferences.getInstance();
+    setInitials();
   }
   @override
   Widget build(BuildContext context) {
@@ -519,6 +531,75 @@ String avatar='assets/images/male1.png';
                     ],):  Text(''),
 
 
+
+                if (old_user) Container(
+                  padding: EdgeInsets.all(32),
+                  alignment: Alignment.center,
+
+                  color: Colors.blueGrey.withOpacity(.95),
+                  child:Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RichText(
+                        text: TextSpan(
+                          text: 'Welcome back',
+
+                          style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 28, fontWeight: FontWeight.w400, color: Colors.white60),
+                          children: <TextSpan>[
+                            TextSpan(text: '\n${nameController.text}', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 32)),
+                            TextSpan(
+                              text: '\n\nLooks like we have your previous data saved in our cloud, So lets bring it back to you',style: TextStyle(fontSize:24,color: Colors.black54)
+                            ),
+                            TextSpan(text: '\n\nThis might take few minutes, Please do not close me', style: TextStyle(fontSize:24,fontWeight: FontWeight.bold,color: Colors.black54)),
+
+                          ],
+                        ),
+                      ),
+
+
+                  Center(
+                    child: Container(
+                      padding: EdgeInsets.all(16.0),
+                      child: _loading
+                          ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          LinearProgressIndicator(
+                            value: _progressValue,
+                          ),
+                          Text('${(_progressValue * 100).round()}%'),
+                        ],
+                      )
+                          : Text("Downloading...",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize:20.0,
+                        fontWeight: FontWeight.bold,
+
+
+                       color: Colors.white70
+                      )),
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color:  Colors.blue,width:3)
+                    ),
+                    onPressed: () {
+                      setState(() {
+
+                        _loading = !_loading;
+                        _progressValue=0;
+                        _updateProgress();
+                      });
+                    },
+
+                    child: Icon(Icons.cloud_download,size: 40,),
+                  ),
+                ],) ,)
+
+
               ],
             ),
 
@@ -623,6 +704,23 @@ String avatar='assets/images/male1.png';
         theme = appThemeLight;
       });
     }
+  }
+   _updateProgress() async {
+
+     NotesDatabaseService.db.GetCloudData().listen((value) {
+      setState(() {
+        _progressValue=value;
+      });
+    }).onDone(() {
+       setState(() {
+         old_user=false;
+
+       });
+
+     });
+
+
+
   }
   onBottom(Widget child) => Positioned.fill(
     child: Align(

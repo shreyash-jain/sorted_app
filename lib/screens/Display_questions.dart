@@ -2610,7 +2610,8 @@ cursorColor: Colors.black,
       print("fianlly "+ ansList[i].content);
     }
     for (var i=0;i<userAct.length;i++){
-      AlogModel entry = new AlogModel(a_id:userAct[i].a_id,date:DateTime.now(),duration: Duration(hours: _value_act[i].floor()).inMinutes);
+      print(_value_act[i]);
+      AlogModel entry = new AlogModel(a_id:userAct[i].a_id,date:DateTime.now(),duration: Duration(hours: (_value_act[i]*10).floor()).inMinutes);
       await NotesDatabaseService.db.addActivityLogInDB(entry);
     }
     Navigator.pop(context);

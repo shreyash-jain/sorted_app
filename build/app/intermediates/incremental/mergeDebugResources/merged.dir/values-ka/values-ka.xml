@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="6241458715391513061" name="accessibility_fingerprint_dialog_help_area">"დამხმარე შეტყობინების არე"</string>
+    <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"ჩართვა"</string>
+    <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ვერ იმუშავებს Google Play Services-ის ჩართვამდე."</string>
+    <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Google Play Services-ის ჩართვა"</string>
+    <string msgid="9115728400623041681" name="common_google_play_services_install_button">"ინსტალაცია"</string>
+    <string msgid="8179894293032530091" name="common_google_play_services_install_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ვერ გაეშვება Google Play Services-ის გარეშე, რომელიც აკლია თქვენს მოწყობილობას."</string>
+    <string msgid="7442193194585196676" name="common_google_play_services_install_title">"Google Play Services-ის ჩამოტვირთვა"</string>
+    <string msgid="4293541511340436975" name="common_google_play_services_notification_channel_name">"Google Play services-ის ხელმისაწვდომობა"</string>
+    <string msgid="180394615667698242" name="common_google_play_services_notification_ticker">"Google Play Services-ის შეცდომა"</string>
+    <string msgid="2518680582564677258" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g>-ს Google Play Services-თან პრობლემა შეექმნა. გთხოვთ, ცადოთ ხელახლა."</string>
+    <string msgid="5501187292256987189" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ვერ გაეშვება Google Play Services-ის გარეშე, რომლებიც მხარდაუჭერელია თქვენი მოწყობილობის მიერ."</string>
+    <string msgid="8172070149091615356" name="common_google_play_services_update_button">"განახლება"</string>
+    <string msgid="7773943415006962566" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ვერ გაეშვება, თუ Google Play სერვისებს არ განაახლებთ."</string>
+    <string msgid="8706675115216073244" name="common_google_play_services_update_title">"განაახლეთ Google Play Services"</string>
+    <string msgid="7894275749778928941" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ვერ გაეშვება Google Play Services-ის გარეშე, რომელთა განახლებაც ამჟამად მიმდინარეობს."</string>
+    <string msgid="2804989272736383918" name="common_google_play_services_wear_update_text">"საჭიროა Google Play Services-ის ახალი ვერსია. ის მალე განახლდება."</string>
+    <string msgid="5201977337835724196" name="common_open_on_phone">"ტელეფონში გახსნა"</string>
+    <string msgid="3441753203274453993" name="common_signin_button_text">"შესვლა"</string>
+    <string msgid="669893613918351210" name="common_signin_button_text_long">"Google-ით შესვლა"</string>
+    <string msgid="7497355367608150274" name="default_error_msg">"უცნობი შეცდომა"</string>
+    <string msgid="5354590751262189738" name="fingerprint_dialog_touch_sensor">"შეეხეთ თითის ანაბეჭდის სენსორს"</string>
+    <string msgid="3976825677335166260" name="fingerprint_error_hw_not_available">"თითის ანაბეჭდის აპარატურა მიუწვდომელია."</string>
+    <string msgid="1176237289575184578" name="fingerprint_error_hw_not_present">"ამ მოწყობილობას არ აქვს თითის ანაბეჭდის სენსორი"</string>
+    <string msgid="3350805046152877040" name="fingerprint_error_no_fingerprints">"თითის ანაბეჭდები არ არის რეგისტრირებული."</string>
+    <string msgid="3421037373085129417" name="fingerprint_error_user_canceled">"თითის ანაბეჭდის ოპერაცია გააუქმა მომხმარებელმა."</string>
+    <string msgid="5491287833813257925" name="fingerprint_not_recognized">"არ არის ამოცნობილი"</string>
+    <string msgid="7988687684186075107" name="status_bar_notification_info_overflow">"999+"</string>
+</resources>

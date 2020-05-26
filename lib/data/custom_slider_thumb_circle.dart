@@ -32,7 +32,7 @@ class CustomSliderThumbCircle extends SliderComponentShape {
     final Canvas canvas = context.canvas;
 
     final paint = Paint()
-      ..color = Colors.white
+      ..color = Colors.black26
       ..style = PaintingStyle.fill;
 
     TextSpan span = new TextSpan(

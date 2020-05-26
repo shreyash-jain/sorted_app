@@ -13,17 +13,16 @@ import 'package:notes/data/user_activity.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/painting.dart' as prefix0;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:notes/components/BluePainter.dart';
 import 'package:notes/data/date.dart';
 import 'package:notes/data/event.dart';
-import 'package:notes/data/models.dart';
 import 'package:notes/services/database.dart';
 import 'package:notes/bloc/todo_bloc.dart';
 import 'package:notes/data/todo.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
+
 
 class AddEventPage extends StatefulWidget {
   Function() triggerRefetch;

@@ -1,20 +1,23 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:notes/data/models.dart';
 import 'package:notes/data/reminder.dart';
-
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:notes/screens/richedit.dart';
 import 'package:notes/services/database.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:share/share.dart';
+
 import 'package:zefyr/zefyr.dart';
 
 class ViewNotePage extends StatefulWidget {
@@ -38,10 +41,12 @@ class _ViewNotePageState extends State<ViewNotePage> {
   ReminderModel rem = new ReminderModel();
   FocusNode _focusNode;
   String content_show;
-  double height = 450;
-
+  double height = 100;
+  ScreenshotController screenshotController = ScreenshotController();
+  File _imageFile;
   var flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
 
+  bool screenshot=false;
   @override
   void initState() {
     super.initState();
@@ -53,9 +58,11 @@ class _ViewNotePageState extends State<ViewNotePage> {
     List<dynamic> list = jsonDecode(widget.currentNote.content);
     int lines = list.length;
 
-    if (lines > 10) {
-      height = height + (20 * (lines - 10)) + 50;
+    if (lines > 1) {
+      height = height + (30 * (lines - 1)) + 50;
     }
+
+
     final document = _loadDocument();
 
       setState(() {
@@ -77,7 +84,11 @@ class _ViewNotePageState extends State<ViewNotePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (height<MediaQuery.of(context).size.height-230)
+      height=MediaQuery.of(context).size.height-228;
+
     final editor = ZefyrField(
+
       height: height,
       // set the editor's height
       decoration: InputDecoration(
@@ -95,102 +106,142 @@ class _ViewNotePageState extends State<ViewNotePage> {
     );
     return Scaffold(
         body: ZefyrScaffold(
-            child: Padding(
+            child:  Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Stack(
                   children: <Widget>[
-                    ListView(
-                      physics: BouncingScrollPhysics(),
-                      children: <Widget>[
-                        Container(
-                          height: 40,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 104, bottom: 24),
-                          child: editor,
-                        ),
-                      ],
-                    ),
-                    ClipRect(
-                      child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                          child: Container(
-                            height: 180,
-                            color:
-                                Theme.of(context).canvasColor.withOpacity(0.2),
-                            child: SafeArea(
-                              child: Row(
-                                children: <Widget>[
-                                  Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 16, top: 68.0, bottom: 8),
-                                          child: AnimatedOpacity(
-                                            opacity: headerShouldShow ? 1 : 0,
-                                            duration:
-                                                Duration(milliseconds: 200),
-                                            curve: Curves.easeIn,
-                                            child: Text(
-                                              widget.currentNote.title,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontFamily: 'ZillaSlab',
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 24,
-                                              ),
-                                              overflow: TextOverflow.visible,
-                                              softWrap: true,
-                                            ),
-                                          ),
-                                        ),
-                                        AnimatedOpacity(
-                                          duration: Duration(milliseconds: 500),
+                    Screenshot(
+                        controller: screenshotController,
+                        child:
+                Stack(
+                children: <Widget>[
+
+                  ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: <Widget>[
+                      if (!screenshot)Container(
+                        height: 40,
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 104, bottom: 24),
+                        child: editor,
+                      ),
+                    ],
+                  ),
+                  ClipRect(
+                    child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                        child: Container(
+                          height: 180,
+                          color:
+                          Theme.of(context).canvasColor.withOpacity(0.2),
+                          child: SafeArea(
+                            child: Row(
+                              children: <Widget>[
+                                Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 16, top: 68.0, bottom: 8),
+                                        child: AnimatedOpacity(
                                           opacity: headerShouldShow ? 1 : 0,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 16),
-                                            child: Text(
-                                              DateFormat.yMd().add_jm().format(
-                                                  widget.currentNote.date),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey.shade500),
+                                          duration:
+                                          Duration(milliseconds: 200),
+                                          curve: Curves.easeIn,
+                                          child: Text(
+                                            widget.currentNote.title,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontFamily: 'ZillaSlab',
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 24,
                                             ),
+                                            overflow: TextOverflow.visible,
+                                            softWrap: true,
                                           ),
                                         ),
-                                      ]),
-                                  Spacer(),
-                                  AnimatedOpacity(
-                                    duration: Duration(milliseconds: 500),
-                                    opacity: headerShouldShow ? 1 : 0,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 52, right: 12),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          (alarm == 0)
-                                              ? Icons.alarm_add
-                                              : Icons.alarm_on,
-                                          size: 36,
-                                          color: (alarm == 0)
-                                              ? Theme.of(context).primaryColor
-                                              : Colors.grey,
-                                        ),
-                                        onPressed: addReminder,
                                       ),
+                                      AnimatedOpacity(
+                                        duration: Duration(milliseconds: 500),
+                                        opacity: headerShouldShow ? 1 : 0,
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.only(left: 16),
+                                          child: Text(
+                                            DateFormat.yMd().add_jm().format(
+                                                widget.currentNote.date),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey.shade500),
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                                Spacer(),
+                                AnimatedOpacity(
+                                  duration: Duration(milliseconds: 500),
+                                  opacity: headerShouldShow ? 1 : 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 52, right: 12),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        (alarm == 0)
+                                            ? Icons.alarm_add
+                                            : Icons.alarm_on,
+                                        size: 36,
+                                        color: (alarm == 0)
+                                            ? Theme.of(context).primaryColor
+                                            : Colors.grey,
+                                      ),
+                                      onPressed: addReminder,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          )),
-                    ),
-                    ClipRect(
+                          ),
+                        )),
+                  ),
+
+                  if (screenshot)Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+
+                    children: <Widget>[
+                      SizedBox(width: 10,),
+                      Image(
+                        image: AssetImage(
+                          "assets/images/SortedLogo.png",
+                        ),
+                        height:75,
+                        width:75,
+                      ),
+                      SizedBox(width: 10,),
+
+
+                        Text("Stay Sorted",style: TextStyle(
+                          fontFamily: 'ZillaSlab',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                        ),),
+                        Text(", It starts here !",style: TextStyle(
+                          fontFamily: 'ZillaSlab',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),)
+
+
+
+                    ],),
+                ])),
+
+                    if (!screenshot)ClipRect(
                       child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                           child: Container(
@@ -227,7 +278,29 @@ class _ViewNotePageState extends State<ViewNotePage> {
                                   ),
                                   IconButton(
                                     icon: Icon(OMIcons.share),
-                                    onPressed: handleShare,
+                                    onPressed:() async {
+
+                                      await setState(() {
+
+
+                                        screenshot=true;
+                                      });
+                                      _imageFile = null;
+                                      screenshotController
+                                          .capture(delay: Duration(milliseconds: 10))
+                                          .then((File image) async {
+                                        //print("Capture Done");
+                                        setState(() {
+                                          _imageFile = image;
+                                          setState(() {
+                                            screenshot=false;
+                                          });
+
+                                        });
+                                        await handleShare(_imageFile);
+                                      });
+
+                                      },
                                   ),
                                 ],
                               ),
@@ -260,11 +333,21 @@ class _ViewNotePageState extends State<ViewNotePage> {
                   triggerRefetch: widget.triggerRefetch,
                 )));
   }
+  Future<void> _shareImage(File file) async {
+    Uint8List bytes=  file.readAsBytesSync()  ;
+    try {
 
-  void handleShare() {
-    Share.share(
-        '${widget.currentNote.title.trim()}\n(On: ${widget.currentNote.date.toIso8601String().substring(0, 10)})\n\n${widget.currentNote.content}');
+
+      await Share.file(
+          'esys image', 'esys.png', bytes, 'image/png', text: 'My optional text.');
+    } catch (e) {
+      print('error: $e');
+    }
   }
+  Future<void> handleShare(File file) async {
+
+    await _shareImage(file);
+   }
 
   void handleBack() {
     Navigator.pop(context);

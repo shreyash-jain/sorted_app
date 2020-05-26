@@ -84,6 +84,14 @@ class QuestionCardComponent extends StatelessWidget {
                               fontSize: 14, color: Colors.grey.shade400),
                         ),
                       ),
+                      Container(
+                        margin: EdgeInsets.only(top: 8),
+                        child: Text(
+                          QuestionData.id.toString(),
+                          style: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade400),
+                        ),
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

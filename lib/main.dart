@@ -155,11 +155,8 @@ class _MyAppState extends State<MyApp> {
               final Firestore _db = Firestore.instance;
               DocumentReference ref = _db.collection('users').document(snapshot.data.uid).collection("user_data").document("data");
 
+              ref.updateData({'lastSeen':DateTime.now()});
 
-               ref.setData({
-
-                'lastSeen': DateTime.now()
-              }, merge: true);
 
 
 

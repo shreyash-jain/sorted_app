@@ -92,8 +92,26 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "device_info",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/device_info-0.4.2+4",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "effective_dart",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/effective_dart-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "esys_flutter_share",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/esys_flutter_share-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "faker",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/faker-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -166,12 +184,6 @@
     {
       "name": "flutter_chips_input",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_chips_input-1.7.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.0"
-    },
-    {
-      "name": "flutter_datetime_picker",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_datetime_picker-1.2.5",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -290,12 +302,6 @@
       "languageVersion": "2.0"
     },
     {
-      "name": "infinite_listview",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/infinite_listview-1.0.1+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.0"
-    },
-    {
       "name": "intl",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/intl-0.15.8",
       "packageUri": "lib/",
@@ -362,20 +368,8 @@
       "languageVersion": "2.2"
     },
     {
-      "name": "numberpicker",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/numberpicker-1.2.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.0"
-    },
-    {
       "name": "outline_material_icons",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/outline_material_icons-0.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.0"
-    },
-    {
-      "name": "page_transition",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/page_transition-1.1.5",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -476,6 +470,12 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "screenshot",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/screenshot-0.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "share",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/share-0.6.1+1",
       "packageUri": "lib/",
@@ -510,12 +510,6 @@
       "rootUri": "file:///C:/Users/Shreyash/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "1.11"
-    },
-    {
-      "name": "smooth_page_indicator",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/smooth_page_indicator-0.1.5",
-      "packageUri": "lib/",
-      "languageVersion": "2.5"
     },
     {
       "name": "source_span",
@@ -692,7 +686,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-05-11T17:03:58.497071Z",
+  "generated": "2020-05-25T13:17:04.129659Z",
   "generator": "pub",
   "generatorVersion": "2.8.0-dev.12.0.flutter-9983424a3c"
 }

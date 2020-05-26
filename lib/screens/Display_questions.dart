@@ -23,10 +23,11 @@ import 'package:notes/data/question.dart';
 import 'package:notes/data/theme.dart';
 import 'package:notes/data/user_activity.dart';
 import 'package:notes/main.dart';
+import 'package:notes/screens/Survey_end.dart';
 import 'package:notes/screens/addEvent.dart';
 import 'package:notes/services/database.dart';
-import 'package:numberpicker/numberpicker.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+
 
 class DisplayQuestions extends StatefulWidget {
   Function(Brightness brightness) changeTheme;
@@ -58,8 +59,9 @@ class _DisplayQuestionsState extends State<DisplayQuestions> with TickerProvider
   List<FriendModel> friendsList = [];
   List<AnswerModel> ansList=[];
   Timer _timer;
-  int min;
-  int sec;
+  int min=0;
+
+  int sec=0;
 
   Animation<double> scaleAnimation;
   AnimationController scaleController;
@@ -701,18 +703,18 @@ int started=0;
                           ),),
                         Container(
 
-                          width: true
-                              ? double.infinity
-                              : (48) * 5.5,
+                          width:  double.infinity,
+                          margin: EdgeInsets.only(left: 10,right:10),
+
 
                           decoration: new BoxDecoration(
                               borderRadius: new BorderRadius.all(
-                                Radius.circular((48 * .3)),
+                                Radius.circular((45)),
                               ),
-                              color: Colors.transparent
+                              color: Colors.white70
                           ),
                           child: Padding(
-                            padding: EdgeInsets.only(top:20,left:20),
+                            padding: EdgeInsets.only(top:0,left:20),
                             child: Row(
                               children: <Widget>[
                                 Text(
@@ -720,8 +722,8 @@ int started=0;
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize:12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
 
                                   ),
                                 ),
@@ -732,8 +734,8 @@ int started=0;
                                   child: Center(
                                     child: SliderTheme(
                                       data: SliderTheme.of(context).copyWith(
-                                        activeTrackColor: Colors.white.withOpacity(1),
-                                        inactiveTrackColor: Colors.white.withOpacity(.5),
+                                        activeTrackColor: Colors.black.withOpacity(1),
+                                        inactiveTrackColor: Colors.blue.withOpacity(.5),
 
                                         trackHeight: 4.0,
                                         thumbShape: CustomSliderThumbCircle(
@@ -741,9 +743,9 @@ int started=0;
                                           min: 1,
                                           max: 4,
                                         ),
-                                        overlayColor: Colors.white.withOpacity(.4),
+                                        overlayColor: Colors.black.withOpacity(.4),
                                         //valueIndicatorColor: Colors.white,
-                                        activeTickMarkColor: Colors.white,
+                                        activeTickMarkColor: Colors.black54,
                                         inactiveTickMarkColor: Colors.red.withOpacity(.7),
                                       ),
                                       child: Slider(
@@ -2615,5 +2617,7 @@ cursorColor: Colors.black,
       await NotesDatabaseService.db.addActivityLogInDB(entry);
     }
     Navigator.pop(context);
+    Navigator.push(context,
+        FadeRoute(page: SurveyEnd(date: widget.setDate,)));
   }
 }

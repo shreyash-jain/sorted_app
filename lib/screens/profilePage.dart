@@ -160,16 +160,12 @@ class _AddQuestionState extends State<ProfilePage> {
                 actions: <Widget>[
 
                 ],
-                leading: IconButton(
-                  icon: const Icon(OMIcons.arrowBack),
-                  tooltip: 'Add new entry',
-                  onPressed: () { Navigator.pop(context);},
-                ),
-                expandedHeight: 250,
+
+                expandedHeight: 80,
                 pinned: true,
                 primary:true,
                 shape: RoundedRectangleBorder(
-                  borderRadius:  BorderRadius.only(bottomRight: Radius.circular(45.0)),
+                  borderRadius:  BorderRadius.only(bottomRight: Radius.circular(16.0),bottomLeft: Radius.circular(16.0)),
 
                 ),
                 flexibleSpace: FlexibleSpaceBar(
@@ -179,150 +175,35 @@ class _AddQuestionState extends State<ProfilePage> {
                           fontFamily: 'ZillaSlab',
                           fontWeight: FontWeight.w700,
                           fontSize: 18,
-                          color: Colors.white),
+                        color: Colors.blueGrey
+                          ),
                       overflow: TextOverflow.clip,
                       softWrap: false,
                     ),
 
 
                     background: Container(
-                      padding: EdgeInsets.only(top:80,left:73),
+                      padding: EdgeInsets.only(top:40,left:20,right: 20),
                       child:Container(
+                          decoration: BoxDecoration(
+                            color:  Theme
+                                .of(context)
+                                .scaffoldBackgroundColor,
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight:Radius.circular(30) ),
+                          ),
+                          width: MediaQuery.of(context).size.width-80,
+
+                          alignment: Alignment.center,
+
+
 
                           child:
                           Row(
 
                             children: <Widget>[
 
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
 
 
-
-                                Hero(
-                                  tag: "DemoTag",
-                                    transitionOnUserGestures: true,
-                                  child:Padding(
-                                  padding :EdgeInsets.only(right:20,bottom: 10),
-                                  child:Stack(children: <Widget>[
-
-                                    Image(
-                                      image: AssetImage(
-                                        user_image,
-                                      ),
-                                      height:100,
-                                      width:100,
-                                    ),
-                                    Padding(
-                                        padding :EdgeInsets.only(right:0),
-                                        child: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                            google_url,
-                                          ),
-                                          radius: 50,
-                                          backgroundColor: Colors.transparent,
-                                        )),
-
-
-
-
-                                  ],),)),
-                                Text(name,
-                                  style: TextStyle(
-                                      fontFamily: 'ZillaSlab',
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.black26
-                                  ),
-                                  textAlign: TextAlign.left,),
-                              ],),
-                            Padding(
-                                padding: EdgeInsets.only(left: 40),
-                                child:Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-
-
-                                Text("5  " ,
-                                  style: TextStyle(
-                                      fontFamily: 'ZillaSlab',
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black45
-                                  ),
-                                  textAlign: TextAlign.left,),
-
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-
-
-                                  Text("Hobbies",
-
-                                    style: TextStyle(
-                                        fontFamily: 'ZillaSlab',
-                                        fontSize:18.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white60
-                                    ),
-                                    textAlign: TextAlign.left,),
-
-                                ],),
-                                SizedBox(height: 5,),
-                                Text("28  " ,
-                                  style: TextStyle(
-                                      fontFamily: 'ZillaSlab',
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black45
-                                  ),
-                                  textAlign: TextAlign.left,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-
-
-                                    Text("Stories",
-                                      style: TextStyle(
-                                          fontFamily: 'ZillaSlab',
-                                          fontSize:18.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white60
-                                      ),
-                                      textAlign: TextAlign.left,),
-
-                                  ],),
-                                SizedBox(height: 5,),
-                                Text("15 " ,
-                                  style: TextStyle(
-                                      fontFamily: 'ZillaSlab',
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black45
-                                  ),
-                                  textAlign: TextAlign.left,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-
-
-                                    Text("Favourites",
-                                      style: TextStyle(
-                                          fontFamily: 'ZillaSlab',
-                                          fontSize:18.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white60
-                                      ),
-                                      textAlign: TextAlign.left,),
-
-                                  ],)
-                              ],)),
                           ],)
                       ),
                       decoration: new BoxDecoration(
@@ -334,9 +215,9 @@ class _AddQuestionState extends State<ProfilePage> {
                                   .of(context)
                                   .primaryColor,
                             ],
+                            begin: const FractionalOffset(0.0, 0.0),
+                            end: const FractionalOffset(1.0, 1.00),
                             stops: [0.0, 1.0],
-                            begin: FractionalOffset.topCenter,
-                            end: FractionalOffset.bottomCenter,
                             tileMode: TileMode.clamp),
                       ),
                     )
@@ -351,15 +232,340 @@ class _AddQuestionState extends State<ProfilePage> {
             height: MediaQuery.of(context).size.height ,
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(75.0)),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(0)),
             ),
 
             child:AnimatedContainer(
               duration: Duration(milliseconds: 200),
-              child: ListView(
+
+              child:MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  child: ListView(
 
                 children: <Widget>[
+                  Container(
 
+                    margin: EdgeInsets.only(left: 20,right:20),
+
+                      alignment: Alignment.center,
+
+                      decoration: BoxDecoration(
+                        gradient: new LinearGradient(
+                            colors: [
+                              const Color(0xFF00c6ff),
+                              Theme
+                                  .of(context)
+                                  .primaryColor,
+                            ],
+                            begin: const FractionalOffset(0.0, 0.0),
+                            end: const FractionalOffset(1.0, 1.00),
+                            stops: [0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight:Radius.circular(30) ),
+                      ),
+                      child:
+                      Column(children: <Widget>[
+
+                        SizedBox(height: 16,),
+                        Row(
+
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+
+
+
+
+                                Hero(
+                                    tag: "DemoTag",
+                                    transitionOnUserGestures: true,
+                                    child:Padding(
+                                      padding :EdgeInsets.only(right:20,bottom: 10),
+                                      child:Stack(children: <Widget>[
+
+                                        Image(
+                                          image: AssetImage(
+                                            user_image,
+                                          ),
+                                          height:100,
+                                          width:100,
+                                        ),
+                                        Padding(
+                                            padding :EdgeInsets.only(right:0),
+                                            child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                google_url,
+                                              ),
+                                              radius: 50,
+                                              backgroundColor: Colors.transparent,
+                                            )),
+
+
+
+
+                                      ],),)),
+
+                              ],),
+                            Padding(
+                                padding: EdgeInsets.only(left: 4),
+                                child:Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(name,
+                                      style: TextStyle(
+                                          fontFamily: 'ZillaSlab',
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black45
+                                      ),
+                                      textAlign: TextAlign.left,),
+
+
+                                    SizedBox(height: 8,),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+
+
+                                        Text("Level  " ,
+                                          style: TextStyle(
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black45
+                                          ),
+                                          textAlign: TextAlign.left,),
+
+                                        Container(
+                                          width: 25,
+                                          height: 25,
+                                          decoration: BoxDecoration(
+
+                                            color: Theme.of(context).scaffoldBackgroundColor,
+                                            borderRadius: BorderRadius.all(Radius.circular(30) ),
+                                          ),
+
+                                          child:Text("5",
+
+                                          style: TextStyle(
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize:16.0,
+                                              fontWeight: FontWeight.w800,
+                                              color: Colors.white70
+                                          ),
+                                          textAlign: TextAlign.center,),),
+
+                                      ],),
+
+                                    SizedBox(height: 8,),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+
+
+                                        Text("Sheldon ",
+
+                                          style: TextStyle(
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize:16.0,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white60
+                                          ),
+                                          textAlign: TextAlign.left,),
+
+                                        Text("from tbbt",
+
+                                          style: TextStyle(
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize:14.0,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.white60
+                                          ),
+                                          textAlign: TextAlign.left,),
+
+                                      ],),
+
+],)),
+                          ],),
+                        SizedBox(height: 16,),
+                      ],)
+
+
+                  ),
+                  SizedBox(height: 24,),
+                  Container(
+
+                      margin: EdgeInsets.only(left: 20,right:20),
+
+                      alignment: Alignment.center,
+
+                      decoration: BoxDecoration(
+                        gradient: new LinearGradient(
+                            colors: [
+                              const Color(0xFF00c6ff),
+                              Theme
+                                  .of(context)
+                                  .primaryColor,
+                            ],
+                            begin: const FractionalOffset(0.0, 0.0),
+                            end: const FractionalOffset(1.0, 1.00),
+                            stops: [0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                        borderRadius: BorderRadius.all( Radius.circular(30) ),
+                      ),
+                      child:Container(
+                          margin: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white24,
+                            borderRadius: BorderRadius.all( Radius.circular(30) ),
+                          ),
+                          child:
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+
+
+
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+
+                                Row(children: <Widget>[
+                                  Text("Coins" ,
+                                    style: TextStyle(
+                                        fontFamily: 'ZillaSlab',
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black45
+                                    ),
+                                    textAlign: TextAlign.left,),
+
+                                  Icon(Icons.fiber_manual_record)
+
+                                ],),
+                                SizedBox(height: 10,),
+
+                                Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(30) ),
+                                  ),
+
+                                  child:Text("5068",
+
+                                    style: TextStyle(
+                                        fontFamily: 'ZillaSlab',
+                                        fontSize:20.0,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white70
+                                    ),
+                                    textAlign: TextAlign.center,),),
+
+
+
+
+
+                              ],),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+
+                              Text("Stories" ,
+                                style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black45
+                                ),
+                                textAlign: TextAlign.left,),
+                              SizedBox(height: 10,),
+
+                              Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+
+                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.all(Radius.circular(30) ),
+                                ),
+
+                                child:Text("48",
+
+                                  style: TextStyle(
+                                      fontFamily: 'ZillaSlab',
+                                      fontSize:20.0,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white70
+                                  ),
+                                  textAlign: TextAlign.center,),),
+
+
+
+
+
+                            ],),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+
+                              Text("Streaks" ,
+                                style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black45
+                                ),
+                                textAlign: TextAlign.left,),
+                              SizedBox(height: 10,),
+
+                              Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+
+                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.all(Radius.circular(30) ),
+                                ),
+
+                                child:Text("5",
+
+                                  style: TextStyle(
+                                      fontFamily: 'ZillaSlab',
+                                      fontSize:20.0,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white70
+                                  ),
+                                  textAlign: TextAlign.center,),),
+
+
+
+
+
+                            ],),
+
+
+                      
+                      ],))
+                      
+
+
+                  ),
+                  SizedBox(height: 24,),
              (achievementsWidget()),
                   Container(
 
@@ -502,7 +708,7 @@ class _AddQuestionState extends State<ProfilePage> {
 
 
                 ],
-              ),
+              )),
               margin: EdgeInsets.only(top: 0),
               padding: EdgeInsets.only(left: 0, right: 0),
             ),)),
@@ -910,24 +1116,24 @@ class _AddQuestionState extends State<ProfilePage> {
     colorList.elementAt(56 % colorList.length);
     return Container(
       height: 180,
-        margin: EdgeInsets.fromLTRB(28, 0,28, 8),
+        margin: EdgeInsets.fromLTRB(20, 0,20, 8),
         decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).primaryColor, width: 3),
+          border: Border.all(color: Theme.of(context).primaryColor, width: 12),
           image: DecorationImage(
               image: AssetImage('assets/images/achievements.jpg'),
               fit: BoxFit.cover
           ),
-          borderRadius: new BorderRadius.only(topLeft:  Radius.circular(65.0),bottomLeft:   Radius.circular((20)),topRight:Radius.circular((20)) ,bottomRight:Radius.circular((20)) ),
+          borderRadius: new BorderRadius.all( Radius.circular(30.0) ),
 
           boxShadow: [buildBoxShadow(color, context)],
         ),
         child: Material(
-            borderRadius: new BorderRadius.only(topLeft:  Radius.circular(65.0),bottomLeft:   Radius.circular((20)),topRight:Radius.circular((20)) ,bottomRight:Radius.circular((20))),
+            borderRadius: new BorderRadius.all( Radius.circular(30.0) ),
 
             clipBehavior: Clip.antiAlias,
             color: Theme.of(context).dialogBackgroundColor,
             child: InkWell(
-              borderRadius: new BorderRadius.only(topLeft:  Radius.circular(65.0),bottomLeft:   Radius.circular((20)),topRight:Radius.circular((20)) ,bottomRight:Radius.circular((20))),
+              borderRadius: new BorderRadius.all( Radius.circular(30.0) ),
 
               onTap: () {
 
@@ -954,7 +1160,7 @@ class _AddQuestionState extends State<ProfilePage> {
                             foreground: Paint()..shader = linearGradient,
                             fontWeight: FontWeight.w800),
                       ),
-                      Icon(Icons.short_text,size:70,color: Colors.white30,)
+                      Icon(Icons.short_text,size:50,color: Colors.white30,)
 
 
                     ]),

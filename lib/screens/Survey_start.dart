@@ -12,7 +12,7 @@ import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/LibraryQuestion.dart';
 import 'package:notes/screens/QuestionForm.dart';
 import 'package:notes/services/database.dart';
-import 'package:page_transition/page_transition.dart';
+
 
 
 
@@ -771,11 +771,7 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
                 decoration: BoxDecoration(
                   // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
                     borderRadius:  BorderRadius.all( Radius.circular(20.0) ),
-                    image: DecorationImage(
-                        image: NetworkImage(ImagesUrl[index]),
-                      fit: BoxFit.fill
 
-                    ),
                   gradient: new LinearGradient(
                       colors: [
 
@@ -793,7 +789,17 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
                 color: Colors.black.withAlpha(80),
                 blurRadius: 4)
           ],
-                )
+                ),
+                child:ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),child:FadeInImage(
+
+                  placeholder:
+                  new AssetImage("assets/images/SortedLogo.png"),
+                  image: new NetworkImage(ImagesUrl[index]),
+
+                  fit: BoxFit.cover,
+
+                ))
 
 
             ),

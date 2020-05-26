@@ -102,11 +102,14 @@ class _AnimatedButtonState extends State<AnimatedButton>
               children: <Widget>[
                 (_currentState == ButtonState.SHOW_ONLY_ICON ||
                     _currentState == ButtonState.SHOW_TEXT_ICON)
-                    ? Icon(
+                    ?        Hero(
+                    tag: "survey",
+                    transitionOnUserGestures: true,
+                    child:Icon(
                   widget.iconData,
                   size: widget.iconSize,
                   color: widget.buttonStyle.primaryColor,
-                )
+                ))
                     : Container(),
                 SizedBox(
                   width: _currentState == ButtonState.SHOW_TEXT_ICON ? 30.0 : 0.0,

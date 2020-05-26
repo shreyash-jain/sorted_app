@@ -48,6 +48,10 @@
         "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.1.aar\\6f8d8e1e0635735e4a55fe0aab64324e\\res\\drawable-mdpi-v4\\notification_bg_low_normal.9.png"
     },
     {
+        "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\app\\intermediates\\res\\merged\\debug\\xml_esys_flutter_share_filepaths.xml.flat",
+        "source": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\esys_flutter_share\\intermediates\\packaged_res\\debug\\xml\\esys_flutter_share_filepaths.xml"
+    },
+    {
         "merged": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\app\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_done_white_24dp.xml.flat",
         "source": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\local_auth\\intermediates\\packaged_res\\debug\\drawable-anydpi-v21\\ic_done_white_24dp.xml"
     },

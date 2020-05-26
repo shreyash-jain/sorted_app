@@ -188,7 +188,7 @@ class NotesDatabaseService {
           '''CREATE TABLE Notebooks (_id INTEGER PRIMARY KEY, saved_ts TEXT,title TEXT, notes_num INTEGER, date TEXT, isImportant INTEGER);''');
       print('New table created at 2 $path');
       await db.execute(
-          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, saved_ts TEXT,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
+          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, content TEXT, c_name TEXT, c_id INTEGER, saved_ts TEXT,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
       print('New table created at 3 $path');
          await db.execute(
           '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY, date_id INTEGER, saved_ts TEXT, c_summary TEXT,c_keywords TEXT,p_rating DOUBLE,p_ans INTEGER,  q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,a_rating DOUBLE,discription TEXT);''');
@@ -221,7 +221,7 @@ class NotesDatabaseService {
 
 
         }
-        progress+=(.5/tables.length);
+        progress+=(1/tables.length);
         yield(progress);
 
       }
@@ -230,11 +230,50 @@ class NotesDatabaseService {
 
 
     }
+    yield (1);
     await batch.commit(noResult: true);
 
 
 
+
+
+
+  }
+  Stream<double> GetCloudDataFirstTime() async* {
+    yield (0);
+    FirebaseUser user = await _auth.currentUser();
+    final db = await database;
+    batch = db.batch();
+    double progress=0;
+    for (int i=0;i<tables.length;i++){
+      QuerySnapshot snapShot = await _fireDB.collection('StartData').document('data').collection(tables[i]).getDocuments();
+      if (snapShot != null && snapShot.documents.length!=0){
+
+
+        final List<DocumentSnapshot> documents = snapShot.documents;
+
+        for (int j=0;j<documents.length;j++){
+
+
+          batch.insert((tables[i]),documents[j].data);
+
+
+        }
+        progress+=(1/tables.length);
+        yield(progress);
+
+      }
+
+
+
+
+    }
     yield (1);
+    await batch.commit(noResult: true);
+
+
+
+
 
 
   }
@@ -557,6 +596,9 @@ print(text);
       'ans1',
       'ans2',
       'weight',
+      'content',
+      'c_id',
+      'c_name',
       'c_streak',
       'l_streak',
       'l_interval',
@@ -589,6 +631,9 @@ print(text);
       'priority',
       'correct_ans',
       'archive',
+      'content',
+      'c_id',
+      'c_name',
       'ans1',
       'ans2',
       'weight',
@@ -826,10 +871,13 @@ print(text);
     if (newQues.c_streak==null)newQues.c_streak=0;
     if (newQues.l_streak==null)newQues.l_streak=0;
     if (newQues.l_interval==null)newQues.l_interval=0;
+    if (newQues.content==null)newQues.content="";
+    if (newQues.c_id==null)newQues.c_id=0;
+    if (newQues.c_name==null)newQues.c_name="Others";
     if (!newQues.title.trim().isEmpty) {
      await db.transaction((transaction) async {
         int id = await transaction.rawInsert(
-            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight,c_streak,l_streak,l_interval,v_streak,saved_ts,showDashboard) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight}, ${newQues.c_streak},${newQues.l_streak},${newQues.l_interval},"${newQues.v_streak}","${newQues.saved_ts.toIso8601String()}",${newQues.showDashboard});');
+            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight,c_streak,l_streak,l_interval,v_streak,saved_ts,showDashboard,c_id,c_name,content) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight}, ${newQues.c_streak},${newQues.l_streak},${newQues.l_interval},"${newQues.v_streak}","${newQues.saved_ts.toIso8601String()}",${newQues.showDashboard},${newQues.c_id},"${newQues.c_name}","${newQues.content}");');
         print("insert Question with id: " + id.toString());
         newQues.id = id;
         FirebaseUser user = await _auth.currentUser();
@@ -847,6 +895,40 @@ print(text);
         });
 
      });
+
+      return newQues;
+    }
+  }
+  Future<QuestionModel> addQuestionInInitailCloud(QuestionModel newQues) async {
+    final db = await database;
+
+    if (newQues.saved_ts==null)newQues.saved_ts=DateTime.now();
+    if (newQues.v_streak==null)newQues.v_streak="[]";
+    if (newQues.showDashboard==null)newQues.showDashboard=0;
+    if (newQues.c_streak==null)newQues.c_streak=0;
+    if (newQues.l_streak==null)newQues.l_streak=0;
+    if (newQues.l_interval==null)newQues.l_interval=0;
+    if (newQues.content==null)newQues.content="";
+    if (newQues.c_id==null)newQues.c_id=0;
+    if (newQues.c_name==null)newQues.c_name="Others";
+    if (newQues.last_date==null)newQues.last_date=DateTime.now();
+    if (!newQues.title.trim().isEmpty) {
+
+        FirebaseUser user = await _auth.currentUser();
+
+        DocumentReference ref = _fireDB.collection('StartData').document('data').collection("Questions").document(newQues.id.toString());
+
+
+        ref.setData(newQues.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+          print("nhi chala\n"),print("hello")
+        }).timeout(Duration(seconds: 2),onTimeout:() {
+
+          //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+          print("timeout nhi chala\n");
+        });
+
+
 
       return newQues;
     }
@@ -968,6 +1050,26 @@ print(text);
 
 
     return newAns;
+  }
+  void addNotebookToInitailCloud(NoteBookModel newNote) async {
+    final db = await database;
+
+    if (newNote.saved_ts==null)newNote.saved_ts=DateTime.now();
+    if (newNote.title.trim().isEmpty) newNote.title = 'Untitled Notebook';
+    newNote.notes_num = 0;
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('StartData').document('data').collection("Notebooks").document(newNote.id.toString());
+
+
+    ref.setData(newNote.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+    });
   }
 
 
@@ -1200,6 +1302,7 @@ print(text);
     DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Revents").document(updatedQues.id.toString());
 
 
+
     ref.setData(updatedQues.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
       print("nhi chala\n"),print("hello")
     }).timeout(Duration(seconds: 2),onTimeout:() {
@@ -1375,6 +1478,29 @@ print(text);
     });
 
   }
+
+  Future<CatModel> addCatToInitialCloud(CatModel newActivity) async{
+    final db = await database;
+    if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
+
+
+
+      DocumentReference ref = _fireDB.collection('StartData').document('data').collection("Cats").document( newActivity.id.toString());
+
+
+      ref.setData(newActivity.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
+
+
+
+  }
   Future<FriendModel> addFriend(FriendModel newActivity) async{
     final db = await database;
     if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
@@ -1431,6 +1557,30 @@ print(text);
     });
 
   }
+  void addActivityToInitialCloud(ActivityModel newActivity) async{
+    final db = await database;
+
+    if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
+
+
+
+
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('StartData').document('data').collection("Activity").document( newActivity.id.toString());
+
+
+      ref.setData(newActivity.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
+
+  }
   Future<UserAModel> addUserActivity(UserAModel newActivity) async{
     final db = await database;
     if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
@@ -1457,6 +1607,27 @@ print(text);
       });
     });
     return newActivity;
+  }
+  Future<UserAModel> addUserActivityToInitialCloud(UserAModel newActivity) async{
+    final db = await database;
+
+    if(newActivity.saved_ts==null)newActivity.saved_ts=DateTime.now();
+
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('StartData').document('data').collection("User_Activity").document(newActivity.id.toString());
+
+
+      ref.setData(newActivity.toMap()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+      });
+
+
   }
   Future<DateModel> addDateInDB(DateModel newDate) async {
     final db = await database;

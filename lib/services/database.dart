@@ -245,15 +245,24 @@ class NotesDatabaseService {
     final db = await database;
     batch = db.batch();
     double progress=0;
+
+
     for (int i=0;i<tables.length;i++){
+
+
+
+
+
       QuerySnapshot snapShot = await _fireDB.collection('StartData').document('data').collection(tables[i]).getDocuments();
       if (snapShot != null && snapShot.documents.length!=0){
-
 
         final List<DocumentSnapshot> documents = snapShot.documents;
 
         for (int j=0;j<documents.length;j++){
-
+          DocumentReference ref = _fireDB.collection('users').document(user.uid).collection(tables[i]).document(documents[j].documentID);
+          ref.setData(documents[j].data).then((value) => print(ref.documentID)).catchError((onError)=>{
+            print("nhi chala\n"),print("hello")
+          });
 
           batch.insert((tables[i]),documents[j].data);
 

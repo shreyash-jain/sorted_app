@@ -78,7 +78,7 @@ class AuthService {
     bool old_user=await checkIfUserAlreadyPresent(user);
     print ("old_user "+old_user.toString());
     if (!old_user){
-      makeSingleSignIn(user);
+      await makeSingleSignIn(user);
 
     }
 
@@ -96,7 +96,7 @@ class AuthService {
       }
       else {
         await prefs.setBool("LoggedIn", false);
-        makeSingleSignIn(user);
+        await makeSingleSignIn(user);
         print("yaha bhi koi aata");
       }
 
@@ -166,17 +166,17 @@ setOnboard() async {
   void updateUserData(FirebaseUser user) async {
     DocumentReference ref = _db.collection('users').document(user.uid).collection("user_data").document("data");
 
-    ref.updateData({'uid':user.uid});
-    ref.updateData({'email':user.email});
-    ref.updateData({'photoURL':user.photoUrl});
-    ref.updateData({'displayName': user.displayName});
+    ref.setData({'uid':user.uid},merge: true);
+    ref.setData({'email':user.email},merge: true);
+    ref.setData({'photoURL':user.photoUrl},merge: true);
+    ref.setData({'displayName': user.displayName},merge: true);
 
 
 
 
   }
   int next(int min, int max) => min + _random.nextInt(max - min);
-  void makeSingleSignIn(FirebaseUser user) async {
+  Future<void> makeSingleSignIn(FirebaseUser user) async {
     DocumentReference ref = _db.collection('users').document(user.uid).collection("user_data").document("data");
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     String deviceName="";
@@ -193,7 +193,7 @@ setOnboard() async {
       deviceName=iosInfo.utsname.machine;    }
     int deviceId=next(1,4294967290);
     try {
-      ref.setData({
+      await ref.setData({
         'signInId': deviceId,
         'deviceName': deviceName,
 

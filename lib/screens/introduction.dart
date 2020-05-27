@@ -48,6 +48,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
   List<ActivityModel> AlladdedList = [];
   FocusNode nameFocus = FocusNode();
   bool old_user = false;
+  int startPage=0;
   String avatar = 'assets/images/male1.png';
   int avatar_position = -1;
   bool _loading;
@@ -116,8 +117,20 @@ class _OnboardingScreenState extends State<IntroductionScreen>
   setInitials() {
     nameController.text = prefs.getString("google_name");
     old_user = prefs.getBool("old_user");
-    if (old_user)_updateProgress();
-    if (!old_user)_updateProgressFirstTime();
+    if (old_user){
+      _updateProgress();
+      setState(() {
+        startPage=1;
+      });
+
+
+    }
+    if (!old_user){
+      setState(() {
+        startPage=2;
+      });
+
+      _updateProgressFirstTime();}
   }
 
   void _initialize() {
@@ -537,7 +550,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                       ],
                     )
                   : Text(''),
-              if (old_user)
+              if (startPage==1)
                 Container(
                   padding: EdgeInsets.all(32),
                   alignment: Alignment.center,
@@ -603,7 +616,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                     ],
                   ),
                 ),
-              if (!old_user)
+              if (startPage==2)
                 Container(
                   padding: EdgeInsets.all(32),
                   alignment: Alignment.center,
@@ -789,7 +802,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
       sleep(const Duration(seconds:2));
       print("2 hahja");
       setState(() {
-        old_user = false;
+       startPage=0;
       });
     });
   }
@@ -807,7 +820,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
       sleep(const Duration(seconds:2));
       print("2 hahja");
       setState(() {
-        old_user = false;
+        startPage=0;
       });
     });
   }

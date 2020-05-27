@@ -45,7 +45,7 @@ class QuestionCardComponent extends StatelessWidget {
       int_text = "repeats Daily";
     else if (interval_int == 2)
       int_text = "repeats Weekly";
-    else if (interval_int == 3) int_text = "repeats Monthly";
+    else int_text = "repeats Monthly";
     Color color =
         colorList.elementAt(QuestionData.title.length % colorList.length);
     return Container(

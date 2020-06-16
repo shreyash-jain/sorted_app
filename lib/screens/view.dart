@@ -47,9 +47,14 @@ class _ViewNotePageState extends State<ViewNotePage> {
   var flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
 
   bool screenshot=false;
+
+  Image myImage;
   @override
   void initState() {
+
+
     super.initState();
+
     showHeader();
     print("view_content: " +
         widget.currentNote.content
@@ -68,10 +73,14 @@ class _ViewNotePageState extends State<ViewNotePage> {
       setState(() {
         _controller = ZefyrController(document);
       });
-
+    myImage= Image.asset("assets/images/SortedLogo.png");
     _focusNode = FocusNode();
   }
-
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(myImage.image, context);
+  }
   void showHeader() async {
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
@@ -86,7 +95,7 @@ class _ViewNotePageState extends State<ViewNotePage> {
   Widget build(BuildContext context) {
     if (height<MediaQuery.of(context).size.height-230)
       height=MediaQuery.of(context).size.height-228;
-
+    //precacheImage( AssetImage( "assets/images/SortedLogo.png"),context);
     final editor = ZefyrField(
 
       height: height,
@@ -280,25 +289,26 @@ class _ViewNotePageState extends State<ViewNotePage> {
                                     icon: Icon(OMIcons.share),
                                     onPressed:() async {
 
-                                      await setState(() {
+                                       setState(() {
 
 
                                         screenshot=true;
-                                      });
-                                      _imageFile = null;
-                                      screenshotController
-                                          .capture(delay: Duration(milliseconds: 10))
-                                          .then((File image) async {
-                                        //print("Capture Done");
-                                        setState(() {
-                                          _imageFile = image;
+                                        _imageFile = null;
+                                         screenshotController
+                                            .capture(delay: Duration(milliseconds: 10))
+                                            .then((File image) async {
+                                          //print("Capture Done");
                                           setState(() {
-                                            screenshot=false;
-                                          });
+                                            _imageFile = image;
 
+
+                                          });
+                                          await handleShare(_imageFile);
                                         });
-                                        await handleShare(_imageFile);
                                       });
+
+
+
 
                                       },
                                   ),
@@ -313,7 +323,8 @@ class _ViewNotePageState extends State<ViewNotePage> {
 
   void handleSave() async {
     await NotesDatabaseService.db.updateNoteInDB(widget.currentNote);
-    widget.triggerRefetch();
+    widget.currentNote.content = widget.currentNote.content.replaceAll('*%', '"');
+
   }
 
   void markImportantAsDirty() {
@@ -343,6 +354,9 @@ class _ViewNotePageState extends State<ViewNotePage> {
     } catch (e) {
       print('error: $e');
     }
+    setState(() {
+      screenshot=false;
+    });
   }
   Future<void> handleShare(File file) async {
 

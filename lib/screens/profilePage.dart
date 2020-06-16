@@ -358,7 +358,7 @@ class _AddQuestionState extends State<ProfilePage> {
                                               fontFamily: 'ZillaSlab',
                                               fontSize:16.0,
                                               fontWeight: FontWeight.w800,
-                                              color: Colors.white70
+
                                           ),
                                           textAlign: TextAlign.center,),),
 
@@ -472,7 +472,7 @@ class _AddQuestionState extends State<ProfilePage> {
                                         fontFamily: 'ZillaSlab',
                                         fontSize:20.0,
                                         fontWeight: FontWeight.w800,
-                                        color: Colors.white70
+
                                     ),
                                     textAlign: TextAlign.center,),),
 
@@ -510,7 +510,7 @@ class _AddQuestionState extends State<ProfilePage> {
                                       fontFamily: 'ZillaSlab',
                                       fontSize:20.0,
                                       fontWeight: FontWeight.w800,
-                                      color: Colors.white70
+
                                   ),
                                   textAlign: TextAlign.center,),),
 
@@ -548,7 +548,7 @@ class _AddQuestionState extends State<ProfilePage> {
                                       fontFamily: 'ZillaSlab',
                                       fontSize:20.0,
                                       fontWeight: FontWeight.w800,
-                                      color: Colors.white70
+
                                   ),
                                   textAlign: TextAlign.center,),),
 

@@ -76,8 +76,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(vertical: 8.0),
-      height: 12.0,
-      width: isActive ? 30.0 : 20.0,
+      height: 8.0,
+      width: isActive ? 16.0 : 10.0,
       decoration: BoxDecoration(
         color: isActive ? Colors.white : Colors.black26,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -134,7 +134,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
 
                           children: <Widget>[
                            Padding(
-                                padding :EdgeInsets.only(top:140),
+                                padding :EdgeInsets.only(top:110),
                                child:FadeAnimation(1.6, Container(
 
                                 child:Image(
@@ -145,7 +145,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
                                 width: 150,
                               ),),),),
 
-                            Padding(padding :EdgeInsets.only(top:300),
+                            Padding(padding :EdgeInsets.only(top:270),
                               child:FadeAnimation(2.6, Container(
 
                                 child: Text(
@@ -160,7 +160,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
                               )),),
 
 
-                            Padding(padding :EdgeInsets.only(top:380),
+                            Padding(padding :EdgeInsets.only(top:350),
                               child:FadeAnimation(4.2, Container(
 
                                   child: Text(
@@ -184,7 +184,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
 
                           children: <Widget>[
                             Padding(
-                              padding :EdgeInsets.only(top:140),
+                              padding :EdgeInsets.only(top:110),
                               child:FadeAnimation(1.6, Container(
 
                                 child:Image(
@@ -195,7 +195,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
                                   width: 150,
                                 ),),),),
 
-                            Padding(padding :EdgeInsets.only(top:300),
+                            Padding(padding :EdgeInsets.only(top:270),
                               child:FadeAnimation(2.6, Container(
 
                                   child: Text(
@@ -210,7 +210,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
                               )),),
 
 
-                            Padding(padding :EdgeInsets.only(top:340),
+                            Padding(padding :EdgeInsets.only(top:310),
                               child:FadeAnimation(4.2, Container(
 
                                 child: Text(
@@ -234,7 +234,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
 
                           children: <Widget>[
                             Padding(
-                              padding :EdgeInsets.only(top:140),
+                              padding :EdgeInsets.only(top:110),
                               child:FadeAnimation(1.6, Container(
 
                                 child:Image(
@@ -245,7 +245,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
                                   width: 150,
                                 ),),),),
 
-                            Padding(padding :EdgeInsets.only(top:300),
+                            Padding(padding :EdgeInsets.only(top:270),
                               child:FadeAnimation(2.6, Container(
 
                                   child: Text(
@@ -260,7 +260,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
                               )),),
 
 
-                            Padding(padding :EdgeInsets.only(top:340),
+                            Padding(padding :EdgeInsets.only(top:310),
                               child:FadeAnimation(4.2, Container(
 
                                 child: Text(

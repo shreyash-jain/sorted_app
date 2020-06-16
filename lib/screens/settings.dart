@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:health/health.dart';
 import 'package:notes/services/auth.dart';
 import 'package:notes/services/database.dart';
 import 'package:notes/services/sharedPref.dart';
@@ -28,15 +29,18 @@ class _SettingsPageState extends State<SettingsPage> {
   FocusNode BudgetFocus = FocusNode();
   TextEditingController BudgetTitle = TextEditingController();
   int selected_currency=1;
+  int selected_unfilled=1;
   int edit=0;
   String g_name="Shreyash",g_email="shreyash.jain.eee15@itbhu.ac.in";
   String budget="10000";
   var isSwitched=false;
-
+  String currency="₹";
   var _budgetController;
   int min=15;
 
   String mins="15 mins";
+
+  bool isGfit=false;
 
   initiatePref() async {
     prefs = await SharedPreferences.getInstance();
@@ -52,6 +56,36 @@ class _SettingsPageState extends State<SettingsPage> {
 
     else  setState(() {
       isSwitched=true;
+    });
+    int survey_length = prefs.getInt('survey_length');
+
+    if (survey_length==null || survey_length==false)
+      setState(() {
+        min=15;
+      });
+    selected_unfilled = prefs.getInt('unfilled');
+
+    if (selected_unfilled==null )
+      setState(() {
+        selected_unfilled=1;
+      });
+
+    else  setState(() {
+      min=survey_length;
+      mins="$survey_length mins";
+    });
+     currency = prefs.getString('currency');
+
+    if (currency==null || currency==false)
+      setState(() {
+        currency="₹";
+      });
+
+    else  setState(() {
+     if(currency=="£") selected_currency=4;
+     else if(currency=="€") selected_currency=3;
+     else if(currency=="\$") selected_currency=2;
+     else selected_currency=1;
     });
 
   }
@@ -314,6 +348,40 @@ class _SettingsPageState extends State<SettingsPage> {
                             activeColor: Theme.of(context).primaryColor,
                           ),
                         ),
+                      ],),
+                      Container(
+                        height: 20,
+                      ),
+                      Text('Connect to Google Fit',
+                          style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              fontSize: 24,
+                              color: Theme.of(context).primaryColor)),
+                      Container(
+                        height: 20,
+                      ),
+                      Row (children: <Widget>[
+
+                        Container(
+                          width: 60,
+                          child:   Switch(
+
+                            value: isGfit,
+                            onChanged: (value) async {
+                              if (!isGfit) {
+                                bool isAuthorized = await Health
+                                    .requestAuthorization();
+                                print(isAuthorized);
+                              }
+                              setState(()  {
+                                isGfit = value;
+                              });
+
+
+                            },
+                            activeColor: Theme.of(context).primaryColor,
+                          ),
+                        ),
                       ],)
                     ],
                   )]),),
@@ -363,7 +431,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     borderRadius: new BorderRadius.circular(18.0),
 
 
-                                    side: BorderSide(color:(selected_currency==1)?Theme.of(context).primaryColor:Colors.transparent)),
+                                    side: BorderSide(color:(selected_unfilled==1)?Theme.of(context).primaryColor:Colors.transparent)),
                                 // color: Theme.of(context).primaryColor,
 
                                 color: Theme.of(context).scaffoldBackgroundColor,
@@ -379,7 +447,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                 onPressed: (){
 
                                   setState(() {
-                                    selected_currency=1;
+                                    selected_unfilled=1;
+                                    prefs.setInt('unfilled',selected_unfilled);
+                                    NotesDatabaseService.db.updateUnfilledSetting(true);
                                   });
 
                                 },
@@ -401,7 +471,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     borderRadius: new BorderRadius.circular(18.0),
 
 
-                                    side: BorderSide(color:(selected_currency==2)?Theme.of(context).primaryColor:Colors.transparent)),
+                                    side: BorderSide(color:(selected_unfilled==2)?Theme.of(context).primaryColor:Colors.transparent)),
 
                                 color: Theme.of(context).scaffoldBackgroundColor,
 
@@ -414,7 +484,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                     fontSize:16)),
                                 onPressed: (){
                                   setState(() {
-                                    selected_currency=2;
+                                    selected_unfilled=2;
+                                    prefs.setInt('unfilled',selected_unfilled);
+                                    NotesDatabaseService.db.updateUnfilledSetting(false);
                                   });
 
                                 },
@@ -474,8 +546,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                   setState(() {
                                    if (min<30) min++;
                                     mins=min.toString()+" mins";
+                                   prefs.setInt("survey_length", min);
                                     if (min==30){
                                       mins="30+ mins";
+                                       prefs.setInt("survey_length", 30);
                                     }
 
                                   });
@@ -521,8 +595,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                   setState(() {
                                     if (min>10) min--;
                                     mins=min.toString()+" mins";
+                                    prefs.setInt("survey_length", min);
                                     if (min==10){
                                       mins="10- mins";
+                                      prefs.setInt("survey_length", 10);
                                     }
 
                                   });
@@ -601,6 +677,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                               setState(() {
                                 selected_currency=1;
+                                prefs.setString("currency", "₹");
                               });
 
                             },
@@ -635,6 +712,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             onPressed: (){
                               setState(() {
                                 selected_currency=2;
+                                prefs.setString("currency", "\$");
                               });
 
                             },
@@ -669,6 +747,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             onPressed: (){
 
                               setState(() {
+                                prefs.setString("currency", "€");
                                 selected_currency=3;
                               });
                             },
@@ -702,6 +781,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 fontSize:32)),
                             onPressed: (){
                               setState(() {
+                                prefs.setString("currency", "£");
                                 selected_currency=4;
                               });
 
@@ -797,6 +877,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Container(
                     height: 40,
                   ),
+
                   Center(
                     child: Text('Developed by'.toUpperCase(),
                         style: TextStyle(
@@ -806,16 +887,28 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                        padding: const EdgeInsets.only(top: 16.0, bottom: 25.0),
                         child: Text(
                           'Shreyash Jain\n\nSuchit Sahoo',
                           style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 24),
                         ),
                       )),
+                  Center(child: AboutListTile(
+                    icon: Icon(Icons.info,size:20),
 
-                  Container(
-                    height: 30,
-                  ),
+                    child: Text('About app',   style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 14 ,fontWeight: FontWeight.w700),),
+                    applicationIcon:new Image.asset('assets/images/SortedLogo.png',width: 40,height: 40,),
+                    applicationName: 'Sorted',
+                    applicationVersion: '1.0.0',
+                    applicationLegalese: 'Just an Idea',
+                    aboutBoxChildren: [
+                      ///Content goes here...
+                    ],
+                  ),),
+
+
+
+
 
                 ],
               ))

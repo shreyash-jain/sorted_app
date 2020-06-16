@@ -1,21 +1,27 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:date_utils/date_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:googleapis/calendar/v3.dart';
 import 'package:notes/data/activity.dart';
 import 'package:notes/data/eCat.dart';
 import 'package:notes/data/notebook.dart';
 import 'package:notes/data/question.dart';
 import 'package:notes/data/user_activity.dart';
+import 'package:notes/services/GoogleHttpClient.dart';
 import 'package:notes/services/database.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 class AuthService {
   // Dependencies
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
+    'email',
+    'https://www.googleapis.com/auth/calendar.events.readonly',
+  ],);
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
   SharedPreferences  prefs ;
@@ -60,6 +66,7 @@ class AuthService {
     prefs = await SharedPreferences.getInstance();
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 
+
     // Step 2
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
@@ -72,7 +79,8 @@ class AuthService {
     final AuthResult authResult  = await _auth.signInWithCredential(credential);
     final FirebaseUser user = authResult.user;
 
-
+    final headers = await _googleSignIn.currentUser.authHeaders;
+    getEvent(headers);
 
     // Step 3
     bool old_user=await checkIfUserAlreadyPresent(user);
@@ -121,7 +129,19 @@ class AuthService {
 
     return user;
   }
+  getEvent(headers) async {
+    print("check kaona");
+    final httpClient = GoogleHttpClient(headers);
+    var calendar = CalendarApi(httpClient);
+    DateTime lastMonth = Utils.lastDayOfMonth(DateTime.now().subtract(Duration(days: 1)));
+    DateTime firstMonth = Utils.firstDayOfMonth(DateTime.now().add(Duration(days: 1)));
+    var calEvents = calendar.events.list("primary", timeMax: lastMonth.toUtc(), timeMin: firstMonth.toUtc());
+    calEvents.then(
+            (events) => {
 
+              print(events.items.length),
+              events.items.forEach((event) => print("EVENT ${event}"))});
+  }
   Future<bool> checkIfUserAlreadyPresent(FirebaseUser user) async {
     // var document = await _db.collection('users').document(user.uid).collection("user_data").document("data");
 

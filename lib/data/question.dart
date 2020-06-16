@@ -9,6 +9,7 @@ class QuestionModel {
   int interval, type;
   String ans1, ans2, ans3;
   int archive;
+  int min,max;
   DateTime last_date;
   int correct_ans;
   int priority;
@@ -29,6 +30,8 @@ class QuestionModel {
       this.priority,
       this.last_date,
       this.archive,
+      this.min,
+      this.max,
       this.correct_ans,
       this.showDashboard,
       this.num_ans,
@@ -62,6 +65,8 @@ class QuestionModel {
     this.archive = map['archive'];
     this.priority = map['priority'];
     this.c_name = map['c_name'];
+    this.min=map['min'];
+    this.max=map['max'];
     this.c_id = map['c_id'];
     this.content = map['content'];
     this.correct_ans = map['correct_ans'];
@@ -93,6 +98,8 @@ class QuestionModel {
     this.weight = map.data['weight'];
     this.last_date = DateTime.parse(map.data['last_date']);
     this.showDashboard = map.data['showDashboard'];
+    this.min=map.data['min'];
+    this.max=map.data['max'];
     this.saved_ts = DateTime.parse(map.data['saved_ts']);
   }
 
@@ -117,6 +124,8 @@ class QuestionModel {
       'saved_ts': this.saved_ts.toIso8601String(),
       'priority': this.priority,
       'correct_ans': this.correct_ans,
+      'min':this.min,
+      'max':this.max,
       'weight': this.weight,
       'last_date': this.last_date.toIso8601String(),
       'showDashboard': this.showDashboard

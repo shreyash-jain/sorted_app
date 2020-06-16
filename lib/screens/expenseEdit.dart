@@ -117,7 +117,7 @@ class _EditNotePageState extends State<expenseEdit> {
                   color: Colors.grey.withOpacity(.2)
               ),
             height:53,
-              width: 236,
+
               child:Row(children: <Widget>[
 
                Container(

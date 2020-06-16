@@ -2,34 +2,40 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "_discoveryapis_commons",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/_discoveryapis_commons-0.1.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "archive",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/archive-2.0.11",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/archive-2.0.13",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
     {
       "name": "args",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/args-1.5.2",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/args-1.6.0",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.3"
     },
     {
       "name": "async",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/async-2.4.0",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/async-2.4.1",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.2"
     },
     {
       "name": "boolean_selector",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/boolean_selector-1.0.5",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/boolean_selector-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.4"
     },
     {
       "name": "charcode",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/charcode-1.1.2",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/charcode-1.1.3",
       "packageUri": "lib/",
-      "languageVersion": "1.0"
+      "languageVersion": "2.0"
     },
     {
       "name": "cloud_firestore",
@@ -51,7 +57,7 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/collection-1.14.11",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/collection-1.14.12",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -63,7 +69,7 @@
     },
     {
       "name": "crypto",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/crypto-2.1.3",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/crypto-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -82,6 +88,12 @@
     {
       "name": "date_range_picker",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/date_range_picker-1.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "date_utils",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/date_utils-0.1.0+3",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -128,6 +140,12 @@
       "languageVersion": "2.7"
     },
     {
+      "name": "firebase_analytics",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/firebase_analytics-5.0.14",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "firebase_auth",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/firebase_auth-0.16.0",
       "packageUri": "lib/",
@@ -170,10 +188,28 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "firebase_storage",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/firebase_storage-3.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "fl_chart",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/fl_chart-0.8.7",
       "packageUri": "lib/",
       "languageVersion": "2.1"
+    },
+    {
+      "name": "flare_dart",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flare_dart-2.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "flare_flutter",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flare_flutter-1.8.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
     },
     {
       "name": "flutter",
@@ -182,10 +218,22 @@
       "languageVersion": "2.2"
     },
     {
-      "name": "flutter_chips_input",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_chips_input-1.7.0",
+      "name": "flutter_calendar_carousel",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_calendar_carousel-1.4.12",
       "packageUri": "lib/",
       "languageVersion": "2.0"
+    },
+    {
+      "name": "flutter_chips_input",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_chips_input-1.8.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "flutter_colorpicker",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_colorpicker-0.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.3"
     },
     {
       "name": "flutter_duration_picker",
@@ -195,9 +243,9 @@
     },
     {
       "name": "flutter_form_builder",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_form_builder-3.5.3",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_form_builder-3.8.3",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.6"
     },
     {
       "name": "flutter_keyboard_visibility",
@@ -242,6 +290,12 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "flutter_touch_spin",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_touch_spin-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.5"
+    },
+    {
       "name": "flutter_typeahead",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_typeahead-1.8.0",
       "packageUri": "lib/",
@@ -278,6 +332,18 @@
       "languageVersion": "2.6"
     },
     {
+      "name": "googleapis",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/googleapis-0.54.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "health",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/health-1.0.2+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "http",
       "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/http-0.12.1",
       "packageUri": "lib/",
@@ -291,7 +357,7 @@
     },
     {
       "name": "image",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/image-2.1.4",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/image-2.1.12",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -303,9 +369,9 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/intl-0.15.8",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/intl-0.16.1",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.5"
     },
     {
       "name": "io",
@@ -327,9 +393,9 @@
     },
     {
       "name": "local_auth",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/local_auth-0.5.3",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/local_auth-0.6.2+3",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.1"
     },
     {
       "name": "logging",
@@ -453,7 +519,7 @@
     },
     {
       "name": "quiver",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/quiver-2.0.5",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/quiver-2.1.3",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -513,9 +579,9 @@
     },
     {
       "name": "source_span",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/source_span-1.5.5",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/source_span-1.7.0",
       "packageUri": "lib/",
-      "languageVersion": "1.8"
+      "languageVersion": "2.6"
     },
     {
       "name": "sqflite",
@@ -663,9 +729,9 @@
     },
     {
       "name": "xml",
-      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/xml-3.5.0",
+      "rootUri": "file:///C:/Users/Shreyash/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/xml-3.6.1",
       "packageUri": "lib/",
-      "languageVersion": "2.3"
+      "languageVersion": "2.6"
     },
     {
       "name": "yaml",
@@ -686,7 +752,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-05-25T13:17:04.129659Z",
+  "generated": "2020-06-16T12:04:50.969181Z",
   "generator": "pub",
-  "generatorVersion": "2.8.0-dev.12.0.flutter-9983424a3c"
+  "generatorVersion": "2.8.4"
 }

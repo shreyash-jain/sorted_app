@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ import 'package:notes/models/note_model.dart';
 import 'package:notes/screens/AnswerView.dart';
 import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/ListQuestion.dart';
-import 'package:notes/screens/Survey_end.dart';
+import 'package:notes/screens/QuestionBank.dart';
 import 'package:notes/screens/Survey_start.dart';
 import 'package:notes/screens/addEvent.dart';
 import 'package:notes/screens/EventView.dart';
@@ -78,7 +79,9 @@ class _MyHomePageState extends State<MyHomePage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<MyHomePage> {
   bool isFlagOn = false;
   bool headerShouldHide = false;
-
+  StorageReference refStorage = FirebaseStorage.instance.ref();
+  List<String> imagePath=[];
+  List<int> imageTotal=[];
   String google_url = "";
   int my_events_drawer = 0;
   ThemeData theme = appThemeLight;
@@ -93,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage>
     Icons.description
   ];
   HashMap DateTime_survey = new HashMap<String, int>();
+  HashMap widget_hash = new HashMap<int, Widget>();
   bool timeline = false;
   final _random = new Random();
   List<String> below_texs = ["one", "two", "three", "four", "five"];
@@ -110,15 +114,7 @@ class _MyHomePageState extends State<MyHomePage>
   int _selectedCategoryIndex2 = 0;
   TabController _tabController;
   bool isSearchEmpty = true;
-  List<String> ImagesUrl = [
-    "https://i.picsum.photos/id/18/200/300.jpg",
-    "https://i.picsum.photos/id/14/200/300.jpg",
-    "https://i.picsum.photos/id/14/200/300.jpg",
-    "https://i.picsum.photos/id/108/200/300.jpg",
-    "https://i.picsum.photos/id/84/200/300.jpg",
-    "https://i.picsum.photos/id/108/200/300.jpg",
-    "https://i.picsum.photos/id/104/200/300.jpg"
-  ];
+  Future<List<String>> ImagesUrl;
 
   final DateFormat _dateFormatter = DateFormat('dd MMM');
   final DateFormat _timeFormatter = DateFormat('h:mm');
@@ -146,6 +142,7 @@ class _MyHomePageState extends State<MyHomePage>
   AnimationController rippleController;
   AnimationController scaleController;
   bool isShowingMainData;
+  var top;
   int randomNumber;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static int current_position = 0;
@@ -166,11 +163,12 @@ class _MyHomePageState extends State<MyHomePage>
   void initState() {
     super.initState();
     NotesDatabaseService.db.init();
-    initiatePref();
 
+    initiatePref();
+    ImagesUrl=getImages();
     setNotesFromDB();
     setEventsFromDB();
-    getImages();
+
     get_today_todo();
     Split_text();
     get_tom_todo();
@@ -358,33 +356,32 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-  getImages() async {
-    int i = 0;
-    int rand = next(1, 100);
-    var url =
-        'https://picsum.photos/v2/list?page=' + rand.toString() + '&limit=7';
+  Future <List<String>> getImages() async {
+
+
+    return await NotesDatabaseService.db.getPlaceHolders();
+
+
+
+
 
     // Await the http get response, then decode the json-formatted response.
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      for (i = 0; i < 7; i++) {
-        ImagesUrl[i] = jsonResponse[i]["id"];
+
+
+
+     /* for (i = 0; i < 7; i++) {
+
         if (mounted)
           setState(() {
             ImagesUrl[i] =
                 "https://i.picsum.photos/id/" + ImagesUrl[i] + "/310/520.jpg";
           });
         print(ImagesUrl[i]);
-      }
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
+      }*/
 
-    if (mounted)
-      setState(() {
-        show_button = DateTime_survey[formatterDate.format(TofillDate)];
-      });
+
+
+
   }
 
   Future onSelectNotification(String payload) async => {
@@ -689,7 +686,7 @@ class _MyHomePageState extends State<MyHomePage>
                                 children: <Widget>[
                                   Padding(
                                       padding:
-                                          EdgeInsets.only(left: 77, right: 12),
+                                          EdgeInsets.only(left: 70, right: 12),
                                       child: Container(
                                         height: 70,
                                         width: 70,
@@ -752,6 +749,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   ),
                                   tooltip: 'Settings',
                                   onPressed: () {
+
                                     Navigator.push(
                                         context,
                                         CupertinoPageRoute(
@@ -845,7 +843,7 @@ class _MyHomePageState extends State<MyHomePage>
                   style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+
                   ),
                 ),
                 title: Text(
@@ -877,7 +875,7 @@ class _MyHomePageState extends State<MyHomePage>
                   style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+
                   ),
                 ),
                 title: Text(
@@ -910,7 +908,7 @@ class _MyHomePageState extends State<MyHomePage>
                     style: TextStyle(
                       fontFamily: 'ZillaSlab',
                       fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+
                     ),
                   ),
                   title: Text(
@@ -943,7 +941,7 @@ class _MyHomePageState extends State<MyHomePage>
                     style: TextStyle(
                       fontFamily: 'ZillaSlab',
                       fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+
                     ),
                   ),
                   title: Text(
@@ -983,8 +981,8 @@ class _MyHomePageState extends State<MyHomePage>
                     Navigator.push(
                         context,
                         FadeRoute(
-                            page: SurveyEnd(
-                          title: 'Home',
+                            page: questionBank(
+
                           changeTheme: setTheme,
                         )));
                   },
@@ -1002,11 +1000,11 @@ class _MyHomePageState extends State<MyHomePage>
                   style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+
                   ),
                 ),
                 title: Text(
-                  "Your Questions",
+                  "My Tracker",
                   style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontSize: 20.0,
@@ -1034,7 +1032,7 @@ class _MyHomePageState extends State<MyHomePage>
                   style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+
                   ),
                 ),
                 title: Text(
@@ -1062,7 +1060,7 @@ class _MyHomePageState extends State<MyHomePage>
                   style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+
                   ),
                 ),
                 title: Text(
@@ -1098,7 +1096,7 @@ class _MyHomePageState extends State<MyHomePage>
                   style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+
                   ),
                 ),
                 title: Text(
@@ -1156,9 +1154,22 @@ class _MyHomePageState extends State<MyHomePage>
                   borderRadius:
                       BorderRadius.only(bottomRight: Radius.circular(45.0)),
                 ),
-                flexibleSpace: FlexibleSpaceBar(
-                    title: Text(
+                flexibleSpace: LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+
+                      top = constraints.biggest.height;
+                      return FlexibleSpaceBar(
+                    title: (top<150)?Text(
                       'Dashboard',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                        :Text(
+                      '',
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontFamily: 'ZillaSlab',
@@ -1167,7 +1178,7 @@ class _MyHomePageState extends State<MyHomePage>
                       ),
                     ),
                     background: Container(
-                      padding: EdgeInsets.only(top: 45, left: 73),
+                      padding: EdgeInsets.only(top: 40, left: 73),
                       child: FadeAnimation(
                           1.6,
                           Container(
@@ -1192,7 +1203,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   children: <Widget>[
                                     Row(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: <Widget>[
@@ -1256,15 +1267,19 @@ class _MyHomePageState extends State<MyHomePage>
                                                         )),
                                                   ])),
                                         ),
-                                        Text(
-                                          greeting() + '\n' + name,
-                                          style: TextStyle(
-                                              fontFamily: 'ZillaSlab',
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.black45),
-                                          textAlign: TextAlign.left,
-                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: greeting(),
+                                            style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 19, fontWeight: FontWeight.w400, color: Colors.black45),
+                                            children: <TextSpan>[
+                                              TextSpan(text: '\n' + name, style: TextStyle(fontWeight: FontWeight.bold)),
+
+
+
+                                              ],
+                                          ),
+                                        )
+
                                       ],
                                     ),
                                     Row(
@@ -1290,11 +1305,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                     (inspirations[randomNumber]
                                                                 .length >
                                                             70)
-                                                        ? 17
+                                                        ? 18
                                                         : 20,
                                                 fontWeight: FontWeight.w600,
                                                 color: Colors.white60),
-                                            textAlign: TextAlign.left,
+                                            textAlign: TextAlign.start,
                                           ),
                                         )),
                                       ],
@@ -1316,7 +1331,7 @@ class _MyHomePageState extends State<MyHomePage>
                             end: FractionalOffset.bottomCenter,
                             tileMode: TileMode.clamp),
                       ),
-                    )),
+                    ));}),
               ),
             ),
           ],
@@ -1364,11 +1379,11 @@ class _MyHomePageState extends State<MyHomePage>
                       AnimatedContainer(
                           duration: Duration(milliseconds: 600),
                           curve: Curves.decelerate,
-                          height: 360,
+                          height: MediaQuery.of(context).size.width/1.1,
                           margin: EdgeInsets.only(
                               top: 0, bottom: 0, left: 0, right: 0),
                           child: Container(
-                            height: 350,
+                            height: MediaQuery.of(context).size.width/1.1,
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.only(top: 8, bottom: 8),
                             decoration: new BoxDecoration(
@@ -1381,31 +1396,562 @@ class _MyHomePageState extends State<MyHomePage>
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(left: 0),
-                              child: PageView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 7,
-                                  controller: scontrollerDay,
-                                  onPageChanged: (int page) {
-                                    setState(() {
-                                      current_position = page;
-                                    });
+                              child: FutureBuilder<List<String>>(future: ImagesUrl ,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data!=null) {
+                                  return  PageView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 7,
+                                      controller: scontrollerDay,
+                                      onPageChanged: (int page) {
+                                        setState(() {
+                                          current_position = page;
+                                        });
 
-                                    setState(() {
-                                      DateTime this_date = today
-                                          .subtract((Duration(days: 6 - page)));
-                                      TofillDate = this_date;
+                                        setState(() {
+                                          DateTime this_date = today
+                                              .subtract((Duration(days: 6 - page)));
+                                          TofillDate = this_date;
 
-                                      show_button = DateTime_survey[
+                                          show_button = DateTime_survey[
                                           formatterDate.format(TofillDate)];
-                                    });
-                                  },
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return _buildBigActivityCard(
-                                        index,
-                                        today.subtract(Duration(days: index)),
-                                        page_offset - index);
-                                  }),
+                                        });
+                                      },
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return _buildBigActivityCard(
+                                            index,
+                                            today.subtract(Duration(days: index)),
+                                            snapshot.data[index],
+                                            page_offset - index);
+                                      });
+                                } else {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width*.4,
+                                    margin: EdgeInsets.only(
+                                        left:  0, top: 2, bottom: 2),
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(0),
+                                          child: Align(
+                                            alignment: Alignment.topCenter,
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Colors.black.withOpacity(.05),
+                                              size: 100,
+                                            ),
+                                          ),
+                                        ),
+                                      Container(
+                                                decoration: BoxDecoration(
+                                                  // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+                                                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+
+
+                                                  // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+
+                                                  image: DecorationImage(
+                                                      image: AssetImage("assets/images/one.jpg"), fit: BoxFit.fill),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        offset: Offset(0, 1),
+                                                        color: Colors.black.withAlpha(80),
+                                                        blurRadius: 4)
+                                                  ],
+                                                ),
+                                                ),
+                                        if (DateTime_survey[formatterDate.format(today)] != 0)
+                                          Padding(
+                                            padding: EdgeInsets.only(bottom: 30),
+                                            child: Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Icon(
+                                                Icons.check,
+                                                color: Colors.black.withOpacity(.3),
+                                                size: 150,
+                                              ),
+                                            ),
+                                          ),
+                                        Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Container(
+                                              margin: EdgeInsets.only(top: 0, left: 0),
+                                              padding: EdgeInsets.only(left: 0, top: 0),
+                                              height: 90,
+                                              width: 90,
+                                              decoration: new BoxDecoration(
+                                                borderRadius: new BorderRadius.only(
+                                                    topRight: Radius.circular(0.0),
+                                                    topLeft: Radius.circular(20.0),
+                                                    bottomLeft: Radius.circular(0.0),
+                                                    bottomRight: Radius.circular(20.0)),
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.white70,
+                                                      Colors.white38,
+                                                    ],
+                                                    begin: const FractionalOffset(0.0, 0.0),
+                                                    end: const FractionalOffset(1.0, 1.00),
+                                                    stops: [0.0, 1.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                            )),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 20, top: 80),
+                                          child: Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              formatter_year.format(today),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.black.withOpacity(.05),
+                                                  fontFamily: 'ZillaSlab',
+                                                  fontSize: 50,
+                                                  shadows: [
+                                                    Shadow(
+                                                      blurRadius: 60.0,
+                                                      color: Colors.white,
+                                                      offset: Offset(1.0, 1.0),
+                                                    ),
+                                                  ],
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ),
+                                     Padding(
+                                              padding: EdgeInsets.only(left: 20, top: 10),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  formatter_day.format(today),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontFamily: 'ZillaSlab',
+                                                      fontSize: 26,
+                                                      shadows: [
+                                                        Shadow(
+                                                          blurRadius: 35.0,
+                                                          color: Colors.black,
+                                                          offset: Offset(1.0, 1.0),
+                                                        ),
+                                                      ],
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+
+                                       Padding(
+                                                padding: EdgeInsets.only(left: 20, top: 100),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    "Today",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.white70,
+                                                      fontFamily: 'ZillaSlab',
+                                                      fontWeight: FontWeight.bold,
+                                                      wordSpacing: 3,
+                                                      fontSize: 26,
+                                                      shadows: [
+                                                        Shadow(
+                                                          blurRadius: 35.0,
+                                                          color: Colors.black,
+                                                          offset: Offset(1.0, 1.0),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 20, top: 45),
+                                          child: Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                             " date_month",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontFamily: 'ZillaSlab',
+                                                  fontSize: 22,
+                                                  shadows: [
+                                                    Shadow(
+                                                      blurRadius: 20.0,
+                                                      color: Colors.white,
+                                                      offset: Offset(1.0, 1.0),
+                                                    ),
+                                                  ],
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ),
+
+                                        /* Padding(
+    padding: EdgeInsets.only(left: 20,top:125),
+
+    child:Align(
+
+    alignment: Alignment.topLeft,
+    child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text("10", style: TextStyle( fontFamily: 'ZillaSlab',color:Colors.white.withOpacity(.9),fontSize: 30, fontWeight: FontWeight.bold),),
+
+
+                Text("Questions", style: TextStyle( fontFamily: 'ZillaSlab',color:Colors.black.withOpacity(.6),fontSize: 22, shadows: [
+                  Shadow(
+                    blurRadius: 20.0,
+                    color: Colors.white,
+                    offset: Offset(1.0,1.0),
+                  ),
+                ],),),
+              ],
+            ),)),*/
+
+                                        if (DateTime_survey[formatterDate.format(today)] != 0)
+                                          Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: Container(
+                                                  margin: EdgeInsets.only(top: 0, left: 0),
+                                                  padding: EdgeInsets.only(left: 0, top: 0),
+                                                  height: 50,
+                                                  width: 80,
+                                                  decoration: new BoxDecoration(
+                                                    borderRadius: new BorderRadius.only(
+                                                        topRight: Radius.circular(0.0),
+                                                        topLeft: Radius.circular(20.0),
+                                                        bottomLeft: Radius.circular(0.0),
+                                                        bottomRight: Radius.circular(20.0)),
+                                                    gradient: new LinearGradient(
+                                                        colors: [
+                                                          Colors.black54,
+                                                          Colors.black87,
+                                                        ],
+                                                        begin: const FractionalOffset(0.0, 0.0),
+                                                        end: const FractionalOffset(1.0, 1.00),
+                                                        stops: [0.0, 1.0],
+                                                        tileMode: TileMode.clamp),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.arrow_forward,
+                                                    size: 40,
+                                                    color: Colors.white54,
+                                                  ))),
+                                        if (DateTime_survey[formatterDate.format(today)] == 0 )
+                                          Padding(
+                                              padding: EdgeInsets.only(bottom: 20),
+                                              child: Align(
+                                                  alignment: Alignment.bottomCenter,
+                                                  child: FadeAnimation(
+                                                      .8,
+                                                      Container(
+                                                          child: Align(
+                                                            alignment: Alignment.bottomCenter,
+                                                            child: AnimatedBuilder(
+                                                              animation: rippleAnimation,
+                                                              builder: (context, child) => Container(
+                                                                width: rippleAnimation.value / 1.5,
+                                                                height: rippleAnimation.value / 1.5,
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                      shape: BoxShape.circle,
+                                                                      color:
+                                                                      Colors.black54.withOpacity(.4)),
+                                                                  child: InkWell(
+                                                                    onTap: () {
+                                                                      Navigator.push(
+                                                                          context,
+                                                                          FadeRoute(
+                                                                              page: DisplayQuestions(
+                                                                                changeTheme: setTheme,
+                                                                                setDate: TofillDate,
+                                                                              )));
+                                                                      // scaleController.forward();
+                                                                    },
+                                                                    child: AnimatedBuilder(
+                                                                      animation: scaleAnimation,
+                                                                      builder: (context, child) =>
+                                                                          Transform.scale(
+                                                                            scale: scaleAnimation.value,
+                                                                            child: Container(
+                                                                              margin: EdgeInsets.all(10),
+                                                                              decoration: BoxDecoration(
+                                                                                  shape: BoxShape.circle,
+                                                                                  color: Colors.white70),
+                                                                            ),
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ))))),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                  ///task is complete with some data
+
+
+
+                            }
+
+                              return  Align(
+                                  alignment: Alignment.center,
+                                  child:Container(
+                                width:190,
+                                margin: EdgeInsets.only(
+                                    left:  0, top: 2, bottom: 2),
+                                alignment: Alignment.center,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.all(0),
+                                      child: Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Colors.black.withOpacity(.05),
+                                          size: 100,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 190,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+                                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+
+
+                                        // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+
+                                        image: DecorationImage(
+                                            image: AssetImage("assets/images/one.jpg"), fit: BoxFit.cover),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 1),
+                                              color: Colors.black.withAlpha(80),
+                                              blurRadius: 4)
+                                        ],
+                                      ),
+                                    ),
+                                    if (DateTime_survey[formatterDate.format(today)] != 0)
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 30),
+                                        child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Icon(
+                                            Icons.check,
+                                            color: Colors.black.withOpacity(.3),
+                                            size: 150,
+                                          ),
+                                        ),
+                                      ),
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 0, left: 0),
+                                          padding: EdgeInsets.only(left: 0, top: 0),
+                                          height: 90,
+                                          width: 90,
+                                          decoration: new BoxDecoration(
+                                            borderRadius: new BorderRadius.only(
+                                                topRight: Radius.circular(0.0),
+                                                topLeft: Radius.circular(20.0),
+                                                bottomLeft: Radius.circular(0.0),
+                                                bottomRight: Radius.circular(20.0)),
+                                            gradient: new LinearGradient(
+                                                colors: [
+                                                  Colors.white70,
+                                                  Colors.white38,
+                                                ],
+                                                begin: const FractionalOffset(0.0, 0.0),
+                                                end: const FractionalOffset(1.0, 1.00),
+                                                stops: [0.0, 1.0],
+                                                tileMode: TileMode.clamp),
+                                          ),
+                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 20, top: 80),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                              formatter_year.format(today),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.black.withOpacity(.05),
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize: 50,
+                                              shadows: [
+                                                Shadow(
+                                                  blurRadius: 60.0,
+                                                  color: Colors.white,
+                                                  offset: Offset(1.0, 1.0),
+                                                ),
+                                              ],
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 20, top: 10),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                              formatter_day.format(today),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize: 26,
+                                              shadows: [
+                                                Shadow(
+                                                  blurRadius: 35.0,
+                                                  color: Colors.black,
+                                                  offset: Offset(1.0, 1.0),
+                                                ),
+                                              ],
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 20, top: 100),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          "Today",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white70,
+                                            fontFamily: 'ZillaSlab',
+                                            fontWeight: FontWeight.bold,
+                                            wordSpacing: 3,
+                                            fontSize: 26,
+                                            shadows: [
+                                              Shadow(
+                                                blurRadius: 35.0,
+                                                color: Colors.black,
+                                                offset: Offset(1.0, 1.0),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 20, top: 45),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                              formatter_month.format(today),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontFamily: 'ZillaSlab',
+                                              fontSize: 22,
+                                              shadows: [
+                                                Shadow(
+                                                  blurRadius: 20.0,
+                                                  color: Colors.white,
+                                                  offset: Offset(1.0, 1.0),
+                                                ),
+                                              ],
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+
+
+
+                                    if (DateTime_survey[formatterDate.format(today)] != 0)
+                                      Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Container(
+                                              margin: EdgeInsets.only(top: 0, left: 0),
+                                              padding: EdgeInsets.only(left: 0, top: 0),
+                                              height: 50,
+                                              width: 80,
+                                              decoration: new BoxDecoration(
+                                                borderRadius: new BorderRadius.only(
+                                                    topRight: Radius.circular(0.0),
+                                                    topLeft: Radius.circular(20.0),
+                                                    bottomLeft: Radius.circular(0.0),
+                                                    bottomRight: Radius.circular(20.0)),
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.black54,
+                                                      Colors.black87,
+                                                    ],
+                                                    begin: const FractionalOffset(0.0, 0.0),
+                                                    end: const FractionalOffset(1.0, 1.00),
+                                                    stops: [0.0, 1.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Icon(
+                                                Icons.arrow_forward,
+                                                size: 40,
+                                                color: Colors.white54,
+                                              ))),
+                                    if (DateTime_survey[formatterDate.format(today)] == 0 )
+                                      Padding(
+                                          padding: EdgeInsets.only(bottom: 20),
+                                          child: Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: FadeAnimation(
+                                                  .8,
+                                                  Container(
+                                                      child: Align(
+                                                        alignment: Alignment.bottomCenter,
+                                                        child: AnimatedBuilder(
+                                                          animation: rippleAnimation,
+                                                          builder: (context, child) => Container(
+                                                            width: rippleAnimation.value / 1.5,
+                                                            height: rippleAnimation.value / 1.5,
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                  color:
+                                                                  Colors.black54.withOpacity(.4)),
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      FadeRoute(
+                                                                          page: DisplayQuestions(
+                                                                            changeTheme: setTheme,
+                                                                            setDate: TofillDate,
+                                                                          )));
+                                                                  // scaleController.forward();
+                                                                },
+                                                                child: AnimatedBuilder(
+                                                                  animation: scaleAnimation,
+                                                                  builder: (context, child) =>
+                                                                      Transform.scale(
+                                                                        scale: scaleAnimation.value,
+                                                                        child: Container(
+                                                                          margin: EdgeInsets.all(10),
+                                                                          decoration: BoxDecoration(
+                                                                              shape: BoxShape.circle,
+                                                                              color: Colors.white70),
+                                                                        ),
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ))))),
+                                  ],
+                                ),
+                              ));}),
                             ),
                           )),
                       Row(
@@ -1444,8 +1990,9 @@ class _MyHomePageState extends State<MyHomePage>
                                           Container(
                                             margin: EdgeInsets.only(
                                                 left: 20, top: 16),
-                                            width: 60,
-                                            height: 60,
+                                            padding: EdgeInsets.all(
+                                             6),
+
                                             decoration: new BoxDecoration(
                                               borderRadius:
                                                   new BorderRadius.all(
@@ -1458,7 +2005,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               OMIcons.event,
                                               color:
                                                   Colors.grey.withOpacity(.4),
-                                              size: 40,
+                                              size: 30,
                                             ),
                                           )
                                         ],
@@ -1507,9 +2054,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               ))
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
+                                      Spacer(),
                                       Row(
                                         children: <Widget>[
                                           Container(
@@ -1717,7 +2262,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width /
-                                                              4,
+                                                              2-100,
                                                       decoration:
                                                           new BoxDecoration(
                                                         borderRadius: new BorderRadius
@@ -2889,7 +3434,7 @@ class _MyHomePageState extends State<MyHomePage>
 */
   int next(int min, int max) => min + _random.nextInt(max - min);
 
-  Widget _buildBigActivityCard(int index, DateTime this_date, double offset) {
+  Widget _buildBigActivityCard(int index, DateTime this_date,String url, double offset) {
     double gauss = exp(-(pow((offset.abs() - 0.5), 2) / 0.08));
 
     int id = next(1, 1084);
@@ -2938,20 +3483,18 @@ class _MyHomePageState extends State<MyHomePage>
                       ),
                     ),
                   ),
-                  Container(
+                  Transform.translate(
+                      offset: Offset(2 * gauss * offset.sign, 0),
+                      child:Container(
                       decoration: BoxDecoration(
                         // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
 
-                        gradient: new LinearGradient(
-                            colors: [
-                              const Color(0xFF00c6ff),
-                              Theme.of(context).primaryColor,
-                            ],
-                            begin: const FractionalOffset(0.0, 0.0),
-                            end: const FractionalOffset(1.0, 1.00),
-                            stops: [0.0, 1.0],
-                            tileMode: TileMode.clamp),
+
+                            // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+
+                              image: DecorationImage(
+                                  image: AssetImage("assets/images/one.jpg"), fit: BoxFit.fill),
                         boxShadow: [
                           BoxShadow(
                               offset: Offset(0, 1),
@@ -2959,16 +3502,16 @@ class _MyHomePageState extends State<MyHomePage>
                               blurRadius: 4)
                         ],
                       ),
-                      child: ClipRRect(
+                      child: (ImagesUrl==null )?Container():ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
                           child: FadeInImage(
-                            height: 350,
+                            height: MediaQuery.of(context).size.width/1.1,
                             width: double.infinity,
                             placeholder:
                                 new AssetImage("assets/images/one.jpg"),
-                            image: new NetworkImage(ImagesUrl[index]),
+                            image: new NetworkImage(url),
                             fit: BoxFit.fill,
-                          ))),
+                          )))),
                   if (to_show == 0)
                     Padding(
                       padding: EdgeInsets.only(bottom: 30),
@@ -3309,6 +3852,10 @@ class _MyHomePageState extends State<MyHomePage>
       user_image = prefs.getString('user_image');
     if (prefs.getString('google_image') != null)
       google_url = prefs.getString('google_image');
+    if (mounted)
+      setState(() {
+        show_button = DateTime_survey[formatterDate.format(TofillDate)];
+      });
     getStarted();
     checkDuplicateLogin();
   }

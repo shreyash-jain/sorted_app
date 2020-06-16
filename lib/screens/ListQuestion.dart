@@ -11,6 +11,7 @@ import 'package:notes/data/notebook.dart';
 import 'package:notes/data/question.dart';
 import 'package:notes/data/theme.dart';
 import 'package:notes/screens/Display_questions.dart';
+import 'package:notes/screens/TrackingSelector.dart';
 import 'package:notes/screens/dashboard.dart';
 import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/screens/home.dart';
@@ -83,12 +84,12 @@ class _AddQuestionState extends State<ListQuestion> {
           Navigator.push(
               context,
               FadeRoute(
-                  page: EditQuestionPage(
+                  page: trackSelector(
                     triggerRefetch: refetchNotebookFromDB,
                   )));
         },
         label: Text(
-          'Custom Question'.toUpperCase(),
+          'Custom Tracker'.toUpperCase(),
         ),
         icon: Icon(Icons.add),
       ),
@@ -117,7 +118,7 @@ class _AddQuestionState extends State<ListQuestion> {
           ),
           flexibleSpace: FlexibleSpaceBar(
               title: Text(
-               "My Questions",
+               "My Tracks",
                 style: TextStyle(
                     fontFamily: 'ZillaSlab',
                     fontWeight: FontWeight.w700,

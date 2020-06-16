@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:notes/data/answer.dart';
 import 'package:notes/data/date.dart';
@@ -55,12 +57,17 @@ List<String> tables=[
 
 
 ];
+List<String> imagePath=[];
+List<int> imageTotal=[];
+
+List<String> placeHolders=[];
 
 class NotesDatabaseService {
   String path;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _fireDB = Firestore.instance;
  final FirebaseDatabase fbDB= FirebaseDatabase.instance;
+  StorageReference refStorage = FirebaseStorage.instance.ref();
   final _random = new Random();
 
   Batch batch;
@@ -125,6 +132,7 @@ class NotesDatabaseService {
           "date_id INTEGER, "
           "content TEXT, "
           "a_id INTEGER, "
+          "cal_id INTEGER, "
           "saved_ts TEXT, "
           "title TEXT, "
           "timeline_id INTEGER, "
@@ -179,7 +187,7 @@ class NotesDatabaseService {
           'CREATE TABLE Alog (id INTEGER PRIMARY KEY,a_id INTEGER, saved_ts TEXT, duration INTEGER, date TEXT)');
 
       await db.execute(
-          '''CREATE TABLE Timelines (id INTEGER PRIMARY KEY, saved_ts TEXT,status INTEGER, title TEXT, content TEXT, date TEXT);''');
+          '''CREATE TABLE Timelines (id INTEGER PRIMARY KEY, saved_ts TEXT,status INTEGER, title TEXT, content TEXT, date TEXT,end_date TEXT);''');
 
       await db.execute(
           '''CREATE TABLE Notes (_id INTEGER PRIMARY KEY, saved_ts TEXT, c_keywords TEXT,c_summary TEXT, s_value DOUBLE, book_id INTEGER, title TEXT, content TEXT, date TEXT, isImportant INTEGER);''');
@@ -188,7 +196,7 @@ class NotesDatabaseService {
           '''CREATE TABLE Notebooks (_id INTEGER PRIMARY KEY, saved_ts TEXT,title TEXT, notes_num INTEGER, date TEXT, isImportant INTEGER);''');
       print('New table created at 2 $path');
       await db.execute(
-          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, content TEXT, c_name TEXT, c_id INTEGER, saved_ts TEXT,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
+          '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, min INTEGER, max INTEGER, content TEXT, c_name TEXT, c_id INTEGER, saved_ts TEXT,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
       print('New table created at 3 $path');
          await db.execute(
           '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY, date_id INTEGER, saved_ts TEXT, c_summary TEXT,c_keywords TEXT,p_rating DOUBLE,p_ans INTEGER,  q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,a_rating DOUBLE,discription TEXT);''');
@@ -216,11 +224,10 @@ class NotesDatabaseService {
 
         for (int j=0;j<documents.length;j++){
 
-
           batch.insert((tables[i]),documents[j].data);
 
-
         }
+
         progress+=(1/tables.length);
         yield(progress);
 
@@ -236,6 +243,45 @@ class NotesDatabaseService {
 
 
 
+
+
+  }
+
+  Future<List<String>>getPlaceHolders() async {
+    if ( placeHolders.length!=0) return placeHolders;
+
+    int rand = next(1, 100);
+
+    if (imagePath.length==0)await getImagePath();
+
+
+    for (int i=0;i<imagePath.length;i++){
+      int selectImageId=next(1,imageTotal[i]);
+      String path=imagePath[i]+"/"+selectImageId.toString()+".jpg";
+      print("path is here "+path);
+      String url=await refStorage.child(path).getDownloadURL();
+      placeHolders.add(url);
+
+
+
+
+
+    }
+    return placeHolders;
+  }
+  void updateBackupSetting(bool backup) async {
+    FirebaseUser user = await _auth.currentUser();
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("user_data").document("data");
+
+    ref.setData({'backup':backup},merge: true);
+
+
+  }
+  void updateUnfilledSetting(bool backup) async {
+    FirebaseUser user = await _auth.currentUser();
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("user_data").document("data");
+
+    ref.setData({'unfilled':backup},merge: true);
 
 
   }
@@ -378,6 +424,7 @@ class NotesDatabaseService {
 
     return deviceId;
   }
+
   Future<String> getCloudDevice() async {
 
     FirebaseUser user = await _auth.currentUser();
@@ -531,6 +578,7 @@ print(text);
     }
     return remList;
   }
+
   Future<List<ActivityModel>> getActiviyAfterFromDB(int id) async {
     final db = await database;
     List<ActivityModel> remList = [];
@@ -544,6 +592,7 @@ print(text);
 
       });
     }
+    print("col cool "+remList.toString());
     return remList;
   }
 
@@ -606,6 +655,8 @@ print(text);
       'ans2',
       'weight',
       'content',
+      'min',
+      'max',
       'c_id',
       'c_name',
       'c_streak',
@@ -644,6 +695,8 @@ print(text);
       'c_id',
       'c_name',
       'ans1',
+      'min',
+      'max',
       'ans2',
       'weight',
       'last_date',
@@ -669,7 +722,7 @@ print(text);
     final db = await database;
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title','a_id', 'time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
+        columns: ['id', 'title','a_id','cal_id','time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
     ,
         where: 'date_id=?',
         whereArgs: [query]);
@@ -685,7 +738,7 @@ print(text);
         final db = await database;
         List<EventModel> eventsList = [];
         List<Map> maps = await db.query('Events',
-            columns: ['id', 'title','a_id', 'time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
+            columns: ['id', 'title','a_id', 'time','cal_id','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
             ,
             where: 'timeline_id=?',
             whereArgs: [query]);
@@ -701,7 +754,7 @@ print(text);
     final db = await database;
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title','a_id', 'time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
+        columns: ['id', 'title','a_id','cal_id', 'time','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
         ,
         where: 'r_id=?',
         whereArgs: [query]);
@@ -717,7 +770,7 @@ print(text);
     List<EventModel> eventsList = [];
     List<Map> maps = await db.query('Events',
 
-        columns: ['id', 'title', 'a_id','time','content','saved_ts', 'date', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
+        columns: ['id', 'title','cal_id', 'a_id','time','content','saved_ts', 'date', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
 
         );
     if (maps.length > 0) {
@@ -790,7 +843,7 @@ print(text);
     final db = await database;
     List<EventModel> event = [];
     List<Map> maps = await db.query('Events',
-        columns: ['id', 'title','a_id','time','saved_ts', 'content', 'date', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
+        columns: ['id', 'title','a_id','time','saved_ts', 'content', 'date', 'isImportant','r_id','duration','date_id','todo_id','timeline_id','cal_id']
         ,
         where: 'id=?',
         whereArgs: [query]);
@@ -847,6 +900,10 @@ print(text);
     print('Revent deleted');
   }
 
+  deleteUserActivityTable()async{
+    final db = await database;
+    await db.delete('User_Activity', where: 'id >8');
+  }
 
 
   deleteNotebookInDB(NoteBookModel noteToDelete) async {
@@ -886,7 +943,7 @@ print(text);
     if (!newQues.title.trim().isEmpty) {
      await db.transaction((transaction) async {
         int id = await transaction.rawInsert(
-            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight,c_streak,l_streak,l_interval,v_streak,saved_ts,showDashboard,c_id,c_name,content) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight}, ${newQues.c_streak},${newQues.l_streak},${newQues.l_interval},"${newQues.v_streak}","${newQues.saved_ts.toIso8601String()}",${newQues.showDashboard},${newQues.c_id},"${newQues.c_name}","${newQues.content}");');
+            'INSERT into Questions(title, num_ans, type, interval, ans1,ans2,ans3,archive,correct_ans,priority,last_date,weight,c_streak,l_streak,l_interval,v_streak,saved_ts,showDashboard,c_id,c_name,content,min,max) VALUES ("${newQues.title}",${newQues.num_ans}, ${newQues.type}, ${newQues.interval}, "${newQues.ans1}","${newQues.ans2}","${newQues.ans3}", ${newQues.archive}, ${newQues.correct_ans}, ${newQues.priority},"${newQues.last_date.toIso8601String()}", ${newQues.weight}, ${newQues.c_streak},${newQues.l_streak},${newQues.l_interval},"${newQues.v_streak}","${newQues.saved_ts.toIso8601String()}",${newQues.showDashboard},${newQues.c_id},"${newQues.c_name}","${newQues.content}",${newQues.min},${newQues.max});');
         print("insert Question with id: " + id.toString());
         newQues.id = id;
         FirebaseUser user = await _auth.currentUser();
@@ -908,6 +965,37 @@ print(text);
       return newQues;
     }
   }
+
+  Future<List<int>> getImageTotal() async {
+    List<int> ans=[];
+    CollectionReference ref = _fireDB.collection('images_info');
+    QuerySnapshot querySnapshot = await ref.getDocuments();
+    var list = querySnapshot.documents;
+    for (int i = 0; i < list.length; i++) {
+      var a = list[i];
+      imageTotal.add(a.data['total']);
+      print("cellooooooooo");
+    }
+
+    return ans;
+
+  }
+  Future<List<String>> getImagePath() async {
+    List<String> ans=[];
+    CollectionReference ref = _fireDB.collection('images_info');
+    QuerySnapshot querySnapshot = await ref.getDocuments();
+    var list = querySnapshot.documents;
+    for (int i = 0; i < list.length; i++) {
+      var a = list[i];
+      imagePath.add(a.data['path']);
+      imageTotal.add(a.data['total']);
+
+      print("hellooooooooo");
+    }
+
+
+
+  }
   Future<QuestionModel> addQuestionInInitailCloud(QuestionModel newQues) async {
     final db = await database;
 
@@ -917,6 +1005,8 @@ print(text);
     if (newQues.c_streak==null)newQues.c_streak=0;
     if (newQues.l_streak==null)newQues.l_streak=0;
     if (newQues.l_interval==null)newQues.l_interval=0;
+    if (newQues.min==null)newQues.min=0;
+    if (newQues.max==null)newQues.max=0;
     if (newQues.content==null)newQues.content="";
     if (newQues.c_id==null)newQues.c_id=0;
     if (newQues.c_name==null)newQues.c_name="Others";
@@ -946,12 +1036,13 @@ print(text);
   Future<TimelineModel> addTimelineInDB(TimelineModel newTimeline) async {
     final db = await database;
     if (newTimeline.saved_ts==null)newTimeline.saved_ts=DateTime.now();
+    if (newTimeline.end_date==null)newTimeline.saved_ts=DateTime.now();
     print(newTimeline.title);
     if (!newTimeline.title.trim().isEmpty) {
       print("mello");
       await db.transaction((transaction) async {
         int id = await transaction.rawInsert(
-            'INSERT into Timelines(title, content, status, date, saved_ts) VALUES ("${newTimeline.title}","${newTimeline.content}", ${newTimeline.status},"${newTimeline.date.toIso8601String()}",${newTimeline.saved_ts.toIso8601String()}");');
+            'INSERT into Timelines(title, content, status, date, saved_ts,end_date) VALUES ("${newTimeline.title}","${newTimeline.content}", ${newTimeline.status},"${newTimeline.date.toIso8601String()}","${newTimeline.saved_ts.toIso8601String()}","${newTimeline.end_date.toIso8601String()}");');
         print("insert Timeline with id: " + id.toString());
         newTimeline.id = id;
         FirebaseUser user = await _auth.currentUser();
@@ -1030,7 +1121,7 @@ print(text);
       });
 
     });
-    print("going in "+ newAns.content);
+
 
     return newAns;
   }
@@ -1132,7 +1223,65 @@ print(text);
     });
   }
 
+  getAnswersFromCloud() async {
 
+    FirebaseUser user = await _auth.currentUser();
+
+    CollectionReference ref = _fireDB.collection('users').document(user.uid).collection("Answers");
+    ref.where(
+        "q_id",
+        isEqualTo: 100
+    ).where("date",isLessThanOrEqualTo: "${DateTime.now().toIso8601String()}").snapshots().listen(
+            (data) => print('grower ${data.documents[0]['date']}')
+    );
+  }
+
+   addTodoToCloud(Todo newNote) async  {
+
+    if (newNote.saved_ts==null)newNote.saved_ts=DateTime.now();
+
+
+      FirebaseUser user = await _auth.currentUser();
+
+      DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Todo").document(newNote.id.toString());
+
+
+      ref.setData(newNote.toDatabaseJson()).then((value) => print(ref.documentID)).catchError((onError)=>{
+        print("nhi chala\n"),print("hello")
+      }).timeout(Duration(seconds: 2),onTimeout:() {
+
+        //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+        print("timeout nhi chala\n");
+
+
+
+      return newNote;
+    });
+  }
+  deleteTodoToCloud(Todo newNote) async  {
+    final db = await database;
+    if (newNote.saved_ts==null)newNote.saved_ts=DateTime.now();
+
+
+    FirebaseUser user = await _auth.currentUser();
+
+    DocumentReference ref = _fireDB.collection('users').document(user.uid).collection("Todo").document(newNote.id.toString());
+
+
+    ref.delete().then((value) => print(ref.documentID)).catchError((onError)=>{
+      print("nhi chala\n"),print("hello")
+    }).timeout(Duration(seconds: 2),onTimeout:() {
+
+      //FirebaseDatabase.instance.purgeOutstandingWrites();
+
+      print("timeout nhi chala\n");
+
+
+
+      return newNote;
+    });
+  }
   Future<DateModel> getDateByDateFromDB(String query) async {
     print(query);
     final db = await database;
@@ -1721,9 +1870,10 @@ print(text);
   Future<EventModel> addEventInDB(EventModel newEvent) async {
     final db = await database;
     if(newEvent.saved_ts==null)newEvent.saved_ts=DateTime.now();
+    if(newEvent.cal_id==null)newEvent.cal_id=0;
     await db.transaction((transaction) async{
       int id=await transaction.rawInsert(
-          'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id,timeline_id,saved_ts) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id},${newEvent.timeline_id},"${newEvent.saved_ts.toIso8601String()}");');
+          'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id,timeline_id,saved_ts,cal_id) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id},${newEvent.timeline_id},"${newEvent.saved_ts.toIso8601String()}");');
       newEvent.id = id;
 
       FirebaseUser user = await _auth.currentUser();

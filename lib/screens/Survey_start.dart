@@ -11,9 +11,10 @@ import 'package:notes/data/theme.dart';
 import 'package:notes/screens/Display_questions.dart';
 import 'package:notes/screens/LibraryQuestion.dart';
 import 'package:notes/screens/QuestionForm.dart';
+import 'package:notes/screens/home.dart';
 import 'package:notes/services/database.dart';
 
-
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 class SurveyHomePage extends StatefulWidget {
@@ -38,6 +39,7 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
   final scontrollerDay =
   PageController(viewportFraction: 0.5, initialPage: 6, keepPage: false);
   int show_button=1;
+  String fireStorage_url;
   DateTime today=DateTime.now();
   var formatter_date_builder = new DateFormat('EEE, d');
   var formatter_day = new DateFormat('d');
@@ -45,7 +47,8 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
   var formatter_day_name = new DateFormat('EEEE');
   var formatter_month = new DateFormat('MMMM');
   ScrollController _scrollController = new ScrollController();
-  List<String> ImagesUrl=["https://i.picsum.photos/id/18/200/300.jpg","https://i.picsum.photos/id/14/200/300.jpg","https://i.picsum.photos/id/17/200/300.jpg","https://i.picsum.photos/id/108/200/300.jpg","https://i.picsum.photos/id/84/200/300.jpg","https://i.picsum.photos/id/108/200/300.jpg","https://i.picsum.photos/id/104/200/300.jpg"];
+  //List<String> ImagesUrl=[];
+  List<String> ImagesUrl =[];
 
   Shader linearGradient;
   var formatterDate = new DateFormat('dd-MM-yyyy');
@@ -104,30 +107,21 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
    getImages() async {
     int i=0;
     int rand=next(1,100);
-    var url = 'https://picsum.photos/v2/list?page='+rand.toString()+'&limit=7';
 
-    // Await the http get response, then decode the json-formatted response.
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      for (i=0;i<7;i++){
-        ImagesUrl[i]=jsonResponse[i]["id"];
-
-        setState(() {
-
-          ImagesUrl[i]="https://i.picsum.photos/id/"+ImagesUrl[i]+"/300/520.jpg";
-        });
-        print( ImagesUrl[i]);
-
-      }
-      
+    ImagesUrl=await NotesDatabaseService.db.getPlaceHolders();
+    print("Home vali ");
+    for (int i=0;i<ImagesUrl.length;i++){
+      print(ImagesUrl[i]);
 
 
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
     }
 
 
+
+
+
+
+    if (mounted)
     setState(() {
       show_button=DateTime_survey[formatterDate.format(TofillDate)];
     });
@@ -271,7 +265,7 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
                   child: Container(
                       height: 100,
                       margin: EdgeInsets.only(top: 10),
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.only(top:10,bottom:10),
                       decoration:
                       new BoxDecoration(
                         borderRadius: new BorderRadius.only(topLeft:  Radius.circular(0.0),topRight:   Radius.circular((0)),bottomLeft:   Radius.circular((0)),bottomRight:   Radius.circular((0)),),
@@ -558,6 +552,8 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
     )
                   ],
                 ),),),
+                SizedBox(height: 20,),
+
               ],
             ),
           ),
@@ -628,7 +624,7 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
                 decoration: BoxDecoration(
                   // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
                     borderRadius:  BorderRadius.all( Radius.circular(10.0) ),
-                    color: (current_position==index)?Theme.of(context).primaryColor.withOpacity(.1):Colors.transparent
+                    color: (current_position==index)?Colors.black45:Colors.transparent
                 )
 
 
@@ -647,7 +643,7 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
 
                       color: (index==6)?Colors.white70:Colors.white38 ,
                       fontFamily: 'ZillaSlab',
-                      fontSize: 24,
+                      fontSize: 20,
 
                       fontWeight: (index==6)?FontWeight.bold:FontWeight.w500),
 
@@ -696,9 +692,9 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
   }
   int next(int min, int max) => min + _random.nextInt(max - min);
 
-
+ 
   Widget _buildBigActivityCard(int index,
-      DateTime this_date,double offset) {
+      DateTime this_date,double offset)  {
     double gauss = exp(-(pow((offset.abs() - 0.5), 2) /
         0.08));
 
@@ -790,14 +786,16 @@ class _HomePageState extends State<SurveyHomePage> with TickerProviderStateMixin
                 blurRadius: 4)
           ],
                 ),
-                child:ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),child:FadeInImage(
+                child:(ImagesUrl==null || ImagesUrl.length<1+index)?Container():ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child:FadeInImage(
+                      height: 350,
 
                   placeholder:
-                  new AssetImage("assets/images/SortedLogo.png"),
+                  new AssetImage("assets/images/one.jpg"),
                   image: new NetworkImage(ImagesUrl[index]),
 
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
 
                 ))
 

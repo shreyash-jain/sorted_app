@@ -10,6 +10,7 @@ import 'package:notes/components/LibraryCards.dart';
 import 'package:notes/components/animated_button.dart';
 import 'package:notes/components/bookcards.dart';
 import 'package:notes/components/faderoute.dart';
+import 'package:notes/data/animated-wave.dart';
 import 'package:notes/data/models.dart';
 import 'package:notes/data/notebook.dart';
 import 'package:notes/data/question.dart';
@@ -51,12 +52,12 @@ class _AddQuestionState extends State<SurveyEnd> {
   PageController _pageController;
   ThemeData theme = appThemeLight;
   final scontrollerDay =
-  PageController(viewportFraction: 0.3, initialPage: 3, keepPage: true);
+  PageController(viewportFraction: 0.3, initialPage: 5, keepPage: true);
   FocusNode titleFocus = FocusNode();
   final _random = new Random();
-  List<String> ImagesUrl=["https://i.picsum.photos/id/18/200/300.jpg","https://i.picsum.photos/id/14/200/300.jpg","https://i.picsum.photos/id/14/200/300.jpg","https://i.picsum.photos/id/108/200/300.jpg","https://i.picsum.photos/id/84/200/300.jpg","https://i.picsum.photos/id/108/200/300.jpg","https://i.picsum.photos/id/104/200/300.jpg"];
-  double page_offset =3;
-  int current_position=3;
+  List<String> ImagesUrl=["https://picsum.photos/510/370"];
+  double page_offset=0 ;
+  int current_position=0;
   TextEditingController titleController = TextEditingController();
   var formatter_month = new DateFormat('d MMMM EEEE');
   String date_month;
@@ -64,45 +65,26 @@ class _AddQuestionState extends State<SurveyEnd> {
   @override
   void initState() {
     super.initState();
-    date_month=formatter_month.format(DateTime.now());
+    date_month=formatter_month.format(widget.date);
     NotesDatabaseService.db.init();
     scontrollerDay.addListener(() {
       setState(() =>
       page_offset = scontrollerDay.page); //<-- add listener and set state
     });
+    getImages();
+
+
 
   }
   int next(int min, int max) => min + _random.nextInt(max - min);
   getImages() async {
     int i=0;
     int rand=next(1,100);
-    var url = 'https://picsum.photos/v2/list?page='+rand.toString()+'&limit=7';
 
-    // Await the http get response, then decode the json-formatted response.
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      for (i=0;i<7;i++){
-        ImagesUrl[i]=jsonResponse[i]["id"];
-        if(mounted)
-          setState(() {
-
-            ImagesUrl[i]="https://i.picsum.photos/id/"+ImagesUrl[i]+"/310/520.jpg";
-          });
-        print( ImagesUrl[i]);
-
-      }
+    ImagesUrl=await NotesDatabaseService.db.getPlaceHolders();
 
 
-
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
-
-
-
-
-  }
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +104,27 @@ backgroundColor: Theme.of(context).primaryColor,
         child: Stack(
 
           children: <Widget>[
+            onBottom(FadeAnimation(1, Container(child:AnimatedWave(
+              height:250,
+              speed: 0.9,
+              offset: pi,
+            )))),
+            onBottom(FadeAnimation(1, Container(child:AnimatedWave(
+              height: 390,
+              speed: .7,
+              offset: pi/2,
+
+            )))),
+            onBottom(FadeAnimation(1, Container(child:AnimatedWave(
+              height: 130,
+              speed: .7,
+              offset: pi/4,
+            )))),
+
             AnimatedContainer(
                 duration: Duration(milliseconds: 600),
                 curve: Curves.decelerate,
-                height:(page_offset-current_position==0)? 200:190,
+                height:190,
                 margin: EdgeInsets.only(top:40, bottom: 0, left: 0,right:0),
 
                 child: Container(
@@ -141,7 +140,7 @@ backgroundColor: Theme.of(context).primaryColor,
                     padding: EdgeInsets.only(left: 0),
                     child:PageView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 7 ,
+                        itemCount: 12 ,
                         controller: scontrollerDay,
 
 
@@ -311,8 +310,8 @@ backgroundColor: Theme.of(context).primaryColor,
                 child:AnimatedContainer(
               duration: Duration(milliseconds:300),
               curve: Curves.easeInOutQuad,
-              height:MediaQuery.of(context).size.height-320,
-              width: MediaQuery.of(context).size.width/1.3 ,
+              height:MediaQuery.of(context).size.height/2,
+              width: MediaQuery.of(context).size.height/3,
 
               margin: EdgeInsets.only(right: 0,top:2,bottom:20,left:0),
 
@@ -320,6 +319,21 @@ backgroundColor: Theme.of(context).primaryColor,
               child: Stack(
 
                 children: <Widget>[
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+
+
+                      child:FadeInImage(
+
+                        height: MediaQuery.of(context).size.height/2,
+                        width: double.infinity,
+                        placeholder:
+                        new AssetImage("assets/images/one.jpg"),
+                        image: new NetworkImage(ImagesUrl[page_offset.floor()]),
+
+                        fit: BoxFit.fill,
+
+                      )),
 
 
 
@@ -332,7 +346,7 @@ backgroundColor: Theme.of(context).primaryColor,
                         // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
                         borderRadius:  BorderRadius.all( Radius.circular(20.0) ),
                         border: Border.all(color: Theme.of(context).primaryColor, width:3),
-                        color: Theme.of(context).scaffoldBackgroundColor,
+                        color: Colors.black.withOpacity(.65),
                         boxShadow: [
                           BoxShadow(
                               offset: Offset(0, 1),
@@ -351,16 +365,17 @@ backgroundColor: Theme.of(context).primaryColor,
                             padding:EdgeInsets.only(left:16,right:16),
                             child:Text(
                               "Survey completed,",
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.left,
                               style: TextStyle(
 
 
                                   fontFamily: 'ZillaSlab',
                                   fontSize: 24,
+                                  color: Colors.white,
                                   shadows: [
                                     Shadow(
                                       blurRadius: 20.0,
-                                      color: Colors.white,
+                                      color: Colors.black38,
                                       offset: Offset(1.0,1.0),
                                     ),
                                   ],
@@ -403,7 +418,7 @@ backgroundColor: Theme.of(context).primaryColor,
                         controller: titleController,
                         keyboardType: TextInputType.multiline,
 
-                        maxLines:1,
+                        maxLines:2,
                         maxLength: 22,
                         onSubmitted: (text) {
 
@@ -416,7 +431,7 @@ backgroundColor: Theme.of(context).primaryColor,
                             color: Colors.white54,
                             fontWeight: FontWeight.w500),
                         decoration: InputDecoration.collapsed(
-                          hintText: 'Enter a title to this day',
+                          hintText: 'Enter a title\nto this day',
                           hintStyle: TextStyle(
                               color: Colors.grey,
                               fontSize: 22,
@@ -449,10 +464,10 @@ backgroundColor: Theme.of(context).primaryColor,
 
 
 
+
                 ],
               ),
             )),
-
 
 
 
@@ -469,7 +484,12 @@ backgroundColor: Theme.of(context).primaryColor,
 
 
 
-
+  onBottom(Widget child) => Positioned.fill(
+    child: Align(
+      alignment: Alignment.bottomCenter,
+      child: child,
+    ),
+  );
 
   Widget _buildBigActivityCard(int index,
     double offset) {
@@ -567,7 +587,7 @@ backgroundColor: Theme.of(context).primaryColor,
                     ),
 
 
-                    child:ClipRRect(
+                    child:(ImagesUrl==null ||  ImagesUrl.length<1+index)?Container():ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
 
                         child:FadeInImage(

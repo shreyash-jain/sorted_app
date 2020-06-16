@@ -6,7 +6,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:notes/screens/expenseEdit.dart';
 import 'package:notes/components/FadeAnimation.dart';
 import 'package:notes/components/animated_button.dart';
 import 'package:notes/components/faderoute.dart';
@@ -61,6 +61,7 @@ class _DisplayQuestionsState extends State<DisplayQuestions> with TickerProvider
   Timer _timer;
   int min=0;
 
+  List<Widget> TracksWidget=[];
   int sec=0;
 
   Animation<double> scaleAnimation;
@@ -98,7 +99,8 @@ int started=0;
 
   int timeline=0;
   int _numPages = 3;
-  String questiosn_name="How was my day ?";
+  String questiosn_name="";
+  String question_content="How was my day ?";
   FocusNode titleFocus = FocusNode();
   FocusNode expenseTitleFocus = FocusNode();
   FocusNode expenseContentFocus = FocusNode();
@@ -135,8 +137,11 @@ int started=0;
   IconData backicon=Icons.person_pin;
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
+    int type=0;
     for (int i = 0; i < _numPages; i++) {
-      list.add(i == current_page ? _indicator(true) : _indicator(false));
+      if (i==current_page)type=1;
+
+      list.add(i <= current_page ? _indicator(true,type:type) : _indicator(false,type:type));
     }
     return list;
   }
@@ -171,14 +176,17 @@ int started=0;
 
 
   }
-  Widget _indicator(bool isActive) {
+  Widget _indicator(bool isActive,{int type}) {
+    if (type==null)type==0;
+    Color c=Colors.white70;
+    if (type==1)c=Colors.black12;
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(vertical: 4.0,horizontal: (_numPages<10)?4:2),
-      width: (_numPages<15)?12:8,
-      height: isActive ? 30.0 : 20.0,
+      margin: EdgeInsets.symmetric(vertical: 4.0,horizontal: (_numPages<10)?3:2),
+      width: (_numPages<15)?8:6,
+      height: isActive ? 24.0 : 14.0,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : Colors.black26,
+        color: isActive ? c : Colors.black38,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -226,6 +234,7 @@ int started=0;
         Stack(
         children: [
 
+
           Container(
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
@@ -244,6 +253,40 @@ int started=0;
               child: Stack(
 
       children: <Widget>[
+        if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
+          height: MediaQuery.of(context).size.height/6,
+          speed: 0.9,
+          offset: pi,
+        )))),
+        if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
+          height: MediaQuery.of(context).size.height/7,
+          speed: .7,
+          offset: pi/2,
+        )))),
+        if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
+          height: MediaQuery.of(context).size.height/8,
+          speed: .7,
+          offset: pi/4,
+        )))),
+        Container(
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius:
+              new BorderRadius.only(
+                bottomLeft:Radius.circular((20)),bottomRight: Radius.circular((20))
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomLeft,
+                stops: [ 0, 0.8],
+                colors: [
+
+                  Colors.white30,
+
+                  Colors.white24,
+                ],
+              ),
+            ),),
 
         FadeAnimation(.6, Container(
             margin: EdgeInsets.only(top:0,left:0),
@@ -261,6 +304,13 @@ int started=0;
                     titleFocus.unfocus();
                     current_page = page;
                     questiosn_name=quesList[current_page].title;
+                    if (quesList[current_page].content!=null)
+                      {question_content=quesList[current_page].content;
+
+                      }
+                    else {
+                      question_content="";
+                    }
                     expense_type=0;
                     if (current_page==0){
                       backicon=Icons.person_pin;
@@ -315,9 +365,7 @@ int started=0;
                               child: buildImportantIndicatorText(
                                   position,
                                   type,
-                                  quesList[position].ans1,
-                                  quesList[position].ans2,
-                                  quesList[position].ans3),
+                                  quesList[position]),
                             ),
                           ),
 
@@ -399,19 +447,75 @@ int started=0;
             child:Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left:20,top:120,bottom: 20,right:20),
+            padding: const EdgeInsets.only(left:20,top:110,bottom: 20,right:20),
 
-              child: Text(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                if (questiosn_name!="")Container(
+                  padding:EdgeInsets.all(8),
 
-                questiosn_name,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontFamily: 'ZillaSlab',
+                  decoration: BoxDecoration(
+                    borderRadius:
+                    new BorderRadius.all(
+                        Radius.circular((10))
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomLeft,
+                      stops: [ 0, 0.8],
+                      colors: [
 
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500),
-              ),
+                        Colors.black38,
+
+                        Colors.black38,
+                      ],
+                    ),
+                  ),child:Text(
+
+                  questiosn_name,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: 'ZillaSlab',
+
+                      color: Colors.white,
+                      fontSize:14,
+                      fontWeight: FontWeight.w700),
+                ),),
+
+                SizedBox(height: 4,),
+                if (question_content!=null && question_content!="")Container(
+                  padding:EdgeInsets.all(8),
+
+                  decoration: BoxDecoration(
+                    borderRadius:
+                    new BorderRadius.all(
+                        Radius.circular((10))
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomLeft,
+                      stops: [ 0, 0.8],
+                      colors: [
+
+                        Colors.white30,
+
+                        Colors.white24,
+                      ],
+                    ),
+                  ),child:Text(
+
+                  question_content,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: 'ZillaSlab',
+
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500),
+                ),),
+
+              ],)
 
           ),
         ),)),
@@ -443,7 +547,7 @@ int started=0;
 
 
 
-                    Icon(Icons.skip_next,size: 40,),
+                    Icon(Icons.skip_next,size: 24,),
                     Text("SKIP",style: TextStyle(
     fontFamily: 'ZillaSlab',
 
@@ -482,7 +586,26 @@ int started=0;
                 onPressed: () {
 
                 },
-                child: Row(
+                child: Container(
+                    padding:EdgeInsets.all(8),
+
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      new BorderRadius.all(
+                          Radius.circular((10))
+                      ),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomLeft,
+                        stops: [ 0, 0.8],
+                        colors: [
+
+                          Colors.white30,
+
+                          Colors.white30,
+                        ],
+                      ),
+                    ),child:Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -493,18 +616,18 @@ int started=0;
                     ,style: TextStyle(
                         fontFamily: 'ZillaSlab',
 
-                        color: (front==1)?Colors.white70:Colors.black26,
+                        color: (front==1)?Colors.white:Colors.black54,
                         fontSize: 24,
                         fontWeight: FontWeight.w500)),
                     Text(
                         "$sec",style: TextStyle(
                         fontFamily: 'ZillaSlab',
-                        color: (front==1)?Colors.white70:Colors.black26,
+                        color: (front==1)?Colors.white:Colors.black54,
                         fontSize: 24,
                         fontWeight: FontWeight.w500)
                     ),
                   ],
-                ),
+                )),
               ),
 
             ),
@@ -514,7 +637,7 @@ int started=0;
           ],),),
 
 
-        Column(
+        Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Align(
@@ -535,9 +658,9 @@ int started=0;
 
 
                     Icon(
-                      Icons.keyboard_arrow_up,
+                      Icons.arrow_back_ios,
                       color: Colors.white.withOpacity(.4),
-                      size: 50.0,
+                      size: 30.0,
                     ),
                   ],
                 ),
@@ -560,9 +683,9 @@ int started=0;
                   children: <Widget>[
 
                     Icon(
-                      Icons.keyboard_arrow_down,
+                      Icons.arrow_forward_ios,
                       color: Colors.white,
-                      size:50.0,
+                      size:30.0,
                     ),
                   ],
                 ),
@@ -595,21 +718,7 @@ int started=0;
     ),
     ),
     ),*/
-          if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
-            height: 150,
-            speed: 0.9,
-            offset: pi,
-          )))),
-          if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
-            height: 110,
-            speed: .7,
-            offset: pi/2,
-          )))),
-          if (expense_type==0)onBottom(FadeAnimation(1, Container(child:AnimatedWave(
-            height: 130,
-            speed: .7,
-            offset: pi/4,
-          )))),
+
     ]
       )));
   }
@@ -650,1262 +759,35 @@ int started=0;
     ),
   );
   Widget buildImportantIndicatorText(
-      int position, int type, String opt1, String opt2, String opt3) {
+      int position, int type, QuestionModel this_question) {
+    print("type : "+type.toString());
 
     DateTime today=DateTime.now();
     print(position.toString()+" "+type.toString()+" hhhd");
 
     Widget child;
-    if (quesList[position].id==1) {
-      child = Padding(
-          padding: const EdgeInsets.only(top: 80),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                if(write_about_today[position]==0)Padding(
-                  padding: EdgeInsets.only(left:0,right:0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 00),
-                    height: 240,
-
-
-                    padding: EdgeInsets.all(5.0),
-                    decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.all(
-                        Radius.circular((48 * .3)),
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-
-                        Expanded(
-                          child:PageView.builder(
-                            controller: scontrollerDay,
-                            physics:new NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-
-
-                            itemCount: 5,
-                            itemBuilder: (BuildContext context, int index) {
-
-
-
-                              return _buildIconsDay(
-                                  index,
-                                  iconsList[index],
-                                  below_texs[index],
-                                  page_offsetDay-index
-                              );
-                            },
-                          ),),
-                        Container(
-
-                          width:  double.infinity,
-                          margin: EdgeInsets.only(left: 10,right:10),
-
-
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.all(
-                                Radius.circular((45)),
-                              ),
-                              color: Colors.white70
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(top:0,left:20),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '${"Rate"}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize:12,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 1,
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: SliderTheme(
-                                      data: SliderTheme.of(context).copyWith(
-                                        activeTrackColor: Colors.black.withOpacity(1),
-                                        inactiveTrackColor: Colors.blue.withOpacity(.5),
-
-                                        trackHeight: 4.0,
-                                        thumbShape: CustomSliderThumbCircle(
-                                          thumbRadius: 48 * .4,
-                                          min: 1,
-                                          max: 4,
-                                        ),
-                                        overlayColor: Colors.black.withOpacity(.4),
-                                        //valueIndicatorColor: Colors.white,
-                                        activeTickMarkColor: Colors.black54,
-                                        inactiveTickMarkColor: Colors.red.withOpacity(.7),
-                                      ),
-                                      child: Slider(
-
-                                          value: _valueDay,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              ansList[current_page].a_rating=_valueDay*5;
-                                              _valueDay = value;
-                                              if (_valueDay<.2 ){
-                                                scontrollerDay.animateToPage(0, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else if (_valueDay<.4 ){
-                                                scontrollerDay.animateToPage(1, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else if (_valueDay<.6 ){
-                                                scontrollerDay.animateToPage(2, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else if(_valueDay<.8){
-                                                scontrollerDay.animateToPage(3, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else {
-                                                scontrollerDay.animateToPage(4, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                            });
-                                          }),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ),
-
-
-                      ],
-                    ),
-                  ),),
-                if(write_about_today[position]==1)Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    reverse: true,
-                    child:TextField(
-
-                      focusNode: titleFocus,
-
-                      controller: titleController[position],
-                      keyboardType: TextInputType.multiline,
-
-                      maxLines:6,
-                      onSubmitted: (text) {
-                        titleFocus.unfocus();
-                        ansList[position].content =
-                            titleController[position].toString();
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      decoration: InputDecoration.collapsed(
-                        hintText: 'Enter your answer...',
-                        hintStyle: TextStyle(
-                            color: Colors.white60,
-                            fontSize: 22,
-                            fontFamily: 'ZillaSlab',
-                            fontWeight: FontWeight.w500),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),),
-                if(write_about_today[position]==0)Padding(
-                  padding: EdgeInsets.only(left:20,right:20,top:80),
-                  child: Align(
-
-                    alignment: Alignment.center,
-                    child:RaisedButton(
-                      onPressed:(){
-                        write_about_today[position]=1;
-                      },
-                      color: Colors.white30,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(50.0),
-
-                      ),
-                      textColor: Colors.white,
-
-
-                      elevation: 0,
-                      padding: const EdgeInsets.all(12),
-                      child: new Text(
-                        "Write about it",style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      ),
-                    ),),),
-              ]));
+    if (quesList[position].id==1) { // Day
+      child = type6widget(position);
     }
-    else if (quesList[position].id==2) {
-      child = Padding(
-          padding: const EdgeInsets.only(top: 80),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                if(write_about_today[position]==0)Padding(
-                  padding: EdgeInsets.only(left:0,right:0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 00),
-                    height: 240,
-
-
-                    padding: EdgeInsets.all(5.0),
-                    decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.all(
-                        Radius.circular((48 * .3)),
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-
-                        Expanded(
-                          child:PageView.builder(
-                            controller: scontrollerWork,
-                            physics:new NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-
-
-                            itemCount: 5,
-                            itemBuilder: (BuildContext context, int index) {
-
-
-
-                              return _buildIconsWork(
-                                  index,
-                                  iconsListWork[index],
-                                  below_texsWork[index],
-                                  page_offsetWork-index
-                              );
-                            },
-                          ),),
-                        Container(
-
-                          width: true
-                              ? double.infinity
-                              : (48) * 5.5,
-
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.all(
-                                Radius.circular((48 * .3)),
-                              ),
-                              color: Colors.transparent
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(top:20,left:20),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '${"Rate"}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize:12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 1,
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: SliderTheme(
-                                      data: SliderTheme.of(context).copyWith(
-                                        activeTrackColor: Colors.white.withOpacity(1),
-                                        inactiveTrackColor: Colors.white.withOpacity(.5),
-
-                                        trackHeight: 4.0,
-                                        thumbShape: CustomSliderThumbCircle(
-                                          thumbRadius: 48 * .4,
-                                          min: 1,
-                                          max: 4,
-                                        ),
-                                        overlayColor: Colors.white.withOpacity(.4),
-                                        //valueIndicatorColor: Colors.white,
-                                        activeTickMarkColor: Colors.white,
-                                        inactiveTickMarkColor: Colors.red.withOpacity(.7),
-                                      ),
-                                      child: Slider(
-
-                                          value: _valueWork,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _valueWork = value;
-                                              ansList[current_page].a_rating=_valueWork*5;
-                                              print(ansList[current_page].a_rating.toString() +" "+current_page.toString());
-                                              if (_valueWork<.2 ){
-                                                scontrollerWork.animateToPage(0, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else if (_valueWork<.4 ){
-                                                scontrollerWork.animateToPage(1, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else if (_valueWork<.6 ){
-                                                scontrollerWork.animateToPage(2, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else if(_valueWork<.8){
-                                                scontrollerWork.animateToPage(3, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                              else {
-                                                scontrollerWork.animateToPage(4, duration: const Duration(milliseconds: 500),
-                                                    curve: Curves.easeInOut);
-                                              }
-                                            });
-                                          }),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ),
-
-
-                      ],
-                    ),
-                  ),),
-                if(write_about_today[position]==1)Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    reverse: true,
-                    child:TextField(
-
-                      focusNode: titleFocus,
-
-                      controller: titleController[position],
-                      keyboardType: TextInputType.multiline,
-
-                      maxLines:6,
-                      onSubmitted: (text) {
-                        titleFocus.unfocus();
-                        write_about_today[position]=0;
-                        ansList[position].content =
-                            titleController[position].toString();
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      decoration: InputDecoration.collapsed(
-                        hintText: 'Enter your answer...',
-                        hintStyle: TextStyle(
-                            color: Colors.white60,
-                            fontSize: 22,
-                            fontFamily: 'ZillaSlab',
-                            fontWeight: FontWeight.w500),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),),
-                if(write_about_today[position]==0)Padding(
-                  padding: EdgeInsets.only(left:20,right:20,top:80),
-                  child: Align(
-
-                    alignment: Alignment.center,
-                    child:RaisedButton(
-                      onPressed:(){
-                        write_about_today[position]=1;
-                      },
-
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(50.0),
-
-                      ),
-                      color: Colors.white30,
-                      elevation: 0,
-                      padding: const EdgeInsets.all(12.0),
-                      child: new Text(
-                        "Write about it",style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      ),
-                    ),),),
-              ]));
+    else if (quesList[position].id==2) { // Work
+      child = type7widget(position);
     }
-    else if (quesList[position].id==4) {
-      child = Padding(
-          padding: const EdgeInsets.only(top: 80),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left:20,right:20,bottom:40),
-                  child: Align(
-
-                    alignment: Alignment.center,
-                    child:RaisedButton(
-                      onPressed:(){
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-
-                                builder: (context) =>
-
-                                    AddEventPage()));
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(50.0),
-
-                      ),
-                      textColor: Colors.white,
-
-                      color: Colors.white30,
-                      elevation: 0,
-                      padding: const EdgeInsets.all(12),
-                      child: new Text(
-                        "Add an event",style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      ),
-                    ),),),
-                if(write_about_today[position]==1)Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    reverse: true,
-                    child:TextField(
-
-                      focusNode: titleFocus,
-
-                      controller: titleController[position],
-                      keyboardType: TextInputType.multiline,
-
-                      maxLines:3,
-                      onSubmitted: (text) {
-                        titleFocus.unfocus();
-                        ansList[position].content =
-                            titleController[position].toString();
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      decoration: InputDecoration.collapsed(
-                        hintText: 'Enter your answer...',
-                        hintStyle: TextStyle(
-                            color: Colors.white60,
-                            fontSize: 22,
-                            fontFamily: 'ZillaSlab',
-                            fontWeight: FontWeight.w500),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),),
-                if(write_about_today[position]==0)Padding(
-                  padding: EdgeInsets.only(left:20,right:20,top:10),
-                  child: Align(
-
-                    alignment: Alignment.center,
-                    child:RaisedButton(
-                      onPressed:(){
-                        write_about_today[position]=1;
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(50.0),
-
-                      ),
-                      textColor: Colors.white,
-
-                      color: Colors.white30,
-                      elevation: 0,
-                      padding: const EdgeInsets.all(12),
-                      child: new Text(
-                        "Write about it",style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      ),
-                    ),),),
-              ]));
+    else if (quesList[position].id==4) { // Event
+      child = type8widget(position);
     }
-    else if (quesList[position].id==5) {
-      child = Padding(
-          padding: const EdgeInsets.only(top: 80),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                if (expense_type==0)Padding(
-                  padding: EdgeInsets.only(left:20,right:20,bottom:40),
-                  child: Align(
-
-                    alignment: Alignment.center,
-                    child:RaisedButton(
-                      onPressed:(){
-                        expense_type=1;
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(50.0),
-
-                      ),
-                      textColor: Colors.white,
-
-                      color: Colors.white30,
-                      elevation: 0,
-                      padding: const EdgeInsets.all(12),
-                      child: new Text(
-                        "Add an expense",style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      ),
-                    ),),),
-                if(expense_type==1)Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
-                    children: <Widget>[
-    Container(
-    margin: EdgeInsets.only(left: 0, right: 0, top: 0),
-
-      decoration: BoxDecoration(
-          color: Colors.white12,
-          borderRadius: BorderRadius.circular(20.0),
-          boxShadow: [
-          ]
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: 4.0, left: 8, bottom: 4, right: 8),
-        child: TextField(
-
-          focusNode: expenseTitleFocus,
-
-          controller: expenseTitle,
-          keyboardType: TextInputType.multiline,
-cursorColor: Colors.black,
-          maxLines: 1,
-          onSubmitted: (text) {
-            expenseTitleFocus.unfocus();
-
-          },
-          textInputAction: TextInputAction.done,
-          style: TextStyle(
-              fontFamily: 'ZillaSlab',
-              fontSize: 20,
-
-
-              color: Colors.white54,
-              fontWeight: FontWeight.w500),
-          decoration: InputDecoration.collapsed(
-            hintText: 'Enter expense title',
-            focusColor: Colors.black,
-            hoverColor:Colors.black ,
-            hintStyle: TextStyle(
-                color: Colors.white60,
-                fontSize: 20,
-                fontFamily: 'ZillaSlab',
-                fontWeight: FontWeight.w500),
-            border: InputBorder.none,
-          ),
-        ),),),
-    Container(
-    margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 4),
-
-    decoration: BoxDecoration(
-    color: Colors.white12,
-    borderRadius: BorderRadius.circular(20.0),
-    boxShadow: [
-    ]
-    ),
-    child: Padding(
-    padding: EdgeInsets.only(
-    top: 2, left: 8, bottom: 2, right: 8),
-    child: TextField(
-
-                        focusNode: expenseMoneyFocus,
-
-                        controller:expenseMoney,
-                        keyboardType: TextInputType.number,
-      cursorColor: Colors.black,
-                        maxLines:1,
-                        onSubmitted: (text) {
-                          expenseMoneyFocus.unfocus();
-                        },
-                        textInputAction: TextInputAction.done,
-                        style: TextStyle(
-                            fontFamily: 'ZillaSlab',
-                            fontSize: 16,
-
-                            color: Colors.white54,
-                            fontWeight: FontWeight.w500),
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Enter amount in Rs',
-                          hintStyle: TextStyle(
-                              color: Colors.white60,
-                              fontSize: 16,
-                              fontFamily: 'ZillaSlab',
-                              fontWeight: FontWeight.w500),
-                          border: InputBorder.none,
-                        ),
-                      ),)),
-
-                      Container(
-                        height:70,
-                        child: FadeAnimation(2.6, Container(
-
-                          child:ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: catsList.length ,
-                              physics: BouncingScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index) {
-
-                                return _buildCats(
-                                    index,
-                                    catsList[index]
-                                );
-
-                              }
-                          ),)),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 8),
-
-                          decoration: BoxDecoration(
-                              color: Colors.white12,
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                              ]
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 0, left: 8, bottom: 0, right: 8),
-                            child: TextField(
-
-                              focusNode: expenseContentFocus,
-
-                              controller:expenseContent,
-                              keyboardType: TextInputType.multiline,
-                              cursorColor: Colors.black,
-                              maxLines:1,
-                              onSubmitted: (text) {
-                                expenseContentFocus.unfocus();
-                              },
-                              textInputAction: TextInputAction.done,
-                              style: TextStyle(
-                                  fontFamily: 'ZillaSlab',
-                                  fontSize: 16,
-
-                                  color: Colors.white54,
-                                  fontWeight: FontWeight.w500),
-                              decoration: InputDecoration.collapsed(
-                                hintText: 'Enter a discription',
-                                hintStyle: TextStyle(
-                                    color: Colors.white60,
-                                    fontSize: 16,
-                                    fontFamily: 'ZillaSlab',
-                                    fontWeight: FontWeight.w500),
-                                border: InputBorder.none,
-                              ),
-                            ),)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-
-
-
-
-                        Padding(
-                          padding: EdgeInsets.only(left:20,right:20),
-                          child: Align(
-
-
-                            child:RaisedButton(
-                              onPressed:(){
-                                expense_type=0;
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(20.0),
-
-                              ),
-                              textColor: Colors.white,
-
-                              color: Colors.white12,
-                              elevation: 0,
-                              padding: const EdgeInsets.all(12),
-                              child: new Text(
-                                "Back",style: TextStyle(
-                                  fontFamily: 'ZillaSlab',
-                                  fontSize: 16,
-
-
-                                  color: Colors.white54,
-                                  fontWeight: FontWeight.w500),
-                              ),
-                            ),),),
-                        Padding(
-                          padding: EdgeInsets.only(right:20),
-                          child: Align(
-
-
-                            child:RaisedButton(
-                              onPressed:() async {
-                                ExpenseModel new_exp=new ExpenseModel(title: expenseTitle.text,type: 1,friend_id: 0,cat_id:chosen_expense_cat,content:expenseContent.text,money: double.parse(expenseMoney.text),date: today );
-                                await NotesDatabaseService.db.addExpense(new_exp);
-                                expenseTitle.clear();
-                                expenseMoney.clear();
-                                expenseContent.clear();
-                                expenseContentFocus.unfocus();
-                                expenseMoneyFocus.unfocus();
-                                expenseTitleFocus.unfocus();
-                                expense_type=0;
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(20.0),
-
-                              ),
-                              textColor: Colors.white,
-
-                              color: Colors.white38,
-                              elevation: 0,
-                              padding: const EdgeInsets.all(12),
-                              child: new Text(
-                                "Save",style: TextStyle(
-                                  fontFamily: 'ZillaSlab',
-                                  fontSize: 16,
-
-
-                                  color: Colors.white54,
-                                  fontWeight: FontWeight.w500),
-                              ),
-                            ),),),
-                      ],)
-                    ]
-                  ),),
-                if (expense_type==0)Padding(
-                  padding: EdgeInsets.only(left:20,right:20,top:10),
-                  child: Align(
-
-                    alignment: Alignment.center,
-                    child:RaisedButton(
-                      onPressed:(){
-                        expense_type=2;
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(50.0),
-
-                      ),
-                      textColor: Colors.white,
-
-                      color: Colors.white30,
-                      elevation: 0,
-                      padding: const EdgeInsets.all(12),
-                      child: new Text(
-                        "Gave money to a friend",style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      ),
-                    ),),),
-                if(expense_type==2)Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 0, right: 0, top: 0),
-
-                          decoration: BoxDecoration(
-                              color: Colors.white12,
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                              ]
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 4.0, left: 8, bottom: 4, right: 8),
-                            child: TextField(
-
-                              focusNode: expenseTitleFocus,
-
-                              controller: expenseTitle,
-                              keyboardType: TextInputType.multiline,
-                              cursorColor: Colors.black,
-                              maxLines: 1,
-                              onSubmitted: (text) {
-                                expenseTitleFocus.unfocus();
-
-                              },
-                              textInputAction: TextInputAction.done,
-                              style: TextStyle(
-                                  fontFamily: 'ZillaSlab',
-                                  fontSize: 20,
-
-
-                                  color: Colors.white54,
-                                  fontWeight: FontWeight.w500),
-                              decoration: InputDecoration.collapsed(
-                                hintText: 'Enter expense title',
-                                focusColor: Colors.black,
-                                hoverColor:Colors.black ,
-                                hintStyle: TextStyle(
-                                    color: Colors.white60,
-                                    fontSize: 20,
-                                    fontFamily: 'ZillaSlab',
-                                    fontWeight: FontWeight.w500),
-                                border: InputBorder.none,
-                              ),
-                            ),),),
-                        Container(
-                            margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 4),
-
-                            decoration: BoxDecoration(
-                                color: Colors.white12,
-                                borderRadius: BorderRadius.circular(20.0),
-                                boxShadow: [
-                                ]
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 2, left: 8, bottom: 2, right: 8),
-                              child: TextField(
-
-                                focusNode: expenseMoneyFocus,
-
-                                controller:expenseMoney,
-                                keyboardType: TextInputType.number,
-                                cursorColor: Colors.black,
-                                maxLines:1,
-                                onSubmitted: (text) {
-                                  expenseMoneyFocus.unfocus();
-                                },
-                                textInputAction: TextInputAction.done,
-                                style: TextStyle(
-                                    fontFamily: 'ZillaSlab',
-                                    fontSize: 16,
-
-                                    color: Colors.white54,
-                                    fontWeight: FontWeight.w500),
-                                decoration: InputDecoration.collapsed(
-                                  hintText: 'Enter amount in Rs',
-                                  hintStyle: TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 16,
-                                      fontFamily: 'ZillaSlab',
-                                      fontWeight: FontWeight.w500),
-                                  border: InputBorder.none,
-                                ),
-                              ),)),
-
-                        Container(
-                          height:40,
-                          child: FadeAnimation(2.6, Container(
-
-                            child:ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: friendsList.length +1 ,
-                                physics: BouncingScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-
-                                  if (index==0){
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-
-
-                                          _settingModalBottomSheet(context);
-                                        });
-                                      },
-                                      child: Padding(
-
-                                        padding:EdgeInsets.all(0),child:
-
-                                      Container(
-                                        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4.0),
-                                        height: 50,
-
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          border: Border.all(color: Colors.white30, width: 2),
-                                          borderRadius:  BorderRadius.all( Radius.circular(10.0) ),
-
-                                        ),
-
-                                        child: Stack(
-
-                                          children: <Widget>[
-
-
-                                            Padding(
-                                              padding: EdgeInsets.only(right:8,left:8),
-
-                                              child:Align(
-
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  "Add a friend",
-                                                  style: TextStyle(
-                                                      color: Colors.white ,
-                                                      fontFamily: 'ZillaSlab',
-                                                      fontSize: 16,
-
-                                                      fontWeight: FontWeight.w500),
-
-                                                ),),
-                                            ),
-
-
-
-                                          ],
-                                        ),
-                                      ),),
-                                    );
-                                  }
-
-                                    return _buildFriends(
-                                        index - 1,
-                                        friendsList[index - 1]
-                                    );
-
-                                }
-                            ),)),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 8),
-
-                            decoration: BoxDecoration(
-                                color: Colors.white12,
-                                borderRadius: BorderRadius.circular(20.0),
-                                boxShadow: [
-                                ]
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 0, left: 8, bottom: 0, right: 8),
-                              child: TextField(
-
-                                focusNode: expenseContentFocus,
-
-                                controller:expenseContent,
-                                keyboardType: TextInputType.multiline,
-                                cursorColor: Colors.black,
-                                maxLines:1,
-                                onSubmitted: (text) {
-                                  expenseContentFocus.unfocus();
-                                },
-                                textInputAction: TextInputAction.done,
-                                style: TextStyle(
-                                    fontFamily: 'ZillaSlab',
-                                    fontSize: 16,
-
-                                    color: Colors.white54,
-                                    fontWeight: FontWeight.w500),
-                                decoration: InputDecoration.collapsed(
-                                  hintText: 'Enter a discription',
-                                  hintStyle: TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 16,
-                                      fontFamily: 'ZillaSlab',
-                                      fontWeight: FontWeight.w500),
-                                  border: InputBorder.none,
-                                ),
-                              ),)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-
-
-
-
-                            Padding(
-                              padding: EdgeInsets.only(left:20,right:20),
-                              child: Align(
-
-
-                                child:RaisedButton(
-                                  onPressed:(){
-                                    expense_type=0;
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(20.0),
-
-                                  ),
-                                  textColor: Colors.white,
-
-                                  color: Colors.white12,
-                                  elevation: 0,
-                                  padding: const EdgeInsets.all(12),
-                                  child: new Text(
-                                    "Back",style: TextStyle(
-                                      fontFamily: 'ZillaSlab',
-                                      fontSize: 16,
-
-
-                                      color: Colors.white54,
-                                      fontWeight: FontWeight.w500),
-                                  ),
-                                ),),),
-                            Padding(
-                              padding: EdgeInsets.only(right:20),
-                              child: Align(
-
-
-                                child:RaisedButton(
-                                  onPressed:() async {
-                                    ExpenseModel new_exp=new ExpenseModel(title: expenseTitle.text,type: 2,friend_id: chosen_friend,cat_id:0,content:expenseContent.text,money: double.parse(expenseMoney.text),date: today );
-                                    await NotesDatabaseService.db.addExpense(new_exp);
-                                    expenseTitle.clear();
-                                    expenseMoney.clear();
-                                    expenseContent.clear();
-                                    expenseContentFocus.unfocus();
-                                    expenseMoneyFocus.unfocus();
-                                    expenseTitleFocus.unfocus();
-                                    expense_type=0;
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(20.0),
-
-                                  ),
-                                  textColor: Colors.white,
-
-                                  color: Colors.white38,
-                                  elevation: 0,
-                                  padding: const EdgeInsets.all(12),
-                                  child: new Text(
-                                    "Save",style: TextStyle(
-                                      fontFamily: 'ZillaSlab',
-                                      fontSize: 16,
-
-
-                                      color: Colors.white54,
-                                      fontWeight: FontWeight.w500),
-                                  ),
-                                ),),),
-                          ],)
-                      ]
-                  ),),
-              ]));
+    else if (quesList[position].id==5) { // Expense
+      child = type9widget(position);
     }
-    else if (quesList[position].id==6) {
+    else if (quesList[position].id==6) { // Activity
 
-      child = Container(
-          height: MediaQuery.of(context).size.height-250,
-          child:Padding(
-          padding: const EdgeInsets.only(top: 20,left: 8),
-          child: ListView.builder(
-            shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: userAct.length ,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-
-                return _buildActivies(
-                    index,
-                    userAct[index]
-                );
-
-              }
-          )));
+      child = type10widget(position);
     }
     else if (quesList[position].type==1) {
-      child = Padding(
-          padding:EdgeInsets.only(left: 10),
-          child:Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                new Radio(
-                  value: 0,
-                  groupValue: _radioValue1,
-                  activeColor: Colors.white30,
-                  onChanged: (int) => _handleRadioValueChange1(0, position),
-                ),
-                new Text(
-                  opt1,
-                  style: new TextStyle(
-                      fontFamily: 'ZillaSlab',
-                      fontSize: 22,
-                      color: Colors.white70,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                new Radio(
-                  value: 1,
-                  activeColor: Colors.white30,
-                  groupValue: _radioValue1,
-                  onChanged: (int) => _handleRadioValueChange1(1, position),
-                ),
-                new Text(
-                  opt2,
-                  style: new TextStyle(
-                      fontFamily: 'ZillaSlab',
-                      fontSize: 22,
-                      color: Colors.white70,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                new Radio(
-                  value: 2,
-                  activeColor: Colors.white30,
-                  groupValue: _radioValue1,
-                  onChanged: (int) => _handleRadioValueChange1(2, position),
-                ),
-                new Text(
-                  opt3,
-
-
-
-                  style: new TextStyle(
-                      fontFamily: 'ZillaSlab',
-                      fontSize: 22,
-                      color: Colors.white54,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ]));
+      child = type1widget(position,this_question);
     } else if (type == 0) {
-      child =  Padding(
-          padding: const EdgeInsets.only(top: 80),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    reverse: true,
-                    child:TextField(
-
-                      focusNode: titleFocus,
-
-                      controller: titleController[position],
-                      keyboardType: TextInputType.multiline,
-
-                      maxLines:6,
-                      onSubmitted: (text) {
-                        titleFocus.unfocus();
-
-                        ansList[position].content =
-                            titleController[position].toString();
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 20,
-
-                          color: Colors.white54,
-                          fontWeight: FontWeight.w500),
-                      decoration: InputDecoration.collapsed(
-                        hintText: 'Enter your answer...',
-                        hintStyle: TextStyle(
-                            color: Colors.white60,
-                            fontSize: 22,
-                            fontFamily: 'ZillaSlab',
-                            fontWeight: FontWeight.w500),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),),
-
-              ]));
+      child =  type0widget(position);
     } else if (type == 2 && quesList[position].type==2) {
-      child = Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          reverse: true,
-          child:TextField(
-
-            focusNode: titleFocus,
-
-            controller: titleController[position],
-            keyboardType: TextInputType.number,
-
-            maxLength: 3,
-            maxLines:null,
-            onSubmitted: (text) {
-              titleFocus.unfocus();
-              ansList[position].content =
-                  titleController[position].toString();
-              titleFocus.unfocus();
-              },
-            textInputAction: TextInputAction.done,
-            style: TextStyle(
-                fontFamily: 'ZillaSlab',
-                fontSize: 32,
-
-                color: Colors.white54,
-                fontWeight: FontWeight.w500),
-            decoration: InputDecoration.collapsed(
-              hintText: 'Enter a number',
-              hintStyle: TextStyle(
-                  color: Colors.white60,
-                  fontSize: 32,
-                  fontFamily: 'ZillaSlab',
-                  fontWeight: FontWeight.w500),
-              border: InputBorder.none,
-            ),
-          ),
-        ),);
+      child =type2widget(position);
     }
     else {
 
@@ -2027,6 +909,1294 @@ cursorColor: Colors.black,
   }
 
 
+  Widget type6widget(int position){ // Day
+    return Padding(
+        padding: const EdgeInsets.only(top: 80),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              if(write_about_today[position]==0)Padding(
+                padding: EdgeInsets.only(left:0,right:0),
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 00),
+                  height: (MediaQuery.of(context).size.height>400)?240:100,
+
+
+                  padding: EdgeInsets.all(5.0),
+                  decoration: new BoxDecoration(
+                    borderRadius: new BorderRadius.all(
+                      Radius.circular((48 * .3)),
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+
+                      if (MediaQuery.of(context).size.height>400)Expanded(
+                        child:PageView.builder(
+                          controller: scontrollerDay,
+                          physics:new NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+
+
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+
+
+
+                            return _buildIconsDay(
+                                index,
+                                iconsList[index],
+                                below_texs[index],
+                                page_offsetDay-index
+                            );
+                          },
+                        ),),
+                      if (MediaQuery.of(context).size.height<400)SizedBox(height: 100,),
+                      Container(
+
+                        width:  double.infinity,
+                        margin: EdgeInsets.only(left: 10,right:10),
+
+
+                        decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.all(
+                              Radius.circular((45)),
+                            ),
+                            color: Colors.white70
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top:0,left:20),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                '${"Rate"}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize:12,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+
+                                ),
+                              ),
+                              SizedBox(
+                                width: 1,
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: SliderTheme(
+                                    data: SliderTheme.of(context).copyWith(
+                                      activeTrackColor: Colors.black.withOpacity(1),
+                                      inactiveTrackColor: Colors.blue.withOpacity(.5),
+
+                                      trackHeight: 4.0,
+                                      thumbShape: CustomSliderThumbCircle(
+                                        thumbRadius: 48 * .4,
+                                        min: 1,
+                                        max: 4,
+                                      ),
+                                      overlayColor: Colors.black.withOpacity(.4),
+                                      //valueIndicatorColor: Colors.white,
+                                      activeTickMarkColor: Colors.black54,
+                                      inactiveTickMarkColor: Colors.red.withOpacity(.7),
+                                    ),
+                                    child: Slider(
+
+                                        value: _valueDay,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            ansList[current_page].a_rating=_valueDay*5;
+                                            _valueDay = value;
+                                            if (MediaQuery.of(context).size.height>400){
+                                              if (_valueDay<.2 ){
+                                                scontrollerDay.animateToPage(0, duration: const Duration(milliseconds: 500),
+                                                    curve: Curves.easeInOut);
+                                              }
+                                              else if (_valueDay<.4 ){
+                                                scontrollerDay.animateToPage(1, duration: const Duration(milliseconds: 500),
+                                                    curve: Curves.easeInOut);
+                                              }
+                                              else if (_valueDay<.6 ){
+                                                scontrollerDay.animateToPage(2, duration: const Duration(milliseconds: 500),
+                                                    curve: Curves.easeInOut);
+                                              }
+                                              else if(_valueDay<.8){
+                                                scontrollerDay.animateToPage(3, duration: const Duration(milliseconds: 500),
+                                                    curve: Curves.easeInOut);
+                                              }
+                                              else {
+                                                scontrollerDay.animateToPage(4, duration: const Duration(milliseconds: 500),
+                                                    curve: Curves.easeInOut);
+                                              }}
+                                          });
+                                        }),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+
+
+                    ],
+                  ),
+                ),),
+              if(write_about_today[position]==1)Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  reverse: true,
+                  child:TextField(
+
+                    focusNode: titleFocus,
+
+                    controller: titleController[position],
+                    keyboardType: TextInputType.multiline,
+
+                    maxLines:6,
+                    onSubmitted: (text) {
+                      titleFocus.unfocus();
+                      ansList[position].content =
+                          titleController[position].toString();
+                    },
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Enter your answer...',
+                      hintStyle: TextStyle(
+                          color: Colors.white60,
+                          fontSize: 22,
+                          fontFamily: 'ZillaSlab',
+                          fontWeight: FontWeight.w500),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),),
+              if(write_about_today[position]==0)Padding(
+                padding: EdgeInsets.only(left:20,right:20,top:80),
+                child: Align(
+
+                  alignment: Alignment.center,
+                  child:RaisedButton(
+                    onPressed:(){
+                      write_about_today[position]=1;
+                    },
+                    color: Colors.white30,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+
+                    ),
+                    textColor: Colors.white,
+
+
+                    elevation: 0,
+                    padding: const EdgeInsets.all(12),
+                    child: new Text(
+                      "Write about it",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    ),
+                  ),),),
+            ]));
+  }
+  Widget type7widget(int position){ // Work
+    return Padding(
+        padding: const EdgeInsets.only(top: 80),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              if(write_about_today[position]==0)Padding(
+                padding: EdgeInsets.only(left:0,right:0),
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 00),
+                  height: 240,
+
+
+                  padding: EdgeInsets.all(5.0),
+                  decoration: new BoxDecoration(
+                    borderRadius: new BorderRadius.all(
+                      Radius.circular((48 * .3)),
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+
+                      Expanded(
+                        child:PageView.builder(
+                          controller: scontrollerWork,
+                          physics:new NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+
+
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+
+
+
+                            return _buildIconsWork(
+                                index,
+                                iconsListWork[index],
+                                below_texsWork[index],
+                                page_offsetWork-index
+                            );
+                          },
+                        ),),
+                      Container(
+
+                        width: true
+                            ? double.infinity
+                            : (48) * 5.5,
+
+                        decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.all(
+                              Radius.circular((48 * .3)),
+                            ),
+                            color: Colors.transparent
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top:20,left:20),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                '${"Rate"}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize:12,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+
+                                ),
+                              ),
+                              SizedBox(
+                                width: 1,
+                              ),
+                              Expanded(
+                                child: Center(
+                                  child: SliderTheme(
+                                    data: SliderTheme.of(context).copyWith(
+                                      activeTrackColor: Colors.white.withOpacity(1),
+                                      inactiveTrackColor: Colors.white.withOpacity(.5),
+
+                                      trackHeight: 4.0,
+                                      thumbShape: CustomSliderThumbCircle(
+                                        thumbRadius: 48 * .4,
+                                        min: 1,
+                                        max: 4,
+                                      ),
+                                      overlayColor: Colors.white.withOpacity(.4),
+                                      //valueIndicatorColor: Colors.white,
+                                      activeTickMarkColor: Colors.white,
+                                      inactiveTickMarkColor: Colors.red.withOpacity(.7),
+                                    ),
+                                    child: Slider(
+
+                                        value: _valueWork,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _valueWork = value;
+                                            ansList[current_page].a_rating=_valueWork*5;
+                                            print(ansList[current_page].a_rating.toString() +" "+current_page.toString());
+                                            if (_valueWork<.2 ){
+                                              scontrollerWork.animateToPage(0, duration: const Duration(milliseconds: 500),
+                                                  curve: Curves.easeInOut);
+                                            }
+                                            else if (_valueWork<.4 ){
+                                              scontrollerWork.animateToPage(1, duration: const Duration(milliseconds: 500),
+                                                  curve: Curves.easeInOut);
+                                            }
+                                            else if (_valueWork<.6 ){
+                                              scontrollerWork.animateToPage(2, duration: const Duration(milliseconds: 500),
+                                                  curve: Curves.easeInOut);
+                                            }
+                                            else if(_valueWork<.8){
+                                              scontrollerWork.animateToPage(3, duration: const Duration(milliseconds: 500),
+                                                  curve: Curves.easeInOut);
+                                            }
+                                            else {
+                                              scontrollerWork.animateToPage(4, duration: const Duration(milliseconds: 500),
+                                                  curve: Curves.easeInOut);
+                                            }
+                                          });
+                                        }),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+
+
+                    ],
+                  ),
+                ),),
+              if(write_about_today[position]==1)Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  reverse: true,
+                  child:TextField(
+
+                    focusNode: titleFocus,
+
+                    controller: titleController[position],
+                    keyboardType: TextInputType.multiline,
+
+                    maxLines:6,
+                    onSubmitted: (text) {
+                      titleFocus.unfocus();
+                      write_about_today[position]=0;
+                      ansList[position].content =
+                          titleController[position].toString();
+                    },
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Enter your answer...',
+                      hintStyle: TextStyle(
+                          color: Colors.white60,
+                          fontSize: 22,
+                          fontFamily: 'ZillaSlab',
+                          fontWeight: FontWeight.w500),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),),
+              if(write_about_today[position]==0)Padding(
+                padding: EdgeInsets.only(left:20,right:20,top:80),
+                child: Align(
+
+                  alignment: Alignment.center,
+                  child:RaisedButton(
+                    onPressed:(){
+                      write_about_today[position]=1;
+                    },
+
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+
+                    ),
+                    color: Colors.white30,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(12.0),
+                    child: new Text(
+                      "Write about it",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    ),
+                  ),),),
+            ]));
+  }
+  Widget type8widget(int position){ // Event
+    return  Padding(
+        padding: const EdgeInsets.only(top: 80),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left:20,right:20,bottom:12),
+                child: Align(
+
+                  alignment: Alignment.center,
+                  child:RaisedButton(
+                    onPressed:(){
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+
+                              builder: (context) =>
+
+                                  AddEventPage()));
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+
+                    ),
+                    textColor: Colors.white,
+
+                    color: Colors.white30,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(12),
+                    child: new Text(
+                      "Add an event",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    ),
+                  ),),),
+              if(write_about_today[position]==1)Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  reverse: true,
+                  child:TextField(
+
+                    focusNode: titleFocus,
+
+                    controller: titleController[position],
+                    keyboardType: TextInputType.multiline,
+
+                    maxLines:3,
+                    onSubmitted: (text) {
+                      titleFocus.unfocus();
+                      ansList[position].content =
+                          titleController[position].toString();
+                    },
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Enter your answer...',
+                      hintStyle: TextStyle(
+                          color: Colors.white60,
+                          fontSize: 22,
+                          fontFamily: 'ZillaSlab',
+                          fontWeight: FontWeight.w500),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),),
+              if(write_about_today[position]==0)Padding(
+                padding: EdgeInsets.only(left:20,right:20,top:10),
+                child: Align(
+
+                  alignment: Alignment.center,
+                  child:RaisedButton(
+                    onPressed:(){
+                      write_about_today[position]=1;
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+
+                    ),
+                    textColor: Colors.white,
+
+                    color: Colors.white30,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(12),
+                    child: new Text(
+                      "Write about it",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    ),
+                  ),),),
+            ]));
+  }
+  Widget type9widget(int position){ // Expense
+    DateTime today=DateTime.now();
+    return  Padding(
+        padding: const EdgeInsets.only(top: 80),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              if (expense_type==0)Padding(
+                padding: EdgeInsets.only(left:20,right:20,bottom:12),
+                child: Align(
+
+                  alignment: Alignment.center,
+                  child:RaisedButton(
+                    onPressed:(){
+
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => expenseEdit(
+
+                              )));
+
+
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+
+                    ),
+                    textColor: Colors.white,
+
+                    color: Colors.white30,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(12),
+                    child: new Text(
+                      "Add an expense",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    ),
+                  ),),),
+             /* if(expense_type==1)Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(left: 0, right: 0, top: 0),
+
+                        decoration: BoxDecoration(
+                            color: Colors.white12,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                            ]
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 4.0, left: 8, bottom: 4, right: 8),
+                          child: TextField(
+
+                            focusNode: expenseTitleFocus,
+
+                            controller: expenseTitle,
+                            keyboardType: TextInputType.multiline,
+                            cursorColor: Colors.black,
+                            maxLines: 1,
+                            onSubmitted: (text) {
+                              expenseTitleFocus.unfocus();
+
+                            },
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                                fontFamily: 'ZillaSlab',
+                                fontSize: 20,
+
+
+                                color: Colors.white54,
+                                fontWeight: FontWeight.w500),
+                            decoration: InputDecoration.collapsed(
+                              hintText: 'Enter expense title',
+                              focusColor: Colors.black,
+                              hoverColor:Colors.black ,
+                              hintStyle: TextStyle(
+                                  color: Colors.white60,
+                                  fontSize: 20,
+                                  fontFamily: 'ZillaSlab',
+                                  fontWeight: FontWeight.w500),
+                              border: InputBorder.none,
+                            ),
+                          ),),),
+                      Container(
+                          margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 4),
+
+                          decoration: BoxDecoration(
+                              color: Colors.white12,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                              ]
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 2, left: 8, bottom: 2, right: 8),
+                            child: TextField(
+
+                              focusNode: expenseMoneyFocus,
+
+                              controller:expenseMoney,
+                              keyboardType: TextInputType.number,
+                              cursorColor: Colors.black,
+                              maxLines:1,
+                              onSubmitted: (text) {
+                                expenseMoneyFocus.unfocus();
+                              },
+                              textInputAction: TextInputAction.done,
+                              style: TextStyle(
+                                  fontFamily: 'ZillaSlab',
+                                  fontSize: 16,
+
+                                  color: Colors.white54,
+                                  fontWeight: FontWeight.w500),
+                              decoration: InputDecoration.collapsed(
+                                hintText: 'Enter amount in Rs',
+                                hintStyle: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 16,
+                                    fontFamily: 'ZillaSlab',
+                                    fontWeight: FontWeight.w500),
+                                border: InputBorder.none,
+                              ),
+                            ),)),
+
+                      Container(
+                        height:70,
+                        child: FadeAnimation(2.6, Container(
+
+                          child:ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: catsList.length ,
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+
+                                return _buildCats(
+                                    index,
+                                    catsList[index]
+                                );
+
+                              }
+                          ),)),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 8),
+
+                          decoration: BoxDecoration(
+                              color: Colors.white12,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                              ]
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 0, left: 8, bottom: 0, right: 8),
+                            child: TextField(
+
+                              focusNode: expenseContentFocus,
+
+                              controller:expenseContent,
+                              keyboardType: TextInputType.multiline,
+                              cursorColor: Colors.black,
+                              maxLines:1,
+                              onSubmitted: (text) {
+                                expenseContentFocus.unfocus();
+                              },
+                              textInputAction: TextInputAction.done,
+                              style: TextStyle(
+                                  fontFamily: 'ZillaSlab',
+                                  fontSize: 16,
+
+                                  color: Colors.white54,
+                                  fontWeight: FontWeight.w500),
+                              decoration: InputDecoration.collapsed(
+                                hintText: 'Enter a discription',
+                                hintStyle: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 16,
+                                    fontFamily: 'ZillaSlab',
+                                    fontWeight: FontWeight.w500),
+                                border: InputBorder.none,
+                              ),
+                            ),)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+
+
+
+
+                          Padding(
+                            padding: EdgeInsets.only(left:20,right:20),
+                            child: Align(
+
+
+                              child:RaisedButton(
+                                onPressed:(){
+                                  expense_type=0;
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+
+                                ),
+                                textColor: Colors.white,
+
+                                color: Colors.white12,
+                                elevation: 0,
+                                padding: const EdgeInsets.all(12),
+                                child: new Text(
+                                  "Back",style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 16,
+
+
+                                    color: Colors.white54,
+                                    fontWeight: FontWeight.w500),
+                                ),
+                              ),),),
+                          Padding(
+                            padding: EdgeInsets.only(right:20),
+                            child: Align(
+
+
+                              child:RaisedButton(
+                                onPressed:() async {
+                                  ExpenseModel new_exp=new ExpenseModel(title: expenseTitle.text,type: 1,friend_id: 0,cat_id:chosen_expense_cat,content:expenseContent.text,money: double.parse(expenseMoney.text),date: today );
+                                  await NotesDatabaseService.db.addExpense(new_exp);
+                                  expenseTitle.clear();
+                                  expenseMoney.clear();
+                                  expenseContent.clear();
+                                  expenseContentFocus.unfocus();
+                                  expenseMoneyFocus.unfocus();
+                                  expenseTitleFocus.unfocus();
+                                  expense_type=0;
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+
+                                ),
+                                textColor: Colors.white,
+
+                                color: Colors.white38,
+                                elevation: 0,
+                                padding: const EdgeInsets.all(12),
+                                child: new Text(
+                                  "Save",style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 16,
+
+
+                                    color: Colors.white54,
+                                    fontWeight: FontWeight.w500),
+                                ),
+                              ),),),
+                        ],)
+                    ]
+                ),),*/
+             /* if (expense_type==0)Padding(
+                padding: EdgeInsets.only(left:20,right:20,top:10),
+                child: Align(
+
+                  alignment: Alignment.center,
+                  child:RaisedButton(
+                    onPressed:(){
+                      expense_type=2;
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(50.0),
+
+                    ),
+                    textColor: Colors.white,
+
+                    color: Colors.white30,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(12),
+                    child: new Text(
+                      "Gave money to a friend",style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    ),
+                  ),),),*/
+              /*if(expense_type==2)Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(left: 0, right: 0, top: 0),
+
+                        decoration: BoxDecoration(
+                            color: Colors.white12,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                            ]
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 4.0, left: 8, bottom: 4, right: 8),
+                          child: TextField(
+
+                            focusNode: expenseTitleFocus,
+
+                            controller: expenseTitle,
+                            keyboardType: TextInputType.multiline,
+                            cursorColor: Colors.black,
+                            maxLines: 1,
+                            onSubmitted: (text) {
+                              expenseTitleFocus.unfocus();
+
+                            },
+                            textInputAction: TextInputAction.done,
+                            style: TextStyle(
+                                fontFamily: 'ZillaSlab',
+                                fontSize: 20,
+
+
+                                color: Colors.white54,
+                                fontWeight: FontWeight.w500),
+                            decoration: InputDecoration.collapsed(
+                              hintText: 'Enter expense title',
+                              focusColor: Colors.black,
+                              hoverColor:Colors.black ,
+                              hintStyle: TextStyle(
+                                  color: Colors.white60,
+                                  fontSize: 20,
+                                  fontFamily: 'ZillaSlab',
+                                  fontWeight: FontWeight.w500),
+                              border: InputBorder.none,
+                            ),
+                          ),),),
+                      Container(
+                          margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 4),
+
+                          decoration: BoxDecoration(
+                              color: Colors.white12,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                              ]
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 2, left: 8, bottom: 2, right: 8),
+                            child: TextField(
+
+                              focusNode: expenseMoneyFocus,
+
+                              controller:expenseMoney,
+                              keyboardType: TextInputType.number,
+                              cursorColor: Colors.black,
+                              maxLines:1,
+                              onSubmitted: (text) {
+                                expenseMoneyFocus.unfocus();
+                              },
+                              textInputAction: TextInputAction.done,
+                              style: TextStyle(
+                                  fontFamily: 'ZillaSlab',
+                                  fontSize: 16,
+
+                                  color: Colors.white54,
+                                  fontWeight: FontWeight.w500),
+                              decoration: InputDecoration.collapsed(
+                                hintText: 'Enter amount in Rs',
+                                hintStyle: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 16,
+                                    fontFamily: 'ZillaSlab',
+                                    fontWeight: FontWeight.w500),
+                                border: InputBorder.none,
+                              ),
+                            ),)),
+
+                      Container(
+                        height:40,
+                        child: FadeAnimation(2.6, Container(
+
+                          child:ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: friendsList.length +1 ,
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+
+                                if (index==0){
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+
+
+                                        _settingModalBottomSheet(context);
+                                      });
+                                    },
+                                    child: Padding(
+
+                                      padding:EdgeInsets.all(0),child:
+
+                                    Container(
+                                      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4.0),
+                                      height: 50,
+
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        border: Border.all(color: Colors.white30, width: 2),
+                                        borderRadius:  BorderRadius.all( Radius.circular(10.0) ),
+
+                                      ),
+
+                                      child: Stack(
+
+                                        children: <Widget>[
+
+
+                                          Padding(
+                                            padding: EdgeInsets.only(right:8,left:8),
+
+                                            child:Align(
+
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Add a friend",
+                                                style: TextStyle(
+                                                    color: Colors.white ,
+                                                    fontFamily: 'ZillaSlab',
+                                                    fontSize: 16,
+
+                                                    fontWeight: FontWeight.w500),
+
+                                              ),),
+                                          ),
+
+
+
+                                        ],
+                                      ),
+                                    ),),
+                                  );
+                                }
+
+                                return _buildFriends(
+                                    index - 1,
+                                    friendsList[index - 1]
+                                );
+
+                              }
+                          ),)),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(left: 0, right: 0, top: 8,bottom: 8),
+
+                          decoration: BoxDecoration(
+                              color: Colors.white12,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                              ]
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 0, left: 8, bottom: 0, right: 8),
+                            child: TextField(
+
+                              focusNode: expenseContentFocus,
+
+                              controller:expenseContent,
+                              keyboardType: TextInputType.multiline,
+                              cursorColor: Colors.black,
+                              maxLines:1,
+                              onSubmitted: (text) {
+                                expenseContentFocus.unfocus();
+                              },
+                              textInputAction: TextInputAction.done,
+                              style: TextStyle(
+                                  fontFamily: 'ZillaSlab',
+                                  fontSize: 16,
+
+                                  color: Colors.white54,
+                                  fontWeight: FontWeight.w500),
+                              decoration: InputDecoration.collapsed(
+                                hintText: 'Enter a discription',
+                                hintStyle: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 16,
+                                    fontFamily: 'ZillaSlab',
+                                    fontWeight: FontWeight.w500),
+                                border: InputBorder.none,
+                              ),
+                            ),)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+
+
+
+
+                          Padding(
+                            padding: EdgeInsets.only(left:20,right:20),
+                            child: Align(
+
+
+                              child:RaisedButton(
+                                onPressed:(){
+                                  expense_type=0;
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+
+                                ),
+                                textColor: Colors.white,
+
+                                color: Colors.white12,
+                                elevation: 0,
+                                padding: const EdgeInsets.all(12),
+                                child: new Text(
+                                  "Back",style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 16,
+
+
+                                    color: Colors.white54,
+                                    fontWeight: FontWeight.w500),
+                                ),
+                              ),),),
+                          Padding(
+                            padding: EdgeInsets.only(right:20),
+                            child: Align(
+
+
+                              child:RaisedButton(
+                                onPressed:() async {
+                                  ExpenseModel new_exp=new ExpenseModel(title: expenseTitle.text,type: 2,friend_id: chosen_friend,cat_id:0,content:expenseContent.text,money: double.parse(expenseMoney.text),date: today );
+                                  await NotesDatabaseService.db.addExpense(new_exp);
+                                  expenseTitle.clear();
+                                  expenseMoney.clear();
+                                  expenseContent.clear();
+                                  expenseContentFocus.unfocus();
+                                  expenseMoneyFocus.unfocus();
+                                  expenseTitleFocus.unfocus();
+                                  expense_type=0;
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+
+                                ),
+                                textColor: Colors.white,
+
+                                color: Colors.white38,
+                                elevation: 0,
+                                padding: const EdgeInsets.all(12),
+                                child: new Text(
+                                  "Save",style: TextStyle(
+                                    fontFamily: 'ZillaSlab',
+                                    fontSize: 16,
+
+
+                                    color: Colors.white54,
+                                    fontWeight: FontWeight.w500),
+                                ),
+                              ),),),
+                        ],)
+                    ]
+                ),),*/
+            ]));
+  }
+  Widget type10widget(int position){ // Activity
+
+    return  Container(
+        height: MediaQuery.of(context).size.height-250,
+        child:Padding(
+            padding: const EdgeInsets.only(top: 40,left: 8),
+            child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: userAct.length ,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+
+                  return _buildActivies(
+                      index,
+                      userAct[index]
+                  );
+
+                }
+            )));
+  }
+  Widget type0widget(int position){ // Activity
+
+    return  Padding(
+        padding: const EdgeInsets.only(top: 80),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  reverse: true,
+                  child:TextField(
+
+                    focusNode: titleFocus,
+
+                    controller: titleController[position],
+                    keyboardType: TextInputType.multiline,
+
+                    maxLines:6,
+                    onSubmitted: (text) {
+                      titleFocus.unfocus();
+
+                      ansList[position].content =
+                          titleController[position].toString();
+                    },
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 20,
+
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Enter your answer...',
+                      hintStyle: TextStyle(
+                          color: Colors.white60,
+                          fontSize: 22,
+                          fontFamily: 'ZillaSlab',
+                          fontWeight: FontWeight.w500),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),),
+
+            ]));
+  }
+  Widget type1widget(int position,QuestionModel this_question){ // Activity
+
+    return  Padding(
+        padding:EdgeInsets.only(left: 10),
+        child:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  new Radio(
+                    value: 0,
+                    groupValue: _radioValue1,
+                    activeColor: Colors.white30,
+                    onChanged: (int) => _handleRadioValueChange1(0, position),
+                  ),
+                  new Text(
+                    this_question.ans1,
+                    style: new TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 22,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  new Radio(
+                    value: 1,
+                    activeColor: Colors.white30,
+                    groupValue: _radioValue1,
+                    onChanged: (int) => _handleRadioValueChange1(1, position),
+                  ),
+                  new Text(
+                    this_question.ans2,
+                    style: new TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 22,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  new Radio(
+                    value: 2,
+                    activeColor: Colors.white30,
+                    groupValue: _radioValue1,
+                    onChanged: (int) => _handleRadioValueChange1(2, position),
+                  ),
+                  new Text(
+                    this_question.ans3,
+
+
+
+                    style: new TextStyle(
+                        fontFamily: 'ZillaSlab',
+                        fontSize: 22,
+                        color: Colors.white54,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ]));
+  }
+  Widget type2widget(int position){ // Activity
+
+    return  Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        reverse: true,
+        child:TextField(
+
+          focusNode: titleFocus,
+
+          controller: titleController[position],
+          keyboardType: TextInputType.number,
+
+          maxLength: 3,
+          maxLines:null,
+          onSubmitted: (text) {
+            titleFocus.unfocus();
+            ansList[position].content =
+                titleController[position].toString();
+            titleFocus.unfocus();
+          },
+          textInputAction: TextInputAction.done,
+          style: TextStyle(
+              fontFamily: 'ZillaSlab',
+              fontSize: 32,
+
+              color: Colors.white54,
+              fontWeight: FontWeight.w500),
+          decoration: InputDecoration.collapsed(
+            hintText: 'Enter a number',
+            hintStyle: TextStyle(
+                color: Colors.white60,
+                fontSize: 32,
+                fontFamily: 'ZillaSlab',
+                fontWeight: FontWeight.w500),
+            border: InputBorder.none,
+          ),
+        ),
+      ),);
+  }
+  Widget type3widget(int position){ // Activity
+
+    return  Container(
+        height: MediaQuery.of(context).size.height-250,
+        child:Padding(
+            padding: const EdgeInsets.only(top: 20,left: 8),
+            child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: userAct.length ,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+
+                  return _buildActivies(
+                      index,
+                      userAct[index]
+                  );
+
+                }
+            )));
+  }
   void _settingModalBottomSheet(context) {
     FriendModel new_frd=new FriendModel(name: "",total: 0);
     showModalBottomSheet(
@@ -2476,7 +2646,7 @@ cursorColor: Colors.black,
     double gauss = exp(-(pow((offset.abs() - 0.5), 2) /
         0.08)); //<--caluclate Gaussian function
     return Transform.scale(
-      scale: 1 / (0.6 + offset.abs()),
+      scale: 1 / (1+ offset.abs()),
       child: GestureDetector(
 
 
@@ -2502,7 +2672,7 @@ cursorColor: Colors.black,
                         left: 8, bottom: 0, top: 20, right: 8),
                     child: Align(
                       alignment: Alignment(offset, 0),
-                      child: Icon(this_icon, size: 48,color: Colors.white54,
+                      child: Icon(this_icon, size:70,color: Colors.white54,
                       ),)
 
                 ),),
@@ -2515,12 +2685,14 @@ cursorColor: Colors.black,
                   child: AnimatedDefaultTextStyle(
                     style: offset == 0
                         ? TextStyle(
-                        fontSize: 10,
+                        fontSize: 16,
                         color: Colors.white,
+                        fontFamily: 'ZillaSlab',
 
                         fontWeight: FontWeight.w500)
                         : TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
+                        fontFamily: 'ZillaSlab',
                         color: Colors.white,
                         fontWeight: FontWeight.w400),
                     duration: const Duration(milliseconds: 200),

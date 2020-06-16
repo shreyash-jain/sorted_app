@@ -5,7 +5,7 @@ class TimelineModel {
   String title;
   String content;
   DateTime saved_ts;
-
+  DateTime end_date;
   DateTime date;
   int status;  // 1 -> ongoing ; 2 -> paused ; 3 -> completed
 
@@ -14,6 +14,7 @@ class TimelineModel {
         this.title,
         this.content,
         this.saved_ts,
+        this.end_date,
         this.date,
         this.status});
 
@@ -22,6 +23,7 @@ class TimelineModel {
     this.status = map['book_id'];
     this.title = map['title'];
     this.content = map['content'];
+    this.end_date =map['end_date'];
     this.date = DateTime.parse(map['date']);
     this.saved_ts =DateTime.parse(map['saved_ts']);
   }
@@ -30,6 +32,7 @@ class TimelineModel {
     return <String, dynamic>{
       'id': this.id,
       'title': this.title,
+      'end_date': this.end_date,
       'content': this.content,
       'book_id': this.status,
       'saved_ts':this.saved_ts.toIso8601String(),

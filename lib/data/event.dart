@@ -10,17 +10,19 @@ class EventModel {
   double duration;
   int date_id;
   int r_id;
+  int cal_id;
   int timeline_id;
   DateTime time;
   int a_id;
   DateTime saved_ts;
 
   EventModel(
-      {this.id,this.saved_ts,this.title,this.time, this.timeline_id,this.content, this.isImportant, this.date, this.todo_id, this.duration, this.r_id, this.date_id, this.a_id,});
+      {this.id,this.cal_id,this.saved_ts,this.title,this.time, this.timeline_id,this.content, this.isImportant, this.date, this.todo_id, this.duration, this.r_id, this.date_id, this.a_id,});
 
   EventModel.fromMap(Map<String, dynamic> map) {
     this.id = map['id'];
     this.r_id = map['r_id'];
+    this.cal_id=map['r_id'];
     this.date_id = map['date_id'];
     this.duration = map['duration'];
     this.timeline_id = map['timeline_id'];
@@ -37,6 +39,7 @@ this.time=DateTime.parse(map['time']);
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': this.id,
+      'cal_id':this.cal_id,
       'title': this.title,
       'a_id':this.a_id,
       'timeline_id':this.timeline_id,

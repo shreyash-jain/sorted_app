@@ -81,7 +81,7 @@ class _AddEventPageState extends State<AddEventPage>
   int activity_position = -1;
   final String title = "";
   ScrollController _scrollController = new ScrollController();
-  List<int> Todos = List<int>();
+  List<Todo> Todos = List<Todo>();
   bool isPlaying = false;
   int _currentPage = 0;
   List<TimelineModel> all_timelines = [];
@@ -93,7 +93,7 @@ class _AddEventPageState extends State<AddEventPage>
   AnimationController icon_controller;
   bool isSwitched = false;
   double dyn_height = 400;
-
+  final _todoDescriptionFormController = TextEditingController();
   var allday = true;
   final PageController _pageController = PageController(initialPage: 0);
   bool repeat = false;
@@ -2223,7 +2223,7 @@ class _AddEventPageState extends State<AddEventPage>
                                                       _currentPage = 0;
                                                     }
 
-                                                    _pageController
+                                                    if (_pageController.hasClients)_pageController
                                                         .animateToPage(
                                                       _currentPage,
                                                       duration: Duration(
@@ -2336,8 +2336,15 @@ class _AddEventPageState extends State<AddEventPage>
                                                     next(1, 99999999);
                                                 todoBloc = TodoBloc(
                                                     currentEvent.todo_id);
+
                                               }
                                             });
+
+                                            _scrollController.animateTo(
+                                              _scrollController.position.maxScrollExtent,
+                                              curve: Curves.easeOut,
+                                              duration: const Duration(milliseconds: 300),
+                                            );
                                           },
                                           activeColor:
                                               Theme.of(context).primaryColor,
@@ -2883,8 +2890,15 @@ class _AddEventPageState extends State<AddEventPage>
     currentEvent.date_id = this_date.id;
     if (!isSwitched) {
       for (var i = 0; i < Todos.length; i++) {
-        todoBloc.deleteTodoById(Todos[i], currentEvent.todo_id);
+        todoBloc.deleteTodoById(Todos[i].id, currentEvent.todo_id);
       }
+    }
+
+    else {
+      for (var i = 0; i < Todos.length; i++) {
+        NotesDatabaseService.db.addTodoToCloud(Todos[i]);
+      }
+
     }
     if (currentEvent.r_id != 0) {
       if (repeatDays.length == 0) {
@@ -3004,7 +3018,8 @@ class _AddEventPageState extends State<AddEventPage>
     if (isNoteNew) {
       Navigator.pop(context);
       for (var i = 0; i < Todos.length; i++) {
-        todoBloc.deleteTodoById(Todos[i], currentEvent.todo_id);
+        todoBloc.deleteTodoById(Todos[i].id, currentEvent.todo_id);
+
       }
     } else {
       showDialog(
@@ -3024,7 +3039,8 @@ class _AddEventPageState extends State<AddEventPage>
                           letterSpacing: 1)),
                   onPressed: () async {
                     for (var i = 0; i < Todos.length; i++) {
-                      todoBloc.deleteTodoById(Todos[i], currentEvent.todo_id);
+                      todoBloc.deleteTodoById(Todos[i].id, currentEvent.todo_id);
+                      NotesDatabaseService.db.deleteTodoToCloud(Todos[i]);
                     }
 
                     if (currentEvent.r_id != 0) {
@@ -3068,7 +3084,7 @@ class _AddEventPageState extends State<AddEventPage>
     }
     if (isNoteNew)
       for (var i = 0; i < Todos.length; i++) {
-        todoBloc.deleteTodoById(Todos[i], currentEvent.todo_id);
+        todoBloc.deleteTodoById(Todos[i].id, currentEvent.todo_id);
       }
 
     widget.triggerRefetch();
@@ -3077,14 +3093,19 @@ class _AddEventPageState extends State<AddEventPage>
   }
 
   Widget _getFAB() {
-    if (!isSwitched) {
+    if (!isSwitched || timeline) {
       return Container();
     } else {
       return FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 5.0,
         onPressed: () {
-          _showAddTodoSheet(context);
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 300),
+          );
+
         },
         label: Text(
           'Add Todo'.toUpperCase(),
@@ -3095,8 +3116,8 @@ class _AddEventPageState extends State<AddEventPage>
     }
   }
 
-  void _showAddTodoSheet(BuildContext context) {
-    final _todoDescriptionFormController = TextEditingController();
+ /* void _showAddTodoSheet(BuildContext context) {
+
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -3122,24 +3143,22 @@ class _AddEventPageState extends State<AddEventPage>
                         children: <Widget>[
                           TextFormField(
                             controller: _todoDescriptionFormController,
+                            autofocus: true,
                             textInputAction: TextInputAction.done,
-                            onFieldSubmitted: (text) {
-                              _scrollController.animateTo(
-                                _scrollController.position.maxScrollExtent,
-                                curve: Curves.easeOut,
-                                duration: const Duration(milliseconds: 300),
-                              );
+                            onFieldSubmitted: (text) async {
+
                               final newTodo = Todo(
                                   description: _todoDescriptionFormController
                                       .value.text);
                               if (newTodo.description.isNotEmpty) {
-                                /*Create new Todo object and make sure
+                                *//*Create new Todo object and make sure
                                     the Todo description is not empty,
                                     because what's the point of saving empty
                                     Todo
-                                    */
+                                    *//*
                                 newTodo.event_id = currentEvent.todo_id;
-                                todoBloc.addTodo(newTodo, currentEvent.todo_id);
+                                await todoBloc.addTodo(newTodo, currentEvent.todo_id);
+
 
                                 //dismisses the bottomsheet
                                 Navigator.pop(context);
@@ -3154,7 +3173,7 @@ class _AddEventPageState extends State<AddEventPage>
                                 fontSize: 24),
                             decoration: const InputDecoration(
                                 hintText: 'I have to...',
-                                labelText: 'New Todo',
+                                labelText: 'Add New Todo',
                                 labelStyle: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'ZillaSlab',
@@ -3185,13 +3204,13 @@ class _AddEventPageState extends State<AddEventPage>
                                   final newTodo = Todo(
                                       description:
                                           _todoDescriptionFormController
-                                              .value.text);
+                                              .value.text,position: Todos.length);
                                   if (newTodo.description.isNotEmpty) {
-                                    /*Create new Todo object and make sure
+                                    *//*Create new Todo object and make sure
                                     the Todo description is not empty,
                                     because what's the point of saving empty
                                     Todo
-                                    */
+                                    *//*
                                     newTodo.event_id = currentEvent.todo_id;
                                     todoBloc.addTodo(
                                         newTodo, currentEvent.todo_id);
@@ -3218,7 +3237,7 @@ class _AddEventPageState extends State<AddEventPage>
             ),
           );
         });
-  }
+  }*/
 
   Widget getTodosWidget() {
     /*The StreamBuilder widget,
@@ -3239,28 +3258,88 @@ class _AddEventPageState extends State<AddEventPage>
     at initial state of the operation there will be no stream
     so we need to handle it if this was the case
     by showing users a processing/loading indicator*/
+
     if (snapshot.hasData) {
       /*Also handles whenever there's stream
       but returned returned 0 records of Todo from DB.
       If that the case show user that you have empty Todos
       */
+     if(snapshot.data.length != 0) snapshot.data.sort((a, b) => a.position.compareTo(b.position));
 
       return snapshot.data.length != 0
           ? ListView.builder(
               padding: EdgeInsets.only(left: 16, right: 16),
               physics: BouncingScrollPhysics(),
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data.length+1,
               itemBuilder: (context, itemPosition) {
+                if (itemPosition==snapshot.data.length)
+                  {
+                    return TextFormField(
+                      controller: _todoDescriptionFormController,
+                      textInputAction: TextInputAction.done,
+                      autofocus: true,
+                      onFieldSubmitted: (text) async {
+                        _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent,
+                          curve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 300),
+                        );
+                        final newTodo = Todo(
+                            description: _todoDescriptionFormController
+                                .value.text,position: Todos.length);
+                        if (newTodo.description.isNotEmpty) {
+                          /*Create new Todo object and make sure
+                                    the Todo description is not empty,
+                                    because what's the point of saving empty
+                                    Todo
+                                    */
+                          newTodo.event_id = currentEvent.todo_id;
+                          await todoBloc.addTodo(newTodo, currentEvent.todo_id);
+                          _todoDescriptionFormController.clear();
+
+                          //dismisses the bottomsheet
+
+                        }
+                      },
+                      maxLines: 1,
+                      style: TextStyle(
+
+                          fontFamily: 'ZillaSlab',
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 20),
+                      decoration: const InputDecoration(
+                          hintText: 'I have to...',
+                          labelText: 'Add New Todo',
+                          labelStyle: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'ZillaSlab',
+                              fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 20)),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Empty description!';
+                        }
+                        return value.contains('')
+                            ? 'Do not use the @ char.'
+                            : null;
+                      },
+                    );
+                  }
                 Todo todo = snapshot.data[itemPosition];
-                Todos.add(todo.id);
+
+
+                Todos.add(todo);
                 final Widget dismissibleCard = new Dismissible(
                   background: Container(
+                    margin:EdgeInsets.all(4) ,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.red[500],
                         ),
                         color: Colors.redAccent,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: Padding(
                       padding: EdgeInsets.only(left: 16),
                       child: Align(
@@ -3285,15 +3364,23 @@ class _AddEventPageState extends State<AddEventPage>
                   },
                   direction: _dismissDirection,
                   key: new ObjectKey(todo),
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: ListTile(
+                  child: Container(
+                    padding: EdgeInsets.all(6),
+                      margin:EdgeInsets.only(top:4) ,
+                      decoration: BoxDecoration(
+                          color: Colors.blueGrey.withOpacity(.4),
+
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(10))),
+
+
+
+                      child: GestureDetector(
+
                         onLongPress: () {
                           setState(() {
                             Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text("Swipe to delete"),
+                              content: Text("Swipe to delete",),
                             ));
                           });
                         },
@@ -3302,43 +3389,115 @@ class _AddEventPageState extends State<AddEventPage>
                             content: Text("Swipe to delete"),
                           ));
                         },
-                        leading: InkWell(
-                          onTap: () {
-                            //Reverse the value
-                            todo.isDone = !todo.isDone;
-                            /*
+                        child: Row(children: <Widget>[
+
+                          InkWell(
+                            onTap: () {
+                              //Reverse the value
+                              todo.isDone = !todo.isDone;
+                              /*
                             Another magic.
                             This will update Todo isDone with either
                             completed or not
                           */
-                            todoBloc.updateTodo(todo, currentEvent.todo_id);
-                          },
-                          child: Container(
-                            //decoration: BoxDecoration(),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: todo.isDone
-                                  ? Icon(
-                                      Icons.done,
-                                      size: 26.0,
-                                    )
-                                  : Icon(
-                                      Icons.check_box_outline_blank,
-                                      size: 26.0,
-                                    ),
+                              todoBloc.updateTodo(todo, currentEvent.todo_id);
+                            },
+                            child: Container(
+                              //decoration: BoxDecoration(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: todo.isDone
+                                    ? Icon(
+                                  Icons.done,
+                                  size: 26.0,
+                                )
+                                    : Icon(
+                                  Icons.check_box_outline_blank,
+                                  size: 26.0,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        title: Text(
-                          todo.description,
-                          style: TextStyle(
-                              fontSize: 16.5,
-                              fontFamily: 'RobotoMono',
-                              fontWeight: FontWeight.w500,
-                              decoration: todo.isDone
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none),
-                        ),
+                          SizedBox(width: 10,),
+
+                          Expanded(child:Text(
+
+                            todo.description,
+
+
+                            style: TextStyle(
+                                fontSize: 20,
+
+                                fontFamily: 'ZillaSlab',
+                                fontWeight: FontWeight.w500,
+                                decoration: todo.isDone
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none),
+                          )),
+                          Spacer(),
+                          if (snapshot.data.length>1 && itemPosition!=0)InkWell(
+                            onTap: () {
+                              //Reverse the value
+                              Todo todo_up=snapshot.data[itemPosition-1];
+                              int temp=todo_up.position;
+                              todo_up.position=todo.position;
+                              todo.position=temp;
+                              /*
+                            Another magic.
+                            This will update Todo isDone with either
+                            completed or not
+                          */
+                              todoBloc.updateTodo(todo, currentEvent.todo_id);
+                              todoBloc.updateTodo(todo_up, currentEvent.todo_id);
+
+
+
+
+
+                            },
+                            child: Container(
+                              //decoration: BoxDecoration(),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child:
+                                  Icon(
+                                    Icons.keyboard_arrow_up,
+                                    size: 26.0,
+                                  )
+
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(width: 4,),
+                          if (snapshot.data.length>1 && itemPosition!=snapshot.data.length-1)InkWell(
+                            onTap: () {
+
+                              Todo todo_below=snapshot.data[itemPosition+1];
+                              int temp=todo_below.position;
+                              todo_below.position=todo.position;
+                              todo.position=temp;
+                              /*
+                            Another magic.
+                            This will update Todo isDone with either
+                            completed or not
+                          */
+                              todoBloc.updateTodo(todo, currentEvent.todo_id);
+                              todoBloc.updateTodo(todo_below, currentEvent.todo_id);
+
+                            },
+                            child: Container(
+                              //decoration: BoxDecoration(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child:  Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 26.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],),
                       )),
                 );
                 return dismissibleCard;
@@ -3398,18 +3557,72 @@ class _AddEventPageState extends State<AddEventPage>
   }
 
   Widget noTodoMessageWidget() {
-    _scrollController.animateTo(
+    /*_scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 300),
-    );
-    return Container(
-      child: Text(
-        "Start adding Todo...",
+    );*/
+    return Column(children: <Widget>[
+    Container(
+    child: Text(
+      "Start adding Todo...",
+      style: TextStyle(
+          fontSize: 19, fontFamily: 'ZillaSlab', fontWeight: FontWeight.w700),
+    ),
+    ),
+      TextFormField(
+        controller: _todoDescriptionFormController,
+        textInputAction: TextInputAction.done,
+        autofocus: true,
+        onFieldSubmitted: (text) async {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 300),
+          );
+          final newTodo = Todo(
+              description: _todoDescriptionFormController
+                  .value.text,position: Todos.length);
+          if (newTodo.description.isNotEmpty) {
+            /*Create new Todo object and make sure
+                                    the Todo description is not empty,
+                                    because what's the point of saving empty
+                                    Todo
+                                    */
+            newTodo.event_id = currentEvent.todo_id;
+            await todoBloc.addTodo(newTodo, currentEvent.todo_id);
+            _todoDescriptionFormController.clear();
+
+            //dismisses the bottomsheet
+
+          }
+        },
+        maxLines: 1,
         style: TextStyle(
-            fontSize: 19, fontFamily: 'ZillaSlab', fontWeight: FontWeight.w700),
+
+            fontFamily: 'ZillaSlab',
+            fontWeight: FontWeight.w700,
+            fontStyle: FontStyle.normal,
+            fontSize: 20),
+        decoration: const InputDecoration(
+            hintText: 'I have to...',
+            labelText: 'Add New Todo',
+            labelStyle: TextStyle(
+                color: Colors.white,
+                fontFamily: 'ZillaSlab',
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.normal,
+                fontSize: 20)),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Empty description!';
+          }
+          return value.contains('')
+              ? 'Do not use the @ char.'
+              : null;
+        },
       ),
-    );
+    ],);
   }
 
   Widget _buildCategoryCard2(int index, UserAModel this_note) {

@@ -106,14 +106,7 @@ class EditorPageState extends State<EditorPage> {
             onPressed:()=> _displayDialog(context)
 
           ),
-          IconButton(
-            tooltip: 'Mark note as important',
-            icon: Icon(
-                currentNote.isImportant ? Icons.flag : Icons.outlined_flag),
-            onPressed: currentNote.title != "Add a title"
-                ? markImportantAsDirty
-                : null,
-          ),
+
           IconButton(
             icon: Icon(Icons.delete_outline),
             onPressed: () {

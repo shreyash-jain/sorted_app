@@ -95,6 +95,7 @@ class _MyHomePageState extends State<FinanceView> {
     const Color(0xff23b6e6),
     Color.fromARGB(255, 58, 149, 255),
   ];
+  SharedPreferences prefs;
   bool isFlagOn = false;
   int _radioValue1 = 0;
   int current_position_month = 11;
@@ -164,7 +165,7 @@ class _MyHomePageState extends State<FinanceView> {
   final Duration animDuration = const Duration(milliseconds: 250);
   RangeValues _values = new RangeValues(0, 100000);
   RangeLabels _labels = new RangeLabels('0', '100000');
-
+  String currency="₹";
   int current_position_expense_list = -1;
 
   int touchedIndex;
@@ -175,10 +176,25 @@ class _MyHomePageState extends State<FinanceView> {
     super.initState();
     get_category_List();
     get_UserActivityModel();
-
+    initiatePref();
     get_past_months();
   }
+  initiatePref() async {
+    prefs = await SharedPreferences.getInstance();
 
+
+
+
+     currency = prefs.getString('currency');
+
+    if (currency==null || currency=="")
+      setState(() {
+        currency="₹";
+      });
+
+
+
+  }
   get_friends_List() async {
     var fetchedDate = await NotesDatabaseService.db.getFriendsDB();
     setState(() {
@@ -504,7 +520,7 @@ class _MyHomePageState extends State<FinanceView> {
                                                   bottom: 12,
                                                   top: 12),
                                               child: Text(
-                                                '₹\n' +
+                                                '$currency\n' +
                                                     sum_all_expense.toString(),
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
@@ -582,7 +598,7 @@ class _MyHomePageState extends State<FinanceView> {
                                                       top: 0,
                                                       bottom: 4),
                                                   child: Text(
-                                                    '₹ ' +
+                                                    '$currency ' +
                                                         last_week_expense
                                                             .toString(),
                                                     style: TextStyle(
@@ -656,7 +672,7 @@ class _MyHomePageState extends State<FinanceView> {
                                                       top: 0,
                                                       bottom: 4),
                                                   child: Text(
-                                                    '₹ ' +
+                                                    '$currency ' +
                                                         last_month_expense
                                                             .toString(),
                                                     style: TextStyle(
@@ -1250,7 +1266,7 @@ class _MyHomePageState extends State<FinanceView> {
                                                             fontWeight:
                                                                 FontWeight.w300,
                                                             letterSpacing: .5,
-                                                            fontSize: 18),
+                                                            fontSize: 10),
                                                       )),
                                                 ),
                                                 GestureDetector(
@@ -2311,8 +2327,8 @@ class _MyHomePageState extends State<FinanceView> {
                       setState(() {
                         _values = values;
                         _labels = RangeLabels(
-                            '${_values.start.toInt().toString()} \₹',
-                            '${_values.end.toInt().toString()} \₹');
+                            '${_values.start.toInt().toString()} $currency',
+                            '${_values.end.toInt().toString()} $currency');
                       });
 
                       setState(() {
@@ -2674,7 +2690,7 @@ class _MyHomePageState extends State<FinanceView> {
                 padding: EdgeInsets.only(right: 20, top: 13),
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Text("₹ " + this_expense.money.toString(),
+                  child: Text("$currency " + this_expense.money.toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'ZillaSlab',
@@ -2793,7 +2809,7 @@ class _MyHomePageState extends State<FinanceView> {
         padding: EdgeInsets.all(0),
         child: Container(
           margin: EdgeInsets.only(
-              right: (MediaQuery.of(context).size.width - 365) / 10),
+              right: (MediaQuery.of(context).size.width - 360) / 10),
           decoration: BoxDecoration(
             color: (chosen_expense_cat == index)
                 ? Colors.grey.withOpacity(.3)
@@ -3064,7 +3080,7 @@ class _MyHomePageState extends State<FinanceView> {
 
               return BarTooltipItem(
                   weekDay +
-                      '\n ₹' +
+                      '\n $currency' +
                       ((rod.y - .2) * (1.2 * max_all_cat)).toInt().toString(),
                   TextStyle(
                     color: Theme.of(context).primaryColor,
@@ -3167,7 +3183,7 @@ class _MyHomePageState extends State<FinanceView> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
-                return (max_all_months * 1.2).toString() + " ₹";
+                return (max_all_months * 1.2).toString() + " $currency";
             }
             return '';
           },
@@ -3190,11 +3206,11 @@ class _MyHomePageState extends State<FinanceView> {
                     to_print = (max_all_months / 1000).toInt().toString() + "K";
                   }
 
-                  return to_print + " ₹";
+                  return to_print + " $currency";
                 }
 
               case 0:
-                return "0  ₹       ";
+                return "0  $currency       ";
             }
             return '';
           },

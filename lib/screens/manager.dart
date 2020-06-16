@@ -1074,6 +1074,7 @@ getUser() async {
       int back=next(1, 200);
       DateModel this_date;
       DateTime a_date=DateTime.now().subtract(Duration(days:back));
+      type=int.parse(typeController.text);
       ans=new AnswerModel(
           q_id: int.parse(QidController.text),
         date: a_date,
@@ -1112,7 +1113,8 @@ getUser() async {
 
       else if (type==1)  {
 
-        int choice=next(1,3);
+        int choice=next(1,4);
+        print("? choice "+choice.toString());
         if (choice==1){
 
           ans.res1=1;
@@ -1132,13 +1134,16 @@ getUser() async {
 
         }
 
-        ans.res1=1;
+
 
       }
 
-      else {
-        ans.res1=next(1,100);
+      else if (type==2) {
+        ans.res1=next(1,600);
 
+      }
+      else if (type==4){
+        ans.res1=next(1,600);
       }
       await NotesDatabaseService.db
           .addAnswerInDB(ans);

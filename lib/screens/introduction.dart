@@ -23,7 +23,7 @@ class IntroductionScreen extends StatefulWidget {
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<IntroductionScreen>
+class _OnboardingScreenState extends  State<IntroductionScreen>
     with TickerProviderStateMixin {
   final int _numPages = 4;
   final PageController _pageController = PageController(initialPage: 0);
@@ -89,7 +89,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
             }
           });
     getStarted();
-    get_ActivityModel();
+
     scaleAnimation =
         Tween<double>(begin: 1.0, end: 35.0).animate(scaleController);
     rippleController.forward();
@@ -99,9 +99,10 @@ class _OnboardingScreenState extends State<IntroductionScreen>
   }
 
   get_ActivityModel() async {
-    var fetchedDate = await NotesDatabaseService.db.getActiviyAfterFromDB(6);
+    var fetchedDate = await NotesDatabaseService.db.getActiviyAfterFromDB(8);
     setState(() {
       AllActivityList = fetchedDate;
+      print("hello "+AllActivityList.length.toString());
       activity_position =
           new List<int>.filled(AllActivityList.length, 0, growable: true);
     });
@@ -169,9 +170,9 @@ class _OnboardingScreenState extends State<IntroductionScreen>
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      height: 12.0,
-      width: isActive ? 30.0 : 20.0,
+      margin: EdgeInsets.symmetric(vertical: 4.0),
+      height: 8.0,
+      width: isActive ? 16.0 : 10.0,
       decoration: BoxDecoration(
         color: isActive ? Colors.white : Colors.black26,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -242,7 +243,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                         child: Stack(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 140),
+                              padding: EdgeInsets.only(top: 100),
                               child: FadeAnimation(
                                 1.6,
                                 Container(
@@ -258,7 +259,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 380),
+                              padding: EdgeInsets.only(top: 340),
                               child: FadeAnimation(
                                   4.2,
                                   Container(
@@ -297,7 +298,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                         child: Stack(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 140),
+                              padding: EdgeInsets.only(top: 100),
                               child: FadeAnimation(
                                 1.6,
                                 Container(
@@ -313,7 +314,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 0, top: 320),
+                              padding: EdgeInsets.only(left: 0, top: 280),
                               child: Container(
                                 height: 150,
                                 child: FadeAnimation(
@@ -339,7 +340,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                         child: Stack(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 40),
+                              padding: EdgeInsets.only(top: 20),
                               child: FadeAnimation(
                                 1.6,
                                 Container(
@@ -354,7 +355,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 140),
+                              padding: EdgeInsets.only(top: 110),
                               child: FadeAnimation(
                                 1.6,
                                 Container(
@@ -370,7 +371,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 0, top: 280),
+                              padding: EdgeInsets.only(left: 0, top: 250),
                               child: Container(
                                 height: 200,
                                 child: FadeAnimation(
@@ -447,7 +448,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 300, right: 20),
+                              padding: EdgeInsets.only(top: 270, right: 20),
                               child: FadeAnimation(
                                   2.6,
                                   Container(
@@ -461,7 +462,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                                   ))),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 430),
+                              padding: EdgeInsets.only(top: 370),
                               child: FadeAnimation(
                                 2.6,
                                 Container(
@@ -484,7 +485,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 50, right: 40),
+                padding: EdgeInsets.only(top: 50, right: 30),
                 child: Align(
                   alignment: FractionalOffset.topRight,
                   child: Column(
@@ -501,7 +502,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                         Align(
                           alignment: FractionalOffset.bottomRight,
                           child: FlatButton(
-                            onPressed: () {
+                            onPressed: ()  {
                               if (_currentPage > 0) {
                                 _pageController.animateToPage(
                                   _currentPage - 1,
@@ -509,6 +510,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                                   curve: Curves.easeInOut,
                                 );
                               }
+
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -527,12 +529,15 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                           Align(
                             alignment: FractionalOffset.bottomRight,
                             child: FlatButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 _pageController.animateToPage(
                                   _currentPage + 1,
                                   duration: Duration(milliseconds: 800),
                                   curve: Curves.easeInOut,
                                 );
+                                if
+                                (_currentPage==1)
+                                  await get_ActivityModel();
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -737,15 +742,20 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                                     color: Colors.black45.withOpacity(.4)),
                                 child: InkWell(
                                   onTap: () async {
-                                    for (var i = 0;
-                                        i < AlladdedList.length;
-                                        i++) {
-                                      UserAModel usera = new UserAModel(
-                                          name: AlladdedList[i].name,
-                                          a_id: AlladdedList[i].id,
-                                          image: AlladdedList[i].image);
-                                      await NotesDatabaseService.db
-                                          .addUserActivity(usera);
+
+                                    if(AlladdedList.length>0) {
+                                      await NotesDatabaseService.db.deleteUserActivityTable();
+                                      for (var i = 0;
+                                      i < AlladdedList.length;
+                                      i++) {
+                                        UserAModel usera = new UserAModel(
+                                            name: AlladdedList[i].name,
+                                            a_id: AlladdedList[i].id,
+                                            image: AlladdedList[i].image);
+                                        await NotesDatabaseService.db
+                                            .addUserActivity(usera);
+                                      }
+
                                     }
                                     prefs.setString(
                                         'user_name', nameController.text);
@@ -856,6 +866,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       image: DecorationImage(
                           image: AssetImage(image), fit: BoxFit.cover))),
+
             ],
           ),
         ),
@@ -880,7 +891,7 @@ class _OnboardingScreenState extends State<IntroductionScreen>
       child: Padding(
         padding: EdgeInsets.only(),
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8.0),
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 4.0),
           height: 100,
           width: 120,
           child: Stack(
@@ -972,6 +983,25 @@ class _OnboardingScreenState extends State<IntroductionScreen>
                   ),
                 ),
               ),
+        /*   Align(
+                alignment:Alignment.bottomCenter,
+                child:Text("Female\n25-50",style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'ZillaSlab',
+                fontSize: 20,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(1.0, 1.0),
+                    blurRadius: 4.0,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  Shadow(
+                    offset: Offset(1.0, 1.0),
+                    blurRadius: 2.0,
+                    color: Color.fromARGB(255, 0, 0, 2),
+                  ),
+                ],
+                fontWeight: FontWeight.w700),))*/
           ],
         ),
       ),

@@ -8,7 +8,10 @@ class TodoDao {
   //Adds new Todo records
   Future<int> createTodo(Todo todo) async {
     final db = await dbProvider.database;
-    var result = db.insert(todoTABLE, todo.toDatabaseJson());
+    if (todo.saved_ts==null)todo.saved_ts=DateTime.now();
+    var result =   await db.insert(todoTABLE, todo.toDatabaseJson());
+    todo.id=result;
+
     return result;
   }
 

@@ -132,7 +132,7 @@ class NotesDatabaseService {
           "date_id INTEGER, "
           "content TEXT, "
           "a_id INTEGER, "
-          "cal_id INTEGER, "
+          "cal_id TEXT, "
           "saved_ts TEXT, "
           "title TEXT, "
           "timeline_id INTEGER, "
@@ -750,6 +750,23 @@ print(text);
         }
         return eventsList;
       }
+
+  Future<List<EventModel>> getEventWithCalIdFromDB(int query) async {
+    final db = await database;
+    List<EventModel> eventsList = [];
+    List<Map> maps = await db.query('Events',
+        columns: ['id', 'title','a_id', 'time','cal_id','content', 'date','saved_ts', 'isImportant','r_id','duration','date_id','todo_id','timeline_id']
+        ,
+        where: 'timeline_id=?',
+        whereArgs: [query]);
+    print("timelines "+ maps.length.toString() );
+    if (maps.length > 0) {
+      maps.forEach((map) {
+        eventsList.add(EventModel.fromMap(map));
+      });
+    }
+    return eventsList;
+  }
   Future<EventModel> getEventOfReventFromDB(int query) async {
     final db = await database;
     List<EventModel> eventsList = [];
@@ -1870,10 +1887,10 @@ print(text);
   Future<EventModel> addEventInDB(EventModel newEvent) async {
     final db = await database;
     if(newEvent.saved_ts==null)newEvent.saved_ts=DateTime.now();
-    if(newEvent.cal_id==null)newEvent.cal_id=0;
+    if(newEvent.cal_id==null)newEvent.cal_id="0";
     await db.transaction((transaction) async{
       int id=await transaction.rawInsert(
-          'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id,timeline_id,saved_ts,cal_id) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id},${newEvent.timeline_id},"${newEvent.saved_ts.toIso8601String()}");');
+          'INSERT into Events(title, content, date, isImportant, duration, r_id, todo_id,date_id,time,a_id,timeline_id,saved_ts,cal_id) VALUES ("${newEvent.title}", "${newEvent.content}", "${newEvent.date.toIso8601String()}", ${newEvent.isImportant == true ? 1 : 0},${newEvent.duration},${newEvent.r_id},${newEvent.todo_id},${newEvent.date_id}, "${newEvent.time.toIso8601String()}",${newEvent.a_id},${newEvent.timeline_id},"${newEvent.saved_ts.toIso8601String()}","${newEvent.cal_id}");');
       newEvent.id = id;
 
       FirebaseUser user = await _auth.currentUser();

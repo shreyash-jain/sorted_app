@@ -10,7 +10,7 @@ class EventModel {
   double duration;
   int date_id;
   int r_id;
-  int cal_id;
+  String cal_id;
   int timeline_id;
   DateTime time;
   int a_id;

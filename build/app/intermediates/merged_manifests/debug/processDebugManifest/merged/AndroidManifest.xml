@@ -68,15 +68,6 @@
         </receiver>
 
         <provider
-            android:name="de.esys.esysfluttershare.EsysFlutterShareFileProvider"
-            android:authorities="com.stay.sorted.fileprovider.github.com/orgs/esysberlin/esys-flutter-share"
-            android:exported="false"
-            android:grantUriPermissions="true" >
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/esys_flutter_share_filepaths" />
-        </provider>
-        <provider
             android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
             android:authorities="com.stay.sorted.flutter.image_provider"
             android:exported="false"
@@ -129,9 +120,20 @@
         </service>
 
         <activity
-            android:name="io.flutter.plugins.urllauncher.UrlLauncherPlugin$WebViewActivity"
+            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
             android:exported="false"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <provider
+            android:name="de.esys.esysfluttershare.EsysFlutterShareFileProvider"
+            android:authorities="com.stay.sorted.fileprovider.github.com/orgs/esysberlin/esys-flutter-share"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/esys_flutter_share_filepaths" />
+        </provider>
+
         <activity
             android:name="androidx.biometric.DeviceCredentialHandlerActivity"
             android:theme="@style/DeviceCredentialHandlerTheme" />

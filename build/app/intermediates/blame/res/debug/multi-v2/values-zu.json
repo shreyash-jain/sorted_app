@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\SortedApp\\sorted_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zu\\values-zu.xml",
+            "outputFile": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zu\\values-zu.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-17.1.0.aar\\aacee103f57de802e765e48391620ab1\\res\\values-zu\\values.xml",

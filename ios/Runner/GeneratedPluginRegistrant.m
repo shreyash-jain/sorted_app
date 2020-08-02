@@ -10,12 +10,6 @@
 @import cloud_firestore;
 #endif
 
-#if __has_include(<connectivity/FLTConnectivityPlugin.h>)
-#import <connectivity/FLTConnectivityPlugin.h>
-#else
-@import connectivity;
-#endif
-
 #if __has_include(<device_info/FLTDeviceInfoPlugin.h>)
 #import <device_info/FLTDeviceInfoPlugin.h>
 #else
@@ -100,20 +94,14 @@
 @import path_provider;
 #endif
 
-#if __has_include(<phone_number/PhoneNumberPlugin.h>)
-#import <phone_number/PhoneNumberPlugin.h>
-#else
-@import phone_number;
-#endif
-
-#if __has_include(<share/FLTSharePlugin.h>)
-#import <share/FLTSharePlugin.h>
+#if __has_include(<share/SharePlugin.h>)
+#import <share/SharePlugin.h>
 #else
 @import share;
 #endif
 
-#if __has_include(<shared_preferences/FLTSharedPreferencesPlugin.h>)
-#import <shared_preferences/FLTSharedPreferencesPlugin.h>
+#if __has_include(<shared_preferences/SharedPreferencesPlugin.h>)
+#import <shared_preferences/SharedPreferencesPlugin.h>
 #else
 @import shared_preferences;
 #endif
@@ -124,8 +112,8 @@
 @import sqflite;
 #endif
 
-#if __has_include(<url_launcher/FLTURLLauncherPlugin.h>)
-#import <url_launcher/FLTURLLauncherPlugin.h>
+#if __has_include(<url_launcher/UrlLauncherPlugin.h>)
+#import <url_launcher/UrlLauncherPlugin.h>
 #else
 @import url_launcher;
 #endif
@@ -134,7 +122,6 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [FLTCloudFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTCloudFirestorePlugin"]];
-  [FLTConnectivityPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTConnectivityPlugin"]];
   [FLTDeviceInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlugin"]];
   [EsysFlutterSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"EsysFlutterSharePlugin"]];
   [FLTFirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAnalyticsPlugin"]];
@@ -149,11 +136,10 @@
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [FLTLocalAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTLocalAuthPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
-  [PhoneNumberPlugin registerWithRegistrar:[registry registrarForPlugin:@"PhoneNumberPlugin"]];
   [FLTSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
-  [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
+  [FLTUrlLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTUrlLauncherPlugin"]];
 }
 
 @end

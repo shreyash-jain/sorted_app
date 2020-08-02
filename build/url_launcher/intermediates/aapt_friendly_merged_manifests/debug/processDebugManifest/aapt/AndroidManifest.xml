@@ -6,7 +6,7 @@
 
     <application>
         <activity
-            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+            android:name="io.flutter.plugins.urllauncher.UrlLauncherPlugin$WebViewActivity"
             android:exported="false"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
     </application>

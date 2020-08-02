@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\SortedApp\\sorted_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ro\\values-ro.xml",
+            "outputFile": "C:\\Users\\Shreyash\\Documents\\sorted_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ro\\values-ro.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Shreyash\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.2.aar\\471caf425f8799e1dc6ed839eb96128d\\res\\values-ro\\values-ro.xml",

@@ -1,4 +1,4 @@
-name: notes
+name: sorted
 description: Notes taking app using sqflite
 
 # The following defines the version and build number for your application.
@@ -24,12 +24,13 @@ dependencies:
   intl: ^0.16.0
   url_launcher: ^5.0.3
   shared_preferences: ^0.5.3+1
+  data_connection_checker: ^0.3.4
   share: ^0.6.1+1
   flutter_local_notifications: 1.3.0
   flutter_duration_picker: "^1.0.0"
   esys_flutter_share: ^1.0.2
   local_auth: 0.6.2+3
-  get_it: ^1.0.3+2
+  get_it: ^4.0.4
   path_provider: ^1.4.1
   flutter_swiper: ^1.1.4
   flutter_form_builder: ^3.0.0
@@ -54,7 +55,7 @@ dependencies:
   auto_route: ^0.2.1
   bloc_provider: ^0.7.0
   equatable: ^1.2.2
-  flutter_bloc: ^5.0.1
+  flutter_bloc: ^6.0.1
   dartz: ^0.9.1
   connectivity: ^0.4.9
 

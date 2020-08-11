@@ -10,6 +10,7 @@ class ReAuthenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.bottomCenter,
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height,
@@ -28,11 +29,13 @@ class ReAuthenticate extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(80),
               child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                ),
                 onPressed: () {
                   BlocProvider.of<OnstartBloc>(context).add(GetLocalAuthDone());
                 },
-                child:
-                    const Text('Do Local Auth', style: TextStyle(fontSize: 20)),
+                child: const Text('Retry', style: TextStyle(fontSize: 20)),
               ),
             )),
       ],

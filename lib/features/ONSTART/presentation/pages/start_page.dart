@@ -6,6 +6,7 @@ import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/background.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/loading_widget.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/message_display.dart';
+import 'package:sorted/features/ONSTART/presentation/widgets/on_success.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/re_authenticate.dart';
 
 class MyStartPage extends StatefulWidget {
@@ -76,7 +77,7 @@ class _MyHomePageState extends State<MyStartPage> {
                     return ReAuthenticate();
                   }
                     else if (state is AccessGranted) {
-                    return Background();
+                    return OnSuccessWidget();
                   } else if (state is Error) {
                      BlocProvider.of<OnstartBloc>(context).add(GetLocalAuthDone());
                     return MessageDisplay(

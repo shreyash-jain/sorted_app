@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Background extends StatelessWidget {
+class OnSuccessWidget extends StatelessWidget {
  
 
-  const Background({
+  const OnSuccessWidget({
     Key key,
   
   }) : super(key: key);
@@ -15,7 +15,7 @@ class Background extends StatelessWidget {
       child: Center(
         child: SingleChildScrollView(
           child: Icon(
-            Icons.fingerprint,
+            Icons.check,
             size: 200,
             color:Colors.black12
           ),

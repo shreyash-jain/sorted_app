@@ -19,25 +19,28 @@ class LocalAuthenticationService {
     _auth.stopAuthentication();
   }
 
-  Future<Either<Failure, bool>> authenticate(bool state) async {
+  Future<bool> authenticate(bool state) async {
     if (state) {
       try {
         print("hello");
-        return Right(await _auth.authenticateWithBiometrics(
+        isAuthenticated=await _auth.authenticateWithBiometrics(
           localizedReason: 'authenticate to access',
           useErrorDialogs: true,
           stickyAuth: true,
-        ));
+        );
+        print("auth value in local auth " + isAuthenticated.toString());
+        return (isAuthenticated);
       } on PlatformException catch (e) {
-        print(e);
-        if (e.code == auth_error.notAvailable) {
+        
           print("Not available");
           // Handle this exception here.
-        }
-        return Left(PlatformFailure());
+        
       }
     } else {
-      return Right(true);
+      isAuthenticated=true;
+      return true;
     }
+
+    return isAuthenticated;
   }
 }

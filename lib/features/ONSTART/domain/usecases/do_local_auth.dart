@@ -24,16 +24,15 @@ class DoLocalAuth implements UseCase<void, NoParams> {
    
       Either<Failure, bool> biometricState =
           await repository.getBiometricState();
-       biometricState.fold((l) {
-        return Left(l);
-      }, (r) async {
-        return(
-         await sl<LocalAuthenticationService>().authenticate(r));
-         
-         
-      });
+      
+      await biometricState.fold((l) async {
+            result = Left(l);
+          }, (r) async {
+            result =  Right(await sl<LocalAuthenticationService>().authenticate(r));
+          });
+      
    
-    
+    return result;
   }
 }
 

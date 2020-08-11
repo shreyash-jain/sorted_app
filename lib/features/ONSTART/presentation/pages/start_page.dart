@@ -74,6 +74,9 @@ class _MyHomePageState extends State<MyStartPage> {
                     return Background();
                   } else if (state is AccessDenied) {
                     return ReAuthenticate();
+                  }
+                    else if (state is AccessGranted) {
+                    return Background();
                   } else if (state is Error) {
                      BlocProvider.of<OnstartBloc>(context).add(GetLocalAuthDone());
                     return MessageDisplay(
@@ -83,6 +86,7 @@ class _MyHomePageState extends State<MyStartPage> {
                 },
                 listener: (BuildContext context, OnstartState state) {
                   if (state is AccessGranted) {
+                    print("listener ran");
                     _scaffoldKey.currentState.showSnackBar(
                         new SnackBar(content: new Text("Go to next page ...")));
                   }

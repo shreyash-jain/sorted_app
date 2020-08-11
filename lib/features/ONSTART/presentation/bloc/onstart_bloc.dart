@@ -41,21 +41,25 @@ class OnstartBloc extends Bloc<OnstartEvent, OnstartState> {
 
   Stream<OnstartState> _eitherLoadedOrErrorState(
       Either<Failure, bool> result) async* {
+        OnstartState nextState=AccessDenied();
+        print("_eitherLoadedOrErrorState");
     result.fold(
-        (l)  async* {
+        (l) {
           print("error reset");
           cancelLocalAuth(NoParams());
           
-          yield Error(message: _mapFailureToMessage(l));
+          nextState = Error(message: _mapFailureToMessage(l));
           },
-        (r)  async* {
+        (r) {
            print("No error");
           if (r) {
             print("true");
-            yield AccessGranted();
+            nextState=  AccessGranted();
           }
-          else yield AccessDenied();
+          else nextState= AccessDenied();
         });
+    yield nextState;
+
   }
 
   String _mapFailureToMessage(Failure failure) {

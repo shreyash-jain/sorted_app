@@ -79,6 +79,7 @@ class _MyHomePageState extends State<MyStartPage> {
                     else if (state is AccessGranted) {
                     return OnSuccessWidget();
                   } else if (state is Error) {
+                     print("error restart");
                      BlocProvider.of<OnstartBloc>(context).add(GetLocalAuthDone());
                     return MessageDisplay(
                       message: state.message,

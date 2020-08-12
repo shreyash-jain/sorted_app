@@ -55,7 +55,6 @@ class _MyAppState extends State<MyApp> {
   ThemeData theme = appThemeLight;
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
@@ -63,13 +62,18 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: Router.navigatorKey,
       onGenerateRoute: Router.onGenerateRoute,
       builder: (context, child) {
+        print("My App");
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                Router.navigator.pushNamed(Router.startPage,arguments: MyStartPageArguments(title: "Start Page"));
+                print("authenticated");
+                Router.navigator.pushNamed(Router.startPage,
+                    arguments: MyStartPageArguments(title: "Start Page"));
                 break;
               case AuthenticationStatus.unauthenticated:
+                // todo: send to onboarding page
+                print("un-authenticated");
                 // _navigator.pushAndRemoveUntil<void>(
                 //   LoginPage.route(),
                 //   (route) => false,

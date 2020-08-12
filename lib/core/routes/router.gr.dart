@@ -7,10 +7,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/router_utils.dart';
+import 'package:sorted/features/SPLASH/splash.dart';
 import 'package:sorted/features/ONSTART/presentation/pages/start_page.dart';
 
 class Router {
-  static const startPage = '/';
+  static const splashPage = '/';
+  static const startPage = '/start-page';
   static GlobalKey<NavigatorState> get navigatorKey =>
       getNavigatorKey<Router>();
   static NavigatorState get navigator => navigatorKey.currentState;
@@ -18,6 +20,11 @@ class Router {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
+      case Router.splashPage:
+        return MaterialPageRoute(
+          builder: (_) => SplashPage(),
+          settings: settings,
+        );
       case Router.startPage:
         if (hasInvalidArgs<MyStartPageArguments>(args)) {
           return misTypedArgsRoute<MyStartPageArguments>(args);

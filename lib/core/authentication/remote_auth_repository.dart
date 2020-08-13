@@ -90,7 +90,7 @@ class AuthenticationRepository {
       final FirebaseUser user = authResult.user;
 
       final headers = await _googleSignIn.currentUser.authHeaders;
-      _authDataSource.getEvent(headers);
+      //_authDataSource.getEvent(headers);
       bool oldUser = await _authDataSource.checkIfUserAlreadyPresent(user);
       print("old_user " + oldUser.toString());
       if (!oldUser) {

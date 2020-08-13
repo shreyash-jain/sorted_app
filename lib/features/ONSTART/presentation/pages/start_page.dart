@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/ONSTART/data/datasources/onstart_cloud_data_source.dart';
 import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/background.dart';
@@ -10,8 +11,6 @@ import 'package:sorted/features/ONSTART/presentation/widgets/on_success.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/re_authenticate.dart';
 
 class MyStartPage extends StatefulWidget {
- 
-
   MyStartPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -43,7 +42,7 @@ class _MyHomePageState extends State<MyStartPage> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Theme.of(context).primaryColor,
-     
+
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -75,12 +74,12 @@ class _MyHomePageState extends State<MyStartPage> {
                     return Background();
                   } else if (state is AccessDenied) {
                     return ReAuthenticate();
-                  }
-                    else if (state is AccessGranted) {
+                  } else if (state is AccessGranted) {
                     return OnSuccessWidget();
                   } else if (state is Error) {
-                     print("error restart");
-                     BlocProvider.of<OnstartBloc>(context).add(GetLocalAuthDone());
+                    print("error restart");
+                    BlocProvider.of<OnstartBloc>(context)
+                        .add(GetLocalAuthDone());
                     return MessageDisplay(
                       message: state.message,
                     );
@@ -89,14 +88,14 @@ class _MyHomePageState extends State<MyStartPage> {
                 listener: (BuildContext context, OnstartState state) {
                   if (state is AccessGranted) {
                     print("listener ran");
-                    _scaffoldKey.currentState.showSnackBar(
-                        new SnackBar(content: new Text("Go to next page ...")));
+                    Router.navigator.pop();
+                    Router.navigator.pushNamed(Router.onboardPage,
+                        arguments: OnboardPageArguments(title: "Onboard Page"));
                   }
                 },
               ),
               SizedBox(height: 20),
               // Bottom half
-              
             ],
           ),
         ),

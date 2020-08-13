@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
 import 'package:sorted/core/database/global/shared_pref_helper.dart';
+import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 
 import 'package:sorted/features/ONSTART/data/datasources/onstart_cloud_data_source.dart';
 import 'package:sorted/core/authentication/local_auth.dart';
@@ -22,16 +23,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../network/network_info.dart';
 
-
-
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  //! Features 
+  //! Features
   //! ONSTART
   // Bloc
   sl.registerFactory(
-    () => OnstartBloc(localAuth: sl(),cancelAuth: sl()),
+    () => OnstartBloc(localAuth: sl(), cancelAuth: sl()),
+  );
+  sl.registerFactory(
+    () => OnboardingBloc(authRepo: sl()),
   );
 
   // Use cases
@@ -41,26 +43,27 @@ Future<void> init() async {
 
   // Repository
 
-   sl.registerLazySingleton<OnStartRepository>(
+  sl.registerLazySingleton<OnStartRepository>(
     () => OnStartRepositoryImpl(
       localDataSource: sl(),
       networkInfo: sl(),
       remoteDataSource: sl(),
     ),
   );
-  
+  sl.registerLazySingleton(
+      () => AuthenticationRepository(authDataSource: sl(), firebaseAuth: sl()));
   // Data sources
   sl.registerLazySingleton<OnStartCloud>(
     () => OnStartCloudDataSourceImpl(cloudDb: sl()),
   );
   sl.registerLazySingleton<AuthCloudDataSource>(
-    () => AuthCloudDataSourceImpl(cloudDb: sl(),auth: sl(),prefs: sl()),
+    () => AuthCloudDataSourceImpl(cloudDb: sl(), auth: sl(), prefs: sl()),
   );
 
   sl.registerLazySingleton<OnStartSharedPref>(
     () => OnStartSharedPrefDataSourceImpl(sharedPreferences: sl()),
   );
- 
+
   //! Core
   //Global shared pref helper
   sl.registerLazySingleton<SharedPrefHelper>(
@@ -68,7 +71,7 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton(() => LocalAuthenticationService());
-  sl.registerLazySingleton(() => AuthenticationRepository());
+  
   final SqlDatabaseService sqlProvider = SqlDatabaseService.db;
   sl.registerLazySingleton(() => sqlProvider);
 
@@ -76,14 +79,12 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _fireDB = Firestore.instance;
-  final FirebaseDatabase fbDB= FirebaseDatabase.instance;
- 
+  final FirebaseDatabase fbDB = FirebaseDatabase.instance;
+
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => DataConnectionChecker());
   sl.registerLazySingleton(() => _auth);
   sl.registerLazySingleton(() => _fireDB);
   sl.registerLazySingleton(() => fbDB);
- 
-  
 }

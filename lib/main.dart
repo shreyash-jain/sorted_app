@@ -6,6 +6,7 @@ import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
 import 'package:sorted/core/database/global/shared_pref_helper.dart';
 import 'package:sorted/core/global/bloc_observer.dart';
+import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart' as di;
 import 'package:sorted/core/routes/router.gr.dart';
 
@@ -63,6 +64,10 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: Router.onGenerateRoute,
       builder: (context, child) {
         print("My App");
+        Gstrings.height = MediaQuery.of(context).size.height;
+        print(Gstrings.height);
+        Gstrings.width = MediaQuery.of(context).size.width;
+        print(Gstrings.width);
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {

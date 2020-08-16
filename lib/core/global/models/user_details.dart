@@ -1,37 +1,120 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
-/// {@template user}
-/// User model
-///
-/// [User.empty] represents an unauthenticated user.
-/// {@endtemplate}
-/// 
-class User extends Equatable {
-  /// {@macro user}
-  const User({
-    @required this.email,
-    @required this.id,
-    @required this.name,
-    @required this.photo,
-  })  : assert(email != null),
-        assert(id != null);
+enum Gender { male, female }
+enum Profession { student, working, both }
 
-  /// The current user's email address.
-  final String email;
-
-  /// The current user's id.
-  final String id;
-
-  /// The current user's name (display name).
+class UserDetail extends Equatable {
   final String name;
-
-  /// Url for the current user's photo.
-  final String photo;
-
-  /// Empty user which represents an unauthenticated user.
-  static const empty = User(email: '', id: '', name: null, photo: null);
+  final String imageUrl;
+  final String email;
+  final int id;
+  final String userName;
+  final int age;
+  final int diaryStreak;
+  final int points;
+  final int level;
+  final Gender gender;
+  final Profession profession;
+  UserDetail({
+    this.name,
+    this.imageUrl,
+    this.email,
+    this.id,
+    this.userName,
+    this.age,
+    this.diaryStreak,
+    this.points,
+    this.level,
+    this.gender,
+    this.profession,
+  });
 
   @override
-  List<Object> get props => [email, id, name, photo];
+  
+  List<Object> get props {
+    return [
+      name,
+      imageUrl,
+      email,
+      id,
+      userName,
+      age,
+      diaryStreak,
+      points,
+      level,
+      gender,
+      profession,
+    ];
+  }
+
+  UserDetail copyWith({
+    String name,
+    String imageUrl,
+    String email,
+    int id,
+    String userName,
+    int age,
+    int diaryStreak,
+    int points,
+    int level,
+    Gender gender,
+    Profession profession,
+  }) {
+    return UserDetail(
+      name: name ?? this.name,
+      imageUrl: imageUrl ?? this.imageUrl,
+      email: email ?? this.email,
+      id: id ?? this.id,
+      userName: userName ?? this.userName,
+      age: age ?? this.age,
+      diaryStreak: diaryStreak ?? this.diaryStreak,
+      points: points ?? this.points,
+      level: level ?? this.level,
+      gender: gender ?? this.gender,
+      profession: profession ?? this.profession,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'imageUrl': imageUrl,
+      'email': email,
+      'id': id,
+      'userName': userName,
+      'age': age,
+      'diary_streak': diaryStreak,
+      'points': points,
+      'level': level,
+      'gender': gender==Gender.male?0:1,
+      'profession': profession==Profession.student?0:(profession==Profession.working)?1:2,
+    };
+  }
+
+  factory UserDetail.fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+  
+    return UserDetail(
+      name: map['name'],
+      imageUrl: map['imageUrl'],
+      email: map['email'],
+      id: map['id'],
+      userName: map['userName'],
+      age: map['age'],
+      diaryStreak: map['diary_streak'],
+      points: map['points'],
+      level: map['level'],
+      gender: Gender.values[(map['gender'])],
+      profession: Profession.values[(map['profession'])],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserDetail.fromJson(String source) => UserDetail.fromMap(json.decode(source));
+
+  @override
+  bool get stringify => true;
 }

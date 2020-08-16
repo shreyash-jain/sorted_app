@@ -79,6 +79,8 @@ class _MyAppState extends State<MyApp> {
               case AuthenticationStatus.unauthenticated:
                 // todo: send to onboarding page
                 print("un-authenticated");
+                Router.navigator.pushNamed(Router.onboardPage,
+                    arguments: OnboardPageArguments(title: "Onboard Page"));
                 // _navigator.pushAndRemoveUntil<void>(
                 //   LoginPage.route(),
                 //   (route) => false,

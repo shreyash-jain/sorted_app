@@ -5,10 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/injection_container.dart';
-import 'package:sorted/core/authentication/auth_data_source.dart';
+import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/error/exceptions.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sorted/core/global/models/user_details.dart';
+import 'package:sorted/core/global/models/auth_user.dart';
 import 'dart:async';
 import 'package:meta/meta.dart';
 

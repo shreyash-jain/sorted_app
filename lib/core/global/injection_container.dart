@@ -17,7 +17,7 @@ import 'package:sorted/features/ONSTART/domain/repositories/onstart_repository.d
 import 'package:sorted/features/ONSTART/domain/usecases/do_local_auth.dart';
 import 'package:sorted/features/ONSTART/domain/usecases/cancel_local_auth.dart';
 import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
-import 'package:sorted/core/authentication/auth_data_source.dart';
+import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/database/sqflite_init.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

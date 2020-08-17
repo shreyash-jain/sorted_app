@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:sorted/core/error/failures.dart';
-import 'package:sorted/core/global/models/user_details.dart';
+import 'package:sorted/core/global/models/auth_user.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -33,6 +33,7 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AuthenticationUserChanged) {
+      
       yield _mapAuthenticationUserChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {
      Either<Failure, FirebaseUser> user= await _authenticationRepository.GetCurrentUser();

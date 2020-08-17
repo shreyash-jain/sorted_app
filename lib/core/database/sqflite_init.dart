@@ -1,23 +1,12 @@
-
-
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-
 import 'package:path/path.dart';
-
-
 import 'package:sqflite/sqflite.dart';
 
-import 'dart:io';
 final todoTABLE = 'Todo';
+final userTable = 'UserDetails';
 
-List<String> tables=[
+List<String> tables = [
   "Todo",
   "Dates",
   "Events",
@@ -33,32 +22,24 @@ List<String> tables=[
   "Notebooks",
   "Questions",
   "Answers",
+  "UserDetails",
   "Reminders"
-
-
-
-
-
 ];
-List<String> imagePath=[];
-List<int> imageTotal=[];
+List<String> imagePath = [];
+List<int> imageTotal = [];
 
-List<String> placeHolders=[];
+List<String> placeHolders = [];
 
 class SqlDatabaseService {
   String path;
 
- final FirebaseDatabase fbDB= FirebaseDatabase.instance;
- StorageReference refStorage = FirebaseStorage.instance.ref();
-  
+  final FirebaseDatabase fbDB = FirebaseDatabase.instance;
+  StorageReference refStorage = FirebaseStorage.instance.ref();
 
   Batch batch;
   SqlDatabaseService._();
 
-  static final SqlDatabaseService db = SqlDatabaseService
-
-
-      ._();
+  static final SqlDatabaseService db = SqlDatabaseService._();
 
   Database _database;
 
@@ -76,14 +57,13 @@ class SqlDatabaseService {
 
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
-
       await db.execute("CREATE TABLE Todo ("
           "id INTEGER PRIMARY KEY, "
           "event_id INTEGER, "
           "position INTEGER, "
           "description TEXT, "
           "saved_ts TEXT, "
-      /*SQLITE doesn't have boolean type
+          /*SQLITE doesn't have boolean type
         so we store isDone as integer where 0 is false
         and 1 is true*/
           "is_done INTEGER "
@@ -98,12 +78,11 @@ class SqlDatabaseService {
           "ImageUrl TEXT, "
           "a_rating DOUBLE, "
           "p_rating DOUBLE, "
-
           "l_streak INTEGER, "
           "l_interval INTEGER, "
           "c_streak INTEGER, "
           "survey INTEGER "
-      /*SQLITE doesn't have boolean type
+          /*SQLITE doesn't have boolean type
         so we store isDone as integer where 0 is false
         and 1 is true*/
 
@@ -121,8 +100,8 @@ class SqlDatabaseService {
           "date TEXT, "
           "time TEXT, "
           "isImportant INTEGER, "
-      "duration DOUBLE, "
-      "r_id INTEGER "
+          "duration DOUBLE, "
+          "r_id INTEGER "
           ")");
       await db.execute("CREATE TABLE Revents ("
           "id INTEGER PRIMARY KEY, "
@@ -150,6 +129,19 @@ class SqlDatabaseService {
           "date TEXT, "
           "money DOUBLE, "
           "type INTEGER "
+          ")");
+      await db.execute("CREATE TABLE UserDetails ("
+          "id INTEGER PRIMARY KEY, "
+          "name TEXT, "
+          "imageUrl TEXT, "
+          "email TEXT, "
+          "userName TEXT, "
+          "age INTEGER, "
+          "diaryStreak INTEGER, "
+          "points INTEGER, "
+          "level INTEGER, "
+          "gender INTEGER, "
+          "profession INTEGER "
           ")");
       await db.execute(
           'CREATE TABLE Friends (id INTEGER PRIMARY KEY, saved_ts TEXT, name TEXT, total DOUBLE)');
@@ -180,38 +172,32 @@ class SqlDatabaseService {
       await db.execute(
           '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, min INTEGER, max INTEGER, content TEXT, c_name TEXT, c_id INTEGER, saved_ts TEXT,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
       print('New table created at 3 $path');
-         await db.execute(
+      await db.execute(
           '''CREATE TABLE Answers (_id INTEGER PRIMARY KEY, date_id INTEGER, saved_ts TEXT, c_summary TEXT,c_keywords TEXT,p_rating DOUBLE,p_ans INTEGER,  q_id INTEGER, response1 INTEGER,response2 INTEGER,response3 INTEGER,content TEXT, date TEXT,a_rating DOUBLE,discription TEXT);''');
       print('New table created at 4 $path');
       await db.execute(
           '''CREATE TABLE Reminders (_id INTEGER PRIMARY KEY, saved_ts TEXT,note_id INTEGER, type INTEGER,content TEXT, date TEXT);''');
       print('New table created at $path');
     });
-
   }
 
-
- 
-
-   Future<void> cleanDatabase() async {
-    try{
+  Future<void> cleanDatabase() async {
+    try {
       final db = await database;
       await db.transaction((txn) async {
         var batch = txn.batch();
-        for (int i=0;i<tables.length;i++){
+        for (int i = 0; i < tables.length; i++) {
           batch.delete(tables[i]);
         }
 
         await batch.commit();
         print("deleted all data");
       });
-    } catch(error){
+    } catch (error) {
       throw Exception('DbBase.cleanDatabase: ' + error.toString());
     }
   }
 
-
   //We are not going to use this in the demo
 
 }
-

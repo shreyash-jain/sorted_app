@@ -12,6 +12,7 @@ import 'package:sorted/core/authentication/GoogleHttpClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:sorted/core/error/exceptions.dart';
+import 'package:sorted/core/global/models/user_details.dart';
 
 abstract class AuthCloudDataSource {
   void getEvent(dynamic headers);
@@ -23,13 +24,16 @@ abstract class AuthCloudDataSource {
   Future<bool> getSignInState(FirebaseUser user);
   void updateUserData(FirebaseUser user);
   Future<void> makeSingleSignIn(FirebaseUser user);
+  Future<void> updateLastScene(FirebaseUser user);
+  void addUserInCloud(FirebaseUser user);
+  void updateUserInCloud(UserDetail user, String uid);
 }
 
 class AuthCloudDataSourceImpl implements AuthCloudDataSource {
   final Firestore cloudDb;
   final FirebaseAuth auth;
   final SharedPreferences prefs;
-  
+
   final _random = new Random();
   AuthCloudDataSourceImpl(
       {@required this.cloudDb, @required this.auth, @required this.prefs});
@@ -79,7 +83,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
         .document(user.uid)
         .collection("user_data")
         .document("data");
-    
+
     bool ans;
 
     await document.get().then((value) {
@@ -192,5 +196,41 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await prefs.remove('onboard');
     await prefs.remove('signInId');
     await prefs.remove('LoggedIn');
+  }
+
+  @override
+  Future<void> updateLastScene(FirebaseUser user) async {
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("data");
+    ref.updateData({'lastSeen': DateTime.now()});
+  }
+
+  @override
+  void addUserInCloud(FirebaseUser user) {
+    UserDetail newUser = new UserDetail();
+    newUser = newUser.copyWith(
+        email: user.email, name: user.displayName, imageUrl: user.photoUrl);
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("data");
+    ref.setData(newUser.toMap());
+    return;
+  }
+
+  @override
+  void updateUserInCloud(UserDetail user, String uid) {
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(uid)
+        .collection("user_data")
+        .document("data");
+    ref.updateData(user.toMap());
+    return;
   }
 }

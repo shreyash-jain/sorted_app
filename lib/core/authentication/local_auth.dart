@@ -1,8 +1,7 @@
-import 'package:dartz/dartz.dart';
+
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:sorted/core/error/failures.dart';
-import 'package:local_auth/error_codes.dart' as auth_error;
+
 
 class LocalAuthenticationService {
   final _auth = LocalAuthentication();
@@ -32,7 +31,7 @@ class LocalAuthenticationService {
         return (isAuthenticated);
       } on PlatformException catch (e) {
         
-          print("Not available");
+          print("Not available "+e.toString());
           // Handle this exception here.
         
       }

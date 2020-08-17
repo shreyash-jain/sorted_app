@@ -1,10 +1,10 @@
-import 'dart:ffi';
+
 
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:sorted/core/authentication/local_auth.dart';
-import 'package:sorted/core/error/exceptions.dart';
+
 import 'package:sorted/core/global/injection_container.dart';
 
 import '../../../../core/error/failures.dart';

@@ -11,8 +11,6 @@ import 'package:sorted/core/global/injection_container.dart' as di;
 import 'package:sorted/core/routes/router.gr.dart';
 
 import 'package:sorted/core/theme/theme.dart';
-import 'package:sorted/features/ONSTART/presentation/pages/start_page.dart';
-
 import 'core/global/injection_container.dart';
 
 void main() async {
@@ -54,7 +52,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ThemeData theme = appThemeLight;
-  final _navigatorKey = GlobalKey<NavigatorState>();
 
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -26,7 +26,7 @@ class UserIntroNativeDataSourceImpl implements UserIntroNative {
       int id = await transaction.rawInsert(
           'INSERT into User_Activity(name, image, a_id,saved_ts) VALUES ("${newActivity.name}","${newActivity.image}" , ${newActivity.aId},"${newActivity.savedTs.toIso8601String()}");');
       newActivity.copyWith(id: id);
-      print('Activity added: ${id}');
+      print('Activity added: $id');
     });
     return newActivity;
   }

@@ -11,7 +11,7 @@ import 'package:meta/meta.dart';
 import 'package:sorted/core/authentication/GoogleHttpClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:sorted/core/error/exceptions.dart';
+
 import 'package:sorted/core/global/models/user_details.dart';
 
 abstract class AuthCloudDataSource {

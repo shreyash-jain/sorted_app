@@ -1,18 +1,7 @@
-import 'dart:io';
-import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_utils/date_utils.dart';
-import 'package:device_info/device_info.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:googleapis/calendar/v3.dart';
-import 'package:meta/meta.dart';
-import 'package:sorted/core/authentication/GoogleHttpClient.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sorted/core/database/sqflite_init.dart';
 
-import 'package:sorted/core/error/exceptions.dart';
+
 import 'package:sorted/core/global/models/user_details.dart';
 
 abstract class AuthNativeDataSource {

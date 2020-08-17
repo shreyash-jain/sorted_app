@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:sorted/core/database/sqflite_init.dart';
 
-import 'package:sorted/core/error/exceptions.dart';
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
 import 'package:sqflite/sqflite.dart';

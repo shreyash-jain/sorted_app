@@ -16,20 +16,14 @@ class CustomSliderThumbCircle extends SliderComponentShape {
     return Size.fromRadius(thumbRadius);
   }
 
+  
+  String getValue(double value) {
+    return ((max * value).round()).toString();
+  }
+
   @override
-  void paint(
-      PaintingContext context,
-      Offset center, {
-        Animation<double> activationAnimation,
-        Animation<double> enableAnimation,
-        bool isDiscrete,
-        TextPainter labelPainter,
-        RenderBox parentBox,
-        SliderThemeData sliderTheme,
-        TextDirection textDirection,
-        double value,
-      }) {
-    final Canvas canvas = context.canvas;
+  void paint(PaintingContext context, Offset center, {Animation<double> activationAnimation, Animation<double> enableAnimation, bool isDiscrete, TextPainter labelPainter, RenderBox parentBox, SliderThemeData sliderTheme, TextDirection textDirection, double value, double textScaleFactor, Size sizeWithOverflow}) {
+   final Canvas canvas = context.canvas;
 
     final paint = Paint()
       ..color = Colors.black26
@@ -54,9 +48,5 @@ class CustomSliderThumbCircle extends SliderComponentShape {
 
     canvas.drawCircle(center, thumbRadius * .9, paint);
     tp.paint(canvas, textCenter);
-  }
-
-  String getValue(double value) {
-    return ((max * value).round()).toString();
   }
 }

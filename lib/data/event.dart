@@ -22,7 +22,7 @@ class EventModel {
   EventModel.fromMap(Map<String, dynamic> map) {
     this.id = map['id'];
     this.r_id = map['r_id'];
-    this.cal_id=map['r_id'];
+    this.cal_id=map['cal_id'];
     this.date_id = map['date_id'];
     this.duration = map['duration'];
     this.timeline_id = map['timeline_id'];

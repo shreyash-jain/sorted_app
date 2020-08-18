@@ -39,7 +39,7 @@ dependencies:
   screenshot: ^0.1.1
   flutter_calendar_carousel: ^1.4.12
   faker: ^1.2.1
-  zefyr: ^0.10.0
+  zefyr: ^0.11.0
   device_info: ^0.4.2+4
   async: ^2.4.0
   flare_flutter: ^1.5.5

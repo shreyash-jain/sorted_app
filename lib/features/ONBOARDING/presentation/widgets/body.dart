@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sorted/core/global/widgets/indicator_oval.dart';
 import 'package:sorted/features/ONBOARDING/presentation/constants.dart';
 
 import 'package:sorted/features/ONBOARDING/presentation/widgets/button_up_down.dart';
-import 'package:sorted/features/ONBOARDING/presentation/widgets/indicator_oval.dart';
+
 import 'package:sorted/features/ONBOARDING/presentation/widgets/page_template.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
@@ -101,19 +102,20 @@ class _OnboardBodyState extends State<OnboardBody>  {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
+                       if (_currentPage > 0)
+                        Align(
+                            alignment: FractionalOffset.bottomRight,
+                            child: Button(
+                              direction: false,
+                              onTapAction: moveUp,
+                            )),
                      if (_currentPage < 2) Align(
                           alignment: FractionalOffset.bottomRight,
                           child: Button(
                             direction: true,
                             onTapAction: moveDown,
                           )),
-                      if (_currentPage > 0)
-                        Align(
-                            alignment: FractionalOffset.bottomRight,
-                            child: Button(
-                              direction: false,
-                              onTapAction: moveUp,
-                            ))
+                     
                     ],
                   ))
                 

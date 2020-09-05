@@ -21,40 +21,33 @@ class OnStartRepositoryImpl implements OnStartRepository {
 
   @override
   Future<Either<Failure, bool>> getBiometricState() async {
-     try {
-        final remoteTrivia = await localDataSource.getBiometricState();
-        
-        return Right(remoteTrivia);
-      } on CacheException {
-        return Left(CacheFailure());
-      }
+    try {
+      final remoteTrivia = await localDataSource.getBiometricState();
+
+      return Right(remoteTrivia);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 
   @override
   Future<Either<Failure, bool>> getFirstTimeState() async {
-     try {
-        final remoteTrivia = await localDataSource.getOnBoardState();
-        
-        return Right(remoteTrivia);
-      } on CacheException {
-        return Left(CacheFailure());
-      }
-  }
+    try {
+      final remoteTrivia = await localDataSource.getOnBoardState();
 
+      return Right(remoteTrivia);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
 
   @override
-  Either<Failure, void> setBiometricState(bool state)  {
-     try {
-        localDataSource.setBiometricState(state);
-        
-        
-        
-      } on CacheException {
-        return Left(CacheFailure());
-      }
+  Either<Failure, void> setBiometricState(bool state) {
+    try {
+      localDataSource.setBiometricState(state);
+      return Right(null);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
-
-  
-
-  
 }

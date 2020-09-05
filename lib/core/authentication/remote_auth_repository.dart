@@ -102,7 +102,7 @@ class AuthenticationRepository {
         } else {
           print("yaha bhi koi aata");
         }
-        _authDataSource.updateUserData(user);
+        await _authDataSource.updateUserData(user);
 
       }
     } on Exception {
@@ -128,7 +128,7 @@ class AuthenticationRepository {
     }
   }
 
-Future<Either<Failure, FirebaseUser>> GetCurrentUser() async {
+Future<Either<Failure, FirebaseUser>> currentUser() async {
 FirebaseUser user = await _firebaseAuth.currentUser();
 if  (user!=null){
 return Right(user);

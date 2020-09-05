@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/animations/fade_animation.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
-import 'package:sorted/features/ONBOARDING/presentation/constants.dart';
-import 'package:sorted/features/ONBOARDING/presentation/widgets/indicator_oval.dart';
+
+
 
 class ButtomSheet extends StatefulWidget {
   const ButtomSheet({
@@ -109,7 +109,7 @@ class _bottomSheetState extends State<ButtomSheet>
                               margin: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Color(0xFF4563DB),
+                                color: Theme.of(context).primaryColor,
                               ),
                             ),
                           ),

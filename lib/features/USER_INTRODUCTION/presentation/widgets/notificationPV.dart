@@ -4,8 +4,8 @@ import 'package:sorted/core/global/animations/fade_animation.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/ONBOARDING/presentation/constants.dart';
 
-class PageTemplate extends StatelessWidget {
-  const PageTemplate({
+class NotificationPV extends StatelessWidget {
+  const NotificationPV({
     Key key,
     @required this.imagepath,
     @required this.title,
@@ -24,6 +24,16 @@ class PageTemplate extends StatelessWidget {
         
         
         children: <Widget>[
+           Padding(
+            padding: EdgeInsets.only(top:Gparam.heightPadding*1.5,left:Gparam.widthPadding,right:Gparam.widthPadding*2),
+            child: FadeAnimation(
+                1.8,
+                Container(
+                    child: Text(
+                  title,
+                  style: OnboardTextStyle.titleTS,
+                ))),
+          ),
           Align(
             alignment:Alignment.topLeft,
               child: Padding(
@@ -31,31 +41,31 @@ class PageTemplate extends StatelessWidget {
               child: FadeAnimation(
                 1.6,
                 Container(
-                  child: Image(
-                    image: AssetImage(
-                      imagepath,
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                                  Colors.white12,
+                                  
+                                   BlendMode.dst,
+                                ),
+                                      child: Image(
+                      fit:BoxFit.cover,
+                      image: AssetImage(
+                        imagepath,
+                        
+                      ),
+                      height: Gparam.height/6,
+                      width: Gparam.height/6,
                     ),
-                    height: Gparam.height/6,
-                    width: Gparam.height/6,
                   ),
                 ),
               ),
             ),
           ),
+         
           Padding(
-            padding: EdgeInsets.only(top:Gparam.height/40,left:Gparam.width/10,right:Gparam.width/5),
+            padding: EdgeInsets.only(top:Gparam.heightPadding,left:Gparam.widthPadding,right:Gparam.widthPadding*3),
             child: FadeAnimation(
-                2.8,
-                Container(
-                    child: Text(
-                  title,
-                  style: OnboardTextStyle.titleTS,
-                ))),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: Gparam.height/45,left:Gparam.width/10,right:Gparam.width/5),
-            child: FadeAnimation(
-                4.2,
+                2.2,
                 Container(
                   child: Text(
                     description,

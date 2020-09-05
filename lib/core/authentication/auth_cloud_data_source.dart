@@ -10,7 +10,8 @@ import 'package:googleapis/calendar/v3.dart';
 import 'package:meta/meta.dart';
 import 'package:sorted/core/authentication/GoogleHttpClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:sorted/core/global/database/cacheDataClass.dart';
+import 'package:sorted/core/global/injection_container.dart';
 
 import 'package:sorted/core/global/models/user_details.dart';
 
@@ -22,11 +23,13 @@ abstract class AuthCloudDataSource {
   Future<void> signOutLocalDuplicate(FirebaseUser user);
   Future<bool> checkIfUserAlreadyPresent(FirebaseUser user);
   Future<bool> getSignInState(FirebaseUser user);
-  void updateUserData(FirebaseUser user);
+  Future<void> updateUserData(FirebaseUser user);
   Future<void> makeSingleSignIn(FirebaseUser user);
   Future<void> updateLastScene(FirebaseUser user);
   void addUserInCloud(FirebaseUser user);
-  void updateUserInCloud(UserDetail user, String uid);
+  void updateUserInCloud(UserDetail detail);
+  Future<UserDetail> getUserFromCloud();
+  Future<void> addUserDetailInCloud(UserDetail detail);
 }
 
 class AuthCloudDataSourceImpl implements AuthCloudDataSource {
@@ -110,7 +113,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await prefs.setBool('onboard', false);
   }
 
-  void updateUserData(FirebaseUser user) async {
+  Future<void> updateUserData(FirebaseUser user) async {
     DocumentReference ref = cloudDb
         .collection('users')
         .document(user.uid)
@@ -121,14 +124,22 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     ref.setData({'email': user.email}, merge: true);
     ref.setData({'photoURL': user.photoUrl}, merge: true);
     ref.setData({'displayName': user.displayName}, merge: true);
+    bool oldState = await checkIfUserAlreadyPresent(user);
 
-    prefs.setBool("old_user", await checkIfUserAlreadyPresent(user));
+    prefs.setBool("old_user", oldState);
     print("signed in " + user.displayName);
     prefs.setString("google_image", user.photoUrl);
     prefs.setString("google_name", user.displayName);
     prefs.setString("google_email", user.email);
 
     prefs.setString('user_image', "assets/images/male1.png");
+
+    UserDetail userDetail = new UserDetail(
+        name: user.displayName, email: user.email, imageUrl: user.photoUrl);
+    print(2);
+
+    sl<CacheDataClass>().setUserDetail(userDetail);
+    sl<CacheDataClass>().setOldState(oldState);
   }
 
   Future<void> makeSingleSignIn(FirebaseUser user) async {
@@ -224,13 +235,43 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
   }
 
   @override
-  void updateUserInCloud(UserDetail user, String uid) {
+  Future<void> addUserDetailInCloud(UserDetail detail) async {
+    FirebaseUser user = await auth.currentUser();
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(uid)
+        .document(user.uid)
         .collection("user_data")
-        .document("data");
-    ref.updateData(user.toMap());
+        .document("details");
+    ref.setData(detail.toMap());
     return;
+  }
+
+  @override
+  Future<void> updateUserInCloud(UserDetail detail) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("details");
+    ref.updateData(detail.toMap());
+    return;
+  }
+
+  @override
+  Future<UserDetail> getUserFromCloud() async {
+    FirebaseUser user = await auth.currentUser();
+    UserDetail thisUser;
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("details");
+    DocumentSnapshot this_snapshot = await ref.get();
+    if (this_snapshot.data != null)
+       thisUser= UserDetail.fromSnapshot(await ref.get());
+    else
+       thisUser = sl<CacheDataClass>().getUserDetail();
+    return thisUser;
   }
 }

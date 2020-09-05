@@ -1,7 +1,11 @@
   
 class ServerException implements Exception {}
 
+class NetworkException implements Exception {}
+
 class CacheException implements Exception {}
+
+class NativeDatabaseException implements Exception {}
 
 class NullException implements Exception {}
 

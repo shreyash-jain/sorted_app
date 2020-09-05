@@ -51,7 +51,7 @@ class UserAModel extends Equatable {
       'id': id,
       'name': name,
       'image': image,
-      'saved_ts': savedTs?.toIso8601String,
+      'saved_ts': savedTs?.toIso8601String(),
       'a_id': aId,
     };
   }

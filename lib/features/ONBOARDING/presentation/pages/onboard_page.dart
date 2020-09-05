@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted/core/global/widgets/loading_widget.dart';
+import 'package:sorted/core/global/widgets/message_display.dart';
+import 'package:sorted/core/global/widgets/on_success.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 import 'package:sorted/features/ONBOARDING/presentation/widgets/body.dart';
 import 'package:sorted/features/ONBOARDING/presentation/widgets/bottom_sheet.dart';
-import 'package:sorted/features/ONBOARDING/presentation/widgets/loading_widget.dart';
-import 'package:sorted/features/ONBOARDING/presentation/widgets/message_display.dart';
-import 'package:sorted/features/ONBOARDING/presentation/widgets/on_success.dart';
+
 
 class OnboardPage extends StatefulWidget {
   OnboardPage({Key key, this.title}) : super(key: key);
@@ -67,6 +69,7 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
               
               // Top half
               BlocConsumer<OnboardingBloc, OnboardingState>(
+                // ignore: missing_return
                 builder: (context, state) {
                   if (state is StartState || state is BottomSheetState) {
                     return OnboardBody();
@@ -85,8 +88,10 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
                 listener: (BuildContext context, OnboardingState state) {
                   if (state is SignInCompleted) {
                     print("listener ran");
-                    _scaffoldKey.currentState.showSnackBar(
-                        new SnackBar(content: new Text("Go to next page ...")));
+                    
+                    Router.navigator.pop();
+                    Router.navigator.pushNamed(Router.userIntroPage,
+                        arguments: UserIntroPageArguments(title: "User Intro Page"));
                   }
                 },
               ),

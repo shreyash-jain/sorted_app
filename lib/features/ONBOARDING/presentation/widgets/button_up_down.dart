@@ -22,7 +22,7 @@ class Button extends StatelessWidget {
         children: <Widget>[
           Icon(
             direction ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-            color: Colors.white,
+            color:  direction ?Colors.white:Colors.white60,
             size: 50.0,
           ),
         ],

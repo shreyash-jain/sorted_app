@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/background.dart';
-import 'package:sorted/features/ONSTART/presentation/widgets/message_display.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/on_success.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/re_authenticate.dart';
 
@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyStartPage> {
   void initState() {
     super.initState();
     onStartBloc = sl<OnstartBloc>();
-    onStartBloc.add(GetLocalAuthDone());
+
     print("Start Page");
   }
 
@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyStartPage> {
 
   BlocProvider<OnstartBloc> buildBody(BuildContext context) {
     return BlocProvider(
-      create: (_) => onStartBloc,
+      create: (_) => onStartBloc..add(GetLocalAuthDone()),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),

@@ -5,8 +5,12 @@ import 'package:firebase_database/firebase_database.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:sorted/core/authentication/auth_native_data_source.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
-import 'package:sorted/core/database/global/shared_pref_helper.dart';
+import 'package:sorted/core/global/database/cacheDataClass.dart';
+
+import 'package:sorted/core/global/database/shared_pref_helper.dart';
+import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 
 import 'package:sorted/features/ONSTART/data/datasources/onstart_cloud_data_source.dart';
@@ -18,30 +22,54 @@ import 'package:sorted/features/ONSTART/domain/usecases/do_local_auth.dart';
 import 'package:sorted/features/ONSTART/domain/usecases/cancel_local_auth.dart';
 import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
 import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
-import 'package:sorted/core/database/sqflite_init.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_repository_impl.dart';
+import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
+import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
+import 'package:sorted/features/USER_INTRODUCTION/presentation/interest_bloc/interest_bloc.dart';
 
 import '../network/network_info.dart';
 
-final sl = GetIt.instance;
+final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
   //! Features
   //! ONSTART
-  // Bloc
+  //! Bloc
+
+  ///* On Start Page Bloc
   sl.registerFactory(
     () => OnstartBloc(localAuth: sl(), cancelAuth: sl()),
   );
+
+  ///* OnBoarding Page Bloc
+  ///
   sl.registerFactory(
     () => OnboardingBloc(authRepo: sl()),
   );
 
-  // Use cases
+  ///* User Intro Flow Page Bloc
+  ///
+  sl.registerFactory(
+    () => UserIntroductionBloc(sl()),
+  );
+
+  ///* User Interest Flow Page Bloc
+  ///
+  sl.registerFactory(
+    () => UserInterestBloc(repository: sl(), flowBloc: sl()),
+  );
+
+  //! Use cases
 
   sl.registerLazySingleton(() => DoLocalAuth(sl()));
   sl.registerLazySingleton(() => CancelLocalAuth(sl()));
 
-  // Repository
+  //! Repository
 
   sl.registerLazySingleton<OnStartRepository>(
     () => OnStartRepositoryImpl(
@@ -52,16 +80,40 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
       () => AuthenticationRepository(authDataSource: sl(), firebaseAuth: sl()));
-  // Data sources
+
+  sl.registerLazySingleton<UserIntroductionRepository>(
+    () => UserIntroRepositoryImpl(
+      remoteAuth: sl(),
+      nativeAuth: sl(),
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+      nativeDataSource: sl(),
+      sharedPref: sl(),
+    ),
+  );
+  //! Data sources
   sl.registerLazySingleton<OnStartCloud>(
     () => OnStartCloudDataSourceImpl(cloudDb: sl()),
   );
   sl.registerLazySingleton<AuthCloudDataSource>(
     () => AuthCloudDataSourceImpl(cloudDb: sl(), auth: sl(), prefs: sl()),
   );
+  sl.registerLazySingleton<AuthNativeDataSource>(
+    () => AuthNativeDataSourceImpl(nativeDb: sl()),
+  );
 
   sl.registerLazySingleton<OnStartSharedPref>(
     () => OnStartSharedPrefDataSourceImpl(sharedPreferences: sl()),
+  );
+  sl.registerLazySingleton<UserIntroCloud>(
+    () =>
+        UserIntroCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()),
+  );
+  sl.registerLazySingleton<UserIntroNative>(
+    () => UserIntroNativeDataSourceImpl(nativeDb: sl()),
+  );
+  sl.registerLazySingleton<UserIntroductionSharedPref>(
+    () => UserSharedPrefDataSourceImpl(sharedPreferences: sl()),
   );
 
   //! Core
@@ -71,7 +123,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton(() => LocalAuthenticationService());
-  
+  final CacheDataClass cacheData = CacheDataClass.cacheData;
+  sl.registerLazySingleton(() => cacheData);
   final SqlDatabaseService sqlProvider = SqlDatabaseService.db;
   sl.registerLazySingleton(() => sqlProvider);
 

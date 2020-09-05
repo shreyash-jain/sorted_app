@@ -51,7 +51,7 @@ class ActivityModel extends Equatable {
       'id': id,
       'name': name,
       'image': image,
-      'savedTs': savedTs?.toIso8601String(),
+      'saved_ts': savedTs?.toIso8601String(),
       'weight': weight,
     };
   }
@@ -63,19 +63,21 @@ class ActivityModel extends Equatable {
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      savedTs: DateTime.parse(map['savedTs']),
-      weight: map['weight'],
+      savedTs: DateTime.parse(map['saved_ts']),
+      weight: map['weight'].toDouble(),
     );
   }
   factory ActivityModel.fromSnapshot(DocumentSnapshot map) {
     if (map == null) return null;
+    print(map['id']);
+    print(map['weight']);
 
     return ActivityModel(
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      savedTs: DateTime.parse(map['savedTs']),
-      weight: map['weight'],
+      savedTs: DateTime.parse(map['saved_ts']),
+      weight: map['weight'].toDouble(),
     );
   }
 

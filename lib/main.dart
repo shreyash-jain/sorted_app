@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
-import 'package:sorted/core/database/global/shared_pref_helper.dart';
 import 'package:sorted/core/global/bloc_observer.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/injection_container.dart' as di;
 import 'package:sorted/core/routes/router.gr.dart';
 
@@ -57,19 +57,26 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: theme,
-      navigatorKey: Router.navigatorKey,
+      navigatorKey: Router.navigator.key,
       onGenerateRoute: Router.onGenerateRoute,
       builder: (context, child) {
         print("My App");
-        Gstrings.height = MediaQuery.of(context).size.height;
-        print(Gstrings.height);
-        Gstrings.width = MediaQuery.of(context).size.width;
-        print(Gstrings.width);
+        Gparam.height = MediaQuery.of(context).size.height;
+        print(Gparam.height);
+        Gparam.width = MediaQuery.of(context).size.width;
+        Gparam.topPadding = Gparam.height / 20;
+        Gparam.heightPadding = Gparam.topPadding / 2.3;
+        Gparam.ratio = Gparam.height / Gparam.width;
+        Gparam.widthPadding = Gparam.width / 16;
+        if (Gparam.height < 650) Gparam.isHeightBig = false;
+        if (Gparam.width < 400) Gparam.isWidthBig = false;
+        print(Gparam.width);
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 print("authenticated");
+                Router.navigator.pop();
                 Router.navigator.pushNamed(Router.startPage,
                     arguments: MyStartPageArguments(title: "Start Page"));
                 break;
@@ -77,11 +84,9 @@ class _MyAppState extends State<MyApp> {
                 // todo: send to onboarding page
                 print("un-authenticated");
 
-                 Router.navigator.pop();
-                    Router.navigator.pushNamed(Router.onboardPage,
-                        arguments: OnboardPageArguments(title: "Onboard Page"));
-
-               
+                Router.navigator.pop();
+                Router.navigator.pushNamed(Router.onboardPage,
+                    arguments: OnboardPageArguments(title: "Onboard Page"));
 
                 // _navigator.pushAndRemoveUntil<void>(
                 //   LoginPage.route(),

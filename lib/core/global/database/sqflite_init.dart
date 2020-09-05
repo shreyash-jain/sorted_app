@@ -137,7 +137,7 @@ class SqlDatabaseService {
           "email TEXT, "
           "userName TEXT, "
           "age INTEGER, "
-          "diaryStreak INTEGER, "
+          "diary_streak INTEGER, "
           "points INTEGER, "
           "level INTEGER, "
           "gender INTEGER, "

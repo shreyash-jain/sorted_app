@@ -36,7 +36,7 @@ class AuthenticationBloc
       
       yield _mapAuthenticationUserChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {
-     Either<Failure, FirebaseUser> user= await _authenticationRepository.GetCurrentUser();
+     Either<Failure, FirebaseUser> user= await _authenticationRepository.currentUser();
      user.fold((l) => print("user Already Logged out"), (r) => unawaited(_authenticationRepository.logOut(r)));
       
     }

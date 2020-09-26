@@ -33,6 +33,8 @@ abstract class AuthCloudDataSource {
 }
 
 class AuthCloudDataSourceImpl implements AuthCloudDataSource {
+  int deviceId = 0;
+  String deviceName = "";
   final Firestore cloudDb;
   final FirebaseAuth auth;
   final SharedPreferences prefs;
@@ -133,9 +135,14 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     prefs.setString("google_email", user.email);
 
     prefs.setString('user_image', "assets/images/male1.png");
+    print(updateUserData.toString()+"    >>>>   "+deviceId.toString());
 
     UserDetail userDetail = new UserDetail(
-        name: user.displayName, email: user.email, imageUrl: user.photoUrl);
+        name: user.displayName,
+        email: user.email,
+        imageUrl: user.photoUrl,
+        currentDevice: deviceName,
+        currentDeviceId: deviceId);
     print(2);
 
     sl<CacheDataClass>().setUserDetail(userDetail);
@@ -149,7 +156,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
         .collection("user_data")
         .document("data");
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    String deviceName = "";
+
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       print('Running on ${androidInfo.model}');
@@ -160,7 +167,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
       print('Running on ${iosInfo.utsname.machine}'); //
       deviceName = iosInfo.utsname.machine;
     }
-    int deviceId = next(1, 4294967290);
+    deviceId = next(1, 4294967290);
     try {
       await ref.setData({
         'signInId': deviceId,
@@ -237,6 +244,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
   @override
   Future<void> addUserDetailInCloud(UserDetail detail) async {
     FirebaseUser user = await auth.currentUser();
+    print(addUserDetailInCloud);
     DocumentReference ref = cloudDb
         .collection('users')
         .document(user.uid)
@@ -269,9 +277,9 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
         .document("details");
     DocumentSnapshot this_snapshot = await ref.get();
     if (this_snapshot.data != null)
-       thisUser= UserDetail.fromSnapshot(await ref.get());
+      thisUser = UserDetail.fromSnapshot(await ref.get());
     else
-       thisUser = sl<CacheDataClass>().getUserDetail();
+      thisUser = sl<CacheDataClass>().getUserDetail();
     return thisUser;
   }
 }

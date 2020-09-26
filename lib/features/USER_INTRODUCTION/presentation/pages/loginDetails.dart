@@ -138,7 +138,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  ProgressBar(currentPage: _currentPage,    widget: widget)
+                                  ProgressBar(
+                                      currentPage: _currentPage, widget: widget)
                                 ],
                               ),
                             ],
@@ -164,8 +165,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     InterestsPV(loginWidget: widget),
                     NotificationPV(
                         title: UserIntroStrings.notificationHeading,
-                        description:
-                           UserIntroStrings.notificationDescription,
+                        description: UserIntroStrings.notificationDescription,
                         imagepath: UserIntroStrings.notificationImagePath),
                   ],
                 ),
@@ -226,9 +226,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         } else {
                           print("pressed 2");
                           Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text(widget.message),
-                duration: Duration(seconds: 3),
-              ));
+                            content: Text(widget.message),
+                            duration: Duration(seconds: 3),
+                          ));
                         }
                       },
                       child: Row(
@@ -306,6 +306,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ..addStatusListener((status) async {
             if (status == AnimationStatus.completed) {
               print("done");
+              print(widget.userActivities.length);
               BlocProvider.of<UserIntroductionBloc>(context)
                   .add(SaveDetails(widget.userDetail, widget.userActivities));
             }
@@ -314,5 +315,3 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         Tween<double>(begin: 1, end: 350.0).animate(scaleController);
   }
 }
-
-

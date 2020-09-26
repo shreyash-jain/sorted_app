@@ -4,6 +4,7 @@ import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/global/widgets/on_success.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/interest_bloc/interest_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/interactionPage.dart';
@@ -67,7 +68,15 @@ class _UserIntroState extends State<UserIntroPage>
           return OnSuccessWidget();
         }
             },
-            listener: (BuildContext context, UserIntroductionState state) {},
+            listener: (BuildContext context, UserIntroductionState state) {
+
+
+              if (state is SuccessState){
+                 Router.navigator.pop();
+                 Router.navigator.pushNamed(Router.homePage,
+                        arguments: SortedHomeArguments(title: "Home Page"));
+              }
+            },
           ));
   }
 

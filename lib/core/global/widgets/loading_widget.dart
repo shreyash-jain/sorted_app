@@ -1,19 +1,20 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({
-    Key key,
-  }) : super(key: key);
-
+class LoadingWidget extends StatefulWidget {
+   @override
+  _MyHomePageState createState() => new _MyHomePageState();}
+class _MyHomePageState extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3,
-      child: Center(
-        child: CircularProgressIndicator(
-          valueColor: new AlwaysStoppedAnimation<Color>(Colors.black54),
-        ),
-      ),
+      width: 70,
+      height: 70,
+      child: new FlareActor("assets/animations/Sorted_Logo.flr",
+          alignment: Alignment.center,
+          fit: BoxFit.contain,
+          animation: "Untitled"),
     );
   }
 }
+ 

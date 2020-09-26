@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-enum Gender { male, female , unknown}
+enum Gender { male, female, unknown }
 enum Profession { student, working, both, unknown }
 
 class UserDetail extends Equatable {
@@ -14,11 +14,15 @@ class UserDetail extends Equatable {
   final String userName;
   final int age;
   final int diaryStreak;
+  final String currentDevice;
+  final int currentDeviceId;
   final int points;
   final int level;
   final Gender gender;
   final Profession profession;
   UserDetail({
+    this.currentDevice,
+    this.currentDeviceId,
     this.name,
     this.imageUrl,
     this.email,
@@ -38,6 +42,8 @@ class UserDetail extends Equatable {
       name,
       imageUrl,
       email,
+      currentDeviceId,
+      currentDevice,
       id,
       userName,
       age,
@@ -55,6 +61,8 @@ class UserDetail extends Equatable {
     String email,
     int id,
     String userName,
+    int currentDeviceId,
+    String currentDevice,
     int age,
     int diaryStreak,
     int points,
@@ -70,6 +78,8 @@ class UserDetail extends Equatable {
       id: id ?? this.id,
       userName: userName ?? this.userName,
       age: age ?? this.age,
+      currentDeviceId: currentDeviceId ?? this.currentDeviceId,
+      currentDevice: currentDevice ?? this.currentDevice,
       diaryStreak: diaryStreak ?? this.diaryStreak,
       points: points ?? this.points,
       level: level ?? this.level,
@@ -85,6 +95,8 @@ class UserDetail extends Equatable {
       'email': email,
       'id': id,
       'userName': userName,
+      'currentDeviceId': currentDeviceId,
+      'currentDevice': currentDevice,
       'age': age,
       'diary_streak': diaryStreak,
       'points': points,
@@ -107,6 +119,8 @@ class UserDetail extends Equatable {
       userName: map['userName'],
       age: map['age'],
       diaryStreak: map['diary_streak'],
+      currentDeviceId: map['currentDeviceId'],
+      currentDevice: map['currentDevice'],
       points: map['points'],
       level: map['level'],
       gender: Gender.values[(map['gender'])],
@@ -122,6 +136,8 @@ class UserDetail extends Equatable {
       email: map['email'],
       id: map['id'],
       userName: map['userName'],
+      currentDeviceId: map['currentDeviceId'],
+      currentDevice: map['currentDevice'],
       age: map['age'],
       diaryStreak: map['diary_streak'],
       points: map['points'],
@@ -144,7 +160,7 @@ class UserDetail extends Equatable {
     if (age == null || age < 10) return 2;
 
     if (profession == null) return 3;
-    
+
     return 10;
   }
 

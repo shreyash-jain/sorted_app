@@ -19,3 +19,4 @@ class PlatformFailure extends Failure {}
 class NoUserFailure extends Failure {}
 
 class NativeDatabaseException extends Failure {}
+class UnsplashException extends Failure {}

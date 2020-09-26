@@ -23,7 +23,11 @@ List<String> tables = [
   "Questions",
   "Answers",
   "UserDetails",
-  "Reminders"
+  "Inspirations",
+  "Reminders",
+  "ThumbnailDetails",
+  "PlaceholderDetails",
+  "FavAffirmations"
 ];
 List<String> imagePath = [];
 List<int> imageTotal = [];
@@ -57,6 +61,55 @@ class SqlDatabaseService {
 
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
+      await db.execute("CREATE TABLE FavAffirmations ("
+          "id INTEGER PRIMARY KEY, "
+          "text TEXT, "
+          "imageUrl TEXT, "
+          "category TEXT "
+          ")");
+      await db.execute("CREATE TABLE SavedAffirmations ("
+          "id INTEGER PRIMARY KEY, "
+          "text TEXT, "
+          "imageUrl TEXT, "
+          "category TEXT "
+          ")");
+      await db.execute("CREATE TABLE CurrentAffirmations ("
+          "id INTEGER PRIMARY KEY, "
+          "cloudId INTEGER, "
+          "text TEXT, "
+          "lastSeen TEXT, "
+          "category TEXT, "
+          "thumbnailUrl TEXT, "
+          "profileLink TEXT, "
+          "photoGrapherName TEXT, "
+          "sImageUrl TEXT, "
+          "downloadLink TEXT, "
+          "imageUrl TEXT, "
+          "isFav INTEGER, "
+          "waitSeconds INTEGER, "
+          "read INTEGER "
+          ")");
+      await db.execute("CREATE TABLE PlaceholderDetails ("
+          "name TEXT, "
+          "path TEXT, "
+          "total INTEGER "
+          ")");
+
+      await db.execute("CREATE TABLE UnsplashDetails ("
+          "imageUrl TEXT, "
+          "imageUrlThumb TEXT, "
+          "profileLink TEXT, "
+          "firstName TEXT, "
+          "lastName TEXT, "
+          "downloadLink TEXT "
+          ")");
+
+      await db.execute("CREATE TABLE ThumbnailDetails ("
+          "name TEXT, "
+          "path TEXT, "
+          "total INTEGER "
+          ")");
+
       await db.execute("CREATE TABLE Todo ("
           "id INTEGER PRIMARY KEY, "
           "event_id INTEGER, "
@@ -130,12 +183,20 @@ class SqlDatabaseService {
           "money DOUBLE, "
           "type INTEGER "
           ")");
+      await db.execute("CREATE TABLE Inspirations ("
+          "id INTEGER PRIMARY KEY, "
+          "auther TEXT, "
+          "text TEXT, "
+          "imageUrl TEXT "
+          ")");
       await db.execute("CREATE TABLE UserDetails ("
           "id INTEGER PRIMARY KEY, "
           "name TEXT, "
           "imageUrl TEXT, "
           "email TEXT, "
           "userName TEXT, "
+          "currentDeviceId INTEGER, "
+          "currentDevice TEXT, "
           "age INTEGER, "
           "diary_streak INTEGER, "
           "points INTEGER, "

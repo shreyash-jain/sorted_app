@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/interactionPage.dart';
@@ -48,7 +48,7 @@ class StackConatinerBack extends StatelessWidget {
                     builder: (context, child) => Transform.scale(
                         scale: scaleAnimation.value,
                         
-                          child: FadeAnimation(
+                          child: FadeAnimationTB(
                               .8,
                                Hero(
                           tag: UserIntroStrings.userImageTag,child:Container(
@@ -84,7 +84,7 @@ class StackConatinerBack extends StatelessWidget {
                 duration: Duration(seconds: 2),
                 curve: Curves.easeOutQuint,
                 opacity: greetingOpacity,
-                child: FadeAnimation(
+                child: FadeAnimationTB(
                     .9,
                     RichText(
                       text: TextSpan(

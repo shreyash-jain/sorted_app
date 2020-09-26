@@ -11,7 +11,7 @@ class UserAModel extends Equatable {
 
   final int aId;
   UserAModel({
-    this.id = 0,
+    this.id,
     this.name = '',
     this.image = '',
     this.savedTs,

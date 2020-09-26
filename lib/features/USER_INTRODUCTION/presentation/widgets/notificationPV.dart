@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/ONBOARDING/presentation/constants.dart';
 
@@ -26,7 +26,7 @@ class NotificationPV extends StatelessWidget {
         children: <Widget>[
            Padding(
             padding: EdgeInsets.only(top:Gparam.heightPadding*1.5,left:Gparam.widthPadding,right:Gparam.widthPadding*2),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
                 1.8,
                 Container(
                     child: Text(
@@ -38,7 +38,7 @@ class NotificationPV extends StatelessWidget {
             alignment:Alignment.topLeft,
               child: Padding(
               padding: EdgeInsets.only(top: Gparam.height/20,left:40),
-              child: FadeAnimation(
+              child: FadeAnimationTB(
                 1.6,
                 Container(
                   child: ColorFiltered(
@@ -64,7 +64,7 @@ class NotificationPV extends StatelessWidget {
          
           Padding(
             padding: EdgeInsets.only(top:Gparam.heightPadding,left:Gparam.widthPadding,right:Gparam.widthPadding*3),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
                 2.2,
                 Container(
                   child: Text(

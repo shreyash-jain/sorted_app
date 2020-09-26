@@ -21,6 +21,8 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
   StreamSubscription<double> _downloadProgress;
   final UserIntroductionRepository repository;
   bool oldState;
+  int deviceId;
+  String deviceName;
 
   String userName = "";
 
@@ -54,6 +56,9 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
       if (sl<CacheDataClass>().getOldState() != null) {
         print(3);
         userDetail = sl<CacheDataClass>().getUserDetail();
+        deviceId = userDetail.currentDeviceId;
+        deviceName = userDetail.currentDevice;
+        print(userDetail.currentDevice);
       }
 
       if (userDetail == null) {
@@ -98,10 +103,8 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         yield LoginState(
             allActivities: (state as LoginState).allActivities,
             userActivities: event.activities,
-             valid: checkValidity(
-                (state as LoginState).userDetail),
-            message: generateValidityMessage(
-                (state as LoginState).userDetail),
+            valid: checkValidity((state as LoginState).userDetail),
+            message: generateValidityMessage((state as LoginState).userDetail),
             userDetail: (state as LoginState).userDetail);
       }
     } else if (event is UpdateName) {
@@ -150,11 +153,17 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
                 .copyWith(profession: event.prof)));
       }
     } else if (event is SaveDetails) {
-      if (event.activities.length > 0) repository.deleteUserActivityTable();
+      print("@SaveDetails  " + event.activities.length.toString());
+      if (event.activities.length > 0)
+        await repository.deleteUserActivityTable();
       event.activities.forEach((element) {
+        print(element.name);
         repository.add(element);
       });
-      repository.addUser(event.details);
+      //print("at save  >>>" + event.details.currentDevice);
+      UserDetail toSaveDetail = event.details
+          .copyWith(currentDevice: deviceName, currentDeviceId: deviceId);
+      repository.addUser(toSaveDetail);
       yield SuccessState();
     }
   }

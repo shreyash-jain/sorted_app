@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
@@ -52,7 +52,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                 top: Gparam.topPadding,
                 left: Gparam.widthPadding,
                 right: Gparam.widthPadding),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
               1.6,
               Container(
                 child: Text(
@@ -71,7 +71,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                 top: Gparam.topPadding,
                 left: Gparam.widthPadding,
                 right: Gparam.widthPadding),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
                 2.2,
                 Container(
                   child: TextField(
@@ -109,7 +109,7 @@ class _NameAndGenderState extends State<NameAndGender> {
               duration: Duration(seconds: 1),
               curve: Curves.easeOutQuint,
               opacity: 1,
-              child: FadeAnimation(
+              child: FadeAnimationTB(
                 .9,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +137,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                       child: Container(
                           child: Row(
                         children: [
-                          FadeAnimation(
+                          FadeAnimationTB(
                             1.6,
                             GestureDetector(
                               onTap: () => selectGender(Gender.male),
@@ -164,7 +164,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                               height: Gparam.height / 8,
                               width: 2,
                               color: Colors.black12),
-                          FadeAnimation(
+                          FadeAnimationTB(
                             1.6,
                             GestureDetector(
                               onTap: () => selectGender(Gender.female),

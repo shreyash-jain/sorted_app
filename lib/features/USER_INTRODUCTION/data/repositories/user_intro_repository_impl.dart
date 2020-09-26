@@ -32,18 +32,22 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
 
   @override
   Future<Either<Failure, int>> add(UserAModel activity) async {
-    UserAModel thisActivity=activity;
+    UserAModel thisActivity = activity;
     try {
+       print( " add u activity " + thisActivity.name);
       thisActivity = await nativeDataSource.add(activity);
+      print(thisActivity.id.toString() + "  " + thisActivity.name);
       try {
         remoteDataSource.add(thisActivity);
       } on Exception {
         print("server exception");
       }
       return Right(thisActivity.id);
-    } on Exception {
+    } 
+    on Exception {
+       print("NativeDatabaseException  ");
       return Future.value(Left(NativeDatabaseException()));
-    }
+   }
   }
 
   @override
@@ -142,7 +146,6 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
 
   @override
   Future<Either<Failure, UserDetail>> get userDetails async {
-    
     if (await networkInfo.isConnected) {
       try {
         return Right(await remoteAuth.getUserFromCloud());
@@ -152,21 +155,23 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
     } else {
       return Left(NetworkFailure());
     }
-
-   
   }
 
   @override
   Future<Either<Failure, bool>> addUser(UserDetail detail) async {
+    print(addUser);
     try {
       await nativeAuth.add(detail);
       try {
+        print("coming to cloud");
         remoteAuth.addUserDetailInCloud(detail);
       } on Exception {
+        print("failing cloud");
         print("server exception");
       }
       return Right(true);
     } on Exception {
+      print("failing sql");
       return Future.value(Left(NativeDatabaseException()));
     }
   }
@@ -176,7 +181,7 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
     try {
       await nativeDataSource.deleteUserActivityTable();
       try {
-        remoteDataSource.deleteUserActivityTable();
+        await remoteDataSource.deleteUserActivityTable();
         return Right(null);
       } on Exception {
         print("server exception");

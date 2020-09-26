@@ -4,6 +4,7 @@ Color primaryColor = Color.fromARGB(255, 58, 149, 255);
 Color secondryColor = Color.fromARGB(255, 113, 142, 221);
 Color tertiaryColor = Color.fromARGB(255, 72, 195, 235);
 Color quaternaryColor = Color.fromARGB(255, 27, 39, 86);
+Color lightWhiteColor = Color.fromARGB(255, 180, 180, 190);
 Color reallyLightGrey = Colors.grey.withAlpha(25);
 Color blueMid = Color(0xFF4563DB);
 
@@ -13,6 +14,7 @@ ThemeData appThemeLight = ThemeData.light().copyWith(
   primaryColorLight: tertiaryColor,
   accentColor: secondryColor,
   backgroundColor: blueMid,
+  canvasColor: lightWhiteColor,
   bottomSheetTheme:
       BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
 );
@@ -21,6 +23,7 @@ ThemeData appThemeDark = ThemeData.dark().copyWith(
     primaryColorDark: quaternaryColor,
     primaryColorLight: tertiaryColor,
     scaffoldBackgroundColor: Colors.black,
+    canvasColor: lightWhiteColor,
     backgroundColor: blueMid,
     accentColor: secondryColor,
     toggleableActiveColor: primaryColor,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 
 
@@ -86,7 +86,7 @@ class _bottomSheetState extends State<ButtomSheet>
         Container(
             height: 120,
             padding: EdgeInsets.all(16),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
                 5.6,
                 Container(
                     child: AnimatedBuilder(

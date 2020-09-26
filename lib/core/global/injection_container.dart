@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,12 @@ import 'package:sorted/core/global/database/cacheDataClass.dart';
 
 import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/features/HOME/data/datasources/home_cloud_data_source.dart';
+import 'package:sorted/features/HOME/data/datasources/home_native_data_source.dart';
+import 'package:sorted/features/HOME/data/datasources/home_remote_api_data_source.dart';
+import 'package:sorted/features/HOME/data/datasources/home_shared_pref_data_source.dart';
+import 'package:sorted/features/HOME/data/repositiries/home_repository_impl.dart';
+import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 
 import 'package:sorted/features/ONSTART/data/datasources/onstart_cloud_data_source.dart';
@@ -91,7 +98,23 @@ Future<void> init() async {
       sharedPref: sl(),
     ),
   );
+  sl.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+      nativeDataSource: sl(),
+      sharedPref: sl(),
+      remoteApi: sl(),
+    ),
+  );
   //! Data sources
+  sl.registerLazySingleton<HomeCloud>(
+      () => HomeCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
+  sl.registerLazySingleton<HomeNative>(
+      () => HomeNativeDataSourceImpl(nativeDb: sl()));
+  sl.registerLazySingleton<HomeSharedPref>(
+      () => HomeSharedPrefDataSourceImpl(sharedPreferences: sl()));
+  sl.registerLazySingleton<HomeRemoteApi>(() => HomeRemoteApiDataSourceImpl());
   sl.registerLazySingleton<OnStartCloud>(
     () => OnStartCloudDataSourceImpl(cloudDb: sl()),
   );
@@ -133,6 +156,7 @@ Future<void> init() async {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _fireDB = Firestore.instance;
   final FirebaseDatabase fbDB = FirebaseDatabase.instance;
+  final StorageReference refStorage = FirebaseStorage.instance.ref();
 
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
@@ -140,4 +164,5 @@ Future<void> init() async {
   sl.registerLazySingleton(() => _auth);
   sl.registerLazySingleton(() => _fireDB);
   sl.registerLazySingleton(() => fbDB);
+  sl.registerLazySingleton(() => refStorage);
 }

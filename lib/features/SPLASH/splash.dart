@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatelessWidget {
@@ -5,12 +6,16 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("splash");
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child: Image.asset(
-          'assets/images/SortedLogo.png',
-          key: const Key('splash_bloc_image'),
-          width: 150,
-        ),
+        child: Container(
+      width: 70,
+      height: 70,
+      child: new FlareActor("assets/animations/Sorted_Logo.flr",
+          alignment: Alignment.center,
+          fit: BoxFit.contain,
+          animation: "Untitled"),
+    )
       ),
     );
   }

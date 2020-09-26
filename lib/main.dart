@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
@@ -9,9 +10,12 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/injection_container.dart' as di;
 import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/theme/app_theme_wrapper.dart';
 
 import 'package:sorted/core/theme/theme.dart';
 import 'core/global/injection_container.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,12 +55,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeData theme = appThemeLight;
+  ThemeData _theme = appThemeLight;
+  set theme(newTheme) {
+    print("even aay");
+    if (newTheme != _theme) {
+      setState(() => _theme = newTheme);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: theme,
       navigatorKey: Router.navigator.key,
       onGenerateRoute: Router.onGenerateRoute,
       builder: (context, child) {
@@ -71,58 +89,44 @@ class _MyAppState extends State<MyApp> {
         if (Gparam.height < 650) Gparam.isHeightBig = false;
         if (Gparam.width < 400) Gparam.isWidthBig = false;
         print(Gparam.width);
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                print("authenticated");
-                Router.navigator.pop();
-                Router.navigator.pushNamed(Router.startPage,
-                    arguments: MyStartPageArguments(title: "Start Page"));
-                break;
-              case AuthenticationStatus.unauthenticated:
-                // todo: send to onboarding page
-                print("un-authenticated");
+        return new AppTheme(
+            child: MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                  listener: (context, state) {
+                    switch (state.status) {
+                      case AuthenticationStatus.authenticated:
+                        print("authenticated");
+                        Router.navigator.pop();
+                        Router.navigator.pushNamed(Router.startPage,
+                            arguments:
+                                MyStartPageArguments(title: "start Page"));
+                        break;
+                      case AuthenticationStatus.unauthenticated:
+                        // todo: send to onboarding page
+                        print("un-authenticated");
 
-                Router.navigator.pop();
-                Router.navigator.pushNamed(Router.onboardPage,
-                    arguments: OnboardPageArguments(title: "Onboard Page"));
+                        Router.navigator.pop();
+                        Router.navigator.pushNamed(Router.onboardPage,
+                            arguments:
+                                OnboardPageArguments(title: "Onboard Page"));
 
-                // _navigator.pushAndRemoveUntil<void>(
-                //   LoginPage.route(),
-                //   (route) => false,
-                // );
-                print("send to onboarding");
-                break;
-              default:
-                break;
-            }
-          },
-          child: child,
-        );
+                        // _navigator.pushAndRemoveUntil<void>(
+                        //   LoginPage.route(),
+                        //   (route) => false,
+                        // );
+                        print("send to onboarding");
+                        break;
+                      default:
+                        break;
+                    }
+                  },
+                  child: child,
+                )));
       },
     );
   }
 
-  setTheme(Brightness brightness) {
-    if (brightness == Brightness.dark) {
-      setState(() {
-        theme = appThemeDark;
-      });
-    } else {
-      setState(() {
-        theme = appThemeLight;
-      });
-    }
-  }
-
-  void updateThemeFromSharedPref() async {
-    String themeText =
-        await di.sl.get<SharedPrefHelper>().getThemeFromSharedPref();
-    if (themeText == 'light') {
-      setTheme(Brightness.light);
-    } else {
-      setTheme(Brightness.dark);
-    }
-  }
+  
 }
+

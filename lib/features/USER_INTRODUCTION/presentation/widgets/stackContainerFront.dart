@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/interactionPage.dart';
@@ -40,7 +40,7 @@ class StackContainerFront extends StatelessWidget {
                   padding: EdgeInsets.all(30),
                   decoration: Gtheme.roundedWhite,
                   duration: Duration(seconds: 1),
-                  child: FadeAnimation(
+                  child: FadeAnimationTB(
                       .9,
                       Column(
                         children: [
@@ -74,12 +74,13 @@ class StackContainerFront extends StatelessWidget {
                 duration: Duration(seconds: 2),
                 curve: Curves.easeOutQuint,
                 opacity: downloadingOpacity,
-                child: FadeAnimation(
+                child: FadeAnimationTB(
                     .9,
                     Column(
                       children: [
                         if (widget.progress < 1)
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SizedBox(
                                 width: Gparam.widthPadding,
@@ -95,7 +96,7 @@ class StackContainerFront extends StatelessWidget {
                                     fontFamily: 'ZillaSlab'),
                               ),
                               SizedBox(width: 10.0),
-                              FadeAnimation(
+                              FadeAnimationTB(
                       .8,Text(
                                 currentItemInDownload,
                                 style: TextStyle(

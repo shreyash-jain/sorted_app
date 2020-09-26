@@ -113,10 +113,11 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
 
   @override
   Future<List<UserAModel>> get userActivities async {
+    FirebaseUser user = await auth.currentUser();
     QuerySnapshot snapShot = await cloudDb
-        .collection('StartData')
-        .document('data')
-        .collection('User_Activity')
+        .collection('users')
+        .document(user.uid)
+        .collection("User_Activity")
         .getDocuments();
     if (snapShot == null) return Future.value([]);
     if (snapShot != null && snapShot.documents.length != 0) {
@@ -128,6 +129,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
 
   @override
   Future<void> add(UserAModel newActivity) async {
+    print("add useract in cloud "+ newActivity.name);
     FirebaseUser user = await auth.currentUser();
 
     DocumentReference ref = cloudDb
@@ -136,7 +138,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
         .collection("User_Activity")
         .document(newActivity.id.toString());
 
-    ref
+    await ref
         .setData(newActivity.toMap())
         .then((value) => print(ref.documentID))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
@@ -167,7 +169,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
         .document(user.uid)
         .collection("User_Activity");
 
-    ref.getDocuments().then((value) => {
+    await ref.getDocuments().then((value) => {
           value.documents.forEach((element) {
             element.reference.delete();
           })

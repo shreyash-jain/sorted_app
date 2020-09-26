@@ -15,12 +15,15 @@ class UserIntroNativeDataSourceImpl implements UserIntroNative {
 
   @override
   Future<UserAModel> add(UserAModel newActivity) async {
+    print(newActivity);
     final db = await nativeDb.database;
-    if (newActivity.savedTs == null)
-      newActivity.copyWith(savedTs: DateTime.now());
-    var result = await db.insert('User_Activity', newActivity.toMap());
-     newActivity.copyWith(id:result);
-    return newActivity;
+    UserAModel toSave = new UserAModel(
+        name: newActivity.name, aId: newActivity.aId, image: newActivity.image);
+    if (toSave.savedTs == null)
+      toSave = toSave.copyWith(savedTs: DateTime.now());
+    var result = await db.insert('User_Activity', toSave.toMap());
+    toSave = toSave.copyWith(id: result);
+    return toSave;
   }
 
   @override
@@ -34,6 +37,6 @@ class UserIntroNativeDataSourceImpl implements UserIntroNative {
   @override
   Future<void> deleteUserActivityTable() async {
     final db = await nativeDb.database;
-    await db.delete('User_Activity', where: 'id >8');
+    await db.delete('User_Activity');
   }
 }

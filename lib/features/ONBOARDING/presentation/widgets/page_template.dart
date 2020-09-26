@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/ONBOARDING/presentation/constants.dart';
 
@@ -28,7 +28,7 @@ class PageTemplate extends StatelessWidget {
             alignment:Alignment.topLeft,
               child: Padding(
               padding: EdgeInsets.only(top: Gparam.height/20,left:40),
-              child: FadeAnimation(
+              child: FadeAnimationTB(
                 1.6,
                 Container(
                   child: Image(
@@ -44,7 +44,7 @@ class PageTemplate extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(top:Gparam.height/40,left:Gparam.width/10,right:Gparam.width/5),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
                 2.8,
                 Container(
                     child: Text(
@@ -54,7 +54,7 @@ class PageTemplate extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(top: Gparam.height/45,left:Gparam.width/10,right:Gparam.width/5),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
                 4.2,
                 Container(
                   child: Text(

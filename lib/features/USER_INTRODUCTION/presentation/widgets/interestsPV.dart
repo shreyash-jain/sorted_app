@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
@@ -66,7 +66,7 @@ class _InterestsPVState extends State<InterestsPV> {
                 top: Gparam.topPadding,
                 left: Gparam.widthPadding,
                 right: Gparam.widthPadding),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
               1.6,
               Container(
                 child: Text(
@@ -84,7 +84,7 @@ class _InterestsPVState extends State<InterestsPV> {
               duration: Duration(seconds: 1),
               curve: Curves.easeOutQuint,
               opacity: 1,
-              child: FadeAnimation(
+              child: FadeAnimationTB(
                 .9,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +129,7 @@ class _InterestsPVState extends State<InterestsPV> {
                                           bottomLeft: Radius.circular(30.0),
                                           bottomRight: Radius.circular(0.0)),
                                     ),
-                                    child: FadeAnimation(
+                                    child: FadeAnimationTB(
                                         1.6,
                                         Container(
                                           child: ListView.builder(
@@ -163,7 +163,7 @@ class _InterestsPVState extends State<InterestsPV> {
                                         left: 2,
                                         top: Gparam.heightPadding / 2,
                                         bottom: Gparam.heightPadding / 2),
-                                    child: FadeAnimation(
+                                    child: FadeAnimationTB(
                                         1.6,
                                         Container(
                                           margin: EdgeInsets.all(
@@ -240,7 +240,7 @@ class ProfessionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeAnimation(
+    return FadeAnimationTB(
       1.6,
       Column(
         children: [

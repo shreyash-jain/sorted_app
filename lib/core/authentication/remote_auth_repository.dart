@@ -102,9 +102,11 @@ class AuthenticationRepository {
         } else {
           print("yaha bhi koi aata");
         }
-        await _authDataSource.updateUserData(user);
-
+        // TODO : Check if this fails
+        
+      
       }
+      await _authDataSource.updateUserData(user);
     } on Exception {
       throw LogInWithGoogleFailure();
     }

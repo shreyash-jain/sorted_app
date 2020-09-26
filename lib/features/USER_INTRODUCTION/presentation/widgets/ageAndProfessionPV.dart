@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sorted/core/global/animations/fade_animation.dart';
+import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';
 
@@ -55,7 +56,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                 top: Gparam.topPadding,
                 left: Gparam.widthPadding,
                 right: Gparam.widthPadding),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
               1.6,
               Container(
                 child: Text(
@@ -74,7 +75,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                 top: Gparam.topPadding,
                 left: Gparam.widthPadding,
                 right: Gparam.widthPadding),
-            child: FadeAnimation(
+            child: FadeAnimationTB(
                 2.2,
                 Container(
                   child: TextField(
@@ -120,7 +121,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
               duration: Duration(seconds: 1),
               curve: Curves.easeOutQuint,
               opacity: 1,
-              child: FadeAnimation(
+              child: FadeAnimationTB(
                 .9,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +132,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                           left: Gparam.widthPadding,
                           right: Gparam.widthPadding * 2),
                       child: Text(
-                        'and what are you doing nowadays ?',
+                        UserIntroStrings.askProfesssion,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontFamily: 'ZillaSlab',
@@ -161,8 +162,8 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                                       : BlendMode.srcIn,
                                 ),
                                                                   child: ProfessionItem(
-                                    imagePath: "assets/images/student.png",
-                                    professionName: "Studying",
+                                    imagePath: UserIntroStrings.studentImagePath,
+                                    professionName: UserIntroStrings.studentImageDescription,
                                   ),
                                 ),
                               ),
@@ -192,8 +193,8 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                                       : BlendMode.srcIn,
                                 ),
                                                                   child: ProfessionItem(
-                                    imagePath: "assets/images/working.png",
-                                    professionName: "Working",
+                                    imagePath: UserIntroStrings.workingImagePath,
+                                    professionName: UserIntroStrings.workingImageDescription,
                                   ),
                                 ),
                               ),
@@ -221,8 +222,8 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                                       ? BlendMode.dst
                                       : BlendMode.srcIn,
                                 ),child: ProfessionItem(
-                                    imagePath: "assets/images/bothProfession.png",
-                                    professionName: "Both",
+                                    imagePath: UserIntroStrings.bothProfessionImagePath,
+                                    professionName: UserIntroStrings.bothProfessionImageDescription,
                                   ),
                                 ),
                               )
@@ -257,7 +258,7 @@ class ProfessionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeAnimation(
+    return FadeAnimationTB(
       1.6,
       Column(
         children: [

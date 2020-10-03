@@ -113,7 +113,6 @@ class SqlDatabaseService {
           "lastName TEXT, "
           "downloadLink TEXT "
           ")");
-        
 
       await db.execute("CREATE TABLE SettingsDetails ("
           "unfilledSurveyPreference INTEGER, "
@@ -123,7 +122,7 @@ class SqlDatabaseService {
           "surveyTime INTEGER, "
           "budget DOUBLE "
           ")");
-     await db.execute("CREATE TABLE ThumbnailDetails ("
+      await db.execute("CREATE TABLE ThumbnailDetails ("
           "name TEXT, "
           "path TEXT, "
           "total INTEGER "
@@ -257,7 +256,7 @@ class SqlDatabaseService {
       print('New table created at 4 $path');
       await db.execute(
           '''CREATE TABLE Reminders (_id INTEGER PRIMARY KEY, saved_ts TEXT,note_id INTEGER, type INTEGER,content TEXT, date TEXT);''');
-      
+
       await db.execute(
           'CREATE TABLE Audios (id INTEGER PRIMARY KEY,  savedTs TEXT,title TEXT,description TEXT, url Text, length DOUBLE)');
       await db.execute(
@@ -281,9 +280,8 @@ class SqlDatabaseService {
       await db.execute(
           'CREATE TABLE TaskStatus (id INTEGER PRIMARY KEY, savedTs TEXT,status TEXT,imagePath TEXT)');
       await db.execute(
-          'CREATE TABLE Goals_Images (goal_id INTEGER, image_id INTEGER,status TEXT, PRIMARY KEY(person_id, fruit_name))');
-      
-      
+          'CREATE TABLE Goals_Images (goal_id INTEGER, image_id INTEGER,status TEXT, PRIMARY KEY(goal_id, image_id))');
+
       print('New table created at $path');
     });
   }

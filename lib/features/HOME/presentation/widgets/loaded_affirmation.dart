@@ -127,6 +127,7 @@ class LoadedAffirmationWidget extends StatelessWidget {
                             TextSpan(
                                 text: " - "+state.inspiration.auther,
                                 style: TextStyle(
+                                  height: 1.3,
                                    fontFamily: 'Eastman',
                                    color:Theme.of(context).brightness==Brightness.light?Colors.white24:Colors.black26,
                                     fontWeight: FontWeight.normal, fontSize: (state.inspiration.text.length>100)?12:14,)),

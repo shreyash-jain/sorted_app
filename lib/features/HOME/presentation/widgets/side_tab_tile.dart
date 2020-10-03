@@ -68,13 +68,7 @@ class SideTabTile extends StatelessWidget {
                               : Colors.white70,
                           fontFamily: 'ZillaSlab',
                           fontSize: 22,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 60.0,
-                              color: Colors.white,
-                              offset: Offset(1.0, 1.0),
-                            ),
-                          ],
+                         
                           fontWeight: FontWeight.bold))),
               if (isNavEnabled)
                 SizedBox(
@@ -96,13 +90,7 @@ class SideTabTile extends StatelessWidget {
                               : Colors.black26,
                           fontFamily: 'ZillaSlab',
                           fontSize: 14,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 60.0,
-                              color: Colors.white,
-                              offset: Offset(1.0, 1.0),
-                            ),
-                          ],
+                          
                           fontWeight: FontWeight.normal)),
                 )
             ],

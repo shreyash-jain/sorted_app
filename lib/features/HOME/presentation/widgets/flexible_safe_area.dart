@@ -35,16 +35,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   ScrollController _controller;
   AffirmationBloc affirmationBloc;
   bool showArrow = true;
-  String greeting() {
-    var hour = DateTime.now().hour;
-    if (hour < 12) {
-      return 'Good Morning';
-    }
-    if (hour < 17) {
-      return 'Good Afternoon';
-    }
-    return 'Good Evening';
-  }
+  
 
   OverlayEntry _createPopupDialog(DayAffirmation affirmation) {
     return OverlayEntry(
@@ -62,12 +53,11 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(16.0),
                     child: CachedNetworkImage(
-                                              imageUrl:affirmation
-                                                  .imageUrl,
-                                              fit: BoxFit.cover,
-                                              height: Gparam.height,
-                                              width: Gparam.width,
-                                            ))),
+                      imageUrl: affirmation.imageUrl,
+                      fit: BoxFit.cover,
+                      height: Gparam.height,
+                      width: Gparam.width,
+                    ))),
             Center(child: _createPhotoTitle(affirmation)),
             Align(
                 alignment: Alignment.bottomRight,
@@ -185,7 +175,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 tileMode: TileMode.clamp),
           ),
           padding: EdgeInsets.only(
-            top: Gparam.topPadding/1.5,
+            top: Gparam.topPadding / 1.5,
           ),
           child: FadeAnimationTB(
               1.6,
@@ -231,34 +221,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                         );
                                       }
                                     }))),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: Gparam.width / 6),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: greeting(),
-                                  style: TextStyle(
-                                      fontFamily: 'ZillaSlab',
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400,
-                                      color: (Theme.of(context).brightness ==
-                                              Brightness.light)
-                                          ? Colors.white60
-                                          : Colors.black54),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: "  " + widget.name,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                        
                       ]),
                 ],
               ))),
@@ -274,10 +237,9 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
     }
   }
 
- OverlayEntry  onTapAffirmationTile(DayAffirmation affirmation) {
+  OverlayEntry onTapAffirmationTile(DayAffirmation affirmation) {
     _popupDialog = _createPopupDialog(affirmation);
     Overlay.of(context).insert(_popupDialog);
     return _popupDialog;
   }
 }
-

@@ -16,10 +16,19 @@ import 'package:sqflite/sqflite.dart';
 
 abstract class AttachmentsCloud {
   Future<ImageModel> storeImage(File imageFile, String directory);
-  Future<void> addImage(ImageModel image);
+ 
   Future<void> addLinkImageToGoal(GoalModel goal, ImageModel image);
   void unStoreImage(ImageModel image);
+  Future<void> addImage(ImageModel image);
   Future<void> deleteImage(ImageModel image);
+  Future<void> addLink(ImageModel image);
+  Future<void> deleteLink(ImageModel image);
+  Future<void> addLog(ImageModel image);
+  Future<void> deleteLog(ImageModel image);
+  Future<void> addTag(ImageModel image);
+  Future<void> deleteTag(ImageModel image);
+  Future<void> addAudio(ImageModel image);
+  Future<void> deleteAudio(ImageModel image);  
   Future<void> removeLinkImageFomGoal(GoalModel goal, ImageModel image);
 }
 
@@ -92,6 +101,8 @@ class HomeCloudDataSourceImpl implements AttachmentsCloud {
     return;
   }
 
+
+
   @override
   Future<void> addLinkImageToGoal(GoalModel goal, ImageModel image) async {
     FirebaseUser user = await auth.currentUser();
@@ -120,5 +131,53 @@ class HomeCloudDataSourceImpl implements AttachmentsCloud {
         .document(goal.id.toString() + image.id.toString());
 
     ref.delete().then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> addAudio(ImageModel image) {
+      // TODO: implement addAudio
+      throw UnimplementedError();
+    }
+  
+    @override
+    Future<void> addLink(ImageModel image) {
+      // TODO: implement addLink
+      throw UnimplementedError();
+    }
+  
+    @override
+    Future<void> addLog(ImageModel image) {
+      // TODO: implement addLog
+      throw UnimplementedError();
+    }
+  
+    @override
+    Future<void> addTag(ImageModel image) {
+      // TODO: implement addTag
+      throw UnimplementedError();
+    }
+  
+    @override
+    Future<void> deleteAudio(ImageModel image) {
+      // TODO: implement deleteAudio
+      throw UnimplementedError();
+    }
+  
+    @override
+    Future<void> deleteLink(ImageModel image) {
+      // TODO: implement deleteLink
+      throw UnimplementedError();
+    }
+  
+    @override
+    Future<void> deleteLog(ImageModel image) {
+      // TODO: implement deleteLog
+      throw UnimplementedError();
+    }
+  
+    @override
+  Future<void> deleteTag(ImageModel image) {
+    // TODO: implement deleteTag
+    throw UnimplementedError();
   }
 }

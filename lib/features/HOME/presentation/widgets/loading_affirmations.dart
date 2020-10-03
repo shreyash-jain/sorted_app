@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/animations/shimmer.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/database/cacheDataClass.dart';
 
 class LoadingAffirmationWidget extends StatelessWidget {
   const LoadingAffirmationWidget({
@@ -9,45 +10,67 @@ class LoadingAffirmationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Row(
-          mainAxisAlignment:
-              MainAxisAlignment.end,
-          children: [
-            Container(
-                height: Gparam.height / 8,
-            width: 5.4 * Gparam.width / 6,
+        Container(
             decoration: new BoxDecoration(
-              
-              borderRadius:
-                  new BorderRadius.only(
-                      topLeft:
-                          Radius.circular(20.0),
-                      bottomLeft:
-                          Radius.circular(
-                              20.0)),
-              
+              borderRadius: new BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  bottomLeft: Radius.circular(20.0)),
             ),
-            margin: EdgeInsets.only(
-                top: 0, left: 0),
-                child: ListView.builder(
-                  scrollDirection:
-                      Axis.horizontal,
-                  physics:
-                      BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 6,
-                  itemBuilder:
-                      (BuildContext contect,
-                          int index) {
-                    if (index == 0) {
-                      return SizedBox(
-                          width: Gparam
-                                  .widthPadding /
-                              3);
-                    }
-                    return Shimmer(
+            margin: EdgeInsets.only(top: 0, left: 0),
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: Gparam.width / 7, right: 12,),
+                          child: Icon(
+                            
+                                Icons.check,
+                            color: Colors.black12,
+                            size: 16,
+                          ),
+                        ),
+                        Text(
+                           greeting() + " " + CacheDataClass.cacheData.getUserDetail().name ,
+                          style: TextStyle(
+                              color: (Theme.of(context).brightness ==
+                                      Brightness.light)
+                                  ? Colors.white.withOpacity(.2)
+                                  : Colors.black26,
+                              fontFamily: 'Eastman',
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                    
+                      Container(
+                        height: Gparam.height / 10,
+                        width: Gparam.width,
+                        margin:
+                                EdgeInsets.only(top:10),
+                        child: ListView.builder(
+                           
+                            
+                            scrollDirection: Axis.horizontal,
+                            physics: BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 6,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == 0)
+                                return SizedBox(
+                                  width: Gparam.width / 7,
+                                );
+                              return Shimmer(
                       period: Duration(
                           milliseconds: 1600),
                       gradient: LinearGradient(
@@ -120,11 +143,25 @@ class LoadingAffirmationWidget extends StatelessWidget {
                         ],
                       ),
                     );
-                  },
-                )),
-          ],
-        ),
+                            }),
+                      ),
+                    
+                  ],
+                ),
+                
+              ],
+            )),
       ],
     );
+  }
+  String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
   }
 }

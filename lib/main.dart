@@ -74,6 +74,7 @@ class _MyAppState extends State<MyApp> {
     ]);
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       navigatorKey: Router.navigator.key,
       onGenerateRoute: Router.onGenerateRoute,
       builder: (context, child) {

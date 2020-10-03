@@ -131,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 if (state is SettingsLoaded) {
                   currentState = state;
                   return ListView(
-                    physics: BouncingScrollPhysics(),
+                   
                     children: <Widget>[
                       Container(
                           child: Column(

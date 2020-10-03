@@ -8,7 +8,10 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/core/global/database/cacheDataClass.dart';
 import 'package:sorted/core/global/models/auth_user.dart';
+import 'package:sorted/core/global/models/user_details.dart';
+import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -16,9 +19,12 @@ part 'authentication_state.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
+    UserIntroductionRepository userIntroRepository,
     @required AuthenticationRepository authenticationRepository,
   })  : assert(authenticationRepository != null),
+        assert(userIntroRepository != null),
         _authenticationRepository = authenticationRepository,
+        _userIntroRepository = userIntroRepository,
         super(const AuthenticationState.unknown()) {
     _userSubscription = _authenticationRepository.user.listen(
       (user) => add(AuthenticationUserChanged(user)),
@@ -26,6 +32,7 @@ class AuthenticationBloc
   }
 
   final AuthenticationRepository _authenticationRepository;
+  final UserIntroductionRepository _userIntroRepository;
   StreamSubscription<User> _userSubscription;
 
   @override
@@ -33,12 +40,13 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AuthenticationUserChanged) {
-      
-      yield _mapAuthenticationUserChangedToState(event);
+      var fOrD = await _userIntroRepository.getUserDetailsNative();
+      yield* _mapAuthenticationUserChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {
-     Either<Failure, FirebaseUser> user= await _authenticationRepository.currentUser();
-     user.fold((l) => print("user Already Logged out"), (r) => unawaited(_authenticationRepository.logOut(r)));
-      
+      Either<Failure, FirebaseUser> user =
+          await _authenticationRepository.currentUser();
+      user.fold((l) => print("user already Logged out"),
+          (r) => unawaited(_authenticationRepository.logOut(r)));
     }
   }
 
@@ -48,11 +56,24 @@ class AuthenticationBloc
     return super.close();
   }
 
-  AuthenticationState _mapAuthenticationUserChangedToState(
+  Stream<AuthenticationState> _mapAuthenticationUserChangedToState(
     AuthenticationUserChanged event,
-  ) {
-    return event.user != User.empty
-        ? AuthenticationState.authenticated(event.user)
-        : const AuthenticationState.unauthenticated();
+  ) async* {
+    if (event.user == User.empty) {
+      yield const AuthenticationState.unauthenticated();
+    } else {
+      print("check native user details");
+      var fOrD = await _userIntroRepository.getUserDetailsNative();
+      yield fOrD.fold((l) => const AuthenticationState.unauthenticated(), (r) {
+        if (r.id == -1) {
+          print("auth but not recognized ");
+          return const AuthenticationState.unauthenticated();
+        } else {
+          print("auth but recognized ");
+          CacheDataClass.cacheData.setUserDetail(r);
+          return AuthenticationState.authenticated(event.user);
+        }
+      });
+    }
   }
 }

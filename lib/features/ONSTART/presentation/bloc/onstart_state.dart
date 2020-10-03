@@ -7,7 +7,11 @@ abstract class OnstartState extends Equatable {
 
 class InitState extends OnstartState {}
 class AccessDenied extends OnstartState {}
-class AccessGranted extends OnstartState {}
+class AccessGranted extends OnstartState {
+  
+
+
+}
 class Loading extends OnstartState {}
 class Error extends OnstartState {
   final String message;

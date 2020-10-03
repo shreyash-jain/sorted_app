@@ -11,6 +11,7 @@ class Gparam {
   static bool isHeightBig = true;
   static bool isWidthBig = true;
   static double textVerySmall = 14;
+  static double textSmaller = 16;
   static double textSmall = 18;
   static double textMedium = 22;
   static double textLarge = 26;

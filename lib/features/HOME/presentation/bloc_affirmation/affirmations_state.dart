@@ -10,13 +10,15 @@ class LoadingState extends AffirmationState {
 }
 
 class LoadedState extends AffirmationState {
- 
   final List<DayAffirmation> affirmations;
+  final InspirationModel inspiration;
+  final bool showInspiration;
+  final bool showAffirmations;
 
-  LoadedState({this.affirmations});
+  LoadedState({this.showInspiration, this.showAffirmations, this.affirmations, this.inspiration});
 
   @override
-  List<Object> get props => [affirmations];
+  List<Object> get props => [affirmations, inspiration, showInspiration, showAffirmations];
 }
 
 class Error extends AffirmationState {

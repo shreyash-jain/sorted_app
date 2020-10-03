@@ -23,7 +23,7 @@ abstract class AuthCloudDataSource {
   Future<void> signOutLocalDuplicate(FirebaseUser user);
   Future<bool> checkIfUserAlreadyPresent(FirebaseUser user);
   Future<bool> getSignInState(FirebaseUser user);
-  Future<void> updateUserData(FirebaseUser user);
+  Future<void> updateUserData(FirebaseUser user,bool oldState);
   Future<void> makeSingleSignIn(FirebaseUser user);
   Future<void> updateLastScene(FirebaseUser user);
   void addUserInCloud(FirebaseUser user);
@@ -115,7 +115,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await prefs.setBool('onboard', false);
   }
 
-  Future<void> updateUserData(FirebaseUser user) async {
+  Future<void> updateUserData(FirebaseUser user,bool oldState) async {
     DocumentReference ref = cloudDb
         .collection('users')
         .document(user.uid)
@@ -126,7 +126,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     ref.setData({'email': user.email}, merge: true);
     ref.setData({'photoURL': user.photoUrl}, merge: true);
     ref.setData({'displayName': user.displayName}, merge: true);
-    bool oldState = await checkIfUserAlreadyPresent(user);
+   
 
     prefs.setBool("old_user", oldState);
     print("signed in " + user.displayName);

@@ -15,10 +15,10 @@ const BIOMETRIC_NUMBER_TRIVIA = 'biometric';
 const DEFAULT_TIME_TRIVIA = 'default_survey_time';
 const GOOGLE_FIT_NUMBER_TRIVIA = 'google_fit';
 
-class HomeSharedPrefDataSourceImpl implements SettingsSharedPref {
+class SettingsPrefDataSourceImpl implements SettingsSharedPref {
   final SharedPreferences sharedPreferences;
 
-  HomeSharedPrefDataSourceImpl({@required this.sharedPreferences});
+  SettingsPrefDataSourceImpl({@required this.sharedPreferences});
   @override
   setBiometricState(bool state) {
     return sharedPreferences.setBool(BIOMETRIC_NUMBER_TRIVIA, state);

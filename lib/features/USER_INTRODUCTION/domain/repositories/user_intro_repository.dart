@@ -66,4 +66,9 @@ abstract class UserIntroductionRepository {
   ///
   /// returns [Either<Failure, List<UserAModel>>] true if succeeded
   Future<Either<Failure, UserDetail>> get userDetails;
+
+  /// Gets user details from user path from native
+  ///
+  /// returns [Either<Failure, List<UserAModel>>] true if succeeded
+  Future<Either<Failure, UserDetail>> getUserDetailsNative();
 }

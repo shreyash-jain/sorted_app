@@ -17,19 +17,19 @@ class SideBar extends StatelessWidget {
     return FadeAnimationLR(
         1.8,
         Padding(
-          padding: EdgeInsets.only(top: Gparam.heightPadding*2),
+          padding: EdgeInsets.only(top: 45),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AnimatedContainer(
-                height: Gparam.height / 1.15,
+                height: Gparam.height -65,
                 width: isNavEnabled
                     ? Gparam.width / 2
                     :  Gparam.width / 10,
                 curve: Curves.easeInOutCubic,
                 decoration: BoxDecoration(
-                  color: (Theme.of(context).brightness==Brightness.light)?Color.fromARGB(255, 240, 240, 240):Theme.of(context).scaffoldBackgroundColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(30.0),
                       bottomRight: Radius.circular(30.0)),

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/theme/theme.dart';
+
+
 final _themeGlobalKey = new GlobalKey(debugLabel: 'app_theme');
 
 class AppTheme extends StatefulWidget {
@@ -19,7 +24,71 @@ class AppThemeState extends State<AppTheme> {
   set theme(newTheme) {
     if (newTheme != _theme) {
       setState(() => _theme = newTheme);
+      setState(() {
+         if (newTheme == appThemeLight) {
+     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.blue[100]
+));
+     
+    } else if (newTheme == appThemeDark) {
+      setState(() =>_theme = appThemeDark);
+       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.blue[900]
+));
+    } else if (newTheme == appThemeDarkBlue) {
+      setState(() =>_theme = appThemeDarkBlue);
+       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.purple[900]
+));
+    } else if (newTheme == appThemeLightPink) {
+      setState(() =>_theme = appThemeLightPink);
+       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.pinkAccent[100]
+));
+    } else {
+      setState(() =>_theme = appThemeLight);
     }
+      });
+      
+    }
+  }
+
+  void updateThemeFromSharedPref() async {
+    print("here");
+    String themeText = await getThemeFromSharedPref();
+    if (themeText == lightString) {
+     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.blue[100]
+));
+      setState(() =>_theme = appThemeLight);
+    } else if (themeText == darkString) {
+      setState(() =>_theme = appThemeDark);
+       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.blue[900]
+));
+    } else if (themeText == darkBlueString) {
+      setState(() =>_theme = appThemeDarkBlue);
+       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.purpleAccent[900]
+));
+    } else if (themeText == lightPinkString) {
+      setState(() =>_theme = appThemeLightPink);
+       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  statusBarColor: Colors.pinkAccent[100]
+));
+    } else {
+      setState(() =>_theme = appThemeLight);
+    }
+  }
+
+  Future<String> getThemeFromSharedPref() async {
+    return sl<SharedPreferences>().getString('theme');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    updateThemeFromSharedPref();
   }
 
   @override

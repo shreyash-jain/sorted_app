@@ -10,6 +10,7 @@ abstract class AuthNativeDataSource {
   Future<void> add(UserDetail user);
   Future<void> update(UserDetail user);
   Future<void> remove(UserDetail user);
+  Future<UserDetail> getUserDetail();
   
 }
 
@@ -38,9 +39,25 @@ class AuthNativeDataSourceImpl implements AuthNativeDataSource {
     @override
     Future<void> update(UserDetail user) async {
      final db = await nativeDb.database;
-     await db.update(todoTABLE, user.toMap(),
+     await db.update(userTable, user.toMap(),
         where: "id = ?", whereArgs: [user.id]);
 
+  }
+
+  @override
+  Future<UserDetail> getUserDetail() async {
+    final db = await nativeDb.database;
+    
+    List<Map<String, dynamic>> result;
+
+    result = await db.query(userTable);
+
+    List<UserDetail> details = result.isNotEmpty
+        ? result.map((item) => UserDetail.fromMap(item)).toList()
+        : [new UserDetail(id:-1)];
+    return details[0];
+
+    
   }
   
 }

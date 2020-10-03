@@ -21,7 +21,7 @@ class SideTab extends StatelessWidget {
         1.8,
         Padding(
           padding: EdgeInsets.only(
-              top: (Gparam.height * 0.0833),
+              top: (66),
               bottom: (Gparam.height * 0.0833)),
           child: Container(
             width: Gparam.width/8,

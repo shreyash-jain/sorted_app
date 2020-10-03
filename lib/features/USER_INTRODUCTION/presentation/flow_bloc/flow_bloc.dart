@@ -41,7 +41,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
       UserDetail userDetail;
       if (sl<CacheDataClass>().getOldState() != null) {
         oldState = sl<CacheDataClass>().getOldState();
-        print(5);
+        print("5 : " + oldState.toString());
       }
       if (oldState == null) {
         var oldUserState = await repository.oldUserState;
@@ -53,7 +53,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         print(5);
       }
       print(sl<CacheDataClass>().getUserDetail().toString());
-      if (sl<CacheDataClass>().getOldState() != null) {
+      if (sl<CacheDataClass>().getUserDetail() != null) {
         print(3);
         userDetail = sl<CacheDataClass>().getUserDetail();
         deviceId = userDetail.currentDeviceId;
@@ -190,7 +190,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
     });
     print(userActivities);
     if (oldState == null || !oldState) {
-      userDetail = new UserDetail(name: userName);
+      userDetail = sl<CacheDataClass>().getUserDetail();
     } else {
       var failureOrUserDetails = await repository.userDetails;
       failureOrUserDetails.fold((l) {

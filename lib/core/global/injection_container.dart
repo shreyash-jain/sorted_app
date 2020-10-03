@@ -31,6 +31,12 @@ import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
 import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sorted/features/SETTINGS/data/datasources/settings_cloud_data_source.dart';
+import 'package:sorted/features/SETTINGS/data/datasources/settings_native_data_source.dart';
+import 'package:sorted/features/SETTINGS/data/datasources/settings_shared_pref_data_source.dart';
+import 'package:sorted/features/SETTINGS/data/repository/settings_repository_impl.dart';
+import 'package:sorted/features/SETTINGS/domain/repository/settings_repository.dart';
+import 'package:sorted/features/SETTINGS/presentation/bloc/settings_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -70,6 +76,11 @@ Future<void> init() async {
   sl.registerFactory(
     () => UserInterestBloc(repository: sl(), flowBloc: sl()),
   );
+  ///* Settings Flow Page Bloc
+  ///
+   sl.registerFactory(
+    () => SettingsBloc(settingsRepository: sl(), onstartRepository: sl()),
+  );
 
   //! Use cases
 
@@ -107,9 +118,28 @@ Future<void> init() async {
       remoteApi: sl(),
     ),
   );
+
+  sl.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+      nativeDataSource: sl(),
+      sharedPref: sl(),
+      
+    ),
+  );
   //! Data sources
   sl.registerLazySingleton<HomeCloud>(
       () => HomeCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
+
+  sl.registerLazySingleton<SettingsNative>(
+      () => SettingsDataSourceImpl(nativeDb: sl()));
+
+  sl.registerLazySingleton<SettingsSharedPref>(
+      () => SettingsPrefDataSourceImpl(sharedPreferences: sl()));
+
+  sl.registerLazySingleton<SettingsCloud>(() =>
+      SettingsCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
   sl.registerLazySingleton<HomeNative>(
       () => HomeNativeDataSourceImpl(nativeDb: sl()));
   sl.registerLazySingleton<HomeSharedPref>(

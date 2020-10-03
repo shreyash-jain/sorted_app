@@ -42,12 +42,14 @@ class SideTabTile extends StatelessWidget {
                       bottomRight: Radius.circular(16.0)),
                   gradient: new LinearGradient(
                       colors: [
-                        (Theme.of(context).brightness==Brightness.light)?Colors.white:Color.fromARGB(255, 20, 20, 20),
-                        Colors.black45,
+                        Theme.of(context).backgroundColor,
+                        Theme.of(context).primaryColor,
+                        
+
                       ],
-                      begin: FractionalOffset.topCenter,
+                      begin: FractionalOffset.topRight,
                       end: FractionalOffset.bottomCenter,
-                      stops: [1.0, 0.0],
+                      stops: [0.0, 1.0],
                       tileMode: TileMode.clamp),
                 )
               : null,

@@ -106,7 +106,7 @@ class AuthenticationRepository {
         
       
       }
-      await _authDataSource.updateUserData(user);
+      await _authDataSource.updateUserData(user, oldUser);
     } on Exception {
       throw LogInWithGoogleFailure();
     }

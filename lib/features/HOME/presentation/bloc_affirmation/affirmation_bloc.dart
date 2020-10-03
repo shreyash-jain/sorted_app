@@ -3,6 +3,8 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/features/HOME/data/models/inspiration.dart';
+
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
 import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
@@ -41,8 +43,8 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
       yield LoadingState();
       yield* doOnLoad();
     } else if (event is UpdateAffirmation) {
-     event.affirmations.sort((a, b) => compareList(a, b));
-      yield LoadedState(affirmations: event.affirmations);
+      event.affirmations.sort((a, b) => compareList(a, b));
+      yield LoadedState(affirmations: event.affirmations,inspiration: (state as LoadedState).inspiration,showAffirmations:(state as LoadedState).showAffirmations,showInspiration:(state as LoadedState).showInspiration);
     }
   }
 
@@ -51,11 +53,13 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
     Failure failure;
     List<String> thumbnailUrl = [];
     List<DayAffirmation> affirmations;
+    InspirationModel inspiration;
     List<DayAffirmation> resultAffirmations = [];
 
     Either<Failure, List<DayAffirmation>> affirmationsOrFailure =
         await repository.todayAffirmations;
-
+    Either<Failure, InspirationModel> inspirationOrFailure =
+        await repository.inspiration;
     affirmationsOrFailure.fold((l) {
       failure = l;
     }, (r) {
@@ -65,13 +69,43 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
         print("at affirmations  " + element.thumbnailUrl);
       });
     });
+    bool showAffirmations = true;
+    bool showInspiration = false;
+    if (greeting() == 0) {
+      bool allSeen = true;
+      if (affirmations != null) {
+        affirmations.forEach((element) {
+          if (!element.read) {
+            allSeen = false;
+          }
+        });
+      }
+
+      if (allSeen) {
+        showAffirmations = false;
+        showInspiration = true;
+      }
+    } else {
+      showAffirmations = false;
+      showInspiration = true;
+    }
+
+    inspirationOrFailure.fold((l) {
+      failure = l;
+    }, (r) {
+      inspiration = r;
+    });
     if (failure != null) {
       print(doOnLoad.toString() + " " + "in falure");
       yield Error(message: mapFailureToString(failure));
     } else {
       print(doOnLoad.toString() + " " + "LoadedState");
       affirmations.sort((a, b) => compareList(a, b));
-      yield LoadedState(affirmations: affirmations);
+      yield LoadedState(
+          affirmations: affirmations,
+          inspiration: inspiration,
+          showAffirmations: showAffirmations,
+          showInspiration: showInspiration);
     }
   }
 
@@ -84,5 +118,17 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
       //Todo: check if this is correct
       return a.lastSeen.compareTo(b.lastSeen);
     }
+  }
+
+  int greeting() {
+     return 0;
+    var hour = DateTime.now().hour;
+  //   if (hour < 12 && hour>6) {
+  //     return 0;
+  //   }
+  //  else{
+  //     return 1;
+  //   }
+   
   }
 }

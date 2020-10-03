@@ -55,7 +55,7 @@ class UserAvatar extends StatelessWidget {
               width: 45,
               decoration: BoxDecoration(
                   color: Theme.of(context)
-                      .textSelectionHandleColor
+                      .primaryColor
                       .withOpacity((((1.5 -
                                   scaleAnimation
                                       .value)) *

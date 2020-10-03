@@ -13,26 +13,31 @@ import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/core/theme/app_theme_wrapper.dart';
 
 import 'package:sorted/core/theme/theme.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_repository_impl.dart';
+import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 import 'core/global/injection_container.dart';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   EquatableConfig.stringify = kDebugMode;
   await di.init();
   Bloc.observer = SimpleBlocObserver();
-  runApp(App(authenticationRepository: sl<AuthenticationRepository>()));
+  runApp(App(
+      authenticationRepository: sl<AuthenticationRepository>(),
+      userIntroRepository: sl<UserIntroductionRepository>()));
 }
 
 class App extends StatelessWidget {
   const App({
     Key key,
     @required this.authenticationRepository,
+    @required this.userIntroRepository,
   })  : assert(authenticationRepository != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
+  final UserIntroductionRepository userIntroRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +45,8 @@ class App extends StatelessWidget {
       value: authenticationRepository,
       child: BlocProvider(
         create: (_) => AuthenticationBloc(
-          authenticationRepository: authenticationRepository,
-        ),
+            authenticationRepository: authenticationRepository,
+            userIntroRepository: userIntroRepository),
         child: MyApp(),
       ),
     );
@@ -56,12 +61,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ThemeData _theme = appThemeLight;
-  set theme(newTheme) {
-    print("even aay");
-    if (newTheme != _theme) {
-      setState(() => _theme = newTheme);
-    }
-  }
 
   @override
   void initState() {
@@ -79,7 +78,8 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: Router.onGenerateRoute,
       builder: (context, child) {
         print("My App");
-        Gparam.height = MediaQuery.of(context).size.height;
+        Gparam.height = MediaQuery.of(context).size.height -
+            MediaQuery.of(context).padding.top;
         print(Gparam.height);
         Gparam.width = MediaQuery.of(context).size.width;
         Gparam.topPadding = Gparam.height / 20;
@@ -94,6 +94,7 @@ class _MyAppState extends State<MyApp> {
                 data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                 child: BlocListener<AuthenticationBloc, AuthenticationState>(
                   listener: (context, state) {
+                    print(state);
                     switch (state.status) {
                       case AuthenticationStatus.authenticated:
                         print("authenticated");
@@ -126,7 +127,4 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
-
-  
 }
-

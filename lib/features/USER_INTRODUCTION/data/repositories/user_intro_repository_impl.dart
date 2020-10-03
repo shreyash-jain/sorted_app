@@ -34,7 +34,7 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
   Future<Either<Failure, int>> add(UserAModel activity) async {
     UserAModel thisActivity = activity;
     try {
-       print( " add u activity " + thisActivity.name);
+      print(" add u activity " + thisActivity.name);
       thisActivity = await nativeDataSource.add(activity);
       print(thisActivity.id.toString() + "  " + thisActivity.name);
       try {
@@ -43,11 +43,10 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
         print("server exception");
       }
       return Right(thisActivity.id);
-    } 
-    on Exception {
-       print("NativeDatabaseException  ");
+    } on Exception {
+      print("NativeDatabaseException  ");
       return Future.value(Left(NativeDatabaseException()));
-   }
+    }
   }
 
   @override
@@ -89,10 +88,13 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
       if (!(await networkInfo.isConnected)) {
         return Left(NetworkFailure());
       }
-      if (r)
+      if (r) {
         result = Right(remoteDataSource.getUserCloudData());
-      else
+         print("old download");
+      } else {
         result = Right(remoteDataSource.copyToUserCloudData());
+        print("new download");
+      }
     });
     print("doInitialDownload " + result.toString());
     return result;
@@ -189,6 +191,17 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
       }
     } on Exception {
       return Future.value(Left(NativeDatabaseException()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserDetail>> getUserDetailsNative() async {
+    UserDetail details;
+    try {
+      details = await nativeAuth.getUserDetail();
+      return Right(details);
+    } on Exception {
+      return Left(NativeDatabaseException());
     }
   }
 }

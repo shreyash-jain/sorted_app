@@ -7,9 +7,8 @@ final todoTABLE = 'Todo';
 final userTable = 'UserDetails';
 
 List<String> tables = [
-  "Todo",
+  "Todos",
   "Dates",
-  "Events",
   "Revents",
   "Expenses",
   "Friends",
@@ -27,7 +26,18 @@ List<String> tables = [
   "Reminders",
   "ThumbnailDetails",
   "PlaceholderDetails",
-  "FavAffirmations"
+  "SettingsDetails",
+  "FavAffirmations",
+  "Logs",
+  "Links",
+  "Tags",
+  "Images",
+  "Audios",
+  "Goals",
+  "TodoItems",
+  "Tasks",
+  "Goals_Images",
+  "TaskStatus"
 ];
 List<String> imagePath = [];
 List<int> imageTotal = [];
@@ -103,8 +113,17 @@ class SqlDatabaseService {
           "lastName TEXT, "
           "downloadLink TEXT "
           ")");
+        
 
-      await db.execute("CREATE TABLE ThumbnailDetails ("
+      await db.execute("CREATE TABLE SettingsDetails ("
+          "unfilledSurveyPreference INTEGER, "
+          "currency TEXT, "
+          "reminderTime TEXT, "
+          "theme TEXT, "
+          "surveyTime INTEGER, "
+          "budget DOUBLE "
+          ")");
+     await db.execute("CREATE TABLE ThumbnailDetails ("
           "name TEXT, "
           "path TEXT, "
           "total INTEGER "
@@ -238,6 +257,33 @@ class SqlDatabaseService {
       print('New table created at 4 $path');
       await db.execute(
           '''CREATE TABLE Reminders (_id INTEGER PRIMARY KEY, saved_ts TEXT,note_id INTEGER, type INTEGER,content TEXT, date TEXT);''');
+      
+      await db.execute(
+          'CREATE TABLE Audios (id INTEGER PRIMARY KEY,  savedTs TEXT,title TEXT,description TEXT, url Text, length DOUBLE)');
+      await db.execute(
+          'CREATE TABLE Logs (id INTEGER PRIMARY KEY,  savedTs TEXT,message TEXT,date TEXT, path Text, type INTEGER)');
+      await db.execute(
+          'CREATE TABLE Tags (id INTEGER PRIMARY KEY,  url TEXT,tag TEXT,color TEXT, savedTs Text, items INTEGER)');
+      // await db.execute(
+      //     'CREATE TABLE Dates (id INTEGER PRIMARY KEY,  savedTs TEXT,appOpened INTEGER,date TEXT, dateFormatted Text, dateMilliSec INTEGER)');
+      await db.execute(
+          'CREATE TABLE Images (id INTEGER PRIMARY KEY,  savedTs TEXT,localPath TEXT,caption TEXT, url Text)');
+      await db.execute(
+          'CREATE TABLE Links (id INTEGER PRIMARY KEY,  savedTs TEXT,siteName TEXT,image TEXT, url Text, title Text, description Text)');
+      await db.execute(
+          'CREATE TABLE Goals (id INTEGER PRIMARY KEY,  savedTs TEXT,title TEXT,description TEXT, startDate Text,deadLine Text,vision Text, progress DOUBLE,linkedTasks INTEGER,linkedImages INTEGER,linkedLinks INTEGER,linkedLogs INTEGER,linkedTracks INTEGER,linkedNotes INTEGER,linkedStatus INTEGER)');
+      await db.execute(
+          'CREATE TABLE Tasks (id INTEGER PRIMARY KEY,  savedTs TEXT,title TEXT,description TEXT, startDate Text,deadLine Text, duration DOUBLE,priority DOUBLE,progress DOUBLE,linkedTags INTEGER,linkedGoals INTEGER,linkedReviews INTEGER,linkedActivities INTEGER,type INTEGER,linkedImages INTEGER,linkedLinks INTEGER,linkedLogs INTEGER,linkedDependencies INTEGER,linkedStatus INTEGER,linkedTodos INTEGER)');
+      await db.execute(
+          'CREATE TABLE Todos (id INTEGER PRIMARY KEY,  savedTs TEXT,title TEXT,description TEXT, numTodoItems INTEGER)');
+      await db.execute(
+          'CREATE TABLE TodoItems (id INTEGER PRIMARY KEY, savedTs TEXT,todoItem TEXT,position INTEGER,description TEXT, state INTEGER)');
+      await db.execute(
+          'CREATE TABLE TaskStatus (id INTEGER PRIMARY KEY, savedTs TEXT,status TEXT,imagePath TEXT)');
+      await db.execute(
+          'CREATE TABLE Goals_Images (goal_id INTEGER, image_id INTEGER,status TEXT, PRIMARY KEY(person_id, fruit_name))');
+      
+      
       print('New table created at $path');
     });
   }

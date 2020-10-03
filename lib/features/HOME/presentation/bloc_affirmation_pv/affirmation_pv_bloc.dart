@@ -50,7 +50,7 @@ class AffirmationPVBloc extends Bloc<AffirmationPVEvent, AffirmationPVState> {
   ) async* {
     if (event is Play) {
       await audioPlayer.play(
-          'https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/inspiration_music%2F2020-02-04_-_Powerful_-_David_Fesliyan.mp3?alt=media&token=73737735-c14d-45ef-b419-16daa2dd8983');
+          'https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/inspiration_music%2Fbensound-anewbeginning.mp3?alt=media&token=cb491c08-6b46-464a-9ccd-4531c498633a');
       print("play");
     } else if (event is Pause) {
       int result = await audioPlayer.pause();
@@ -67,6 +67,7 @@ class AffirmationPVBloc extends Bloc<AffirmationPVEvent, AffirmationPVState> {
         repository.addToFav(affirmation);
         event.affirmations[event.index] =
             event.affirmations[event.index].copyWith(isFav: true);
+        repository.updateCurrentAffirmation(event.affirmations[event.index]);
         outerBloc.add(UpdateAffirmation(event.affirmations));
         print("reached AddToFav");
         yield LoadedPVState(affirmations: event.affirmations);

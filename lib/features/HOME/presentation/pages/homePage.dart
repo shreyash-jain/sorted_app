@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'dart:core';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 
 import 'package:intl/intl.dart';
 import 'package:sa_anicoto/sa_anicoto.dart';
@@ -70,6 +71,7 @@ class _SortedHomeState extends State<SortedHome>
   @override
   void initState() {
     super.initState();
+
     nestedScrollController = new ScrollController(
       // NEW
       initialScrollOffset: 0.0, // NEW
@@ -140,94 +142,97 @@ class _SortedHomeState extends State<SortedHome>
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         key: _scaffoldKey,
-        body: Stack(
-          children: [
-            CustomPaint(
-                child: NestedScrollView(
-              controller: nestedScrollController,
-              headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                SliverSafeArea(
-                  top: false,
-                  sliver: SliverAppBar(
-                    elevation: 0,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    shadowColor: Colors.black26,
-                    actions: <Widget>[
-                      
-                      IconButton(
-                        icon: Icon(OMIcons.settings,color:Theme.of(context).scaffoldBackgroundColor),
-                        tooltip: 'Settings',
-                        onPressed: () {
-                          Router.navigator.pushNamed(Router.settingsPage);
-
-                        },
-                      ),
-                    ],
-                    leading: UserAvatar(
+        body: SafeArea(child: new LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          return Stack(
+            children: [
+              CustomPaint(
+                  child: NestedScrollView(
+                controller: nestedScrollController,
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverSafeArea(
+                    top: false,
+                    sliver: SliverAppBar(
+                      elevation: 0,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      shadowColor: Colors.black26,
+                      actions: <Widget>[
+                        IconButton(
+                          icon: Icon(OMIcons.settings,
+                              color: Theme.of(context).scaffoldBackgroundColor),
+                          tooltip: 'Settings',
+                          onPressed: () {
+                            Router.navigator.pushNamed(Router.settingsPage);
+                          },
+                        ),
+                      ],
+                      leading: UserAvatar(
                           scaleAnimation: scaleAnimation,
                           user_image: user_image),
-                    expandedHeight:400,
-                    pinned: true,
-                    primary: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.only(bottomRight: Radius.circular(45.0)),
+                      expandedHeight: 400,
+                      pinned: true,
+                      primary: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(30.0)),
+                      ),
+                      flexibleSpace: LayoutBuilder(builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        currentSliverheight = constraints.biggest.height;
+                        print(currentSliverheight);
+
+                        bool direction;
+                        if (prevSliverHeight != null &&
+                            prevSliverHeight > currentSliverheight) {
+                          direction = false;
+                        } else if (prevSliverHeight != null &&
+                            prevSliverHeight < currentSliverheight)
+                          direction = true;
+
+                        prevSliverHeight = currentSliverheight;
+
+                        return FlexibleSpaceArea(
+                            currentSliverheight: currentSliverheight,
+                            name: name);
+                      }),
                     ),
-                    flexibleSpace: LayoutBuilder(builder:
-                        (BuildContext context, BoxConstraints constraints) {
-                      currentSliverheight = constraints.biggest.height;
-                      print(currentSliverheight);
-
-                      bool direction;
-                      if (prevSliverHeight != null &&
-                          prevSliverHeight > currentSliverheight) {
-                        direction = false;
-                      } else if (prevSliverHeight != null &&
-                          prevSliverHeight < currentSliverheight)
-                        direction = true;
-
-                      prevSliverHeight = currentSliverheight;
-
-                      return FlexibleSpaceArea(
-                          currentSliverheight: currentSliverheight, name: name);
-                    }),
                   ),
-                ),
-              ],
-              body: Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FadeAnimationTB(
-                          1.6,
-                          AnimatedContainer(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(70.0),
-                                  topRight: Radius.circular(70.0)),
-                            ),
-                            width:5.3 * Gparam.width / 6,
-                            duration: Duration(milliseconds: 700),
-                            child: ListView(children: <Widget>[
-                              
-                            ]),
-                          )),
-                    ],
-                  )),
-            )),
-            //
-            //! Side bar
-            SideBar(isNavEnabled: isNavEnabled, currentSideTab: currentSideTab),
-            //! side tab labels
-            SideTab(
-                currentSideTab: currentSideTab,
-                isNavEnabled: isNavEnabled,
-                onTapAction: onSideTabSelected),
-            //! bottom tab
-          ],
-        ));
+                ],
+                body: Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FadeAnimationTB(
+                            1.6,
+                            AnimatedContainer(
+                              decoration: BoxDecoration(
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(45.0),
+                                    topRight: Radius.circular(45.0)),
+                              ),
+                              width: 5.3 * Gparam.width / 6,
+                              duration: Duration(milliseconds: 700),
+                              child: ListView(children: <Widget>[]),
+                            )),
+                      ],
+                    )),
+              )),
+              //
+              //! Side bar
+              SideBar(
+                  isNavEnabled: isNavEnabled, currentSideTab: currentSideTab),
+              //! side tab labels
+              SideTab(
+                  currentSideTab: currentSideTab,
+                  isNavEnabled: isNavEnabled,
+                  onTapAction: onSideTabSelected),
+              //! bottom tab
+            ],
+          );
+        })));
   }
 
   void onSideTabSelected(int toIndex) {

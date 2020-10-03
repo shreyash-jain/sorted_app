@@ -196,297 +196,316 @@ class AffirmationState extends State<AffirmationPV>
         child: BlocProvider(
             create: (context) => bloc,
             child: BlocBuilder<AffirmationPVBloc, AffirmationPVState>(
+                buildWhen: (previous, current) =>
+                    previous.props != current.props,
                 builder: (context, state) {
-              if (state is LoadedPVState)
-                return Stack(
-                  children: [
-                    if (isCameraEnabled)
-                      Center(
-                        child: Container(
-                          height: Gparam.height,
-                          width: Gparam.width,
-                          child: CameraScreen(
-                            key: _cameraKey,
-                          ),
-                        ),
-                      ),
-                    Center(
-                        child: PageView.builder(
-                            scrollDirection: Axis.horizontal,
-                            controller: controller,
-                            onPageChanged: (int page) {
-                              currentPage = page;
-                              setState(() {
-                                passedSum = 0;
-                                for (int i = 0; i < currentPage; i++) {
-                                  passedSum +=
-                                      state.affirmations[i].waitSeconds;
-                                  print("passed updated : " +
-                                      (passedSum / totalSum).toString());
-                                }
-                              });
-
-                              if (timerState == 1)
-                                animationController.reverse(
-                                    from: animationController.value == 0.0
-                                        ? 1.0
-                                        : 1 - ((passedSum) / totalSum));
-                              bloc.add(
-                                  PageChanged(currentPage, state.affirmations));
-                            },
-                            itemCount: state.affirmations.length,
-                            itemBuilder: (context, position) {
-                              return Stack(
-                                children: [
-                                  if (!isCameraEnabled)
-                                    Center(
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(0.0),
-                                            child: CachedNetworkImage(
-                                              imageUrl: widget
-                                                  .affirmations[position]
-                                                  .imageUrl,
-                                              fit: BoxFit.cover,
-                                              height: Gparam.height,
-                                              width: Gparam.width,
-                                            ))),
-                                  if (!isCameraEnabled)
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 200.0),
-                                      child: AnimatedContainer(
-                                          alignment: Alignment.center,
-                                          curve: Curves.fastOutSlowIn,
-                                          margin: EdgeInsets.all(20),
-                                          duration: Duration(milliseconds: 400),
-                                          child: Icon(
-                                            Icons.format_quote,
-                                            color: Colors.black12,
-                                            size: 200,
-                                          )),
-                                    ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: Gparam.heightPadding * 2,
-                                        left: Gparam.widthPadding),
-                                    child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(60.0),
-                                        child: FadeInImage(
-                                          placeholder: new AssetImage(
-                                              "assets/images/blueCircle.png"),
-                                          image: new NetworkImage(widget
-                                              .affirmations[position]
-                                              .thumbnailUrl),
-                                          fit: BoxFit.fill,
-                                          width: 40,
-                                        )),
-                                  ),
-                                  AnimatedContainer(
-                                      alignment: (isCameraEnabled)
-                                          ? Alignment.bottomCenter
-                                          : Alignment.center,
-                                      curve: Curves.easeIn,
-                                      padding: EdgeInsets.only(
-                                          bottom: (isCameraEnabled) ? 120 : 0),
-                                      duration: Duration(milliseconds: 700),
-                                      child: _createPhotoTitle(
-                                          widget.affirmations[position])),
-                                  if (!isCameraEnabled)
-                                    Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: _createPhotoDescription(
-                                            widget.affirmations[position])),
-                                ],
-                              );
-                            })),
-                    SafeArea(child: new LayoutBuilder(builder:
+                  if (state is LoadedPVState)
+                    return SafeArea(child: new LayoutBuilder(builder:
                         (BuildContext context, BoxConstraints constraints) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: _buildPageIndicator(),
-                      );
-                    })),
-                    SafeArea(child: new LayoutBuilder(builder:
-                        (BuildContext context, BoxConstraints constraints) {
-                      // constraints variable has the size info
-                      return Container(
-                        width: Gparam.width,
-                        height: 4,
-                        child: CustomPaint(
-                          painter: CustomTimerPainter(
-                            animation: animationController,
-                            backgroundColor: Colors.transparent,
-                            color: Colors.black26,
-                          ),
-                        ),
-                      );
-                    })),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          bottom: 80.0, left: Gparam.widthPadding),
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: AnimatedBuilder(
-                            animation: animationController,
-                            builder: (context, child) {
-                              return FloatingActionButton.extended(
-                                  heroTag: "autoPlay",
-                                  backgroundColor: Colors.black26,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(12))),
-                                  elevation: 0,
-                                  onPressed: () {
-                                    if (animationController.isAnimating) {
-                                      animationController.stop();
-
-                                      bloc.add(Pause());
-
-                                      setState(() {
-                                        timerState = 0;
-                                      });
-                                    } else {
+                      return Stack(
+                        children: [
+                          if (isCameraEnabled)
+                            Center(
+                              child: Container(
+                                height: Gparam.height,
+                                width: Gparam.width,
+                                child: CameraScreen(
+                                  key: _cameraKey,
+                                ),
+                              ),
+                            ),
+                          Center(
+                              child: PageView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  controller: controller,
+                                  onPageChanged: (int page) {
+                                    currentPage = page;
+                                    setState(() {
                                       passedSum = 0;
                                       for (int i = 0; i < currentPage; i++) {
                                         passedSum +=
-                                            widget.affirmations[i].waitSeconds;
+                                            state.affirmations[i].waitSeconds;
+                                        print("passed updated : " +
+                                            (passedSum / totalSum).toString());
                                       }
-                                      bloc.add(Play());
-                                      setState(() {
-                                        timerState = 1;
-                                      });
+                                    });
 
+                                    if (timerState == 1)
                                       animationController.reverse(
-                                          from: 1 - ((passedSum) / totalSum));
-                                    }
+                                          from: animationController.value == 0.0
+                                              ? 1.0
+                                              : 1 - ((passedSum) / totalSum));
+                                    bloc.add(PageChanged(
+                                        currentPage, state.affirmations));
                                   },
-                                  icon: Icon(timerState == 1
-                                      ? Icons.pause
-                                      : Icons.play_arrow,color: Colors.white),
-                                  label:
-                                      Text(timerState == 1 ? "Pause" : "Play",style: TextStyle(color: Colors.white),));
-                            }),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          bottom: 80.0, right: Gparam.widthPadding),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: AnimatedBuilder(
-                            animation: animationController,
-                            builder: (context, child) {
-                              return FloatingActionButton(
-                                  heroTag: "favourite",
-                                  backgroundColor: Colors.black26,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(12))),
-                                  elevation: 0,
-                                  onPressed: () {
-                                    if (!state
-                                        .affirmations[currentPage].isFav) {
-                                       
+                                  itemCount: state.affirmations.length,
+                                  itemBuilder: (context, position) {
+                                    return Stack(
+                                      children: [
+                                        if (!isCameraEnabled)
+                                          Center(
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          0.0),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: widget
+                                                        .affirmations[position]
+                                                        .imageUrl,
+                                                    fit: BoxFit.cover,
+                                                    height: Gparam.height,
+                                                    width: Gparam.width,
+                                                  ))),
+                                        if (!isCameraEnabled)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 200.0),
+                                            child: AnimatedContainer(
+                                                alignment: Alignment.center,
+                                                curve: Curves.fastOutSlowIn,
+                                                margin: EdgeInsets.all(20),
+                                                duration:
+                                                    Duration(milliseconds: 400),
+                                                child: Icon(
+                                                  Icons.format_quote,
+                                                  color: Colors.black12,
+                                                  size: 200,
+                                                )),
+                                          ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: Gparam.heightPadding * 2,
+                                              left: Gparam.widthPadding),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(60.0),
+                                              child: FadeInImage(
+                                                placeholder: new AssetImage(
+                                                    "assets/images/blueCircle.png"),
+                                                image: new NetworkImage(widget
+                                                    .affirmations[position]
+                                                    .thumbnailUrl),
+                                                fit: BoxFit.fill,
+                                                width: 40,
+                                              )),
+                                        ),
+                                        AnimatedContainer(
+                                            alignment: (isCameraEnabled)
+                                                ? Alignment.bottomCenter
+                                                : Alignment.center,
+                                            curve: Curves.easeIn,
+                                            padding: EdgeInsets.only(
+                                                bottom: (isCameraEnabled)
+                                                    ? 120
+                                                    : 0),
+                                            duration:
+                                                Duration(milliseconds: 700),
+                                            child: _createPhotoTitle(
+                                                widget.affirmations[position])),
+                                        if (!isCameraEnabled)
+                                          Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: _createPhotoDescription(
+                                                  widget
+                                                      .affirmations[position])),
+                                      ],
+                                    );
+                                  })),
+                          SafeArea(child: new LayoutBuilder(builder:
+                              (BuildContext context,
+                                  BoxConstraints constraints) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: _buildPageIndicator(),
+                            );
+                          })),
+                          SafeArea(child: new LayoutBuilder(builder:
+                              (BuildContext context,
+                                  BoxConstraints constraints) {
+                            // constraints variable has the size info
+                            return Container(
+                              width: Gparam.width,
+                              height: 4,
+                              child: CustomPaint(
+                                painter: CustomTimerPainter(
+                                  animation: animationController,
+                                  backgroundColor: Colors.transparent,
+                                  color: Colors.black26,
+                                ),
+                              ),
+                            );
+                          })),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom: 80.0, left: Gparam.widthPadding),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: AnimatedBuilder(
+                                  animation: animationController,
+                                  builder: (context, child) {
+                                    return FloatingActionButton.extended(
+                                        heroTag: "autoPlay",
+                                        backgroundColor: Colors.black26,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12))),
+                                        elevation: 0,
+                                        onPressed: () {
+                                          if (animationController.isAnimating) {
+                                            animationController.stop();
 
-                                      bloc.add(AddToFav(
-                                          currentPage, state.affirmations));
-                                          setState(() {
-                                            
-                                          });
-                                    } else {
-                                      bloc.add(RemoveFromFav(
-                                          currentPage, state.affirmations));
-                                           setState(() {
-                                            
-                                          });
-                                    }
-                                  },
-                                  child: Icon(
-                                      state.affirmations[currentPage].isFav
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,color: Colors.white),
-                                 );
-                            }),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: Gparam.heightPadding),
-                        child: AnimatedContainer(
-                          width: Gparam.width / 2.5,
-                          height: Gparam.height / 20,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                new BorderRadius.all(Radius.circular(10.0)),
-                            gradient: new LinearGradient(
-                                colors: [
-                                  Colors.black12,
-                                  Colors.black26,
-                                ],
-                                begin: FractionalOffset.topCenter,
-                                end: FractionalOffset.bottomCenter,
-                                stops: [1.0, 0.0],
-                                tileMode: TileMode.clamp),
+                                            bloc.add(Pause());
+
+                                            setState(() {
+                                              timerState = 0;
+                                            });
+                                          } else {
+                                            passedSum = 0;
+                                            for (int i = 0;
+                                                i < currentPage;
+                                                i++) {
+                                              passedSum += widget
+                                                  .affirmations[i].waitSeconds;
+                                            }
+                                            bloc.add(Play());
+                                            setState(() {
+                                              timerState = 1;
+                                            });
+
+                                            animationController.reverse(
+                                                from: 1 -
+                                                    ((passedSum) / totalSum));
+                                          }
+                                        },
+                                        icon: Icon(
+                                            timerState == 1
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                            color: Colors.white),
+                                        label: Text(
+                                          timerState == 1 ? "Pause" : "Play",
+                                          style: TextStyle(color: Colors.white),
+                                        ));
+                                  }),
+                            ),
                           ),
-                          alignment: Alignment.topRight,
-                          curve: Curves.fastOutSlowIn,
-                          margin: EdgeInsets.all(20),
-                          duration: Duration(milliseconds: 400),
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isCameraEnabled = !isCameraEnabled;
-                                });
-                                if (isCameraEnabled) {
-                                  _popupDialog = _createPopupDialog(
-                                      "Powerful affirmations are those you say out loud when you are in front of your mirror\nMirror reflects back to you the feelings you have about yourself.");
-                                  Overlay.of(context).insert(_popupDialog);
-                                  Future.delayed(
-                                          const Duration(seconds: 6), () => "1")
-                                      .then((value) {
-                                    _popupDialog?.remove();
-                                  });
-                                }
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Icon(
-                                        isCameraEnabled
-                                            ? Icons.arrow_back
-                                            : Icons.camera_front,
-                                        color: Colors.white70,
-                                        size: Gparam.height / 30,
-                                      ),
-                                      Text(
-                                          isCameraEnabled
-                                              ? "Image View"
-                                              : "Mirror View",
-                                          style: TextStyle(
-                                              color:
-                                                  Colors.white.withAlpha(220),
-                                              fontFamily: 'Eastman',
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold))
-                                    ],
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              else if (state is LoadingPVState) {}
-            })));
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom: 80.0, right: Gparam.widthPadding),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: AnimatedBuilder(
+                                  animation: animationController,
+                                  builder: (context, child) {
+                                    return FloatingActionButton(
+                                      heroTag: "favourite",
+                                      backgroundColor: Colors.black26,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12))),
+                                      elevation: 0,
+                                      onPressed: () {
+                                        if (!state
+                                            .affirmations[currentPage].isFav) {
+                                          bloc.add(AddToFav(
+                                              currentPage, state.affirmations));
+                                          setState(() {});
+                                        } else {
+                                          bloc.add(RemoveFromFav(
+                                              currentPage, state.affirmations));
+                                          setState(() {});
+                                        }
+                                      },
+                                      child: Icon(
+                                          state.affirmations[currentPage].isFav
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: Colors.white),
+                                    );
+                                  }),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(top: Gparam.heightPadding),
+                              child: AnimatedContainer(
+                                width: Gparam.width / 2.5,
+                                height: Gparam.height / 20,
+                                decoration: BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      Radius.circular(10.0)),
+                                  gradient: new LinearGradient(
+                                      colors: [
+                                        Colors.black12,
+                                        Colors.black26,
+                                      ],
+                                      begin: FractionalOffset.topCenter,
+                                      end: FractionalOffset.bottomCenter,
+                                      stops: [1.0, 0.0],
+                                      tileMode: TileMode.clamp),
+                                ),
+                                alignment: Alignment.topRight,
+                                curve: Curves.fastOutSlowIn,
+                                margin: EdgeInsets.all(20),
+                                duration: Duration(milliseconds: 400),
+                                child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        isCameraEnabled = !isCameraEnabled;
+                                      });
+                                      if (isCameraEnabled) {
+                                        _popupDialog = _createPopupDialog(
+                                            "Powerful affirmations are those you say out loud when you are in front of your mirror\nMirror reflects back to you the feelings you have about yourself.");
+                                        Overlay.of(context)
+                                            .insert(_popupDialog);
+                                        Future.delayed(
+                                            const Duration(seconds: 5),
+                                            () => "1").then((value) {
+                                          _popupDialog?.remove();
+                                        });
+                                      }
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Icon(
+                                              isCameraEnabled
+                                                  ? Icons.arrow_back
+                                                  : Icons.camera_front,
+                                              color: Colors.white70,
+                                              size: Gparam.height / 30,
+                                            ),
+                                            Text(
+                                                isCameraEnabled
+                                                    ? "Image View"
+                                                    : "Mirror View",
+                                                style: TextStyle(
+                                                    color: Colors.white
+                                                        .withAlpha(220),
+                                                    fontFamily: 'Eastman',
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }));
+                  else if (state is LoadingPVState) {}
+                })));
   }
 
   Widget _createPhotoTitle(DayAffirmation affirmation) => Container(

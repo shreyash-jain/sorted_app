@@ -45,7 +45,7 @@ class CacheDataClass {
     print("updateUserDetail" + _userDetail.toString());
   }
 
-  getUserDetail() {
+  UserDetail getUserDetail() {
     print("getUserDetail" + _userDetail.toString());
     return _userDetail;
   }

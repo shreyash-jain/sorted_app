@@ -7,12 +7,15 @@ class TaskStatusModel extends Equatable {
   String status;
   DateTime savedTs;
   String imagePath;
-  
+  int canDelete;
+  int numItems;
   TaskStatusModel({
     this.id = 0,
     this.status = '',
     this.savedTs,
     this.imagePath = '',
+    this.canDelete = 1,
+    this.numItems = 0,
   });
 
   TaskStatusModel copyWith({
@@ -20,12 +23,16 @@ class TaskStatusModel extends Equatable {
     String status,
     DateTime savedTs,
     String imagePath,
+    int canDelete,
+    int numItems,
   }) {
     return TaskStatusModel(
       id: id ?? this.id,
       status: status ?? this.status,
       savedTs: savedTs ?? this.savedTs,
       imagePath: imagePath ?? this.imagePath,
+      canDelete: canDelete ?? this.canDelete,
+      numItems: numItems ?? this.numItems,
     );
   }
 
@@ -35,27 +42,43 @@ class TaskStatusModel extends Equatable {
       'status': status,
       'savedTs': savedTs?.millisecondsSinceEpoch,
       'imagePath': imagePath,
+      'canDelete': canDelete,
+      'numItems': numItems,
     };
   }
 
   factory TaskStatusModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return TaskStatusModel(
       id: map['id'],
       status: map['status'],
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
       imagePath: map['imagePath'],
+      canDelete: map['canDelete'],
+      numItems: map['numItems'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory TaskStatusModel.fromJson(String source) => TaskStatusModel.fromMap(json.decode(source));
+  factory TaskStatusModel.fromJson(String source) =>
+      TaskStatusModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
 
+  String getTable() => "TaskStatus";
+
   @override
-  List<Object> get props => [id, status, savedTs, imagePath];
+  List<Object> get props {
+    return [
+      id,
+      status,
+      savedTs,
+      imagePath,
+      canDelete,
+      numItems,
+    ];
+  }
 }

@@ -51,7 +51,7 @@ class UserAModel extends Equatable {
       'id': id,
       'name': name,
       'image': image,
-      'saved_ts': savedTs?.toIso8601String(),
+      'saved_ts': savedTs?.millisecondsSinceEpoch,
       'a_id': aId,
     };
   }
@@ -63,7 +63,7 @@ class UserAModel extends Equatable {
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      savedTs: DateTime.parse(map['saved_ts']),
+      savedTs:  DateTime.fromMillisecondsSinceEpoch(map['saved_ts']),
       aId: map['a_id'],
     );
   }
@@ -74,7 +74,7 @@ class UserAModel extends Equatable {
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      savedTs: DateTime.parse(map['saved_ts']),
+      savedTs: DateTime.fromMillisecondsSinceEpoch(map['saved_ts']),
       aId: map['a_id'],
     );
   }

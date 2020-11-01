@@ -4,6 +4,11 @@ import 'package:faker/faker.dart';
 import 'package:meta/meta.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/core/global/models/attachment.dart';
+import 'package:sorted/core/global/models/image.dart';
+import 'package:sorted/core/global/models/link.dart';
+import 'package:sorted/core/global/models/log.dart';
+import 'package:sorted/core/global/models/tag.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
@@ -11,267 +16,170 @@ import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
 
 abstract class AttachmentsNative {
-  Future<void> deleteSavedAffirmationsTable();
-  Future<void> deleteInspirationTable();
-  Future<void> deletePlaceHolderTable();
-  Future<void> deleteThumbnailTable();
-  Future<void> deleteUnsplashImagesTable();
-  Future<void> deleteDayAffirmationTable();
-  Future<void> addInspirations(List<InspirationModel> inspirations);
-  Future<void> addAffirmationsToSaved(List<AffirmationModel> affirmations);
-  Future<bool> doFavExists(AffirmationModel affirmation);
-  Future<List<DayAffirmation>> addAffirmationsToCurrentDay(
-      List<DayAffirmation> affirmations);
-  Future<void> addPlaceholderDetails(List<Placeholder> details);
-  Future<void> addThumbnailDetails(List<Placeholder> details);
-  Future<void> addUnsplashImagesDetails(List<UnsplashImage> details);
-  Future<void> deleteFromFav(AffirmationModel affirmation);
-  Future<void> addToFav(AffirmationModel affirmation);
-  Future<void> updateDayAffirmation(DayAffirmation affirmation);
-  Future<List<DayAffirmation>> get dayAffirmations;
-  Future<InspirationModel> get todayInspiration;
-  Future<List<AffirmationModel>> get savedAffirmations;
-  Future<List<AffirmationModel>> get favAffirmations;
-  Future<List<Placeholder>> get placeholderDetails;
-  Future<List<Placeholder>> get thumbnailDetails;
-  Future<List<UnsplashImage>> get unsplashImages;
+  Future<ImageModel> addImage(ImageModel image);
+  Future<void> deleteImage(ImageModel image);
+  Future<LinkModel> addLink(LinkModel link);
+  Future<void> deleteLink(LinkModel link);
+  Future<LogModel> addLog(LogModel log);
+  Future<void> deleteLog(LogModel log);
+  Future<TagModel> addTag(TagModel tag);
+  Future<TagModel> updateTag(TagModel tag);
+  Future<void> deleteTag(TagModel tag);
+  Future<AttachmentModel> addAttachment(AttachmentModel attachment);
+  Future<void> deleteAttachment(AttachmentModel attachment);
+  Future<List<TagModel>> get allTags;
+  Future<TagModel> getTagByName(String tagName);
 }
 
-class HomeNativeDataSourceImpl implements AttachmentsNative {
+class AttachmentNativeDataSourceImpl implements AttachmentsNative {
   final SqlDatabaseService nativeDb;
 
-  HomeNativeDataSourceImpl({@required this.nativeDb});
+  AttachmentNativeDataSourceImpl({@required this.nativeDb});
 
   @override
-  Future<List<DayAffirmation>> addAffirmationsToCurrentDay(
-      List<DayAffirmation> affirmations) async {
-    List<DayAffirmation> list = [];
-    affirmations.forEach((element) async {
-      print(element);
-      final db = await nativeDb.database;
-      var result = await db.insert('CurrentAffirmations', element.toMap());
-      element = element.copyWith(id: result);
-      list.add(element);
-    });
-    return list;
-  }
-
-  @override
-  Future<void> addAffirmationsToSaved(
-      List<AffirmationModel> affirmations) async {
+  Future<AttachmentModel> addAttachment(AttachmentModel attachment) async {
     final db = await nativeDb.database;
-
-    List<Map<String, dynamic>> result, this_result;
-
-    result = await db.query('SavedAffirmations');
-
-    if (result.length > 50) {
-      await db.delete('SavedAffirmations');
-    }
-    affirmations.forEach((element) async {
-      this_result = await db
-          .query('SavedAffirmations', where: "id = ?", whereArgs: [element.id]);
-      if (this_result.length == 0)
-        await db.insert('SavedAffirmations', element.toMap());
-    });
-  }
-
-  @override
-  Future<void> addInspirations(List<InspirationModel> inspirations) async {
-    final db = await nativeDb.database;
-
-    List<Map<String, dynamic>> result;
-
-    result = await db.query('Inspirations');
-
-    if (result.length > 50) {
-      await db.delete('Inspirations');
-    }
-    inspirations.forEach((element) async {
-      await db.insert('Inspirations', element.toMap());
-    });
-  }
-
-  @override
-  Future<void> addToFav(AffirmationModel affirmation) async {
-    final db = await nativeDb.database;
-
-    await db.insert('FavAffirmations', affirmation.toMap());
-  }
-
-  @override
-  Future<void> deleteDayAffirmationTable() async {
-    final db = await nativeDb.database;
-    await db.delete('CurrentAffirmations');
-  }
-
-  @override
-  Future<void> deleteFromFav(AffirmationModel affirmation) async {
-    final db = await nativeDb.database;
-    await db.delete('FavAffirmations');
-  }
-
-  @override
-  Future<void> deleteInspirationTable() async {
-    final db = await nativeDb.database;
-    await db.delete('Inspirations');
-  }
-
-  @override
-  Future<void> deleteSavedAffirmationsTable() async {
-    final db = await nativeDb.database;
-    await db.delete('SavedAffirmations');
-  }
-
-  @override
-  Future<List<AffirmationModel>> get favAffirmations async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-
-    result = await db
-        .rawQuery("SELECT * FROM FavAffirmations ORDER BY RANDOM() LIMIT 5");
-
-    List<AffirmationModel> affirmations = result.isNotEmpty
-        ? result.map((item) => AffirmationModel.fromMap(item)).toList()
-        : [];
-    return affirmations;
-  }
-
-  @override
-  Future<List<AffirmationModel>> get savedAffirmations async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-
-    result = await db
-        .rawQuery("SELECT * FROM SavedAffirmations ORDER BY RANDOM() LIMIT 5");
-
-    List<AffirmationModel> affirmations = result.isNotEmpty
-        ? result.map((item) => AffirmationModel.fromMap(item)).toList()
-        : [];
-    return affirmations;
-  }
-
-  @override
-  Future<InspirationModel> get todayInspiration async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-    result =
-        await db.rawQuery("SELECT * FROM Inspirations ORDER BY RANDOM() LIMIT 1");
-    List<InspirationModel> inpirations = result.isNotEmpty
-        ? result.map((item) => InspirationModel.fromMap(item)).toList()
-        : [
-            InspirationModel(
-                text: "You have the best in you",
-                imageUrl: "https://source.unsplash.com/1080x1920/?inspiration")
-          ];
-    return inpirations[0];
-  }
-
-  @override
-  Future<void> updateDayAffirmation(DayAffirmation affirmation) async {
-    final db = await nativeDb.database;
-    var result = await db.update("CurrentAffirmations", affirmation.toMap(),
-        where: "id = ?", whereArgs: [affirmation.id]);
-    print("updated");
-    return result;
-  }
-
-  @override
-  Future<void> addPlaceholderDetails(List<Placeholder> details) async {
-    final db = await nativeDb.database;
-    details.forEach((element) async {
-      await db.insert('PlaceholderDetails', element.toMap());
-    });
-  }
-
-  @override
-  Future<void> deletePlaceHolderTable() async {
-    final db = await nativeDb.database;
-    await db.delete('PlaceholderDetails');
-  }
-
-  @override
-  Future<List<Placeholder>> get placeholderDetails async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-    result = await db.rawQuery("SELECT * FROM PlaceholderDetails");
-    List<Placeholder> details = result.isNotEmpty
-        ? result.map((item) => Placeholder.fromMap(item)).toList()
-        : [];
-    return details;
-  }
-
-  @override
-  Future<void> addThumbnailDetails(List<Placeholder> details) async {
-    final db = await nativeDb.database;
-    details.forEach((element) async {
-      await db.insert('ThumbnailDetails', element.toMap());
-    });
-  }
-
-  @override
-  Future<void> deleteThumbnailTable() async {
-    final db = await nativeDb.database;
-    await db.delete('ThumbnailDetails');
-  }
-
-  @override
-  Future<List<Placeholder>> get thumbnailDetails async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-    result = await db.rawQuery("SELECT * FROM ThumbnailDetails");
-    List<Placeholder> details = result.isNotEmpty
-        ? result.map((item) => Placeholder.fromMap(item)).toList()
-        : [];
-    return details;
-  }
-
-  @override
-  Future<List<DayAffirmation>> get dayAffirmations async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-    result = await db.rawQuery("SELECT * FROM CurrentAffirmations");
-    List<DayAffirmation> details = result.isNotEmpty
-        ? result.map((item) => DayAffirmation.fromMap(item)).toList()
-        : [];
-    return details;
-  }
-
-  @override
-  Future<void> addUnsplashImagesDetails(List<UnsplashImage> details) async {
-    final db = await nativeDb.database;
-    details.forEach((element) async {
-      await db.insert('UnsplashDetails', element.toMap());
-    });
-  }
-
-  @override
-  Future<void> deleteUnsplashImagesTable() async {
-    final db = await nativeDb.database;
-    await db.delete('UnsplashDetails');
-  }
-
-  @override
-  Future<List<UnsplashImage>> get unsplashImages async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-    result = await db.rawQuery("SELECT * FROM UnsplashDetails");
-    List<UnsplashImage> details = result.isNotEmpty
-        ? result.map((item) => UnsplashImage.fromMap(item)).toList()
-        : [];
-    return details;
-  }
-
-  @override
-  Future<bool> doFavExists(AffirmationModel affirmation) async {
-    final db = await nativeDb.database;
-    List<Map<String, dynamic>> result;
-    result = await db
-        .query('FavAffirmations', where: 'id = ?', whereArgs: [affirmation.id]);
-
-    if (result.length > 0)
-      return true;
+    if ((await db.query(attachment.getTable(),
+                where: "id= ?", whereArgs: [attachment.id]))
+            .length ==
+        0)
+      await db.insert(attachment.getTable(), attachment.toMap());
     else
-      return false;
+      await db.update(attachment.getTable(), attachment.toMap(),
+          where: "id = ?", whereArgs: [attachment.id]);
+  }
+
+  @override
+  Future<ImageModel> addImage(ImageModel image) async {
+    final db = await nativeDb.database;
+    if ((await db
+                .query(image.getTable(), where: "id= ?", whereArgs: [image.id]))
+            .length ==
+        0)
+      await db.insert(image.getTable(), image.toMap());
+    else
+      await db.update(image.getTable(), image.toMap(),
+          where: "id = ?", whereArgs: [image.id]);
+  }
+
+  @override
+  Future<LinkModel> addLink(LinkModel link) async {
+    final db = await nativeDb.database;
+    if ((await db.query(link.getTable(), where: "id= ?", whereArgs: [link.id]))
+            .length ==
+        0)
+      await db.insert(link.getTable(), link.toMap());
+    else
+      await db.update(link.getTable(), link.toMap(),
+          where: "id = ?", whereArgs: [link.id]);
+  }
+
+  @override
+  Future<LogModel> addLog(LogModel log) async {
+    final db = await nativeDb.database;
+    if ((await db.query(log.getTable(), where: "id= ?", whereArgs: [log.id]))
+            .length ==
+        0)
+      await db.insert(log.getTable(), log.toMap());
+    else
+      await db.update(log.getTable(), log.toMap(),
+          where: "id = ?", whereArgs: [log.id]);
+  }
+
+  @override
+  Future<TagModel> addTag(TagModel tag) async {
+    final db = await nativeDb.database;
+    if ((await db.query(tag.getTable(), where: "id= ?", whereArgs: [tag.id]))
+            .length ==
+        0)
+      await db.insert(tag.getTable(), tag.toMap());
+    else
+      await db.update(tag.getTable(), tag.toMap(),
+          where: "id = ?", whereArgs: [tag.id]);
+  }
+
+  @override
+  Future<void> deleteAttachment(AttachmentModel attachment) async {
+    final db = await nativeDb.database;
+    if ((await db.query(attachment.getTable(),
+                where: "id=?", whereArgs: [attachment.id]))
+            .length >
+        0)
+      await db.delete(attachment.getTable(),
+          where: "id=?", whereArgs: [attachment.id]);
+  }
+
+  @override
+  Future<void> deleteImage(ImageModel image) async {
+    final db = await nativeDb.database;
+    if ((await db.query(image.getTable(), where: "id=?", whereArgs: [image.id]))
+            .length >
+        0)
+      await db.delete(image.getTable(), where: "id=?", whereArgs: [image.id]);
+  }
+
+  @override
+  Future<void> deleteLink(LinkModel link) async {
+    final db = await nativeDb.database;
+    if ((await db.query(link.getTable(), where: "id=?", whereArgs: [link.id]))
+            .length >
+        0)
+      await db.delete(link.getTable(), where: "id=?", whereArgs: [link.id]);
+  }
+
+  @override
+  Future<void> deleteLog(LogModel log) async {
+    final db = await nativeDb.database;
+    if ((await db.query(log.getTable(), where: "id=?", whereArgs: [log.id]))
+            .length >
+        0) await db.delete(log.getTable(), where: "id=?", whereArgs: [log.id]);
+  }
+
+  @override
+  Future<void> deleteTag(TagModel tag) async {
+    final db = await nativeDb.database;
+    if ((await db.query(tag.getTable(), where: "id=?", whereArgs: [tag.id]))
+            .length >
+        0) await db.delete(tag.getTable(), where: "id=?", whereArgs: [tag.id]);
+  }
+
+  @override
+  Future<List<TagModel>> get allTags async {
+    final db = await nativeDb.database;
+    List<Map<String, dynamic>> result;
+    TagModel t = new TagModel();
+
+    result = await db.query(t.getTable(), orderBy: "items DESC");
+
+    List<TagModel> tags = result.isNotEmpty
+        ? result.map((item) => TagModel.fromMap(item)).toList()
+        : [];
+    return tags;
+  }
+
+  @override
+  Future<TagModel> getTagByName(String tagName) async {
+    final db = await nativeDb.database;
+    List<Map<String, dynamic>> result;
+    TagModel t = new TagModel();
+
+    result = await db.query(t.getTable(), where: "tag=?", whereArgs: [tagName]);
+    List<TagModel> tags = result.isNotEmpty
+        ? result.map((item) => TagModel.fromMap(item)).toList()
+        : [TagModel(tag: "None")];
+    return tags[0];
+  }
+
+  @override
+  Future<TagModel> updateTag(TagModel tag) async {
+    final db = await nativeDb.database;
+    if ((await db.query(tag.getTable(), where: "id= ?", whereArgs: [tag.id]))
+            .length >
+        0) {
+      await db.update(tag.getTable(), tag.toMap(),
+          where: "id = ?", whereArgs: [tag.id]);
+      print("tag Updated");
+    }
+    return tag;
   }
 }

@@ -47,11 +47,12 @@ class AffirmationTile extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                  height: Gparam.height / 18,
-                  width: Gparam.height / 18,
-                  margin: EdgeInsets.all(8),
+                  height: Gparam.height / 14,
+                  width: Gparam.height / 14,
+                  margin: EdgeInsets.all(4),
                   decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(60.0)),
+                    border:(!affirmation.read)? Border.all(color: Theme.of(context).scaffoldBackgroundColor.withOpacity(.6),width: 2.5):null,
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(1, 1),
@@ -85,8 +86,8 @@ class AffirmationTile extends StatelessWidget {
                                     "assets/images/blueCircle.png"),
                                 image: new NetworkImage(affirmation.sImageUrl),
                                 fit: BoxFit.cover,
-                                height: Gparam.height / 18,
-                                width: Gparam.height / 18,
+                                height: Gparam.height / 17,
+                                width: Gparam.height / 17,
                               ))),
                     ],
                   )),
@@ -95,5 +96,3 @@ class AffirmationTile extends StatelessWidget {
     );
   }
 }
-
-

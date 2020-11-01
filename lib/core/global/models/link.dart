@@ -10,6 +10,7 @@ class LinkModel extends Equatable {
   String image;
   String siteName;
   DateTime savedTs;
+  int position;
   LinkModel({
     this.id = 0,
     this.url = '',
@@ -18,6 +19,7 @@ class LinkModel extends Equatable {
     this.image = '',
     this.siteName = '',
     this.savedTs,
+    this.position = 0,
   });
 
   LinkModel copyWith({
@@ -28,6 +30,7 @@ class LinkModel extends Equatable {
     String image,
     String siteName,
     DateTime savedTs,
+    int position,
   }) {
     return LinkModel(
       id: id ?? this.id,
@@ -37,6 +40,7 @@ class LinkModel extends Equatable {
       image: image ?? this.image,
       siteName: siteName ?? this.siteName,
       savedTs: savedTs ?? this.savedTs,
+      position: position ?? this.position,
     );
   }
 
@@ -49,12 +53,13 @@ class LinkModel extends Equatable {
       'image': image,
       'siteName': siteName,
       'savedTs': savedTs?.millisecondsSinceEpoch,
+      'position': position,
     };
   }
 
   factory LinkModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return LinkModel(
       id: map['id'],
       url: map['url'],
@@ -63,15 +68,18 @@ class LinkModel extends Equatable {
       image: map['image'],
       siteName: map['siteName'],
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
+      position: map['position'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory LinkModel.fromJson(String source) => LinkModel.fromMap(json.decode(source));
+  factory LinkModel.fromJson(String source) =>
+      LinkModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
+  String getTable() => "Links";
 
   @override
   List<Object> get props {
@@ -83,6 +91,7 @@ class LinkModel extends Equatable {
       image,
       siteName,
       savedTs,
+      position,
     ];
   }
 }

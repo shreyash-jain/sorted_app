@@ -7,8 +7,8 @@ class SideTab extends StatelessWidget {
   const SideTab({
     Key key,
     @required this.currentSideTab,
-    
-    @required this.isNavEnabled, @required this.onTapAction,
+    @required this.isNavEnabled,
+    @required this.onTapAction,
   }) : super(key: key);
 
   final int currentSideTab;
@@ -20,14 +20,11 @@ class SideTab extends StatelessWidget {
     return FadeAnimationLR(
         1.8,
         Padding(
-          padding: EdgeInsets.only(
-              top: (66),
-              bottom: (Gparam.height * 0.0833)),
+          padding: EdgeInsets.only(top: (66), bottom: (Gparam.height * 0.0833)),
           child: Container(
-            width: Gparam.width/8,
+            width: Gparam.width / 8,
             child: ListView(
               physics: BouncingScrollPhysics(),
-              
               children: [
                 SideTabTile(
                     currentSideTab: currentSideTab,
@@ -37,25 +34,29 @@ class SideTab extends StatelessWidget {
                         "The one where you choose and analyse what you want to keep track of",
                     index: 0,
                     onTapAction: onTapAction),
-                    SizedBox(height: Gparam.heightPadding*2,),
+                SizedBox(
+                  height: Gparam.heightPadding * 2,
+                ),
                 SideTabTile(
                     currentSideTab: currentSideTab,
                     isNavEnabled: isNavEnabled,
                     tabName: "Plan",
-                    description:
-                        "The one where planning starts and your ToDos",
+                    description: "The one where planning starts and your ToDos",
                     index: 1,
                     onTapAction: onTapAction),
-                     SizedBox(height: Gparam.heightPadding*2,),
+                SizedBox(
+                  height: Gparam.heightPadding * 2,
+                ),
                 SideTabTile(
                     currentSideTab: currentSideTab,
                     isNavEnabled: isNavEnabled,
                     tabName: "Notes",
-                    description:
-                        "The one where your organized notes are kept",
+                    description: "The one where your organized notes are kept",
                     index: 2,
                     onTapAction: onTapAction),
-                     SizedBox(height: Gparam.heightPadding*2,),
+                SizedBox(
+                  height: Gparam.heightPadding * 2,
+                ),
                 SideTabTile(
                     currentSideTab: currentSideTab,
                     isNavEnabled: isNavEnabled,
@@ -63,7 +64,9 @@ class SideTab extends StatelessWidget {
                     description: "The one where you manage your expenses",
                     index: 3,
                     onTapAction: onTapAction),
-                     SizedBox(height: Gparam.heightPadding*2,),
+                SizedBox(
+                  height: Gparam.heightPadding * 2,
+                ),
                 SideTabTile(
                     currentSideTab: currentSideTab,
                     isNavEnabled: isNavEnabled,

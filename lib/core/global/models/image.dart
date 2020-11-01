@@ -8,12 +8,18 @@ class ImageModel extends Equatable {
   String url;
   String localPath;
   DateTime savedTs;
+  int canDetete;
+  int position;
+  String storagePath;
   ImageModel({
     this.id = 0,
     this.caption = '',
     this.url = '',
     this.localPath = '',
     this.savedTs,
+    this.canDetete = 0,
+    this.position = 0,
+    this.storagePath = '',
   });
 
   ImageModel copyWith({
@@ -22,6 +28,9 @@ class ImageModel extends Equatable {
     String url,
     String localPath,
     DateTime savedTs,
+    int canDetete,
+    int position,
+    String storagePath,
   }) {
     return ImageModel(
       id: id ?? this.id,
@@ -29,6 +38,9 @@ class ImageModel extends Equatable {
       url: url ?? this.url,
       localPath: localPath ?? this.localPath,
       savedTs: savedTs ?? this.savedTs,
+      canDetete: canDetete ?? this.canDetete,
+      position: position ?? this.position,
+      storagePath: storagePath ?? this.storagePath,
     );
   }
 
@@ -39,6 +51,9 @@ class ImageModel extends Equatable {
       'url': url,
       'localPath': localPath,
       'savedTs': savedTs?.millisecondsSinceEpoch,
+      'canDetete': canDetete,
+      'position': position,
+      'storagePath': storagePath,
     };
   }
 
@@ -51,10 +66,14 @@ class ImageModel extends Equatable {
       url: map['url'],
       localPath: map['localPath'],
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
+      canDetete: map['canDetete'],
+      position: map['position'],
+      storagePath: map['storagePath'],
     );
   }
 
   String toJson() => json.encode(toMap());
+  String getTable() => "Images";
 
   factory ImageModel.fromJson(String source) => ImageModel.fromMap(json.decode(source));
 
@@ -69,6 +88,9 @@ class ImageModel extends Equatable {
       url,
       localPath,
       savedTs,
+      canDetete,
+      position,
+      storagePath,
     ];
   }
 }

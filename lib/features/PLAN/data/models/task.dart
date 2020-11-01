@@ -11,6 +11,7 @@ class TaskModel extends Equatable {
   DateTime deadLine;
   double priority;
   int type;
+  //type -> 0 -> task | 1-> event | 2 -> milestone
   double duration;
   double progress;
   DateTime savedTs;
@@ -24,6 +25,8 @@ class TaskModel extends Equatable {
   int linkedStatus;
   int linkedTodos;
   int linkedDependencies;
+  String taskImageId;
+  String coverImageid;
   TaskModel({
     this.id = 0,
     this.title = '',
@@ -45,6 +48,8 @@ class TaskModel extends Equatable {
     this.linkedStatus = 0,
     this.linkedTodos = 0,
     this.linkedDependencies = 0,
+    this.taskImageId = "0",
+    this.coverImageid = "0",
   });
 
   TaskModel copyWith({
@@ -68,6 +73,8 @@ class TaskModel extends Equatable {
     int linkedStatus,
     int linkedTodos,
     int linkedDependencies,
+    String taskImageId,
+    String coverImageid,
   }) {
     return TaskModel(
       id: id ?? this.id,
@@ -90,6 +97,8 @@ class TaskModel extends Equatable {
       linkedStatus: linkedStatus ?? this.linkedStatus,
       linkedTodos: linkedTodos ?? this.linkedTodos,
       linkedDependencies: linkedDependencies ?? this.linkedDependencies,
+      taskImageId: taskImageId ?? this.taskImageId,
+      coverImageid: coverImageid ?? this.coverImageid,
     );
   }
 
@@ -115,23 +124,36 @@ class TaskModel extends Equatable {
       'linkedStatus': linkedStatus,
       'linkedTodos': linkedTodos,
       'linkedDependencies': linkedDependencies,
+      'taskImageId': taskImageId,
+      'coverImageid': coverImageid,
     };
   }
 
+  
+
   factory TaskModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
+    DateTime start, saved;
+    if (map['startDate'] != null) {
+      start = DateTime.fromMillisecondsSinceEpoch(map['startDate']);
+    } else
+      start = DateTime.now();
+    if (map['savedTs'] != null) {
+      saved = DateTime.fromMillisecondsSinceEpoch(map['savedTs']);
+    } else
+      saved = DateTime.now();
 
     return TaskModel(
       id: map['id'],
       title: map['title'],
       description: map['description'],
-      startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate']),
+      startDate: start,
       deadLine: DateTime.fromMillisecondsSinceEpoch(map['deadLine']),
       priority: map['priority'],
       type: map['type'],
       duration: map['duration'],
       progress: map['progress'],
-      savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
+      savedTs: saved,
       linkedGoals: map['linkedGoals'],
       linkedReviews: map['linkedReviews'],
       linkedActivities: map['linkedActivities'],
@@ -142,22 +164,173 @@ class TaskModel extends Equatable {
       linkedStatus: map['linkedStatus'],
       linkedTodos: map['linkedTodos'],
       linkedDependencies: map['linkedDependencies'],
+      taskImageId: map['taskImageId'].toString(),
+      coverImageid: map['coverImageid'].toString(),
     );
   }
-  factory TaskModel.makeRandomTask(int type) {
+
+  factory TaskModel.getRandom(int id) {
+    List<String> emojiRandom = [
+    '💌',
+    '🕳',
+    '💣',
+    '🛀',
+    '🛌',
+    '🔪',
+    '🏺',
+    '🗺',
+    '🧭',
+    '🧱',
+    '💈',
+    '🛢',
+    '🛎',
+    '🧳',
+    '⌛',
+    '⏳',
+    '⌚',
+    '⏰',
+    '⏱',
+    '⏲',
+    '🕰',
+    '🌡',
+    '⛱',
+    '🧨',
+    '🎈',
+    '🎉',
+    '🎊',
+    '🎎',
+    '🎏',
+    '🎐',
+    '🧧',
+    '🎀',
+    '🎁',
+    '🔮',
+    '🧿',
+    '🕹',
+    '🧸',
+    '🖼',
+    '🧵',
+    '🧶',
+    '🛍',
+    '📿',
+    '💎',
+    '📯',
+    '🎙',
+    '🎚',
+    '🎛',
+    '📻',
+    '📱',
+    '📲',
+    '☎',
+    '📞',
+    '📟',
+    '📠',
+    '🔋',
+    '🔌',
+    '💻',
+    '🖥',
+    '🖨',
+    '⌨',
+    '🖱',
+    '🖲',
+    '💽',
+    '💾',
+    '💿',
+    '📀',
+    '🧮',
+    '🎥',
+    '🎞',
+    '📽',
+    '📺',
+    '📷',
+    '📸',
+    '📹',
+    '📼',
+    '🔍',
+    '🔎',
+    '🕯',
+    '💡',
+    '🔦',
+    '🏮',
+    '📔',
+    '📕',
+    '📖',
+    '📗',
+    '📘',
+    '📙',
+    '📚',
+    '📓',
+    '📃',
+    '📜',
+    '📄',
+    '📰',
+    '🗞',
+    '📑',
+    '🔖',
+    '🏷',
+    '💰',
+    '💴',
+    '💵',
+    '💶',
+    '💷',
+    '💸',
+    '💳',
+    '🧾',
+    '✉',
+    '📧',
+    '📨',
+    '📩',
+    '📤',
+    '📥',
+    '📦',
+    '📫',
+    '📪',
+    '📬',
+    '📭',
+    '📮',
+    '🗳',
+    '✏',
+    '✒',
+    '🖋',
+    '🖊',
+    '🖌',
+    '🖍',
+    '📝',
+    '📁',
+    '📂',
+    '🗂',
+    '📅',
+    '📆',
+    '🗒',
+    '🗓',
+    '📇',
+    '📈',
+    '📉',
+    '📊',
+    '📋',
+    '📌',
+    '📍',
+    '📎',
+    '🖇',
+    '📏',
+    '📐',
+    '✂',
+    '🗃',
+    '🗄',
+    '🗑',
+  ];
     DateTime now = DateTime.now();
-    
 
     return TaskModel(
-      id: now.millisecondsSinceEpoch,
+      id: id,
       title: faker.job.title(),
       description: faker.lorem.sentence(),
-      startDate: now,
-      deadLine: faker.date.dateTime(minYear: 2019,maxYear: 2021),
-      priority: random.decimal(scale: 1,min:0),
+      startDate: faker.date.dateTime(minYear: 2020, maxYear: 2020),
+      deadLine: faker.date.dateTime(minYear: 2021, maxYear: 2021),
+      progress: random.decimal(),
+      priority: random.decimal(),
       type: 0,
-      duration: random.integer(240).toDouble(),
-      progress: random.decimal(scale: 1,min:0),
+      duration: 0,
       savedTs: now,
       linkedGoals: 0,
       linkedReviews: 0,
@@ -166,14 +339,27 @@ class TaskModel extends Equatable {
       linkedTags: 0,
       linkedLogs: 0,
       linkedLinks: 0,
-      linkedStatus: 0,
-      linkedTodos:0,
+      linkedStatus: 1,
+      linkedTodos: 0,
       linkedDependencies: 0,
+      taskImageId: emojiRandom[random.integer(140)],
+      coverImageid: "0",
     );
   }
 
   String toJson() => json.encode(toMap());
-
+  String getTable() => "Tasks";
+  String getImageTable() => "Tasks_Images";
+  String getAttachmentTable() => "Tasks_Attachments";
+  String getGoalTable() => "Goals_Tasks";
+  String getLinkTable() => "Tasks_Links";
+  String getTagTable() => "Tasks_Tags";
+  String getLogTable() => "Tasks_Logs";
+  String getTodoTable() => "Tasks_Todos";
+  String getDependencyTable() => "Tasks_Tasks";
+  String getActivityTable() => "Tasks_Activities";
+  String getStatusTable() => "Tasks_Status";
+  String getReviewTable() => "Tasks_Reviews";
   factory TaskModel.fromJson(String source) =>
       TaskModel.fromMap(json.decode(source));
 
@@ -203,6 +389,8 @@ class TaskModel extends Equatable {
       linkedStatus,
       linkedTodos,
       linkedDependencies,
+      taskImageId,
+      coverImageid,
     ];
   }
 }

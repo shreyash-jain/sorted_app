@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
         Gparam.heightPadding = Gparam.topPadding / 2.3;
         Gparam.ratio = Gparam.height / Gparam.width;
         Gparam.widthPadding = Gparam.width / 16;
-        if (Gparam.height < 650) Gparam.isHeightBig = false;
+        if (Gparam.height < 670) Gparam.isHeightBig = false;
         if (Gparam.width < 400) Gparam.isWidthBig = false;
         print(Gparam.width);
         return new AppTheme(

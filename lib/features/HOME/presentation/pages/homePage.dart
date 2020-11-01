@@ -129,16 +129,7 @@ class _SortedHomeState extends State<SortedHome>
 
   @override
   Widget build(BuildContext context) {
-    linearGradient = LinearGradient(
-            colors: [
-              const Color(0xFF00c6ff),
-              Theme.of(context).primaryColor,
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 1.00),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp)
-        .createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+   
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         key: _scaffoldKey,
@@ -237,6 +228,10 @@ class _SortedHomeState extends State<SortedHome>
 
   void onSideTabSelected(int toIndex) {
     print(toIndex);
+    if (toIndex==1){
+      print("plan");
+      Router.navigator.pushNamed(Router.planHome);
+    }
     if (currentSideTab == toIndex)
       setState(() {
         currentSideTab = null;

@@ -23,17 +23,36 @@ class SideBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AnimatedContainer(
-                height: Gparam.height -65,
-                width: isNavEnabled
-                    ? Gparam.width / 2
-                    :  Gparam.width / 10,
+                height: Gparam.height - 65,
+                width: isNavEnabled ? Gparam.width / 2 : Gparam.width / 10,
                 curve: Curves.easeInOutCubic,
+                // decoration: BoxDecoration(
+                //   color: Theme.of(context).scaffoldBackgroundColor,
+                //   borderRadius: BorderRadius.only(
+                //       topRight: Radius.circular(30.0),
+                //       bottomRight: Radius.circular(30.0)),
+                // ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0)),
-                ),
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30.0),
+                        bottomRight: Radius.circular(30.0)),
+                    
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(context).scaffoldBackgroundColor,
+                        ],
+                        stops: [
+                          0.1,
+                          0.3,
+                          0.8,
+                          1
+                        ])),
                 duration: Duration(milliseconds: 400),
               ),
             ],

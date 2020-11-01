@@ -8,8 +8,8 @@ class _MyHomePageState extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 70,
-      height: 70,
+      width: 40,
+      height: 40,
       child: new FlareActor("assets/animations/Sorted_Logo.flr",
           alignment: Alignment.center,
           fit: BoxFit.contain,

@@ -23,7 +23,7 @@ import 'package:sorted/features/SETTINGS/presentation/widgets/survey_settings.da
 import 'package:sorted/main.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({Key key, Function(Brightness brightness) changeTheme})
+  SettingsPage({Key key})
       : super(key: key) {}
   @override
   _SettingsPageState createState() => _SettingsPageState();

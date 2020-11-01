@@ -37,6 +37,7 @@ class TodoItemModel extends Equatable {
     );
   }
 
+String getTable() => "TodoItems";
   Map<String, dynamic> toMap() {
     return {
       'id': id,

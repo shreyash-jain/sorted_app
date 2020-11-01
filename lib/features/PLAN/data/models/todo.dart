@@ -8,12 +8,14 @@ class TodoModel extends Equatable {
   String title;
   String description;
   DateTime savedTs;
+  int position;
   TodoModel({
     this.id = 0,
     this.numTodoItems = 0,
     this.title = '',
     this.description = '',
     this.savedTs,
+    this.position = 0,
   });
   
 
@@ -23,6 +25,7 @@ class TodoModel extends Equatable {
     String title,
     String description,
     DateTime savedTs,
+    int position,
   }) {
     return TodoModel(
       id: id ?? this.id,
@@ -30,6 +33,7 @@ class TodoModel extends Equatable {
       title: title ?? this.title,
       description: description ?? this.description,
       savedTs: savedTs ?? this.savedTs,
+      position: position ?? this.position,
     );
   }
 
@@ -40,6 +44,7 @@ class TodoModel extends Equatable {
       'title': title,
       'description': description,
       'savedTs': savedTs?.millisecondsSinceEpoch,
+      'position': position,
     };
   }
 
@@ -52,6 +57,7 @@ class TodoModel extends Equatable {
       title: map['title'],
       description: map['description'],
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
+      position: map['position'],
     );
   }
 
@@ -61,6 +67,8 @@ class TodoModel extends Equatable {
 
   @override
   bool get stringify => true;
+  String getTable() => "Todos";
+  String getItemsTable() => "Todos_TodoItems";
 
   @override
   List<Object> get props {
@@ -70,6 +78,7 @@ class TodoModel extends Equatable {
       title,
       description,
       savedTs,
+      position,
     ];
   }
 }

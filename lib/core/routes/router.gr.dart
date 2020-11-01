@@ -16,6 +16,19 @@ import 'package:sorted/features/HOME/presentation/pages/affirmation_pv.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
+import 'package:sorted/features/PLAN/presentation/pages/main_plan.dart';
+import 'package:sorted/features/PLAN/presentation/pages/choice_goal_guide.dart';
+import 'package:sorted/features/PLAN/presentation/pages/goal_page.dart';
+import 'package:sorted/features/PLAN/data/models/goal.dart';
+import 'package:sorted/features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart';
+import 'package:sorted/features/PLAN/presentation/pages/select_cover_image.dart';
+import 'package:sorted/features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart';
+import 'package:sorted/features/PLAN/presentation/pages/task_page.dart';
+import 'package:sorted/features/PLAN/data/models/task.dart';
+import 'package:sorted/features/PLAN/presentation/pages/kanban_view.dart';
+import 'package:sorted/features/PLAN/presentation/pages/timeline_view.dart';
+import 'package:sorted/features/PLAN/presentation/pages/year_planner.dart';
+import 'package:sorted/features/PLAN/presentation/pages/long_term_planner.dart';
 
 class Router {
   static const splashPage = '/';
@@ -25,6 +38,15 @@ class Router {
   static const homePage = '/home-page';
   static const affirmationPageview = '/affirmation-pageview';
   static const settingsPage = '/settings-page';
+  static const planHome = '/plan-home';
+  static const choiceGoalGuide = '/choice-goal-guide';
+  static const goalPage = '/goal-page';
+  static const selectCover = '/select-cover';
+  static const taskPage = '/task-page';
+  static const kanbanPage = '/kanban-page';
+  static const timelineView = '/timeline-view';
+  static const yearPlanner = '/year-planner';
+  static const longPlanner = '/long-planner';
   static final navigator = ExtendedNavigator();
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -100,6 +122,91 @@ class Router {
           builder: (_) => SettingsPage(key: typedArgs),
           settings: settings,
         );
+      case Router.planHome:
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
+        }
+        final typedArgs = args as Key;
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => PlanHome(key: typedArgs),
+          settings: settings,
+        );
+      case Router.choiceGoalGuide:
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
+        }
+        final typedArgs = args as Key;
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => ChoiceGoalGuide(key: typedArgs),
+          settings: settings,
+        );
+      case Router.goalPage:
+        if (hasInvalidArgs<GoalPageArguments>(args)) {
+          return misTypedArgsRoute<GoalPageArguments>(args);
+        }
+        final typedArgs = args as GoalPageArguments ?? GoalPageArguments();
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => GoalPage(
+              key: typedArgs.key,
+              thisGoal: typedArgs.thisGoal,
+              planBloc: typedArgs.planBloc),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.selectCover:
+        if (hasInvalidArgs<SelectCoverArguments>(args)) {
+          return misTypedArgsRoute<SelectCoverArguments>(args);
+        }
+        final typedArgs =
+            args as SelectCoverArguments ?? SelectCoverArguments();
+        return MaterialPageRoute<dynamic>(
+          builder: (_) =>
+              SelectCover(key: typedArgs.key, goalBloc: typedArgs.goalBloc),
+          settings: settings,
+        );
+      case Router.taskPage:
+        if (hasInvalidArgs<TaskPageArguments>(args)) {
+          return misTypedArgsRoute<TaskPageArguments>(args);
+        }
+        final typedArgs = args as TaskPageArguments ?? TaskPageArguments();
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => TaskPage(
+              key: typedArgs.key,
+              thisGoal: typedArgs.thisGoal,
+              planBloc: typedArgs.planBloc),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.kanbanPage:
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => Kanban(),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.timelineView:
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => TimelineView(),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.yearPlanner:
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => YearPlanner(),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.longPlanner:
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => LongPlanner(),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
       default:
         return unknownRoutePage(settings.name);
     }
@@ -146,4 +253,27 @@ class AffirmationPVArguments {
   final AffirmationBloc outerBloc;
   AffirmationPVArguments(
       {this.key, this.affirmations, this.startIndex, this.outerBloc});
+}
+
+//GoalPage arguments holder class
+class GoalPageArguments {
+  final Key key;
+  final GoalModel thisGoal;
+  final PlanBloc planBloc;
+  GoalPageArguments({this.key, this.thisGoal, this.planBloc});
+}
+
+//SelectCover arguments holder class
+class SelectCoverArguments {
+  final Key key;
+  final GoalPageBloc goalBloc;
+  SelectCoverArguments({this.key, this.goalBloc});
+}
+
+//TaskPage arguments holder class
+class TaskPageArguments {
+  final Key key;
+  final TaskModel thisGoal;
+  final PlanBloc planBloc;
+  TaskPageArguments({this.key, this.thisGoal, this.planBloc});
 }

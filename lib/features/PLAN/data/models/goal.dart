@@ -19,6 +19,9 @@ class GoalModel extends Equatable {
   int linkedLogs;
   int linkedTracks;
   int linkedNotes;
+  int markCompleted;
+  String coverImageId;
+  String goalImageId;
   GoalModel({
     this.id = 0,
     this.title = '',
@@ -35,8 +38,69 @@ class GoalModel extends Equatable {
     this.linkedLogs = 0,
     this.linkedTracks = 0,
     this.linkedNotes = 0,
+    this.markCompleted = 0,
+    this.coverImageId = '',
+    this.goalImageId = '',
   });
-  
+
+  @override
+  // TODO: implement props
+  List<Object> get props {
+    return [
+      id,
+      title,
+      description,
+      startDate,
+      deadLine,
+      progress,
+      vision,
+      linkedTasks,
+      savedTs,
+      linkedImages,
+      linkedLinks,
+      linkedStatus,
+      linkedLogs,
+      linkedTracks,
+      linkedNotes,
+      markCompleted,
+      coverImageId,
+      goalImageId,
+    ];
+  }
+
+  factory GoalModel.getRandom(int id) {
+    DateTime now = DateTime.now();
+
+    return GoalModel(
+      id: id,
+      title: faker.job.title(),
+      description: faker.lorem.sentence(),
+      startDate: faker.date.dateTime(minYear: 2020, maxYear: 2020),
+      deadLine: faker.date.dateTime(minYear: 2021, maxYear: 2021),
+      progress: random.decimal(),
+      vision: faker.lorem.sentence(),
+      linkedTasks: 0,
+      savedTs: now,
+      linkedImages: 0,
+      linkedLinks: 0,
+      linkedStatus: 0,
+      linkedLogs: 0,
+      linkedTracks: 0,
+      linkedNotes: 0,
+      coverImageId: "0",
+      goalImageId: "0",
+    );
+  }
+
+  String getTable() => "Goals";
+  String getTableLinkImages() => "Goals_Images";
+  String getTableLinkLinks() => "Goals_Links";
+  String getTableLinkTags() => "Goals_Tags";
+  String getTableLinkAttachment() => "Goals_Attachments";
+  String getTableLinktextbox() => "Goals_Textboxes";
+  String getTableLinkTasks() => "Goals_Tasks";
+  String getTableLinkLogs() => "Goals_Logs";
+  String getTableLinkStatus() => "Goals_Status";
 
   GoalModel copyWith({
     int id,
@@ -54,6 +118,9 @@ class GoalModel extends Equatable {
     int linkedLogs,
     int linkedTracks,
     int linkedNotes,
+    int markCompleted,
+    String coverImageId,
+    String goalImageId,
   }) {
     return GoalModel(
       id: id ?? this.id,
@@ -71,6 +138,9 @@ class GoalModel extends Equatable {
       linkedLogs: linkedLogs ?? this.linkedLogs,
       linkedTracks: linkedTracks ?? this.linkedTracks,
       linkedNotes: linkedNotes ?? this.linkedNotes,
+      markCompleted: markCompleted ?? this.markCompleted,
+      coverImageId: coverImageId ?? this.coverImageId,
+      goalImageId: goalImageId ?? this.goalImageId,
     );
   }
 
@@ -91,12 +161,15 @@ class GoalModel extends Equatable {
       'linkedLogs': linkedLogs,
       'linkedTracks': linkedTracks,
       'linkedNotes': linkedNotes,
+      'markCompleted': markCompleted,
+      'coverImageId': coverImageId,
+      'goalImageId': goalImageId,
     };
   }
 
   factory GoalModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return GoalModel(
       id: map['id'],
       title: map['title'],
@@ -113,34 +186,17 @@ class GoalModel extends Equatable {
       linkedLogs: map['linkedLogs'],
       linkedTracks: map['linkedTracks'],
       linkedNotes: map['linkedNotes'],
+      markCompleted: map['markCompleted'],
+      coverImageId: map['coverImageId'],
+      goalImageId: map['goalImageId'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory GoalModel.fromJson(String source) => GoalModel.fromMap(json.decode(source));
+  factory GoalModel.fromJson(String source) =>
+      GoalModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
-
-  @override
-  List<Object> get props {
-    return [
-      id,
-      title,
-      description,
-      startDate,
-      deadLine,
-      progress,
-      vision,
-      linkedTasks,
-      savedTs,
-      linkedImages,
-      linkedLinks,
-      linkedStatus,
-      linkedLogs,
-      linkedTracks,
-      linkedNotes,
-    ];
-  }
 }

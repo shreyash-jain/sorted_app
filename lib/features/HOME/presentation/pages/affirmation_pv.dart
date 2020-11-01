@@ -517,7 +517,7 @@ class AffirmationState extends State<AffirmationPV>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white.withAlpha(230),
-                    fontFamily: 'Eastman',
+                    fontFamily: 'Montserrat',
                     fontSize: 20,
                     height: 1.4,
                     shadows: [
@@ -527,12 +527,12 @@ class AffirmationState extends State<AffirmationPV>
                         offset: Offset(0.0, 0.0),
                       ),
                     ],
-                    fontWeight: FontWeight.normal)),
+                    fontWeight: FontWeight.w800)),
             Text(affirmation.text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white.withAlpha(230),
-                    fontFamily: 'Eastman',
+                    fontFamily: 'Montserrat',
                     fontSize: 20,
                     height: 1.4,
                     shadows: [
@@ -542,7 +542,7 @@ class AffirmationState extends State<AffirmationPV>
                         offset: Offset(0.0, 0.0),
                       ),
                     ],
-                    fontWeight: FontWeight.normal)),
+                    fontWeight: FontWeight.w800)),
           ],
         ),
       );

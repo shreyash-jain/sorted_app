@@ -61,6 +61,7 @@ class TagModel extends Equatable {
   }
 
   String toJson() => json.encode(toMap());
+  String getTable() => "Tags";
 
   factory TagModel.fromJson(String source) => TagModel.fromMap(json.decode(source));
 

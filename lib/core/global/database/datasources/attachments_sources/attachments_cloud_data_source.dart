@@ -7,7 +7,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/core/global/models/attachment.dart';
 import 'package:sorted/core/global/models/image.dart';
+import 'package:sorted/core/global/models/link.dart';
+import 'package:sorted/core/global/models/log.dart';
+import 'package:sorted/core/global/models/review.dart';
+import 'package:sorted/core/global/models/tag.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
@@ -15,55 +20,60 @@ import 'package:sorted/features/PLAN/data/models/goal.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class AttachmentsCloud {
-  Future<ImageModel> storeImage(File imageFile, String directory);
- 
-  Future<void> addLinkImageToGoal(GoalModel goal, ImageModel image);
+  Future<ImageModel> storeImage(
+      File imageFile, String directory, ImageModel image);
+
   void unStoreImage(ImageModel image);
   Future<void> addImage(ImageModel image);
+  Future<void> updateImage(ImageModel image);
   Future<void> deleteImage(ImageModel image);
-  Future<void> addLink(ImageModel image);
-  Future<void> deleteLink(ImageModel image);
-  Future<void> addLog(ImageModel image);
-  Future<void> deleteLog(ImageModel image);
-  Future<void> addTag(ImageModel image);
-  Future<void> deleteTag(ImageModel image);
-  Future<void> addAudio(ImageModel image);
-  Future<void> deleteAudio(ImageModel image);  
-  Future<void> removeLinkImageFomGoal(GoalModel goal, ImageModel image);
+  Future<void> addLink(LinkModel link);
+  Future<void> updateLink(LinkModel link);
+  Future<void> deleteLink(LinkModel log);
+  Future<void> addLog(LogModel log);
+  Future<void> updateLog(LogModel log);
+  Future<void> deleteLog(LogModel image);
+  Future<void> addTag(TagModel tag);
+  Future<void> updateTag(TagModel tag);
+  Future<void> deleteTag(TagModel tag);
+  Future<void> addAttachment(AttachmentModel attachment);
+  Future<void> updateAttachment(AttachmentModel attachment);
+  Future<void> deleteAttachment(AttachmentModel attachment);
+  Future<void> addReview(ReviewModel review);
+  Future<void> updateReview(ReviewModel review);
+  Future<void> deleteReview(ReviewModel review);
 }
 
-class HomeCloudDataSourceImpl implements AttachmentsCloud {
+class AttachmentCloudDataSourceImpl implements AttachmentsCloud {
   final Firestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   final StorageReference cloudStorage;
   Batch batch;
 
-  HomeCloudDataSourceImpl(
+  AttachmentCloudDataSourceImpl(
       {@required this.cloudDb,
       @required this.auth,
       @required this.nativeDb,
       @required this.cloudStorage});
 
   @override
-  Future<ImageModel> storeImage(File imageFile, String directory,
-      {String caption = ""}) async {
+  Future<ImageModel> storeImage(
+      File imageFile, String directory, ImageModel image) async {
     DateTime now = DateTime.now();
-    ImageModel thisImage = new ImageModel(
-        caption: caption,
-        id: now.millisecondsSinceEpoch,
-        localPath: imageFile.path);
+    FirebaseUser user = await auth.currentUser();
+    image = image.copyWith(savedTs: now);
 
     StorageReference firebaseStorageRef =
-        cloudStorage.child('uploads/$directory');
+        cloudStorage.child('uploads/${user.uid}/$directory/${image.localPath}');
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     await taskSnapshot.ref.getDownloadURL().then(
       (value) {
-        thisImage.copyWith(url: value, savedTs: DateTime.now());
+        image = image.copyWith(url: value, savedTs: DateTime.now());
       },
     );
-    return thisImage;
+    return image;
   }
 
   void unStoreImage(ImageModel image) {
@@ -101,83 +111,215 @@ class HomeCloudDataSourceImpl implements AttachmentsCloud {
     return;
   }
 
-
-
   @override
-  Future<void> addLinkImageToGoal(GoalModel goal, ImageModel image) async {
+  Future<void> addAttachment(AttachmentModel attachemnt) async {
     FirebaseUser user = await auth.currentUser();
 
     DocumentReference ref = cloudDb
         .collection('users')
         .document(user.uid)
-        .collection("Goals_Images")
-        .document(goal.id.toString() + image.id.toString());
+        .collection(attachemnt.getTable())
+        .document(attachemnt.id.toString());
 
-    ref.setData({
-      "goal_id": goal.id,
-      "image_id": image.id,
-      "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    ref.setData(attachemnt.toMap()).then((value) => print(ref.documentID));
   }
 
   @override
-  Future<void> removeLinkImageFomGoal(GoalModel goal, ImageModel image) async {
+  Future<void> addLink(LinkModel link) async {
     FirebaseUser user = await auth.currentUser();
 
     DocumentReference ref = cloudDb
         .collection('users')
         .document(user.uid)
-        .collection("Goals_Images")
-        .document(goal.id.toString() + image.id.toString());
+        .collection("Links")
+        .document(link.id.toString());
+
+    ref.setData(link.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> addLog(LogModel log) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("Logs")
+        .document(log.id.toString());
+
+    ref.setData(log.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> addTag(TagModel tag) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("Tags")
+        .document(tag.id.toString());
+
+    ref.setData(tag.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> deleteAttachment(AttachmentModel attachment) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(attachment.getTable())
+        .document(attachment.id.toString());
+
+    ref.delete().then((value) => print(ref.documentID));
+    return;
+  }
+
+  @override
+  Future<void> deleteLink(LinkModel link) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("Links")
+        .document(link.id.toString());
+
+    ref.delete().then((value) => print(ref.documentID));
+    return;
+  }
+
+  @override
+  Future<void> deleteLog(LogModel log) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("Logs")
+        .document(log.id.toString());
+
+    ref.delete().then((value) => print(ref.documentID));
+    return;
+  }
+
+  @override
+  Future<void> deleteTag(TagModel tag) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("Tags")
+        .document(tag.id.toString());
+
+    ref.delete().then((value) => print(ref.documentID));
+    return;
+  }
+
+  @override
+  Future<void> updateAttachment(AttachmentModel attachment) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(attachment.getTable())
+        .document(attachment.id.toString());
+
+    ref.updateData(attachment.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> updateImage(ImageModel image) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(image.getTable())
+        .document(image.id.toString());
+
+    ref.updateData(image.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> updateLink(LinkModel link) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(link.getTable())
+        .document(link.id.toString());
+
+    ref.updateData(link.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> updateLog(LogModel log) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(log.getTable())
+        .document(log.id.toString());
+
+    ref.updateData(log.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> updateTag(TagModel tag) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(tag.getTable())
+        .document(tag.id.toString());
+
+    ref.updateData(tag.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> addReview(ReviewModel review) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(review.getString())
+        .document(review.id.toString());
+
+    ref.setData(review.toMap()).then((value) => print(ref.documentID));
+  }
+
+  @override
+  Future<void> deleteReview(ReviewModel review) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(review.getString())
+        .document(review.id.toString());
 
     ref.delete().then((value) => print(ref.documentID));
   }
 
   @override
-  Future<void> addAudio(ImageModel image) {
-      // TODO: implement addAudio
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<void> addLink(ImageModel image) {
-      // TODO: implement addLink
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<void> addLog(ImageModel image) {
-      // TODO: implement addLog
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<void> addTag(ImageModel image) {
-      // TODO: implement addTag
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<void> deleteAudio(ImageModel image) {
-      // TODO: implement deleteAudio
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<void> deleteLink(ImageModel image) {
-      // TODO: implement deleteLink
-      throw UnimplementedError();
-    }
-  
-    @override
-    Future<void> deleteLog(ImageModel image) {
-      // TODO: implement deleteLog
-      throw UnimplementedError();
-    }
-  
-    @override
-  Future<void> deleteTag(ImageModel image) {
-    // TODO: implement deleteTag
-    throw UnimplementedError();
+  Future<void> updateReview(ReviewModel review) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(review.getString())
+        .document(review.id.toString());
+
+    ref.updateData(review.toMap()).then((value) => print(ref.documentID));
   }
 }

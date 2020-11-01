@@ -3,25 +3,18 @@ import 'dart:convert';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
 
-abstract class HomeRemoteApi {
-  Future<List<UnsplashImage>> fetchWallpapers();
+abstract class GoalRemoteApi {
+  Future<List<UnsplashImage>> fetchWallpapers(String search);
 }
 
-const LOGGED_IN_STATE_TAG = 'LoggedIn';
-const SIGN_IN_ID_TAG = 'google_name';
-const LAST_UPDATED_INSPIRATIONS_TAG = 'inspiration_last_updated';
-const LAST_UPDATED_AFFIRMATIONS_TAG = 'affirmations_last_updated';
-const LAST_UPDATED_THUMBNAILS_TAG = 'thumbnail_last_updated';
-const LAST_UPDATED_PLACEHOLDER_TAG = 'placeholder_last_updated';
-const CURRENT_DEVICE_NAME_ID_TAG = 'device_name';
 const INSPIRATION_PHOTO_ENDPOINT =
     'https://api.unsplash.com/photos/random?count=30&query=wallpaper&orientation=portrait&';
 
-class HomeRemoteApiDataSourceImpl implements HomeRemoteApi {
+class GoalRemoteApiDataSourceImpl implements GoalRemoteApi {
   var _parsedResponse;
 
-  HomeRemoteApiDataSourceImpl();
-  Future<List<UnsplashImage>> fetchWallpapers() async {
+  GoalRemoteApiDataSourceImpl();
+  Future<List<UnsplashImage>> fetchWallpapers(String search) async {
     List<UnsplashImage> images = [];
     print("HomeRemoteApiDataSourceImpl #######");
 

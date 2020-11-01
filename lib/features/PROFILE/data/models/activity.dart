@@ -51,7 +51,7 @@ class ActivityModel extends Equatable {
       'id': id,
       'name': name,
       'image': image,
-      'saved_ts': savedTs?.toIso8601String(),
+      'saved_ts': savedTs?.millisecondsSinceEpoch,
       'weight': weight,
     };
   }
@@ -63,7 +63,7 @@ class ActivityModel extends Equatable {
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      savedTs: DateTime.parse(map['saved_ts']),
+      savedTs:  DateTime.fromMillisecondsSinceEpoch(map['saved_ts']),
       weight: map['weight'].toDouble(),
     );
   }
@@ -76,7 +76,7 @@ class ActivityModel extends Equatable {
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      savedTs: DateTime.parse(map['saved_ts']),
+      savedTs: DateTime.fromMillisecondsSinceEpoch(map['saved_ts']),
       weight: map['weight'].toDouble(),
     );
   }

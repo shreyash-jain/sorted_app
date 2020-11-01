@@ -8,6 +8,8 @@ class LogModel extends Equatable {
   DateTime date;
   DateTime savedTs;
   int type;
+  int connectedId;
+  int level;
   String path;
   LogModel({
     this.id = 0,
@@ -15,9 +17,11 @@ class LogModel extends Equatable {
     this.date,
     this.savedTs,
     this.type = 0,
+    this.connectedId = 0,
+    this.level = 0,
     this.path = '',
   });
-  
+
 
   LogModel copyWith({
     int id,
@@ -25,6 +29,8 @@ class LogModel extends Equatable {
     DateTime date,
     DateTime savedTs,
     int type,
+    int connectedId,
+    int level,
     String path,
   }) {
     return LogModel(
@@ -33,6 +39,8 @@ class LogModel extends Equatable {
       date: date ?? this.date,
       savedTs: savedTs ?? this.savedTs,
       type: type ?? this.type,
+      connectedId: connectedId ?? this.connectedId,
+      level: level ?? this.level,
       path: path ?? this.path,
     );
   }
@@ -44,6 +52,8 @@ class LogModel extends Equatable {
       'date': date?.millisecondsSinceEpoch,
       'savedTs': savedTs?.millisecondsSinceEpoch,
       'type': type,
+      'connectedId': connectedId,
+      'level': level,
       'path': path,
     };
   }
@@ -57,6 +67,8 @@ class LogModel extends Equatable {
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
       type: map['type'],
+      connectedId: map['connectedId'],
+      level: map['level'],
       path: map['path'],
     );
   }
@@ -67,6 +79,7 @@ class LogModel extends Equatable {
 
   @override
   bool get stringify => true;
+  String getTable() => "Logs";
 
   @override
   List<Object> get props {
@@ -76,6 +89,8 @@ class LogModel extends Equatable {
       date,
       savedTs,
       type,
+      connectedId,
+      level,
       path,
     ];
   }

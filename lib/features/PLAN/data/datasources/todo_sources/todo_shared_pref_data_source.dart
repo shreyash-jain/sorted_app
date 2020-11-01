@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sorted/core/error/exceptions.dart';
 
-abstract class HomeSharedPref {
+abstract class TodoSharedPref {
   Future<DateTime> get lastUpdatedAffirmation;
   Future<DateTime> get lastUpdatedInspiration;
   Future<DateTime> get lastUpdatedThumbnailDetail;
@@ -25,10 +25,10 @@ const LAST_UPDATED_THUMBNAILS_TAG = 'thumbnail_last_updated';
 const LAST_UPDATED_PLACEHOLDER_TAG = 'placeholder_last_updated';
 const CURRENT_DEVICE_NAME_ID_TAG = 'device_name';
 
-class HomeSharedPrefDataSourceImpl implements HomeSharedPref {
+class GoalSharedPrefDataSourceImpl implements TodoSharedPref {
   final SharedPreferences sharedPreferences;
 
-  HomeSharedPrefDataSourceImpl({@required this.sharedPreferences});
+  GoalSharedPrefDataSourceImpl({@required this.sharedPreferences});
 
   @override
   Future<DateTime> get lastUpdatedAffirmation async {

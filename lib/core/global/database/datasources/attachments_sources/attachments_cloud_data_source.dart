@@ -63,9 +63,10 @@ class AttachmentCloudDataSourceImpl implements AttachmentsCloud {
     DateTime now = DateTime.now();
     FirebaseUser user = await auth.currentUser();
     image = image.copyWith(savedTs: now);
+    String storagePath = 'uploads/${user.uid}/$directory/${image.localPath}';
+    image = image.copyWith(storagePath: storagePath);
 
-    StorageReference firebaseStorageRef =
-        cloudStorage.child('uploads/${user.uid}/$directory/${image.localPath}');
+    StorageReference firebaseStorageRef = cloudStorage.child(storagePath);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     await taskSnapshot.ref.getDownloadURL().then(

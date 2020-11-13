@@ -29,6 +29,7 @@ import 'package:sorted/features/PLAN/presentation/pages/kanban_view.dart';
 import 'package:sorted/features/PLAN/presentation/pages/timeline_view.dart';
 import 'package:sorted/features/PLAN/presentation/pages/year_planner.dart';
 import 'package:sorted/features/PLAN/presentation/pages/long_term_planner.dart';
+import 'package:sorted/features/FILES/presentation/pages/test_note.dart';
 
 class Router {
   static const splashPage = '/';
@@ -47,6 +48,7 @@ class Router {
   static const timelineView = '/timeline-view';
   static const yearPlanner = '/year-planner';
   static const longPlanner = '/long-planner';
+  static const noteHub = '/note-hub';
   static final navigator = ExtendedNavigator();
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -205,6 +207,18 @@ class Router {
           pageBuilder: (ctx, animation, secondaryAnimation) => LongPlanner(),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.noteHub:
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
+        }
+        final typedArgs = args as Key;
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) =>
+              NoteHub(key: typedArgs),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.slideRightWithFade,
           transitionDuration: Duration(milliseconds: 200),
         );
       default:

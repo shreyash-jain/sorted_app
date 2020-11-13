@@ -32,8 +32,12 @@ List<String> tables = [
   "Goals",
   "TodoItems",
   "Tasks",
+  "BlockInfo",
+  "BlockTextbox",
   "Goals_Images",
-  "TaskStatus"
+  "TaskStatus",
+  "BlockImage",
+  "Notes_Blocks"
 ];
 List<String> imagePath = [];
 List<int> imageTotal = [];
@@ -193,9 +197,6 @@ class SqlDatabaseService {
           '''CREATE TABLE Timelines (id INTEGER PRIMARY KEY, saved_ts INTEGER,status INTEGER, title TEXT, content TEXT, date TEXT,end_date TEXT);''');
 
       await db.execute(
-          '''CREATE TABLE Notes (_id INTEGER PRIMARY KEY, saved_ts INTEGER, c_keywords TEXT,c_summary TEXT, s_value DOUBLE, book_id INTEGER, title TEXT, content TEXT, date TEXT, isImportant INTEGER);''');
-      print('New table created at 1 $path');
-      await db.execute(
           '''CREATE TABLE Notebooks (_id INTEGER PRIMARY KEY, saved_ts INTEGER,title TEXT, notes_num INTEGER, date TEXT, isImportant INTEGER);''');
       print('New table created at 2 $path');
       await db.execute(
@@ -228,7 +229,7 @@ class SqlDatabaseService {
       await db.execute(
           'CREATE TABLE Todos (id INTEGER PRIMARY KEY,  savedTs INTEGER,title TEXT,description TEXT, numTodoItems INTEGER, position INTEGER)');
       await db.execute(
-          'CREATE TABLE TodoItems (id INTEGER PRIMARY KEY, savedTs INTEGER,todoItem TEXT,position INTEGER,description TEXT, state INTEGER)');
+          'CREATE TABLE TodoItems (id INTEGER PRIMARY KEY, savedTs INTEGER,todoItem TEXT,position INTEGER,todolistId INTEGER,description TEXT, state INTEGER)');
       await db.execute(
           'CREATE TABLE TaskStatus (id INTEGER PRIMARY KEY,canDelete INTEGER,numItems INTEGER, savedTs INTEGER,status INTEGER,imagePath TEXT)');
       await db.execute(
@@ -267,6 +268,26 @@ class SqlDatabaseService {
           'CREATE TABLE Tasks_Activities (task_id INTEGER, activity_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
       await db.execute(
           'CREATE TABLE Tasks_Tasks (task_id INTEGER, dependency_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
+      await db.execute(
+          'CREATE TABLE Todos_TodoItems (todo_id INTEGER, todoitem_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
+
+      await db.execute(
+          'CREATE TABLE Notes (id INTEGER PRIMARY KEY, savedTs INTEGER,icon INTEGER,decoration INTEGER,numLogs INTEGER,startDate INTEGER,numReviews INTEGER,numBlocks INTEGER,numTags INTEGER, notebookId INTEGER, title TEXT, cover TEXT, noteEmoji TEXT, canDelete INTEGER,isDeleted INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockInfo (id INTEGER PRIMARY KEY, savedTs INTEGER,type INTEGER,height DOUBLE,itemId INTEGER,position INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockTextbox (id INTEGER PRIMARY KEY, savedTs INTEGER,decoration INTEGER,title TEXT,isRich INTEGER,imagePath TEXT,text TEXT,iconData INTEGER,color1 INTEGER,color2 INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockImage (id INTEGER PRIMARY KEY, savedTs INTEGER,decoration INTEGER,colossalId INTEGER,title TEXT,imagePath TEXT,caption TEXT,url TEXT,iconData INTEGER,color1 INTEGER,color2 INTEGER,remotePath TEXT);');
+
+      await db.execute(
+          'CREATE TABLE Notes_Blocks (note_id INTEGER, block_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
+      await db.execute(
+          'CREATE TABLE Notes_Tags (note_id INTEGER, tag_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
+      await db.execute(
+          'CREATE TABLE Notes_Logs (note_id INTEGER, log_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
+      await db.execute(
+          'CREATE TABLE Notes_Reviews (note_id INTEGER, review_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
 
       print('New table created at $path');
     });

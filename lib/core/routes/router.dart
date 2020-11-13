@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:sorted/features/FILES/presentation/pages/test_note.dart';
 import 'package:sorted/features/HOME/presentation/pages/affirmation_pv.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
 
@@ -52,14 +53,19 @@ class $Router {
     durationInMilliseconds: 200,
   )
   TimelineView timelineView;
-   @CustomRoute(
+  @CustomRoute(
     transitionsBuilder: TransitionsBuilders.fadeIn,
     durationInMilliseconds: 200,
   )
   YearPlanner yearPlanner;
-   @CustomRoute(
+  @CustomRoute(
     transitionsBuilder: TransitionsBuilders.fadeIn,
     durationInMilliseconds: 200,
   )
   LongPlanner longPlanner;
+  @CustomRoute(
+    transitionsBuilder: TransitionsBuilders.slideRightWithFade,
+    durationInMilliseconds: 200,
+  )
+  NoteHub noteHub;
 }

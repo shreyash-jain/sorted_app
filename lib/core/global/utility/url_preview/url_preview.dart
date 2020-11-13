@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_store/flutter_cache_store.dart';
 
-import 'package:html/dom.dart';
+import 'package:html/dom.dart' as ht;
 import 'package:html/parser.dart';
 import 'package:sorted/core/global/utility/url_preview/widgets/url_description.dart';
 import 'package:sorted/core/global/utility/url_preview/widgets/url_image.dart';
@@ -139,7 +139,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
     }
   }
 
-  void _extractOGData(Document document, Map data, String parameter) {
+  void _extractOGData(ht.Document document, Map data, String parameter) {
     var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
         (meta) => meta.attributes['property'] == parameter,
         orElse: () => null);
@@ -166,7 +166,29 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
     _initialize();
 
     if (_urlPreviewData == null || !_isVisible) {
-      return SizedBox();
+      return Card(
+      elevation: 1,
+      color: _bgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+      padding: _previewContainerPadding,
+      height: _previewHeight,
+     
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: _onTap,
+            child: Container(
+              height: 150,
+              padding: EdgeInsets.all(8),
+              child:Text(widget.url)),
+          ),
+          
+        ],
+      ),
+    ));
     }
 
     return Container(
@@ -178,7 +200,7 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
             onTap: _onTap,
             child: _buildPreviewCard(context),
           ),
-          _buildClosablePreview(),
+          
         ],
       ),
     );
@@ -205,10 +227,10 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
 
   Card _buildPreviewCard(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 1,
       color: _bgColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(12.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

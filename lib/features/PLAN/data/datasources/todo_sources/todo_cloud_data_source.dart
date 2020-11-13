@@ -13,11 +13,12 @@ import 'package:sqflite/sqflite.dart';
 
 abstract class TodoCloud {
   Future<void> addTodo(TodoModel todo);
-  Future<void> updateGoal(TodoModel todo);
-  Future<void> deleteGoal(TodoModel todo);
+  Future<void> updateTodo(TodoModel todo);
+  Future<void> deleteTodo(TodoModel todo);
   Future<void> addTodoItem(TodoItemModel todoitem);
   Future<void> updateTodoItem(TodoItemModel todoitem);
   Future<void> deleteTodoItem(TodoItemModel todoitem);
+
   Future<void> addLinkTodoitemToTodo(
       TodoModel todo, TodoItemModel todoitem, int id);
   Future<void> removeLinkTodoitemFromTodo(int id);
@@ -80,7 +81,7 @@ class TodoCloudDataSourceImpl implements TodoCloud {
   }
 
   @override
-  Future<void> deleteGoal(TodoModel todo) async {
+  Future<void> deleteTodo(TodoModel todo) async {
     FirebaseUser user = await auth.currentUser();
     DocumentReference ref = cloudDb
         .collection('users')
@@ -122,7 +123,7 @@ class TodoCloudDataSourceImpl implements TodoCloud {
   }
 
   @override
-  Future<void> updateGoal(TodoModel todo) async {
+  Future<void> updateTodo(TodoModel todo) async {
     FirebaseUser user = await auth.currentUser();
     DocumentReference ref = cloudDb
         .collection('users')

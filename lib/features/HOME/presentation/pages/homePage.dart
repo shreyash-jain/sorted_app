@@ -129,7 +129,6 @@ class _SortedHomeState extends State<SortedHome>
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         key: _scaffoldKey,
@@ -228,9 +227,12 @@ class _SortedHomeState extends State<SortedHome>
 
   void onSideTabSelected(int toIndex) {
     print(toIndex);
-    if (toIndex==1){
+    if (toIndex == 1) {
       print("plan");
       Router.navigator.pushNamed(Router.planHome);
+    } else if (toIndex == 2) {
+      print("plan");
+      Router.navigator.pushNamed(Router.noteHub);
     }
     if (currentSideTab == toIndex)
       setState(() {

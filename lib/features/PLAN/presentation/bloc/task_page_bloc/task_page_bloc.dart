@@ -97,6 +97,12 @@ class TaskPageBloc extends Bloc<TaskPageEvent, TaskPageBlocState> {
           tags: (state as TaskPageLoaded).tags,
           toAddTodosItems: todos,
           thisGoal: (state as TaskPageLoaded).thisGoal);
+    } else if (event is UpdateTodoItems) {
+      yield TaskPageLoaded(
+          thisTask: (state as TaskPageLoaded).thisTask,
+          tags: (state as TaskPageLoaded).tags,
+          toAddTodosItems: event.todos,
+          thisGoal: (state as TaskPageLoaded).thisGoal);
     }
   }
 

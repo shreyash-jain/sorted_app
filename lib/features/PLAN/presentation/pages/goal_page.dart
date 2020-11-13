@@ -32,11 +32,11 @@ class GoalPage extends StatefulWidget {
 
 class GoalPageState extends State<GoalPage> {
   Emoji emojiProfile = Emoji(name: "Heavy Plus Sign", emoji: "➕");
+  bool isShowSticker = false;
   bool showVision = false;
   bool showMotivation = false;
   GoalPageBloc bloc;
 
-  bool isShowSticker = false;
 
   var _newMediaLinkAddressController = TextEditingController();
 

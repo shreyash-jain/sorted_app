@@ -8,6 +8,7 @@ class TodoItemModel extends Equatable {
   String todoItem;
   String description;
   int state;
+  int todolistId;
   int position;
   DateTime savedTs;
   TodoItemModel({
@@ -15,6 +16,7 @@ class TodoItemModel extends Equatable {
     this.todoItem = '',
     this.description = '',
     this.state = 0,
+    this.todolistId = 0,
     this.position = 0,
     this.savedTs,
   });
@@ -24,6 +26,7 @@ class TodoItemModel extends Equatable {
     String todoItem,
     String description,
     int state,
+    int todolistId,
     int position,
     DateTime savedTs,
   }) {
@@ -32,18 +35,19 @@ class TodoItemModel extends Equatable {
       todoItem: todoItem ?? this.todoItem,
       description: description ?? this.description,
       state: state ?? this.state,
+      todolistId: todolistId ?? this.todolistId,
       position: position ?? this.position,
       savedTs: savedTs ?? this.savedTs,
     );
   }
 
-String getTable() => "TodoItems";
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'todoItem': todoItem,
       'description': description,
       'state': state,
+      'todolistId': todolistId,
       'position': position,
       'savedTs': savedTs?.millisecondsSinceEpoch,
     };
@@ -57,23 +61,14 @@ String getTable() => "TodoItems";
       todoItem: map['todoItem'],
       description: map['description'],
       state: map['state'],
+      todolistId: map['todolistId'],
       position: map['position'],
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
     );
   }
-  factory TodoItemModel.makeRandom() {
-    DateTime now = DateTime.now();
-
-    return TodoItemModel(
-        id: now.millisecondsSinceEpoch,
-        todoItem: faker.lorem.sentence(),
-        description: "",
-        state: 0,
-        savedTs: now,
-        position: 0);
-  }
 
   String toJson() => json.encode(toMap());
+  String getTable() => "TodoItems";
 
   factory TodoItemModel.fromJson(String source) =>
       TodoItemModel.fromMap(json.decode(source));
@@ -88,6 +83,7 @@ String getTable() => "TodoItems";
       todoItem,
       description,
       state,
+      todolistId,
       position,
       savedTs,
     ];

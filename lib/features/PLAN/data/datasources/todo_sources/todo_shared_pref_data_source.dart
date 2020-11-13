@@ -25,10 +25,10 @@ const LAST_UPDATED_THUMBNAILS_TAG = 'thumbnail_last_updated';
 const LAST_UPDATED_PLACEHOLDER_TAG = 'placeholder_last_updated';
 const CURRENT_DEVICE_NAME_ID_TAG = 'device_name';
 
-class GoalSharedPrefDataSourceImpl implements TodoSharedPref {
+class TodoSharedPrefDataSourceImpl implements TodoSharedPref {
   final SharedPreferences sharedPreferences;
 
-  GoalSharedPrefDataSourceImpl({@required this.sharedPreferences});
+  TodoSharedPrefDataSourceImpl({@required this.sharedPreferences});
 
   @override
   Future<DateTime> get lastUpdatedAffirmation async {

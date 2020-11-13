@@ -13,7 +13,7 @@ class UserIntroStrings {
   static const String waitingText =
       "\n\nThis might take few minutes, Please do not close me";
   static const List<String> elements = [
-    "NOTES",
+    "FILES",
     "EVENTS",
     "TRACKERS",
     "EXPENSES",

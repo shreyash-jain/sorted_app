@@ -50,7 +50,7 @@ class SideTab extends StatelessWidget {
                 SideTabTile(
                     currentSideTab: currentSideTab,
                     isNavEnabled: isNavEnabled,
-                    tabName: "Notes",
+                    tabName: "Files",
                     description: "The one where your organized notes are kept",
                     index: 2,
                     onTapAction: onTapAction),

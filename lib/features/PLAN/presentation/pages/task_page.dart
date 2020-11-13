@@ -24,6 +24,7 @@ import 'package:sorted/features/PLAN/presentation/widgets/add_event.dart';
 import 'package:sorted/features/PLAN/presentation/widgets/add_link.dart';
 import 'package:sorted/features/PLAN/presentation/widgets/add_tag.dart';
 import 'package:sorted/features/PLAN/presentation/widgets/add_task.dart';
+import 'package:sorted/features/PLAN/presentation/widgets/floating_widget.dart';
 
 class TaskPage extends StatefulWidget {
   final TaskModel thisGoal;
@@ -46,18 +47,85 @@ class TaskPageState extends State<TaskPage> {
 
   var deadlineDouble = 0.0;
 
-  TextEditingController newTodoItemController;
+  TextEditingController newTodoItemController = TextEditingController();
 
   FocusNode newTodoFocus = FocusNode();
 
-  ScrollController _scrollController =ScrollController(initialScrollOffset:0);
+  ScrollController _scrollController = ScrollController(initialScrollOffset: 0);
+
+  var _listScrollController;
   @override
   void initState() {
     bloc = TaskPageBloc(sl(), sl(), widget.planBloc)
       ..add(LoadTaskPage(widget.thisGoal));
     print(widget.thisGoal.taskImageId + "  haha");
+    _listScrollController = new ScrollController(
+      // NEW
+      initialScrollOffset: 0.0, // NEW
+      keepScrollOffset: true, // NEW
+    );
 
     super.initState();
+  }
+
+  buildItemDragTarget(targetPosition, double height) {
+    return DragTarget<TodoItemModel>(
+      // Will accept others, but not himself
+      onWillAccept: (TodoItemModel data) {
+        return (bloc.state as TaskPageLoaded).toAddTodosItems.isEmpty ||
+            data.id !=
+                (bloc.state as TaskPageLoaded)
+                    .toAddTodosItems[targetPosition]
+                    .id;
+      },
+      onLeave: (object) {
+        //print((object as Item).listId + "  onleave");
+      },
+      // Moves the card into the position
+      onAccept: (TodoItemModel data) {
+        setState(() {
+          if ((bloc.state as TaskPageLoaded).toAddTodosItems != null) {
+            List<TodoItemModel> todos =
+                (bloc.state as TaskPageLoaded).toAddTodosItems;
+            (bloc.state as TaskPageLoaded).toAddTodosItems.remove(data);
+            //data.listId = listId;
+
+            if (todos.length > targetPosition) {
+              todos.insert(targetPosition + 1, data);
+            } else {
+              todos.add(data);
+            }
+
+            bloc.add(UpdateTodoItems(todos));
+          }
+        });
+      },
+      builder: (BuildContext context, List<TodoItemModel> data,
+          List<dynamic> rejectedData) {
+        if (data.isEmpty) {
+          // The area that accepts the draggable
+          return Container(
+            height: height + 12,
+          );
+        } else {
+          return Column(
+            // What's shown when hovering on it
+            children: [
+              Container(
+                height: height,
+              ),
+              ...data.map((TodoItemModel item) {
+                //print("list id" + item.listId.toString());
+                return Opacity(
+                  opacity: 0.5,
+                  child: ListTodoCard(item),
+                );
+              }).toList()
+            ],
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -67,6 +135,67 @@ class TaskPageState extends State<TaskPage> {
 
   @override
   Widget build(BuildContext context) {
+    buildKanbanList(List<TodoItemModel> items) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(0),
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        child: ListView.builder(
+                          controller: _listScrollController,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: items.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            // A stack that provides:
+                            // * A draggable object
+                            // * An area for incoming draggables
+                            return Stack(
+                              children: [
+                                LongPressDraggable<TodoItemModel>(
+                                  data: items[index],
+                                  feedbackOffset: Offset.fromDirection(500),
+                                  onDragCompleted: () {},
+                                  onDragEnd: (value) {},
+                                  child: ListTodoCard(items[index]),
+                                  childWhenDragging: Opacity(
+                                    // The card that's left behind
+                                    opacity: 0.2,
+                                    child: ListTodoCard(items[index]),
+                                  ),
+                                  feedback: Container(
+                                    // A card floating around
+                                    height: 53,
+                                    width: Gparam.width,
+                                    child: FloatingWidget(
+                                        child:
+                                            ListTodoCard(items[index])),
+                                  ),
+                                ),
+                                buildItemDragTarget(index, 53),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(body: SafeArea(child: new LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       return BlocProvider(
@@ -85,7 +214,6 @@ class TaskPageState extends State<TaskPage> {
                 height: constraints.maxHeight,
                 child: SingleChildScrollView(
                   controller: _scrollController,
-                  
                   child: Stack(children: [
                     Column(
                       children: [
@@ -757,40 +885,22 @@ class TaskPageState extends State<TaskPage> {
                                         ),
                                       )
                                     ]))),
-                        if (state.toAddTodosItems != null &&
-                            state.toAddTodosItems.length > 0)
-                          ConstrainedBox(
-                            constraints: new BoxConstraints(
-                              minHeight: 35.0,
-                              maxHeight: (state.toAddTodosItems.length * 53)
-                                  .toDouble(),
-                            ),
-                            child: ReorderableListView(
-                              scrollController: _scrollController,
-                              onReorder: _onReorder,
-                              scrollDirection: Axis.vertical,
-                              children: List.generate(
-                                state.toAddTodosItems.length,
-                                (index) {
-                                  return ListTodoCard(
-                                    state.toAddTodosItems[index],
-                                    index,
-                                    Key('$index'),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
                         SizedBox(
                           height: Gparam.heightPadding,
                         ),
+                        if (state.toAddTodosItems != null &&
+                            state.toAddTodosItems.length > 0)
+                          Container(
+                            width: Gparam.width,
+                            child: buildKanbanList(state.toAddTodosItems),
+                          ),
 
                         Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: Gparam.widthPadding),
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor.withAlpha(10),
+                            color: Theme.of(context).primaryColor.withAlpha(0),
                             borderRadius:
                                 new BorderRadius.all(Radius.circular(12.0)),
                             border: Border.all(
@@ -812,15 +922,18 @@ class TaskPageState extends State<TaskPage> {
                               fontSize: Gparam.textSmaller,
                             ),
                             onSubmitted: (newValue) {
-                              
-                            
+                              print("newTodoItemController.text");
+                              print(newTodoItemController.text);
                               bloc.add(AddTodoItem(newValue.trim()));
-                              
+                              newTodoItemController.clear();
+                              newTodoFocus.canRequestFocus = true;
+                              newTodoFocus.requestFocus();
+                              setState(() {});
                             },
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               icon: Icon(
-                                Icons.check_circle_outline,
+                                OMIcons.doneOutline,
                                 color: Theme.of(context).primaryColor,
                               ),
                               hintText: 'Enter Todo',
@@ -833,6 +946,9 @@ class TaskPageState extends State<TaskPage> {
                               ),
                             ),
                           ),
+                        ),
+                        SizedBox(
+                          height: Gparam.heightPadding,
                         ),
                       ],
                     ),
@@ -1188,11 +1304,10 @@ class TaskPageState extends State<TaskPage> {
 }
 
 class ListTodoCard extends StatefulWidget {
-  final int index;
-  final Key key;
   final TodoItemModel todo;
 
-  ListTodoCard(this.todo, this.index, this.key);
+
+  ListTodoCard(this.todo);
 
   @override
   _ListTodoCard createState() => _ListTodoCard();
@@ -1201,73 +1316,59 @@ class ListTodoCard extends StatefulWidget {
 class _ListTodoCard extends State<ListTodoCard> {
   @override
   Widget build(BuildContext context) {
-    if (widget.index == 0)
-      return InkWell(
-        splashColor: Theme.of(context).primaryColor,
-        onTap: () {},
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Flexible(
-              child: Container(
-                width: Gparam.width,
-                height: 45,
-                margin: EdgeInsets.symmetric(
-                    horizontal: Gparam.widthPadding, vertical: 4),
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withAlpha(50),
-                  borderRadius: new BorderRadius.all(Radius.circular(12.0)),
-                  border: Border.all(
-                      color: Theme.of(context).primaryColor.withOpacity(.2),
-                      width: 2),
-                ),
-                child: Text(
-                  widget.todo.todoItem,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontFamily: "Montserrat",
-                    height: 1.2,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: Gparam.textSmaller,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    return InkWell(
-      splashColor: Theme.of(context).primaryColor,
-      onTap: () {},
+    return Container(
+      margin:
+          EdgeInsets.symmetric(horizontal: Gparam.widthPadding, vertical: 3),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor.withAlpha(10),
+        borderRadius: new BorderRadius.all(Radius.circular(12.0)),
+        border: Border.all(
+            color: Theme.of(context).primaryColor.withOpacity(.2), width: 2),
+      ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          SizedBox(width: Gparam.widthPadding / 3),
+          Stack(
+            children: [
+              Icon(
+                OMIcons.checkBoxOutlineBlank,
+                color: Theme.of(context).primaryColor,
+              ),
+              if (widget.todo.state == 1)
+                Icon(
+                  OMIcons.done,
+                  color: Theme.of(context).primaryColor,
+                ),
+            ],
+          ),
+          SizedBox(width: Gparam.widthPadding / 3),
           Flexible(
             child: Container(
               width: Gparam.width,
-              height: 45,
-              margin: EdgeInsets.symmetric(
-                  horizontal: Gparam.widthPadding, vertical: 4),
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withAlpha(10),
-                borderRadius: new BorderRadius.all(Radius.circular(12.0)),
-                border: Border.all(
-                    color: Theme.of(context).primaryColor.withOpacity(.2),
-                    width: 2),
-              ),
-              child: Text(
-                widget.todo.todoItem,
-                maxLines: 1,
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  height: 1.2,
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: Gparam.textSmaller,
-                ),
+              alignment: Alignment.center,
+              height: 53,
+              padding: EdgeInsets.symmetric(horizontal: 0),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Container(
+                      child: Text(
+                        widget.todo.todoItem,
+                        maxLines: 1,
+                        style: TextStyle(
+                          decoration: (widget.todo.state == 1)
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
+                          fontFamily: "Montserrat",
+                          height: 1.2,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: Gparam.textSmaller,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

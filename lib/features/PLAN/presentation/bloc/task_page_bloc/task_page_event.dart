@@ -20,6 +20,14 @@ class AddTodoItem extends TaskPageEvent {
   List<Object> get props => [todoItem];
 }
 
+class UpdateTodoItems extends TaskPageEvent {
+  final List<TodoItemModel> todos;
+  UpdateTodoItems(this.todos);
+
+  @override
+  List<Object> get props => [todos];
+}
+
 class LoadTaskPage extends TaskPageEvent {
   final GoalModel thisGoal;
   final TaskModel thisTask;

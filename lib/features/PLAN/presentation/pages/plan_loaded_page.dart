@@ -672,40 +672,52 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
       ),
       GoalListWidget(),
       SizedBox(height: Gparam.heightPadding / 2),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SizedBox(width: Gparam.widthPadding),
-          Container(
-            padding: EdgeInsets.all(0),
-            child: RichText(
-              text: TextSpan(
-                text: 'Upcoming',
-                style: TextStyle(
-                    fontFamily: 'ZillaSlab',
-                    fontSize: Gparam.textMedium,
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context).primaryColor),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: ' Tasks',
-                      style: TextStyle(
-                        fontFamily: "Montserrat",
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: Gparam.textSmall,
-                      )),
-                ],
+      if ((BlocProvider.of<PlanBloc>(context).state as PlanLoaded)
+              .upComingTasks
+              .length >
+          0)
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            SizedBox(width: Gparam.widthPadding),
+            Container(
+              padding: EdgeInsets.all(0),
+              child: RichText(
+                text: TextSpan(
+                  text: 'Upcoming',
+                  style: TextStyle(
+                      fontFamily: 'ZillaSlab',
+                      fontSize: Gparam.textMedium,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).primaryColor),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: ' Tasks',
+                        style: TextStyle(
+                          fontFamily: "Montserrat",
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: Gparam.textSmall,
+                        )),
+                  ],
+                ),
               ),
             ),
-          ),
-          Spacer(),
-        ],
-      ),
-      SizedBox(
-        height: Gparam.heightPadding / 2,
-      ),
-      UpcomingTasks(),
+            Spacer(),
+          ],
+        ),
+      if ((BlocProvider.of<PlanBloc>(context).state as PlanLoaded)
+              .upComingTasks
+              .length >
+          0)
+        SizedBox(
+          height: Gparam.heightPadding / 2,
+        ),
+      if ((BlocProvider.of<PlanBloc>(context).state as PlanLoaded)
+              .upComingTasks
+              .length >
+          0)
+        UpcomingTasks(),
       SizedBox(height: Gparam.heightPadding / 2),
       Container(
         height: 56,

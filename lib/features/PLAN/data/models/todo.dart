@@ -17,7 +17,6 @@ class TodoModel extends Equatable {
     this.savedTs,
     this.position = 0,
   });
-  
 
   TodoModel copyWith({
     int id,
@@ -50,7 +49,7 @@ class TodoModel extends Equatable {
 
   factory TodoModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return TodoModel(
       id: map['id'],
       numTodoItems: map['numTodoItems'],
@@ -62,12 +61,14 @@ class TodoModel extends Equatable {
   }
 
   String toJson() => json.encode(toMap());
+  String getTable() => "Todos";
 
-  factory TodoModel.fromJson(String source) => TodoModel.fromMap(json.decode(source));
+  factory TodoModel.fromJson(String source) =>
+      TodoModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
-  String getTable() => "Todos";
+
   String getItemsTable() => "Todos_TodoItems";
 
   @override

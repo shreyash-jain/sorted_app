@@ -2,20 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/widgets/text_transition.dart';
 
 class ExpenseSettings extends StatefulWidget {
   const ExpenseSettings({
     Key key,
-   
- 
     @required double valueBudget,
     @required this.onSliderChange,
     @required this.onCurrencyChange,
     @required this.currency,
   })  : _valueBudget = valueBudget,
         super(key: key);
-
- 
 
   final Function(double timeValue) onSliderChange;
   final Function(int currency, String symbol) onCurrencyChange;
@@ -209,14 +206,14 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                                         ? Theme.of(context).primaryColor
                                         : Colors.transparent)),
                             color: Theme.of(context).scaffoldBackgroundColor,
-                            child: new Text( "£",
+                            child: new Text("£",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: 'ZillaSlab',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
-                              widget.onCurrencyChange(4,  "£");
+                              widget.onCurrencyChange(4, "£");
                               // setState(() {
                               //   prefs.setString("currency", "£");
                               //   selected_currency = 4;
@@ -285,10 +282,11 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                           ),
                         )),
                     Spacer(),
-                    Text(
-                      "${widget._valueBudget.floor()}  ${widget.currency}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
+                    TextTransition(
+                      text:
+                          "${widget._valueBudget.floor()}  ${widget.currency}",
+                      duration: Duration(milliseconds: 100),
+                      textStyle: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor,

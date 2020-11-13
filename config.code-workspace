@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"name": "sorted_app",
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.formatOnSave": true,
+		"editor.formatOnType": true,
+		"dart.previewFlutterUiGuides": true,
+		"dart.previewBuildRunnerTasks": true,
+		"dart.vmServiceLogFile": null,
+		"dart_data_class_generator.useEquatable": true,
+		"dart_data_class_generator.override.manual": true,
+		"dart.triggerSignatureHelpAutomatically": true
+	}
+}

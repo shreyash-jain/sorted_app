@@ -19,6 +19,7 @@ abstract class TodoNative {
       TodoModel todo, TodoItemModel todoitem, int id);
   Future<int> removeLinkTodoitemFromTodo(
       TodoModel todo, TodoItemModel todoitem);
+  Future<TodoModel> getTodo(int id);
   Future<List<TodoItemModel>> getTodoItemsOfTodo(TodoModel todo);
   Future<List<TodoItemModel>> getCompletedTodoItemsOfTodo(TodoModel todo);
   Future<List<TodoItemModel>> getInCompletedTodoItemsOfTodo(TodoModel todo);
@@ -32,7 +33,7 @@ class TodoNativeDataSourceImpl implements TodoNative {
   @override
   Future<void> addLinkTodoitemToTodo(
       TodoModel todo, TodoItemModel todoitem, int id) async {
-     final db = await nativeDb.database;
+    final db = await nativeDb.database;
     if ((await db.query(todo.getItemsTable(),
                 where: "todo_id=? and todoitem_id=?",
                 whereArgs: [todo.id, todoitem.id]))
@@ -60,8 +61,9 @@ class TodoNativeDataSourceImpl implements TodoNative {
 
   @override
   Future<void> addTodoItem(TodoItemModel todoitem) async {
-     final db = await nativeDb.database;
-    if ((await db.query(todoitem.getTable(), where: "id= ?", whereArgs: [todoitem.id]))
+    final db = await nativeDb.database;
+    if ((await db.query(todoitem.getTable(),
+                where: "id= ?", whereArgs: [todoitem.id]))
             .length ==
         0)
       await db.insert(todoitem.getTable(), todoitem.toMap());
@@ -80,14 +82,17 @@ class TodoNativeDataSourceImpl implements TodoNative {
 
   @override
   Future<void> deleteTodoItem(TodoItemModel todoitem) async {
-     final db = await nativeDb.database;
-    if ((await db.query(todoitem.getTable(), where: "id=?", whereArgs: [todoitem.id]))
+    final db = await nativeDb.database;
+    if ((await db.query(todoitem.getTable(),
+                where: "id=?", whereArgs: [todoitem.id]))
             .length >
-        0) db.delete(todoitem.getTable(), where: "id=?", whereArgs: [todoitem.id]);
+        0)
+      db.delete(todoitem.getTable(), where: "id=?", whereArgs: [todoitem.id]);
   }
 
   @override
-  Future<List<TodoItemModel>> getCompletedTodoItemsOfTodo(TodoModel todo) async {
+  Future<List<TodoItemModel>> getCompletedTodoItemsOfTodo(
+      TodoModel todo) async {
     final db = await nativeDb.database;
     List<Map<String, dynamic>> result;
 
@@ -101,7 +106,8 @@ class TodoNativeDataSourceImpl implements TodoNative {
   }
 
   @override
-  Future<List<TodoItemModel>> getInCompletedTodoItemsOfTodo(TodoModel todo) async {
+  Future<List<TodoItemModel>> getInCompletedTodoItemsOfTodo(
+      TodoModel todo) async {
     final db = await nativeDb.database;
     List<Map<String, dynamic>> result;
 
@@ -132,8 +138,7 @@ class TodoNativeDataSourceImpl implements TodoNative {
   Future<int> removeLinkTodoitemFromTodo(
       TodoModel todo, TodoItemModel todoitem) async {
     final db = await nativeDb.database;
-    List<Map<String, dynamic>> result = await db.query(
-        todo.getItemsTable(),
+    List<Map<String, dynamic>> result = await db.query(todo.getItemsTable(),
         columns: ['id'],
         where: "todo_id = ? and todoitem_id=?",
         whereArgs: [todo.id, todoitem.id]);
@@ -141,16 +146,17 @@ class TodoNativeDataSourceImpl implements TodoNative {
     if (result.length > 0) {
       id = result[0]['id'];
       db.delete(todo.getItemsTable(),
-          where: "todo_id=? and todoitem_id=?", whereArgs: [todo.id, todoitem.id]);
+          where: "todo_id=? and todoitem_id=?",
+          whereArgs: [todo.id, todoitem.id]);
     }
     return id;
   }
 
   @override
   Future<void> updateTodo(TodoModel todo) async {
-   final db = await nativeDb.database;
-  
-        if ((await db.query(todo.getTable(), where: "id= ?", whereArgs: [todo.id]))
+    final db = await nativeDb.database;
+
+    if ((await db.query(todo.getTable(), where: "id= ?", whereArgs: [todo.id]))
             .length >
         0)
       await db.update(todo.getTable(), todo.toMap(),
@@ -160,10 +166,27 @@ class TodoNativeDataSourceImpl implements TodoNative {
   @override
   Future<void> updateTodoItem(TodoItemModel todoitem) async {
     final db = await nativeDb.database;
-    if ((await db.query(todoitem.getTable(), where: "id= ?", whereArgs: [todoitem.id]))
+    if ((await db.query(todoitem.getTable(),
+                where: "id= ?", whereArgs: [todoitem.id]))
             .length >
         0)
       await db.update(todoitem.getTable(), todoitem.toMap(),
           where: "id = ?", whereArgs: [todoitem.id]);
+  }
+
+  @override
+  Future<TodoModel> getTodo(int id) async {
+    final db = await nativeDb.database;
+    TodoModel todo = new TodoModel();
+    
+
+    List<Map<String, dynamic>> result;
+
+    result = await db.query(todo.getTable(), where: "id= ?", whereArgs: [id]);
+    
+    List<TodoModel> todoitems = result.isNotEmpty
+        ? result.map((item) => TodoModel.fromMap(item)).toList()
+        : [];
+    return todoitems[0];
   }
 }

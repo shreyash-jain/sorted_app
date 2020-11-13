@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/widgets/text_transition.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/interactionPage.dart';
+
 class StackContainerFront extends StatelessWidget {
   const StackContainerFront({
     Key key,
@@ -97,17 +98,20 @@ class StackContainerFront extends StatelessWidget {
                               ),
                               SizedBox(width: 10.0),
                               FadeAnimationTB(
-                      .8,Text(
-                                currentItemInDownload,
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white60,
-                                    fontFamily: 'ZillaSlab'),
-                              )),
+                                  .8,
+                                  TextTransition(
+                                    text: currentItemInDownload,
+                                    width: Gparam.width / 2,
+                                    duration: Duration(milliseconds: 200),
+                                    textStyle: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white60,
+                                        fontFamily: 'ZillaSlab'),
+                                  )),
                             ],
                           ),
-                          SizedBox(height: 10),
+                        SizedBox(height: 10),
                         Center(
                           child: Container(
                             padding: EdgeInsets.only(left: 30.0, right: 30),

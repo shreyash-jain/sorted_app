@@ -1,0 +1,37 @@
+<section id="blog" class="blog">
+  <div class="about-decor">
+    <div class="about-circle1">
+      <img src="assets/images/teaam1.png" alt />
+    </div>
+    <div class="about-circle2">
+      <img src="assets/images/main-banner1.png" alt />
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2 class="title">latest <span>blog</span></h2>
+      </div>
+      <div class="col-sm-12">
+        <owl-carousel-o [options]="customOptions" class="blog-carousel">
+            <ng-template carouselSlide *ngFor="let slide of slidesStore" [id]="slide.id">
+                <div class="blog-block">
+                    <div class="blog-box">
+                        <div class="overflow-hidden">
+                            <a><img [src]="slide.src" [alt]="slide.alt"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-text">
+                    <h6 [innerHTML]="slide.date"></h6>
+                    <a>
+                        <h3 [innerHTML]="slide.detail"></h3>
+                    </a>
+                    <h5 [innerHTML]="slide.review"></h5>
+                </div>
+              </ng-template>
+        </owl-carousel-o>
+      </div>
+    </div>
+  </div>
+</section>

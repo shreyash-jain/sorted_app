@@ -1,0 +1,34 @@
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import './styles2.scss';
+
+@font-face {
+    font-family: 'sortit-font';
+    src: url('assets/fonts/Montserrat-Regular.ttf');
+}
+
+* {
+    font-family: sortit-font !important;
+    user-select: none;
+    box-sizing: border-box;
+}
+// html {
+    // font-size: calc(100vw / 360) !important;
+// }
+// html,
+// body {
+//     height: 100%;
+//     margin: 0;
+// }
+// div,
+// p {
+//     margin: 0;
+//     padding: 0;
+// }
+::-webkit-scrollbar {
+    display: none;
+}
+
+:root {
+    --primary-color: rgba(58, 149, 255, 1);
+}

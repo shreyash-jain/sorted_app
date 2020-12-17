@@ -1,0 +1,40 @@
+<section id="team" class="team">
+  <div class="team-decor">
+    <div class="team-circle1">
+      <img src="assets/images/team1.png" alt />
+    </div>
+    <div class="team-circle2">
+      <img src="assets/images/team3.png" alt />
+    </div>
+    <div class="team-circle3">
+      <img src="assets/images/team.png" alt />
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2 class="title">our <span>smart team</span></h2>
+      </div>
+      <div class="col-sm-12">
+        <div>
+          <owl-carousel-o [options]="customOptions" class="team-carousel">
+            <ng-template carouselSlide *ngFor="let slide of slidesStore">
+              <div class="team-block">
+                <div class="team-box">
+                  <div class="team-avtar">
+                    <img [src]="slide.avtar" alt />
+                  </div>
+                  <div class="team-text">
+                    <h3 [innerHTML]="slide.name"></h3>
+                    <h6 [innerHTML]="slide.role"></h6>
+                  </div>
+                  <!-- <div class="overlay"></div> -->
+                </div>
+              </div>
+            </ng-template>
+          </owl-carousel-o>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

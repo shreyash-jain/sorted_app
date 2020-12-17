@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "sorted-98c02": {
+      "hosting": {
+        "web": [
+          "sorted-98c02"
+        ]
+      }
+    }
+  }
+}

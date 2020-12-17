@@ -1,0 +1,36 @@
+<section id="features" class="feature">
+  <div class="feature-decor">
+    <div class="feature-circle1">
+      <img src="assets/images/feature2.png" alt />
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="feature-phone">
+        <img src="assets/images/222.png" alt class="img-fluid" />
+      </div>
+      <div class="offset-lg-4 col-lg-8">
+        <div class="row">
+          <div class="col-sm-12 mrgn-md-top">
+            <h2>features of<span> tovo</span></h2>
+          </div>
+          <div *ngFor="let dataList of featuresData; last as isLast" class="col-12 col-md-6" [ngClass]="{'sm-m-top': isLast}">
+            <ul class="feature-style">
+              <li *ngFor="let data of dataList">
+                <div class="feature-icon">
+                  <img [src]="data.icon" alt="icon" />
+                </div>
+                <div class="feature-subtitle">
+                  <h3 [innerHTML]="data.subtitle"></h3>
+                </div>
+                <div>
+                  <p [innerHTML]="data.subText"></p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

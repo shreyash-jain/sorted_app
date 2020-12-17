@@ -1,0 +1,30 @@
+<section id="testimonial" class="testimonial">
+    <div class="testimonial-decor">
+        <div class="testi-circle1">
+            <img src="assets/images/Testimonial2.png"/>
+        </div>
+        <div class="testi-circle2">
+            <img src="assets/images/Testimonial1.png"/>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <owl-carousel-o [options]="customOptions" class="testimonial-carousel">
+                    <ng-template carouselSlide *ngFor="let slide of slidesStore">
+                        <div class="testimonial-block">
+                            <div class="testimonial-avtar">
+                                <img [src]="slide.image" alt />
+                            </div>
+                            <div class="testimonial-text">
+                                <p [innerHTML]="slide.content"></p>
+                                <h3 [innerHTML]="slide.name"></h3>
+                                <h6 [innerHTML]="slide.role"></h6>
+                            </div>
+                        </div>
+                    </ng-template>
+                </owl-carousel-o>
+            </div>
+        </div>
+    </div>
+</section>

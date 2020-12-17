@@ -1,0 +1,28 @@
+<section id="price" class="price">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <owl-carousel-o [options]="customOptions" class="price-carousel">
+            <ng-template carouselSlide *ngFor="let slide of slidesStore">
+                <div class="price-block">
+                    <div class="price-type">
+                        <h2 [innerHTML]="slide.type"></h2>
+                    </div>
+                    <div class="mrp">
+                        <h6 class="user-type" [innerHTML]="slide.userType"></h6>
+                        <div class="price-devide"></div>
+                        <h2 [innerHTML]="slide.mrp"></h2>
+                        <h6 class="price-year" [innerHTML]="slide.duration"></h6>
+                        <div class="price-devide"></div>
+                    </div>
+                    <ul class="price-feature">
+                        <li *ngFor="let feature of slide.features" [innerHTML]="feature"></li>
+                    </ul>
+                    <a type="button" class="btn btn-custom theme-color">Select Plan</a>
+                </div>
+            </ng-template>
+        </owl-carousel-o>
+      </div>
+    </div>
+  </div>
+</section>

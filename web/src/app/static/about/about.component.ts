@@ -10,21 +10,21 @@ export class AboutComponent implements OnInit {
     [
       {
         icon: 'assets/images/icon1.png',
-        text: 'Easy to Customize',
+        text: 'Health',
       },
       {
-        icon: 'assets/images/icon3.png',
-        text: 'Easy to Use',
+        icon: 'assets/images/icon2.png',
+        text: 'Self-Improvement',
       },
     ],
     [
       {
-        icon: 'assets/images/icon2.png',
-        text: 'Nice Design',
+        icon: 'assets/images/icon3.png',
+        text: 'Nutrition',
       },
       {
         icon: 'assets/images/icon4.png',
-        text: 'SEO Friendly',
+        text: 'Productivity',
       },
     ],
   ];

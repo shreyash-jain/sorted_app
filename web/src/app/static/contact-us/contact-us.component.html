@@ -13,14 +13,14 @@
         <div class="contact-us">
           <div class="w-100">
             <h2 class="title"><span>contact </span>information</h2>
-            <form novalidate class="theme-form">
+            <form novalidate [formGroup]="form" class="theme-form" (ngSubmit)="formSubmit()">
               <div class="form-group">
                 <div class="row">
                   <div class="col-sm-12 col-md-6 md-fgrup-margin">
                     <input
                       type="text"
                       name="name"
-                      formcontrolname="name"
+                      formControlName="name"
                       autocomplete="off"
                       placeholder="your name"
                       required=""
@@ -31,7 +31,7 @@
                     <input
                       type="mobile"
                       name="phone"
-                      formcontrolname="phone"
+                      formControlName="phone"
                       autocomplete="off"
                       placeholder="phone"
                       required=""
@@ -44,7 +44,7 @@
                 <input
                   type="email"
                   name="email"
-                  formcontrolname="email"
+                  formControlName="email"
                   autocomplete="off"
                   id="exampleFormControlInput1"
                   placeholder="email address"
@@ -55,7 +55,7 @@
               <div class="form-group">
                 <textarea
                   name="message"
-                  formcontrolname="message"
+                  formControlName="message"
                   id="exampleFormControlTextarea1"
                   autocomplete="off"
                   rows="4"
@@ -66,9 +66,10 @@
               </div>
               <div class="form-button">
                 <button
-                  type="button"
-                  class="btn btn-custom theme-color"
-                  disabled=""
+                  type="submit"
+                  class="btn btn-custom theme-color theme-color2"
+                  disabled="false"
+                  (click)="Submit($event)"
                 >
                   send
                 </button>

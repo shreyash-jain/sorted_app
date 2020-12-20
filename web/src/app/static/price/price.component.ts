@@ -4,7 +4,7 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 @Component({
   selector: 'app-price',
   templateUrl: './price.component.html',
-  styleUrls: ['./price.component.scss']
+  styleUrls: ['./price.component.scss'],
 })
 export class PriceComponent implements OnInit {
   customOptions: OwlOptions = {
@@ -18,22 +18,31 @@ export class PriceComponent implements OnInit {
     center: true,
     navSpeed: 700,
     responsive: {
-      0:{
-        items: 1
+      0: {
+        items: 1,
       },
       480: {
-        items: 1
+        items: 1,
       },
       768: {
         items: 2,
-        margin: 30
+        margin: 30,
+        center: false,
+        dots: false,
+        mouseDrag: true,
+        touchDrag: true,
+        pullDrag: true,
       },
       1024: {
-        items: 3,
+        items: 2,
         margin: 30,
         dots: false,
-      }
-    }
+        center: false,
+        mouseDrag: true,
+        touchDrag: true,
+        pullDrag: true,
+      },
+    },
   };
 
   slidesStore = [
@@ -62,9 +71,7 @@ export class PriceComponent implements OnInit {
       features: ['abc', 'def', 'ghi', 'jkl', 'xyz'],
     },
   ];
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

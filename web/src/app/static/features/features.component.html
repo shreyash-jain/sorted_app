@@ -12,14 +12,14 @@
       <div class="offset-lg-4 col-lg-8">
         <div class="row">
           <div class="col-sm-12 mrgn-md-top">
-            <h2>features of<span> tovo</span></h2>
+            <h2>features of<span> Sort.it</span></h2>
           </div>
-          <div *ngFor="let dataList of featuresData; last as isLast" class="col-12 col-md-6" [ngClass]="{'sm-m-top': isLast}">
+          <div *ngFor="let dataList of featuresData; last as isLast" class="col-12">
             <ul class="feature-style">
               <li *ngFor="let data of dataList">
-                <div class="feature-icon">
+                <!-- <div class="feature-icon">
                   <img [src]="data.icon" alt="icon" />
-                </div>
+                </div> -->
                 <div class="feature-subtitle">
                   <h3 [innerHTML]="data.subtitle"></h3>
                 </div>

@@ -50,7 +50,7 @@ export class TestimonialComponent implements OnInit {
     {
       id: 2,
       image: 'assets/images/avatar/15.jpg',
-      name: 'NoName',
+      name: 'Anonymous',
       role: 'Doctor',
       content:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.Contrary to popular belief, Lorem Ipsum is not simply random text.',
@@ -58,7 +58,7 @@ export class TestimonialComponent implements OnInit {
     {
       id: 3,
       image: 'assets/images/avatar/22.jpg',
-      name: 'dwehoiqwhgr',
+      name: 'Anonymous',
       role: 'Designer',
       content:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.Contrary to popular belief, Lorem Ipsum is not simply random text.',

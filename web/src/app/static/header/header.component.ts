@@ -25,14 +25,14 @@ export class HeaderComponent implements OnInit {
       name: 'Feature',
       link: '#features',
     },
-    {
-      name: 'team',
-      link: '#team',
-    },
-    {
-      name: 'blog',
-      link: '#blog',
-    },
+    // {
+    //   name: 'team',
+    //   link: '#team',
+    // },
+    // {
+    //   name: 'blog',
+    //   link: '#blog',
+    // },
     {
       name: 'price',
       link: '#price',

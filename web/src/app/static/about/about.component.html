@@ -1,7 +1,7 @@
 <section id="about" class="about">
   <div class="about-decor">
     <div class="about-circle1">
-      <img src="assets/images/team1.png" alt="team" />
+      <img src="assets/images/feature-circle.png" alt="team" />
     </div>
     <div class="about-circle2">
       <img src="assets/images/main-banner1.png" alt="banner" />
@@ -13,32 +13,38 @@
         <div class="about-contain">
           <div>
             <h2 class="title">
-              about the
-              <span>tovo app</span>
+                Especially designed for
+              <span>you</span>
             </h2>
             <p class="caption-about">
-              TOVO is dynamic, high-performance and easy to use landing page
-              theme. The theme is developed focusing on the attractive designs
-              and easy customizable features.
+              Sort.it is a health-focused platform specially designed for you.
+              We’ll help you improve your lifestyle by strategizing your health
+              and productivity goals in a personalized manner by tracking your
+              day to day activities and expenses.
             </p>
             <div class="row sm-mb">
               <div *ngFor="let dataList of aboutData" class="col-6">
-                <ul class="about-style">
+                <div class="about-style">
                   <li *ngFor="let data of dataList" class="abt-hover">
-                    <div class="about-icon">
+                    <!-- <div class="about-icon">
                       <div class="icon-hover">
                         <img [src]="data.icon" [alt]="data.text"/>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="about-text">
-                      <h3 [innerHTML]="data.text"></h3>
+                      <h3 [innerHTML]="data.text" style="padding-left: 0; color: #1297e7;"></h3>
                     </div>
                   </li>
-                  </ul>
+                </div>
               </div>
             </div>
             <div class="top-margin">
-              <button type="button" class="btn btn-custom theme-color theme-color">view more</button>
+              <button
+                type="button"
+                class="btn btn-custom theme-color theme-color theme-color2"
+              >
+                view more
+              </button>
             </div>
           </div>
         </div>
@@ -46,7 +52,11 @@
       <div class="col-md-7 d-medium-none">
         <div class="about-right">
           <div class="about-phone">
-            <img src="assets/images/aboutus.png" alt="aboutus" class="img-fluid"/>
+            <img
+              src="assets/images/summaryImg.png"
+              alt="aboutus"
+              class="img-fluid"
+            />
           </div>
         </div>
       </div>

@@ -9177,7 +9177,7 @@ p {
   font-size: 15px;
   color: #777;
   letter-spacing: 0.03em;
-  text-transform: capitalize;
+  // text-transform: capitalize;
 }
 p.landing-caption {
   font-size: 30px;
@@ -9626,7 +9626,7 @@ ul {
   transition: all 0.3s ease;
 }
 .theme-nav .nav-item:hover .nav-link {
-  color: #18e7d3;
+  color: #1297e7;
   transition: all 0.3s ease;
 }
 .theme-nav .nav-item.dropdown .dropdown-menu {
@@ -10036,7 +10036,7 @@ ul {
   margin-top: 7px;
 }
 .feature {
-  // background-image: url(./assets/feature-bg.1e7b9042385027f5b8ea.png);
+  background-image: url(./assets/feature-bg.1e7b9042385027f5b8ea.png);
   width: 100vw;
   min-height: 855px;
   background-repeat: no-repeat;
@@ -10725,7 +10725,7 @@ ul {
   }
 }
 .contact {
-  // background-image: url(./assets/Contact.0ccb1daf06f002bfa678.png);
+  background-image: url(./assets/Contact.0ccb1daf06f002bfa678.png);
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;

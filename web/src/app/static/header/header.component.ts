@@ -33,17 +33,17 @@ export class HeaderComponent implements OnInit {
     //   name: 'blog',
     //   link: '#blog',
     // },
+    // {
+    //   name: 'price',
+    //   link: '#price',
+    // },
     {
-      name: 'price',
-      link: '#price',
+      name: 'testimonials',
+      link: '#testimonial',
     },
     {
       name: 'contact Us',
       link: '#contact',
-    },
-    {
-      name: 'testimonials',
-      link: '#testimonial',
     },
   ];
 

@@ -7,7 +7,10 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   public isScrolled: boolean = false;
+  public LogoOpacity: number = 0;
   @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
+    let logoElement = document.getElementById('AppName');
+    this.LogoOpacity = $event.target['scrollingElement'].scrollTop/logoElement.offsetTop;
     this.isScrolled = $event.target['scrollingElement'].scrollTop > 0;
   }
   public menu: boolean;

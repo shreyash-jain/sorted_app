@@ -30,6 +30,10 @@ import 'package:sorted/features/PLAN/presentation/pages/timeline_view.dart';
 import 'package:sorted/features/PLAN/presentation/pages/year_planner.dart';
 import 'package:sorted/features/PLAN/presentation/pages/long_term_planner.dart';
 import 'package:sorted/features/FILES/presentation/pages/test_note.dart';
+import 'package:sorted/features/FILES/data/models/note_model.dart';
+import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
+import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
+import 'package:sorted/features/FILES/data/models/notebook_model.dart';
 
 class Router {
   static const splashPage = '/';
@@ -49,6 +53,8 @@ class Router {
   static const yearPlanner = '/year-planner';
   static const longPlanner = '/long-planner';
   static const noteHub = '/note-hub';
+  static const recordTab = '/record-tab';
+  static const notesHubPage = '/notes-hub-page';
   static final navigator = ExtendedNavigator();
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -210,15 +216,40 @@ class Router {
           transitionDuration: Duration(milliseconds: 200),
         );
       case Router.noteHub:
+        if (hasInvalidArgs<NoteMainArguments>(args)) {
+          return misTypedArgsRoute<NoteMainArguments>(args);
+        }
+        final typedArgs = args as NoteMainArguments ?? NoteMainArguments();
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) =>
+              NoteMain(key: typedArgs.key, note: typedArgs.note),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.recordTab:
         if (hasInvalidArgs<Key>(args)) {
           return misTypedArgsRoute<Key>(args);
         }
         final typedArgs = args as Key;
         return PageRouteBuilder<dynamic>(
           pageBuilder: (ctx, animation, secondaryAnimation) =>
-              NoteHub(key: typedArgs),
+              RecordTab(key: typedArgs),
           settings: settings,
-          transitionsBuilder: TransitionsBuilders.slideRightWithFade,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.notesHubPage:
+        if (hasInvalidArgs<NotesHubPageArguments>(args)) {
+          return misTypedArgsRoute<NotesHubPageArguments>(args);
+        }
+        final typedArgs =
+            args as NotesHubPageArguments ?? NotesHubPageArguments();
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => NotesHubPage(
+              key: typedArgs.key, thisNotebook: typedArgs.thisNotebook),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
           transitionDuration: Duration(milliseconds: 200),
         );
       default:
@@ -290,4 +321,18 @@ class TaskPageArguments {
   final TaskModel thisGoal;
   final PlanBloc planBloc;
   TaskPageArguments({this.key, this.thisGoal, this.planBloc});
+}
+
+//NoteMain arguments holder class
+class NoteMainArguments {
+  final Key key;
+  final NoteModel note;
+  NoteMainArguments({this.key, this.note});
+}
+
+//NotesHubPage arguments holder class
+class NotesHubPageArguments {
+  final Key key;
+  final NotebookModel thisNotebook;
+  NotesHubPageArguments({this.key, this.thisNotebook});
 }

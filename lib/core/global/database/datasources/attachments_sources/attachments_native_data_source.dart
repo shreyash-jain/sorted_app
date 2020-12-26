@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:equatable/equatable.dart';
 import 'package:faker/faker.dart';
 import 'package:meta/meta.dart';
+
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/core/global/models/attachment.dart';
@@ -11,8 +13,8 @@ import 'package:sorted/core/global/models/log.dart';
 import 'package:sorted/core/global/models/tag.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
-import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
+import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
 
 abstract class AttachmentsNative {
@@ -29,9 +31,11 @@ abstract class AttachmentsNative {
   Future<void> deleteAttachment(AttachmentModel attachment);
   Future<List<TagModel>> get allTags;
   Future<TagModel> getTagByName(String tagName);
+  Future<LinkModel> getLink(int linkId);
 }
 
-class AttachmentNativeDataSourceImpl implements AttachmentsNative {
+class AttachmentNativeDataSourceImpl extends Equatable
+    implements AttachmentsNative {
   final SqlDatabaseService nativeDb;
 
   AttachmentNativeDataSourceImpl({@required this.nativeDb});
@@ -181,5 +185,21 @@ class AttachmentNativeDataSourceImpl implements AttachmentsNative {
       print("tag Updated");
     }
     return tag;
+  }
+
+  @override
+  List<Object> get props => [nativeDb];
+
+  @override
+  Future<LinkModel> getLink(int linkId) async {
+    final db = await nativeDb.database;
+    List<Map<String, dynamic>> result;
+    LinkModel t = new LinkModel();
+
+    result = await db.query(t.getTable(), where: "id=?", whereArgs: [linkId]);
+    List<LinkModel> tags = result.isNotEmpty
+        ? result.map((item) => LinkModel.fromMap(item)).toList()
+        : [LinkModel(id: 0)];
+    return tags[0];
   }
 }

@@ -58,7 +58,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                 child: Text(
                   'So what do I call you\nlike people close to you do ?',
                   style: TextStyle(
-                      fontFamily: 'ZillaSlab',
+                      fontFamily: 'Montserrat',
                       fontSize: 22.0,
                       fontWeight: FontWeight.w500,
                       color: Colors.white.withOpacity(.8)),
@@ -89,7 +89,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                     },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
-                        fontFamily: 'ZillaSlab',
+                        fontFamily: 'Montserrat',
                         fontSize: 26,
                         color: Colors.black45,
                         fontWeight: FontWeight.w500),
@@ -98,7 +98,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                       hintStyle: TextStyle(
                           color: Colors.black38,
                           fontSize: 26,
-                          fontFamily: 'ZillaSlab',
+                          fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w500),
                       border: InputBorder.none,
                     ),
@@ -123,7 +123,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                         'Please tell me about your gender ?',
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontFamily: 'ZillaSlab',
+                            fontFamily: 'Montserrat',
                             fontSize: 22.0,
                             fontWeight: FontWeight.w500,
                             color: Colors.white.withOpacity(.8)),

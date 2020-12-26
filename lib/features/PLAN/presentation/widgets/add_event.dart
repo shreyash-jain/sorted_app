@@ -248,7 +248,7 @@ class AddEventState extends State<AddEvent> {
                   ),
                   Text('Add Event',
                       style: TextStyle(
-                          fontFamily: 'Zillaslab',
+                          fontFamily: 'Montserrat',
                           fontSize: Gparam.textMedium,
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColor)),

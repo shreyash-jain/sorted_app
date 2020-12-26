@@ -29,7 +29,7 @@ class SideTab extends StatelessWidget {
                 SideTabTile(
                     currentSideTab: currentSideTab,
                     isNavEnabled: isNavEnabled,
-                    tabName: "Analyse",
+                    tabName: "Introspect",
                     description:
                         "The one where you choose and analyse what you want to keep track of",
                     index: 0,
@@ -50,7 +50,7 @@ class SideTab extends StatelessWidget {
                 SideTabTile(
                     currentSideTab: currentSideTab,
                     isNavEnabled: isNavEnabled,
-                    tabName: "Files",
+                    tabName: "Record",
                     description: "The one where your organized notes are kept",
                     index: 2,
                     onTapAction: onTapAction),

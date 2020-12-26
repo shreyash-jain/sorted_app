@@ -3,8 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/models/link.dart';
+import 'package:sorted/features/FILES/data/models/block_form_field.dart';
+import 'package:sorted/features/FILES/data/models/block_slider.dart';
+import 'package:sorted/features/FILES/data/models/block_youtube.dart';
 import 'package:sorted/features/FILES/presentation/note_bloc/note_bloc.dart';
+import 'package:sorted/features/FILES/presentation/widgets/add_heading.dart';
+import 'package:sorted/features/FILES/presentation/widgets/add_slider.dart';
+import 'package:sorted/features/FILES/presentation/youtube_bloc/todolist_bloc.dart';
 import 'package:sorted/features/PLAN/presentation/widgets/add_link.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 String horseUrl = 'https://i.stack.imgur.com/Dw6f7.png';
 String cowUrl = 'https://i.stack.imgur.com/XPOr3.png';
@@ -12,6 +19,10 @@ String camelUrl = 'https://i.stack.imgur.com/YN0m7.png';
 String sheepUrl = 'https://i.stack.imgur.com/wKzo8.png';
 String goatUrl = 'https://i.stack.imgur.com/Qt4JP.png';
 LinkModel thisLink = LinkModel(url: "");
+FormFieldBlock headingBlock = FormFieldBlock(field: "");
+FormFieldBlock passwordBlock = FormFieldBlock(field: "");
+SliderBlock sliderBlock = SliderBlock();
+YoutubeBlock ytBlock = YoutubeBlock();
 
 class BlockListWidget extends StatelessWidget {
   TextEditingController _newMediaLinkAddressController =
@@ -133,7 +144,8 @@ class BlockListWidget extends StatelessWidget {
             subtitle: Text('Provides wool'),
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
-              print('sheep');
+              _NewYtVideoBottomSheet(
+                  context, BlocProvider.of<NoteBloc>(context));
             },
           ),
           ListTile(
@@ -149,7 +161,7 @@ class BlockListWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            subtitle: Text('Widget Blocks'),
+            subtitle: Text('Display Blocks'),
           ),
           ListTile(
             leading: Icon(
@@ -160,10 +172,8 @@ class BlockListWidget extends StatelessWidget {
             subtitle: Text('Some have horns'),
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
-              BlocProvider.of<NoteBloc>(context).add(AddTodolistBlock(
-                  position: (BlocProvider.of<NoteBloc>(context).state
-                          as OpenSelectBlock)
-                      .position));
+              _NewHeadingBottomSheet(
+                  context, BlocProvider.of<NoteBloc>(context));
             },
           ),
           ListTile(
@@ -198,6 +208,19 @@ class BlockListWidget extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+              OMIcons.enhancedEncryption,
+              size: 25,
+            ),
+            title: Text('Password'),
+            subtitle: Text('Some have horns'),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              _NewPasswordBottomSheet(
+                  context, BlocProvider.of<NoteBloc>(context));
+            },
+          ),
+          ListTile(
+            leading: Icon(
               OMIcons.dateRange,
               size: 25,
             ),
@@ -205,7 +228,25 @@ class BlockListWidget extends StatelessWidget {
             subtitle: Text('Some have horns'),
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
-              print('goat');
+              BlocProvider.of<NoteBloc>(context).add(AddDate(
+                  position: (BlocProvider.of<NoteBloc>(context).state
+                          as OpenSelectBlock)
+                      .position));
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              OMIcons.verifiedUser,
+              size: 25,
+            ),
+            title: Text('Auther Item'),
+            subtitle: Text('Some have horns'),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              BlocProvider.of<NoteBloc>(context).add(AddAuther(
+                  position: (BlocProvider.of<NoteBloc>(context).state
+                          as OpenSelectBlock)
+                      .position));
             },
           ),
           ListTile(
@@ -217,7 +258,8 @@ class BlockListWidget extends StatelessWidget {
             subtitle: Text('Some have horns'),
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
-              print('goat');
+              _NewSliderBottomSheet(
+                  context, BlocProvider.of<NoteBloc>(context));
             },
           ),
           ListTile(
@@ -230,6 +272,21 @@ class BlockListWidget extends StatelessWidget {
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
               print('goat');
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              OMIcons.timeline,
+              size: 25,
+            ),
+            title: Text('Sequence/Timeline'),
+            subtitle: Text('Some have horns'),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              BlocProvider.of<NoteBloc>(context).add(AddSequence(
+                  position: (BlocProvider.of<NoteBloc>(context).state
+                          as OpenSelectBlock)
+                      .position));
             },
           ),
           ListTile(
@@ -271,7 +328,10 @@ class BlockListWidget extends StatelessWidget {
             subtitle: Text('Some have horns'),
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
-              print('goat');
+              BlocProvider.of<NoteBloc>(context).add(AddCalendar(
+                  position: (BlocProvider.of<NoteBloc>(context).state
+                          as OpenSelectBlock)
+                      .position));
             },
           ),
           ListTile(
@@ -283,7 +343,10 @@ class BlockListWidget extends StatelessWidget {
             subtitle: Text('Some have horns'),
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
-              print('goat');
+              BlocProvider.of<NoteBloc>(context).add(AddTable(
+                  position: (BlocProvider.of<NoteBloc>(context).state
+                          as OpenSelectBlock)
+                      .position));
             },
           ),
           ListTile(
@@ -398,5 +461,183 @@ class BlockListWidget extends StatelessWidget {
         });
   }
 
-  onTitleChanged(String title) {}
+  void _NewHeadingBottomSheet(context1, noteBloc) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12.0))),
+        backgroundColor: Colors.transparent,
+        context: context1,
+        isScrollControlled: true,
+        builder: (context) {
+          return StatefulBuilder(builder: (BuildContext context,
+              StateSetter setState /*You can rename this!*/) {
+            return AddHeadingBottomSheet(
+              onHeadingChanged: (heading) {
+                print("hello");
+                print(BlocProvider.of<NoteBloc>(context1));
+                if (heading.trim().isNotEmpty) {
+                  Navigator.pop(context);
+                  noteBloc.add(AddHeading(
+                      formField: headingBlock
+                          .copyWith(id: DateTime.now().millisecondsSinceEpoch)
+                          .copyWith(field: heading),
+                      position: (noteBloc.state as OpenSelectBlock).position));
+                }
+              },
+              onSubHeadingChanged: (title) {
+                print("hello1");
+
+                headingBlock = headingBlock.copyWith(fieldValue: title);
+              },
+            );
+          });
+        });
+  }
+
+  void _NewPasswordBottomSheet(context1, noteBloc) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12.0))),
+        backgroundColor: Colors.transparent,
+        context: context1,
+        isScrollControlled: true,
+        builder: (context) {
+          return StatefulBuilder(builder: (BuildContext context,
+              StateSetter setState /*You can rename this!*/) {
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: TextFormField(
+                        maxLines: 1,
+                        initialValue: "",
+                        textInputAction: TextInputAction.done,
+                        onChanged: (newValue) {
+                          //widget.onHeadingChanged(newValue);
+                          passwordBlock = FormFieldBlock(
+                              fieldValue: passwordBlock.fieldValue,
+                              field: passwordBlock.field);
+                          passwordBlock = passwordBlock
+                              .copyWith(
+                                  id: DateTime.now().millisecondsSinceEpoch)
+                              .copyWith(field: newValue);
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Password for ... ?',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: TextFormField(
+                        maxLines: 1,
+                        initialValue: "",
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (newValue) {
+                          //widget.onHeadingChanged(newValue);
+                          Navigator.pop(context);
+
+                          noteBloc.add(AddPassword(
+                              item:
+                                  passwordBlock.copyWith(fieldValue: newValue),
+                              position: (noteBloc.state as OpenSelectBlock)
+                                  .position));
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Enter Password',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+        });
+  }
+
+  void _NewSliderBottomSheet(context1, noteBloc) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12.0))),
+        backgroundColor: Colors.transparent,
+        context: context1,
+        isScrollControlled: true,
+        builder: (context) {
+          return StatefulBuilder(builder: (BuildContext context,
+              StateSetter setState /*You can rename this!*/) {
+            return AddSliderBottomSheet(
+              onTitleChanged: (heading) {
+                print("hello");
+                print(BlocProvider.of<NoteBloc>(context1));
+                if (heading.trim().isNotEmpty) {
+                  Navigator.pop(context);
+                  noteBloc.add(AddSlider(
+                      sliderData: sliderBlock
+                          .copyWith(id: DateTime.now().millisecondsSinceEpoch)
+                          .copyWith(title: heading),
+                      position: (noteBloc.state as OpenSelectBlock).position));
+                }
+              },
+            );
+          });
+        });
+  }
+
+  void _NewYtVideoBottomSheet(context1, noteBloc) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12.0))),
+        backgroundColor: Colors.transparent,
+        context: context1,
+        isScrollControlled: true,
+        builder: (context) {
+          return StatefulBuilder(builder: (BuildContext context,
+              StateSetter setState /*You can rename this!*/) {
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: TextFormField(
+                        maxLines: 1,
+                        initialValue: "",
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (newValue) {
+                          //widget.onHeadingChanged(newValue);
+                          Navigator.pop(context);
+                          String videoId =
+                              YoutubePlayer.convertUrlToId(newValue);
+                          noteBloc.add(AddYoutubeVideo(
+                              data: ytBlock
+                                  .copyWith(
+                                      id: DateTime.now().millisecondsSinceEpoch)
+                                  .copyWith(title: "Youtube Video")
+                                  .copyWith(videoId: videoId),
+                              position: (noteBloc.state as OpenSelectBlock)
+                                  .position));
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Enter Youtube link',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+        });
+  }
 }

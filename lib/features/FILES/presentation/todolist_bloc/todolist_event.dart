@@ -20,6 +20,22 @@ class AddTodoItem extends TodolistEvent {
   List<Object> get props => [todo];
 }
 
+class AddTodoFromSuggestion extends TodolistEvent {
+  final TodoItemModel todo;
+  AddTodoFromSuggestion(this.todo);
+
+  @override
+  List<Object> get props => [todo];
+}
+
+class SearchEvent extends TodolistEvent {
+  final String text;
+  SearchEvent(this.text);
+
+  @override
+  List<Object> get props => [text];
+}
+
 class EditTodoItem extends TodolistEvent {
   final TodoItemModel todo;
   EditTodoItem(this.todo);
@@ -28,15 +44,13 @@ class EditTodoItem extends TodolistEvent {
   List<Object> get props => [todo];
 }
 
-
-
 class MoveUpEvent extends TodolistEvent {
- final int position;
+  final int position;
   final TodoItemModel todo;
   MoveUpEvent(this.position, this.todo);
 
   @override
-  List<Object> get props => [position,todo];
+  List<Object> get props => [position, todo];
 }
 
 class InvertTodoState extends TodolistEvent {
@@ -45,7 +59,7 @@ class InvertTodoState extends TodolistEvent {
   InvertTodoState(this.position, this.todo);
 
   @override
-  List<Object> get props => [position,todo];
+  List<Object> get props => [position, todo];
 }
 
 class MoveDownEvent extends TodolistEvent {
@@ -54,24 +68,25 @@ class MoveDownEvent extends TodolistEvent {
   MoveDownEvent(this.position, this.todo);
 
   @override
-  List<Object> get props => [position,todo];
+  List<Object> get props => [position, todo];
 }
 
 class DeleteEvent extends TodolistEvent {
   final int position;
-   final TodoItemModel todo;
+  final TodoItemModel todo;
   DeleteEvent(this.position, this.todo);
 
   @override
   List<Object> get props => [position];
 }
+
 class Duplicate extends TodolistEvent {
   final int position;
   final TodoItemModel todo;
   Duplicate(this.position, this.todo);
 
   @override
-  List<Object> get props => [position,todo];
+  List<Object> get props => [position, todo];
 }
 
 class UpdatePositionTodo extends TodolistEvent {

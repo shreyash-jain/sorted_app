@@ -35,7 +35,6 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   ScrollController _controller;
   AffirmationBloc affirmationBloc;
   bool showArrow = true;
-  
 
   OverlayEntry _createPopupDialog(DayAffirmation affirmation) {
     return OverlayEntry(
@@ -55,7 +54,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                     child: CachedNetworkImage(
                       imageUrl: affirmation.imageUrl,
                       fit: BoxFit.cover,
-                      height: Gparam.height,
+                      height: Gparam.width,
                       width: Gparam.width,
                     ))),
             Center(child: _createPhotoTitle(affirmation)),
@@ -90,7 +89,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
         child: Text(affirmation.text,
             style: TextStyle(
                 color: Colors.black87,
-                fontFamily: 'ZillaSlab',
+                fontFamily: 'Montserrat',
                 fontSize: 24,
                 shadows: [
                   Shadow(
@@ -116,7 +115,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
         child: Text("Image by Unsplash.com",
             style: TextStyle(
                 color: Colors.white60,
-                fontFamily: 'ZillaSlab',
+                fontFamily: 'Montserrat',
                 fontSize: 14,
                 shadows: [
                   Shadow(
@@ -144,8 +143,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 'My feed',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  fontFamily: 'ZillaSlab',
-                  fontSize: 18.0,
+                  fontFamily: 'Montserrat',
+                  fontSize: 14.0,
+                  color: Theme.of(context).highlightColor,
+                  
                   fontWeight: FontWeight.w600,
                 ),
               )
@@ -153,7 +154,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 '',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  fontFamily: 'ZillaSlab',
+                  fontFamily: 'Montserrat',
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -163,8 +164,8 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(45.0)),
             gradient: new LinearGradient(
                 colors: [
-                  Theme.of(context).backgroundColor,
-                  Theme.of(context).primaryColor,
+                  Theme.of(context).scaffoldBackgroundColor,
+                  Theme.of(context).scaffoldBackgroundColor,
                 ],
                 stops: [
                   0.2,
@@ -221,7 +222,6 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                         );
                                       }
                                     }))),
-                        
                       ]),
                 ],
               ))),

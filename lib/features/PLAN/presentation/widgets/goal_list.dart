@@ -73,7 +73,7 @@ class GoalListWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12.0),
                     child: ColorFiltered(
                         colorFilter: ColorFilter.mode(
-                          Theme.of(context).primaryColor,
+                          Theme.of(context).primaryColor.withAlpha(140),
                           (Theme.of(context).brightness == Brightness.dark)
                               ? BlendMode.lighten
                               : BlendMode.multiply,

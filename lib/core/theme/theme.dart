@@ -15,9 +15,14 @@ ThemeData appThemeLight = ThemeData.light().copyWith(
   primaryColor: primaryColorDarkAndLight,
   primaryColorDark: quaternaryColor,
   dialogBackgroundColor: lightWhiteColor,
+  scaffoldBackgroundColor: Color.fromARGB(255, 253, 253, 255),
   primaryColorLight: tertiaryColor,
+  bottomAppBarColor: Color.fromARGB(255, 200, 200, 200),
   accentColor: secondryColor,
+  textSelectionHandleColor: Colors.white,
   backgroundColor: tertiaryColor,
+  highlightColor: Colors.black,
+  dividerColor: Colors.transparent,
   canvasColor: lightWhiteColor,
   bottomSheetTheme:
       BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
@@ -26,19 +31,23 @@ ThemeData appThemeLight = ThemeData.light().copyWith(
 //* Black Theme | pref_name = "dark"
 String darkString = "dark";
 ThemeData appThemeDark = ThemeData.dark().copyWith(
-    primaryColor: primaryColorDarkAndLight,
-    primaryColorDark: quaternaryColorLighter,
-    primaryColorLight: tertiaryColor,
-    scaffoldBackgroundColor: Colors.black,
-    canvasColor: lightWhiteColor,
-    backgroundColor: blueMid,
-    accentColor: secondryColor,
-    toggleableActiveColor: primaryColorDarkAndLight,
-    bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: Colors.transparent.withOpacity(0)),
-    buttonColor: Colors.black.withOpacity(.3),
-    textSelectionColor: primaryColorDarkAndLight,
-    textSelectionHandleColor: primaryColorDarkAndLight);
+  primaryColor: primaryColorDarkAndLight,
+  primaryColorDark: quaternaryColorLighter,
+  primaryColorLight: tertiaryColor,
+  scaffoldBackgroundColor: Color.fromARGB(255, 0, 5, 5),
+  canvasColor: lightWhiteColor,
+  backgroundColor: blueMid,
+  bottomAppBarColor: Color.fromARGB(255, 70, 70, 70),
+  accentColor: secondryColor,
+  highlightColor: Colors.white,
+  dividerColor: Colors.transparent,
+  textSelectionHandleColor: Colors.black,
+  toggleableActiveColor: primaryColorDarkAndLight,
+  bottomSheetTheme:
+      BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
+  buttonColor: Colors.black.withOpacity(.3),
+  textSelectionColor: primaryColorDarkAndLight,
+);
 
 //* Darkblue Theme | pref_name = "dark_blue"
 String darkBlueString = "dark_blue";
@@ -48,20 +57,24 @@ Color accentDrakBlue = stringToColor("#3584A7");
 Color backgroundDarkBlue = stringToColor("#473B7B");
 
 ThemeData appThemeDarkBlue = ThemeData.dark().copyWith(
-    primaryColor: primaryDarkBlue,
-    primaryColorDark: quaternaryColorLighter,
-    primaryColorLight: tertiaryColor,
-    dialogBackgroundColor: primaryColorDarkAndLight,
-    scaffoldBackgroundColor: backgroundDarkBlue,
-    canvasColor: lightWhiteColor,
-    backgroundColor: accentDrakBlue,
-    accentColor: accentDrakBlue,
-    toggleableActiveColor: primaryColorDarkAndLight,
-    bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: Colors.transparent.withOpacity(0)),
-    buttonColor: Colors.black.withOpacity(.3),
-    textSelectionColor: primaryColorDarkAndLight,
-    textSelectionHandleColor: primaryColorDarkAndLight);
+  primaryColor: primaryDarkBlue,
+  primaryColorDark: quaternaryColorLighter,
+  primaryColorLight: tertiaryColor,
+  dialogBackgroundColor: primaryColorDarkAndLight,
+  scaffoldBackgroundColor: backgroundDarkBlue,
+  canvasColor: lightWhiteColor,
+  backgroundColor: accentDrakBlue,
+  highlightColor: Colors.white70,
+ dividerColor: Colors.transparent,
+  textSelectionHandleColor: Colors.black,
+  bottomAppBarColor: Color.fromARGB(255, 6, 161, 142),
+  accentColor: accentDrakBlue,
+  toggleableActiveColor: primaryColorDarkAndLight,
+  bottomSheetTheme:
+      BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
+  buttonColor: Colors.black.withOpacity(.3),
+  textSelectionColor: primaryColorDarkAndLight,
+);
 
 //* LightPink Theme | pref_name = "light_pink"
 String lightPinkString = "light_pink";
@@ -74,20 +87,24 @@ Color primaryLightPinkDarker = stringToColor("#f9748f");
 Color primaryLightPinkLighter = stringToColor("#f78ca0");
 
 ThemeData appThemeLightPink = ThemeData.light().copyWith(
-    primaryColor: primaryLightPink,
-    primaryColorDark: primaryLightPinkDarker,
-    primaryColorLight: primaryLightPinkLighter,
-    dialogBackgroundColor: accentLightPink,
-    scaffoldBackgroundColor: backgroundLightPink,
-    canvasColor: lightWhiteColor,
-    backgroundColor: accentLightPink,
-    accentColor: primaryLightPinkDarker,
-    toggleableActiveColor: primaryColorDarkAndLight,
-    bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: Colors.transparent.withOpacity(0)),
-    buttonColor: Colors.black.withOpacity(.3),
-    textSelectionColor: primaryColorDarkAndLight,
-    textSelectionHandleColor: primaryColorDarkAndLight);
+  primaryColor: primaryLightPink,
+  primaryColorDark: primaryLightPinkDarker,
+  primaryColorLight: primaryLightPinkLighter,
+  dialogBackgroundColor: accentLightPink,
+  textSelectionHandleColor: Colors.white,
+  scaffoldBackgroundColor: Color.fromARGB(255, 253, 253, 255),
+  canvasColor: lightWhiteColor,
+  highlightColor: Colors.black,
+  dividerColor: Colors.transparent,
+  backgroundColor: accentLightPink,
+  bottomAppBarColor: Color.fromARGB(255, 255, 222, 225),
+  accentColor: primaryLightPinkDarker,
+  toggleableActiveColor: primaryColorDarkAndLight,
+  bottomSheetTheme:
+      BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
+  buttonColor: Colors.black.withOpacity(.3),
+  textSelectionColor: primaryColorDarkAndLight,
+);
 
 Color _intToColor(int hexNumber) => Color.fromARGB(
     255,

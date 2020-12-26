@@ -24,7 +24,7 @@ class AuthenticationRepository {
   // Shared State for Widgets
   //Observable<FirebaseUser> user;
 
-  Observable<String> url;
+  Stream<String> url;
   
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [

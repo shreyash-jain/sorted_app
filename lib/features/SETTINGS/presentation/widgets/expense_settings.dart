@@ -32,7 +32,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
   Widget buildCardWidget(Widget child, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor.withOpacity(.3),
+          color: Colors.grey.withOpacity(.05),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -69,7 +69,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
               right: Gparam.widthPadding),
           child: Text('Expense Settings',
               style: TextStyle(
-                  fontFamily: 'ZillaSlab',
+                  fontFamily: 'Montserrat',
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
         ),
@@ -84,17 +84,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                       decoration: BoxDecoration(
                         borderRadius:
                             new BorderRadius.all(Radius.circular(30.0)),
-                        gradient: new LinearGradient(
-                            colors: [
-                              Theme.of(context).primaryColor,
-                              (Theme.of(context).brightness == Brightness.dark)
-                                  ? Theme.of(context).backgroundColor
-                                  : Theme.of(context).primaryColorLight,
-                            ],
-                            begin: FractionalOffset.topCenter,
-                            end: FractionalOffset.bottomCenter,
-                            stops: [.2, .8],
-                            tileMode: TileMode.repeated),
+                      
                       ),
                       child: Icon(OMIcons.payment),
                     ),
@@ -105,7 +95,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                         style: TextStyle(
                             fontFamily: 'Eastman',
                             fontSize: 16,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme.of(context).highlightColor)),
                     Spacer(),
                   ],
                 ),
@@ -136,7 +126,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("₹",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'ZillaSlab',
+                                    fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -159,7 +149,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("\$",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'ZillaSlab',
+                                    fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -182,7 +172,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("€",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'ZillaSlab',
+                                    fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -209,7 +199,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("£",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'ZillaSlab',
+                                    fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -239,18 +229,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                         decoration: BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(30.0)),
-                          gradient: new LinearGradient(
-                              colors: [
-                                Theme.of(context).primaryColor,
-                                (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                    ? Theme.of(context).backgroundColor
-                                    : Theme.of(context).primaryColorLight,
-                              ],
-                              begin: FractionalOffset.topCenter,
-                              end: FractionalOffset.bottomCenter,
-                              stops: [.2, .8],
-                              tileMode: TileMode.repeated),
+                       
                         ),
                         child: Icon(OMIcons.money)),
                     SizedBox(
@@ -260,7 +239,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                         style: TextStyle(
                             fontFamily: 'Eastman',
                             fontSize: 16,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme.of(context).highlightColor)),
                   ],
                 ),
                 SizedBox(
@@ -289,7 +268,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                       textStyle: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).highlightColor,
                       ),
                     ),
                     SizedBox(

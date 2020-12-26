@@ -72,7 +72,7 @@ class _InterestsPVState extends State<InterestsPV> {
                 child: Text(
                   'What are your Hobbies ?',
                   style: TextStyle(
-                      fontFamily: 'ZillaSlab',
+                      fontFamily: 'Montserrat',
                       fontSize: 22.0,
                       fontWeight: FontWeight.w500,
                       color: Colors.white.withOpacity(.8)),

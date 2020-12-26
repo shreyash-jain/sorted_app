@@ -136,7 +136,7 @@ class AddTaskState extends State<AddTask> {
                     Text(
                         (widget.valid != 0) ? 'Add Task' : '👈 press when done',
                         style: TextStyle(
-                            fontFamily: 'Zillaslab',
+                            fontFamily: 'Montserrat',
                             fontSize: Gparam.textSmall,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColor)),

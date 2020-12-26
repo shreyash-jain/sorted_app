@@ -75,7 +75,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
           children: [
             IconButton(
               icon: Icon(OMIcons.arrowBackIos,
-                  color: Theme.of(context).primaryColor),
+                  color: Theme.of(context).highlightColor),
               tooltip: 'back',
               onPressed: () {
                 Navigator.pop(context);
@@ -85,18 +85,18 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
               padding: EdgeInsets.all(0),
               child: RichText(
                 text: TextSpan(
-                  text: 'Sorted',
+                  text: 'Sort.it',
                   style: TextStyle(
-                      fontFamily: 'ZillaSlab',
+                      fontFamily: 'Montserrat',
                       fontSize: Gparam.textMedium,
                       fontWeight: FontWeight.w400,
-                      color: Theme.of(context).primaryColor),
+                      color: Theme.of(context).highlightColor),
                   children: <TextSpan>[
                     TextSpan(
                         text: ' Planner',
                         style: TextStyle(
                           fontFamily: "Montserrat",
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).highlightColor,
                           fontWeight: FontWeight.w700,
                           fontSize: Gparam.textMedium,
                         )),
@@ -105,7 +105,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
               ),
             ),
             IconButton(
-              icon: Icon(OMIcons.search, color: Theme.of(context).primaryColor),
+              icon:
+                  Icon(OMIcons.search, color: Theme.of(context).highlightColor),
               tooltip: 'reminders',
               onPressed: () {},
             ),
@@ -157,12 +158,12 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                         text: TextSpan(
                           text: 'Plan',
                           style: TextStyle(
-                              fontFamily: 'ZillaSlab',
+                              fontFamily: 'Montserrat',
                               fontSize: Gparam.textVerySmall,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
                               color: Theme.of(context)
                                   .scaffoldBackgroundColor
-                                  .withOpacity(.6)),
+                                  .withOpacity(.8)),
                           children: <TextSpan>[
                             TextSpan(
                                 text: '\nToday',
@@ -197,15 +198,6 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                 child: Container(
                   decoration: new BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: new LinearGradient(
-                        colors: [
-                          Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(.8),
-                        ],
-                        begin: FractionalOffset.centerLeft,
-                        end: FractionalOffset.bottomRight,
-                        stops: [0.2, 0.8],
-                        tileMode: TileMode.clamp),
                   ),
                   width: 70,
                   height: 70,
@@ -218,19 +210,18 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                         text: TextSpan(
                           text: 'Task',
                           style: TextStyle(
-                              fontFamily: 'ZillaSlab',
+                              fontFamily: 'Montserrat',
                               fontSize: Gparam.textVerySmall,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context)
-                                  .scaffoldBackgroundColor
+                                  .highlightColor
                                   .withOpacity(.6)),
                           children: <TextSpan>[
                             TextSpan(
                                 text: '\nMatrix',
                                 style: TextStyle(
                                   fontFamily: "Montserrat",
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                  color: Theme.of(context).highlightColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: Gparam.textVerySmall,
                                 )),
@@ -266,15 +257,6 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   child: Container(
                     decoration: new BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: new LinearGradient(
-                          colors: [
-                            Theme.of(context).primaryColor,
-                            Theme.of(context).primaryColor.withOpacity(.8),
-                          ],
-                          begin: FractionalOffset.centerLeft,
-                          end: FractionalOffset.bottomRight,
-                          stops: [0.2, 0.8],
-                          tileMode: TileMode.clamp),
                     ),
                     width: 70,
                     height: 70,
@@ -287,19 +269,18 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Board',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context)
-                                    .scaffoldBackgroundColor
+                                    .highlightColor
                                     .withOpacity(.6)),
                             children: <TextSpan>[
                               TextSpan(
                                   text: '\nView',
                                   style: TextStyle(
                                     fontFamily: "Montserrat",
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Theme.of(context).highlightColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: Gparam.textVerySmall,
                                   )),
@@ -336,15 +317,6 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   child: Container(
                     decoration: new BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: new LinearGradient(
-                          colors: [
-                            Theme.of(context).primaryColor,
-                            Theme.of(context).primaryColor.withOpacity(.8),
-                          ],
-                          begin: FractionalOffset.centerLeft,
-                          end: FractionalOffset.bottomRight,
-                          stops: [0.2, 0.8],
-                          tileMode: TileMode.clamp),
                     ),
                     width: 70,
                     height: 70,
@@ -357,19 +329,18 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Timeline',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context)
-                                    .scaffoldBackgroundColor
+                                    .highlightColor
                                     .withOpacity(.6)),
                             children: <TextSpan>[
                               TextSpan(
                                   text: '\nView',
                                   style: TextStyle(
                                     fontFamily: "Montserrat",
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: Theme.of(context).highlightColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: Gparam.textVerySmall,
                                   )),
@@ -406,15 +377,6 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   child: Container(
                     decoration: new BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: new LinearGradient(
-                          colors: [
-                            Theme.of(context).primaryColor,
-                            Theme.of(context).primaryColor.withOpacity(.8),
-                          ],
-                          begin: FractionalOffset.centerLeft,
-                          end: FractionalOffset.bottomRight,
-                          stops: [0.2, 0.8],
-                          tileMode: TileMode.clamp),
                     ),
                     width: 70,
                     height: 70,
@@ -427,18 +389,17 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Month',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w700,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
+                                color: Theme.of(context).highlightColor),
                             children: <TextSpan>[
                               TextSpan(
                                   text: '\nPlanner',
                                   style: TextStyle(
                                     fontFamily: "Montserrat",
                                     color: Theme.of(context)
-                                        .scaffoldBackgroundColor
+                                        .highlightColor
                                         .withOpacity(.6),
                                     fontWeight: FontWeight.w500,
                                     fontSize: Gparam.textVerySmall,
@@ -476,15 +437,6 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   child: Container(
                     decoration: new BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: new LinearGradient(
-                          colors: [
-                            Theme.of(context).primaryColor,
-                            Theme.of(context).primaryColor.withOpacity(.8),
-                          ],
-                          begin: FractionalOffset.centerLeft,
-                          end: FractionalOffset.bottomRight,
-                          stops: [0.2, 0.8],
-                          tileMode: TileMode.clamp),
                     ),
                     width: 70,
                     height: 70,
@@ -497,18 +449,17 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Year',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w700,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
+                                color: Theme.of(context).highlightColor),
                             children: <TextSpan>[
                               TextSpan(
                                   text: '\nPlanner',
                                   style: TextStyle(
                                     fontFamily: "Montserrat",
                                     color: Theme.of(context)
-                                        .scaffoldBackgroundColor
+                                        .highlightColor
                                         .withOpacity(.6),
                                     fontWeight: FontWeight.w500,
                                     fontSize: Gparam.textVerySmall,
@@ -546,15 +497,6 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   child: Container(
                     decoration: new BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: new LinearGradient(
-                          colors: [
-                            Theme.of(context).primaryColor,
-                            Theme.of(context).primaryColor.withOpacity(.8),
-                          ],
-                          begin: FractionalOffset.centerLeft,
-                          end: FractionalOffset.bottomRight,
-                          stops: [0.2, 0.8],
-                          tileMode: TileMode.clamp),
                     ),
                     width: 70,
                     height: 70,
@@ -565,20 +507,19 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: 'Long T',
+                            text: 'Long\nTerm',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w700,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
+                                color: Theme.of(context).highlightColor),
                             children: <TextSpan>[
                               TextSpan(
                                   text: '\nPlanner',
                                   style: TextStyle(
                                     fontFamily: "Montserrat",
                                     color: Theme.of(context)
-                                        .scaffoldBackgroundColor
+                                        .highlightColor
                                         .withOpacity(.6),
                                     fontWeight: FontWeight.w500,
                                     fontSize: Gparam.textVerySmall,
@@ -613,16 +554,16 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                 text: TextSpan(
                   text: 'My',
                   style: TextStyle(
-                      fontFamily: 'ZillaSlab',
-                      fontSize: Gparam.textMedium,
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).primaryColor),
+                      fontFamily: 'Montserrat',
+                      fontSize: Gparam.textSmall,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).highlightColor),
                   children: <TextSpan>[
                     TextSpan(
                         text: ' Goals',
                         style: TextStyle(
                           fontFamily: "Montserrat",
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).highlightColor,
                           fontWeight: FontWeight.bold,
                           fontSize: Gparam.textSmall,
                         )),
@@ -634,7 +575,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             Icon(
               Icons.add,
               size: 20,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).highlightColor,
             ),
             SizedBox(
               width: Gparam.widthPadding / 4,
@@ -647,14 +588,14 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                 style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: Gparam.textSmall,
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context).primaryColor),
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).highlightColor),
                 children: <TextSpan>[
                   TextSpan(
                       text: " Goal ",
                       style: TextStyle(
                         fontFamily: "Montserrat",
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).highlightColor,
                         fontWeight: FontWeight.bold,
                         fontSize: Gparam.textSmall,
                       )),
@@ -686,16 +627,16 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                 text: TextSpan(
                   text: 'Upcoming',
                   style: TextStyle(
-                      fontFamily: 'ZillaSlab',
-                      fontSize: Gparam.textMedium,
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).primaryColor),
+                      fontFamily: 'Montserrat',
+                      fontSize: Gparam.textSmall,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).highlightColor),
                   children: <TextSpan>[
                     TextSpan(
                         text: ' Tasks',
                         style: TextStyle(
                           fontFamily: "Montserrat",
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).highlightColor,
                           fontWeight: FontWeight.bold,
                           fontSize: Gparam.textSmall,
                         )),
@@ -741,6 +682,10 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
           },
         ),
       ),
+      Divider(
+        height: 12,
+        color: Theme.of(context).highlightColor.withOpacity(.1),
+      ),
       SizedBox(height: Gparam.heightPadding / 2),
       if ((BlocProvider.of<PlanBloc>(context).state as PlanLoaded).tabs.length >
           0)
@@ -784,8 +729,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                             fontFamily: 'Montserrat',
                                             fontSize: Gparam.textSmall,
                                             fontWeight: FontWeight.w700,
-                                            color:
-                                                Theme.of(context).primaryColor),
+                                            color: Theme.of(context)
+                                                .highlightColor),
                                       )),
                                     ),
                                     actions: <Widget>[
@@ -839,8 +784,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                             fontFamily: 'Montserrat',
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w300,
-                                            color:
-                                                Theme.of(context).primaryColor),
+                                            color: Theme.of(context)
+                                                .highlightColor),
                                         children: <TextSpan>[
                                           TextSpan(
                                               text:
@@ -869,7 +814,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                           "Move to Backlog",
                                           style: TextStyle(
                                               color: Theme.of(context)
-                                                  .primaryColor),
+                                                  .highlightColor),
                                         ),
                                         onPressed: () {
                                           // TODO: Delete the item from DB etc..
@@ -966,7 +911,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                             maxLines: 1,
                                             style: TextStyle(
                                                 color: Theme.of(context)
-                                                    .primaryColor,
+                                                    .highlightColor,
                                                 fontFamily: 'Montserrat',
                                                 fontSize: Gparam.textSmall,
                                                 fontWeight: FontWeight.w500),
@@ -995,7 +940,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                               fontSize: Gparam.textVerySmall,
                                               fontWeight: FontWeight.w300,
                                               color: Theme.of(context)
-                                                  .primaryColor),
+                                                  .highlightColor),
                                           children: <TextSpan>[
                                             TextSpan(
                                                 text: countdownDays(state
@@ -1027,7 +972,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                             : (state.tasks[index].priority > .3)
                                                 ? Icons.trending_flat
                                                 : Icons.trending_down,
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context).highlightColor,
                                         size: 16,
                                       ),
                                       SizedBox(
@@ -1044,14 +989,14 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                               fontSize: Gparam.textVerySmall,
                                               fontWeight: FontWeight.w500,
                                               color: Theme.of(context)
-                                                  .primaryColor),
+                                                  .highlightColor),
                                           children: <TextSpan>[
                                             TextSpan(
                                                 text: " priority",
                                                 style: TextStyle(
                                                   fontFamily: "Montserrat",
                                                   color: Theme.of(context)
-                                                      .primaryColor,
+                                                      .highlightColor,
                                                   fontWeight: FontWeight.normal,
                                                   fontSize:
                                                       Gparam.textVerySmall,
@@ -1200,7 +1145,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
               child: AnimatedContainer(
                 margin: EdgeInsets.only(left: Gparam.widthPadding / 2),
                 decoration: new BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).highlightColor,
                   borderRadius: new BorderRadius.all(
                     Radius.circular(8),
                   ),
@@ -1253,11 +1198,11 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                 fontFamily: 'Montserrat',
                                 fontSize: Gparam.textSmall,
                                 fontWeight: FontWeight.w800,
-                                color: Theme.of(context).primaryColor)
+                                color: Theme.of(context).highlightColor)
                             : TextStyle(
                                 fontSize: Gparam.textSmaller,
                                 fontFamily: 'Montserrat',
-                                color: Theme.of(context).primaryColor,
+                                color: Theme.of(context).highlightColor,
                                 fontWeight: FontWeight.w400),
                         duration: const Duration(milliseconds: 200),
                         child: Text(tab.tabName),
@@ -1271,7 +1216,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                               fontFamily: 'Montserrat',
                               fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColor),
+                              color: Theme.of(context).highlightColor),
                         ),
                       ),
                     ],

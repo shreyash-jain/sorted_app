@@ -59,6 +59,8 @@ class LinkModel extends Equatable {
 
   factory LinkModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
+    bool saved = false;
+    if (map['savedTs'] == null) saved = true;
 
     return LinkModel(
       id: map['id'],
@@ -67,7 +69,7 @@ class LinkModel extends Equatable {
       description: map['description'],
       image: map['image'],
       siteName: map['siteName'],
-      savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
+      savedTs: saved?DateTime.now():DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
       position: map['position'],
     );
   }

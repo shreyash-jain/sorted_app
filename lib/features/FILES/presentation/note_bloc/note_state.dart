@@ -14,10 +14,12 @@ class NotesLoaded extends NoteState {
   final NoteModel note;
   final LinkedHashMap<int, Widget> board;
   final bool isBottomNavVisible;
+  final bool inAir;
 
-  NotesLoaded(this.blocks, this.note, this.board, this.isBottomNavVisible);
+  NotesLoaded(
+      this.blocks, this.note, this.board, this.isBottomNavVisible, this.inAir);
   @override
-  List<Object> get props => [blocks, note, isBottomNavVisible, board];
+  List<Object> get props => [blocks, note, isBottomNavVisible, board, inAir];
 }
 
 class OpenSelectBlock extends NoteState {

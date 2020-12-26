@@ -355,7 +355,7 @@ class _LongPlannerState extends State<LongPlanner> {
                           text: TextSpan(
                             text: 'Long-term',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textMedium,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColor),

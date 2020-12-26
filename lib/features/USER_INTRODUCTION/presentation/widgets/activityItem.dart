@@ -51,7 +51,7 @@ class ActivityItem extends StatelessWidget {
                     activity.name,
                     style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'ZillaSlab',
+                        fontFamily: 'Montserrat',
                         fontSize: 20,
                         shadows: <Shadow>[
                           Shadow(

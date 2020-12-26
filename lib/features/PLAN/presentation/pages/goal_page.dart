@@ -37,7 +37,6 @@ class GoalPageState extends State<GoalPage> {
   bool showMotivation = false;
   GoalPageBloc bloc;
 
-
   var _newMediaLinkAddressController = TextEditingController();
 
   var deadlineDouble = 0.0;
@@ -155,18 +154,18 @@ class GoalPageState extends State<GoalPage> {
                                     text: TextSpan(
                                       text: 'Goal',
                                       style: TextStyle(
-                                          fontFamily: 'ZillaSlab',
+                                          fontFamily: 'Montserrat',
                                           fontSize: Gparam.textMedium,
                                           fontWeight: FontWeight.w400,
                                           color:
-                                              Theme.of(context).primaryColor),
+                                              Theme.of(context).highlightColor),
                                       children: <TextSpan>[
                                         TextSpan(
                                             text: ' Planner',
                                             style: TextStyle(
                                               fontFamily: "Montserrat",
                                               color: Theme.of(context)
-                                                  .primaryColor,
+                                                  .highlightColor,
                                               fontWeight: FontWeight.w700,
                                               fontSize: Gparam.textMedium,
                                             )),
@@ -943,7 +942,7 @@ class GoalPageState extends State<GoalPage> {
                                         ),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: "Textbox",
+                                              text: "Note",
                                               style: TextStyle(
                                                 fontFamily: "Montserrat",
                                                 height: 1.2,

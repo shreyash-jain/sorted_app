@@ -9,9 +9,17 @@ class TestEvent extends NoteEvent {
   List<Object> get props => [];
 }
 
-class UpdateNote extends NoteEvent {
+class GetNote extends NoteEvent {
   final NoteModel note;
-  UpdateNote(this.note);
+  GetNote(this.note);
+
+  @override
+  List<Object> get props => [note];
+}
+
+class UpdateNoteElements extends NoteEvent {
+  final NoteModel note;
+  UpdateNoteElements(this.note);
 
   @override
   List<Object> get props => [note];
@@ -80,6 +88,7 @@ class EditSingleColossalImage extends NoteEvent {
   @override
   List<Object> get props => [multiIndex, colossalState, image];
 }
+
 class UpdateSingleColossalImage extends NoteEvent {
   final int multiIndex;
   final File image;
@@ -90,7 +99,6 @@ class UpdateSingleColossalImage extends NoteEvent {
   List<Object> get props => [multiIndex, colossalState, image];
 }
 
-
 class AddLinkBlock extends NoteEvent {
   final int position;
   final LinkModel link;
@@ -100,6 +108,115 @@ class AddLinkBlock extends NoteEvent {
   });
   @override
   List<Object> get props => [position, link];
+}
+
+class AddHeading extends NoteEvent {
+  final int position;
+  final FormFieldBlock formField;
+  AddHeading({
+    this.formField,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, formField];
+}
+
+class AddSlider extends NoteEvent {
+  final int position;
+  final SliderBlock sliderData;
+  AddSlider({
+    this.sliderData,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, sliderData];
+}
+
+class AddDate extends NoteEvent {
+  final int position;
+  final FormFieldBlock dateData;
+  AddDate({
+    this.dateData,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, dateData];
+}
+
+class AddAuther extends NoteEvent {
+  final int position;
+  final FormFieldBlock autherData;
+  AddAuther({
+    this.autherData,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, autherData];
+}
+
+class AddSequence extends NoteEvent {
+  final int position;
+  final SequenceBlock data;
+  AddSequence({
+    this.data,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, data];
+}
+
+class AddYoutubeVideo extends NoteEvent {
+  final int position;
+  final YoutubeBlock data;
+  AddYoutubeVideo({
+    this.data,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, data];
+}
+
+class AddTable extends NoteEvent {
+  final int position;
+
+  AddTable({
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position];
+}
+
+class AddPassword extends NoteEvent {
+  final int position;
+  final FormFieldBlock item;
+
+  AddPassword({
+    this.item,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, item];
+}
+
+class AddCalendar extends NoteEvent {
+  final int position;
+  final CalendarBlock data;
+  AddCalendar({
+    this.data,
+    this.position = 0,
+  });
+  @override
+  List<Object> get props => [position, data];
+}
+
+class UpdateAir extends NoteEvent {
+  final bool inAir;
+
+  UpdateAir({
+    this.inAir,
+  });
+  @override
+  List<Object> get props => [inAir];
 }
 
 class UploadImageThenGoToNote extends NoteEvent {

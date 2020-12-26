@@ -185,55 +185,65 @@ class TextboxWidgetState extends State<TextboxWidget> {
               child: ExpansionTile(
                   initiallyExpanded: true,
                   maintainState: true,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: Gparam.widthPadding,
-                              ),
-                              Icon(
-                                OMIcons.notes,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12.0)),
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withAlpha(0),
+                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                  tilePadding: EdgeInsets.only(right:8),
+                  backgroundColor:
+                      Theme.of(context).scaffoldBackgroundColor.withAlpha(200),
+                  title: Container(
+                    color: Theme.of(context).primaryColor.withAlpha(200),
+                    padding: EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: Gparam.widthPadding,
                                 ),
-                                child: Text(
-                                  state.textboxBlock.title,
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: Gparam.textSmall,
-                                      fontWeight: FontWeight.w500),
+                                Icon(
+                                  OMIcons.notes,
+                                  color: Theme.of(context).highlightColor,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12.0)),
+                                  ),
+                                  child: Text(
+                                    state.textboxBlock.title,
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Theme.of(context).highlightColor,
+                                        fontSize: Gparam.textSmall,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Icon(
-                        OMIcons.moreVert,
-                        color: Theme.of(context).primaryColor,
-                      )
-                    ],
+                        Padding(
+                          padding:
+                              EdgeInsets.only(right: Gparam.widthPadding / 2),
+                          child: Icon(
+                            OMIcons.moreVert,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   children: [
                     GestureDetector(
@@ -252,7 +262,6 @@ class TextboxWidgetState extends State<TextboxWidget> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                         
                           Stack(
                             children: [
                               Padding(

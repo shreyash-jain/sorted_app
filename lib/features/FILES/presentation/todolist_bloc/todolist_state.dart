@@ -12,11 +12,12 @@ class TodolistInitial extends TodolistState {
 class TodolistLoaded extends TodolistState {
   final TodoModel todo;
   final List<TodoItemModel> todos;
+  final List<TodoItemModel> suggestions;
   final BlockInfo blockInfo;
 
-  TodolistLoaded(this.todos, this.blockInfo, this.todo);
+  TodolistLoaded(this.todos, this.blockInfo, this.todo, this.suggestions);
   @override
-  List<Object> get props => [todo, blockInfo, todos];
+  List<Object> get props => [todo, blockInfo, todos, suggestions];
 }
 
 class TodoError extends TodolistState {

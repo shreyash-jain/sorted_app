@@ -178,7 +178,7 @@ class AffirmationState extends State<AffirmationPV>
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.black87,
-                fontFamily: 'ZillaSlab',
+                fontFamily: 'Montserrat',
                 fontSize: 18,
                 shadows: [
                   Shadow(
@@ -562,11 +562,26 @@ class AffirmationState extends State<AffirmationPV>
                   blurRadius: 20)
             ],
           ),
-          child:
-              Text("Image by ${affirmation.photoGrapherName} on Unsplash.com",
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text("${affirmation.photoGrapherName}",
                   style: TextStyle(
                       color: Colors.white60,
-                      fontFamily: 'ZillaSlab',
+                      fontFamily: 'Montserrat',
+                      fontSize: 14,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 60.0,
+                          color: Colors.white,
+                          offset: Offset(1.0, 1.0),
+                        ),
+                      ],
+                      fontWeight: FontWeight.bold)),
+              Text(" on Unsplash.com",
+                  style: TextStyle(
+                      color: Colors.white60,
+                      fontFamily: 'Montserrat',
                       fontSize: 14,
                       shadows: [
                         Shadow(
@@ -576,6 +591,8 @@ class AffirmationState extends State<AffirmationPV>
                         ),
                       ],
                       fontWeight: FontWeight.normal)),
+            ],
+          ),
         ),
       );
 }

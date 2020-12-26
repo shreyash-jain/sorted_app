@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
+import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
+import 'package:sorted/features/FILES/presentation/pages/record_page_loaded.dart';
 import 'package:sorted/features/FILES/presentation/pages/test_note.dart';
 import 'package:sorted/features/HOME/presentation/pages/affirmation_pv.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
@@ -64,8 +67,18 @@ class $Router {
   )
   LongPlanner longPlanner;
   @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.slideRightWithFade,
+    transitionsBuilder: TransitionsBuilders.fadeIn,
     durationInMilliseconds: 200,
   )
-  NoteHub noteHub;
+  NoteMain noteHub;
+  @CustomRoute(
+    transitionsBuilder: TransitionsBuilders.fadeIn,
+    durationInMilliseconds: 200,
+  )
+  RecordTab recordTab;
+  @CustomRoute(
+    transitionsBuilder: TransitionsBuilders.fadeIn,
+    durationInMilliseconds: 200,
+  )
+  NotesHubPage notesHubPage;
 }

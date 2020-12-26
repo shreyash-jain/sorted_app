@@ -66,10 +66,10 @@ class SideTabTile extends StatelessWidget {
                               : Colors.black45:(currentSideTab == index)
                               ? Colors.white24
                               : Colors.white70,
-                          fontFamily: 'ZillaSlab',
-                          fontSize: 22,
+                          fontFamily: 'Montserrat',
+                          fontSize: Gparam.textSmall,
                          
-                          fontWeight: FontWeight.bold))),
+                          fontWeight: FontWeight.w800))),
               if (isNavEnabled)
                 SizedBox(
                   width: 12,
@@ -88,7 +88,7 @@ class SideTabTile extends StatelessWidget {
                           color: (currentSideTab == index)
                               ? Colors.black
                               : Colors.black26,
-                          fontFamily: 'ZillaSlab',
+                          fontFamily: 'Montserrat',
                           fontSize: 14,
                           
                           fontWeight: FontWeight.normal)),

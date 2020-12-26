@@ -10,18 +10,16 @@ class GeneralSettings extends StatelessWidget {
     @required this.onTapBiometric,
     @required this.onTapThemeChange,
     @required this.biometricSwitched,
-    
   }) : super(key: key);
 
   final bool biometricSwitched;
   final Function(bool biometric) onTapBiometric;
   final Function(String theme) onTapThemeChange;
 
-
   Widget buildCardWidget(Widget child, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor.withOpacity(.3),
+          color: Colors.grey.withOpacity(.05),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -54,7 +52,7 @@ class GeneralSettings extends StatelessWidget {
           child: Text('General Settings',
               textAlign: TextAlign.left,
               style: TextStyle(
-                  fontFamily: 'ZillaSlab',
+                  fontFamily: 'Montserrat',
                   fontSize: Gparam.textSmall,
                   fontWeight: FontWeight.bold)),
         ),
@@ -70,18 +68,6 @@ class GeneralSettings extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(30.0)),
-                          gradient: new LinearGradient(
-                              colors: [
-                                Theme.of(context).primaryColor,
-                                (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                    ? Theme.of(context).backgroundColor
-                                    : Theme.of(context).primaryColorLight,
-                              ],
-                              begin: FractionalOffset.topCenter,
-                              end: FractionalOffset.bottomCenter,
-                              stops: [.2, .8],
-                              tileMode: TileMode.repeated),
                         ),
                         child: Icon(OMIcons.formatPaint)),
                     SizedBox(
@@ -91,22 +77,25 @@ class GeneralSettings extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: 'Eastman',
                             fontSize: Gparam.textSmaller,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme.of(context).highlightColor)),
                     Spacer(),
                   ],
                 ),
-                SizedBox(height: Gparam.heightPadding/2,width: 0,),
+                SizedBox(
+                  height: Gparam.heightPadding / 2,
+                  width: 0,
+                ),
                 Row(
-                   mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     InkWell(
                       onTap: () {
                         onTapThemeChange(lightString);
                       },
                       child: Container(
-                        width: Gparam.widthPadding*1.2,
-                        height: Gparam.widthPadding*1.2,
-                        margin: EdgeInsets.all(Gparam.widthPadding/4),
+                        width: Gparam.widthPadding * 1.2,
+                        height: Gparam.widthPadding * 1.2,
+                        margin: EdgeInsets.all(Gparam.widthPadding / 4),
                         decoration: new BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(60.0)),
@@ -133,9 +122,9 @@ class GeneralSettings extends StatelessWidget {
                         onTapThemeChange(darkString);
                       },
                       child: Container(
-                        width: Gparam.widthPadding*1.2,
-                        height: Gparam.widthPadding*1.2,
-                        margin: EdgeInsets.all(Gparam.widthPadding/4),
+                        width: Gparam.widthPadding * 1.2,
+                        height: Gparam.widthPadding * 1.2,
+                        margin: EdgeInsets.all(Gparam.widthPadding / 4),
                         decoration: new BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(60.0)),
@@ -162,9 +151,9 @@ class GeneralSettings extends StatelessWidget {
                         onTapThemeChange(darkBlueString);
                       },
                       child: Container(
-                        width: Gparam.widthPadding*1.2,
-                        height: Gparam.widthPadding*1.2,
-                        margin: EdgeInsets.all(Gparam.widthPadding/4),
+                        width: Gparam.widthPadding * 1.2,
+                        height: Gparam.widthPadding * 1.2,
+                        margin: EdgeInsets.all(Gparam.widthPadding / 4),
                         decoration: new BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(60.0)),
@@ -191,9 +180,9 @@ class GeneralSettings extends StatelessWidget {
                         onTapThemeChange(lightPinkString);
                       },
                       child: Container(
-                         width: Gparam.widthPadding*1.2,
-                        height: Gparam.widthPadding*1.2,
-                        margin: EdgeInsets.all(Gparam.widthPadding/4),
+                        width: Gparam.widthPadding * 1.2,
+                        height: Gparam.widthPadding * 1.2,
+                        margin: EdgeInsets.all(Gparam.widthPadding / 4),
                         decoration: new BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(60.0)),
@@ -228,17 +217,6 @@ class GeneralSettings extends StatelessWidget {
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.all(Radius.circular(60.0)),
-                      gradient: new LinearGradient(
-                          colors: [
-                            Theme.of(context).primaryColor,
-                            (Theme.of(context).brightness == Brightness.dark)
-                                ? Theme.of(context).backgroundColor
-                                : Theme.of(context).primaryColorLight,
-                          ],
-                          begin: FractionalOffset.topCenter,
-                          end: FractionalOffset.bottomCenter,
-                          stops: [.2, .8],
-                          tileMode: TileMode.repeated),
                     ),
                     child: Icon(
                         (biometricSwitched) ? OMIcons.lock : OMIcons.lockOpen)),
@@ -249,17 +227,15 @@ class GeneralSettings extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: 'Eastman',
                         fontSize: Gparam.textSmaller,
-                        color: Theme.of(context).primaryColor)),
+                        color: Theme.of(context).highlightColor)),
                 Spacer(),
                 Row(
                   children: <Widget>[
                     Container(
-                      
                       child: Switch(
                         value: biometricSwitched,
                         onChanged: (value) {
-                          if (biometricSwitched!=value)
-                         onTapBiometric(value);
+                          if (biometricSwitched != value) onTapBiometric(value);
                         },
                         activeColor:
                             (Theme.of(context).brightness == Brightness.dark)

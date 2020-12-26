@@ -175,10 +175,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                     top: Gparam.heightPadding * 2,
                                     bottom: Gparam.heightPadding,
                                     right: Gparam.widthPadding),
-                                child: Text('About Sorted',
+                                child: Text('About Sort.it',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontFamily: 'ZillaSlab',
+                                        fontFamily: 'Montserrat',
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.bold)),
                               ),
@@ -212,7 +212,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 padding: const EdgeInsets.only(
                                     top: 16.0, bottom: 10.0),
                                 child: Text(
-                                  'Sorted Labs',
+                                  'Sort.it',
                                   style: TextStyle(
                                       fontFamily: 'Eastman', fontSize: 16),
                                 ),
@@ -229,7 +229,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               child: Text(
                                 'Sorted Labs | Sorted Application v.1.0.0 | 2020',
                                 style: TextStyle(
-                                    fontFamily: 'ZillaSlab',
+                                    fontFamily: 'Montserrat',
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700),
                               ),
@@ -238,7 +238,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 width: 40,
                                 height: 40,
                               ),
-                              applicationName: 'Sorted',
+                              applicationName: 'Sort.it',
                               applicationVersion: '1.0.0',
                               applicationLegalese: 'Just an Idea',
                               aboutBoxChildren: [
@@ -278,10 +278,10 @@ class _SettingsPageState extends State<SettingsPage> {
             Text(
               'Settings',
               style: TextStyle(
-                  fontFamily: 'ZillaSlab',
+                  fontFamily: 'Montserrat',
                   fontWeight: FontWeight.w700,
-                  fontSize: 24,
-                  color: Theme.of(context).primaryColor),
+                  fontSize: 20,
+                  color: Theme.of(context).highlightColor),
             ),
           ],
         ),

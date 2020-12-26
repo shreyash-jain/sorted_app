@@ -44,7 +44,7 @@ class ColossalBlock extends Equatable {
 
   factory ColossalBlock.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return ColossalBlock(
       id: map['id'],
       savedTs: map['savedTs'],
@@ -55,8 +55,10 @@ class ColossalBlock extends Equatable {
   }
 
   String toJson() => json.encode(toMap());
+  String getTable() => "BlockColossal";
 
-  factory ColossalBlock.fromJson(String source) => ColossalBlock.fromMap(json.decode(source));
+  factory ColossalBlock.fromJson(String source) =>
+      ColossalBlock.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;

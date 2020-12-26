@@ -49,27 +49,26 @@ class LoadedAffirmationWidget extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
-                              left: Gparam.width / 7, right: 12,),
+                            left: Gparam.width / 7,
+                            right: 12,
+                          ),
                           child: Icon(
                             (state.showAffirmations)
                                 ? Icons.wb_sunny
                                 : Icons.check,
-                            color: Colors.black12,
+                            color: Theme.of(context).highlightColor,
                             size: 16,
                           ),
                         ),
                         Text(
                           (state.showAffirmations)
-                              ? "MORNING AFFIRMATIONS"
+                              ? "Morning Affirmations"
                               : "TODAY'S INSPIRATION",
                           style: TextStyle(
-                              color: (Theme.of(context).brightness ==
-                                      Brightness.light)
-                                  ? Colors.white.withOpacity(.2)
-                                  : Colors.black26,
-                              fontFamily: 'Eastman',
+                              color: Theme.of(context).highlightColor,
+                              fontFamily: 'Montserrat',
                               fontSize: 16,
-                              fontWeight: FontWeight.normal),
+                              fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -77,10 +76,8 @@ class LoadedAffirmationWidget extends StatelessWidget {
                       Container(
                         height: Gparam.height / 10,
                         width: Gparam.width,
-                        margin:
-                                EdgeInsets.only(top:10),
+                        margin: EdgeInsets.only(top: 10),
                         child: ListView.builder(
-                           
                             controller: _controller,
                             scrollDirection: Axis.horizontal,
                             physics: BouncingScrollPhysics(),
@@ -115,26 +112,44 @@ class LoadedAffirmationWidget extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Flexible(
-                                    child:  RichText(
-                        text: TextSpan(
-                          text: state.inspiration.text,
-                          style: TextStyle(
-                              fontFamily: 'ZillaSlab',
-                              fontSize: (state.inspiration.text.length>100)?14:18,
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).brightness==Brightness.light?Colors.white54:Colors.black54),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: " - "+state.inspiration.auther,
-                                style: TextStyle(
-                                  height: 1.3,
-                                   fontFamily: 'Eastman',
-                                   color:Theme.of(context).brightness==Brightness.light?Colors.white24:Colors.black26,
-                                    fontWeight: FontWeight.normal, fontSize: (state.inspiration.text.length>100)?12:14,)),
-                            
-                          ],
-                        ),
-                      ),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: state.inspiration.text,
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize:
+                                                (state.inspiration.text.length >
+                                                        100)
+                                                    ? 14
+                                                    : 18,
+                                            fontWeight: FontWeight.w700,
+                                            color:
+                                                Theme.of(context).brightness ==
+                                                        Brightness.light
+                                                    ? Colors.white54
+                                                    : Colors.black54),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: " - " +
+                                                  state.inspiration.auther,
+                                              style: TextStyle(
+                                                height: 1.3,
+                                                fontFamily: 'Eastman',
+                                                color: Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.light
+                                                    ? Colors.white24
+                                                    : Colors.black26,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: (state.inspiration
+                                                            .text.length >
+                                                        100)
+                                                    ? 12
+                                                    : 14,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

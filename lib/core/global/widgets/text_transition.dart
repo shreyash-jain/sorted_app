@@ -64,7 +64,7 @@ class _TextTransitionState extends State<TextTransition>
   Widget build(context) {
     final double width = widget.width != null
         ? widget.width
-        : _string0.length * widget.textStyle.fontSize / 1.4;
+        : _string0.length * widget.textStyle.fontSize / 1.5;
     return Container(
       width: width,
       height: widget.textStyle.fontSize * 1.2,
@@ -75,7 +75,7 @@ class _TextTransitionState extends State<TextTransition>
             width: width,
             child: Text(
               _string0,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
               style: widget.textStyle,
             ),
           ),
@@ -87,7 +87,7 @@ class _TextTransitionState extends State<TextTransition>
               height: widget.textStyle.fontSize,
               child: Text(
                 _string1,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.start,
                 style: widget.textStyle,
               ),
             ),

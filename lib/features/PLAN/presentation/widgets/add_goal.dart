@@ -105,7 +105,7 @@ class AddGoalState extends State<AddGoal> {
                     ),
                     Text('Add Goal',
                         style: TextStyle(
-                            fontFamily: 'Zillaslab',
+                            fontFamily: 'Montserrat',
                             fontSize: Gparam.textMedium,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColor)),
@@ -217,7 +217,7 @@ class AddGoalState extends State<AddGoal> {
                           horizontal: Gparam.widthPadding / 2),
                       child: TextField(
                         style: TextStyle(
-                          fontFamily: 'ZillaSlab',
+                          fontFamily: 'Montserrat',
                           fontSize: Gparam.textMedium,
                         ),
                         decoration: InputDecoration.collapsed(

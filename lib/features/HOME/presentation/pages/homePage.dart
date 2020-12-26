@@ -130,7 +130,6 @@ class _SortedHomeState extends State<SortedHome>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
         key: _scaffoldKey,
         body: SafeArea(child: new LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -143,13 +142,16 @@ class _SortedHomeState extends State<SortedHome>
                   SliverSafeArea(
                     top: false,
                     sliver: SliverAppBar(
-                      elevation: 0,
-                      backgroundColor: Theme.of(context).primaryColor,
+                      elevation: 5,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       shadowColor: Colors.black26,
                       actions: <Widget>[
                         IconButton(
-                          icon: Icon(OMIcons.settings,
-                              color: Theme.of(context).scaffoldBackgroundColor),
+                          icon: Icon(
+                            OMIcons.settings,
+                            color: Theme.of(context).highlightColor,
+                          ),
                           tooltip: 'Settings',
                           onPressed: () {
                             Router.navigator.pushNamed(Router.settingsPage);
@@ -159,7 +161,7 @@ class _SortedHomeState extends State<SortedHome>
                       leading: UserAvatar(
                           scaleAnimation: scaleAnimation,
                           user_image: user_image),
-                      expandedHeight: 400,
+                      expandedHeight: 200,
                       pinned: true,
                       primary: true,
                       shape: RoundedRectangleBorder(
@@ -231,8 +233,8 @@ class _SortedHomeState extends State<SortedHome>
       print("plan");
       Router.navigator.pushNamed(Router.planHome);
     } else if (toIndex == 2) {
-      print("plan");
-      Router.navigator.pushNamed(Router.noteHub);
+      print("record");
+      Router.navigator.pushNamed(Router.recordTab);
     }
     if (currentSideTab == toIndex)
       setState(() {

@@ -92,7 +92,6 @@ class LinkWidgetState extends State<LinkWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   GestureDetector(
                     onTap: () {
                       // TextboxBlock toSendBlock = state.textboxBlock;
@@ -129,25 +128,6 @@ class LinkWidgetState extends State<LinkWidget> {
                                   child: _buildPreviewCard(context, state.link),
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Icon(
-                                        OMIcons.moreVert,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
                         ),
@@ -165,21 +145,35 @@ class LinkWidgetState extends State<LinkWidget> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
-        color: Theme.of(context).scaffoldBackgroundColor,
+        
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
-            width: (MediaQuery.of(context).size.width -
-                    MediaQuery.of(context).padding.left -
-                    MediaQuery.of(context).padding.right) *
-                0.25,
-            child: PreviewImage(
-              link.image,
-              Theme.of(context).scaffoldBackgroundColor,
+          if (link.image != null && link.image != "")
+            Container(
+              width: (MediaQuery.of(context).size.width -
+                      MediaQuery.of(context).padding.left -
+                      MediaQuery.of(context).padding.right) *
+                  0.20,
+              child: PreviewImage(
+                link.image,
+                Theme.of(context).dialogBackgroundColor.withOpacity(.5),
+              ),
             ),
-          ),
+          if (link.image == null || link.image == "")
+            Container(
+                width: (MediaQuery.of(context).size.width -
+                        MediaQuery.of(context).padding.left -
+                        MediaQuery.of(context).padding.right) *
+                    0.20,
+                child: Icon(
+                  Icons.link,
+                  size: (MediaQuery.of(context).size.width -
+                          MediaQuery.of(context).padding.left -
+                          MediaQuery.of(context).padding.right) *
+                      0.06,
+                )),
           Expanded(
             child: Padding(
               padding: EdgeInsets.all(8),
@@ -187,20 +181,42 @@ class LinkWidgetState extends State<LinkWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PreviewTitle(
-                    link.title,
-                    Theme.of(context).primaryColor,
-                    1,
-                  ),
-                  PreviewDescription(
-                    link.description,
-                    Theme.of(context).primaryColor,
-                    3,
-                  ),
-                  PreviewSiteName(
-                    link.siteName,
-                    Theme.of(context).primaryColor,
-                  ),
+                  if (link.siteName != null && link.siteName.trim() != "")
+                    PreviewSiteName(
+                      link.siteName,
+                      Theme.of(context).highlightColor,
+                    ),
+                  if (link.siteName != null && link.siteName.trim() != "")
+                    SizedBox(
+                      height: 4,
+                    ),
+                  if (link.title != null && link.title != "")
+                    PreviewTitle(
+                      link.title,
+                      Theme.of(context).highlightColor,
+                      1,
+                    ),
+                  if (link.title == null || link.title == "")
+                    PreviewTitle( 
+                      "Link",
+                      Theme.of(context).highlightColor,
+                      1,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                  if (link.description != null && link.description != "")
+                    PreviewDescription(
+                      link.description,
+                      Theme.of(context).highlightColor.withAlpha(100),
+                      2,
+                    ),
+                  if (link.title == null || link.title == "")
+                    PreviewDescription(
+                      link.url,
+                      Theme.of(context).highlightColor.withAlpha(100),
+                      2,
+                    ),
                 ],
               ),
             ),

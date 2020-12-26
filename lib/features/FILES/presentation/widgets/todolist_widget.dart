@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -63,6 +64,9 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
     bloc = BlocProvider.of<TodolistBloc>(context);
     BlocProvider.of<TodolistBloc>(context)
       ..add(UpdateTodolist(widget.blockInfo));
+    newTodoFocus.addListener(() {
+      print("Has focus: ${_focusNode.hasFocus}");
+    });
   }
 
   @override
@@ -111,62 +115,112 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
                   SizedBox(
                     height: 8,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: Gparam.widthPadding,
-                              ),
-                              Icon(
-                                OMIcons.doneOutline,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12.0)),
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withAlpha(0),
+                  Container(
+                    color: Theme.of(context).primaryColor.withAlpha(200),
+                    padding: EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: Gparam.widthPadding,
                                 ),
-                                child: Text(
-                                  state.todo.title,
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: Gparam.textSmall,
-                                      fontWeight: FontWeight.w500),
+                                Icon(
+                                  OMIcons.listAlt,
+                                  color: Theme.of(context).highlightColor,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12.0)),
+                                  ),
+                                  child: Text(
+                                    state.todo.title,
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Theme.of(context).highlightColor,
+                                        fontSize: Gparam.textSmall,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Icon(
-                        OMIcons.moreVert,
-                        color: Theme.of(context).primaryColor,
-                      )
-                    ],
+                        Padding(
+                          padding:
+                              EdgeInsets.only(right: Gparam.widthPadding / 2),
+                          child: Icon(
+                            OMIcons.moreVert,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 12,
                   ),
                   if (state.todos != null && state.todos.length > 0)
                     Container(
                         width: Gparam.width, child: buildTodoList(state.todos)),
+                  if (state.suggestions != null)
+                    Container(
+                        height: 30,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.suggestions.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            // A stack that provides:
+                            // * A draggable object
+                            // * An area for incoming draggables
+                            return Stack(
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      bloc.add(AddTodoFromSuggestion(
+                                          state.suggestions[index]));
+                                      newTodoItemController.clear();
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black12,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6)),
+                                      ),
+                                      child: Text(
+                                        state.suggestions[index].todoItem,
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          height: 1.2,
+                                          color:
+                                              Theme.of(context).highlightColor,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: Gparam.textSmall,
+                                        ),
+                                      ),
+                                    )),
+                              ],
+                            );
+                          },
+                        )),
                   Container(
                     margin:
                         EdgeInsets.symmetric(horizontal: Gparam.widthPadding),
@@ -190,6 +244,14 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
                         fontWeight: FontWeight.w500,
                         fontSize: Gparam.textSmaller,
                       ),
+                      onChanged: (text) {
+                        bloc.add(SearchEvent(text.trim()));
+
+                        if (!newTodoFocus.hasFocus)
+                          newTodoFocus.canRequestFocus = true;
+                        newTodoFocus.requestFocus();
+                        setState(() {});
+                      },
                       onSubmitted: (newValue) {
                         print("newTodoItemController.text");
                         print(newTodoItemController.text);
@@ -205,7 +267,7 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
                           OMIcons.add,
                           color: Theme.of(context).primaryColor,
                         ),
-                        hintText: 'Add Todo',
+                        hintText: 'Add New',
                         hintStyle: TextStyle(
                           fontFamily: "Montserrat",
                           height: 1.2,
@@ -296,9 +358,6 @@ class _ListTodoCard extends State<ListTodoCard> {
     print("building " + widget.todo.state.toString());
     return Column(
       children: [
-        new Divider(
-          color: Theme.of(context).primaryColor.withAlpha(78),
-        ),
         Row(
           children: [
             Container(
@@ -327,6 +386,17 @@ class _ListTodoCard extends State<ListTodoCard> {
                     ],
                   ),
                   SizedBox(width: Gparam.widthPadding / 3),
+                  if (widget.todo.url != "")
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.todo.url,
+                          fit: BoxFit.contain,
+                          width: 40,
+                          height: 40,
+                        )),
+                  if (widget.todo.url != "")
+                    SizedBox(width: Gparam.widthPadding / 3),
                   Flexible(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -339,7 +409,6 @@ class _ListTodoCard extends State<ListTodoCard> {
                           children: [
                             Stack(
                               children: [
-                                
                                 Align(
                                   alignment: Alignment.center,
                                   child: Container(
@@ -350,29 +419,30 @@ class _ListTodoCard extends State<ListTodoCard> {
                                         decoration: TextDecoration.none,
                                         fontFamily: "Montserrat",
                                         height: 1,
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context).highlightColor,
                                         fontWeight: FontWeight.w500,
                                         fontSize: Gparam.textSmaller,
                                       ),
                                     ),
                                   ),
                                 ),
-                                 Align(
+                                Align(
                                   alignment: Alignment.center,
                                   child: AnimatedContainer(
                                     duration: Duration(milliseconds: 1400),
                                     curve: Curves.decelerate,
                                     decoration: BoxDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor.withAlpha(160),
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor
+                                            .withAlpha(250),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(12))),
-                                    height: 4,
+                                    height: 2,
                                     width: (widget.todo.state == 1)
                                         ? Gparam.width * 3 / 4
                                         : 0,
                                   ),
                                 ),
-                               
                               ],
                             ),
                           ],
@@ -393,6 +463,10 @@ class _ListTodoCard extends State<ListTodoCard> {
               ),
             ),
           ],
+        ),
+        new Divider(
+          color: Theme.of(context).primaryColor.withAlpha(78),
+          height: 1,
         ),
       ],
     );

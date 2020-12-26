@@ -19,7 +19,7 @@ class Accountsettings extends StatelessWidget {
   Widget buildCardWidget(Widget child, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor.withOpacity(.3),
+          color: Colors.grey.withOpacity(.05),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -51,7 +51,7 @@ class Accountsettings extends StatelessWidget {
               right: Gparam.widthPadding),
           child: Text('Account Settings',
               style: TextStyle(
-                  fontFamily: 'ZillaSlab',
+                  fontFamily: 'Montserrat',
                   fontSize: Gparam.textSmall,
                   fontWeight: FontWeight.bold)),
         ),
@@ -66,18 +66,7 @@ class Accountsettings extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(30.0)),
-                          gradient: new LinearGradient(
-                              colors: [
-                                Theme.of(context).primaryColor,
-                                (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                    ? Theme.of(context).backgroundColor
-                                    : Theme.of(context).primaryColorLight,
-                              ],
-                              begin: FractionalOffset.topCenter,
-                              end: FractionalOffset.bottomCenter,
-                              stops: [.2, .8],
-                              tileMode: TileMode.repeated),
+                        
                         ),
                         child: Icon(OMIcons.accountCircle)),
                     SizedBox(
@@ -87,7 +76,7 @@ class Accountsettings extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: 'Eastman',
                             fontSize: Gparam.textSmaller,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme.of(context).highlightColor)),
                     Spacer(),
                     Row(
                       children: <Widget>[
@@ -154,10 +143,10 @@ class Accountsettings extends StatelessWidget {
                       g_email,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: 'ZillaSlab',
+                        fontFamily: 'Montserrat',
                          fontSize: Gparam.textSmall,
                         fontWeight: FontWeight.normal,
-                        color: Colors.grey.withOpacity(.6),
+                        color: Colors.grey.withOpacity(.8),
                       ),
                     )),
                 Container(height: Gparam.heightPadding),
@@ -224,17 +213,7 @@ class Accountsettings extends StatelessWidget {
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(30.0)),
-                    gradient: new LinearGradient(
-                        colors: [
-                          Theme.of(context).primaryColor,
-                          (Theme.of(context).brightness == Brightness.dark)
-                              ? Theme.of(context).backgroundColor
-                              : Theme.of(context).primaryColorLight,
-                        ],
-                        begin: FractionalOffset.topCenter,
-                        end: FractionalOffset.bottomCenter,
-                        stops: [.2, .8],
-                        tileMode: TileMode.repeated),
+                   
                   ),
                   child: Image.asset('assets/images/google_fit.png',
                       width: 25,
@@ -250,7 +229,7 @@ class Accountsettings extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: 'Eastman',
                         fontSize: Gparam.textSmaller,
-                        color: Theme.of(context).primaryColor)),
+                        color: Theme.of(context).highlightColor)),
                 Spacer(),
                 Row(
                   children: <Widget>[

@@ -169,7 +169,7 @@ class ProgressPainter extends CustomPainter {
     final double innerRadius = center - dotRadius * 2 + radiusOffset;
     final textStyle = TextStyle(
       color: Colors.black,
-      fontFamily: "Zillaslab",
+      fontFamily: "Montserrat",
       fontWeight: FontWeight.bold,
       fontSize: Gparam.textVerySmall,
     );

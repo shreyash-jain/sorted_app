@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:quill_delta/quill_delta.dart';
+import 'package:sorted/core/global/widgets/dashed_box.dart';
+import 'package:sorted/features/FILES/presentation/widgets/calendar_element.dart';
 import 'package:sorted/features/FILES/presentation/widgets/floating_widget.dart';
 import 'package:sorted/features/FILES/presentation/widgets/textbox_widget.dart';
 import 'package:zefyr/zefyr.dart';
@@ -93,14 +95,26 @@ class NoteLoadedWidgetState extends State<NoteLoadedWidget>
         print(data.id);
         setState(() {
           if (widget.state.blocks != null) {
-            widget.state.blocks
-                .removeWhere((element) => (element.id == data.id));
+            int index = widget.state.blocks.indexOf(data);
+            widget.state.blocks.remove(data);
+
             //data.listId = listId;
 
             if (widget.state.blocks.length > targetPosition) {
-              widget.state.blocks.insert(targetPosition + 1, data);
+              if (index < targetPosition) {
+                widget.state.blocks.insert(targetPosition, data);
+              } else {
+                widget.state.blocks.insert(targetPosition + 1, data);
+              }
+
+              print("shtr  " +
+                  index.toString() +
+                  "  " +
+                  (targetPosition + 1).toString());
+              print("case 11");
             } else {
               widget.state.blocks.add(data);
+              print("case 22");
             }
             print(widget.state.blocks.length.toString() + " length");
 
@@ -114,7 +128,7 @@ class NoteLoadedWidgetState extends State<NoteLoadedWidget>
           // The area that accepts the draggable
           return Container(
             //color:Colors.green.withOpacity(.5),
-            height: height + 6,
+            height: height,
           );
         } else {
           return Column(
@@ -127,9 +141,30 @@ class NoteLoadedWidgetState extends State<NoteLoadedWidget>
                 //print("list id" + item.listId.toString());
                 return Opacity(
                   opacity: 0.5,
-                  child: Container(
-                    color: Theme.of(context).primaryColor,
-                    height: 5,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Container(
+                            height: 60,
+                            width: Gparam.width * 0.85,
+                            margin: EdgeInsets.all(8),
+                            alignment: Alignment.center,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            child: Text("Drop here")),
+                      ),
+                      Center(
+                        child: Container(
+                          height: 60,
+                          width: Gparam.width * 0.85,
+                          margin: EdgeInsets.all(8),
+                          child: DashedRect(
+                            color: Theme.of(context).highlightColor,
+                            strokeWidth: 1.0,
+                            gap: 8.0,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }).toList()
@@ -214,8 +249,26 @@ class NoteLoadedWidgetState extends State<NoteLoadedWidget>
                                 LongPressDraggable<BlockInfo>(
                                   data: items[index],
                                   feedbackOffset: Offset.fromDirection(500),
-                                  onDragCompleted: () {},
-                                  onDragEnd: (value) {},
+                                  onDragCompleted: () {
+                                    if (widget.state.inAir)
+                                      widget.noteBloc
+                                          .add(UpdateAir(inAir: false));
+                                  },
+                                  onDraggableCanceled: (v, o) {
+                                    if (widget.state.inAir)
+                                      widget.noteBloc
+                                          .add(UpdateAir(inAir: false));
+                                  },
+                                  onDragEnd: (value) {
+                                    if (widget.state.inAir)
+                                      widget.noteBloc
+                                          .add(UpdateAir(inAir: false));
+                                  },
+                                  onDragStarted: () {
+                                    if (!widget.state.inAir)
+                                      widget.noteBloc
+                                          .add(UpdateAir(inAir: true));
+                                  },
                                   child: widget.state.board[items[index].id],
                                   childWhenDragging: Opacity(
                                     // The card that's left behind
@@ -225,13 +278,17 @@ class NoteLoadedWidgetState extends State<NoteLoadedWidget>
                                   feedback: FloatingWidget(
                                     child: Material(
                                       child: Container(
-                                          // A card floating around
-                                          height: items[index].height,
-                                          width: Gparam.width,
-                                          child: SingleChildScrollView(
-                                            child: widget
-                                                .state.board[items[index].id],
-                                          )),
+                                        // A card floating around
+                                        height: (items[index].height >
+                                                Gparam.height / 2)
+                                            ? Gparam.height / 2
+                                            : items[index].height,
+                                        width: Gparam.width,
+                                        child: SingleChildScrollView(
+                                          child: widget
+                                              .state.board[items[index].id],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

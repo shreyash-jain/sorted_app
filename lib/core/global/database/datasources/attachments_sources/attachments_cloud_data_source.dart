@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:meta/meta.dart';
+import 'package:path/path.dart' as p;
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/core/global/models/attachment.dart';
@@ -62,8 +63,10 @@ class AttachmentCloudDataSourceImpl implements AttachmentsCloud {
       File imageFile, String directory, ImageModel image) async {
     DateTime now = DateTime.now();
     FirebaseUser user = await auth.currentUser();
+
     image = image.copyWith(savedTs: now);
-    String storagePath = 'uploads/${user.uid}/$directory/${image.localPath}';
+    String storagePath =
+        'uploads/${user.uid}/$directory/${p.basename(image.localPath)}';
     image = image.copyWith(storagePath: storagePath);
 
     StorageReference firebaseStorageRef = cloudStorage.child(storagePath);

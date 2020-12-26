@@ -332,7 +332,7 @@ class _TimelineViewState extends State<TimelineView> {
                           text: TextSpan(
                             text: 'Timeline',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textMedium,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColor),

@@ -52,7 +52,7 @@ class ProfessionCard extends StatelessWidget {
                 alignment:Alignment.bottomCenter,
                 child:Text("Female\n25-50",style: TextStyle(
                 color: Colors.white,
-                fontFamily: 'ZillaSlab',
+                fontFamily: 'Montserrat',
                 fontSize: 20,
                 shadows: <Shadow>[
                   Shadow(

@@ -43,7 +43,7 @@ class SurveySettingsState extends State<SurveySettings> {
               right: Gparam.widthPadding),
           child: Text('Survey Settings',
               style: TextStyle(
-                  fontFamily: 'ZillaSlab',
+                  fontFamily: 'Montserrat',
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
         ),
@@ -55,17 +55,7 @@ class SurveySettingsState extends State<SurveySettings> {
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(30.0)),
-                    gradient: new LinearGradient(
-                        colors: [
-                          Theme.of(context).primaryColor,
-                          (Theme.of(context).brightness == Brightness.dark)
-                              ? Theme.of(context).backgroundColor
-                              : Theme.of(context).primaryColorLight,
-                        ],
-                        begin: FractionalOffset.topCenter,
-                        end: FractionalOffset.bottomCenter,
-                        stops: [.2, .8],
-                        tileMode: TileMode.repeated),
+                  
                   ),
                   child: Icon(OMIcons.autorenew),
                 ),
@@ -76,7 +66,7 @@ class SurveySettingsState extends State<SurveySettings> {
                     style: TextStyle(
                         fontFamily: 'Eastman',
                         fontSize: 16,
-                        color: Theme.of(context).primaryColor)),
+                        color: Theme.of(context).highlightColor)),
                 Spacer(),
                 Row(
                   children: <Widget>[
@@ -115,18 +105,7 @@ class SurveySettingsState extends State<SurveySettings> {
                         decoration: BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(30.0)),
-                          gradient: new LinearGradient(
-                              colors: [
-                                Theme.of(context).primaryColor,
-                                (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                    ? Theme.of(context).backgroundColor
-                                    : Theme.of(context).primaryColorLight,
-                              ],
-                              begin: FractionalOffset.topCenter,
-                              end: FractionalOffset.bottomCenter,
-                              stops: [.2, .8],
-                              tileMode: TileMode.repeated),
+                        
                         ),
                         child: Icon(OMIcons.timelapse)),
                     SizedBox(
@@ -136,7 +115,7 @@ class SurveySettingsState extends State<SurveySettings> {
                         style: TextStyle(
                             fontFamily: 'Eastman',
                             fontSize: 16,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme.of(context).highlightColor)),
                   ],
                 ),
                 SizedBox(
@@ -162,7 +141,7 @@ class SurveySettingsState extends State<SurveySettings> {
                       "${widget._valueSurveyTime.floor()} mins",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: 'ZillaSlab',
+                        fontFamily: 'Montserrat',
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor,
@@ -212,7 +191,7 @@ class SurveySettingsState extends State<SurveySettings> {
   Widget buildCardWidget(Widget child, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor.withOpacity(.3),
+           color: Colors.grey.withOpacity(.05),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(

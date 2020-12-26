@@ -294,7 +294,7 @@ class TaskPageState extends State<TaskPage> {
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       color: Theme.of(context)
-                                                          .primaryColor),
+                                                          .highlightColor),
                                                 ),
                                               ),
                                             )),
@@ -332,7 +332,7 @@ class TaskPageState extends State<TaskPage> {
                                                 Radius.circular(12.0)),
                                             border: Border.all(
                                                 color: Theme.of(context)
-                                                    .primaryColor
+                                                    .highlightColor
                                                     .withOpacity(.2),
                                                 width: 1),
                                           ),
@@ -347,7 +347,7 @@ class TaskPageState extends State<TaskPage> {
                                                   fontFamily: 'Montserrat',
                                                   fontSize: 10,
                                                   color: Theme.of(context)
-                                                      .primaryColor,
+                                                      .highlightColor,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                                 children: <TextSpan>[
@@ -397,7 +397,7 @@ class TaskPageState extends State<TaskPage> {
                                       Icon(
                                         Icons.pin_drop,
                                         size: 16,
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context).highlightColor,
                                       ),
                                       SizedBox(
                                         width: 6,
@@ -411,7 +411,7 @@ class TaskPageState extends State<TaskPage> {
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color:
-                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).highlightColor,
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w800,
                                           ),
@@ -463,7 +463,7 @@ class TaskPageState extends State<TaskPage> {
                                       Icon(Icons.access_time,
                                           size: 16,
                                           color:
-                                              Theme.of(context).primaryColor),
+                                              Theme.of(context).highlightColor),
                                       SizedBox(
                                         width: 6,
                                       ),
@@ -478,7 +478,7 @@ class TaskPageState extends State<TaskPage> {
                                           style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             color:
-                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).highlightColor,
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w800,
                                           ),
@@ -838,7 +838,7 @@ class TaskPageState extends State<TaskPage> {
                                           fontSize: Gparam.textVerySmall,
                                           fontWeight: FontWeight.w500,
                                           color:
-                                              Theme.of(context).primaryColor),
+                                              Theme.of(context).highlightColor),
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: state.thisTask.description,
@@ -846,7 +846,7 @@ class TaskPageState extends State<TaskPage> {
                                             fontFamily: "Montserrat",
                                             height: 1.2,
                                             color:
-                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).highlightColor,
                                             fontWeight: FontWeight.w300,
                                             fontSize: Gparam.textVerySmall,
                                           ),
@@ -872,14 +872,14 @@ class TaskPageState extends State<TaskPage> {
                                         fontFamily: 'Montserrat',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w300,
-                                        color: Theme.of(context).primaryColor),
+                                        color: Theme.of(context).highlightColor),
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: " Subtasks",
                                         style: TextStyle(
                                           fontFamily: "Montserrat",
                                           height: 1.2,
-                                          color: Theme.of(context).primaryColor,
+                                          color: Theme.of(context).highlightColor,
                                           fontWeight: FontWeight.w500,
                                           fontSize: Gparam.textVerySmall,
                                         ),
@@ -905,7 +905,7 @@ class TaskPageState extends State<TaskPage> {
                                 new BorderRadius.all(Radius.circular(12.0)),
                             border: Border.all(
                                 color: Theme.of(context)
-                                    .primaryColor
+                                    .highlightColor
                                     .withOpacity(.2),
                                 width: 2),
                           ),
@@ -917,7 +917,7 @@ class TaskPageState extends State<TaskPage> {
                             style: TextStyle(
                               fontFamily: "Montserrat",
                               height: 1.2,
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).highlightColor,
                               fontWeight: FontWeight.w500,
                               fontSize: Gparam.textSmaller,
                             ),
@@ -934,13 +934,13 @@ class TaskPageState extends State<TaskPage> {
                               border: InputBorder.none,
                               icon: Icon(
                                 OMIcons.doneOutline,
-                                color: Theme.of(context).primaryColor,
+                                color: Theme.of(context).highlightColor,
                               ),
                               hintText: 'Enter Todo',
                               hintStyle: TextStyle(
                                 fontFamily: "Montserrat",
                                 height: 1.2,
-                                color: Theme.of(context).primaryColor,
+                                color: Theme.of(context).highlightColor,
                                 fontWeight: FontWeight.w300,
                                 fontSize: Gparam.textSmaller,
                               ),

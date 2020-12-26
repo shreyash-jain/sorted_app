@@ -79,7 +79,7 @@ class _bottomSheetState extends State<ButtomSheet>
         Text(
           "Get started   >>",
           style: TextStyle(
-            fontFamily: 'ZillaSlab',
+            fontFamily: 'Montserrat',
             fontSize: 24.0,
           ),
         ),

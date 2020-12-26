@@ -11,18 +11,19 @@ class ColossalInitial extends ColossalState {
 
 class ColossalLoaded extends ColossalState {
   final ColossalBlock colossal;
-  final List<ImageModel> images;
+  final List<ImageBlock> images;
   final BlockInfo blockInfo;
+  final List<bool> doLocalExist;
 
-  ColossalLoaded(this.images, this.blockInfo, this.colossal);
+  ColossalLoaded(this.images, this.blockInfo, this.colossal, this.doLocalExist);
   @override
-  List<Object> get props => [images, blockInfo, colossal];
+  List<Object> get props => [images, blockInfo, colossal, doLocalExist];
 }
 
-class TodoError extends ColossalState {
+class ColossalError extends ColossalState {
   final String message;
 
-  TodoError({this.message});
+  ColossalError({this.message});
 
   @override
   List<Object> get props => [message];

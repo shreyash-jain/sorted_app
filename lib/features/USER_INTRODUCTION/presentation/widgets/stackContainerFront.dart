@@ -51,7 +51,7 @@ class StackContainerFront extends StatelessWidget {
                                   ? UserIntroStrings.oldDownloadText
                                   : UserIntroStrings.newDownloadText,
                               style: TextStyle(
-                                  fontFamily: 'ZillaSlab',
+                                  fontFamily: 'Montserrat',
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black),
@@ -61,7 +61,7 @@ class StackContainerFront extends StatelessWidget {
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 24)),
+                                        fontSize: Gparam.textSmaller)),
                               ],
                             ),
                             textAlign: TextAlign.center,
@@ -94,7 +94,7 @@ class StackContainerFront extends StatelessWidget {
                                     fontSize: 24.0,
                                     fontWeight: FontWeight.normal,
                                     color: Colors.black45,
-                                    fontFamily: 'ZillaSlab'),
+                                    fontFamily: 'Montserrat'),
                               ),
                               SizedBox(width: 10.0),
                               FadeAnimationTB(
@@ -107,7 +107,7 @@ class StackContainerFront extends StatelessWidget {
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white60,
-                                        fontFamily: 'ZillaSlab'),
+                                        fontFamily: 'Montserrat'),
                                   )),
                             ],
                           ),
@@ -180,7 +180,7 @@ class StackContainerFront extends StatelessWidget {
                                   )
                                 : Text("",
                                     style: TextStyle(
-                                        fontFamily: 'ZillaSlab',
+                                        fontFamily: 'Montserrat',
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black)),

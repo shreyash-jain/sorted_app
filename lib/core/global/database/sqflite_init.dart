@@ -30,15 +30,33 @@ List<String> tables = [
   "Images",
   "Attachments",
   "Goals",
+  "Todos",
   "TodoItems",
   "Tasks",
+  "Tasks_Tags",
+  "Tasks_Links",
   "BlockInfo",
   "BlockTextbox",
   "Goals_Images",
   "TaskStatus",
+  "Todos_TodoItems",
   "BlockImage",
-  "Notes_Blocks"
+  "Notes_Logs",
+  "Notes_Reviews",
+  "Notes_Tags",
+  "BlockColossal",
+  "BlockSlider",
+  "BlockYoutube",
+  "Notes_Blocks",
+  "BlockCalendarEvent",
+  "BlockCalendar",
+  "BlockTable",
+  "BlockColumn",
+  "BlockFormField",
+  "BlockSequence",
+  "BlockTableItem"
 ];
+
 List<String> imagePath = [];
 List<int> imageTotal = [];
 
@@ -197,7 +215,8 @@ class SqlDatabaseService {
           '''CREATE TABLE Timelines (id INTEGER PRIMARY KEY, saved_ts INTEGER,status INTEGER, title TEXT, content TEXT, date TEXT,end_date TEXT);''');
 
       await db.execute(
-          '''CREATE TABLE Notebooks (_id INTEGER PRIMARY KEY, saved_ts INTEGER,title TEXT, notes_num INTEGER, date TEXT, isImportant INTEGER);''');
+          '''CREATE TABLE Notebooks (id INTEGER PRIMARY KEY, savedTs INTEGER,listCategory INTEGER,color TEXT, icon TEXT,description TEXT,numLogs INTEGER,numNotes INTEGER,templateId INTEGER, title TEXT, cover TEXT, noteEmoji TEXT, canDelete INTEGER,isDeleted INTEGER,isCustom INTEGER,isPublic INTEGER, assetPath TEXT);''');
+
       print('New table created at 2 $path');
       await db.execute(
           '''CREATE TABLE Questions (_id INTEGER PRIMARY KEY, min INTEGER, max INTEGER, content TEXT, c_name TEXT, c_id INTEGER, saved_ts INTEGER,c_streak INTEGER, l_streak INTEGER, l_interval INTEGER,v_streak TEXT,showDashboard INTEGER,  title TEXT, ans1 TEXT,ans2 TEXT,ans3 TEXT,type INTEGER, num_ans INTEGER, interval INTEGER,archive INTEGER,priority INTEGER,correct_ans INTEGER,last_date TEXT,weight DOUBLE);''');
@@ -227,9 +246,9 @@ class SqlDatabaseService {
       await db.execute(
           'CREATE TABLE Tasks (id INTEGER PRIMARY KEY, coverImageId TEXT, taskImageId TEXT, savedTs INTEGER,title TEXT,description TEXT, startDate INTEGER,deadLine INTEGER, duration DOUBLE,priority DOUBLE,progress DOUBLE,linkedTags INTEGER,linkedGoals INTEGER,linkedReviews INTEGER,linkedActivities INTEGER,type INTEGER,linkedImages INTEGER,linkedLinks INTEGER,linkedLogs INTEGER,linkedDependencies INTEGER,linkedStatus INTEGER,linkedTodos INTEGER)');
       await db.execute(
-          'CREATE TABLE Todos (id INTEGER PRIMARY KEY,  savedTs INTEGER,title TEXT,description TEXT, numTodoItems INTEGER, position INTEGER)');
+          'CREATE TABLE Todos (id INTEGER PRIMARY KEY,  unit TEXT, searchId INTEGER, type INTEGER, operation INTEGER, savedTs INTEGER,title TEXT,description TEXT, numTodoItems INTEGER, position INTEGER)');
       await db.execute(
-          'CREATE TABLE TodoItems (id INTEGER PRIMARY KEY, savedTs INTEGER,todoItem TEXT,position INTEGER,todolistId INTEGER,description TEXT, state INTEGER)');
+          'CREATE TABLE TodoItems (id INTEGER PRIMARY KEY, value DOUBLE, url TEXT,unit TEXT, savedTs INTEGER,todoItem TEXT,position INTEGER,todolistId INTEGER,description TEXT, state INTEGER)');
       await db.execute(
           'CREATE TABLE TaskStatus (id INTEGER PRIMARY KEY,canDelete INTEGER,numItems INTEGER, savedTs INTEGER,status INTEGER,imagePath TEXT)');
       await db.execute(
@@ -279,6 +298,26 @@ class SqlDatabaseService {
           'CREATE TABLE BlockTextbox (id INTEGER PRIMARY KEY, savedTs INTEGER,decoration INTEGER,title TEXT,isRich INTEGER,imagePath TEXT,text TEXT,iconData INTEGER,color1 INTEGER,color2 INTEGER);');
       await db.execute(
           'CREATE TABLE BlockImage (id INTEGER PRIMARY KEY, savedTs INTEGER,decoration INTEGER,colossalId INTEGER,title TEXT,imagePath TEXT,caption TEXT,url TEXT,iconData INTEGER,color1 INTEGER,color2 INTEGER,remotePath TEXT);');
+      await db.execute(
+          'CREATE TABLE BlockColossal (id INTEGER PRIMARY KEY, savedTs INTEGER,decoration INTEGER,title TEXT,numImages INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockYoutube (id INTEGER PRIMARY KEY, savedTs INTEGER,title TEXT,videoId TEXT);');
+      await db.execute(
+          'CREATE TABLE BlockSlider (id INTEGER PRIMARY KEY, savedTs INTEGER,title TEXT, maxItem TEXT, minItem TEXT, value DOUBLE, isNotInt INTEGER, decoration INTEGER, min DOUBLE, max DOUBLE);');
+      await db.execute(
+          'CREATE TABLE BlockFormField (id INTEGER PRIMARY KEY, savedTs INTEGER,field TEXT,fieldValue TEXT,url TEXT,type INTEGER, decoration INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockTable (id INTEGER PRIMARY KEY, savedTs INTEGER,title TEXT,rows INTEGER,cols INTEGER, decoration INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockColumn (id INTEGER PRIMARY KEY, savedTs INTEGER,title TEXT,color TEXT,tableId INTEGER,type INTEGER, position INTEGER, isFirstCol INTEGER, isLastCol INTEGER, width DOUBLE);');
+      await db.execute(
+          'CREATE TABLE BlockTableItem (id INTEGER PRIMARY KEY, savedTs INTEGER,value TEXT,color TEXT,type INTEGER, colId INTEGER, align INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockCalendar (id INTEGER PRIMARY KEY, savedTs INTEGER,title TEXT,startDate INTEGER,view INTEGER, decoration INTEGER, numEvents INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockCalendarEvent (id INTEGER PRIMARY KEY, savedTs INTEGER,title TEXT,date INTEGER,state INTEGER, taskId INTEGER, type INTEGER,calId INTEGER);');
+      await db.execute(
+          'CREATE TABLE BlockSequence (id INTEGER PRIMARY KEY, savedTs INTEGER,title TEXT,date INTEGER,decoration INTEGER, content TEXT);');
 
       await db.execute(
           'CREATE TABLE Notes_Blocks (note_id INTEGER, block_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');

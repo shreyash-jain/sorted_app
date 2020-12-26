@@ -37,15 +37,14 @@ class SideBar extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30.0),
                         bottomRight: Radius.circular(30.0)),
-                    
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(context).scaffoldBackgroundColor,
+                          Colors.grey.withOpacity(.1),
+                          Colors.grey.withOpacity(.1),
+                          Colors.grey.withOpacity(.1),
+                          Colors.grey.withOpacity(.1),
                         ],
                         stops: [
                           0.1,

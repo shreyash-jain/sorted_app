@@ -9,19 +9,25 @@ class ImageInitial extends ImageState {
   List<Object> get props => [];
 }
 
+class ImageLoading extends ImageState {
+  @override
+  List<Object> get props => [];
+}
+
 class ImageLoaded extends ImageState {
   final ImageBlock imageBlock;
   final BlockInfo blockInfo;
+  final Size size;
 
-  ImageLoaded(this.imageBlock, this.blockInfo);
+  ImageLoaded(this.imageBlock, this.blockInfo, this.size);
   @override
-  List<Object> get props => [imageBlock, blockInfo];
+  List<Object> get props => [imageBlock, blockInfo, size];
 }
 
-class TextboxError extends ImageState {
+class ImageError extends ImageState {
   final String message;
 
-  TextboxError({this.message});
+  ImageError({this.message});
 
   @override
   List<Object> get props => [message];

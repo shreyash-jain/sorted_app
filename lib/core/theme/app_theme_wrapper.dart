@@ -24,10 +24,9 @@ class AppThemeState extends State<AppTheme> {
     if (newTheme != _theme) {
       setState(() => _theme = newTheme);
       setState(() {
-       
-          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-              statusBarColor: (newTheme as ThemeData).primaryColor));
-         
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor:
+                (newTheme as ThemeData).highlightColor.withAlpha(100)));
       });
     }
   }
@@ -36,21 +35,21 @@ class AppThemeState extends State<AppTheme> {
     print("here");
     String themeText = await getThemeFromSharedPref();
     if (themeText == lightString) {
-      SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(statusBarColor: appThemeLight.primaryColor));
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: _theme.highlightColor.withAlpha(100)));
       setState(() => _theme = appThemeLight);
     } else if (themeText == darkString) {
       setState(() => _theme = appThemeDark);
-      SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(statusBarColor: _theme.primaryColor));
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: _theme.highlightColor.withAlpha(100)));
     } else if (themeText == darkBlueString) {
       setState(() => _theme = appThemeDarkBlue);
-      SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(statusBarColor: _theme.primaryColor));
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: _theme.highlightColor.withAlpha(100)));
     } else if (themeText == lightPinkString) {
       setState(() => _theme = appThemeLightPink);
-      SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(statusBarColor: _theme.primaryColor));
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: _theme.highlightColor.withAlpha(100)));
     } else {
       setState(() => _theme = appThemeLight);
     }

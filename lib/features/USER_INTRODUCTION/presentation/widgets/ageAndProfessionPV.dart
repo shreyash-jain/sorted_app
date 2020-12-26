@@ -62,7 +62,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                 child: Text(
                   '${(widget.loginWidget.userDetail.name=="")?"Hey ":widget.loginWidget.userDetail.name}, how old are you ?',
                   style: TextStyle(
-                      fontFamily: 'ZillaSlab',
+                      fontFamily: 'Montserrat',
                       fontSize: 22.0,
                       fontWeight: FontWeight.w500,
                       color: Colors.white.withOpacity(.8)),
@@ -101,7 +101,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                     },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
-                        fontFamily: 'ZillaSlab',
+                        fontFamily: 'Montserrat',
                         fontSize: 26,
                         color: Colors.black45,
                         fontWeight: FontWeight.w500),
@@ -110,7 +110,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                       hintStyle: TextStyle(
                           color: Colors.black38,
                           fontSize: 26,
-                          fontFamily: 'ZillaSlab',
+                          fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w500),
                       border: InputBorder.none,
                     ),
@@ -135,7 +135,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                         UserIntroStrings.askProfesssion,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontFamily: 'ZillaSlab',
+                            fontFamily: 'Montserrat',
                             fontSize: 22.0,
                             fontWeight: FontWeight.w500,
                             color: Colors.white.withOpacity(.8)),

@@ -410,7 +410,7 @@ class _KanbanState extends State<Kanban> {
                           text: TextSpan(
                             text: 'Board',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textMedium,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColor),

@@ -4,19 +4,30 @@ abstract class ImageEvent extends Equatable {
   const ImageEvent();
 }
 
-class UpdateImage extends ImageEvent {
+class GetImage extends ImageEvent {
   final BlockInfo block;
-  UpdateImage(this.block);
+  GetImage(this.block);
 
   @override
   List<Object> get props => [block];
 }
 
-class UpdateText extends ImageEvent {
-  final TextboxBlock textblock;
-  UpdateText(this.textblock);
+class UpdateImage extends ImageEvent {
+  final File image;
+  final ImageBlock imageBlock;
+  final BlockInfo blockInfo;
+  UpdateImage(this.image, this.imageBlock, this.blockInfo);
 
   @override
-  List<Object> get props => [textblock];
+  List<Object> get props => [image, imageBlock, blockInfo];
 }
 
+class StartUploadImage extends ImageEvent {
+  final BuildContext context;
+  final BlockInfo blockInfo;
+  final ImageBlock image;
+  StartUploadImage(this.image, this.context, this.blockInfo);
+
+  @override
+  List<Object> get props => [image, context, blockInfo];
+}

@@ -10,17 +10,38 @@ class SliderBlock extends Equatable {
   String minItem;
   double value;
   int isNotInt;
+  int decoration;
   double min;
+  String title;
   SliderBlock({
     this.id = 0,
     this.savedTs = 0,
-    this.max = 0.0,
+    this.max = 10,
     this.maxItem = '',
     this.minItem = '',
     this.value = 0.0,
     this.isNotInt = 0,
+    this.decoration = 0,
     this.min = 0.0,
+    this.title = '',
   });
+
+  @override
+  // TODO: implement props
+  List<Object> get props {
+    return [
+      id,
+      savedTs,
+      max,
+      maxItem,
+      minItem,
+      value,
+      isNotInt,
+      decoration,
+      min,
+      title,
+    ];
+  }
 
   SliderBlock copyWith({
     int id,
@@ -30,7 +51,9 @@ class SliderBlock extends Equatable {
     String minItem,
     double value,
     int isNotInt,
+    int decoration,
     double min,
+    String title,
   }) {
     return SliderBlock(
       id: id ?? this.id,
@@ -40,7 +63,9 @@ class SliderBlock extends Equatable {
       minItem: minItem ?? this.minItem,
       value: value ?? this.value,
       isNotInt: isNotInt ?? this.isNotInt,
+      decoration: decoration ?? this.decoration,
       min: min ?? this.min,
+      title: title ?? this.title,
     );
   }
 
@@ -53,7 +78,9 @@ class SliderBlock extends Equatable {
       'minItem': minItem,
       'value': value,
       'isNotInt': isNotInt,
+      'decoration': decoration,
       'min': min,
+      'title': title,
     };
   }
 
@@ -68,29 +95,18 @@ class SliderBlock extends Equatable {
       minItem: map['minItem'],
       value: map['value'],
       isNotInt: map['isNotInt'],
+      decoration: map['decoration'],
       min: map['min'],
+      title: map['title'],
     );
   }
 
   String toJson() => json.encode(toMap());
+  String getTable() => "BlockSlider";
 
   factory SliderBlock.fromJson(String source) =>
       SliderBlock.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
-
-  @override
-  List<Object> get props {
-    return [
-      id,
-      savedTs,
-      max,
-      maxItem,
-      minItem,
-      value,
-      isNotInt,
-      min,
-    ];
-  }
 }

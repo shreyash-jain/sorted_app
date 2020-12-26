@@ -1,6 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+MyGlobals myGlobals = MyGlobals();
+
+class MyGlobals {
+  GlobalKey _scaffoldKey;
+  MyGlobals() {
+    _scaffoldKey = GlobalKey();
+  }
+  GlobalKey get scaffoldKey => _scaffoldKey;
+}
+
 class Gparam {
   static double height = 100;
   static double width = 100;
@@ -17,10 +27,12 @@ class Gparam {
   static double textLarge = 26;
   static double textVeryLarge = 30;
 }
+
 class UnsplashApi {
-static const kAccessKey = 'aAkpTxclXeZfAMrDGm10CwAjrJLFjnae1U2nxFMQcoo';
-static const kSecretKey = 't-DKb9YYd9GpJvX-dGgYtSSOv2Is2-KSISxaI4qBz0Y';
+  static const kAccessKey = 'aAkpTxclXeZfAMrDGm10CwAjrJLFjnae1U2nxFMQcoo';
+  static const kSecretKey = 't-DKb9YYd9GpJvX-dGgYtSSOv2Is2-KSISxaI4qBz0Y';
 }
+
 class Gtheme {
   static BoxDecoration roundedWhite = new BoxDecoration(
     borderRadius: new BorderRadius.all(Radius.circular(30.0)),
@@ -55,7 +67,7 @@ class Gtheme {
 
   static TextStyle blackShadowBold28 = TextStyle(
       color: Colors.black,
-      fontFamily: 'ZillaSlab',
+      fontFamily: 'Montserrat',
       fontSize: 28,
       shadows: [
         Shadow(
@@ -67,7 +79,7 @@ class Gtheme {
       fontWeight: FontWeight.bold);
   static TextStyle black20 = TextStyle(
       color: Colors.black54,
-      fontFamily: 'ZillaSlab',
+      fontFamily: 'Montserrat',
       fontSize: 20,
       fontWeight: FontWeight.normal);
 }

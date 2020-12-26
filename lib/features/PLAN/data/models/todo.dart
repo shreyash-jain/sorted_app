@@ -9,6 +9,10 @@ class TodoModel extends Equatable {
   String description;
   DateTime savedTs;
   int position;
+  String unit;
+  int type;
+  int operation;
+  int searchId;
   TodoModel({
     this.id = 0,
     this.numTodoItems = 0,
@@ -16,6 +20,10 @@ class TodoModel extends Equatable {
     this.description = '',
     this.savedTs,
     this.position = 0,
+    this.unit = '',
+    this.type = 0,
+    this.operation = 0,
+    this.searchId = 0,
   });
 
   TodoModel copyWith({
@@ -25,6 +33,10 @@ class TodoModel extends Equatable {
     String description,
     DateTime savedTs,
     int position,
+    String unit,
+    int type,
+    int operation,
+    int searchId,
   }) {
     return TodoModel(
       id: id ?? this.id,
@@ -33,6 +45,10 @@ class TodoModel extends Equatable {
       description: description ?? this.description,
       savedTs: savedTs ?? this.savedTs,
       position: position ?? this.position,
+      unit: unit ?? this.unit,
+      type: type ?? this.type,
+      operation: operation ?? this.operation,
+      searchId: searchId ?? this.searchId,
     );
   }
 
@@ -44,6 +60,10 @@ class TodoModel extends Equatable {
       'description': description,
       'savedTs': savedTs?.millisecondsSinceEpoch,
       'position': position,
+      'unit': unit,
+      'type': type,
+      'operation': operation,
+      'searchId': searchId,
     };
   }
 
@@ -57,10 +77,15 @@ class TodoModel extends Equatable {
       description: map['description'],
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
       position: map['position'],
+      unit: map['unit'],
+      type: map['type'],
+      operation: map['operation'],
+      searchId: map['searchId'],
     );
   }
 
   String toJson() => json.encode(toMap());
+  String getItemsTable() => "Todos_TodoItems";
   String getTable() => "Todos";
 
   factory TodoModel.fromJson(String source) =>
@@ -68,8 +93,6 @@ class TodoModel extends Equatable {
 
   @override
   bool get stringify => true;
-
-  String getItemsTable() => "Todos_TodoItems";
 
   @override
   List<Object> get props {
@@ -80,6 +103,10 @@ class TodoModel extends Equatable {
       description,
       savedTs,
       position,
+      unit,
+      type,
+      operation,
+      searchId,
     ];
   }
 }

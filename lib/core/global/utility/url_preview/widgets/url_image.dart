@@ -21,7 +21,7 @@ class PreviewImage extends StatelessWidget {
             height: (MediaQuery.of(context).size.width -
                     MediaQuery.of(context).padding.top -
                     MediaQuery.of(context).padding.bottom) *
-                0.25,
+                0.20,
             errorWidget: (context, url, error) => Icon(
               Icons.error,
               color: _imageLoaderColor,

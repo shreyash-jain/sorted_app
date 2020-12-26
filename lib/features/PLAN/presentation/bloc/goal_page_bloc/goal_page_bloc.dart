@@ -180,7 +180,7 @@ class GoalPageBloc extends Bloc<GoalPageEvent, GoalPageBlocState> {
       ImageModel newImage = new ImageModel(
           caption: "${event.attachmentName}",
           id: now.millisecondsSinceEpoch,
-          localPath: p.basename(result.path),
+          localPath: (result.path),
           savedTs: now,
           position: 0);
       print("before");

@@ -52,7 +52,10 @@ class AffirmationTile extends StatelessWidget {
                   margin: EdgeInsets.all(4),
                   decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(60.0)),
-                    border:(!affirmation.read)? Border.all(color: Theme.of(context).scaffoldBackgroundColor.withOpacity(.6),width: 2.5):null,
+                    border: (!affirmation.read)
+                        ? Border.all(
+                            color: Theme.of(context).primaryColor, width: 2.5)
+                        : null,
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(1, 1),

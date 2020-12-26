@@ -13,7 +13,6 @@ class YoutubeBlock extends Equatable {
     this.videoId = '',
     this.title = '',
   });
-  
 
   YoutubeBlock copyWith({
     int id,
@@ -40,7 +39,7 @@ class YoutubeBlock extends Equatable {
 
   factory YoutubeBlock.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return YoutubeBlock(
       id: map['id'],
       savedTs: map['savedTs'],
@@ -50,8 +49,10 @@ class YoutubeBlock extends Equatable {
   }
 
   String toJson() => json.encode(toMap());
+  String getTable() => "BlockYoutube";
 
-  factory YoutubeBlock.fromJson(String source) => YoutubeBlock.fromMap(json.decode(source));
+  factory YoutubeBlock.fromJson(String source) =>
+      YoutubeBlock.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;

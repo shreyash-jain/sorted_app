@@ -11,6 +11,9 @@ class TodoItemModel extends Equatable {
   int todolistId;
   int position;
   DateTime savedTs;
+  double value;
+  String url;
+  String unit;
   TodoItemModel({
     this.id = 0,
     this.todoItem = '',
@@ -19,8 +22,12 @@ class TodoItemModel extends Equatable {
     this.todolistId = 0,
     this.position = 0,
     this.savedTs,
+    this.value = 0.0,
+    this.url = '',
+    this.unit = 'Unit',
   });
 
+  String getTable() => "TodoItems";
   TodoItemModel copyWith({
     int id,
     String todoItem,
@@ -29,6 +36,9 @@ class TodoItemModel extends Equatable {
     int todolistId,
     int position,
     DateTime savedTs,
+    double value,
+    String url,
+    String unit,
   }) {
     return TodoItemModel(
       id: id ?? this.id,
@@ -38,6 +48,9 @@ class TodoItemModel extends Equatable {
       todolistId: todolistId ?? this.todolistId,
       position: position ?? this.position,
       savedTs: savedTs ?? this.savedTs,
+      value: value ?? this.value,
+      url: url ?? this.url,
+      unit: unit ?? this.unit,
     );
   }
 
@@ -50,6 +63,9 @@ class TodoItemModel extends Equatable {
       'todolistId': todolistId,
       'position': position,
       'savedTs': savedTs?.millisecondsSinceEpoch,
+      'value': value,
+      'url': url,
+      'unit': unit,
     };
   }
 
@@ -64,11 +80,13 @@ class TodoItemModel extends Equatable {
       todolistId: map['todolistId'],
       position: map['position'],
       savedTs: DateTime.fromMillisecondsSinceEpoch(map['savedTs']),
+      value: map['value'],
+      url: map['url'],
+      unit: map['unit'],
     );
   }
 
   String toJson() => json.encode(toMap());
-  String getTable() => "TodoItems";
 
   factory TodoItemModel.fromJson(String source) =>
       TodoItemModel.fromMap(json.decode(source));
@@ -86,6 +104,9 @@ class TodoItemModel extends Equatable {
       todolistId,
       position,
       savedTs,
+      value,
+      url,
+      unit,
     ];
   }
 }

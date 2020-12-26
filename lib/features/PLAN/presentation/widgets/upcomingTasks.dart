@@ -54,19 +54,11 @@ class UpcomingTasks extends StatelessWidget {
           margin: EdgeInsets.all(8),
           width: 170.0,
           decoration: new BoxDecoration(
-            borderRadius: new BorderRadius.all(
-              Radius.circular((12)),
-            ),
-            gradient: new LinearGradient(
-                colors: [
-                  Theme.of(context).primaryColor,
-                  Theme.of(context).primaryColor.withOpacity(.8),
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 1.00),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
+              borderRadius: new BorderRadius.all(
+                Radius.circular((12)),
+              ),
+              border: Border.all(
+                  color: Theme.of(context).highlightColor, width: .85)),
           child: Stack(
             children: [
               Column(
@@ -88,14 +80,14 @@ class UpcomingTasks extends StatelessWidget {
                               fontFamily: 'Montserrat',
                               fontSize: Gparam.textSmall,
                               fontWeight: FontWeight.w500,
-                              color: Theme.of(context).scaffoldBackgroundColor),
+                              color: Theme.of(context).highlightColor),
                           children: <TextSpan>[
                             TextSpan(
                                 text: task.title,
                                 style: TextStyle(
                                   fontFamily: "Montserrat",
                                   color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                      Theme.of(context).highlightColor,
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w800,
                                 )),
@@ -104,7 +96,7 @@ class UpcomingTasks extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: "Montserrat",
                                   color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                      Theme.of(context).highlightColor,
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w800,
                                 )),
@@ -130,7 +122,7 @@ class UpcomingTasks extends StatelessWidget {
                               fontFamily: 'Montserrat',
                               fontSize: Gparam.textVerySmall,
                               fontWeight: FontWeight.w300,
-                              color: Theme.of(context).scaffoldBackgroundColor),
+                              color: Theme.of(context).highlightColor),
                           children: <TextSpan>[
                             TextSpan(
                                 text: countdownDays(task.deadLine),
@@ -157,7 +149,7 @@ class UpcomingTasks extends StatelessWidget {
                             : (task.priority > .3)
                                 ? Icons.trending_flat
                                 : Icons.trending_down,
-                        color: Theme.of(context).scaffoldBackgroundColor,
+                        color: Theme.of(context).highlightColor,
                         size: 16,
                       ),
                       SizedBox(

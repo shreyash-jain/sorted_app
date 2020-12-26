@@ -11,9 +11,19 @@ import 'package:sorted/core/global/models/link.dart';
 import 'package:sorted/core/global/models/log.dart';
 import 'package:sorted/core/global/models/tag.dart';
 import 'package:sorted/core/global/models/textbox.dart';
+import 'package:sorted/features/FILES/data/models/block_calendar.dart';
+import 'package:sorted/features/FILES/data/models/block_calendar_event.dart';
+import 'package:sorted/features/FILES/data/models/block_column.dart';
+import 'package:sorted/features/FILES/data/models/block_form_field.dart';
 import 'package:sorted/features/FILES/data/models/block_image.dart';
+import 'package:sorted/features/FILES/data/models/block_image_colossal.dart';
 import 'package:sorted/features/FILES/data/models/block_info.dart';
+import 'package:sorted/features/FILES/data/models/block_sequence.dart';
+import 'package:sorted/features/FILES/data/models/block_slider.dart';
+import 'package:sorted/features/FILES/data/models/block_table.dart';
+import 'package:sorted/features/FILES/data/models/block_table_item.dart';
 import 'package:sorted/features/FILES/data/models/block_textbox.dart';
+import 'package:sorted/features/FILES/data/models/block_youtube.dart';
 import 'package:sorted/features/FILES/data/models/note_model.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
@@ -21,18 +31,54 @@ import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
 import 'package:sorted/features/PLAN/data/models/goal.dart';
 import 'package:sorted/features/PLAN/data/models/task.dart';
+import 'package:sorted/features/PLAN/data/models/todo_item.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class NoteCloud {
   Future<void> addNote(NoteModel note);
   Future<void> updateNote(NoteModel note);
   Future<void> deleteNote(NoteModel note);
+  Future<void> addColossal(ColossalBlock colossal);
+  Future<void> updateColossal(ColossalBlock colossal);
+  Future<void> deleteColossal(ColossalBlock colossal);
+  Future<void> addSlider(SliderBlock slider);
+  Future<void> updateSlider(SliderBlock slider);
+  Future<void> deleteSlider(SliderBlock slider);
+  Future<void> addSequence(SequenceBlock sequence);
+  Future<void> updateSequence(SequenceBlock sequence);
+  Future<void> deleteSequence(SequenceBlock sequence);
+  Future<void> addYoutubeVideo(YoutubeBlock sequence);
+  Future<void> updateYoutubeVideo(YoutubeBlock sequence);
+  Future<void> deleteYoutubeVideo(YoutubeBlock sequence);
+  Future<void> addFormField(FormFieldBlock formfield);
+  Future<void> updateFormField(FormFieldBlock formfield);
+  Future<void> deleteFormField(FormFieldBlock formfield);
+  Future<void> addTable(TableBlock table);
+  Future<void> updateTable(TableBlock table);
+  Future<void> deleteTable(TableBlock table);
+  Future<void> addCheckbox(TodoItemModel item);
+  Future<void> updateCheckbox(TodoItemModel item);
+  Future<void> deleteCheckbox(TodoItemModel item);
+  Future<void> addTableColumn(ColumnBlock col);
+  Future<void> updateTableColumn(ColumnBlock col);
+  Future<void> deleteTableColumn(ColumnBlock col);
+  Future<void> addTableItem(TableItemBlock item);
+  Future<void> updateTableItem(TableItemBlock item);
+  Future<void> deleteTableItem(TableItemBlock item);
+  Future<void> addCalendarItem(CalendarBlock item);
+  Future<void> updateCalendarItem(CalendarBlock item);
+  Future<void> deleteCalendarItem(CalendarBlock item);
+  Future<void> addCalendarEvent(CalendarEventBlock item);
+  Future<void> updateCalendarEvent(CalendarEventBlock item);
+  Future<void> deleteCalendarEvent(CalendarEventBlock item);
   Future<void> addTextboxBlock(TextboxBlock textbox);
+
   Future<void> updateTextboxBlock(TextboxBlock textbox);
   Future<void> deleteTextboxBlock(TextboxBlock textbox);
   Future<void> addBlockInfo(BlockInfo blockInfo);
   Future<void> updateBlockInfo(BlockInfo blockInfo);
   Future<void> deleteBlockInfo(BlockInfo blockInfo);
+
   Future<void> addLinkBlockToNote(NoteModel note, BlockInfo block, int id);
   Future<int> removeLinkBlockFromNote(NoteModel note, BlockInfo block);
   Future<void> addLinkTagToNote(NoteModel note, TagModel tag, int id);
@@ -40,6 +86,8 @@ abstract class NoteCloud {
   Future<void> addLinkLogToNote(NoteModel goal, LogModel log, int id);
   Future<int> removeLinkLogFromNote(NoteModel goal, LogModel log);
   Future<void> addImageBlock(ImageBlock imageblock);
+  Future<void> updateImageBlock(ImageBlock imageblock);
+  Future<void> deleteImageBlock(ImageBlock imageblock);
 }
 
 class NoteCloudDataSourceImpl implements NoteCloud {
@@ -228,7 +276,7 @@ class NoteCloudDataSourceImpl implements NoteCloud {
 
   @override
   Future<void> addImageBlock(ImageBlock imageblock) async {
-     FirebaseUser user = await auth.currentUser();
+    FirebaseUser user = await auth.currentUser();
     DocumentReference ref = cloudDb
         .collection('users')
         .document(user.uid)
@@ -237,6 +285,410 @@ class NoteCloudDataSourceImpl implements NoteCloud {
 
     ref
         .setData(imageblock.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addCalendarEvent(CalendarEventBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addCalendarItem(CalendarBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    print("adding calendar here");
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addCheckbox(TodoItemModel item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addColossal(ColossalBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addFormField(FormFieldBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addSequence(SequenceBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addSlider(SliderBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addTable(TableBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addTableColumn(ColumnBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addTableItem(TableItemBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> addYoutubeVideo(YoutubeBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .setData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> deleteCalendarEvent(CalendarEventBlock item) {
+    // TODO: implement deleteCalendarEvent
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteCalendarItem(CalendarBlock item) {
+    // TODO: implement deleteCalendarItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteCheckbox(TodoItemModel item) {
+    // TODO: implement deleteCheckbox
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteColossal(ColossalBlock colossal) {
+    // TODO: implement deleteColossal
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteFormField(FormFieldBlock formfield) {
+    // TODO: implement deleteFormField
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteSequence(SequenceBlock sequence) {
+    // TODO: implement deleteSequence
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteSlider(SliderBlock slider) {
+    // TODO: implement deleteSlider
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteTable(TableBlock table) {
+    // TODO: implement deleteTable
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteTableColumn(ColumnBlock col) {
+    // TODO: implement deleteTableColumn
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteTableItem(TableItemBlock item) {
+    // TODO: implement deleteTableItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteYoutubeVideo(YoutubeBlock sequence) {
+    // TODO: implement deleteYoutubeVideo
+
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateCalendarEvent(CalendarEventBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateCalendarItem(CalendarBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateCheckbox(TodoItemModel item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateColossal(ColossalBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateFormField(FormFieldBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateSequence(SequenceBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateSlider(SliderBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateTable(TableBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateTableColumn(ColumnBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateTableItem(TableItemBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateYoutubeVideo(YoutubeBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> deleteImageBlock(ImageBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+  }
+
+  @override
+  Future<void> updateImageBlock(ImageBlock item) async {
+    FirebaseUser user = await auth.currentUser();
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection(item.getTable())
+        .document(item.id.toString());
+
+    ref
+        .updateData(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 }

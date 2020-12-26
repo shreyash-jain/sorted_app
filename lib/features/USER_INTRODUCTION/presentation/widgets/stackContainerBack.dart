@@ -92,7 +92,7 @@ class StackConatinerBack extends StatelessWidget {
                             ? UserIntroStrings.oldGreeting
                             : UserIntroStrings.newGreeting,
                         style: TextStyle(
-                            fontFamily: 'ZillaSlab',
+                            fontFamily: 'Montserrat',
                             fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: Colors.white60),

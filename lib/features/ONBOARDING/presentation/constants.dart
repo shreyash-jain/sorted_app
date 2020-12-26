@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sorted/core/global/constants/constants.dart';
 
 class OnboardStrings {
   static const String imagePath1 = "assets/images/onboarding1.png";
@@ -21,16 +22,16 @@ class OnboardStrings {
 }
 
 class OnboardTextStyle {
-  static const TextStyle descriptionTS = TextStyle(
-      fontFamily: 'ZillaSlab',
-      fontSize: 24.0,
-      fontWeight: FontWeight.w400,
+  static TextStyle descriptionTS = TextStyle(
+      fontFamily: 'Montserrat',
+      fontSize: Gparam.textSmall,
+      fontWeight: FontWeight.w500,
       color: Colors.black45);
 
-  static const TextStyle titleTS = TextStyle(
-      fontFamily: 'ZillaSlab',
-      fontSize: 24.0,
-      fontWeight: FontWeight.w700,
+  static TextStyle titleTS = TextStyle(
+      fontFamily: 'Montserrat',
+      fontSize: Gparam.textMedium,
+      fontWeight: FontWeight.w300,
       color: Colors.white54);
 }
 

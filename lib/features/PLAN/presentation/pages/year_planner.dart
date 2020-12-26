@@ -335,7 +335,7 @@ class _YearPlannerState extends State<YearPlanner> {
                           text: TextSpan(
                             text: 'Year',
                             style: TextStyle(
-                                fontFamily: 'ZillaSlab',
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textMedium,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColor),

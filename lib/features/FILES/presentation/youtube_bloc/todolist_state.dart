@@ -1,28 +1,28 @@
 part of 'todolist_bloc.dart';
 
-abstract class TodolistState extends Equatable {
-  const TodolistState();
+abstract class YoutubeState extends Equatable {
+  const YoutubeState();
 }
 
-class TodolistInitial extends TodolistState {
+class YoutubeInitial extends YoutubeState {
   @override
   List<Object> get props => [];
 }
 
-class TodolistLoaded extends TodolistState {
-  final TodoModel todo;
-  final List<TodoItemModel> todos;
+class YoutubeLoaded extends YoutubeState {
+  final YoutubeBlock item;
+
   final BlockInfo blockInfo;
 
-  TodolistLoaded(this.todos, this.blockInfo, this.todo);
+  YoutubeLoaded(this.blockInfo, this.item);
   @override
-  List<Object> get props => [todo, blockInfo, todos];
+  List<Object> get props => [item, blockInfo];
 }
 
-class TodoError extends TodolistState {
+class YoutubeError extends YoutubeState {
   final String message;
 
-  TodoError({this.message});
+  YoutubeError({this.message});
 
   @override
   List<Object> get props => [message];

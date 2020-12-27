@@ -41,7 +41,7 @@ export class TestimonialComponent implements OnInit {
   slidesStore = [
     {
       id: 1,
-      image: 'assets/images/avatar/1.jpg',
+      image: 'assets/images/avatar/1.png',
       name: 'Anonymous',
       role: 'Developer',
       content:
@@ -49,7 +49,7 @@ export class TestimonialComponent implements OnInit {
     },
     {
       id: 2,
-      image: 'assets/images/avatar/15.jpg',
+      image: 'assets/images/avatar/1.png',
       name: 'Anonymous',
       role: 'Doctor',
       content:
@@ -57,7 +57,7 @@ export class TestimonialComponent implements OnInit {
     },
     {
       id: 3,
-      image: 'assets/images/avatar/22.jpg',
+      image: 'assets/images/avatar/1.png',
       name: 'Anonymous',
       role: 'Designer',
       content:

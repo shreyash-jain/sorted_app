@@ -24,7 +24,7 @@ export class AboutComponent implements OnInit {
       },
       {
         icon: 'assets/images/icon4.png',
-        text: 'Productivity',
+        text: 'Finance',
       },
     ],
   ];

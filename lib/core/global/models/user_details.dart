@@ -155,7 +155,7 @@ class UserDetail extends Equatable {
   bool get stringify => true;
 
   int checkValidityOnUserIntro() {
-    if (name == null || name == "") return 0;
+    if (userName == null || userName == "") return 0;
     if (gender == null) return 1;
     if (age == null || age < 10) return 2;
 
@@ -165,11 +165,11 @@ class UserDetail extends Equatable {
   }
 
   String generateMessageOnUserIntro() {
-    if (name == null || name == "") return "Please enter a valid Name";
+    if (userName == null || userName == "") return "Please enter a valid Username";
     if (age == null || age < 10) return "$name, please enter your valid age";
 
     if (profession == null) return "$name, please complete all details";
     if (gender == null) return "$name, please complete all details";
-    return "true";
+    return "";
   }
 }

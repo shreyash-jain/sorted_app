@@ -19,10 +19,10 @@ class LoadedPVState extends AffirmationPVState {
   List<Object> get props => [affirmations];
 }
 
-class Error extends AffirmationPVState {
+class ErrorPVState extends AffirmationPVState {
   final String message;
 
-  Error({this.message});
+  ErrorPVState({this.message});
 
   @override
   List<Object> get props => [message];

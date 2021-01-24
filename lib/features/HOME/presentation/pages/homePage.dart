@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:core';
@@ -8,6 +9,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sa_anicoto/sa_anicoto.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,12 +20,15 @@ import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/presentation/pages/camera_screen.dart';
+import 'package:sorted/features/HOME/presentation/widgets/animated_fab.dart';
 import 'package:sorted/features/HOME/presentation/widgets/bottom_tab.dart';
 import 'package:sorted/features/HOME/presentation/widgets/bottom_tab_tile.dart';
 import 'package:sorted/features/HOME/presentation/widgets/flexible_safe_area.dart';
+
 import 'package:sorted/features/HOME/presentation/widgets/side_bar.dart';
 import 'package:sorted/features/HOME/presentation/widgets/side_tab.dart';
 import 'package:sorted/features/HOME/presentation/widgets/side_tab_tile.dart';
+import 'package:sorted/features/HOME/presentation/widgets/slide_stack.dart';
 import 'package:sorted/features/HOME/presentation/widgets/user_avatar.dart';
 
 import 'package:supercharged/supercharged.dart';
@@ -53,14 +58,18 @@ class _SortedHomeState extends State<SortedHome>
   StorageReference refStorage = FirebaseStorage.instance.ref();
   DateTime today = DateTime.now();
   double top;
+  bool showSideTab = true;
   Animation<double> scaleAnimation;
   Animation<double> positionAnimation;
   AnimationController scaleController;
   AnimationController positionController;
-  String user_image = 'assets/images/male1.png';
+
   int currentSideTab;
   int currentBottomTab;
+  AnimationController tabController;
+  Animation<double> tabAnimation;
   Animation<Color> colorAnimation;
+  TabController tab_Controller;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -68,9 +77,12 @@ class _SortedHomeState extends State<SortedHome>
 
   final _cameraKey = GlobalKey<CameraScreenState>();
 
+  var bottomNavIndex = 0;
+
   @override
   void initState() {
     super.initState();
+    tab_Controller = new TabController(length: 2, vsync: this);
 
     nestedScrollController = new ScrollController(
       // NEW
@@ -90,6 +102,12 @@ class _SortedHomeState extends State<SortedHome>
 
     scaleAnimation =
         Tween<double>(begin: 1.0, end: 1.5).animate(scaleController);
+
+    tabController = new AnimationController(
+        duration: Duration(milliseconds: 300), vsync: this)
+      ..addListener(() => setState(() {}));
+    tabAnimation = Tween<double>(begin: 0, end: Gparam.width / 7).animate(
+        new CurvedAnimation(parent: tabController, curve: Curves.decelerate));
 
     positionController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
@@ -127,108 +145,527 @@ class _SortedHomeState extends State<SortedHome>
       ); // NEW
   }
 
+  Widget _createHeader() {
+    return DrawerHeader(
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        decoration: BoxDecoration(),
+        child: Stack(children: <Widget>[
+          Positioned(
+              bottom: 12.0,
+              left: 16.0,
+              child: Text("Flutter Step-by-Step",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500))),
+        ]));
+  }
+
+  Widget _createDrawerItem(
+      {IconData icon, String text, GestureTapCallback onTap}) {
+    return ListTile(
+      title: Row(
+        children: <Widget>[
+          Icon(icon),
+          Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Text(text),
+          )
+        ],
+      ),
+      onTap: onTap,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              _createHeader(),
+              _createDrawerItem(
+                icon: Icons.contacts,
+                text: 'Contacts',
+              ),
+              _createDrawerItem(
+                icon: Icons.event,
+                text: 'Events',
+              ),
+              _createDrawerItem(
+                icon: Icons.note,
+                text: 'Notes',
+              ),
+              Divider(),
+              _createDrawerItem(
+                  icon: Icons.collections_bookmark, text: 'Steps'),
+              _createDrawerItem(icon: Icons.face, text: 'Authors'),
+              _createDrawerItem(
+                  icon: Icons.account_box, text: 'Flutter Documentation'),
+              _createDrawerItem(icon: Icons.stars, text: 'Useful Links'),
+              Divider(),
+              _createDrawerItem(
+                  icon: Icons.bug_report, text: 'Report an issue'),
+              ListTile(
+                title: Text('0.0.1'),
+                onTap: () {},
+              ),
+            ],
+          ),
+        ),
         body: SafeArea(child: new LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-          return Stack(
-            children: [
-              CustomPaint(
-                  child: NestedScrollView(
-                controller: nestedScrollController,
-                headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                  SliverSafeArea(
-                    top: false,
-                    sliver: SliverAppBar(
-                      elevation: 5,
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      shadowColor: Colors.black26,
-                      actions: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            OMIcons.settings,
-                            color: Theme.of(context).highlightColor,
+          return SlideStack(
+            drawer: Container(
+              color: (Theme.of(context).brightness == Brightness.light)
+                  ? Colors.transparent
+                  : Colors.white12,
+              width: Gparam.width,
+              child: Stack(
+                children: [
+                  SideTab(
+                      currentSideTab: currentSideTab,
+                      isNavEnabled: isNavEnabled,
+                      onTapAction: onSideTabSelected),
+                  Container(
+                      width: Gparam.width,
+                      height: Gparam.height,
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: Gparam.width / 2,
+                        alignment: Alignment.bottomLeft,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: Gparam.heightPadding,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: Gparam.widthPadding / 2),
+                                  child: Text("Chat with",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: Gparam.widthPadding / 2),
+                                  child: Text("Experts",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textMedium,
+                                          fontWeight: FontWeight.w500))),
+                              SizedBox(
+                                height: Gparam.heightPadding / 2,
+                              ),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("For Fitness",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w800))),
+                              Divider(
+                                color: Theme.of(context)
+                                    .highlightColor
+                                    .withAlpha(50),
+                              ),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Fitness consultant",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Gym trainer",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Yoga specialist",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("General physicist",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Physiotheripist",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("For Mental Health",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w800))),
+                              Divider(
+                                color: Theme.of(context)
+                                    .highlightColor
+                                    .withAlpha(50),
+                              ),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Stress counsellor",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Couple counsellor",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Life counsellor",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("For Nutrition",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w800))),
+                              Divider(
+                                color: Theme.of(context)
+                                    .highlightColor
+                                    .withAlpha(50),
+                              ),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Dietician",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Ayurveda specialist",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Pregnency food\nspecialist",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("For Productivity",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w800))),
+                              Divider(
+                                color: Theme.of(context)
+                                    .highlightColor
+                                    .withAlpha(50),
+                              ),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Work therapist",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Study therapist",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Engineering\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Medical\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Commerce\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Law\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Performing Arts\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Literature Arts\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Visual Arts\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.all(Gparam.widthPadding / 2),
+                                  child: Text("Music Arts\nfield experts",
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: Gparam.textVerySmall,
+                                          fontWeight: FontWeight.w500))),
+                            ],
                           ),
-                          tooltip: 'Settings',
-                          onPressed: () {
-                            Router.navigator.pushNamed(Router.settingsPage);
-                          },
+                        ),
+                      )),
+                ],
+              ),
+            ),
+            child: SlideContainer(
+                slideDirection: SlideDirection.left,
+                onSlide: onSlide,
+                drawerSize: Gparam.width / 2,
+                child: Stack(
+                  children: [
+                    CustomPaint(
+                        child: NestedScrollView(
+                      controller: nestedScrollController,
+                      headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                        SliverSafeArea(
+                          top: false,
+                          sliver: SliverAppBar(
+                            elevation: 5,
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            shadowColor: Colors.black26,
+                            leading: IconButton(
+                              icon: Icon(
+                                OMIcons.flashOn,
+                                color: Theme.of(context).highlightColor,
+                              ),
+                              tooltip: 'Settings',
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            ),
+                            actions: <Widget>[
+                              IconButton(
+                                icon: Icon(
+                                  OMIcons.chat,
+                                  color: Theme.of(context).highlightColor,
+                                ),
+                                tooltip: 'Settings',
+                                onPressed: () {},
+                              ),
+                            ],
+                            expandedHeight: 190,
+                            pinned: true,
+                            primary: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(0.0)),
+                            ),
+                            flexibleSpace: LayoutBuilder(builder:
+                                (BuildContext context,
+                                    BoxConstraints constraints) {
+                              currentSliverheight = constraints.biggest.height;
+                              print(currentSliverheight);
+
+                              bool direction;
+                              if (prevSliverHeight != null &&
+                                  prevSliverHeight > currentSliverheight) {
+                                direction = false;
+                              } else if (prevSliverHeight != null &&
+                                  prevSliverHeight < currentSliverheight)
+                                direction = true;
+
+                              prevSliverHeight = currentSliverheight;
+
+                              return FlexibleSpaceArea(
+                                  currentSliverheight: currentSliverheight,
+                                  name: name);
+                            }),
+                          ),
                         ),
                       ],
-                      leading: UserAvatar(
-                          scaleAnimation: scaleAnimation,
-                          user_image: user_image),
-                      expandedHeight: 200,
-                      pinned: true,
-                      primary: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(30.0)),
-                      ),
-                      flexibleSpace: LayoutBuilder(builder:
-                          (BuildContext context, BoxConstraints constraints) {
-                        currentSliverheight = constraints.biggest.height;
-                        print(currentSliverheight);
-
-                        bool direction;
-                        if (prevSliverHeight != null &&
-                            prevSliverHeight > currentSliverheight) {
-                          direction = false;
-                        } else if (prevSliverHeight != null &&
-                            prevSliverHeight < currentSliverheight)
-                          direction = true;
-
-                        prevSliverHeight = currentSliverheight;
-
-                        return FlexibleSpaceArea(
-                            currentSliverheight: currentSliverheight,
-                            name: name);
-                      }),
-                    ),
-                  ),
-                ],
-                body: Container(
-                    height: MediaQuery.of(context).size.height,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        FadeAnimationTB(
-                            1.6,
-                            AnimatedContainer(
-                              decoration: BoxDecoration(
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(45.0),
-                                    topRight: Radius.circular(45.0)),
-                              ),
-                              width: 5.3 * Gparam.width / 6,
-                              duration: Duration(milliseconds: 700),
-                              child: ListView(children: <Widget>[]),
-                            )),
-                      ],
+                      body: Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Transform.translate(
+                                offset: Offset(tabAnimation.value, 0.0),
+                                child: AnimatedContainer(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  width: Gparam.width,
+                                  duration: Duration(milliseconds: 700),
+                                  child: ListView(children: <Widget>[
+                                    Container(
+                                      height: 100,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: Gparam.widthPadding),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .highlightColor
+                                            .withOpacity(.1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12.0)),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 12,
+                                    ),
+                                    Container(
+                                      height: 200,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: Gparam.widthPadding),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .highlightColor
+                                            .withOpacity(.1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12.0)),
+                                      ),
+                                    )
+                                  ]),
+                                ),
+                              )
+                            ],
+                          )),
                     )),
-              )),
-              //
-              //! Side bar
-              SideBar(
-                  isNavEnabled: isNavEnabled, currentSideTab: currentSideTab),
-              //! side tab labels
-              SideTab(
-                  currentSideTab: currentSideTab,
-                  isNavEnabled: isNavEnabled,
-                  onTapAction: onSideTabSelected),
-              //! bottom tab
-            ],
+                    //
+                    //! Side bar
+
+                    //! bottom tab
+
+                    Container(
+                      height: Gparam.height,
+                      alignment: Alignment.bottomCenter,
+                      child: BottomNavigationBar(
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        type: BottomNavigationBarType.fixed,
+                        currentIndex: bottomNavIndex,
+                        items: [
+                          new BottomNavigationBarItem(
+                            icon: new Icon(Icons.home),
+                            title: new Text("Home"),
+                          ),
+                          new BottomNavigationBarItem(
+                            icon: new Icon(Icons.search),
+                            title: new Text("Search"),
+                          ),
+                          new BottomNavigationBarItem(
+                            icon: Stack(
+                              children: [
+                                Icon(Icons.add),
+                              ],
+                            ),
+                            title: new Text(""),
+                          ),
+                          new BottomNavigationBarItem(
+                            icon: new Icon(Icons.category),
+                            title: new Text("Spaces"),
+                          ),
+                          new BottomNavigationBarItem(
+                            icon: new Icon(Icons.person),
+                            title: new Text("Me"),
+                          )
+                        ],
+                      ),
+                    ),
+                    new Positioned(
+                      bottom: -60,
+                      width: Gparam.width,
+                      child: new AnimatedFab(
+                        onClick: _changeFilterState,
+                      ),
+                    ),
+                  ],
+                )),
           );
         })));
   }
 
+  void _changeFilterState() {}
+
   void onSideTabSelected(int toIndex) {
     print(toIndex);
+
     if (toIndex == 1) {
       print("plan");
       Router.navigator.pushNamed(Router.planHome);
@@ -251,4 +688,6 @@ class _SortedHomeState extends State<SortedHome>
       currentBottomTab = index;
     });
   }
+
+  void onSlide(double value) {}
 }

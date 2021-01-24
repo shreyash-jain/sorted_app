@@ -2,6 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
+import 'package:sorted/core/global/models/addiction_condition.dart';
+import 'package:sorted/core/global/models/health_condition.dart';
+import 'package:sorted/core/global/models/lifestyle_profile.dart';
+import 'package:sorted/core/global/models/mental_health_profile.dart';
+import 'package:sorted/core/global/models/physical_health_profile.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/core/network/network_info.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
@@ -9,6 +14,7 @@ import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 
 import '../../../../core/error/failures.dart';
@@ -90,7 +96,7 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
       }
       if (r) {
         result = Right(remoteDataSource.getUserCloudData());
-         print("old download");
+        print("old download");
       } else {
         result = Right(remoteDataSource.copyToUserCloudData());
         print("new download");
@@ -202,6 +208,172 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
       return Right(details);
     } on Exception {
       return Left(NativeDatabaseException());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isUserNameAvailable(String username) async {
+    bool result;
+    try {
+      result = await remoteDataSource.isUserNameAvailable(username);
+      return Right(result);
+    } on Exception {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getCareerTags() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getCareerTags());
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getChildrenOfTag(
+      UserTag tag, String category) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getChildrenOfTag(tag, category));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getFamilyTags() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getFamilyTags());
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getFinanceTags() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getFinanceTags());
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getFitnessTags() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getFitnessTags());
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getFoodTags() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getFoodTags());
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getMentalHealthTags() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getMentalHealthTags());
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserTag>>> getProductivityTags() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.getProductivityTags());
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> saveHealthProfile(
+      PhysicalHealthProfile fitnessProfile,
+      MentalHealthProfile mentalProfile,
+      LifestyleProfile lifestyleProfile,
+      HealthConditions healthConditions,
+      AddictionConditions addictionConditions) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.saveHealthProfile(
+            fitnessProfile,
+            mentalProfile,
+            lifestyleProfile,
+            healthConditions,
+            addictionConditions));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> saveUserInterests(
+      List<UserTag> fitnessTags,
+      List<UserTag> mindfulTags,
+      List<UserTag> foodTags,
+      List<UserTag> productivityTags,
+      List<UserTag> relationshipTags,
+      List<UserTag> careerTags,
+      List<UserTag> financeTags) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return Right(await remoteDataSource.saveUserInterests(
+            fitnessTags,
+            mindfulTags,
+            foodTags,
+            productivityTags,
+            relationshipTags,
+            careerTags,
+            financeTags));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
     }
   }
 }

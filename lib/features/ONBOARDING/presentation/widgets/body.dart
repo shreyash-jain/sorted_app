@@ -17,7 +17,7 @@ class OnboardBody extends StatefulWidget {
   _OnboardBodyState createState() => _OnboardBodyState();
 }
 
-class _OnboardBodyState extends State<OnboardBody>  {
+class _OnboardBodyState extends State<OnboardBody> {
   int _currentPage = 0;
 
   final _numPages = OnboardFixtures.MAX_PAGES;
@@ -50,8 +50,8 @@ class _OnboardBodyState extends State<OnboardBody>  {
             end: Alignment.bottomCenter,
             stops: [0.2, 0.9],
             colors: [
-              Color(0xFF4563DB),
-              Theme.of(context).primaryColor,
+              Colors.white,
+              Colors.white,
             ],
           ),
         ),
@@ -95,30 +95,28 @@ class _OnboardBodyState extends State<OnboardBody>  {
                 ),
               ),
             ),
-            
             Container(
-              height: MediaQuery.of(context).size.height/2,
-                          child:Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                       if (_currentPage > 0)
-                        Align(
-                            alignment: FractionalOffset.bottomRight,
-                            child: Button(
-                              direction: false,
-                              onTapAction: moveUp,
-                            )),
-                     if (_currentPage < 2) Align(
+                height: MediaQuery.of(context).size.height / 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    if (_currentPage > 0)
+                      Align(
+                          alignment: FractionalOffset.bottomRight,
+                          child: Button(
+                            direction: false,
+                            onTapAction: moveUp,
+                          )),
+                    if (_currentPage < 2)
+                      Align(
                           alignment: FractionalOffset.bottomRight,
                           child: Button(
                             direction: true,
                             onTapAction: moveDown,
                           )),
-                     
-                    ],
-                  ))
-                
+                  ],
+                ))
           ],
         ),
       ),
@@ -127,7 +125,7 @@ class _OnboardBodyState extends State<OnboardBody>  {
 
   moveDown() {
     print("button down");
-    if (_currentPage+1 == 2) {
+    if (_currentPage + 1 == 2) {
       print("add openbottomsheet");
       BlocProvider.of<OnboardingBloc>(context).add(OpenBottomSheet());
     }

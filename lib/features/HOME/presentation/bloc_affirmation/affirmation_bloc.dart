@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
@@ -20,7 +21,7 @@ const String FAILURE_MESSAGE = "Uncatched error";
 class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
   final HomeRepository repository;
 
-  AffirmationBloc(this.repository) : super(LoadingState());
+  AffirmationBloc(this.repository) : super(InitialState());
 
   String mapFailureToString(Failure failure) {
     if (failure == ServerFailure()) {
@@ -40,13 +41,14 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
     AffirmationEvent event,
   ) async* {
     if (event is LoadStories) {
+      print("here");
       yield LoadingState();
       yield* doOnLoad();
     } else if (event is UpdateAffirmation) {
-      event.affirmations.sort((a, b) => compareList(a, b));
-      yield LoadedState(affirmations: event.affirmations,inspiration: (state as LoadedState).inspiration,showAffirmations:(state as LoadedState).showAffirmations,showInspiration:(state as LoadedState).showInspiration);
+      //event.affirmations.sort((a, b) => compareList(a, b));
     }
   }
+  
 
   Stream<AffirmationState> doOnLoad() async* {
     print(doOnLoad.toString() + " " + "");
@@ -101,11 +103,15 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
     } else {
       print(doOnLoad.toString() + " " + "LoadedState");
       affirmations.sort((a, b) => compareList(a, b));
+
       yield LoadedState(
+          showInspiration: false,
+          showAffirmations: true,
           affirmations: affirmations,
-          inspiration: inspiration,
-          showAffirmations: showAffirmations,
-          showInspiration: showInspiration);
+          inspiration: inspiration);
+      Router.navigator.pushNamed(Router.affirmationPageview,
+          arguments: AffirmationPVArguments(
+              affirmations: affirmations, startIndex: 0, outerBloc: this));
     }
   }
 
@@ -121,14 +127,13 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
   }
 
   int greeting() {
-     return 0;
+    return 0;
     var hour = DateTime.now().hour;
-  //   if (hour < 12 && hour>6) {
-  //     return 0;
-  //   }
-  //  else{
-  //     return 1;
-  //   }
-   
+    //   if (hour < 12 && hour>6) {
+    //     return 0;
+    //   }
+    //  else{
+    //     return 1;
+    //   }
   }
 }

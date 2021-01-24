@@ -20,6 +20,8 @@ class Gparam {
   static double widthPadding = 20;
   static bool isHeightBig = true;
   static bool isWidthBig = true;
+  static double textVeryExtraSmall = 10;
+  static double textExtraSmall = 12;
   static double textVerySmall = 14;
   static double textSmaller = 16;
   static double textSmall = 18;
@@ -68,7 +70,7 @@ class Gtheme {
   static TextStyle blackShadowBold28 = TextStyle(
       color: Colors.black,
       fontFamily: 'Montserrat',
-      fontSize: 28,
+        fontSize: Gparam.textSmaller,
       shadows: [
         Shadow(
           blurRadius: 60.0,
@@ -80,6 +82,6 @@ class Gtheme {
   static TextStyle black20 = TextStyle(
       color: Colors.black54,
       fontFamily: 'Montserrat',
-      fontSize: 20,
+      fontSize: Gparam.textSmaller,
       fontWeight: FontWeight.normal);
 }

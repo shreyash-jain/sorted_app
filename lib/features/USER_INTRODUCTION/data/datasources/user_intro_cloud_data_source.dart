@@ -4,9 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/core/global/models/addiction_condition.dart';
+import 'package:sorted/core/global/models/health_condition.dart';
+import 'package:sorted/core/global/models/lifestyle_profile.dart';
+import 'package:sorted/core/global/models/mental_health_profile.dart';
+import 'package:sorted/core/global/models/physical_health_profile.dart';
 
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class UserIntroCloud {
@@ -17,6 +23,30 @@ abstract class UserIntroCloud {
   Future<void> add(UserAModel newActivity);
   Future<void> delete(UserAModel newActivity);
   Future<void> deleteUserActivityTable();
+  Future<bool> isUserNameAvailable(String username);
+  Future<List<UserTag>> getFitnessTags();
+  Future<List<UserTag>> getMentalHealthTags();
+  Future<List<UserTag>> getFoodTags();
+  Future<List<UserTag>> getFinanceTags();
+  Future<List<UserTag>> getProductivityTags();
+  Future<List<UserTag>> getCareerTags();
+  Future<List<UserTag>> getFamilyTags();
+  Future<List<UserTag>> getChildrenOfTag(UserTag tag, String category);
+  Future<bool> saveHealthProfile(
+      PhysicalHealthProfile fitnessProfile,
+      MentalHealthProfile mentalProfile,
+      LifestyleProfile lifestyleProfile,
+      HealthConditions healthConditions,
+      AddictionConditions addictionConditions);
+  Future<bool> saveUserInterests(
+    List<UserTag> fitnessTags,
+    List<UserTag> mindfulTags,
+    List<UserTag> foodTags,
+    List<UserTag> productivityTags,
+    List<UserTag> relationshipTags,
+    List<UserTag> careerTags,
+    List<UserTag> financeTags,
+  );
 }
 
 class UserIntroCloudDataSourceImpl implements UserIntroCloud {
@@ -129,7 +159,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
 
   @override
   Future<void> add(UserAModel newActivity) async {
-    print("add useract in cloud "+ newActivity.name);
+    print("add useract in cloud " + newActivity.name);
     FirebaseUser user = await auth.currentUser();
 
     DocumentReference ref = cloudDb
@@ -174,5 +204,305 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
             element.reference.delete();
           })
         });
+  }
+
+  @override
+  Future<bool> isUserNameAvailable(String username) async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('usernames')
+        .where(
+          'username',
+          isEqualTo: username,
+        )
+        .getDocuments();
+    print("shakiya");
+    print(snapShot.documents.length);
+    if (snapShot == null)
+      return true;
+    else if (snapShot != null && snapShot.documents.length == 0) {
+      return true;
+    } else if (snapShot != null && snapShot.documents.length >= 1) {
+      return false;
+    }
+    return Future.value(false);
+  }
+
+  @override
+  Future<List<UserTag>> getCareerTags() async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document("Career")
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<UserTag>> getFamilyTags() async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document("Family and Relationship")
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<UserTag>> getFinanceTags() async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document("Finance and Money")
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<UserTag>> getFitnessTags() async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document("Fitness")
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<UserTag>> getFoodTags() async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document("Food and Nutrition")
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<UserTag>> getMentalHealthTags() async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document("Mental Health")
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<UserTag>> getProductivityTags() async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document("Productivity")
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<UserTag>> getChildrenOfTag(UserTag tag, String category) async {
+    QuerySnapshot snapShot = await cloudDb
+        .collection('onboard_user_tagging')
+        .document(category)
+        .collection("Children")
+        .document(tag.tag)
+        .collection("Children")
+        .getDocuments();
+    if (snapShot == null) return Future.value([]);
+    if (snapShot != null && snapShot.documents.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.documents;
+      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<bool> saveHealthProfile(
+      PhysicalHealthProfile fitnessProfile,
+      MentalHealthProfile mentalProfile,
+      LifestyleProfile lifestyleProfile,
+      HealthConditions healthConditions,
+      AddictionConditions addictionConditions) async {
+    FirebaseUser user = await auth.currentUser();
+
+    DocumentReference refFitness = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("fitness_profile");
+    DocumentReference refMind = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("mental_profile");
+    DocumentReference refLifestyle = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("lifestyle_profile");
+    DocumentReference refHealthCond = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("health_condition");
+    DocumentReference refAddiction = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("user_addiction");
+
+    refFitness
+        .setData(fitnessProfile.toMap())
+        .then((value) => print(refFitness.documentID))
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+    refMind
+        .setData(mentalProfile.toMap())
+        .then((value) => print(refMind.documentID))
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+    refLifestyle
+        .setData(lifestyleProfile.toMap())
+        .then((value) => print(refFitness.documentID))
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+    refHealthCond
+        .setData(healthConditions.toMap())
+        .then((value) => print(refFitness.documentID))
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+    refAddiction
+        .setData(addictionConditions.toMap())
+        .then((value) => print(refFitness.documentID))
+        .catchError((onError) => {print("nhi chala\n"), print("hello")});
+        return true;
+  }
+
+  @override
+  Future<bool> saveUserInterests(
+      List<UserTag> fitnessTags,
+      List<UserTag> mindfulTags,
+      List<UserTag> foodTags,
+      List<UserTag> productivityTags,
+      List<UserTag> relationshipTags,
+      List<UserTag> careerTags,
+      List<UserTag> financeTags) async {
+    FirebaseUser user = await auth.currentUser();
+
+    CollectionReference refFitness = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("tags")
+        .collection("fitness_tags");
+    CollectionReference refMind = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("tags")
+        .collection("mental_tags");
+    CollectionReference refFood = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("tags")
+        .collection("food_tags");
+    CollectionReference refProductivity = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("tags")
+        .collection("productivity_tags");
+    CollectionReference refRelationship = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("tags")
+        .collection("relationship_tags");
+    CollectionReference refCareer = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("tags")
+        .collection("career_tags");
+    CollectionReference refFinance = cloudDb
+        .collection('users')
+        .document(user.uid)
+        .collection("user_data")
+        .document("tags")
+        .collection("finance_tags");
+
+    fitnessTags.forEach((element) {
+      refFitness
+          .document(element.id.toString())
+          .setData(element.toMap())
+          .then((value) => print(""));
+    });
+    mindfulTags.forEach((element) {
+      refMind
+          .document(element.id.toString())
+          .setData(element.toMap())
+          .then((value) => print(""));
+    });
+    foodTags.forEach((element) {
+      refFood
+          .document(element.id.toString())
+          .setData(element.toMap())
+          .then((value) => print(""));
+    });
+    productivityTags.forEach((element) {
+      refProductivity
+          .document(element.id.toString())
+          .setData(element.toMap())
+          .then((value) => print(""));
+    });
+    relationshipTags.forEach((element) {
+      refRelationship
+          .document(element.id.toString())
+          .setData(element.toMap())
+          .then((value) => print(""));
+    });
+    careerTags.forEach((element) {
+      refCareer
+          .document(element.id.toString())
+          .setData(element.toMap())
+          .then((value) => print(""));
+    });
+    financeTags.forEach((element) {
+      refFinance
+          .document(element.id.toString())
+          .setData(element.toMap())
+          .then((value) => print(""));
+    });
+    return true;
   }
 }

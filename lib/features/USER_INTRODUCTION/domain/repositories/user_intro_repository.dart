@@ -1,7 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:sorted/core/global/models/addiction_condition.dart';
+import 'package:sorted/core/global/models/health_condition.dart';
+import 'package:sorted/core/global/models/lifestyle_profile.dart';
+import 'package:sorted/core/global/models/mental_health_profile.dart';
+import 'package:sorted/core/global/models/physical_health_profile.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 
 import '../../../../core/error/failures.dart';
 
@@ -18,6 +24,7 @@ abstract class UserIntroductionRepository {
   ///
   /// returns [Either<Failure, bool>] the state of user
   Future<Either<Failure, bool>> get oldUserState;
+
   /// Gets google name of the user from shared preference data source saved
   /// while on authentication
   ///
@@ -71,4 +78,41 @@ abstract class UserIntroductionRepository {
   ///
   /// returns [Either<Failure, List<UserAModel>>] true if succeeded
   Future<Either<Failure, UserDetail>> getUserDetailsNative();
+
+  /// Gets user details from user path from native
+  ///
+  /// returns [Either<Failure, List<UserAModel>>] true if succeeded
+  Future<Either<Failure, bool>> saveHealthProfile(
+      PhysicalHealthProfile fitnessProfile,
+      MentalHealthProfile mentalProfile,
+      LifestyleProfile lifestyleProfile,
+      HealthConditions healthConditions,
+      AddictionConditions addictionConditions);
+
+  /// Gets user details from user path from native
+  ///
+  /// returns [Either<Failure, List<UserAModel>>] true if succeeded
+  Future<Either<Failure, bool>> saveUserInterests(
+      List<UserTag> fitnessTags,
+      List<UserTag> mindfulTags,
+      List<UserTag> foodTags,
+      List<UserTag> productivityTags,
+      List<UserTag> relationshipTags,
+      List<UserTag> careerTags,
+      List<UserTag> financeTags);
+
+  /// Gets user details from user path from native
+  ///
+  /// returns [Either<Failure, List<UserAModel>>] true if succeeded
+  Future<Either<Failure, bool>> isUserNameAvailable(String username);
+
+  Future<Either<Failure, List<UserTag>>> getFitnessTags();
+  Future<Either<Failure, List<UserTag>>> getMentalHealthTags();
+  Future<Either<Failure, List<UserTag>>> getFoodTags();
+  Future<Either<Failure, List<UserTag>>> getFinanceTags();
+  Future<Either<Failure, List<UserTag>>> getProductivityTags();
+  Future<Either<Failure, List<UserTag>>> getCareerTags();
+  Future<Either<Failure, List<UserTag>>> getFamilyTags();
+  Future<Either<Failure, List<UserTag>>> getChildrenOfTag(
+      UserTag tag, String category);
 }

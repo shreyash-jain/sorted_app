@@ -14,7 +14,7 @@ class UserInteractionState extends UserIntroductionState {
   UserInteractionState({this.progress, this.oldState, this.userDetail});
 
   @override
-  List<Object> get props => [oldState, userDetail,progress];
+  List<Object> get props => [oldState, userDetail, progress];
 }
 
 class SuccessState extends UserIntroductionState {}

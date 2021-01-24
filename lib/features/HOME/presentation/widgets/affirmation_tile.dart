@@ -11,13 +11,13 @@ class AffirmationTile extends StatelessWidget {
     @required OverlayEntry popupDialog,
     @required this.affirmationBloc,
     @required this.index,
-    @required this.onTapAffirmation,
+    
     @required this.affirmation,
   })  : _popupDialog = popupDialog,
         super(key: key);
 
   final BuildContext context;
-  final OverlayEntry Function(DayAffirmation affirmation) onTapAffirmation;
+
   final OverlayEntry _popupDialog;
   final AffirmationBloc affirmationBloc;
   final int index;
@@ -29,11 +29,7 @@ class AffirmationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       // keep the OverlayEntry instance, and insert it into Overlay
-      onLongPress: () {
-        updatedPopUp = onTapAffirmation(affirmation);
-      },
-      // remove the OverlayEntry from Overlay, so it would be hidden
-      onLongPressEnd: (details) => updatedPopUp?.remove(),
+     
       onTap: () {
         Router.navigator.pushNamed(Router.affirmationPageview,
             arguments: AffirmationPVArguments(

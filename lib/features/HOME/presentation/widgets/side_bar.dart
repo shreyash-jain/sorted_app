@@ -15,7 +15,7 @@ class SideBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeAnimationLR(
-        1.8,
+        0.8,
         Padding(
           padding: EdgeInsets.only(top: 45),
           child: Column(
@@ -41,10 +41,10 @@ class SideBar extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Colors.grey.withOpacity(.1),
-                          Colors.grey.withOpacity(.1),
-                          Colors.grey.withOpacity(.1),
-                          Colors.grey.withOpacity(.1),
+                          Theme.of(context).dialogBackgroundColor,
+                          Theme.of(context).dialogBackgroundColor,
+                          Theme.of(context).dialogBackgroundColor,
+                          Theme.of(context).dialogBackgroundColor,
                         ],
                         stops: [
                           0.1,

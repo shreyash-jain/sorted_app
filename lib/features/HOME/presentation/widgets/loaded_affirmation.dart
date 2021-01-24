@@ -14,13 +14,13 @@ class LoadedAffirmationWidget extends StatelessWidget {
     @required this.showArrow,
     @required this.bloc,
     @required this.state,
-    @required this.onTapAffirmationTile,
+  
     @required this.popUp,
   })  : _controller = controller,
         super(key: key);
 
   final ScrollController _controller;
-  final OverlayEntry Function(DayAffirmation affirmation) onTapAffirmationTile;
+
   final LoadedState state;
   final AffirmationBloc bloc;
   final bool showArrow;
@@ -44,34 +44,7 @@ class LoadedAffirmationWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: Gparam.width / 7,
-                            right: 12,
-                          ),
-                          child: Icon(
-                            (state.showAffirmations)
-                                ? Icons.wb_sunny
-                                : Icons.check,
-                            color: Theme.of(context).highlightColor,
-                            size: 16,
-                          ),
-                        ),
-                        Text(
-                          (state.showAffirmations)
-                              ? "Morning Affirmations"
-                              : "TODAY'S INSPIRATION",
-                          style: TextStyle(
-                              color: Theme.of(context).highlightColor,
-                              fontFamily: 'Montserrat',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
+                   
                     if (state.showAffirmations)
                       Container(
                         height: Gparam.height / 10,
@@ -86,7 +59,7 @@ class LoadedAffirmationWidget extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               if (index == 0)
                                 return SizedBox(
-                                  width: Gparam.width / 7,
+                                  width: Gparam.widthPadding/2,
                                 );
                               return AffirmationTile(
                                 affirmation: state.affirmations[index - 1],
@@ -94,7 +67,7 @@ class LoadedAffirmationWidget extends StatelessWidget {
                                 context: context,
                                 index: index - 1,
                                 popupDialog: popUp,
-                                onTapAffirmation: onTapAffirmation,
+                                
                               );
                             }),
                       ),
@@ -187,7 +160,4 @@ class LoadedAffirmationWidget extends StatelessWidget {
     );
   }
 
-  OverlayEntry onTapAffirmation(DayAffirmation affirmation) {
-    return onTapAffirmationTile(affirmation);
-  }
 }

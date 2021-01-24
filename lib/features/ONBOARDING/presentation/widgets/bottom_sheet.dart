@@ -30,7 +30,7 @@ class _bottomSheetState extends State<ButtomSheet>
     setRippleAnimation();
 
    scaleAnimation = Tween<double>(
-        begin: 1.0,
+        begin: .6,
         end: 35.0
     ).animate(scaleController);
    rippleController.forward();
@@ -85,7 +85,7 @@ class _bottomSheetState extends State<ButtomSheet>
         ),
         Container(
             height: 120,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(10),
             child: FadeAnimationTB(
                 5.6,
                 Container(
@@ -96,7 +96,7 @@ class _bottomSheetState extends State<ButtomSheet>
                     height: rippleAnimation.value,
                     child: Container(
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.indigo),
+                          shape: BoxShape.circle, color: Colors.black45),
                       child: InkWell(
                         onTap: () {
                           scaleController.forward();
@@ -106,10 +106,10 @@ class _bottomSheetState extends State<ButtomSheet>
                           builder: (context, child) => Transform.scale(
                             scale: scaleAnimation.value,
                             child: Container(
-                              margin: EdgeInsets.all(10),
+                              margin: EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Theme.of(context).primaryColor,
+                                color: Colors.black87,
                               ),
                             ),
                           ),

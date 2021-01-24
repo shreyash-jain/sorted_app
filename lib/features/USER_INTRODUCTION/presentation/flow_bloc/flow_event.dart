@@ -17,9 +17,9 @@ class UpdateProgress extends FlowEvent {
   List<Object> get props => [progress];
 }
 
-class UpdateName extends FlowEvent {
+class UpdateUsername extends FlowEvent {
   final String name;
-  UpdateName(this.name);
+  UpdateUsername(this.name);
   @override
   List<Object> get props => [name];
 }

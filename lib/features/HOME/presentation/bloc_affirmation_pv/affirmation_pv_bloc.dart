@@ -98,7 +98,6 @@ class AffirmationPVBloc extends Bloc<AffirmationPVEvent, AffirmationPVState> {
         repository.updateCurrentAffirmation(event.affirmations[event.toPage]);
 
         outerBloc.add(UpdateAffirmation(event.affirmations));
-       
       }
     }
   }

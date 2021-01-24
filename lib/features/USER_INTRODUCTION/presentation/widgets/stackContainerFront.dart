@@ -91,7 +91,7 @@ class StackContainerFront extends StatelessWidget {
                                     ? UserIntroStrings.oldActionDownloading
                                     : UserIntroStrings.newActionDownloading,
                                 style: TextStyle(
-                                    fontSize: 24.0,
+                                    fontSize: 18.0,
                                     fontWeight: FontWeight.normal,
                                     color: Colors.black45,
                                     fontFamily: 'Montserrat'),
@@ -148,8 +148,8 @@ class StackContainerFront extends StatelessWidget {
                                           children: [
                                             (widget.progress < 1)
                                                 ? Container(
-                                                    height: 30,
-                                                    width: 30,
+                                                    height: 20,
+                                                    width: 20,
                                                     decoration:
                                                         new BoxDecoration(
                                                       image:

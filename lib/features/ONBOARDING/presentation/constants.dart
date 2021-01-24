@@ -24,15 +24,15 @@ class OnboardStrings {
 class OnboardTextStyle {
   static TextStyle descriptionTS = TextStyle(
       fontFamily: 'Montserrat',
-      fontSize: Gparam.textSmall,
+      fontSize: Gparam.textMedium,
       fontWeight: FontWeight.w500,
       color: Colors.black45);
 
   static TextStyle titleTS = TextStyle(
       fontFamily: 'Montserrat',
-      fontSize: Gparam.textMedium,
-      fontWeight: FontWeight.w300,
-      color: Colors.white54);
+      fontSize: Gparam.textSmall,
+      fontWeight: FontWeight.w800,
+      color: Colors.black87);
 }
 
 class OnboardFixtures {

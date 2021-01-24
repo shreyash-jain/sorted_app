@@ -107,19 +107,68 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
             message: generateValidityMessage((state as LoginState).userDetail),
             userDetail: (state as LoginState).userDetail);
       }
-    } else if (event is UpdateName) {
+    } else if (event is UpdateUsername) {
       if (state is LoginState) {
         UserDetail prevDetail = (state as LoginState).userDetail;
-        prevDetail.copyWith(name: event.name);
         yield LoginState(
             allActivities: (state as LoginState).allActivities,
             userActivities: (state as LoginState).userActivities,
-            userDetail:
-                (state as LoginState).userDetail.copyWith(name: event.name),
-            valid: checkValidity(
-                (state as LoginState).userDetail.copyWith(name: event.name)),
-            message: generateValidityMessage(
-                (state as LoginState).userDetail.copyWith(name: event.name)));
+            userDetail: (state as LoginState).userDetail,
+            valid: 8,
+            message: "Loading");
+
+        RegExp regExp = new RegExp(
+          r"^([A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$)",
+        );
+        if (event.name == null ||
+            event.name.length < 4 ||
+            !regExp.hasMatch(event.name)) {
+          yield LoginState(
+              allActivities: (state as LoginState).allActivities,
+              userActivities: (state as LoginState).userActivities,
+              userDetail: (state as LoginState)
+                  .userDetail
+                  .copyWith(userName: event.name),
+              valid: 9,
+              message: "Type a valid username");
+        } else {
+          print("Say hi!");
+          var failureOrBool = await repository.isUserNameAvailable(event.name);
+          bool isAvailable = false;
+          Failure failure;
+          failureOrBool.fold((l) {
+            failure = l;
+          }, (r) {
+            isAvailable = r;
+          });
+
+          if (failure == null) {
+            prevDetail.copyWith(userName: event.name);
+            if (isAvailable)
+              yield LoginState(
+                  allActivities: (state as LoginState).allActivities,
+                  userActivities: (state as LoginState).userActivities,
+                  userDetail: (state as LoginState)
+                      .userDetail
+                      .copyWith(userName: event.name),
+                  valid: checkValidity((state as LoginState)
+                      .userDetail
+                      .copyWith(name: event.name)),
+                  message: generateValidityMessage((state as LoginState)
+                      .userDetail
+                      .copyWith(name: event.name)));
+            else {
+              yield LoginState(
+                  allActivities: (state as LoginState).allActivities,
+                  userActivities: (state as LoginState).userActivities,
+                  userDetail: (state as LoginState)
+                      .userDetail
+                      .copyWith(userName: event.name),
+                  valid: 9,
+                  message: "Username not available");
+            }
+          }
+        }
       }
     } else if (event is UpdateAge) {
       if (state is LoginState) {
@@ -206,7 +255,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
           userActivities: userActivities,
           userDetail: userDetail,
           valid: checkValidity(userDetail),
-          message: "Please select your interests");
+          message: "Please enter a username");
     } else {
       yield Error(message: mapFailureToString(failure));
     }

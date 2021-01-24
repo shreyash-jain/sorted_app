@@ -26,7 +26,7 @@ class UserIntroStrings {
           "\nTo make this process easier we smarty set a small daily survey to know about your life";
   static const String notificationImagePath = "assets/images/reminder.png";
   static const userImageTag = 'profileImage';
-  static const askProfesssion = 'and what are you doing nowadays ?';
+  static const askProfesssion = 'What are you doing nowadays ?';
   static const studentImagePath = "assets/images/student.png";
   static const studentImageDescription = "Studying";
   static const workingImagePath = "assets/images/working.png";

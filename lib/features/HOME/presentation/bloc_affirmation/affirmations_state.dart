@@ -9,16 +9,26 @@ class LoadingState extends AffirmationState {
   List<Object> get props => [];
 }
 
+class InitialState extends AffirmationState {
+  @override
+  List<Object> get props => [];
+}
+
 class LoadedState extends AffirmationState {
   final List<DayAffirmation> affirmations;
   final InspirationModel inspiration;
   final bool showInspiration;
   final bool showAffirmations;
 
-  LoadedState({this.showInspiration, this.showAffirmations, this.affirmations, this.inspiration});
+  LoadedState(
+      {this.showInspiration,
+      this.showAffirmations,
+      this.affirmations,
+      this.inspiration});
 
   @override
-  List<Object> get props => [affirmations, inspiration, showInspiration, showAffirmations];
+  List<Object> get props =>
+      [affirmations, inspiration, showInspiration, showAffirmations];
 }
 
 class Error extends AffirmationState {

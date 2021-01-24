@@ -8,6 +8,7 @@ import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/animations/shimmer.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
 import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
@@ -36,101 +37,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   AffirmationBloc affirmationBloc;
   bool showArrow = true;
 
-  OverlayEntry _createPopupDialog(DayAffirmation affirmation) {
-    return OverlayEntry(
-      builder: (context) => AnimatedDialog(
-        child: _createPopupContent(affirmation),
-      ),
-    );
-  }
-
-  Widget _createPopupContent(DayAffirmation affirmation) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Stack(
-          children: [
-            Center(
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: CachedNetworkImage(
-                      imageUrl: affirmation.imageUrl,
-                      fit: BoxFit.cover,
-                      height: Gparam.width,
-                      width: Gparam.width,
-                    ))),
-            Center(child: _createPhotoTitle(affirmation)),
-            Align(
-                alignment: Alignment.bottomRight,
-                child: _createPhotoDescription(affirmation)),
-          ],
-        ),
-      );
-
-  Widget _createPhotoTitle(DayAffirmation affirmation) => Container(
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: new BorderRadius.all(Radius.circular(20.0)),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 1),
-                color: Colors.black.withAlpha(30),
-                blurRadius: 20)
-          ],
-          gradient: new LinearGradient(
-              colors: [
-                Colors.white54,
-                Colors.white.withOpacity(.2),
-              ],
-              begin: FractionalOffset.topCenter,
-              end: FractionalOffset.bottomCenter,
-              stops: [1.0, 0.0],
-              tileMode: TileMode.clamp),
-        ),
-        child: Text(affirmation.text,
-            style: TextStyle(
-                color: Colors.black87,
-                fontFamily: 'Montserrat',
-                fontSize: 24,
-                shadows: [
-                  Shadow(
-                    blurRadius: 60.0,
-                    color: Colors.white,
-                    offset: Offset(1.0, 1.0),
-                  ),
-                ],
-                fontWeight: FontWeight.normal)),
-      );
-  Widget _createPhotoDescription(DayAffirmation affirmation) => Container(
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: new BorderRadius.all(Radius.circular(20.0)),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 1),
-                color: Colors.black.withAlpha(30),
-                blurRadius: 20)
-          ],
-        ),
-        child: Text("Image by Unsplash.com",
-            style: TextStyle(
-                color: Colors.white60,
-                fontFamily: 'Montserrat',
-                fontSize: 14,
-                shadows: [
-                  Shadow(
-                    blurRadius: 60.0,
-                    color: Colors.white,
-                    offset: Offset(1.0, 1.0),
-                  ),
-                ],
-                fontWeight: FontWeight.normal)),
-      );
-
   @override
   void initState() {
     _controller = ScrollController();
-    affirmationBloc = AffirmationBloc(sl())..add(LoadStories());
+    affirmationBloc = AffirmationBloc(sl());
     _controller.addListener(_scrollListener);
     super.initState();
   }
@@ -140,13 +50,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
     return FlexibleSpaceBar(
         title: (widget.currentSliverheight < Gparam.height / 4)
             ? Text(
-                'My feed',
+                '',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontSize: 14.0,
                   color: Theme.of(context).highlightColor,
-                  
                   fontWeight: FontWeight.w600,
                 ),
               )
@@ -176,52 +85,869 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 tileMode: TileMode.clamp),
           ),
           padding: EdgeInsets.only(
-            top: Gparam.topPadding / 1.5,
+            top: Gparam.topPadding / 3,
           ),
           child: FadeAnimationTB(
               1.6,
               Container(
                   child: Stack(
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Icon(
-                      OMIcons.dashboard,
-                      color: Theme.of(context).cardColor.withOpacity(.04),
-                      size: Gparam.width / 1.4,
-                    ),
-                  ),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        BlocProvider(
-                            create: (_) => affirmationBloc,
-                            child:
-                                BlocListener<AffirmationBloc, AffirmationState>(
-                                    listener: (context, state) {},
-                                    child: BlocBuilder<AffirmationBloc,
-                                            AffirmationState>(
-                                        builder: (context, state) {
-                                      if (state is LoadingState) {
-                                        return LoadingAffirmationWidget();
-                                      } else if (state is Error) {
-                                        return Container(
-                                          width: 0,
-                                          height: 0,
-                                        );
-                                      } else if (state is LoadedState) {
-                                        return LoadedAffirmationWidget(
-                                          controller: _controller,
-                                          state: state,
-                                          showArrow: showArrow,
-                                          bloc: affirmationBloc,
-                                          popUp: _popupDialog,
-                                          onTapAffirmationTile:
-                                              onTapAffirmationTile,
-                                        );
-                                      }
-                                    }))),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: Gparam.width,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Sort.it",
+                                style: TextStyle(
+                                    color: Theme.of(context).highlightColor,
+                                    fontFamily: 'Montserrat',
+                                    fontSize: Gparam.textSmall,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                            height: 130,
+                            width: Gparam.width,
+                            margin: EdgeInsets.only(top: 20),
+                            child: ListView(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                SizedBox(
+                                  width: Gparam.widthPadding / 2,
+                                ),
+                                Column(
+                                  children: [
+                                    BlocProvider(
+                                        create: (_) => affirmationBloc,
+                                        child:
+                                            BlocListener<AffirmationBloc,
+                                                    AffirmationState>(
+                                                listener: (context, state) {},
+                                                child: BlocBuilder<
+                                                        AffirmationBloc,
+                                                        AffirmationState>(
+                                                    builder: (context, state) {
+                                                  if (state is InitialState) {
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        print("heeeeeelo");
+                                                        affirmationBloc
+                                                            .add(LoadStories());
+                                                        print("heeeeeelo1");
+                                                      },
+                                                      child:
+                                                          UnicornOutlineButton(
+                                                        strokeWidth: 2,
+                                                        radius: 100,
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                            Theme.of(context)
+                                                                .primaryColorLight,
+                                                            Theme.of(context)
+                                                                .accentColor,
+                                                            Theme.of(context)
+                                                                .backgroundColor
+                                                          ],
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                        ),
+                                                        onPressed: null,
+                                                        child: Hero(
+                                                            tag: "thumbnail" +
+                                                                0.toString(),
+                                                            child: Column(
+                                                              children: [
+                                                                Container(
+                                                                    height: 70,
+                                                                    width: 70,
+                                                                    margin: EdgeInsets
+                                                                        .all(2),
+                                                                    decoration:
+                                                                        new BoxDecoration(
+                                                                      borderRadius: new BorderRadius
+                                                                              .all(
+                                                                          Radius.circular(
+                                                                              60.0)),
+                                                                      border:
+                                                                          null,
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                            offset: Offset(1,
+                                                                                1),
+                                                                            color:
+                                                                                Colors.black.withAlpha(40),
+                                                                            blurRadius: 10)
+                                                                      ],
+                                                                      gradient: new LinearGradient(
+                                                                          colors: [
+                                                                            Colors.transparent,
+                                                                            Colors.transparent,
+                                                                          ],
+                                                                          begin: FractionalOffset.topCenter,
+                                                                          end: FractionalOffset.bottomCenter,
+                                                                          stops: [1.0, 0.0],
+                                                                          tileMode: TileMode.clamp),
+                                                                    ),
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        ClipRRect(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(60.0),
+                                                                            child: CachedNetworkImage(
+                                                                              imageUrl: "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
+                                                                              fit: BoxFit.cover,
+                                                                              height: 70,
+                                                                              width: 70,
+                                                                            )),
+                                                                      ],
+                                                                    )),
+                                                              ],
+                                                            )),
+                                                      ),
+                                                    );
+                                                  } else if (state
+                                                      is LoadingState) {
+                                                    return UnicornOutlineButton(
+                                                        strokeWidth: 2,
+                                                        radius: 100,
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                            Theme.of(context)
+                                                                .primaryColorLight,
+                                                            Theme.of(context)
+                                                                .accentColor,
+                                                            Theme.of(context)
+                                                                .backgroundColor
+                                                          ],
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                        ),
+                                                        onPressed: null,
+                                                        child: Stack(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          children: [
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Container(
+                                                                    height: 70,
+                                                                    width: 70,
+                                                                    margin: EdgeInsets
+                                                                        .all(2),
+                                                                    decoration:
+                                                                        new BoxDecoration(
+                                                                      borderRadius: new BorderRadius
+                                                                              .all(
+                                                                          Radius.circular(
+                                                                              60.0)),
+                                                                      border:
+                                                                          null,
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                            offset: Offset(1,
+                                                                                1),
+                                                                            color:
+                                                                                Colors.black.withAlpha(40),
+                                                                            blurRadius: 10)
+                                                                      ],
+                                                                      gradient: new LinearGradient(
+                                                                          colors: [
+                                                                            Colors.transparent,
+                                                                            Colors.transparent,
+                                                                          ],
+                                                                          begin: FractionalOffset.topCenter,
+                                                                          end: FractionalOffset.bottomCenter,
+                                                                          stops: [1.0, 0.0],
+                                                                          tileMode: TileMode.clamp),
+                                                                    ),
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        ClipRRect(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(60.0),
+                                                                            child: CachedNetworkImage(
+                                                                              imageUrl: "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
+                                                                              fit: BoxFit.cover,
+                                                                              height: 70,
+                                                                              width: 70,
+                                                                            )),
+                                                                      ],
+                                                                    )),
+                                                              ],
+                                                            ),
+                                                            Container(
+                                                              height: 70,
+                                                              width: 70,
+                                                              child:
+                                                                  CircularProgressIndicator(),
+                                                            ),
+                                                          ],
+                                                        ));
+                                                  } else if (state is Error) {
+                                                    return Container(
+                                                      width: 0,
+                                                      height: 0,
+                                                    );
+                                                  } else if (state
+                                                      is LoadedState) {
+                                                    return UnicornOutlineButton(
+                                                      strokeWidth: 2,
+                                                      radius: 100,
+                                                      gradient: LinearGradient(
+                                                        colors: [
+                                                          Theme.of(context)
+                                                              .primaryColor,
+                                                          Theme.of(context)
+                                                              .primaryColorLight,
+                                                          Theme.of(context)
+                                                              .accentColor,
+                                                          Theme.of(context)
+                                                              .backgroundColor
+                                                        ],
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                      ),
+                                                      onPressed: () {
+                                                        Router.navigator.pushNamed(
+                                                            Router
+                                                                .affirmationPageview,
+                                                            arguments: AffirmationPVArguments(
+                                                                affirmations: (affirmationBloc
+                                                                            .state
+                                                                        as LoadedState)
+                                                                    .affirmations,
+                                                                startIndex: 0,
+                                                                outerBloc:
+                                                                    affirmationBloc));
+                                                      },
+                                                      child: Hero(
+                                                          tag: "thumbnail" +
+                                                              0.toString(),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                  height: 70,
+                                                                  width: 70,
+                                                                  margin:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              2),
+                                                                  decoration:
+                                                                      new BoxDecoration(
+                                                                    borderRadius: new BorderRadius
+                                                                            .all(
+                                                                        Radius.circular(
+                                                                            60.0)),
+                                                                    border:
+                                                                        null,
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                          offset: Offset(
+                                                                              1,
+                                                                              1),
+                                                                          color: Colors.black.withAlpha(
+                                                                              40),
+                                                                          blurRadius:
+                                                                              10)
+                                                                    ],
+                                                                    gradient: new LinearGradient(
+                                                                        colors: [
+                                                                          Colors
+                                                                              .transparent,
+                                                                          Colors
+                                                                              .transparent,
+                                                                        ],
+                                                                        begin: FractionalOffset.topCenter,
+                                                                        end: FractionalOffset.bottomCenter,
+                                                                        stops: [1.0, 0.0],
+                                                                        tileMode: TileMode.clamp),
+                                                                  ),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      ClipRRect(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              60.0),
+                                                                          child:
+                                                                              CachedNetworkImage(
+                                                                            imageUrl:
+                                                                                "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                            height:
+                                                                                70,
+                                                                            width:
+                                                                                70,
+                                                                          )),
+                                                                    ],
+                                                                  )),
+                                                            ],
+                                                          )),
+                                                    );
+                                                  }
+                                                }))),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          getAffirmationString(DateTime.now()),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Column(
+                                  children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {},
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fzac-durant-_6HzPU9Hyfg-unsplash.jpg?alt=media&token=6de62955-2fd1-4a1e-94e4-6fa8256219a2",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          getMeditationString(DateTime.now()),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {},
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fdane-wetton-t1NEMSm1rgI-unsplash.jpg?alt=media&token=3fc63268-3ae0-46ec-ad66-1817016e063e",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Quick\nYoga",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {},
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fbruno-nascimento-PHIgYUGQPvU-unsplash.jpg?alt=media&token=ed7a6e91-d275-4748-8608-06e4136faaee",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Flash\nFitness",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {},
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Flaura-johnston-1I4rCoC5oKA-unsplash.jpg?alt=media&token=578f5c4c-f986-4aec-802d-3a4e13e6d7a6",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(foodString(DateTime.now()),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 0,
+                                ),
+                                Column(
+                                  children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {},
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fvincent-ledvina-FJVpeHCqImU-unsplash.jpg?alt=media&token=89c1cfc9-a806-4348-9cf5-d229d6691a72",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          "Positivity around\nthe world",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize:
+                                                  Gparam.textVeryExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 0,
+                                ),
+                                Column(
+                                  children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {},
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fgeorge-pagan-iii-bIlaTxx4nCo-unsplash.jpg?alt=media&token=0dbb9d84-8d53-4368-b31f-3e8dd0fd340c",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Productivity\nBooster",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
                       ]),
                 ],
               ))),
@@ -237,9 +963,31 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
     }
   }
 
-  OverlayEntry onTapAffirmationTile(DayAffirmation affirmation) {
-    _popupDialog = _createPopupDialog(affirmation);
-    Overlay.of(context).insert(_popupDialog);
-    return _popupDialog;
+  String getAffirmationString(DateTime dateTime) {
+    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
+      return "Bedtime\nAffirmations";
+    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
+      return "Sunshine\nAffirmations";
+    return "Affirmations";
+  }
+
+  String getMeditationString(DateTime dateTime) {
+    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
+      return "Night\nMeditation";
+    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
+      return "Morning\nMeditation";
+    return "Meditation";
+  }
+
+  String foodString(DateTime dateTime) {
+    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
+      return "Dinner\nInspiration";
+    } else if (dateTime.hour >= 3 && dateTime.hour < 10)
+      return "Breakfast\nInspiration";
+    else if (dateTime.hour >= 10 && dateTime.hour < 15)
+      return "Lunch\nInspiration";
+    else if (dateTime.hour >= 15 && dateTime.hour < 19)
+      return "Snack\nInspiration";
+    return "Meal Inspiration";
   }
 }

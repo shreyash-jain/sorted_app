@@ -304,7 +304,7 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
           physics: NeverScrollableScrollPhysics(),
           child: Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.all(Gparam.widthPadding / 6),
+            margin: EdgeInsets.symmetric(horizontal: Gparam.widthPadding / 6),
             width: Gparam.width / 2,
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(
@@ -329,7 +329,9 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ClipRRect(
-                            borderRadius: BorderRadius.circular(12.0),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12)),
                             child: ColorFiltered(
                                 colorFilter: ColorFilter.mode(
                                   Theme.of(context).primaryColor,
@@ -403,8 +405,9 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: otherColor.withAlpha(160), width: .5),
-                        borderRadius: new BorderRadius.all(
-                          Radius.circular((12)),
+                        borderRadius: new BorderRadius.only(
+                          bottomLeft: Radius.circular((12)),
+                          bottomRight: Radius.circular((12)),
                         ),
                       ),
                       child: Column(

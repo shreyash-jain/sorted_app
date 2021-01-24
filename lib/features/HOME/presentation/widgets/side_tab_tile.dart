@@ -8,12 +8,14 @@ class SideTabTile extends StatelessWidget {
     @required this.isNavEnabled,
     @required this.tabName,
     @required this.description,
-    @required this.index, @required this.onTapAction,
-    
+    @required this.index,
+    @required this.onTapAction,
+    this.icon,
   }) : super(key: key);
 
   final int currentSideTab;
   final bool isNavEnabled;
+  final IconData icon;
   final String tabName;
   final String description;
   final Function(int index) onTapAction;
@@ -21,81 +23,41 @@ class SideTabTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
-       onTapAction(index);
+        onTapAction(index);
       },
       child: AnimatedContainer(
           curve: Curves.easeOutQuad,
           padding: EdgeInsets.all(
-              (currentSideTab == null || currentSideTab != index) ? Gparam.widthPadding/5 : Gparam.widthPadding/3),
-          decoration: (currentSideTab == index)
-              ? BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 1),
-                        color: (Theme.of(context).brightness==Brightness.light)?Colors.black.withAlpha(20):Color.fromARGB(100, 30, 30, 30),
-                        blurRadius: 30)
-                  ],
-                  borderRadius: new BorderRadius.only(
-                      topRight: Radius.circular(16.0),
-                      bottomRight: Radius.circular(16.0)),
-                  gradient: new LinearGradient(
-                      colors: [
-                        Theme.of(context).backgroundColor,
-                        Theme.of(context).primaryColor,
-                        
-
-                      ],
-                      begin: FractionalOffset.topRight,
-                      end: FractionalOffset.bottomCenter,
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                )
-              : null,
+              (currentSideTab == null || currentSideTab != index)
+                  ? Gparam.widthPadding / 5
+                  : Gparam.widthPadding / 3),
           duration: Duration(milliseconds: 400),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              RotatedBox(
-                  quarterTurns: 3,
-                  child: Text(tabName,
-                      style: TextStyle(
-                          color:  (Theme.of(context).brightness==Brightness.light)?(currentSideTab == index)
-                              ? Colors.black12
-                              : Colors.black45:(currentSideTab == index)
-                              ? Colors.white24
-                              : Colors.white70,
-                          fontFamily: 'Montserrat',
-                          fontSize: Gparam.textSmall,
-                         
-                          fontWeight: FontWeight.w800))),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  icon,
+                  color: Theme.of(context).highlightColor.withOpacity(.54),
+                ),
+              ),
               if (isNavEnabled)
                 SizedBox(
                   width: 12,
                 ),
-              if (isNavEnabled)
-                Container(
-                  width: Gparam.width / 2 - Gparam.width / 8,
-                  padding: EdgeInsets.all(8),
-                  decoration:  (currentSideTab == index)
-                              ?null:BoxDecoration(
-                          color: Color.fromARGB(255, 240, 240, 240),
-                          borderRadius: BorderRadius.all( Radius.circular(14.0)),
-                        ),
-                  child: Text(description,
-                      style: TextStyle(
-                          color: (currentSideTab == index)
-                              ? Colors.black
-                              : Colors.black26,
-                          fontFamily: 'Montserrat',
-                          fontSize: 14,
-                          
-                          fontWeight: FontWeight.normal)),
-                )
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(tabName,
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: Gparam.textVerySmall,
+                        fontWeight: FontWeight.w500)),
+              ),
             ],
           )),
     );
   }
-    
 }

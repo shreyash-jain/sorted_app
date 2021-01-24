@@ -7,6 +7,8 @@ import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/custom_paints/custom_time_painter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'dart:math';
+import 'dart:ui';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation_pv/affirmation_pv_bloc.dart';
@@ -28,12 +30,12 @@ class AffirmationPV extends StatefulWidget {
 
 class AffirmationState extends State<AffirmationPV>
     with TickerProviderStateMixin {
-  PageController controller;
+  PageController _pageController;
   int timerState = 0; // 0> paused 1>playing
   int currentPage;
   int passedSum = 0, totalSum = 0, remainingSum = 0;
   AffirmationPVBloc bloc;
-
+  var _pageNotifier = ValueNotifier(0.0);
   var isCameraEnabled = false;
   AnimationController animationController;
   OverlayEntry _popupDialog;
@@ -41,8 +43,14 @@ class AffirmationState extends State<AffirmationPV>
 
   AffirmationState(int startIndex) {
     print("jj");
-    controller = PageController(
-        viewportFraction: 1.0, initialPage: startIndex, keepPage: false);
+    _pageController = PageController(
+        viewportFraction: 1.0, initialPage: startIndex, keepPage: true);
+
+    _pageNotifier = ValueNotifier(startIndex.toDouble());
+    //_pageController.addListener(_listener);
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+        _pageController.addListener(_listener);
+      });
 
     currentPage = startIndex;
   }
@@ -52,6 +60,10 @@ class AffirmationState extends State<AffirmationPV>
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void _listener() {
+    _pageNotifier.value = _pageController.page;
   }
 
   Widget _indicator(bool isActive, double width) {
@@ -111,15 +123,17 @@ class AffirmationState extends State<AffirmationPV>
             Navigator.pop(context);
           });
       }
+
+     
       if (1 - animationController.value >
               ((passedSum + widget.affirmations[currentPage].waitSeconds) /
                   totalSum) &&
           timerState == 1) {
         print(1 - animationController.value);
         print(passedSum / totalSum);
-        if (controller.hasClients &&
-            controller.page != widget.affirmations.length - 1) {
-          controller.animateToPage(currentPage + 1,
+        if (_pageController.hasClients &&
+            _pageController.page != widget.affirmations.length - 1) {
+          _pageController.animateToPage(currentPage + 1,
               duration: Duration(milliseconds: 700), curve: Curves.decelerate);
           //passedSum += widget.affirmations[currentPage].waitSeconds;
         }
@@ -131,8 +145,11 @@ class AffirmationState extends State<AffirmationPV>
 
   @override
   void dispose() {
-    controller.dispose();
+    _pageController.removeListener(_listener);
+    _pageController.dispose();
     animationController.dispose();
+    _pageNotifier.dispose();
+    
     super.dispose();
   }
 
@@ -215,102 +232,118 @@ class AffirmationState extends State<AffirmationPV>
                               ),
                             ),
                           Center(
-                              child: PageView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  controller: controller,
-                                  onPageChanged: (int page) {
-                                    currentPage = page;
-                                    setState(() {
-                                      passedSum = 0;
-                                      for (int i = 0; i < currentPage; i++) {
-                                        passedSum +=
-                                            state.affirmations[i].waitSeconds;
-                                        print("passed updated : " +
-                                            (passedSum / totalSum).toString());
-                                      }
-                                    });
+                            child: ValueListenableBuilder<double>(
+                                valueListenable: _pageNotifier,
+                                builder: (_, value, child) => PageView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    controller: _pageController,
+                                    physics: const ClampingScrollPhysics(),
+                                    onPageChanged: (int page) {
+                                      currentPage = page;
+                                      setState(() {
+                                        passedSum = 0;
+                                        for (int i = 0; i < currentPage; i++) {
+                                          passedSum +=
+                                              state.affirmations[i].waitSeconds;
+                                          print("passed updated : " +
+                                              (passedSum / totalSum)
+                                                  .toString());
+                                        }
+                                      });
 
-                                    if (timerState == 1)
-                                      animationController.reverse(
-                                          from: animationController.value == 0.0
-                                              ? 1.0
-                                              : 1 - ((passedSum) / totalSum));
-                                    bloc.add(PageChanged(
-                                        currentPage, state.affirmations));
-                                  },
-                                  itemCount: state.affirmations.length,
-                                  itemBuilder: (context, position) {
-                                    return Stack(
-                                      children: [
-                                        if (!isCameraEnabled)
-                                          Center(
+                                      if (timerState == 1)
+                                        animationController.reverse(
+                                            from: animationController.value ==
+                                                    0.0
+                                                ? 1.0
+                                                : 1 - ((passedSum) / totalSum));
+                                      bloc.add(PageChanged(
+                                          currentPage, state.affirmations));
+                                    },
+                                    itemCount: state.affirmations.length,
+                                    itemBuilder: (context, position) {
+                                      return CubeWidget(
+                                        index: position,
+                                        pageNotifier: value,
+                                        child: Stack(
+                                          children: [
+                                            if (!isCameraEnabled)
+                                              Center(
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: widget
+                                                            .affirmations[
+                                                                position]
+                                                            .imageUrl,
+                                                        fit: BoxFit.cover,
+                                                        height: Gparam.height,
+                                                        width: Gparam.width,
+                                                      ))),
+                                            if (!isCameraEnabled)
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 200.0),
+                                                child: AnimatedContainer(
+                                                    alignment: Alignment.center,
+                                                    curve: Curves.fastOutSlowIn,
+                                                    margin: EdgeInsets.all(20),
+                                                    duration: Duration(
+                                                        milliseconds: 400),
+                                                    child: Icon(
+                                                      Icons.format_quote,
+                                                      color: Colors.black12,
+                                                      size: 200,
+                                                    )),
+                                              ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: Gparam.heightPadding * 2,
+                                                  left: Gparam.widthPadding),
                                               child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          0.0),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: widget
-                                                        .affirmations[position]
-                                                        .imageUrl,
-                                                    fit: BoxFit.cover,
-                                                    height: Gparam.height,
-                                                    width: Gparam.width,
-                                                  ))),
-                                        if (!isCameraEnabled)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 200.0),
-                                            child: AnimatedContainer(
-                                                alignment: Alignment.center,
-                                                curve: Curves.fastOutSlowIn,
-                                                margin: EdgeInsets.all(20),
+                                                          60.0),
+                                                  child: FadeInImage(
+                                                    placeholder: new AssetImage(
+                                                        "assets/images/blueCircle.png"),
+                                                    image: new NetworkImage(
+                                                        widget
+                                                            .affirmations[
+                                                                position]
+                                                            .thumbnailUrl),
+                                                    fit: BoxFit.fill,
+                                                    width: 40,
+                                                  )),
+                                            ),
+                                            AnimatedContainer(
+                                                alignment: (isCameraEnabled)
+                                                    ? Alignment.bottomCenter
+                                                    : Alignment.center,
+                                                curve: Curves.easeIn,
+                                                padding: EdgeInsets.only(
+                                                    bottom: (isCameraEnabled)
+                                                        ? 120
+                                                        : 0),
                                                 duration:
-                                                    Duration(milliseconds: 400),
-                                                child: Icon(
-                                                  Icons.format_quote,
-                                                  color: Colors.black12,
-                                                  size: 200,
-                                                )),
-                                          ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: Gparam.heightPadding * 2,
-                                              left: Gparam.widthPadding),
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(60.0),
-                                              child: FadeInImage(
-                                                placeholder: new AssetImage(
-                                                    "assets/images/blueCircle.png"),
-                                                image: new NetworkImage(widget
-                                                    .affirmations[position]
-                                                    .thumbnailUrl),
-                                                fit: BoxFit.fill,
-                                                width: 40,
-                                              )),
+                                                    Duration(milliseconds: 700),
+                                                child: _createPhotoTitle(widget
+                                                    .affirmations[position])),
+                                            if (!isCameraEnabled)
+                                              Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child:
+                                                      _createPhotoDescription(
+                                                          widget.affirmations[
+                                                              position])),
+                                          ],
                                         ),
-                                        AnimatedContainer(
-                                            alignment: (isCameraEnabled)
-                                                ? Alignment.bottomCenter
-                                                : Alignment.center,
-                                            curve: Curves.easeIn,
-                                            padding: EdgeInsets.only(
-                                                bottom: (isCameraEnabled)
-                                                    ? 120
-                                                    : 0),
-                                            duration:
-                                                Duration(milliseconds: 700),
-                                            child: _createPhotoTitle(
-                                                widget.affirmations[position])),
-                                        if (!isCameraEnabled)
-                                          Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: _createPhotoDescription(
-                                                  widget
-                                                      .affirmations[position])),
-                                      ],
-                                    );
-                                  })),
+                                      );
+                                    })),
+                          ),
                           SafeArea(child: new LayoutBuilder(builder:
                               (BuildContext context,
                                   BoxConstraints constraints) {
@@ -504,10 +537,17 @@ class AffirmationState extends State<AffirmationPV>
                         ],
                       );
                     }));
-                  else if (state is LoadingPVState) {}
+                  else if (state is LoadingPVState) {
+                    return Container(
+                      height: 0,
+                      width: 0,
+                    );
+                  } else if (state is ErrorPVState) {}
                 })));
   }
 
+  num degToRad(num deg) => deg * (pi / 180.0);
+  num radToDeg(num rad) => rad * (180.0 / pi);
   Widget _createPhotoTitle(DayAffirmation affirmation) => Container(
         padding: EdgeInsets.all(16),
         margin: EdgeInsets.all(16),
@@ -596,3 +636,56 @@ class AffirmationState extends State<AffirmationPV>
         ),
       );
 }
+
+class CubeWidget extends StatelessWidget {
+  /// Index of the current item
+  final int index;
+
+  /// Page Notifier value, it comes from the [CubeWidgetBuilder]
+  final double pageNotifier;
+
+  /// Child you want to use inside the Cube
+  final Widget child;
+
+  const CubeWidget({
+    Key key,
+    @required this.index,
+    @required this.pageNotifier,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isLeaving = (index - pageNotifier) <= 0;
+    final t = (index - pageNotifier);
+    final rotationY = lerpDouble(0, 90, t);
+    final opacity = lerpDouble(0, 1, t.abs()).clamp(0.0, 1.0);
+    final transform = Matrix4.identity();
+    transform.setEntry(3, 2, 0.0010);
+    transform.rotateY(-degToRad(rotationY));
+    print("index " + index.toString());
+    print("pageNotifier " + pageNotifier.toString());
+    return Transform(
+      alignment: isLeaving ? Alignment.centerRight : Alignment.centerLeft,
+      transform: transform,
+      child: Stack(
+        children: [
+          child,
+          Positioned.fill(
+            child: Opacity(
+              opacity: opacity,
+              child: Container(
+                child: Container(
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+num degToRad(num deg) => deg * (pi / 180.0);
+num radToDeg(num rad) => rad * (180.0 / pi);

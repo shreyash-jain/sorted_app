@@ -16,7 +16,7 @@ class IndicatorOval extends StatelessWidget {
       height: 8.0,
       width: isActive ? 16.0 : 10.0,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white24 : Colors.black12,
+        color: isActive ? Colors.black : Colors.black12,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );

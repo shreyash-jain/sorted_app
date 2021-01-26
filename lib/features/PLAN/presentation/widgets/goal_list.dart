@@ -128,7 +128,7 @@ class GoalListWidget extends StatelessWidget {
                   SizedBox(
                     height: Gparam.heightPadding / 2,
                   ),
-                  CircleProgressBar(
+                  CustomLinearProgressBar(
                     radius: 85.0,
                     dotColor: Theme.of(context).scaffoldBackgroundColor,
                     dotEdgeColor: Theme.of(context).scaffoldBackgroundColor,

@@ -29,6 +29,7 @@ dependencies:
   audioplayers: ^0.16.1
   auto_route: ^0.3.0
   bloc_provider: ^0.7.0
+  
   cached_network_image: ^2.4.1
   camera: ^0.5.8+5
   cloud_firestore: ^0.13.5
@@ -37,6 +38,8 @@ dependencies:
   csv: ^4.0.3
   flutter_staggered_grid_view: ^0.3.2
   cupertino_icons: ^0.1.2
+  video_player: ^1.0.1
+
   dartz: ^0.9.1
   data_connection_checker: ^0.3.4
   youtube_player_flutter: ^7.0.0+7
@@ -46,6 +49,7 @@ dependencies:
   equatable: ^1.2.2
   esys_flutter_share: ^1.0.2
   faker: ^1.2.1
+  scratcher: ^1.4.0
   file_picker: ^1.13.3
   firebase_analytics: ^5.0.6
   firebase_auth: ^0.16.0

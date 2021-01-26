@@ -8,6 +8,13 @@ class LoadStories extends AffirmationEvent {
   List<Object> get props => [];
 
 }
+
+class LoadStories1 extends AffirmationEvent {
+  
+  @override
+  List<Object> get props => [];
+
+}
 class UpdateAffirmation extends AffirmationEvent {
   
   final List<DayAffirmation> affirmations;

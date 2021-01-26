@@ -86,9 +86,8 @@ class _MyHomePageState extends State<MyStartPage> {
                 listener: (BuildContext context, OnstartState state) {
                   if (state is AccessGranted) {
                     print("listener ran");
-                   Router.navigator.pop();
-                   Router.navigator.pushNamed(Router.homePage,
-                        arguments: SortedHomeArguments(title: "Home Page"));
+                    Router.navigator.pop();
+                    Router.navigator.pushNamed(Router.rootHome);
                   }
                 },
               ),

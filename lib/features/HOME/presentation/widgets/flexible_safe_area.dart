@@ -35,12 +35,14 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   OverlayEntry _popupDialog;
   ScrollController _controller;
   AffirmationBloc affirmationBloc;
+
   bool showArrow = true;
 
   @override
   void initState() {
     _controller = ScrollController();
-    affirmationBloc = AffirmationBloc(sl());
+    affirmationBloc = sl<AffirmationBloc>();
+
     _controller.addListener(_scrollListener);
     super.initState();
   }
@@ -126,6 +128,215 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                 ),
                                 Column(
                                   children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {
+                                        Router.navigator.pushNamed(
+                                            Router.challengePageView);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fcristina-zaragoza-cMVRsfY8R3Q-unsplash.jpg?alt=media&token=95af0462-1040-409b-973b-384fba7662be",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Todays\nChallenge",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  children: [
+                                    UnicornOutlineButton(
+                                      strokeWidth: 2,
+                                      radius: 100,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).backgroundColor
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      onPressed: () {},
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 70,
+                                              width: 70,
+                                              margin: EdgeInsets.all(2),
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(60.0)),
+                                                border: null,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset: Offset(1, 1),
+                                                      color: Colors.black
+                                                          .withAlpha(40),
+                                                      blurRadius: 10)
+                                                ],
+                                                gradient: new LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.transparent,
+                                                    ],
+                                                    begin: FractionalOffset
+                                                        .topCenter,
+                                                    end: FractionalOffset
+                                                        .bottomCenter,
+                                                    stops: [1.0, 0.0],
+                                                    tileMode: TileMode.clamp),
+                                              ),
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              60.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fmarkus-winkler-OQ48N5FDW1w-unsplash.jpg?alt=media&token=76daf5cd-0df7-46d3-a742-7a8bd170fc5c",
+                                                        fit: BoxFit.cover,
+                                                        height: 70,
+                                                        width: 70,
+                                                      )),
+                                                  Stack(
+                                                    children: [
+                                                      Container(
+                                                        color: Theme.of(context)
+                                                            .scaffoldBackgroundColor
+                                                            .withOpacity(.7),
+                                                        child: RichText(
+                                                          text: TextSpan(
+                                                            text: 'Plan',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: Gparam
+                                                                    .textVerySmall,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .highlightColor
+                                                                    .withOpacity(
+                                                                        .8)),
+                                                            children: <
+                                                                TextSpan>[
+                                                              TextSpan(
+                                                                  text:
+                                                                      '\nToday',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        "Montserrat",
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .highlightColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize: Gparam
+                                                                        .textVerySmall,
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Plan Today",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              letterSpacing: -.3,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: Gparam.textExtraSmall,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Column(
+                                  children: [
                                     BlocProvider(
                                         create: (_) => affirmationBloc,
                                         child:
@@ -138,10 +349,15 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                     builder: (context, state) {
                                                   if (state is InitialState) {
                                                     return GestureDetector(
-                                                      onTap: () {
+                                                      onTap: () async {
                                                         print("heeeeeelo");
-                                                        affirmationBloc
+                                                        //print(affirmationBloc);
+
+                                                        BlocProvider.of<
+                                                                    AffirmationBloc>(
+                                                                context)
                                                             .add(LoadStories());
+
                                                         print("heeeeeelo1");
                                                       },
                                                       child:
@@ -169,7 +385,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                         child: Hero(
                                                             tag: "thumbnail" +
                                                                 0.toString(),
-                                                            child: Column(
+                                                            child: Stack(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
                                                               children: [
                                                                 Container(
                                                                     height: 70,
@@ -222,6 +441,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                                             )),
                                                                       ],
                                                                     )),
+                                                                Text("Initial")
                                                               ],
                                                             )),
                                                       ),
@@ -320,6 +540,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                               child:
                                                                   CircularProgressIndicator(),
                                                             ),
+                                                            Text("Loading")
                                                           ],
                                                         ));
                                                   } else if (state is Error) {
@@ -364,7 +585,9 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                       child: Hero(
                                                           tag: "thumbnail" +
                                                               0.toString(),
-                                                          child: Column(
+                                                          child: Stack(
+                                                            alignment: Alignment
+                                                                .center,
                                                             children: [
                                                               Container(
                                                                   height: 70,
@@ -427,6 +650,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                                           )),
                                                                     ],
                                                                   )),
+                                                              Text("Loaded")
                                                             ],
                                                           )),
                                                     );

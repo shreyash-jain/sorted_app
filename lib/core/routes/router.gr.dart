@@ -34,6 +34,8 @@ import 'package:sorted/features/FILES/data/models/note_model.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
 import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
 import 'package:sorted/features/FILES/data/models/notebook_model.dart';
+import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
+import 'package:sorted/features/HOME/presentation/pages/challenge_pv.dart';
 
 class Router {
   static const splashPage = '/';
@@ -55,6 +57,8 @@ class Router {
   static const noteHub = '/note-hub';
   static const recordTab = '/record-tab';
   static const notesHubPage = '/notes-hub-page';
+  static const rootHome = '/root-home';
+  static const challengePageView = '/challenge-page-view';
   static final navigator = ExtendedNavigator();
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -248,6 +252,25 @@ class Router {
         return PageRouteBuilder<dynamic>(
           pageBuilder: (ctx, animation, secondaryAnimation) => NotesHubPage(
               key: typedArgs.key, thisNotebook: typedArgs.thisNotebook),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.rootHome:
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => RootHome(),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.challengePageView:
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
+        }
+        final typedArgs = args as Key;
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) =>
+              ChallengePageView(key: typedArgs),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.fadeIn,
           transitionDuration: Duration(milliseconds: 200),

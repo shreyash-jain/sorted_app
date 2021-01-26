@@ -259,6 +259,7 @@ class AffirmationState extends State<AffirmationPV>
                                                 : 1 - ((passedSum) / totalSum));
                                       bloc.add(PageChanged(
                                           currentPage, state.affirmations));
+                                  
                                     },
                                     itemCount: state.affirmations.length,
                                     itemBuilder: (context, position) {
@@ -278,6 +279,8 @@ class AffirmationState extends State<AffirmationPV>
                                                             .affirmations[
                                                                 position]
                                                             .imageUrl,
+                                                        errorWidget: (context, url, error) => new Icon(Icons.network_check),
+
                                                         fit: BoxFit.cover,
                                                         height: Gparam.height,
                                                         width: Gparam.width,

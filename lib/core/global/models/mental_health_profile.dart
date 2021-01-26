@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class MentalHealthProfile extends Equatable {
@@ -91,6 +92,29 @@ class MentalHealthProfile extends Equatable {
   }
 
   factory MentalHealthProfile.fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+  
+    return MentalHealthProfile(
+      do_talk_ablout_feelings: map['do_talk_ablout_feelings'],
+      do_meditation: map['do_meditation'],
+      do_enjoy_work: map['do_enjoy_work'],
+      do_love_self: map['do_love_self'],
+      do_stay_positive: map['do_stay_positive'],
+      is_mind_activity_private: map['is_mind_activity_private'],
+      goal_control_anger: map['goal_control_anger'],
+      goal_reduce_stress: map['goal_reduce_stress'],
+      goal_sleep_more: map['goal_sleep_more'],
+      goal_control_thoughts: map['goal_control_thoughts'],
+      goal_live_in_present: map['goal_live_in_present'],
+      goal_improve_will_power: map['goal_improve_will_power'],
+      goal_overcome_addiction: map['goal_overcome_addiction'],
+      make_goal_private: map['make_goal_private'],
+    );
+  }
+
+
+  
+  factory MentalHealthProfile.fromSnapshot(DocumentSnapshot map) {
     if (map == null) return null;
   
     return MentalHealthProfile(

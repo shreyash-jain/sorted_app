@@ -65,7 +65,7 @@ class SliderLine extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: i.isEven
                           ? Colors.white
-                          : Theme.of(context).primaryColor),
+                          : Colors.black),
                 ),
               )),
     );

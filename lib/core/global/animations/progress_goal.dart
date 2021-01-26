@@ -9,7 +9,7 @@ num degToRad(num deg) => deg * (pi / 180.0);
 
 num radToDeg(num rad) => rad * (180.0 / pi);
 
-class CircleProgressBar extends StatefulWidget {
+class CustomLinearProgressBar extends StatefulWidget {
   final double radius;
   final double progress;
   final double dotRadius;
@@ -21,7 +21,7 @@ class CircleProgressBar extends StatefulWidget {
 
   final ProgressChanged progressChanged;
 
-  const CircleProgressBar({
+  const CustomLinearProgressBar({
     Key key,
     @required this.radius,
     @required this.dotRadius,
@@ -38,7 +38,7 @@ class CircleProgressBar extends StatefulWidget {
   State<StatefulWidget> createState() => _CircleProgressState();
 }
 
-class _CircleProgressState extends State<CircleProgressBar>
+class _CircleProgressState extends State<CustomLinearProgressBar>
     with SingleTickerProviderStateMixin {
   AnimationController progressController;
   bool isValidTouch = false;

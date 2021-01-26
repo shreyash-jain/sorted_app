@@ -43,12 +43,12 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
     if (event is LoadStories) {
       print("here");
       yield LoadingState();
+      print("here1");
       yield* doOnLoad();
     } else if (event is UpdateAffirmation) {
       //event.affirmations.sort((a, b) => compareList(a, b));
     }
   }
-  
 
   Stream<AffirmationState> doOnLoad() async* {
     print(doOnLoad.toString() + " " + "");

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class LifestyleProfile extends Equatable {
@@ -149,6 +150,39 @@ class LifestyleProfile extends Equatable {
   }
 
   factory LifestyleProfile.fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+
+    return LifestyleProfile(
+      is_early_bird: map['is_early_bird'],
+      is_night_owl: map['is_night_owl'],
+      is_humming_bird: map['is_humming_bird'],
+      is_vegan: map['is_vegan'],
+      is_vegetarian: map['is_vegetarian'],
+      is_keto: map['is_keto'],
+      is_sattvik: map['is_sattvik'],
+      is_high_protien: map['is_high_protien'],
+      is_low_calorie: map['is_low_calorie'],
+      is_ambitious: map['is_ambitious'],
+      is_enviornmentalist: map['is_enviornmentalist'],
+      is_humanist: map['is_humanist'],
+      is_feminist: map['is_feminist'],
+      is_open_minded: map['is_open_minded'],
+      is_calm: map['is_calm'],
+      is_cheerful: map['is_cheerful'],
+      is_competitive: map['is_competitive'],
+      is_easy_going: map['is_easy_going'],
+      is_friendly: map['is_friendly'],
+      is_talkitive: map['is_talkitive'],
+      is_creative: map['is_creative'],
+      is_energetic: map['is_energetic'],
+      is_mindful: map['is_mindful'],
+      is_optimist: map['is_optimist'],
+      is_spiritual: map['is_spiritual'],
+      is_addiction_free: map['is_addiction_free'],
+    );
+  }
+
+  factory LifestyleProfile.fromSnapshot(DocumentSnapshot map) {
     if (map == null) return null;
 
     return LifestyleProfile(

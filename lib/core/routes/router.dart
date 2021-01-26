@@ -5,7 +5,9 @@ import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_page_loaded.dart';
 import 'package:sorted/features/FILES/presentation/pages/test_note.dart';
 import 'package:sorted/features/HOME/presentation/pages/affirmation_pv.dart';
+import 'package:sorted/features/HOME/presentation/pages/challenge_pv.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
+import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
 
 import 'package:sorted/features/ONBOARDING/presentation/pages/onboard_page.dart';
 import 'package:sorted/features/ONSTART/presentation/pages/start_page.dart';
@@ -81,4 +83,14 @@ class $Router {
     durationInMilliseconds: 200,
   )
   NotesHubPage notesHubPage;
+  @CustomRoute(
+    transitionsBuilder: TransitionsBuilders.fadeIn,
+    durationInMilliseconds: 200,
+  )
+  RootHome rootHome;
+  @CustomRoute(
+    transitionsBuilder: TransitionsBuilders.fadeIn,
+    durationInMilliseconds: 200,
+  )
+  ChallengePageView challengePageView;
 }

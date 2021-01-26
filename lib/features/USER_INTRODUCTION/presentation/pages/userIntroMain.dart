@@ -38,8 +38,6 @@ class _UserIntroState extends State<UserIntroPage>
 
     onboardBloc = sl<UserIntroductionBloc>();
 
-   
-
     print("UserIntroPage");
   }
 
@@ -47,37 +45,38 @@ class _UserIntroState extends State<UserIntroPage>
     return BlocProvider(
         create: (_) => onboardBloc..add(GetUserHistoryStatus()),
         child: BlocConsumer<UserIntroductionBloc, UserIntroductionState>(
-            buildWhen: (previous, current) => previous.props != current.props,
-            // ignore: missing_return
+          buildWhen: (previous, current) => previous.props != current.props,
+          // ignore: missing_return
 
-            builder: (context, state) {
-        print(state);
-        if (state is UserIntroductionInitial)
-          return Center(child: LoadingWidget());
-        else if (state is UserInteractionState) {
-          print("main " + state.progress.toString());
-          return InteractionPage(
-            oldState: state.oldState,
-            userDetail: state.userDetail,
-            progress: state.progress,
-          );
-        } else if (state is LoginState) {
-          return LoginPage(userDetail:state.userDetail,allActivities:state.allActivities,userActivities:state.userActivities,valid:state.valid,message:state.message);
-        }
-        else if (state is SuccessState) {
-          return OnSuccessWidget();
-        }
-            },
-            listener: (BuildContext context, UserIntroductionState state) {
-
-
-              if (state is SuccessState){
-                 Router.navigator.pop();
-                 Router.navigator.pushNamed(Router.homePage,
-                        arguments: SortedHomeArguments(title: "Home Page"));
-              }
-            },
-          ));
+          builder: (context, state) {
+            print(state);
+            if (state is UserIntroductionInitial)
+              return Center(child: LoadingWidget());
+            else if (state is UserInteractionState) {
+              print("main " + state.progress.toString());
+              return InteractionPage(
+                oldState: state.oldState,
+                userDetail: state.userDetail,
+                progress: state.progress,
+              );
+            } else if (state is LoginState) {
+              return LoginPage(
+                  userDetail: state.userDetail,
+                  allActivities: state.allActivities,
+                  userActivities: state.userActivities,
+                  valid: state.valid,
+                  message: state.message);
+            } else if (state is SuccessState) {
+              return OnSuccessWidget();
+            }
+          },
+          listener: (BuildContext context, UserIntroductionState state) {
+            if (state is SuccessState) {
+              Router.navigator.pop();
+              Router.navigator.pushNamed(Router.rootHome);
+            }
+          },
+        ));
   }
 
   @override

@@ -26,6 +26,7 @@ import 'package:sorted/features/HOME/data/datasources/home_remote_api_data_sourc
 import 'package:sorted/features/HOME/data/datasources/home_shared_pref_data_source.dart';
 import 'package:sorted/features/HOME/data/repositiries/home_repository_impl.dart';
 import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
+import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 
 import 'package:sorted/features/ONSTART/data/datasources/onstart_cloud_data_source.dart';
@@ -57,6 +58,12 @@ import 'package:sorted/features/PLAN/domain/repositories/todo_repository.dart';
 import 'package:sorted/features/PLAN/presentation/bloc/cover_change_bloc/cover_bloc.dart';
 import 'package:sorted/features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart';
 import 'package:sorted/features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart';
+import 'package:sorted/features/PROFILE/data/datasources/profile_cloud_data_source.dart';
+import 'package:sorted/features/PROFILE/data/datasources/profile_native_data_source.dart';
+import 'package:sorted/features/PROFILE/data/datasources/profile_shared_pref_data_source.dart';
+import 'package:sorted/features/PROFILE/data/repositories/profile_repository_impl.dart';
+import 'package:sorted/features/PROFILE/domain/repositories/profile_repository.dart';
+import 'package:sorted/features/PROFILE/presentation/bloc/profile_bloc.dart';
 import 'package:sorted/features/SETTINGS/data/datasources/settings_cloud_data_source.dart';
 import 'package:sorted/features/SETTINGS/data/datasources/settings_native_data_source.dart';
 import 'package:sorted/features/SETTINGS/data/datasources/settings_shared_pref_data_source.dart';
@@ -126,6 +133,14 @@ Future<void> init() async {
 
   sl.registerFactory(
     () => NoteBloc(sl(), sl()),
+  );
+
+  sl.registerFactory(
+    () => ProfileBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => AffirmationBloc(sl()),
   );
 
   //! Use cases
@@ -218,6 +233,15 @@ Future<void> init() async {
       sharedPref: sl(),
     ),
   );
+
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+      nativeDataSource: sl(),
+      localDataSource: sl(),
+    ),
+  );
   //! Data sources
   sl.registerLazySingleton<GoalNative>(
       () => GoalNativeDataSourceImpl(nativeDb: sl()));
@@ -225,6 +249,8 @@ Future<void> init() async {
       () => NoteNativeDataSourceImpl(nativeDb: sl()));
   sl.registerLazySingleton<TaskNative>(
       () => TaskNativeDataSourceImpl(nativeDb: sl()));
+  sl.registerLazySingleton<ProfileNative>(
+      () => ProfileNativeDataSourceImpl(nativeDb: sl()));
   sl.registerLazySingleton<TodoNative>(
       () => TodoNativeDataSourceImpl(nativeDb: sl()));
   sl.registerLazySingleton<AttachmentsNative>(
@@ -235,6 +261,8 @@ Future<void> init() async {
 
   sl.registerLazySingleton<GoalSharedPref>(
       () => GoalSharedPrefDataSourceImpl(sharedPreferences: sl()));
+  sl.registerLazySingleton<ProfileSharedPref>(
+      () => ProfileSharedPrefDataSourceImpl(sharedPreferences: sl()));
   sl.registerLazySingleton<TaskSharedPref>(
       () => TaskSharedPrefDataSourceImpl(sharedPreferences: sl()));
   sl.registerLazySingleton<NoteSharedPref>(
@@ -246,6 +274,8 @@ Future<void> init() async {
       () => GoalCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
   sl.registerLazySingleton<NoteCloud>(
       () => NoteCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
+  sl.registerLazySingleton<ProfileCloud>(() =>
+      ProfileCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
 
   sl.registerLazySingleton<TaskCloud>(
       () => TaskCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));

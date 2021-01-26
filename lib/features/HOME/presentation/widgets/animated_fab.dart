@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AnimatedFab extends StatefulWidget {
   final VoidCallback onClick;
@@ -48,10 +49,10 @@ class _AnimatedFabState extends State<AnimatedFab>
             children: <Widget>[
               _buildExpandedBackground(),
               _buildOption(Icons.timeline, 0.0),
-              _buildOption(Icons.flash_on, -math.pi / 4),
+              _buildOption(MdiIcons.postOutline, -math.pi / 4),
               _buildOption(Icons.done_outline, math.pi / 4),
-              _buildOption(Icons.monetization_on, math.pi / 2),
-              _buildOption(Icons.note, -math.pi / 2),
+              _buildOption(MdiIcons.cash100, math.pi / 2),
+              _buildOption(MdiIcons.fileDocumentEdit, -math.pi / 2),
               _buildFabCore(),
             ],
           );

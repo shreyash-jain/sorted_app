@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class PhysicalHealthProfile extends Equatable {
@@ -119,6 +120,32 @@ class PhysicalHealthProfile extends Equatable {
   }
 
   factory PhysicalHealthProfile.fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+
+    return PhysicalHealthProfile(
+      weight_kg: map['weight_kg'],
+      weight_unit: map['weight_unit'],
+      height_cm: map['height_cm'],
+      height_unit: map['height_unit'],
+      is_w_h_private: map['is_w_h_private'],
+      do_walk: map['do_walk'],
+      ride_cycle: map['ride_cycle'],
+      do_exercise: map['do_exercise'],
+      do_yoga: map['do_yoga'],
+      play_sports: map['play_sports'],
+      do_dance: map['do_dance'],
+      is_health_activity_private: map['is_health_activity_private'],
+      have_health_condition: map['have_health_condition'],
+      goal_stay_fit: map['goal_stay_fit'],
+      goal_gain_muscle: map['goal_gain_muscle'],
+      goal_loose_weight: map['goal_loose_weight'],
+      goal_get_more_active: map['goal_get_more_active'],
+      make_goal_private: map['make_goal_private'],
+      target_weight_kg: map['target_weight_kg'],
+    );
+  }
+
+  factory PhysicalHealthProfile.fromSnapshot(DocumentSnapshot map) {
     if (map == null) return null;
 
     return PhysicalHealthProfile(

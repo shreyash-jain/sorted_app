@@ -57,9 +57,8 @@ class _ProfileState extends State<ProfilePage>
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        elevation:2,
+        elevation: 2,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -85,7 +84,6 @@ class _ProfileState extends State<ProfilePage>
             ),
           ],
         ),
-        
       ),
       body: DefaultTabController(
         length: 3,
@@ -97,7 +95,6 @@ class _ProfileState extends State<ProfilePage>
                   BlocProvider(
                       create: (context) => bloc,
                       child: Container(
-                        
                         decoration: BoxDecoration(
                           color: Theme.of(context).scaffoldBackgroundColor,
                           borderRadius:
@@ -106,7 +103,6 @@ class _ProfileState extends State<ProfilePage>
                         child: Column(
                           children: <Widget>[
                             Container(
-                              
                                 margin: EdgeInsets.only(
                                     left: Gparam.widthPadding / 2),
                                 alignment: Alignment.center,
@@ -127,23 +123,19 @@ class _ProfileState extends State<ProfilePage>
                                           children: <Widget>[
                                             Hero(
                                                 tag: "DemoTag",
-                                                transitionOnUserGestures:
-                                                    true,
+                                                transitionOnUserGestures: true,
                                                 child: Padding(
-                                                  padding:
-                                                      EdgeInsets.only(
-                                                          right: 0,
-                                                          bottom: 0),
+                                                  padding: EdgeInsets.only(
+                                                      right: 0, bottom: 0),
                                                   child: Stack(
                                                     children: <Widget>[
                                                       ClipRRect(
-                                                        borderRadius: BorderRadius
-                                                            .all(Radius
-                                                                .circular(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
                                                                     16)),
                                                         child: Image(
-                                                          image:
-                                                              NetworkImage(
+                                                          image: NetworkImage(
                                                             "https://lh3.googleusercontent.com/-zWKfKmIX5nQ/YAqy9xUKSzI/AAAAAAAAur0/R5NLZjI-sagwMXt029xu4jc6Ch2ir7AawCEwYBhgLKtQDAL1OcqyUJu0SrbcXZ5R78z8MImj71HIH5PXCXpw4lX3goXCPju_yiEmASXIATZ0oLt20pWM2p0jnd1Co5mNdq85SlvPQuxmU0DmKnMF-qPepBvuNE9XUjVzpdA8X7rFDhfu5nSBdGRdTIuL7_C2L9B9eHUCDVElVN9BqhnQtFqN_nX2mjPpNb-RqmdmqtJxahgeKZFzBgFG8YS-x3bDRATlJ3SaW0rvh9WPYRaEwyhErVmqrX0Hj0HochEH-JbnecGhF9ohTWZiS1KfJH71Ufvz3GsKYnpl6bYWFnI8qQVPe0Phj8-C6vzmVBMYEFIpsQdXhgg0nWx8NGuV3ckMXU5CPtZFW3-yYSLBV0DvzEjau4jiPyeyft60b3LfpGdD6u72pvHaco6LqxF0NAvHoBQ1mVuZchQWqqhighhfV-s__t9DKI5D4PNMgM_covknydDkVQHAE5YZSMQ891NcNDT-ux0HAqtimSGtc4Zffha39jbqCw20InZ3TgD9mIKDN_tXHB4BGYhEYQGpDL6m3zrwHCIwLN0cl6lubR_YL9qaMTzeq0ZbEeMDQCa5jY-fJQG_MvtnpSgplVoJb8VWj7dRvjBqFTkoNCRulGSMs-ldyZGn0MKSet4AG/w140-h140-p/2021-01-22.jpg",
                                                           ),
                                                           height: 80,
@@ -158,47 +150,45 @@ class _ProfileState extends State<ProfilePage>
                                             ),
                                             Row(
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .center,
+                                                  CrossAxisAlignment.center,
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: <Widget>[
+                                                Icon(
+                                                  MdiIcons.starCircle,
+                                                  size: 16,
+                                                ),
+                                                SizedBox(
+                                                  width: 3,
+                                                ),
                                                 Text(
                                                   "Level",
                                                   style: TextStyle(
-                                                      fontFamily:
-                                                          'Montserrat',
+                                                      fontFamily: 'Montserrat',
                                                       fontSize: 12.0,
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      color: Theme.of(
-                                                              context)
+                                                      color: Theme.of(context)
                                                           .highlightColor),
-                                                  textAlign:
-                                                      TextAlign.left,
+                                                  textAlign: TextAlign.left,
                                                 ),
                                                 Container(
-                                                  padding:
-                                                      EdgeInsets.all(4),
-                                                  decoration:
-                                                      BoxDecoration(
+                                                  padding: EdgeInsets.all(4),
+                                                  decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                            Radius
-                                                                .circular(
-                                                                    30)),
+                                                            Radius.circular(
+                                                                30)),
                                                   ),
                                                   child: Text(
                                                     "3",
                                                     style: TextStyle(
-                                                      fontFamily:
-                                                          'Montserrat',
+                                                      fontFamily: 'Montserrat',
                                                       fontSize: 14.0,
                                                       fontWeight:
                                                           FontWeight.w800,
                                                     ),
-                                                    textAlign:
-                                                        TextAlign.center,
+                                                    textAlign: TextAlign.center,
                                                   ),
                                                 ),
                                               ],
@@ -221,19 +211,16 @@ class _ProfileState extends State<ProfilePage>
                                                         CrossAxisAlignment
                                                             .center,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Row(
-                                                        children: <
-                                                            Widget>[
+                                                        children: <Widget>[
                                                           Text(
                                                             "Tracks",
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Montserrat',
-                                                                fontSize:
-                                                                    12.0,
+                                                                fontSize: 12.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
@@ -241,37 +228,32 @@ class _ProfileState extends State<ProfilePage>
                                                                         context)
                                                                     .highlightColor),
                                                             textAlign:
-                                                                TextAlign
-                                                                    .left,
+                                                                TextAlign.left,
                                                           ),
                                                         ],
                                                       ),
                                                       Container(
                                                         padding:
-                                                            EdgeInsets
-                                                                .all(4),
+                                                            EdgeInsets.all(4),
                                                         decoration:
                                                             BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(
-                                                                      30)),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
                                                         ),
                                                         child: Text(
                                                           "5",
-                                                          style:
-                                                              TextStyle(
+                                                          style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
-                                                            fontSize:
-                                                                14.0,
+                                                            fontSize: 14.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w800,
+                                                                FontWeight.w800,
                                                           ),
                                                           textAlign:
-                                                              TextAlign
-                                                                  .center,
+                                                              TextAlign.center,
                                                         ),
                                                       ),
                                                     ],
@@ -281,52 +263,44 @@ class _ProfileState extends State<ProfilePage>
                                                         CrossAxisAlignment
                                                             .center,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Text(
                                                         "Score",
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
-                                                            fontSize:
-                                                                12.0,
+                                                            fontSize: 12.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w400,
+                                                                FontWeight.w400,
                                                             color: Theme.of(
                                                                     context)
                                                                 .highlightColor),
                                                         textAlign:
-                                                            TextAlign
-                                                                .left,
+                                                            TextAlign.left,
                                                       ),
                                                       Container(
                                                         padding:
-                                                            EdgeInsets
-                                                                .all(4),
+                                                            EdgeInsets.all(4),
                                                         decoration:
                                                             BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(
-                                                                      30)),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
                                                         ),
                                                         child: Text(
                                                           "48",
-                                                          style:
-                                                              TextStyle(
+                                                          style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
-                                                            fontSize:
-                                                                14.0,
+                                                            fontSize: 14.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w800,
+                                                                FontWeight.w800,
                                                           ),
                                                           textAlign:
-                                                              TextAlign
-                                                                  .center,
+                                                              TextAlign.center,
                                                         ),
                                                       ),
                                                     ],
@@ -336,52 +310,44 @@ class _ProfileState extends State<ProfilePage>
                                                         CrossAxisAlignment
                                                             .center,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Text(
                                                         "Fit buddies",
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
-                                                            fontSize:
-                                                                12.0,
+                                                            fontSize: 12.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w400,
+                                                                FontWeight.w400,
                                                             color: Theme.of(
                                                                     context)
                                                                 .highlightColor),
                                                         textAlign:
-                                                            TextAlign
-                                                                .left,
+                                                            TextAlign.left,
                                                       ),
                                                       Container(
                                                         padding:
-                                                            EdgeInsets
-                                                                .all(4),
+                                                            EdgeInsets.all(4),
                                                         decoration:
                                                             BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(
-                                                                      30)),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
                                                         ),
                                                         child: Text(
                                                           "5",
-                                                          style:
-                                                              TextStyle(
+                                                          style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
-                                                            fontSize:
-                                                                14.0,
+                                                            fontSize: 14.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w800,
+                                                                FontWeight.w800,
                                                           ),
                                                           textAlign:
-                                                              TextAlign
-                                                                  .center,
+                                                              TextAlign.center,
                                                         ),
                                                       ),
                                                     ],
@@ -393,21 +359,20 @@ class _ProfileState extends State<ProfilePage>
                                               ),
                                               CustomThreeLinearProgressBar(
                                                 radius: (Gparam.width -
-                                                        80 -
+                                                        100 -
                                                         Gparam.widthPadding /
                                                             2) /
                                                     2.6,
                                                 ringColor:
-                                                    Colors.blueAccent,
-                                                dotRadius: 20,
-                                                shadowWidth: 2.0,
+                                                    Color(0xFF63056e),
+                                                dotRadius: 40,
+                                                shadowWidth: 4.0,
                                                 progress1: .1,
                                                 progress2: .3,
                                                 progress3: .4,
                                                 shadowColor:
-                                                    Color(0xFF63056e),
-                                                dotColor:
                                                     Colors.greenAccent,
+                                                dotColor: Colors.blueAccent,
                                               ),
                                               SizedBox(
                                                 height: 6,
@@ -422,15 +387,13 @@ class _ProfileState extends State<ProfilePage>
                                                         CrossAxisAlignment
                                                             .center,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Container(
                                                         padding:
-                                                            EdgeInsets
-                                                                .all(4),
-                                                        margin: EdgeInsets
-                                                            .all(4),
+                                                            EdgeInsets.all(4),
+                                                        margin:
+                                                            EdgeInsets.all(4),
                                                         decoration:
                                                             BoxDecoration(
                                                           border: Border.all(
@@ -441,37 +404,32 @@ class _ProfileState extends State<ProfilePage>
                                                           color: Theme.of(
                                                                   context)
                                                               .highlightColor
-                                                              .withAlpha(
-                                                                  20),
-                                                          borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(
-                                                                      30)),
+                                                              .withAlpha(20),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
                                                         ),
                                                         child: Text(
                                                           "+5 %",
-                                                          style:
-                                                              TextStyle(
+                                                          style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
                                                             fontSize: 12,
-                                                            color: Colors
-                                                                .green,
+                                                            color: Colors.green,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w800,
+                                                                FontWeight.w800,
                                                           ),
                                                           textAlign:
-                                                              TextAlign
-                                                                  .center,
+                                                              TextAlign.center,
                                                         ),
                                                       ),
                                                       SizedBox(
                                                         height: 3,
                                                       ),
                                                       Row(
-                                                        children: <
-                                                            Widget>[
+                                                        children: <Widget>[
                                                           Container(
                                                             height: 8,
                                                             width: 8,
@@ -484,22 +442,25 @@ class _ProfileState extends State<ProfilePage>
                                                                       .black
                                                                       .withOpacity(
                                                                           .03),
-                                                                  width:
-                                                                      2),
+                                                                  width: 2),
                                                               boxShadow: [
                                                                 BoxShadow(
-                                                                    offset: Offset(
-                                                                        1,
-                                                                        1),
-                                                                    color: Colors.black.withAlpha(
-                                                                        10),
+                                                                    offset:
+                                                                        Offset(
+                                                                            1,
+                                                                            1),
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withAlpha(
+                                                                            10),
                                                                     blurRadius:
                                                                         2)
                                                               ],
-                                                              borderRadius: new BorderRadius
-                                                                      .all(
-                                                                  Radius.circular(
-                                                                      12.0)),
+                                                              borderRadius:
+                                                                  new BorderRadius
+                                                                          .all(
+                                                                      Radius.circular(
+                                                                          12.0)),
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -510,8 +471,7 @@ class _ProfileState extends State<ProfilePage>
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Montserrat',
-                                                                fontSize:
-                                                                    12.0,
+                                                                fontSize: 12.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
@@ -519,8 +479,7 @@ class _ProfileState extends State<ProfilePage>
                                                                         context)
                                                                     .highlightColor),
                                                             textAlign:
-                                                                TextAlign
-                                                                    .left,
+                                                                TextAlign.left,
                                                           ),
                                                         ],
                                                       ),
@@ -531,15 +490,13 @@ class _ProfileState extends State<ProfilePage>
                                                         CrossAxisAlignment
                                                             .center,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Container(
                                                         padding:
-                                                            EdgeInsets
-                                                                .all(4),
-                                                        margin: EdgeInsets
-                                                            .all(4),
+                                                            EdgeInsets.all(4),
+                                                        margin:
+                                                            EdgeInsets.all(4),
                                                         decoration:
                                                             BoxDecoration(
                                                           border: Border.all(
@@ -550,37 +507,32 @@ class _ProfileState extends State<ProfilePage>
                                                           color: Theme.of(
                                                                   context)
                                                               .highlightColor
-                                                              .withAlpha(
-                                                                  20),
-                                                          borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(
-                                                                      30)),
+                                                              .withAlpha(20),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
                                                         ),
                                                         child: Text(
                                                           "+15 %",
-                                                          style:
-                                                              TextStyle(
+                                                          style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
                                                             fontSize: 12,
-                                                            color: Colors
-                                                                .green,
+                                                            color: Colors.green,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w800,
+                                                                FontWeight.w800,
                                                           ),
                                                           textAlign:
-                                                              TextAlign
-                                                                  .center,
+                                                              TextAlign.center,
                                                         ),
                                                       ),
                                                       SizedBox(
                                                         height: 3,
                                                       ),
                                                       Row(
-                                                        children: <
-                                                            Widget>[
+                                                        children: <Widget>[
                                                           Container(
                                                             height: 8,
                                                             width: 8,
@@ -593,22 +545,25 @@ class _ProfileState extends State<ProfilePage>
                                                                       .black
                                                                       .withOpacity(
                                                                           .03),
-                                                                  width:
-                                                                      2),
+                                                                  width: 2),
                                                               boxShadow: [
                                                                 BoxShadow(
-                                                                    offset: Offset(
-                                                                        1,
-                                                                        1),
-                                                                    color: Colors.black.withAlpha(
-                                                                        10),
+                                                                    offset:
+                                                                        Offset(
+                                                                            1,
+                                                                            1),
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withAlpha(
+                                                                            10),
                                                                     blurRadius:
                                                                         2)
                                                               ],
-                                                              borderRadius: new BorderRadius
-                                                                      .all(
-                                                                  Radius.circular(
-                                                                      12.0)),
+                                                              borderRadius:
+                                                                  new BorderRadius
+                                                                          .all(
+                                                                      Radius.circular(
+                                                                          12.0)),
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -619,8 +574,7 @@ class _ProfileState extends State<ProfilePage>
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Montserrat',
-                                                                fontSize:
-                                                                    12.0,
+                                                                fontSize: 12.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
@@ -628,8 +582,7 @@ class _ProfileState extends State<ProfilePage>
                                                                         context)
                                                                     .highlightColor),
                                                             textAlign:
-                                                                TextAlign
-                                                                    .left,
+                                                                TextAlign.left,
                                                           ),
                                                         ],
                                                       ),
@@ -640,15 +593,13 @@ class _ProfileState extends State<ProfilePage>
                                                         CrossAxisAlignment
                                                             .center,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Container(
                                                         padding:
-                                                            EdgeInsets
-                                                                .all(4),
-                                                        margin: EdgeInsets
-                                                            .all(4),
+                                                            EdgeInsets.all(4),
+                                                        margin:
+                                                            EdgeInsets.all(4),
                                                         decoration:
                                                             BoxDecoration(
                                                           border: Border.all(
@@ -659,37 +610,32 @@ class _ProfileState extends State<ProfilePage>
                                                           color: Theme.of(
                                                                   context)
                                                               .highlightColor
-                                                              .withAlpha(
-                                                                  20),
-                                                          borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(
-                                                                      30)),
+                                                              .withAlpha(20),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
                                                         ),
                                                         child: Text(
                                                           "-13 %",
-                                                          style:
-                                                              TextStyle(
+                                                          style: TextStyle(
                                                             fontFamily:
                                                                 'Montserrat',
                                                             fontSize: 12,
-                                                            color: Colors
-                                                                .red,
+                                                            color: Colors.red,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w800,
+                                                                FontWeight.w800,
                                                           ),
                                                           textAlign:
-                                                              TextAlign
-                                                                  .center,
+                                                              TextAlign.center,
                                                         ),
                                                       ),
                                                       SizedBox(
                                                         height: 3,
                                                       ),
                                                       Row(
-                                                        children: <
-                                                            Widget>[
+                                                        children: <Widget>[
                                                           Container(
                                                             height: 8,
                                                             width: 8,
@@ -702,22 +648,25 @@ class _ProfileState extends State<ProfilePage>
                                                                       .black
                                                                       .withOpacity(
                                                                           .03),
-                                                                  width:
-                                                                      2),
+                                                                  width: 2),
                                                               boxShadow: [
                                                                 BoxShadow(
-                                                                    offset: Offset(
-                                                                        1,
-                                                                        1),
-                                                                    color: Colors.black.withAlpha(
-                                                                        10),
+                                                                    offset:
+                                                                        Offset(
+                                                                            1,
+                                                                            1),
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withAlpha(
+                                                                            10),
                                                                     blurRadius:
                                                                         2)
                                                               ],
-                                                              borderRadius: new BorderRadius
-                                                                      .all(
-                                                                  Radius.circular(
-                                                                      12.0)),
+                                                              borderRadius:
+                                                                  new BorderRadius
+                                                                          .all(
+                                                                      Radius.circular(
+                                                                          12.0)),
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -728,8 +677,7 @@ class _ProfileState extends State<ProfilePage>
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Montserrat',
-                                                                fontSize:
-                                                                    12.0,
+                                                                fontSize: 12.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
@@ -737,8 +685,7 @@ class _ProfileState extends State<ProfilePage>
                                                                         context)
                                                                     .highlightColor),
                                                             textAlign:
-                                                                TextAlign
-                                                                    .left,
+                                                                TextAlign.left,
                                                           ),
                                                         ],
                                                       ),
@@ -762,8 +709,7 @@ class _ProfileState extends State<ProfilePage>
                             Padding(
                               padding: EdgeInsets.only(left: 0),
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
                                     height: 8,
@@ -777,8 +723,8 @@ class _ProfileState extends State<ProfilePage>
                                           fontFamily: 'Montserrat',
                                           fontSize: Gparam.textVerySmall,
                                           fontWeight: FontWeight.w500,
-                                          color: Theme.of(context)
-                                              .highlightColor),
+                                          color:
+                                              Theme.of(context).highlightColor),
                                       textAlign: TextAlign.left,
                                     ),
                                   ),
@@ -794,8 +740,8 @@ class _ProfileState extends State<ProfilePage>
                                           fontFamily: 'Montserrat',
                                           fontSize: Gparam.textVerySmall,
                                           fontWeight: FontWeight.w300,
-                                          color: Theme.of(context)
-                                              .highlightColor),
+                                          color:
+                                              Theme.of(context).highlightColor),
                                       textAlign: TextAlign.left,
                                     ),
                                   ),
@@ -811,17 +757,15 @@ class _ProfileState extends State<ProfilePage>
                                           children: [
                                             Container(
                                               padding: EdgeInsets.only(
-                                                  left: Gparam
-                                                          .widthPadding /
-                                                      2),
+                                                  left:
+                                                      Gparam.widthPadding / 2),
                                               height: 20,
                                               child: ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
-                                                itemCount: state
-                                                        .foodStrings
-                                                        .length +
-                                                    1,
+                                                itemCount:
+                                                    state.foodStrings.length +
+                                                        1,
                                                 shrinkWrap: true,
                                                 itemBuilder:
                                                     (BuildContext context,
@@ -854,8 +798,7 @@ class _ProfileState extends State<ProfilePage>
                                             ),
                                             Container(
                                                 padding: EdgeInsets.only(
-                                                    left: Gparam
-                                                            .widthPadding /
+                                                    left: Gparam.widthPadding /
                                                         2),
                                                 height: 20,
                                                 child: GestureDetector(
@@ -875,8 +818,7 @@ class _ProfileState extends State<ProfilePage>
                                                           width: 8,
                                                         ),
                                                         Text(
-                                                          state
-                                                              .sleepString,
+                                                          state.sleepString,
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'Montserrat',
@@ -898,9 +840,8 @@ class _ProfileState extends State<ProfilePage>
                                             Container(
                                               height: 24,
                                               padding: EdgeInsets.only(
-                                                  left: Gparam
-                                                          .widthPadding /
-                                                      2),
+                                                  left:
+                                                      Gparam.widthPadding / 2),
                                               child: ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
@@ -943,15 +884,13 @@ class _ProfileState extends State<ProfilePage>
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  left: Gparam
-                                                          .widthPadding /
-                                                      2),
+                                                  left:
+                                                      Gparam.widthPadding / 2),
                                               child: Row(
                                                 children: [
                                                   Icon(
                                                     MdiIcons.run,
-                                                    color:
-                                                        Color(0xFF307df0),
+                                                    color: Color(0xFF307df0),
                                                   ),
                                                   SizedBox(
                                                     width: 8,
@@ -959,27 +898,25 @@ class _ProfileState extends State<ProfilePage>
                                                   Container(
                                                     width: 2,
                                                     height: 60,
-                                                    color:
-                                                        Color(0xFF307df0),
+                                                    color: Color(0xFF307df0),
                                                   ),
                                                   Expanded(
                                                     child: Container(
-                                                      padding:
-                                                          EdgeInsets.only(
-                                                              top: 0,
-                                                              bottom: 0),
+                                                      padding: EdgeInsets.only(
+                                                          top: 0, bottom: 0),
                                                       child: Column(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
                                                           Padding(
-                                                            padding: EdgeInsets.symmetric(
-                                                                horizontal:
-                                                                    Gparam.widthPadding /
-                                                                        2,
-                                                                vertical:
-                                                                    4),
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        Gparam.widthPadding /
+                                                                            2,
+                                                                    vertical:
+                                                                        4),
                                                             child: Row(
                                                               children: [
                                                                 Text(
@@ -988,24 +925,38 @@ class _ProfileState extends State<ProfilePage>
                                                                       fontFamily:
                                                                           'Montserrat',
                                                                       fontSize:
-                                                                          Gparam.textVerySmall,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Theme.of(context).highlightColor),
+                                                                          Gparam
+                                                                              .textVerySmall,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .highlightColor),
                                                                   textAlign:
-                                                                      TextAlign.left,
+                                                                      TextAlign
+                                                                          .left,
                                                                 ),
                                                                 Text(
                                                                   " " +
-                                                                      state.bmi.toStringAsPrecision(3),
+                                                                      state.bmi
+                                                                          .toStringAsPrecision(
+                                                                              3),
                                                                   style: TextStyle(
                                                                       fontFamily:
                                                                           'Montserrat',
                                                                       fontSize:
-                                                                          Gparam.textVerySmall,
-                                                                      fontWeight: FontWeight.w800,
-                                                                      color: Theme.of(context).highlightColor),
+                                                                          Gparam
+                                                                              .textVerySmall,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .highlightColor),
                                                                   textAlign:
-                                                                      TextAlign.left,
+                                                                      TextAlign
+                                                                          .left,
                                                                 ),
                                                               ],
                                                             ),
@@ -1020,8 +971,7 @@ class _ProfileState extends State<ProfilePage>
                                                                       .fitnessStrings
                                                                       .length +
                                                                   1,
-                                                              shrinkWrap:
-                                                                  true,
+                                                              shrinkWrap: true,
                                                               itemBuilder:
                                                                   (BuildContext
                                                                           context,
@@ -1030,7 +980,8 @@ class _ProfileState extends State<ProfilePage>
                                                                     0) {
                                                                   return SizedBox(
                                                                       width:
-                                                                          Gparam.widthPadding / 3);
+                                                                          Gparam.widthPadding /
+                                                                              3);
                                                                 }
 
                                                                 return stringTile(
@@ -1050,15 +1001,13 @@ class _ProfileState extends State<ProfilePage>
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  left: Gparam
-                                                          .widthPadding /
-                                                      2),
+                                                  left:
+                                                      Gparam.widthPadding / 2),
                                               child: Row(
                                                 children: [
                                                   Icon(
                                                     MdiIcons.meditation,
-                                                    color:
-                                                        Color(0xFF0ec76a),
+                                                    color: Color(0xFF0ec76a),
                                                   ),
                                                   SizedBox(
                                                     width: 8,
@@ -1066,27 +1015,25 @@ class _ProfileState extends State<ProfilePage>
                                                   Container(
                                                     width: 2,
                                                     height: 60,
-                                                    color:
-                                                        Color(0xFF0ec76a),
+                                                    color: Color(0xFF0ec76a),
                                                   ),
                                                   Expanded(
                                                     child: Container(
-                                                      padding:
-                                                          EdgeInsets.only(
-                                                              top: 0,
-                                                              bottom: 0),
+                                                      padding: EdgeInsets.only(
+                                                          top: 0, bottom: 0),
                                                       child: Column(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
                                                           Padding(
-                                                            padding: EdgeInsets.symmetric(
-                                                                horizontal:
-                                                                    Gparam.widthPadding /
-                                                                        2,
-                                                                vertical:
-                                                                    4),
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        Gparam.widthPadding /
+                                                                            2,
+                                                                    vertical:
+                                                                        4),
                                                             child: Row(
                                                               children: [
                                                                 Text(
@@ -1095,24 +1042,39 @@ class _ProfileState extends State<ProfilePage>
                                                                       fontFamily:
                                                                           'Montserrat',
                                                                       fontSize:
-                                                                          Gparam.textVerySmall,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Theme.of(context).highlightColor),
+                                                                          Gparam
+                                                                              .textVerySmall,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .highlightColor),
                                                                   textAlign:
-                                                                      TextAlign.left,
+                                                                      TextAlign
+                                                                          .left,
                                                                 ),
                                                                 Text(
                                                                   " " +
-                                                                      state.mentalHealthScore.toStringAsPrecision(3),
+                                                                      state
+                                                                          .mentalHealthScore
+                                                                          .toStringAsPrecision(
+                                                                              3),
                                                                   style: TextStyle(
                                                                       fontFamily:
                                                                           'Montserrat',
                                                                       fontSize:
-                                                                          Gparam.textVerySmall,
-                                                                      fontWeight: FontWeight.w800,
-                                                                      color: Theme.of(context).highlightColor),
+                                                                          Gparam
+                                                                              .textVerySmall,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .highlightColor),
                                                                   textAlign:
-                                                                      TextAlign.left,
+                                                                      TextAlign
+                                                                          .left,
                                                                 ),
                                                               ],
                                                             ),
@@ -1127,8 +1089,7 @@ class _ProfileState extends State<ProfilePage>
                                                                       .mindfulStrings
                                                                       .length +
                                                                   1,
-                                                              shrinkWrap:
-                                                                  true,
+                                                              shrinkWrap: true,
                                                               itemBuilder:
                                                                   (BuildContext
                                                                           context,
@@ -1137,7 +1098,8 @@ class _ProfileState extends State<ProfilePage>
                                                                     0) {
                                                                   return SizedBox(
                                                                       width:
-                                                                          Gparam.widthPadding / 3);
+                                                                          Gparam.widthPadding /
+                                                                              3);
                                                                 }
 
                                                                 return stringTile(
@@ -1157,15 +1119,13 @@ class _ProfileState extends State<ProfilePage>
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  left: Gparam
-                                                          .widthPadding /
-                                                      2),
+                                                  left:
+                                                      Gparam.widthPadding / 2),
                                               child: Row(
                                                 children: [
                                                   Icon(
                                                     MdiIcons.headFlash,
-                                                    color:
-                                                        Color(0xFF63056e),
+                                                    color: Color(0xFF63056e),
                                                   ),
                                                   SizedBox(
                                                     width: 8,
@@ -1173,27 +1133,25 @@ class _ProfileState extends State<ProfilePage>
                                                   Container(
                                                     width: 2,
                                                     height: 60,
-                                                    color:
-                                                        Color(0xFF63056e),
+                                                    color: Color(0xFF63056e),
                                                   ),
                                                   Expanded(
                                                     child: Container(
-                                                      padding:
-                                                          EdgeInsets.only(
-                                                              top: 0,
-                                                              bottom: 0),
+                                                      padding: EdgeInsets.only(
+                                                          top: 0, bottom: 0),
                                                       child: Column(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
                                                           Padding(
-                                                            padding: EdgeInsets.symmetric(
-                                                                horizontal:
-                                                                    Gparam.widthPadding /
-                                                                        2,
-                                                                vertical:
-                                                                    4),
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        Gparam.widthPadding /
+                                                                            2,
+                                                                    vertical:
+                                                                        4),
                                                             child: Row(
                                                               children: [
                                                                 Text(
@@ -1202,24 +1160,39 @@ class _ProfileState extends State<ProfilePage>
                                                                       fontFamily:
                                                                           'Montserrat',
                                                                       fontSize:
-                                                                          Gparam.textVerySmall,
-                                                                      fontWeight: FontWeight.w500,
-                                                                      color: Theme.of(context).highlightColor),
+                                                                          Gparam
+                                                                              .textVerySmall,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .highlightColor),
                                                                   textAlign:
-                                                                      TextAlign.left,
+                                                                      TextAlign
+                                                                          .left,
                                                                 ),
                                                                 Text(
                                                                   " " +
-                                                                      state.productivityScore.toStringAsPrecision(3),
+                                                                      state
+                                                                          .productivityScore
+                                                                          .toStringAsPrecision(
+                                                                              3),
                                                                   style: TextStyle(
                                                                       fontFamily:
                                                                           'Montserrat',
                                                                       fontSize:
-                                                                          Gparam.textVerySmall,
-                                                                      fontWeight: FontWeight.w800,
-                                                                      color: Theme.of(context).highlightColor),
+                                                                          Gparam
+                                                                              .textVerySmall,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .highlightColor),
                                                                   textAlign:
-                                                                      TextAlign.left,
+                                                                      TextAlign
+                                                                          .left,
                                                                 ),
                                                               ],
                                                             ),
@@ -1234,8 +1207,7 @@ class _ProfileState extends State<ProfilePage>
                                                                       .productivityStrings
                                                                       .length +
                                                                   1,
-                                                              shrinkWrap:
-                                                                  true,
+                                                              shrinkWrap: true,
                                                               itemBuilder:
                                                                   (BuildContext
                                                                           context,
@@ -1244,7 +1216,8 @@ class _ProfileState extends State<ProfilePage>
                                                                     0) {
                                                                   return SizedBox(
                                                                       width:
-                                                                          Gparam.widthPadding / 3);
+                                                                          Gparam.widthPadding /
+                                                                              3);
                                                                 }
 
                                                                 return stringTile(
@@ -1286,58 +1259,57 @@ class _ProfileState extends State<ProfilePage>
                 primary: false, // no reserve space for status bar
                 toolbarHeight: 0, // title height = 0
                 bottom: TabBar(
-                indicatorWeight: 1,
-                controller: tab_controller,
-                indicatorColor: Theme.of(context).highlightColor,
-                tabs: [
-                  Tab(
-                    icon: Icon(
-                      Icons.timeline,
-                      color: Theme.of(context).highlightColor,
+                  indicatorWeight: 1,
+                  controller: tab_controller,
+                  indicatorColor: Theme.of(context).highlightColor,
+                  tabs: [
+                    Tab(
+                      icon: Icon(
+                        Icons.timeline,
+                        color: Theme.of(context).highlightColor,
+                      ),
+                      child: Text(
+                        "Tracks",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: Gparam.textVerySmall,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).highlightColor),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                    child: Text(
-                      "Tracks",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: Gparam.textVerySmall,
-                          fontWeight: FontWeight.w800,
-                          color: Theme.of(context).highlightColor),
-                      textAlign: TextAlign.left,
+                    Tab(
+                      icon: Icon(
+                        MdiIcons.postOutline,
+                        color: Theme.of(context).highlightColor,
+                      ),
+                      child: Text(
+                        "Posts",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: Gparam.textVerySmall,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).highlightColor),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                  Tab(
-                    icon: Icon(
-                      MdiIcons.postOutline,
-                      color: Theme.of(context).highlightColor,
+                    Tab(
+                      icon: Icon(
+                        MdiIcons.timelineTextOutline,
+                        color: Theme.of(context).highlightColor,
+                      ),
+                      child: Text(
+                        "Journal",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: Gparam.textVerySmall,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).highlightColor),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                    child: Text(
-                      "Posts",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: Gparam.textVerySmall,
-                          fontWeight: FontWeight.w800,
-                          color: Theme.of(context).highlightColor),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Tab(
-                    icon: Icon(
-                      MdiIcons.timelineTextOutline,
-                      color: Theme.of(context).highlightColor,
-                    ),
-                    child: Text(
-                      "Journal",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: Gparam.textVerySmall,
-                          fontWeight: FontWeight.w800,
-                          color: Theme.of(context).highlightColor),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
-              ),
-
+                  ],
+                ),
               )
             ];
           },
@@ -1357,7 +1329,7 @@ class _ProfileState extends State<ProfilePage>
                   return Container(color: color, height: 150.0);
                 }).toList(),
               ),
-               GridView.count(
+              GridView.count(
                 padding: EdgeInsets.zero,
                 crossAxisCount: 3,
                 children: Colors.primaries.map((color) {

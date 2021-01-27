@@ -271,48 +271,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                       )),
                                                   Stack(
                                                     children: [
-                                                      Container(
-                                                        color: Theme.of(context)
-                                                            .scaffoldBackgroundColor
-                                                            .withOpacity(.7),
-                                                        child: RichText(
-                                                          text: TextSpan(
-                                                            text: 'Plan',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Montserrat',
-                                                                fontSize: Gparam
-                                                                    .textVerySmall,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .highlightColor
-                                                                    .withOpacity(
-                                                                        .8)),
-                                                            children: <
-                                                                TextSpan>[
-                                                              TextSpan(
-                                                                  text:
-                                                                      '\nToday',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontFamily:
-                                                                        "Montserrat",
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .highlightColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: Gparam
-                                                                        .textVerySmall,
-                                                                  )),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
+                                                     
                                                     ],
                                                   ),
                                                 ],

@@ -119,7 +119,7 @@ class ProgressPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..color = Colors.grey.withAlpha(60)
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = (6);
+      ..strokeWidth = (14);
     canvas.drawLine(Offset(0, 0), Offset(size.width, 0), ringPaint);
 
     final Color currentDotColor = Color.alphaBlend(dotColor, dotColor);
@@ -151,21 +151,21 @@ class ProgressPainter extends CustomPainter {
         final progressPaint1 = Paint()
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
-          ..strokeWidth = 6
+          ..strokeWidth = 8
           ..shader = gradient1.createShader(arcRect);
         canvas.drawLine(
             Offset(0, 0), Offset(size.width * progress1, 0), progressPaint1);
         final progressPaint2 = Paint()
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
-          ..strokeWidth = 6
+          ..strokeWidth = 8
           ..shader = gradient2.createShader(arcRect);
         canvas.drawLine(Offset(size.width * progress1, 0),
             Offset(size.width * progress2, 0), progressPaint2);
         final progressPaint3 = Paint()
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
-          ..strokeWidth = 6
+          ..strokeWidth = 8
           ..color = ringColor;
         canvas.drawLine(Offset(size.width * progress2, 0),
             Offset(size.width * progress3, 0), progressPaint3);

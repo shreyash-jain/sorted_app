@@ -23,4 +23,4 @@ const double marginBottom = circleSize / 2;
 const double marginTop = 26.0;
 const double selectedLabelFontSize = 18.0;
 const double labelsFontSize = 13.0;
-const Color labelsGrey = const Color.fromRGBO(255, 255, 255, 1.0);
+const Color labelsGrey = const Color.fromRGBO(0, 0, 0, 1.0);

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:sorted/core/error/failures.dart';
+import 'package:sorted_younes/core/error/failures.dart';
 
 
 

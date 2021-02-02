@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sorted/features/HOME/data/models/affirmation.dart';
-import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 
 class AffirmationPV extends StatefulWidget {
   const AffirmationPV({Key key})

@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted_younes/core/global/injection_container.dart';
 import 'package:meta/meta.dart';
 
 abstract class SharedPrefHelper {

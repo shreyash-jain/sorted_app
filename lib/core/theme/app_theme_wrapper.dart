@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sorted/core/global/injection_container.dart';
-import 'package:sorted/core/theme/theme.dart';
+import 'package:sorted_younes/core/global/injection_container.dart';
+import 'package:sorted_younes/core/theme/theme.dart';
 
 final _themeGlobalKey = new GlobalKey(debugLabel: 'app_theme');
 

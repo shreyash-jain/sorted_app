@@ -46,10 +46,10 @@ abstract class AttachmentsCloud {
 }
 
 class AttachmentCloudDataSourceImpl implements AttachmentsCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
-  final StorageReference cloudStorage;
+  final Reference cloudStorage;
   Batch batch;
 
   AttachmentCloudDataSourceImpl(
@@ -62,17 +62,17 @@ class AttachmentCloudDataSourceImpl implements AttachmentsCloud {
   Future<ImageModel> storeImage(
       File imageFile, String directory, ImageModel image) async {
     DateTime now = DateTime.now();
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     image = image.copyWith(savedTs: now);
     String storagePath =
         'uploads/${user.uid}/$directory/${p.basename(image.localPath)}';
     image = image.copyWith(storagePath: storagePath);
 
-    StorageReference firebaseStorageRef = cloudStorage.child(storagePath);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    await taskSnapshot.ref.getDownloadURL().then(
+    Reference firebaseStorageRef = cloudStorage.child(storagePath);
+    UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
+
+    await (await uploadTask).ref.getDownloadURL().then(
       (value) {
         image = image.copyWith(url: value, savedTs: DateTime.now());
       },
@@ -81,249 +81,247 @@ class AttachmentCloudDataSourceImpl implements AttachmentsCloud {
   }
 
   void unStoreImage(ImageModel image) {
-    FirebaseStorage.instance.getReferenceFromUrl(image.url).then((res) {
-      res.delete().then((res) {
-        print("Deleted!");
-      });
+    FirebaseStorage.instance.refFromURL(image.url).delete().then((res) {
+      print("Deleted!");
     });
   }
 
   @override
   Future<void> addImage(ImageModel image) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Images")
-        .document(image.id.toString());
+        .doc(image.id.toString());
 
-    ref.setData(image.toMap()).then((value) => print(ref.documentID));
+    ref.set(image.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> deleteImage(ImageModel image) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Images")
-        .document(image.id.toString());
+        .doc(image.id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
     return;
   }
 
   @override
   Future<void> addAttachment(AttachmentModel attachemnt) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(attachemnt.getTable())
-        .document(attachemnt.id.toString());
+        .doc(attachemnt.id.toString());
 
-    ref.setData(attachemnt.toMap()).then((value) => print(ref.documentID));
+    ref.set(attachemnt.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLink(LinkModel link) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Links")
-        .document(link.id.toString());
+        .doc(link.id.toString());
 
-    ref.setData(link.toMap()).then((value) => print(ref.documentID));
+    ref.set(link.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLog(LogModel log) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Logs")
-        .document(log.id.toString());
+        .doc(log.id.toString());
 
-    ref.setData(log.toMap()).then((value) => print(ref.documentID));
+    ref.set(log.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addTag(TagModel tag) async {
-    FirebaseUser user = await auth.currentUser();
+   User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Tags")
-        .document(tag.id.toString());
+        .doc(tag.id.toString());
 
-    ref.setData(tag.toMap()).then((value) => print(ref.documentID));
+    ref.set(tag.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> deleteAttachment(AttachmentModel attachment) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(attachment.getTable())
-        .document(attachment.id.toString());
+        .doc(attachment.id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
     return;
   }
 
   @override
   Future<void> deleteLink(LinkModel link) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Links")
-        .document(link.id.toString());
+        .doc(link.id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
     return;
   }
 
   @override
   Future<void> deleteLog(LogModel log) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Logs")
-        .document(log.id.toString());
+        .doc(log.id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
     return;
   }
 
   @override
   Future<void> deleteTag(TagModel tag) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Tags")
-        .document(tag.id.toString());
+        .doc(tag.id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
     return;
   }
 
   @override
   Future<void> updateAttachment(AttachmentModel attachment) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(attachment.getTable())
-        .document(attachment.id.toString());
+        .doc(attachment.id.toString());
 
-    ref.updateData(attachment.toMap()).then((value) => print(ref.documentID));
+    ref.update(attachment.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> updateImage(ImageModel image) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(image.getTable())
-        .document(image.id.toString());
+        .doc(image.id.toString());
 
-    ref.updateData(image.toMap()).then((value) => print(ref.documentID));
+    ref.update(image.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> updateLink(LinkModel link) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(link.getTable())
-        .document(link.id.toString());
+        .doc(link.id.toString());
 
-    ref.updateData(link.toMap()).then((value) => print(ref.documentID));
+    ref.update(link.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> updateLog(LogModel log) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(log.getTable())
-        .document(log.id.toString());
+        .doc(log.id.toString());
 
-    ref.updateData(log.toMap()).then((value) => print(ref.documentID));
+    ref.update(log.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> updateTag(TagModel tag) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(tag.getTable())
-        .document(tag.id.toString());
+        .doc(tag.id.toString());
 
-    ref.updateData(tag.toMap()).then((value) => print(ref.documentID));
+    ref.update(tag.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addReview(ReviewModel review) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(review.getString())
-        .document(review.id.toString());
+        .doc(review.id.toString());
 
-    ref.setData(review.toMap()).then((value) => print(ref.documentID));
+    ref.set(review.toMap()).then((value) => print(ref.id));
   }
 
   @override
   Future<void> deleteReview(ReviewModel review) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(review.getString())
-        .document(review.id.toString());
+        .doc(review.id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> updateReview(ReviewModel review) async {
-    FirebaseUser user = await auth.currentUser();
+   User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(review.getString())
-        .document(review.id.toString());
+        .doc(review.id.toString());
 
-    ref.updateData(review.toMap()).then((value) => print(ref.documentID));
+    ref.update(review.toMap()).then((value) => print(ref.id));
   }
 }

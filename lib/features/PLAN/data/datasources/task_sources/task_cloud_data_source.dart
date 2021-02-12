@@ -56,7 +56,7 @@ abstract class TaskCloud {
 }
 
 class TaskCloudDataSourceImpl implements TaskCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;
@@ -66,40 +66,40 @@ class TaskCloudDataSourceImpl implements TaskCloud {
 
   @override
   Future<void> addStatus(TaskStatusModel status) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(status.getTable())
-        .document(status.id.toString());
+        .doc(status.id.toString());
 
     ref
-        .setData(status.toMap())
+        .set(status.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addTask(TaskModel task) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getTable())
-        .document(task.id.toString());
+        .doc(task.id.toString());
 
     ref
-        .setData(task.toMap())
+        .set(task.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> deleteGoal(TaskModel task) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getTable())
-        .document(task.id.toString());
+        .doc(task.id.toString());
 
     ref
         .delete()
@@ -108,12 +108,12 @@ class TaskCloudDataSourceImpl implements TaskCloud {
 
   @override
   Future<void> deleteStatus(TaskStatusModel status) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(status.getTable())
-        .document(status.id.toString());
+        .doc(status.id.toString());
 
     ref
         .delete()
@@ -122,33 +122,33 @@ class TaskCloudDataSourceImpl implements TaskCloud {
 
   @override
   Future<void> updateTask(TaskModel task) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getTable())
-        .document(task.id.toString());
+        .doc(task.id.toString());
 
     ref
-        .updateData(task.toMap())
+        .update(task.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateStatus(TaskStatusModel status) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref;
     cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(status.getTable())
         .where("id", isEqualTo: status.id)
         .limit(1)
-        .getDocuments()
+        .get()
         .then((value) {
-      ref = value.documents[0].reference;
+      ref = value.docs[0].reference;
       ref
-          .updateData(status.toMap())
+          .update(status.toMap())
           .catchError((onError) => {print("nhi chala\n"), print("hello")});
     });
   }
@@ -156,320 +156,320 @@ class TaskCloudDataSourceImpl implements TaskCloud {
   @override
   Future<void> addLinkAttachmentToTask(
       TaskModel task, AttachmentModel attachment, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getAttachmentTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "attachment_id": attachment.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkDependencyToTask(
       TaskModel dependency, TaskModel task, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getDependencyTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "dependency_id": dependency.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    });
   }
 
   @override
   Future<void> addLinkImageToTask(
       TaskModel task, ImageModel image, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getImageTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "image_id": image.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    });
   }
 
   @override
   Future<void> addLinkLinkToTask(TaskModel task, LinkModel link, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getLinkTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "link_id": link.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    });
   }
 
   @override
   Future<void> addLinkLogToTask(TaskModel task, LogModel log, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getLogTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "log_id": log.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    });
   }
 
   @override
   Future<void> addLinkTagToTask(TaskModel task, TagModel tag, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getTagTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "tag_id": tag.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    });
   }
 
   @override
   Future<void> addLinkTaskToActivity(
       TaskModel task, UserAModel activity, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getActivityTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "activity_id": activity.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkTaskToReview(
       TaskModel task, ReviewModel review, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getReviewTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "review_id": review.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkTaskToStatus(
       TaskModel task, TaskStatusModel status, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getStatusTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "status_id": status.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkTaskToTodo(TaskModel task, TodoModel todo, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getTodoTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "task_id": task.id,
       "todo_id": todo.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> removeLinkActivityFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getActivityTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkAttachmentFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getAttachmentTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkDependencyFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getDependencyTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkImageFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getImageTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkLinkFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getLinkTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkLogFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getLogTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkReviewFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getReviewTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkStatusFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getStatusTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkTagFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getTagTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete();
   }
 
   @override
   Future<void> removeLinkTodoFromTask(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TaskModel task;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(task.getTodoTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   /// Gets a random inspiration from cloud

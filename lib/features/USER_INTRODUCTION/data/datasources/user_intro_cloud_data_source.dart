@@ -50,7 +50,7 @@ abstract class UserIntroCloud {
 }
 
 class UserIntroCloudDataSourceImpl implements UserIntroCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;
@@ -61,7 +61,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   @override
   Stream<double> getUserCloudData() async* {
     yield (0);
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
     final db = await nativeDb.database;
     nativeDb.cleanDatabase();
 
@@ -70,14 +70,14 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
     for (int i = 0; i < tables.length; i++) {
       QuerySnapshot snapShot = await cloudDb
           .collection('users')
-          .document(user.uid)
+          .doc(user.uid)
           .collection(tables[i])
-          .getDocuments();
-      if (snapShot != null && snapShot.documents.length != 0) {
-        final List<DocumentSnapshot> documents = snapShot.documents;
+          .get();
+      if (snapShot != null && snapShot.docs.length != 0) {
+        final List<DocumentSnapshot> docs = snapShot.docs;
 
-        for (int j = 0; j < documents.length; j++) {
-          batch.insert((tables[i]), documents[j].data);
+        for (int j = 0; j < docs.length; j++) {
+          batch.insert((tables[i]), docs[j].data());
         }
 
         progress += (1 / tables.length);
@@ -91,7 +91,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   @override
   Stream<double> copyToUserCloudData() async* {
     yield (0);
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
     nativeDb.cleanDatabase();
     final db = await nativeDb.database;
     batch = db.batch();
@@ -100,24 +100,24 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
     for (int i = 0; i < tables.length; i++) {
       QuerySnapshot snapShot = await cloudDb
           .collection('StartData')
-          .document('data')
+          .doc('data')
           .collection(tables[i])
-          .getDocuments();
-      if (snapShot != null && snapShot.documents.length != 0) {
-        final List<DocumentSnapshot> documents = snapShot.documents;
+          .get();
+      if (snapShot != null && snapShot.docs.length != 0) {
+        final List<DocumentSnapshot> docs = snapShot.docs;
 
-        for (int j = 0; j < documents.length; j++) {
+        for (int j = 0; j < docs.length; j++) {
           DocumentReference ref = cloudDb
               .collection('users')
-              .document(user.uid)
+              .doc(user.uid)
               .collection(tables[i])
-              .document(documents[j].documentID);
+              .doc(docs[j].id);
           ref
-              .setData(documents[j].data)
-              .then((value) => print(ref.documentID))
+              .set(docs[j].data())
+              .then((value) => print(ref.id))
               .catchError((onError) => {print("nhi chala\n"), print("hello")});
 
-          batch.insert((tables[i]), documents[j].data);
+          batch.insert((tables[i]), docs[j].data());
         }
         progress += (1 / tables.length);
         yield (progress);
@@ -131,28 +131,28 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<ActivityModel>> get allActivities async {
     QuerySnapshot snapShot = await cloudDb
         .collection('StartData')
-        .document('data')
+        .doc('data')
         .collection('Activity')
-        .getDocuments();
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => ActivityModel.fromSnapshot(e)).toList();
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => ActivityModel.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
 
   @override
   Future<List<UserAModel>> get userActivities async {
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
     QuerySnapshot snapShot = await cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("User_Activity")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserAModel.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserAModel.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -160,47 +160,47 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   @override
   Future<void> add(UserAModel newActivity) async {
     print("add useract in cloud " + newActivity.name);
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("User_Activity")
-        .document(newActivity.id.toString());
+        .doc(newActivity.id.toString());
 
     await ref
-        .setData(newActivity.toMap())
-        .then((value) => print(ref.documentID))
+        .set(newActivity.toMap())
+        .then((value) => print(ref.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> delete(UserAModel newActivity) async {
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("User_Activity")
-        .document(newActivity.id.toString());
+        .doc(newActivity.id.toString());
 
     ref
         .delete()
-        .then((value) => print(ref.documentID))
+        .then((value) => print(ref.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> deleteUserActivityTable() async {
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
 
     var ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("User_Activity");
 
-    await ref.getDocuments().then((value) => {
-          value.documents.forEach((element) {
+    await ref.get().then((value) => {
+          value.docs.forEach((element) {
             element.reference.delete();
           })
         });
@@ -214,14 +214,14 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
           'username',
           isEqualTo: username,
         )
-        .getDocuments();
+        .get();
     print("shakiya");
-    print(snapShot.documents.length);
+    print(snapShot.docs.length);
     if (snapShot == null)
       return true;
-    else if (snapShot != null && snapShot.documents.length == 0) {
+    else if (snapShot != null && snapShot.docs.length == 0) {
       return true;
-    } else if (snapShot != null && snapShot.documents.length >= 1) {
+    } else if (snapShot != null && snapShot.docs.length >= 1) {
       return false;
     }
     return Future.value(false);
@@ -231,13 +231,13 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getCareerTags() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document("Career")
+        .doc("Career")
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -246,13 +246,13 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getFamilyTags() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document("Family and Relationship")
+        .doc("Family and Relationship")
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -261,13 +261,13 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getFinanceTags() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document("Finance and Money")
+        .doc("Finance and Money")
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -276,13 +276,13 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getFitnessTags() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document("Fitness")
+        .doc("Fitness")
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -291,13 +291,13 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getFoodTags() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document("Food and Nutrition")
+        .doc("Food and Nutrition")
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -306,13 +306,13 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getMentalHealthTags() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document("Mental Health")
+        .doc("Mental Health")
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -321,13 +321,13 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getProductivityTags() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document("Productivity")
+        .doc("Productivity")
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -336,15 +336,15 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   Future<List<UserTag>> getChildrenOfTag(UserTag tag, String category) async {
     QuerySnapshot snapShot = await cloudDb
         .collection('onboard_user_tagging')
-        .document(category)
+        .doc(category)
         .collection("Children")
-        .document(tag.tag)
+        .doc(tag.tag)
         .collection("Children")
-        .getDocuments();
+        .get();
     if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
-      return documents.map((e) => UserTag.fromSnapshot(e)).toList();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> docs = snapShot.docs;
+      return docs.map((e) => UserTag.fromSnapshot(e)).toList();
     }
     return Future.value([]);
   }
@@ -356,53 +356,53 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
       LifestyleProfile lifestyleProfile,
       HealthConditions healthConditions,
       AddictionConditions addictionConditions) async {
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
 
     DocumentReference refFitness = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("fitness_profile");
+        .doc("fitness_profile");
     DocumentReference refMind = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("mental_profile");
+        .doc("mental_profile");
     DocumentReference refLifestyle = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("lifestyle_profile");
+        .doc("lifestyle_profile");
     DocumentReference refHealthCond = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("health_condition");
+        .doc("health_condition");
     DocumentReference refAddiction = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("user_addiction");
+        .doc("user_addiction");
 
     refFitness
-        .setData(fitnessProfile.toMap())
-        .then((value) => print(refFitness.documentID))
+        .set(fitnessProfile.toMap())
+        .then((value) => print(refFitness.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
     refMind
-        .setData(mentalProfile.toMap())
-        .then((value) => print(refMind.documentID))
+        .set(mentalProfile.toMap())
+        .then((value) => print(refMind.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
     refLifestyle
-        .setData(lifestyleProfile.toMap())
-        .then((value) => print(refFitness.documentID))
+        .set(lifestyleProfile.toMap())
+        .then((value) => print(refFitness.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
     refHealthCond
-        .setData(healthConditions.toMap())
-        .then((value) => print(refFitness.documentID))
+        .set(healthConditions.toMap())
+        .then((value) => print(refFitness.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
     refAddiction
-        .setData(addictionConditions.toMap())
-        .then((value) => print(refFitness.documentID))
+        .set(addictionConditions.toMap())
+        .then((value) => print(refFitness.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
         return true;
   }
@@ -416,91 +416,91 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
       List<UserTag> relationshipTags,
       List<UserTag> careerTags,
       List<UserTag> financeTags) async {
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
 
     CollectionReference refFitness = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("tags")
+        .doc("tags")
         .collection("fitness_tags");
     CollectionReference refMind = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("tags")
+        .doc("tags")
         .collection("mental_tags");
     CollectionReference refFood = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("tags")
+        .doc("tags")
         .collection("food_tags");
     CollectionReference refProductivity = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("tags")
+        .doc("tags")
         .collection("productivity_tags");
     CollectionReference refRelationship = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("tags")
+        .doc("tags")
         .collection("relationship_tags");
     CollectionReference refCareer = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("tags")
+        .doc("tags")
         .collection("career_tags");
     CollectionReference refFinance = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("tags")
+        .doc("tags")
         .collection("finance_tags");
 
     fitnessTags.forEach((element) {
       refFitness
-          .document(element.id.toString())
-          .setData(element.toMap())
+          .doc(element.id.toString())
+          .set(element.toMap())
           .then((value) => print(""));
     });
     mindfulTags.forEach((element) {
       refMind
-          .document(element.id.toString())
-          .setData(element.toMap())
+          .doc(element.id.toString())
+          .set(element.toMap())
           .then((value) => print(""));
     });
     foodTags.forEach((element) {
       refFood
-          .document(element.id.toString())
-          .setData(element.toMap())
+          .doc(element.id.toString())
+          .set(element.toMap())
           .then((value) => print(""));
     });
     productivityTags.forEach((element) {
       refProductivity
-          .document(element.id.toString())
-          .setData(element.toMap())
+          .doc(element.id.toString())
+          .set(element.toMap())
           .then((value) => print(""));
     });
     relationshipTags.forEach((element) {
       refRelationship
-          .document(element.id.toString())
-          .setData(element.toMap())
+          .doc(element.id.toString())
+          .set(element.toMap())
           .then((value) => print(""));
     });
     careerTags.forEach((element) {
       refCareer
-          .document(element.id.toString())
-          .setData(element.toMap())
+          .doc(element.id.toString())
+          .set(element.toMap())
           .then((value) => print(""));
     });
     financeTags.forEach((element) {
       refFinance
-          .document(element.id.toString())
-          .setData(element.toMap())
+          .doc(element.id.toString())
+          .set(element.toMap())
           .then((value) => print(""));
     });
     return true;

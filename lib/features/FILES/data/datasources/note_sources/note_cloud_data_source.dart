@@ -91,7 +91,7 @@ abstract class NoteCloud {
 }
 
 class NoteCloudDataSourceImpl implements NoteCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;
@@ -101,98 +101,98 @@ class NoteCloudDataSourceImpl implements NoteCloud {
 
   @override
   Future<void> addBlockInfo(BlockInfo blockInfo) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(blockInfo.getTable())
-        .document(blockInfo.id.toString());
+        .doc(blockInfo.id.toString());
 
     ref
-        .setData(blockInfo.toMap())
+        .set(blockInfo.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addLinkBlockToNote(
       NoteModel note, BlockInfo block, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(note.getTableOfBlocks())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "note_id": note.id,
       "block_id": block.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkLogToNote(NoteModel note, LogModel log, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(note.getTableOfLogs())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "note_id": note.id,
       "log_id": log.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkTagToNote(NoteModel note, TagModel tag, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(note.getTableOfTags())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "note_id": note.id,
       "tag_id": tag.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addNote(NoteModel note) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(note.getTable())
-        .document(note.id.toString());
+        .doc(note.id.toString());
 
     ref
-        .setData(note.toMap())
+        .set(note.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addTextboxBlock(TextboxBlock textbox) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(textbox.getTable())
-        .document(textbox.id.toString());
+        .doc(textbox.id.toString());
 
     ref
-        .setData(textbox.toMap())
+        .set(textbox.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
@@ -234,212 +234,212 @@ class NoteCloudDataSourceImpl implements NoteCloud {
 
   @override
   Future<void> updateBlockInfo(BlockInfo blockInfo) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(blockInfo.getTable())
-        .document(blockInfo.id.toString());
+        .doc(blockInfo.id.toString());
 
     ref
-        .updateData(blockInfo.toMap())
+        .update(blockInfo.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateNote(NoteModel note) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(note.getTable())
-        .document(note.id.toString());
+        .doc(note.id.toString());
 
     ref
-        .updateData(note.toMap())
+        .update(note.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateTextboxBlock(TextboxBlock textbox) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(textbox.getTable())
-        .document(textbox.id.toString());
+        .doc(textbox.id.toString());
 
     ref
-        .updateData(textbox.toMap())
+        .update(textbox.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addImageBlock(ImageBlock imageblock) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(imageblock.getTable())
-        .document(imageblock.id.toString());
+        .doc(imageblock.id.toString());
 
     ref
-        .setData(imageblock.toMap())
+        .set(imageblock.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addCalendarEvent(CalendarEventBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+   User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addCalendarItem(CalendarBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+  User user =  auth.currentUser;
     print("adding calendar here");
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addCheckbox(TodoItemModel item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addColossal(ColossalBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addFormField(FormFieldBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addSequence(SequenceBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addSlider(SliderBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addTable(TableBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addTableColumn(ColumnBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addTableItem(TableItemBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addYoutubeVideo(YoutubeBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+   User user = await auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .setData(item.toMap())
+        .set(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
@@ -512,183 +512,183 @@ class NoteCloudDataSourceImpl implements NoteCloud {
 
   @override
   Future<void> updateCalendarEvent(CalendarEventBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateCalendarItem(CalendarBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateCheckbox(TodoItemModel item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateColossal(ColossalBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+   User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateFormField(FormFieldBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateSequence(SequenceBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateSlider(SliderBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+   User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateTable(TableBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateTableColumn(ColumnBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateTableItem(TableItemBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+   User user = await auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateYoutubeVideo(YoutubeBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> deleteImageBlock(ImageBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateImageBlock(ImageBlock item) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(item.getTable())
-        .document(item.id.toString());
+        .doc(item.id.toString());
 
     ref
-        .updateData(item.toMap())
+        .update(item.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 }

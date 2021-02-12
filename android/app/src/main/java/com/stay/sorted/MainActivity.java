@@ -1,13 +1,11 @@
 package com.stay.sorted;
 
-import android.os.Bundle;
-import io.flutter.app.FlutterFragmentActivity;
+import androidx.annotation.NonNull;
+import io.flutter.embedding.engine.FlutterEngine;
+import io.flutter.embedding.android.FlutterFragmentActivity;
 import io.flutter.plugins.GeneratedPluginRegistrant;
+import io.flutter.embedding.android.FlutterActivity;
 
 public class MainActivity extends FlutterFragmentActivity {
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    GeneratedPluginRegistrant.registerWith(this);
-  }
+
 }

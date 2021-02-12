@@ -4,7 +4,7 @@ import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/core/global/widgets/on_success.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 import 'package:sorted/features/ONBOARDING/presentation/widgets/body.dart';
 import 'package:sorted/features/ONBOARDING/presentation/widgets/bottom_sheet.dart';
@@ -89,9 +89,9 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
                   if (state is SignInCompleted) {
                     print("listener ran");
                     
-                    Router.navigator.pop();
-                    Router.navigator.pushNamed(Router.userIntroPage,
-                        arguments: UserIntroPageArguments(title: "User Intro Page"));
+                     rt.Router.navigator.pop();
+                     rt.Router.navigator.pushNamed( rt.Router.userIntroPage,
+                        arguments:  rt.UserIntroPageArguments(title: "User Intro Page"));
                   }
                 },
               ),

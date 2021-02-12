@@ -11,7 +11,7 @@ import 'package:emoji_picker/emoji_picker.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/PLAN/data/models/goal.dart';
 import 'package:sorted/features/PLAN/data/models/task.dart';
 import 'package:sorted/features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart';
@@ -215,9 +215,10 @@ class GoalPageState extends State<GoalPage> {
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            Router.navigator.pushNamed(
-                                                Router.selectCover,
-                                                arguments: SelectCoverArguments(
+                                            
+                                             rt.Router.navigator.pushNamed(
+                                                 rt.Router.selectCover,
+                                                arguments:  rt.SelectCoverArguments(
                                                     goalBloc: bloc));
                                           },
                                           child: Row(
@@ -368,9 +369,9 @@ class GoalPageState extends State<GoalPage> {
                                       ),
                                       child: InkWell(
                                         onTap: () {
-                                          Router.navigator.pushNamed(
-                                              Router.selectCover,
-                                              arguments: SelectCoverArguments(
+                                           rt.Router.navigator.pushNamed(
+                                               rt.Router.selectCover,
+                                              arguments:  rt.SelectCoverArguments(
                                                   goalBloc: bloc));
                                         },
                                         child: Row(

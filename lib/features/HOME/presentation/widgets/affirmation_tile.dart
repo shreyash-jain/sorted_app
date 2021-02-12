@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 
@@ -31,8 +31,8 @@ class AffirmationTile extends StatelessWidget {
       // keep the OverlayEntry instance, and insert it into Overlay
      
       onTap: () {
-        Router.navigator.pushNamed(Router.affirmationPageview,
-            arguments: AffirmationPVArguments(
+         rt.Router.navigator.pushNamed( rt.Router.affirmationPageview,
+            arguments:  rt.AffirmationPVArguments(
                 affirmations:
                     (affirmationBloc.state as LoadedState).affirmations,
                 startIndex: index,

@@ -12,7 +12,7 @@ abstract class AnalysisCloud {
 }
 
 class AnalysisCloudDataSourceImpl implements AnalysisCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;

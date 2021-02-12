@@ -43,7 +43,7 @@ class ImageEditState extends State<ImageEdit> {
   double height = 10;
   final controller = CropController(aspectRatio: 1);
   double _rotation = 0;
-  CropShape shape = CropShape.box;
+  BoxShape shape = BoxShape.rectangle;
 
   var _focusNode = FocusNode();
   bool isUploading = false;
@@ -149,7 +149,7 @@ class ImageEditState extends State<ImageEdit> {
                         ),
                       ),
                     ),
-                    helper: shape == CropShape.box
+                    helper: shape == BoxShape.rectangle
                         ? Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.white, width: 2),

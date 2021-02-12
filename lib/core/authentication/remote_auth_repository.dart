@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,7 +24,7 @@ class AuthenticationRepository {
   //Observable<FirebaseUser> user;
 
   Stream<String> url;
-  
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
@@ -37,16 +36,16 @@ class AuthenticationRepository {
   /// the authentication state changes.
   ///
   /// Emits [User.empty] if the user is not authenticated.
-  Stream<User> get user {
-    return _firebaseAuth.onAuthStateChanged.map((firebaseUser) {
+  Stream<NativeUser> get user {
+    return _firebaseAuth.authStateChanges().map((firebaseUser) {
       if (firebaseUser == null)
-        return User.empty;
+        return NativeUser.empty;
       else {
-        return User(
+        return NativeUser(
             id: firebaseUser.uid,
             email: firebaseUser.email,
             name: firebaseUser.displayName,
-            photo: firebaseUser.photoUrl);
+            photo: firebaseUser.photoURL);
       }
     });
   }
@@ -79,14 +78,14 @@ class AuthenticationRepository {
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
+      final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final AuthResult authResult =
+      final  authResult =
           await _firebaseAuth.signInWithCredential(credential);
 
-      final FirebaseUser user = authResult.user;
+      final User user = authResult.user;
 
       //final headers = await _googleSignIn.currentUser.authHeaders;
       //_authDataSource.getEvent(headers);
@@ -103,8 +102,7 @@ class AuthenticationRepository {
           print("yaha bhi koi aata");
         }
         // TODO : Check if this fails
-        
-      
+
       }
       await _authDataSource.updateUserData(user, oldUser);
     } on Exception {
@@ -130,21 +128,20 @@ class AuthenticationRepository {
     }
   }
 
-Future<Either<Failure, FirebaseUser>> currentUser() async {
-FirebaseUser user = await _firebaseAuth.currentUser();
-if  (user!=null){
-return Right(user);
-}
-else {
-  return Left(NoUserFailure());
-}
+  Future<Either<Failure, User>> currentUser() async {
+    User user =  _firebaseAuth.currentUser;
+    if (user != null) {
+      return Right(user);
+    } else {
+      return Left(NoUserFailure());
+    }
+  }
 
-}
   /// Signs out the current user which will emit
   /// [User.empty] from the [user] Stream.
   ///
   /// Throws a [LogOutFailure] if an exception occurs.
-  Future<void> logOut(FirebaseUser user) async {
+  Future<void> logOut(User user) async {
     try {
       _authDataSource.makeSingleSignOut(user);
       await Future.wait([

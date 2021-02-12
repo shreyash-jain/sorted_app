@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:get_it/get_it.dart';
@@ -336,15 +339,14 @@ Future<void> init() async {
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Firestore _fireDB = Firestore.instance;
-  final FirebaseDatabase fbDB = FirebaseDatabase.instance;
-  final StorageReference refStorage = FirebaseStorage.instance.ref();
+  final FirebaseFirestore _fireDB = FirebaseFirestore.instance;
+  final Reference  refStorage = FirebaseStorage.instance.ref();
 
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => DataConnectionChecker());
   sl.registerLazySingleton(() => _auth);
   sl.registerLazySingleton(() => _fireDB);
-  sl.registerLazySingleton(() => fbDB);
+
   sl.registerLazySingleton(() => refStorage);
 }

@@ -8,7 +8,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/FILES/data/models/note_model.dart';
 import 'package:sorted/features/FILES/data/models/notebook_model.dart';
 import 'package:sorted/features/FILES/presentation/note_bloc/note_bloc.dart';
@@ -295,8 +295,8 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
       String text, String url, bool hasList, bool hasTable, bool hasCal) {
     return GestureDetector(
       onTap: () {
-        Router.navigator.pushNamed(Router.noteHub,
-            arguments: NoteMainArguments(note: note));
+        rt.Router.navigator.pushNamed( rt.Router.noteHub,
+            arguments:  rt.NoteMainArguments(note: note));
       },
       child: Hero(
         tag: note.id.toString(),

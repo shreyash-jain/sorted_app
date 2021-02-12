@@ -13,7 +13,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/error/failures.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/FILES/data/models/block_form_field.dart';
 import 'package:sorted/features/FILES/data/models/block_info.dart';
 import 'package:sorted/features/FILES/data/models/block_textbox.dart';
@@ -115,8 +115,8 @@ class NotesHubBloc extends Bloc<NotesHubEvent, NotesHubState> {
           prevNoteState.hasList,
           prevNoteState.hasTable,
           prevNoteState.hasCalendar);
-      Router.navigator.pushNamed(Router.noteHub,
-          arguments: NoteMainArguments(note: newNote));
+      rt.Router.navigator.pushNamed(rt.Router.noteHub,
+          arguments: rt.NoteMainArguments(note: newNote));
     }
   }
 

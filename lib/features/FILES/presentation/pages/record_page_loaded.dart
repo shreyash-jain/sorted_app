@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/FILES/data/models/notebook_model.dart';
 import 'package:sorted/features/FILES/presentation/record_bloc/record_bloc.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
@@ -599,8 +599,8 @@ class CategoryBlock extends StatelessWidget {
   }
 
   onNotebookTap(NotebookModel notebook) {
-    Router.navigator.pushNamed(Router.notesHubPage,
-        arguments: NotesHubPageArguments(thisNotebook: notebook));
+    rt.Router.navigator.pushNamed(rt.Router.notesHubPage,
+        arguments: rt.NotesHubPageArguments(thisNotebook: notebook));
   }
 }
 

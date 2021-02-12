@@ -46,7 +46,7 @@ abstract class GoalCloud {
 }
 
 class GoalCloudDataSourceImpl implements GoalCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;
@@ -60,149 +60,149 @@ class GoalCloudDataSourceImpl implements GoalCloud {
   /// @override
   Future<void> addLinkImageToGoal(
       GoalModel goal, ImageModel image, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Goals_Images")
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "goal_id": goal.id,
       "image_id": image.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> removeLinkImageFromGoal(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("Goals_Images")
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> addGoal(GoalModel goal) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTable())
-        .document(goal.id.toString());
+        .doc(goal.id.toString());
 
     ref
-        .setData(goal.toMap())
+        .set(goal.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addLinkAttachmentToGoal(
       GoalModel goal, AttachmentModel attachment, int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkAttachment())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "goal_id": goal.id,
       "attachment_id": attachment.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkLinkToGoal(GoalModel goal, LinkModel link, int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkLinks())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "goal_id": goal.id,
       "link_id": link.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkLogToGoal(GoalModel goal, LogModel log, int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkLogs())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "goal_id": goal.id,
       "log_id": log.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkTagToGoal(GoalModel goal, TagModel tag, int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkTags())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "goal_id": goal.id,
       "tag_id": tag.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addLinkTextboxToGoal(
       GoalModel goal, TextboxModel textbox, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinktextbox())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "goal_id": goal.id,
       "textbox_id": textbox.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> deleteGoal(GoalModel goal) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTable())
-        .document(goal.id.toString());
+        .doc(goal.id.toString());
 
     ref
         .delete()
@@ -211,129 +211,128 @@ class GoalCloudDataSourceImpl implements GoalCloud {
 
   @override
   Future<void> removeLinkAttachmentFromGoal(int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
     GoalModel goal;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkAttachment())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> removeLinkLinkFromGoal(int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
     GoalModel goal;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkLinks())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> removeLinkLogFromGoal(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     GoalModel goal;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkLogs())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> removeLinkTagFromGoal(int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
     GoalModel goal;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkTags())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> removeLinkTextboxFromGoal(int id) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
     GoalModel goal;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinktextbox())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> updateGoal(GoalModel goal) async {
-    FirebaseUser user = await auth.currentUser();
+     User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTable())
-        .document(goal.id.toString());
+        .doc(goal.id.toString());
 
     ref
-        .updateData(goal.toMap())
+        .update(goal.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addLinkTaskToGoal(GoalModel goal, TaskModel task, int id) async {
-    FirebaseUser user = await auth.currentUser();
-
+     User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkTasks())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "goal_id": goal.id,
       "task_id": task.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> removeLinkTaskFromGoal(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     GoalModel goal;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(goal.getTableLinkTasks())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<List<String>> getGradientImages() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('cover_images')
-        .document('gradients')
+        .doc('gradients')
         .collection('urls')
-        .getDocuments();
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
       return documents.map<String>((e) => e['url']).toList();
     }
     return Future.value([]);
@@ -343,11 +342,11 @@ class GoalCloudDataSourceImpl implements GoalCloud {
   Future<List<String>> getStudiesImages() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('cover_images')
-        .document('study')
+        .doc('study')
         .collection('urls')
-        .getDocuments();
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
       return documents.map<String>((e) => e['url']).toList();
     }
     return Future.value([]);
@@ -357,11 +356,11 @@ class GoalCloudDataSourceImpl implements GoalCloud {
   Future<List<String>> getWorkImages() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('cover_images')
-        .document('work')
+        .doc('work')
         .collection('urls')
-        .getDocuments();
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
       return documents.map<String>((e) => e['url']).toList();
     }
     return Future.value([]);
@@ -371,11 +370,11 @@ class GoalCloudDataSourceImpl implements GoalCloud {
   Future<List<String>> getInspireImages() async {
     QuerySnapshot snapShot = await cloudDb
         .collection('cover_images')
-        .document('inspire')
+        .doc('inspire')
         .collection('urls')
-        .getDocuments();
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
       return documents.map<String>((e) => e['url']).toList();
     }
     return Future.value([]);

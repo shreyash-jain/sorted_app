@@ -52,7 +52,8 @@ class UserTag extends Equatable {
       tag: map['tag'],
     );
   }
-  factory UserTag.fromSnapshot(DocumentSnapshot map) {
+  factory UserTag.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
     int children = 0;
     if (map['has_children'] != null) children = map['has_children'];

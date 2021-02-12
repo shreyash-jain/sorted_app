@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:sorted/core/global/animations/fade_animationLR.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/HOME/presentation/widgets/side_tab_tile.dart';
 import 'package:sorted/features/HOME/presentation/widgets/user_avatar.dart';
 
@@ -156,7 +156,7 @@ class SideTab extends StatelessWidget {
                           "The one where you choose and analyse what you want to keep track of",
                       index: 0,
                       onTapAction: (int) {
-                        Router.navigator.pushNamed(Router.settingsPage);
+                         rt.Router.navigator.pushNamed( rt.Router.settingsPage);
                       }),
                 ),
               )

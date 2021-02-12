@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:sa_anicoto/sa_anicoto.dart';
+
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sorted/core/error/exceptions.dart';
@@ -18,7 +18,7 @@ import 'package:sorted/core/global/animations/fade_animationLR.dart';
 
 import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/HOME/presentation/pages/camera_screen.dart';
 import 'package:sorted/features/HOME/presentation/widgets/animated_fab.dart';
 import 'package:sorted/features/HOME/presentation/widgets/bottom_tab.dart';
@@ -44,7 +44,7 @@ class SortedHome extends StatefulWidget {
 }
 
 class _SortedHomeState extends State<SortedHome>
-    with TickerProviderStateMixin, AnimationMixin {
+    with TickerProviderStateMixin {
   var formatterDate = new DateFormat('dd-MM-yyyy');
   List<String> imagePath = [];
   List<int> imageTotal = [];
@@ -55,7 +55,7 @@ class _SortedHomeState extends State<SortedHome>
   SharedPreferences prefs;
   bool isNavEnabled = false;
   double currentSliverheight, prevSliverHeight;
-  StorageReference refStorage = FirebaseStorage.instance.ref();
+  Reference refStorage = FirebaseStorage.instance.ref();
   DateTime today = DateTime.now();
   double top;
   bool showSideTab = true;
@@ -68,7 +68,7 @@ class _SortedHomeState extends State<SortedHome>
   int currentBottomTab;
   AnimationController tabController;
   Animation<double> tabAnimation;
-  Animation<Color> colorAnimation;
+
   TabController tab_Controller;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -89,12 +89,12 @@ class _SortedHomeState extends State<SortedHome>
       initialScrollOffset: 0.0, // NEW
       keepScrollOffset: true, // NEW
     );
-    colorAnimation = Colors.red.tweenTo(Colors.blue).animatedBy(controller);
+   
     scaleController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 2000))
           ..addStatusListener((status) async {
             if (status == AnimationStatus.completed) {
-              scaleController.loop(duration: 5.seconds);
+             
             } else if (status == AnimationStatus.dismissed) {
               scaleController.forward();
             }
@@ -562,10 +562,10 @@ class _SortedHomeState extends State<SortedHome>
 
     if (toIndex == 1) {
       print("plan");
-      Router.navigator.pushNamed(Router.planHome);
+      rt.Router.navigator.pushNamed( rt.Router.planHome);
     } else if (toIndex == 2) {
       print("record");
-      Router.navigator.pushNamed(Router.recordTab);
+       rt.Router.navigator.pushNamed( rt.Router.recordTab);
     }
     if (currentSideTab == toIndex)
       setState(() {

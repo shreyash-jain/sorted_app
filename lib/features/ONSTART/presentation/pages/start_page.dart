@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/background.dart';
 import 'package:sorted/features/ONSTART/presentation/widgets/on_success.dart';
@@ -86,8 +86,8 @@ class _MyHomePageState extends State<MyStartPage> {
                 listener: (BuildContext context, OnstartState state) {
                   if (state is AccessGranted) {
                     print("listener ran");
-                    Router.navigator.pop();
-                    Router.navigator.pushNamed(Router.rootHome);
+                     rt.Router.navigator.pop();
+                     rt.Router.navigator.pushNamed( rt.Router.rootHome);
                   }
                 },
               ),

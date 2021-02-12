@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/widgets/indicator_oval.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 
@@ -281,7 +281,7 @@ class ChoiceGoalGuideState extends State<ChoiceGoalGuide> {
               onTap: () {
                 Navigator.pop(context);
 
-                Router.navigator.pushNamed(Router.planHome);
+                 rt.Router.navigator.pushNamed( rt.Router.planHome);
               },
               child: Container(
                 margin: EdgeInsets.only(top: 2 * Gparam.height / 3),

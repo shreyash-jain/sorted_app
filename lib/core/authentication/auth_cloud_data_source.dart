@@ -18,15 +18,15 @@ import 'package:sorted/core/global/models/user_details.dart';
 abstract class AuthCloudDataSource {
   void getEvent(dynamic headers);
 
-  void makeSingleSignOut(FirebaseUser user);
-  Future<void> signOutLocally(FirebaseUser user);
-  Future<void> signOutLocalDuplicate(FirebaseUser user);
-  Future<bool> checkIfUserAlreadyPresent(FirebaseUser user);
-  Future<bool> getSignInState(FirebaseUser user);
-  Future<void> updateUserData(FirebaseUser user,bool oldState);
-  Future<void> makeSingleSignIn(FirebaseUser user);
-  Future<void> updateLastScene(FirebaseUser user);
-  void addUserInCloud(FirebaseUser user);
+  void makeSingleSignOut(User user);
+  Future<void> signOutLocally(User user);
+  Future<void> signOutLocalDuplicate(User user);
+  Future<bool> checkIfUserAlreadyPresent(User user);
+  Future<bool> getSignInState(User user);
+  Future<void> updateUserData(User user,bool oldState);
+  Future<void> makeSingleSignIn(User user);
+  Future<void> updateLastScene(User user);
+  void addUserInCloud(User user);
   void updateUserInCloud(UserDetail detail);
   Future<UserDetail> getUserFromCloud();
   Future<void> addUserDetailInCloud(UserDetail detail);
@@ -35,7 +35,7 @@ abstract class AuthCloudDataSource {
 class AuthCloudDataSourceImpl implements AuthCloudDataSource {
   int deviceId = 0;
   String deviceName = "";
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SharedPreferences prefs;
 
@@ -60,16 +60,16 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
         });
   }
 
-  Future<bool> checkIfUserAlreadyPresent(FirebaseUser user) async {
+  Future<bool> checkIfUserAlreadyPresent(User user) async {
     // var document = await _db.collection('users').document(user.uid).collection("user_data").document("data");
 
     bool ans;
     print(user.uid);
     final snapShot = await cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document('data')
+        .doc('data')
         .get();
 
     if (snapShot == null || !snapShot.exists) {
@@ -80,21 +80,21 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     return ans;
   }
 
-  Future<bool> getSignInState(FirebaseUser user) async {
+  Future<bool> getSignInState(User user) async {
     // true for loggedIn
     // var document = await _db.collection('users').document(user.uid).collection("user_data").document("data");
     DocumentReference document = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
+        .doc("data");
 
     bool ans;
 
     await document.get().then((value) {
-      print(value.data.containsKey("signInId").toString());
-      print(value.data['signInId']);
-      if (value.data['signInId'] != 0)
+       print(value.data().containsKey("signInId").toString());
+      print(value.data()['signInId']);
+      if (value.data()['signInId'] != 0)
         ans = true;
       else
         ans = false;
@@ -115,22 +115,22 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await prefs.setBool('onboard', false);
   }
 
-  Future<void> updateUserData(FirebaseUser user,bool oldState) async {
+  Future<void> updateUserData(User user,bool oldState) async {
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
+        .doc("data");
 
-    ref.setData({'uid': user.uid}, merge: true);
-    ref.setData({'email': user.email}, merge: true);
-    ref.setData({'photoURL': user.photoUrl}, merge: true);
-    ref.setData({'displayName': user.displayName}, merge: true);
+    ref.set({'uid': user.uid}, SetOptions(merge: true));
+    ref.set({'email': user.email}, SetOptions(merge: true));
+    ref.set({'photoURL': user.photoURL}, SetOptions(merge: true));
+    ref.set({'displayName': user.displayName}, SetOptions(merge: true));
    
 
     prefs.setBool("old_user", oldState);
     print("signed in " + user.displayName);
-    prefs.setString("google_image", user.photoUrl);
+    prefs.setString("google_image", user.photoURL);
     prefs.setString("google_name", user.displayName);
     prefs.setString("google_email", user.email);
 
@@ -140,7 +140,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     UserDetail userDetail = new UserDetail(
         name: user.displayName,
         email: user.email,
-        imageUrl: user.photoUrl,
+        imageUrl: user.photoURL,
         currentDevice: deviceName,
         currentDeviceId: deviceId);
     print(2);
@@ -149,12 +149,12 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     sl<CacheDataClass>().setOldState(oldState);
   }
 
-  Future<void> makeSingleSignIn(FirebaseUser user) async {
+  Future<void> makeSingleSignIn(User user) async {
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
+        .doc("data");
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
     if (Platform.isAndroid) {
@@ -169,10 +169,10 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     }
     deviceId = next(1, 4294967290);
     try {
-      await ref.setData({
+      await ref.set({
         'signInId': deviceId,
         'deviceName': deviceName,
-      }, merge: false);
+      },SetOptions(merge: true));
 
       await prefs.setInt('signInId', deviceId);
     } catch (error) {
@@ -181,17 +181,17 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     }
   }
 
-  void makeSingleSignOut(FirebaseUser user) async {
+  void makeSingleSignOut(User user) async {
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
+        .doc("data");
 
     try {
-      ref.setData({
+      ref.set({
         'signInId': 0,
-      }, merge: true);
+      }, SetOptions(merge: true));
 
       await prefs.remove('onboard');
       await prefs.remove('signInId');
@@ -202,7 +202,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     }
   }
 
-  Future<void> signOutLocally(FirebaseUser user) async {
+  Future<void> signOutLocally(User user) async {
     makeSingleSignOut(user);
 
     await prefs.remove('onboard');
@@ -210,71 +210,71 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await prefs.remove('LoggedIn');
   }
 
-  Future<void> signOutLocalDuplicate(FirebaseUser user) async {
+  Future<void> signOutLocalDuplicate(User user) async {
     await prefs.remove('onboard');
     await prefs.remove('signInId');
     await prefs.remove('LoggedIn');
   }
 
   @override
-  Future<void> updateLastScene(FirebaseUser user) async {
+  Future<void> updateLastScene(User user) async {
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
-    ref.updateData({'lastSeen': DateTime.now()});
+        .doc("data");
+    ref.update({'lastSeen': DateTime.now()});
   }
 
   @override
-  void addUserInCloud(FirebaseUser user) {
+  void addUserInCloud(User user) {
     UserDetail newUser = new UserDetail();
     newUser = newUser.copyWith(
-        email: user.email, name: user.displayName, imageUrl: user.photoUrl);
+        email: user.email, name: user.displayName, imageUrl: user.photoURL);
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
-    ref.setData(newUser.toMap());
+        .doc("data");
+    ref.set(newUser.toMap());
     return;
   }
 
   @override
   Future<void> addUserDetailInCloud(UserDetail detail) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     print(addUserDetailInCloud);
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("details");
-    ref.setData(detail.toMap());
+        .doc("details");
+    ref.set(detail.toMap());
     return;
   }
 
   @override
   Future<void> updateUserInCloud(UserDetail detail) async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("details");
-    ref.updateData(detail.toMap());
+        .doc("details");
+    ref.update(detail.toMap());
     return;
   }
 
   @override
   Future<UserDetail> getUserFromCloud() async {
-    FirebaseUser user = await auth.currentUser();
+    User user =  auth.currentUser;
     UserDetail thisUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("details");
+        .doc("details");
     DocumentSnapshot this_snapshot = await ref.get();
     if (this_snapshot.data != null)
       thisUser = UserDetail.fromSnapshot(await ref.get());

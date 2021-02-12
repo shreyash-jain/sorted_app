@@ -19,7 +19,7 @@ class ChallengePageView extends StatefulWidget {
 class ChallengePageViewState extends State<ChallengePageView>
     with TickerProviderStateMixin {
   var pageController = PageController(keepPage: true);
-  VideoPlayerController _controller;
+  VideoPlayerController _video_controller;
   bool challengeAccepted = false;
   AnimationController rocketController, steamController, scaleController;
   Animation<double> rocketAnimation, steamAnimation, scaleAnimation;
@@ -27,7 +27,7 @@ class ChallengePageViewState extends State<ChallengePageView>
 
   @override
   void initState() {
-    _controller = VideoPlayerController.network(
+    _video_controller = VideoPlayerController.network(
         'https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/challenges%2FElectricEqualGoa-mobile.mp4?alt=media&token=3d391999-ae12-42bc-9d4f-4a1f982e0be2')
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
@@ -43,7 +43,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                   duration: Duration(milliseconds: 300),
                   curve: Curves.linearToEaseOut);
               setState(() {
-                _controller.play();
+                _video_controller.play();
               });
             }
           });
@@ -81,7 +81,7 @@ class ChallengePageViewState extends State<ChallengePageView>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _video_controller.dispose();
     rocketController.dispose();
     steamController.dispose();
     scaleController.dispose();
@@ -372,10 +372,10 @@ class ChallengePageViewState extends State<ChallengePageView>
               children: [
                 Container(
                   child: Center(
-                    child: _controller.value.initialized
+                    child: _video_controller.value.initialized
                         ? AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
+                            aspectRatio: _video_controller.value.aspectRatio,
+                            child: VideoPlayer(_video_controller),
                           )
                         : Container(),
                   ),
@@ -384,9 +384,9 @@ class ChallengePageViewState extends State<ChallengePageView>
                     child: Text("Learn how to do plank"),
                     onPressed: () {
                       setState(() {
-                        _controller.value.isPlaying
-                            ? _controller.pause()
-                            : _controller.play();
+                        _video_controller.value.isPlaying
+                            ? _video_controller.pause()
+                            : _video_controller.play();
                       });
                     }),
                 MaterialButton(
@@ -394,15 +394,22 @@ class ChallengePageViewState extends State<ChallengePageView>
                     onPressed: () {
                       availableCameras().then((cameras) {
                         print(cameras);
+                        print("availableCameras");
                         CameraController _controller = CameraController(
                             cameras[0], ResolutionPreset.high,
                             enableAudio: true);
+                        print("availableCameras 2");
                         _controller.initialize().then((_) {
+                          print("availableCameras 3");
+                          Navigator.pop(context);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       CamRenderer(_controller)));
+                        }).catchError((error, stackTrace) {
+                          print("inner: $error");
+                          // although `throw SecondError()` has the same effect.
                         });
                       });
                     })
@@ -488,4 +495,6 @@ class ChallengePageViewState extends State<ChallengePageView>
       ));
     }));
   }
+
+  onError() {}
 }

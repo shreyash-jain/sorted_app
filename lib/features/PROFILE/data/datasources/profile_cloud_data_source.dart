@@ -13,7 +13,7 @@ abstract class ProfileCloud {
 }
 
 class ProfileCloudDataSourceImpl implements ProfileCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
 
@@ -23,15 +23,15 @@ class ProfileCloudDataSourceImpl implements ProfileCloud {
   @override
   // TODO: implement fitnessProfile
   Future<PhysicalHealthProfile> get fitnessProfile async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     int ans = 0;
-    DocumentReference document = cloudDb
+    DocumentReference doc = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("fitness_profile");
+        .doc("fitness_profile");
 
-    DocumentSnapshot fitnessDoc = await document.get();
+    DocumentSnapshot fitnessDoc = await doc.get();
 
     return PhysicalHealthProfile.fromSnapshot(fitnessDoc);
   }
@@ -39,15 +39,15 @@ class ProfileCloudDataSourceImpl implements ProfileCloud {
   @override
   // TODO: implement lifestyleProfile
   Future<LifestyleProfile> get lifestyleProfile async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     int ans = 0;
-    DocumentReference document = cloudDb
+    DocumentReference doc = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("lifestyle_profile");
+        .doc("lifestyle_profile");
 
-    DocumentSnapshot fitnessDoc = await document.get();
+    DocumentSnapshot fitnessDoc = await doc.get();
 
     return LifestyleProfile.fromSnapshot(fitnessDoc);
   }
@@ -55,15 +55,15 @@ class ProfileCloudDataSourceImpl implements ProfileCloud {
   @override
   // TODO: implement mindfulProfile
   Future<MentalHealthProfile> get mindfulProfile async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     int ans = 0;
-    DocumentReference document = cloudDb
+    DocumentReference doc = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("lifestyle_profile");
+        .doc("lifestyle_profile");
 
-    DocumentSnapshot fitnessDoc = await document.get();
+    DocumentSnapshot fitnessDoc = await doc.get();
 
     return MentalHealthProfile.fromSnapshot(fitnessDoc);
   }

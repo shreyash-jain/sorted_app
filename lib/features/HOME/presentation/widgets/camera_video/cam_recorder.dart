@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-
+import 'package:sorted/features/HOME/presentation/widgets/camera_video/video_player.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -179,12 +179,12 @@ class _CamRendererState extends State<CamRenderer> {
               child: Text('View'),
               onPressed: () {
                 if( filePath != null ) {
-                  //Navigator.push(
-                  //  context, 
-                  //  MaterialPageRoute(
-                  //    builder: (context) => VideoPlayerApp(filePath)
-                  //  )
-                  //); 
+                  Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => VideoPlayerApp(filepath:filePath)
+                   )
+                  ); 
                 }
               },
             ),

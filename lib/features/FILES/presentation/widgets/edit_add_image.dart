@@ -34,7 +34,7 @@ class EditImageView extends StatefulWidget {
 class _EditImageViewState extends State<EditImageView> {
   final controller = CropController(aspectRatio: 1);
   double _rotation = 0;
-  CropShape shape = CropShape.box;
+  BoxShape shape = BoxShape.rectangle;
   bool isUploading = false;
 
   @override
@@ -138,7 +138,7 @@ class _EditImageViewState extends State<EditImageView> {
                     ),
                   ),
                 ),
-                helper: shape == CropShape.box
+                helper: shape == BoxShape.rectangle
                     ? Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 2),

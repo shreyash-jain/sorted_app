@@ -7,7 +7,7 @@ import 'dart:core';
 import 'package:flutter/painting.dart';
 
 import 'package:intl/intl.dart';
-import 'package:sa_anicoto/sa_anicoto.dart';
+
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sorted/core/error/exceptions.dart';
@@ -38,7 +38,7 @@ class AnalysisMain extends StatefulWidget {
 }
 
 class _AnalysisMainState extends State<AnalysisMain>
-    with TickerProviderStateMixin, AnimationMixin {
+    with TickerProviderStateMixin {
   
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();

@@ -7,7 +7,7 @@ import 'package:sorted/core/global/animations/progress_goal.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/PLAN/data/models/goal.dart';
@@ -236,8 +236,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                Router.navigator.pushNamed(
-                  Router.kanbanPage,
+                 rt.Router.navigator.pushNamed(
+                   rt.Router.kanbanPage,
                 );
               },
               child: UnicornOutlineButton(
@@ -296,8 +296,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                Router.navigator.pushNamed(
-                  Router.timelineView,
+                 rt.Router.navigator.pushNamed(
+                   rt.Router.timelineView,
                 );
               },
               child: UnicornOutlineButton(
@@ -356,8 +356,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                Router.navigator.pushNamed(
-                  Router.timelineView,
+                 rt.Router.navigator.pushNamed(
+                   rt.Router.timelineView,
                 );
               },
               child: UnicornOutlineButton(
@@ -416,8 +416,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                Router.navigator.pushNamed(
-                  Router.yearPlanner,
+                 rt.Router.navigator.pushNamed(
+                   rt.Router.yearPlanner,
                 );
               },
               child: UnicornOutlineButton(
@@ -476,8 +476,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                Router.navigator.pushNamed(
-                  Router.longPlanner,
+                 rt.Router.navigator.pushNamed(
+                   rt.Router.longPlanner,
                 );
               },
               child: UnicornOutlineButton(
@@ -833,8 +833,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                         key: Key(state.tasks[index].id.toString()),
                         child: GestureDetector(
                           onTap: () {
-                            Router.navigator.pushNamed(Router.taskPage,
-                                arguments: TaskPageArguments(
+                             rt.Router.navigator.pushNamed( rt.Router.taskPage,
+                                arguments:  rt.TaskPageArguments(
                                     thisGoal: state.tasks[index],
                                     planBloc:
                                         BlocProvider.of<PlanBloc>(context)));

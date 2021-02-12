@@ -1,7 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
@@ -9,8 +12,9 @@ import 'package:sorted/core/global/bloc_observer.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/injection_container.dart' as di;
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/core/theme/app_theme_wrapper.dart';
+import 'package:sorted/core/notification/push_notification_service.dart';
 
 import 'package:sorted/core/theme/theme.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_repository_impl.dart';
@@ -19,8 +23,9 @@ import 'core/global/injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
   EquatableConfig.stringify = kDebugMode;
+
   await di.init();
   Bloc.observer = SimpleBlocObserver();
   runApp(App(
@@ -29,6 +34,7 @@ void main() async {
 }
 
 class App extends StatelessWidget {
+  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   const App({
     Key key,
     @required this.authenticationRepository,
@@ -41,6 +47,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pushNotificationService = PushNotificationService(_firebaseMessaging);
+    pushNotificationService.initialise();
     return RepositoryProvider.value(
       value: authenticationRepository,
       child: BlocProvider(
@@ -75,8 +83,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      navigatorKey: Router.navigator.key,
-      onGenerateRoute: Router.onGenerateRoute,
+      navigatorKey: rt.Router.navigator.key,
+      onGenerateRoute: rt.Router.onGenerateRoute,
       builder: (context, child) {
         print("My App");
         Gparam.height = MediaQuery.of(context).size.height -
@@ -99,19 +107,19 @@ class _MyAppState extends State<MyApp> {
                     switch (state.status) {
                       case AuthenticationStatus.authenticated:
                         print("authenticated");
-                        Router.navigator.pop();
-                        Router.navigator.pushNamed(Router.startPage,
+                        rt.Router.navigator.pop();
+                        rt.Router.navigator.pushNamed(rt.Router.startPage,
                             arguments:
-                                MyStartPageArguments(title: "start Page"));
+                                rt.MyStartPageArguments(title: "start Page"));
                         break;
                       case AuthenticationStatus.unauthenticated:
                         // todo: send to onboarding page
                         print("un-authenticated");
 
-                        Router.navigator.pop();
-                        Router.navigator.pushNamed(Router.onboardPage,
+                        rt.Router.navigator.pop();
+                        rt.Router.navigator.pushNamed(rt.Router.onboardPage,
                             arguments:
-                                OnboardPageArguments(title: "Onboard Page"));
+                                rt.OnboardPageArguments(title: "Onboard Page"));
 
                         // _navigator.pushAndRemoveUntil<void>(
                         //   LoginPage.route(),

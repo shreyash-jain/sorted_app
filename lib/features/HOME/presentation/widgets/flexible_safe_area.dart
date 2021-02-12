@@ -9,7 +9,7 @@ import 'package:sorted/core/global/animations/shimmer.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
@@ -142,8 +142,8 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                         end: Alignment.bottomCenter,
                                       ),
                                       onPressed: () {
-                                        Router.navigator.pushNamed(
-                                            Router.challengePageView);
+                                         rt.Router.navigator.pushNamed(
+                                             rt.Router.challengePageView);
                                       },
                                       child: Column(
                                         children: [
@@ -529,10 +529,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                             .bottomCenter,
                                                       ),
                                                       onPressed: () {
-                                                        Router.navigator.pushNamed(
-                                                            Router
+                                                         rt.Router.navigator.pushNamed(
+                                                             rt.Router
                                                                 .affirmationPageview,
-                                                            arguments: AffirmationPVArguments(
+                                                            arguments:  rt.AffirmationPVArguments(
                                                                 affirmations: (affirmationBloc
                                                                             .state
                                                                         as LoadedState)

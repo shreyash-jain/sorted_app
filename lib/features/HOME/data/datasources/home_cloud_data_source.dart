@@ -21,7 +21,7 @@ abstract class HomeCloud {
 }
 
 class HomeCloudDataSourceImpl implements HomeCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;
@@ -35,17 +35,17 @@ class HomeCloudDataSourceImpl implements HomeCloud {
   @override
   Future<List<InspirationModel>> get inspirations async {
     List<InspirationModel> inspirationsList = [];
-    var key = cloudDb.collection('inspiration').document().documentID;
+    var key = cloudDb.collection('inspiration').doc().id;
 
     await cloudDb
         .collection('inspiration')
         .where(FieldPath.documentId, isGreaterThanOrEqualTo: key)
         .limit(1)
-        .getDocuments()
+        .get()
         .then((snapshot) async => {
-              if (snapshot.documents.length > 0)
+              if (snapshot.docs.length > 0)
                 {
-                  snapshot.documents.forEach((element) {
+                  snapshot.docs.forEach((element) {
                     inspirationsList
                         .add(InspirationModel.fromSnapshot(element));
                   })
@@ -56,9 +56,9 @@ class HomeCloudDataSourceImpl implements HomeCloud {
                       .collection('inspiration')
                       .where(FieldPath.documentId, isLessThan: key)
                       .limit(1)
-                      .getDocuments()
+                      .get()
                       .then((value) => {
-                            snapshot.documents.forEach((element) {
+                            snapshot.docs.forEach((element) {
                               inspirationsList
                                   .add(InspirationModel.fromSnapshot(element));
                             })
@@ -71,10 +71,9 @@ class HomeCloudDataSourceImpl implements HomeCloud {
 
   @override
   Future<List<Placeholder>> get placeholderDetails async {
-    QuerySnapshot snapShot =
-        await cloudDb.collection('images_info').getDocuments();
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
+    QuerySnapshot snapShot = await cloudDb.collection('images_info').get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
       return documents.map((e) => Placeholder.fromSnapshot(e)).toList();
     }
     return Future.value([]);
@@ -82,18 +81,18 @@ class HomeCloudDataSourceImpl implements HomeCloud {
 
   @override
   Future<int> get currentId async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     int ans = 0;
     DocumentReference document = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
+        .doc("data");
 
     await document.get().then((value) {
-      print(value.data.containsKey("signInId").toString());
-      print(value.data['signInId']);
-      ans = value.data['signInId'];
+      print(value.data().containsKey("signInId").toString());
+      print(value.data()['signInId']);
+      ans = value.data()['signInId'];
       return ans;
     });
     return ans;
@@ -101,18 +100,18 @@ class HomeCloudDataSourceImpl implements HomeCloud {
 
   @override
   Future<String> get deviceName async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference document = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("data");
+        .doc("data");
 
     String ans;
     await document.get().then((value) {
-      print(value.data.containsKey("deviceName").toString());
-      print(value.data['deviceName']);
-      ans = value.data['deviceName'];
+      print(value.data().containsKey("deviceName").toString());
+      print(value.data()['deviceName']);
+      ans = value.data()['deviceName'];
       return ans;
     });
 
@@ -122,7 +121,7 @@ class HomeCloudDataSourceImpl implements HomeCloud {
   @override
   Future<List<AffirmationModel>> get affirmations async {
     List<AffirmationModel> affirmationList = [];
-    var key = cloudDb.collection('affirmations').document().documentID;
+    var key = cloudDb.collection('affirmations').doc().id;
     print("key : " + key);
     var quote;
     print("ds_cloud/affirmations" + " " + "1");
@@ -130,11 +129,11 @@ class HomeCloudDataSourceImpl implements HomeCloud {
         .collection('affirmations')
         .where(FieldPath.documentId, isGreaterThanOrEqualTo: key)
         .limit(8)
-        .getDocuments()
+        .get()
         .then((snapshot) async {
-      if (snapshot.documents.length > 0) {
+      if (snapshot.docs.length > 0) {
         print("ds_cloud/affirmations" + " " + "2");
-        snapshot.documents.forEach((element) {
+        snapshot.docs.forEach((element) {
           print("ds_cloud/affirmations" + " " + "2");
           affirmationList.add(AffirmationModel.fromSnapshot(element));
         });
@@ -143,12 +142,10 @@ class HomeCloudDataSourceImpl implements HomeCloud {
             .collection('affirmations')
             .where(FieldPath.documentId, isLessThan: key)
             .limit(8)
-            .getDocuments()
+            .get()
             .then((value) {
-          print("ds_cloud/affirmations" +
-              " " +
-              value.documents.length.toString());
-          snapshot.documents.forEach((element) {
+          print("ds_cloud/affirmations" + " " + value.docs.length.toString());
+          snapshot.docs.forEach((element) {
             print("ds_cloud/affirmations" + " " + "3");
             affirmationList.add(AffirmationModel.fromSnapshot(element));
           });
@@ -161,42 +158,41 @@ class HomeCloudDataSourceImpl implements HomeCloud {
 
   @override
   Future<void> addAffirmationsToFav(AffirmationModel affirmation) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("FavAffirmations")
-        .document(affirmation.id.toString());
+        .doc(affirmation.id.toString());
 
     ref
-        .setData(affirmation.toMap())
-        .then((value) => print(ref.documentID))
+        .set(affirmation.toMap())
+        .then((value) => print(ref.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> deleteAffirmationsFromFav(AffirmationModel affirmation) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("FavAffirmations")
-        .document(affirmation.id.toString());
+        .doc(affirmation.id.toString());
 
     ref
         .delete()
-        .then((value) => print(ref.documentID))
+        .then((value) => print(ref.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<List<Placeholder>> get thumbnailDetails async {
-    QuerySnapshot snapShot =
-        await cloudDb.collection('thumbnailInfo').getDocuments();
-    if (snapShot != null && snapShot.documents.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.documents;
+    QuerySnapshot snapShot = await cloudDb.collection('thumbnailInfo').get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
       return documents.map((e) => Placeholder.fromSnapshot(e)).toList();
     }
     return Future.value([]);

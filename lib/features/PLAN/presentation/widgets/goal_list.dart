@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/animations/progress_goal.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/features/PLAN/data/models/goal.dart';
 import 'package:sorted/features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart';
 
@@ -42,8 +42,8 @@ class GoalListWidget extends StatelessWidget {
   Widget _buildGoalCard(int i, GoalModel goal, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Router.navigator.pushNamed(Router.goalPage,
-            arguments: GoalPageArguments(
+        rt.Router.navigator.pushNamed(rt.Router.goalPage,
+            arguments: rt.GoalPageArguments(
                 thisGoal: goal, planBloc: BlocProvider.of<PlanBloc>(context)));
       },
       child: Hero(

@@ -33,7 +33,7 @@ class AuthenticationBloc
 
   final AuthenticationRepository _authenticationRepository;
   final UserIntroductionRepository _userIntroRepository;
-  StreamSubscription<User> _userSubscription;
+  StreamSubscription<NativeUser> _userSubscription;
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -43,7 +43,7 @@ class AuthenticationBloc
       var fOrD = await _userIntroRepository.getUserDetailsNative();
       yield* _mapAuthenticationUserChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {
-      Either<Failure, FirebaseUser> user =
+      Either<Failure, User> user =
           await _authenticationRepository.currentUser();
       user.fold((l) => print("user already Logged out"),
           (r) => unawaited(_authenticationRepository.logOut(r)));
@@ -59,7 +59,7 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapAuthenticationUserChangedToState(
     AuthenticationUserChanged event,
   ) async* {
-    if (event.user == User.empty) {
+    if (event.user == NativeUser.empty) {
       yield const AuthenticationState.unauthenticated();
     } else {
       print("check native user details");

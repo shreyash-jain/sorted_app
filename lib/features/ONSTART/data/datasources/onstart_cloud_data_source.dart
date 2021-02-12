@@ -12,7 +12,7 @@ abstract class OnStartCloud {
 }
 
 class OnStartCloudDataSourceImpl implements OnStartCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
 
   OnStartCloudDataSourceImpl({@required this.cloudDb});
 

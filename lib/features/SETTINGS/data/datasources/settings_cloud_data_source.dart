@@ -16,7 +16,7 @@ abstract class SettingsCloud {
 }
 
 class SettingsCloudDataSourceImpl implements SettingsCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;
@@ -26,34 +26,34 @@ class SettingsCloudDataSourceImpl implements SettingsCloud {
 
   @override
   Future<void> addSettings(SettingsDetails setting) async {
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
  
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("settings");
+        .doc("settings");
 
     ref
-        .setData(setting.toMap())
-        .then((value) => print(ref.documentID))
+        .set(setting.toMap())
+        .then((value) => print(ref.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
     return;
   }
 
   @override
   Future<void> updateSettings(SettingsDetails setting) async {
-    FirebaseUser user = await auth.currentUser();
+   User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection("user_data")
-        .document("settings");
+        .doc("settings");
 
     ref
-        .updateData(setting.toMap())
-        .then((value) => print(ref.documentID))
+        .update(setting.toMap())
+        .then((value) => print(ref.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
     return;
   }

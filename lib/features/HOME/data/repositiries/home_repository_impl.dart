@@ -199,7 +199,7 @@ class HomeRepositoryImpl implements HomeRepository {
                   ".png";
               print("path is here " + path);
               String url =
-                  await sl<StorageReference>().child(path).getDownloadURL();
+                  await sl<Reference>().child(path).getDownloadURL();
               thumbnailUrls.add(
                 DisplayThumbnail(
                     thumbnailUrl: url,
@@ -223,7 +223,7 @@ class HomeRepositoryImpl implements HomeRepository {
               ".png";
           print("path is here " + path);
           String url =
-              await sl<StorageReference>().child(path).getDownloadURL();
+              await sl<Reference>().child(path).getDownloadURL();
           thumbnailUrls.add(DisplayThumbnail(
               thumbnailUrl: url, category: thumbnailsDetailsNative[i].name));
         }
@@ -281,7 +281,7 @@ class HomeRepositoryImpl implements HomeRepository {
               ".png";
           print("path is here " + path);
           String url =
-              await sl<StorageReference>().child(path).getDownloadURL();
+              await sl<Reference>().child(path).getDownloadURL();
           thumbnailUrls.add(DisplayThumbnail(
               thumbnailUrl: url, category: thumbnailsDetailsNative[i].name));
         }
@@ -574,6 +574,10 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<DayAffirmation>>> get todayAffirmations async {
+
+
+
+
     Either<Failure, List<DayAffirmation>> result = Left(ServerFailure());
     DateTime now = DateTime.now();
     print("todayAffirmations" + " " + "1");

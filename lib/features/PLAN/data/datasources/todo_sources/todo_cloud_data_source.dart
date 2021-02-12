@@ -25,7 +25,7 @@ abstract class TodoCloud {
 }
 
 class TodoCloudDataSourceImpl implements TodoCloud {
-  final Firestore cloudDb;
+  final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
   Batch batch;
@@ -36,58 +36,58 @@ class TodoCloudDataSourceImpl implements TodoCloud {
   @override
   Future<void> addLinkTodoitemToTodo(
       TodoModel todo, TodoItemModel todoitem, int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todo.getItemsTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.setData({
+    ref.set({
       "id": id,
       "todo_id": todo.id,
       "todoitem_id": todoitem.id,
       "savedTs": DateTime.now().millisecondsSinceEpoch
-    }).then((value) => print(ref.documentID));
+    }).then((value) => print(ref.id));
   }
 
   @override
   Future<void> addTodo(TodoModel todo) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todo.getTable())
-        .document(todo.id.toString());
+        .doc(todo.id.toString());
 
     ref
-        .setData(todo.toMap())
+        .set(todo.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> addTodoItem(TodoItemModel todoitem) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todoitem.getTable())
-        .document(todoitem.id.toString());
+        .doc(todoitem.id.toString());
 
     ref
-        .setData(todoitem.toMap())
+        .set(todoitem.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> deleteTodo(TodoModel todo) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todo.getTable())
-        .document(todo.id.toString());
+        .doc(todo.id.toString());
 
     ref
         .delete()
@@ -96,12 +96,12 @@ class TodoCloudDataSourceImpl implements TodoCloud {
 
   @override
   Future<void> deleteTodoItem(TodoItemModel todoitem) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todoitem.getTable())
-        .document(todoitem.id.toString());
+        .doc(todoitem.id.toString());
 
     ref
         .delete()
@@ -110,43 +110,43 @@ class TodoCloudDataSourceImpl implements TodoCloud {
 
   @override
   Future<void> removeLinkTodoitemFromTodo(int id) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     TodoModel todo;
 
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todo.getItemsTable())
-        .document(id.toString());
+        .doc(id.toString());
 
-    ref.delete().then((value) => print(ref.documentID));
+    ref.delete().then((value) => print(ref.id));
   }
 
   @override
   Future<void> updateTodo(TodoModel todo) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todo.getTable())
-        .document(todo.id.toString());
+        .doc(todo.id.toString());
 
     ref
-        .updateData(todo.toMap())
+        .update(todo.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 
   @override
   Future<void> updateTodoItem(TodoItemModel todoitem) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
-        .document(user.uid)
+        .doc(user.uid)
         .collection(todoitem.getTable())
-        .document(todoitem.id.toString());
+        .doc(todoitem.id.toString());
 
     ref
-        .setData(todoitem.toMap())
+        .set(todoitem.toMap())
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
   }
 }

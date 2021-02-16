@@ -182,7 +182,8 @@ class LifestyleProfile extends Equatable {
     );
   }
 
-  factory LifestyleProfile.fromSnapshot(DocumentSnapshot map) {
+  factory LifestyleProfile.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
 
     return LifestyleProfile(

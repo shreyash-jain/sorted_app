@@ -114,7 +114,8 @@ class MentalHealthProfile extends Equatable {
 
 
   
-  factory MentalHealthProfile.fromSnapshot(DocumentSnapshot map) {
+  factory MentalHealthProfile.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
   
     return MentalHealthProfile(

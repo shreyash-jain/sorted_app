@@ -12,7 +12,7 @@ class InspirationModel extends Equatable {
     this.text = 'Lets do it !',
     this.imageUrl = '',
   });
-  
+
   @override
   // TODO: implement props
   List<Object> get props => [auther, text, imageUrl];
@@ -39,7 +39,7 @@ class InspirationModel extends Equatable {
 
   factory InspirationModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return InspirationModel(
       auther: map['auther'],
       text: map['text'],
@@ -49,8 +49,10 @@ class InspirationModel extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-factory InspirationModel.fromJson(String source) => InspirationModel.fromMap(json.decode(source));
-factory InspirationModel.fromSnapshot(DocumentSnapshot map) {
+  factory InspirationModel.fromJson(String source) =>
+      InspirationModel.fromMap(json.decode(source));
+  factory InspirationModel.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
 
     return InspirationModel(

@@ -392,6 +392,10 @@ class _ListTodoCard extends State<ListTodoCard> {
                         child: CachedNetworkImage(
                           imageUrl: widget.todo.url,
                           fit: BoxFit.contain,
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.error,
+                            color: Colors.grey,
+                          ),
                           width: 40,
                           height: 40,
                         )),

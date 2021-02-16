@@ -430,6 +430,12 @@ class NoteMainState extends State<NoteMain> {
                                                     ),
                                                   ),
                                                 ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(
+                                                  Icons.error,
+                                                  color: Colors.grey,
+                                                ),
                                                 imageUrl: state.note.cover,
                                                 fit: BoxFit.cover,
                                                 width: 200,

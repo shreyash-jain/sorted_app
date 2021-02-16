@@ -67,7 +67,8 @@ class UserAModel extends Equatable {
       aId: map['a_id'],
     );
   }
-  factory UserAModel.fromSnapshot(DocumentSnapshot map) {
+  factory UserAModel.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
 
     return UserAModel(

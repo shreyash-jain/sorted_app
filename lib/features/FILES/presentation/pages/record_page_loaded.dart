@@ -347,6 +347,12 @@ class RecordTabPageState extends State<RecordTabPage> {
                                                     ),
                                                   ),
                                                 ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(
+                                                  Icons.error,
+                                                  color: Colors.grey,
+                                                ),
                                                 imageUrl:
                                                     sliderURLS[position - 1],
                                                 fit: BoxFit.cover,

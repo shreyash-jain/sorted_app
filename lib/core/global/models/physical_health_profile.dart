@@ -145,7 +145,8 @@ class PhysicalHealthProfile extends Equatable {
     );
   }
 
-  factory PhysicalHealthProfile.fromSnapshot(DocumentSnapshot map) {
+  factory PhysicalHealthProfile.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
 
     return PhysicalHealthProfile(

@@ -110,20 +110,33 @@ class ImageWidgetState extends State<ImageWidget> {
                     SizedBox(
                       height: 8,
                     ),
-                     if (state.imageBlock.url != null &&
+                  if (state.imageBlock.url != null &&
                       state.imageBlock.url != "")
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0, bottom: 0),
-                    child: Center(
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0),
-                            child: CachedNetworkImage(
-                              imageUrl: state.imageBlock.url,
-                              fit: BoxFit.cover,
-                              height: 160,
-                              width: Gparam.width,
-                            ))),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0, bottom: 0),
+                      child: Center(
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16.0),
+                              child: CachedNetworkImage(
+                                imageUrl: state.imageBlock.url,
+                                placeholder: (context, url) => Center(
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      strokeWidth: 3,
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    new Icon(Icons.network_check),
+                                fit: BoxFit.cover,
+                                height: 160,
+                                width: Gparam.width,
+                              ))),
+                    ),
                 ],
               ));
         else if (state.imageBlock.decoration == 0)
@@ -214,6 +227,8 @@ class ImageWidgetState extends State<ImageWidget> {
                                             BorderRadius.circular(16.0),
                                         child: CachedNetworkImage(
                                           imageUrl: state.imageBlock.url,
+                                          errorWidget: (context, url, error) =>
+                                              new Icon(Icons.network_check),
                                           placeholder: (context, url) => Center(
                                             child: Container(
                                               width: 50,

@@ -15,16 +15,42 @@ import 'package:sorted/core/global/injection_container.dart' as di;
 import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/core/theme/app_theme_wrapper.dart';
 import 'package:sorted/core/notification/push_notification_service.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sorted/core/theme/theme.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_repository_impl.dart';
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 import 'core/global/injection_container.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final pushNotificationService = PushNotificationService(_firebaseMessaging);
+  pushNotificationService.initialise();
   await Firebase.initializeApp();
   EquatableConfig.stringify = kDebugMode;
+  await FirebaseMessaging().requestNotificationPermissions();
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    'This channel is used for important notifications.', // description
+    importance: Importance.high,
+  );
+
+  /// Initialize the [FlutterLocalNotificationsPlugin] package.
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  var initializationSettingsAndroid = AndroidInitializationSettings('logo');
+  var initializationSettingsIOS = IOSInitializationSettings(
+      onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+  var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: selectNotification);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
 
   await di.init();
   Bloc.observer = SimpleBlocObserver();
@@ -34,7 +60,6 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   const App({
     Key key,
     @required this.authenticationRepository,
@@ -47,8 +72,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pushNotificationService = PushNotificationService(_firebaseMessaging);
-    pushNotificationService.initialise();
     return RepositoryProvider.value(
       value: authenticationRepository,
       child: BlocProvider(
@@ -137,3 +160,8 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+Future onDidReceiveLocalNotification(
+    int id, String title, String body, String payload) {}
+
+Future selectNotification(String payload) {}

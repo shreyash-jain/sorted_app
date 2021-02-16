@@ -46,7 +46,8 @@ class Placeholder extends Equatable {
     );
   }
 
-  factory Placeholder.fromSnapshot(DocumentSnapshot map) {
+  factory Placeholder.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
 
     return Placeholder(

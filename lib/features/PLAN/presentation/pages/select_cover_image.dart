@@ -351,7 +351,7 @@ class SelectCoverState extends State<SelectCover> {
                                 text: "Search\n",
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
-                                  color:Theme.of(context).primaryColor,
+                                  color: Theme.of(context).primaryColor,
                                   fontSize: Gparam.textMedium,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -392,8 +392,12 @@ class SelectCoverState extends State<SelectCover> {
                                     new BorderRadius.all(Radius.circular(16.0)),
                                 gradient: new LinearGradient(
                                     colors: [
-                                      Theme.of(context).primaryColor.withAlpha(50),
-                                     Theme.of(context).primaryColor.withAlpha(60),
+                                      Theme.of(context)
+                                          .primaryColor
+                                          .withAlpha(50),
+                                      Theme.of(context)
+                                          .primaryColor
+                                          .withAlpha(60),
                                     ],
                                     begin: FractionalOffset.topCenter,
                                     end: FractionalOffset.bottomCenter,
@@ -462,13 +466,13 @@ class SelectCoverState extends State<SelectCover> {
                   );
                 } else if (state is SearchLoading) {
                   return Container(
-                    height: Gparam.height,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LoadingWidget(),
-                      ],
-                    ));
+                      height: Gparam.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LoadingWidget(),
+                        ],
+                      ));
                 }
               },
             ),
@@ -508,6 +512,10 @@ class SelectCoverState extends State<SelectCover> {
                   ),
                 ),
               ),
+              errorWidget: (context, url, error) => Icon(
+                Icons.error,
+                color: Colors.grey,
+              ),
               imageUrl: gradientUrl,
               fit: BoxFit.cover,
               width: 200,
@@ -536,6 +544,10 @@ class SelectCoverState extends State<SelectCover> {
                     strokeWidth: 3,
                   ),
                 ),
+              ),
+              errorWidget: (context, url, error) => Icon(
+                Icons.error,
+                color: Colors.grey,
               ),
               imageUrl: image.imageUrl,
               fit: BoxFit.cover,

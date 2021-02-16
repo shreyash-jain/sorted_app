@@ -142,8 +142,8 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                         end: Alignment.bottomCenter,
                                       ),
                                       onPressed: () {
-                                         rt.Router.navigator.pushNamed(
-                                             rt.Router.challengePageView);
+                                        rt.Router.navigator.pushNamed(
+                                            rt.Router.challengePageView);
                                       },
                                       child: Column(
                                         children: [
@@ -183,6 +183,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                           BorderRadius.circular(
                                                               60.0),
                                                       child: CachedNetworkImage(
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                         imageUrl:
                                                             "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fcristina-zaragoza-cMVRsfY8R3Q-unsplash.jpg?alt=media&token=95af0462-1040-409b-973b-384fba7662be",
                                                         fit: BoxFit.cover,
@@ -263,6 +269,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                           BorderRadius.circular(
                                                               60.0),
                                                       child: CachedNetworkImage(
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                         imageUrl:
                                                             "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fmarkus-winkler-OQ48N5FDW1w-unsplash.jpg?alt=media&token=76daf5cd-0df7-46d3-a742-7a8bd170fc5c",
                                                         fit: BoxFit.cover,
@@ -270,9 +282,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                         width: 70,
                                                       )),
                                                   Stack(
-                                                    children: [
-                                                     
-                                                    ],
+                                                    children: [],
                                                   ),
                                                 ],
                                               )),
@@ -397,6 +407,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                                               fit: BoxFit.cover,
                                                                               height: 70,
                                                                               width: 70,
+                                                                              errorWidget: (context, url, error) => Icon(
+                                                                                Icons.error,
+                                                                                color: Colors.grey,
+                                                                              ),
                                                                             )),
                                                                       ],
                                                                     )),
@@ -488,6 +502,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                                               fit: BoxFit.cover,
                                                                               height: 70,
                                                                               width: 70,
+                                                                              errorWidget: (context, url, error) => Icon(
+                                                                                Icons.error,
+                                                                                color: Colors.grey,
+                                                                              ),
                                                                             )),
                                                                       ],
                                                                     )),
@@ -529,10 +547,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                             .bottomCenter,
                                                       ),
                                                       onPressed: () {
-                                                         rt.Router.navigator.pushNamed(
-                                                             rt.Router
+                                                        rt.Router.navigator.pushNamed(
+                                                            rt.Router
                                                                 .affirmationPageview,
-                                                            arguments:  rt.AffirmationPVArguments(
+                                                            arguments: rt.AffirmationPVArguments(
                                                                 affirmations: (affirmationBloc
                                                                             .state
                                                                         as LoadedState)
@@ -604,6 +622,11 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                                                 BoxFit.cover,
                                                                             height:
                                                                                 70,
+                                                                            errorWidget: (context, url, error) =>
+                                                                                Icon(
+                                                                              Icons.error,
+                                                                              color: Colors.grey,
+                                                                            ),
                                                                             width:
                                                                                 70,
                                                                           )),
@@ -691,6 +714,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                         imageUrl:
                                                             "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fzac-durant-_6HzPU9Hyfg-unsplash.jpg?alt=media&token=6de62955-2fd1-4a1e-94e4-6fa8256219a2",
                                                         fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                         height: 70,
                                                         width: 70,
                                                       )),
@@ -776,6 +805,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                             "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fdane-wetton-t1NEMSm1rgI-unsplash.jpg?alt=media&token=3fc63268-3ae0-46ec-ad66-1817016e063e",
                                                         fit: BoxFit.cover,
                                                         height: 70,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                         width: 70,
                                                       )),
                                                 ],
@@ -859,6 +894,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                             "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fbruno-nascimento-PHIgYUGQPvU-unsplash.jpg?alt=media&token=ed7a6e91-d275-4748-8608-06e4136faaee",
                                                         fit: BoxFit.cover,
                                                         height: 70,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                         width: 70,
                                                       )),
                                                 ],
@@ -942,6 +983,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                             "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Flaura-johnston-1I4rCoC5oKA-unsplash.jpg?alt=media&token=578f5c4c-f986-4aec-802d-3a4e13e6d7a6",
                                                         fit: BoxFit.cover,
                                                         height: 70,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                         width: 70,
                                                       )),
                                                 ],
@@ -1026,6 +1073,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                         fit: BoxFit.cover,
                                                         height: 70,
                                                         width: 70,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                       )),
                                                 ],
                                               )),
@@ -1111,6 +1164,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                         fit: BoxFit.cover,
                                                         height: 70,
                                                         width: 70,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(
+                                                          Icons.error,
+                                                          color: Colors.grey,
+                                                        ),
                                                       )),
                                                 ],
                                               )),

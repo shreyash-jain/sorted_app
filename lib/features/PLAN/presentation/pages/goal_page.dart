@@ -104,6 +104,10 @@ class GoalPageState extends State<GoalPage> {
                                         ),
                                       ),
                                     ),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.error,
+                                      color: Colors.grey,
+                                    ),
                                     imageUrl: state.thisGoal.coverImageId,
                                     fit: BoxFit.cover,
                                     width: 200,
@@ -215,11 +219,11 @@ class GoalPageState extends State<GoalPage> {
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            
-                                             rt.Router.navigator.pushNamed(
-                                                 rt.Router.selectCover,
-                                                arguments:  rt.SelectCoverArguments(
-                                                    goalBloc: bloc));
+                                            rt.Router.navigator.pushNamed(
+                                                rt.Router.selectCover,
+                                                arguments:
+                                                    rt.SelectCoverArguments(
+                                                        goalBloc: bloc));
                                           },
                                           child: Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -369,10 +373,11 @@ class GoalPageState extends State<GoalPage> {
                                       ),
                                       child: InkWell(
                                         onTap: () {
-                                           rt.Router.navigator.pushNamed(
-                                               rt.Router.selectCover,
-                                              arguments:  rt.SelectCoverArguments(
-                                                  goalBloc: bloc));
+                                          rt.Router.navigator.pushNamed(
+                                              rt.Router.selectCover,
+                                              arguments:
+                                                  rt.SelectCoverArguments(
+                                                      goalBloc: bloc));
                                         },
                                         child: Row(
                                             mainAxisSize: MainAxisSize.min,

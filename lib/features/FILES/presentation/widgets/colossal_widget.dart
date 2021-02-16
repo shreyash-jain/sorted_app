@@ -310,6 +310,8 @@ class ColossalWidgetState extends State<ColossalWidget> {
                                 ),
                               )),
                         ),
+                        errorWidget: (context, url, error) =>
+                            new Icon(Icons.network_check),
                         imageUrl: imageFile.url,
                         fit: BoxFit.cover,
                       ))),

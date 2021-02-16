@@ -104,7 +104,9 @@ class UserDetail extends Equatable {
       'gender': gender == Gender.male ? 0 : 1,
       'profession': profession == Profession.student
           ? 0
-          : (profession == Profession.working) ? 1 : 2,
+          : (profession == Profession.working)
+              ? 1
+              : 2,
     };
   }
 
@@ -127,7 +129,8 @@ class UserDetail extends Equatable {
       profession: Profession.values[(map['profession'])],
     );
   }
-  factory UserDetail.fromSnapshot(DocumentSnapshot map) {
+  factory UserDetail.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
 
     return UserDetail(
@@ -165,7 +168,8 @@ class UserDetail extends Equatable {
   }
 
   String generateMessageOnUserIntro() {
-    if (userName == null || userName == "") return "Please enter a valid Username";
+    if (userName == null || userName == "")
+      return "Please enter a valid Username";
     if (age == null || age < 10) return "$name, please enter your valid age";
 
     if (profession == null) return "$name, please complete all details";

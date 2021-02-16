@@ -67,7 +67,8 @@ class ActivityModel extends Equatable {
       weight: map['weight'].toDouble(),
     );
   }
-  factory ActivityModel.fromSnapshot(DocumentSnapshot map) {
+  factory ActivityModel.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
     print(map['id']);
     print(map['weight']);

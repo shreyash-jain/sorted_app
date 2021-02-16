@@ -295,8 +295,8 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
       String text, String url, bool hasList, bool hasTable, bool hasCal) {
     return GestureDetector(
       onTap: () {
-        rt.Router.navigator.pushNamed( rt.Router.noteHub,
-            arguments:  rt.NoteMainArguments(note: note));
+        rt.Router.navigator.pushNamed(rt.Router.noteHub,
+            arguments: rt.NoteMainArguments(note: note));
       },
       child: Hero(
         tag: note.id.toString(),
@@ -351,6 +351,10 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                                         strokeWidth: 3,
                                       ),
                                     ),
+                                  ),
+                                  errorWidget: (context, url, error) => Icon(
+                                    Icons.error,
+                                    color: Colors.grey,
                                   ),
                                   imageUrl: note.cover,
                                   fit: BoxFit.cover,
@@ -430,6 +434,10 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                                           strokeWidth: 3,
                                         ),
                                       ),
+                                    ),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.error,
+                                      color: Colors.grey,
                                     ),
                                     imageUrl: url,
                                     fit: BoxFit.cover,

@@ -89,6 +89,10 @@ class GoalListWidget extends StatelessWidget {
                               ),
                             ),
                           ),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.error,
+                            color: Colors.grey,
+                          ),
                           imageUrl: goal.coverImageId,
                           fit: BoxFit.cover,
                           width: 170.0,

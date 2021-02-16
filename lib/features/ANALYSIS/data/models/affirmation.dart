@@ -53,7 +53,8 @@ class AffirmationModel extends Equatable {
   }
 
   String toJson() => json.encode(toMap());
-  factory AffirmationModel.fromSnapshot(DocumentSnapshot map) {
+  factory AffirmationModel.fromSnapshot(DocumentSnapshot snap) {
+    var map = snap.data();
     if (map == null) return null;
 
     return AffirmationModel(

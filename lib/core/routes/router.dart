@@ -23,7 +23,7 @@ import 'package:sorted/features/PLAN/presentation/pages/year_planner.dart';
 import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
 import 'package:sorted/features/SPLASH/splash.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart';
-
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/track_store_main.dart';
 @MaterialAutoRouter()
 class $Router {
   @initial
@@ -93,4 +93,10 @@ class $Router {
     durationInMilliseconds: 200,
   )
   ChallengePageView challengePageView;
+
+  @CustomRoute(
+    transitionsBuilder: TransitionsBuilders.fadeIn,
+    durationInMilliseconds: 200,
+  )
+  TrackStoreMain trackStoreMain;
 }

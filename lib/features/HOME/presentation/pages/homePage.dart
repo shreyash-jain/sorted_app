@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sorted/core/error/exceptions.dart';
 import 'package:sorted/core/global/animations/fade_animationLR.dart';
@@ -43,8 +42,7 @@ class SortedHome extends StatefulWidget {
   _SortedHomeState createState() => _SortedHomeState();
 }
 
-class _SortedHomeState extends State<SortedHome>
-    with TickerProviderStateMixin {
+class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
   var formatterDate = new DateFormat('dd-MM-yyyy');
   List<String> imagePath = [];
   List<int> imageTotal = [];
@@ -78,7 +76,7 @@ class _SortedHomeState extends State<SortedHome>
   final _cameraKey = GlobalKey<CameraScreenState>();
 
   var bottomNavIndex = 0;
- 
+
   @override
   void initState() {
     super.initState();
@@ -89,12 +87,11 @@ class _SortedHomeState extends State<SortedHome>
       initialScrollOffset: 0.0, // NEW
       keepScrollOffset: true, // NEW
     );
-   
+
     scaleController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 2000))
           ..addStatusListener((status) async {
             if (status == AnimationStatus.completed) {
-             
             } else if (status == AnimationStatus.dismissed) {
               scaleController.forward();
             }
@@ -145,13 +142,10 @@ class _SortedHomeState extends State<SortedHome>
       ); // NEW
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-       
         body: SafeArea(child: new LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           return SlideStack(
@@ -547,8 +541,6 @@ class _SortedHomeState extends State<SortedHome>
                     //! Side bar
 
                     //! bottom tab
-
-                   
                   ],
                 )),
           );
@@ -560,12 +552,15 @@ class _SortedHomeState extends State<SortedHome>
   void onSideTabSelected(int toIndex) {
     print(toIndex);
 
-    if (toIndex == 1) {
+    if (toIndex == 0) {
+      print("introspect");
+      rt.Router.navigator.pushNamed(rt.Router.trackStoreMain);
+    } else if (toIndex == 1) {
       print("plan");
-      rt.Router.navigator.pushNamed( rt.Router.planHome);
+      rt.Router.navigator.pushNamed(rt.Router.planHome);
     } else if (toIndex == 2) {
       print("record");
-       rt.Router.navigator.pushNamed( rt.Router.recordTab);
+      rt.Router.navigator.pushNamed(rt.Router.recordTab);
     }
     if (currentSideTab == toIndex)
       setState(() {

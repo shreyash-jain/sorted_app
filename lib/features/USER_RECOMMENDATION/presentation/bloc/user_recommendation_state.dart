@@ -6,3 +6,5 @@ class UserRecommendationInitial extends UserRecommendationState {
   @override
   List<Object> get props => [];
 }
+
+

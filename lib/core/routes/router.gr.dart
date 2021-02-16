@@ -36,6 +36,7 @@ import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
 import 'package:sorted/features/FILES/data/models/notebook_model.dart';
 import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
 import 'package:sorted/features/HOME/presentation/pages/challenge_pv.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/track_store_main.dart';
 
 class Router {
   static const splashPage = '/';
@@ -59,6 +60,7 @@ class Router {
   static const notesHubPage = '/notes-hub-page';
   static const rootHome = '/root-home';
   static const challengePageView = '/challenge-page-view';
+  static const trackStoreMain = '/track-store-main';
   static final navigator = ExtendedNavigator();
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -271,6 +273,13 @@ class Router {
         return PageRouteBuilder<dynamic>(
           pageBuilder: (ctx, animation, secondaryAnimation) =>
               ChallengePageView(key: typedArgs),
+          settings: settings,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        );
+      case Router.trackStoreMain:
+        return PageRouteBuilder<dynamic>(
+          pageBuilder: (ctx, animation, secondaryAnimation) => TrackStoreMain(),
           settings: settings,
           transitionsBuilder: TransitionsBuilders.fadeIn,
           transitionDuration: Duration(milliseconds: 200),

@@ -1,4 +1,3 @@
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -14,7 +13,6 @@ List<String> tables = [
   "User_Activity",
   "Alog",
   "Notes",
-  "Notebooks",
   "Questions",
   "Answers",
   "UserDetails",
@@ -65,8 +63,7 @@ List<String> placeHolders = [];
 class SqlDatabaseService {
   String path;
 
-
-  Reference  refStorage = FirebaseStorage.instance.ref();
+  Reference refStorage = FirebaseStorage.instance.ref();
 
   Batch batch;
   SqlDatabaseService._();

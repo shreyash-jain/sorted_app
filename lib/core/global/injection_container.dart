@@ -80,7 +80,12 @@ import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_r
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/interest_bloc/interest_bloc.dart';
-
+import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_cloud_data_source.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_shared_pref_data_source.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/data/repositories/track_store_repository_impl.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/repositories/track_store_repository.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_bloc.dart';
 import '../network/network_info.dart';
 
 final GetIt sl = GetIt.instance;
@@ -144,6 +149,10 @@ Future<void> init() async {
 
   sl.registerFactory(
     () => AffirmationBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => TrackStoreBloc(sl()),
   );
 
   //! Use cases
@@ -245,6 +254,17 @@ Future<void> init() async {
       localDataSource: sl(),
     ),
   );
+
+  sl.registerLazySingleton<TrackStoreRepository>(
+    () => TrackStoreRepositoryImpl(
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+      nativeDataSource: sl(),
+      nativeAuth: sl(),
+      remoteAuth: sl(),
+      sharedPref: sl(),
+    ),
+  );
   //! Data sources
   sl.registerLazySingleton<GoalNative>(
       () => GoalNativeDataSourceImpl(nativeDb: sl()));
@@ -324,6 +344,17 @@ Future<void> init() async {
     () => UserSharedPrefDataSourceImpl(sharedPreferences: sl()),
   );
 
+  sl.registerLazySingleton<TrackStoreCloud>(
+    () => TrackStoreCloudDataSourceImpl(
+        cloudDb: sl(), auth: sl(), nativeDb: sl()),
+  );
+  sl.registerLazySingleton<TrackStoreNative>(
+    () => TrackStoreNativeDataSourceImpl(nativeDb: sl()),
+  );
+  sl.registerLazySingleton<TrackStoreSharedPref>(
+    () => TrackStoreSharedPrefDataSourceImpl(sharedPreferences: sl()),
+  );
+
   //! Core
   //Global shared pref helper
   sl.registerLazySingleton<SharedPrefHelper>(
@@ -340,7 +371,7 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireDB = FirebaseFirestore.instance;
-  final Reference  refStorage = FirebaseStorage.instance.ref();
+  final Reference refStorage = FirebaseStorage.instance.ref();
 
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());

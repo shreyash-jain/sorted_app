@@ -8,6 +8,10 @@ class TrackModel extends Equatable {
   String name;
   String m_description;
   String is_m_description_rich;
+  String m_facts;
+  String is_m_facts_rich;
+  String m_reward;
+  String is_m_reward_rich;
   String icon;
   String m_banner;
   int m_level;

@@ -263,6 +263,7 @@ Future<void> init() async {
       nativeAuth: sl(),
       remoteAuth: sl(),
       sharedPref: sl(),
+      cloudDataSource: sl(),
     ),
   );
   //! Data sources

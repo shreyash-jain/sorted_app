@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../domain/entities/market_banner.dart';
 import '../../../../../core/global/constants/constants.dart';
@@ -28,8 +29,10 @@ class MarketCarousel extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             color: Theme.of(context).backgroundColor,
             image: DecorationImage(
-              image: NetworkImage(markets[i].image_url),
               fit: BoxFit.fill,
+              image: CachedNetworkImageProvider(
+                markets[i].image_url,
+              ),
             ),
           ),
           child: Column(

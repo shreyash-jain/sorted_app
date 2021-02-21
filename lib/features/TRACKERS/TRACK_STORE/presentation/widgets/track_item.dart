@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../domain/entities/track.dart';
 import '../../../../../core/global/constants/constants.dart';
@@ -24,8 +25,10 @@ class TrackItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: Theme.of(context).backgroundColor,
               image: DecorationImage(
-                image: NetworkImage(track.m_banner),
                 fit: BoxFit.fill,
+                image: CachedNetworkImageProvider(
+                  track.m_banner,
+                ),
               ),
             ),
           ),

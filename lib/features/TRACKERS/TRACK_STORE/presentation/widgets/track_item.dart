@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/single_track_page.dart';
 import '../../domain/entities/track.dart';
 import '../../../../../core/global/constants/constants.dart';
 
@@ -11,7 +12,13 @@ class TrackItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.of(context).push(())
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => SingleTrackPage(
+              track: track,
+            ),
+          ),
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

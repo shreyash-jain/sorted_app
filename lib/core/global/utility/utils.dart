@@ -9,3 +9,9 @@ double screenAwareSize(double size, BuildContext context) {
 
   return size * drawingHeight / baseHeight;
 }
+
+String fromLevelToDifficulty(int level) {
+  if (level == 0) return "Easy";
+  if (level == 1) return "Medium";
+  return "Hard";
+}

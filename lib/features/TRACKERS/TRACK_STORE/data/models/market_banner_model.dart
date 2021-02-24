@@ -3,33 +3,38 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class MarketHeading extends Equatable {
+import '../../domain/entities/market_banner.dart';
+import '../../domain/entities/track.dart';
+import '../../../COMMON/models/track_model.dart';
+
+class MarketBannerModel extends MarketBanner implements Equatable {
   int id;
-  String icon;
+  int action;
   String heading;
   String sub_heading;
   String image_url;
   List<int> tracks;
-  MarketHeading({
+  List<Track> tracksDetail;
+  MarketBannerModel({
     this.id = 0,
-    this.icon = '',
+    this.action = 0,
     this.heading = '',
     this.sub_heading = '',
     this.image_url = '',
     this.tracks = const [],
   });
 
-  MarketHeading copyWith({
+  MarketBannerModel copyWith({
     int id,
-    String icon,
+    int action,
     String heading,
     String sub_heading,
     String image_url,
     List<int> tracks,
   }) {
-    return MarketHeading(
+    return MarketBannerModel(
       id: id ?? this.id,
-      icon: icon ?? this.icon,
+      action: action ?? this.action,
       heading: heading ?? this.heading,
       sub_heading: sub_heading ?? this.sub_heading,
       image_url: image_url ?? this.image_url,
@@ -40,7 +45,7 @@ class MarketHeading extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'icon': icon,
+      'action': action,
       'heading': heading,
       'sub_heading': sub_heading,
       'image_url': image_url,
@@ -48,12 +53,12 @@ class MarketHeading extends Equatable {
     };
   }
 
-  factory MarketHeading.fromMap(Map<String, dynamic> map) {
+  factory MarketBannerModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return MarketHeading(
+    return MarketBannerModel(
       id: map['id'],
-      icon: map['icon'],
+      action: map['action'],
       heading: map['heading'],
       sub_heading: map['sub_heading'],
       image_url: map['image_url'],
@@ -61,13 +66,13 @@ class MarketHeading extends Equatable {
     );
   }
 
-  factory MarketHeading.fromSnapshot(DocumentSnapshot snap) {
+  factory MarketBannerModel.fromSnapshot(DocumentSnapshot snap) {
     var map = snap.data();
     if (map == null) return null;
 
-    return MarketHeading(
+    return MarketBannerModel(
       id: map['id'],
-      icon: map['icon'],
+      action: map['action'],
       heading: map['heading'],
       sub_heading: map['sub_heading'],
       image_url: map['image_url'],
@@ -77,8 +82,8 @@ class MarketHeading extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory MarketHeading.fromJson(String source) =>
-      MarketHeading.fromMap(json.decode(source));
+  factory MarketBannerModel.fromJson(String source) =>
+      MarketBannerModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
@@ -87,7 +92,7 @@ class MarketHeading extends Equatable {
   List<Object> get props {
     return [
       id,
-      icon,
+      action,
       heading,
       sub_heading,
       image_url,

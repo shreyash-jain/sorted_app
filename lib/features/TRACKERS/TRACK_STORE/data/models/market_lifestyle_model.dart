@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import '../../domain/entities/track.dart';
 
-class MarketLifestyle extends Equatable {
+class MarketLifestyleModel extends Equatable {
   int id;
   String heading;
   String sub_heading;
   String description;
   String url;
   List<int> tracks;
-  MarketLifestyle({
+  List<Track> tracksDetail;
+  MarketLifestyleModel({
     this.id = 0,
     this.heading = '',
     this.sub_heading = '',
@@ -19,7 +21,7 @@ class MarketLifestyle extends Equatable {
     this.tracks = const [],
   });
 
-  MarketLifestyle copyWith({
+  MarketLifestyleModel copyWith({
     int id,
     String heading,
     String sub_heading,
@@ -27,7 +29,7 @@ class MarketLifestyle extends Equatable {
     String url,
     List<int> tracks,
   }) {
-    return MarketLifestyle(
+    return MarketLifestyleModel(
       id: id ?? this.id,
       heading: heading ?? this.heading,
       sub_heading: sub_heading ?? this.sub_heading,
@@ -48,10 +50,10 @@ class MarketLifestyle extends Equatable {
     };
   }
 
-  factory MarketLifestyle.fromMap(Map<String, dynamic> map) {
+  factory MarketLifestyleModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
-    return MarketLifestyle(
+
+    return MarketLifestyleModel(
       id: map['id'],
       heading: map['heading'],
       sub_heading: map['sub_heading'],
@@ -60,11 +62,11 @@ class MarketLifestyle extends Equatable {
       tracks: List<int>.from(map['tracks']),
     );
   }
-  factory MarketLifestyle.fromSnapshot(DocumentSnapshot snap) {
+  factory MarketLifestyleModel.fromSnapshot(DocumentSnapshot snap) {
     var map = snap.data();
     if (map == null) return null;
-  
-    return MarketLifestyle(
+
+    return MarketLifestyleModel(
       id: map['id'],
       heading: map['heading'],
       sub_heading: map['sub_heading'],
@@ -73,11 +75,11 @@ class MarketLifestyle extends Equatable {
       tracks: List<int>.from(map['tracks']),
     );
   }
-
 
   String toJson() => json.encode(toMap());
 
-  factory MarketLifestyle.fromJson(String source) => MarketLifestyle.fromMap(json.decode(source));
+  factory MarketLifestyleModel.fromJson(String source) =>
+      MarketLifestyleModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
-import 'package:sorted/features/HOME/presentation/widgets/animated_fab.dart';
-import 'package:sorted/core/global/injection_container.dart';
-import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_bloc.dart';
+
+import './market_page.dart';
 
 class TrackStoreMain extends StatefulWidget {
   @override
@@ -13,25 +10,84 @@ class TrackStoreMain extends StatefulWidget {
 }
 
 class _TrackStoreMainState extends State<TrackStoreMain> {
-  TrackStoreBloc bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    bloc = sl<TrackStoreBloc>();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[],
+    final _tabs = [
+      "all",
+      "hello",
+      "there",
+      "younes",
+      "sdfsdf",
+      "dsfjls",
+      "jsldfjslkj"
+    ];
+
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: DefaultTabController(
+          length: _tabs.length,
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: Gparam.topPadding / 2,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Center(
+                    child: Container(
+                      height: Gparam.topPadding,
+                      width: Gparam.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).backgroundColor,
+                        borderRadius:
+                            BorderRadius.circular(Gparam.topPadding / 4),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.menu),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Search for something here',
+                            // style: TextStyle(
+                            //     color:
+                            //         Theme.of(context).textSelectionHandleColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: Gparam.topPadding / 2,
+                  ),
+                ),
+                SliverAppBar(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  flexibleSpace: TabBar(
+                    labelColor: Theme.of(context).highlightColor,
+                    indicatorColor: Theme.of(context).textSelectionColor,
+                    isScrollable: true,
+                    tabs: _tabs.map((String name) => Tab(text: name)).toList(),
+                  ),
+                  pinned: true,
+                ),
+              ];
+            },
+            body: TabBarView(
+              children: _tabs.map((String name) {
+                if (name == _tabs[0]) return MarketPage();
+                return Text(name);
+              }).toList(),
+            ),
+          ),
         ),
-      ),
-      body: Center(
-        child: Text("Track Store"),
       ),
     );
   }

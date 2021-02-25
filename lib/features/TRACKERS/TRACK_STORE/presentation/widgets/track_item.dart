@@ -20,32 +20,44 @@ class TrackItem extends StatelessWidget {
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.all(Gparam.widthPadding / 2),
-            // padding: EdgeInsets.all(8),
-            width: Gparam.width * 0.4,
-            height: Gparam.height * 0.2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Theme.of(context).backgroundColor,
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: CachedNetworkImageProvider(
-                  track.m_banner,
+      child: Container(
+        width: 100,
+        height: 170,
+        margin: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+
+              // padding: EdgeInsets.all(8),
+
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: CachedNetworkImageProvider(
+                    track.icon,
+                  ),
                 ),
               ),
             ),
-          ),
-          Text(
-            track.name,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                track.name,
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+                
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Theme.of(context).highlightColor,
+                    fontSize: Gparam.textExtraSmall,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

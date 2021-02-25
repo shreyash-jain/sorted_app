@@ -14,23 +14,23 @@ class BuildMarketHeading extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20, bottom: 5),
+          padding:
+              EdgeInsets.only(top: 0, left: Gparam.widthPadding / 2, bottom: 5),
           child: Row(
             children: [
-              Icon(Icons.home),
-              SizedBox(
-                width: Gparam.widthPadding,
-              ),
               Text(
                 marketHeading.name,
                 style: TextStyle(
-                    fontSize: Gparam.textSmall, fontWeight: FontWeight.bold),
+                    fontFamily: 'Montserrat',
+                    color: Theme.of(context).highlightColor,
+                    fontSize: Gparam.textSmall,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
         ),
         Container(
-          height: Gparam.height * 0.3,
+          height: 170,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: marketHeading.tracksDetail.length,

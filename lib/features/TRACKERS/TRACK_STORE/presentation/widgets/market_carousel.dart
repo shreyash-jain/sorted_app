@@ -42,15 +42,18 @@ class MarketCarousel extends StatelessWidget {
               Text(
                 markets[i].heading,
                 style: TextStyle(
-                  fontSize: Gparam.textSmall,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontFamily: 'Montserrat',
+                    color: Theme.of(context).highlightColor,
+                    fontSize: Gparam.textSmaller,
+                    fontWeight: FontWeight.w500),
               ),
               Text(
                 markets[i].sub_heading,
                 style: TextStyle(
-                  fontSize: Gparam.textMedium,
-                ),
+                    fontFamily: 'Montserrat',
+                    color: Theme.of(context).highlightColor,
+                    fontSize: Gparam.textVerySmall,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),

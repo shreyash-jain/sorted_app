@@ -47,6 +47,8 @@ class Track extends Equatable {
   int ts_permission_type;
   int ts_autofill_freq;
   int u_last_autofill_ts;
+  int ts_autolog_type;
+
   Track({
     this.id,
     this.name,

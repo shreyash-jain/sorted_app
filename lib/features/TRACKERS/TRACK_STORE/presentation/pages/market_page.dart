@@ -45,7 +45,7 @@ class MarketPage extends StatelessWidget {
                     child: BlocBuilder<TrackStoreBloc, TrackStoreState>(
                       builder: (_, state) {
                         return Container(
-                          height: Gparam.height * 0.2,
+                          height: 160,
                           child: _isLoading
                               ? MarketCarouselShimmer()
                               : MarketCarousel(

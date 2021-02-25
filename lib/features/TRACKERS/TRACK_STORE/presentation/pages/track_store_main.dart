@@ -13,13 +13,13 @@ class _TrackStoreMainState extends State<TrackStoreMain> {
   @override
   Widget build(BuildContext context) {
     final _tabs = [
-      "all",
-      "hello",
-      "there",
-      "younes",
-      "sdfsdf",
-      "dsfjls",
-      "jsldfjslkj"
+      "Suggested",
+      "Fitness",
+      "Mindfulness",
+      "Nutrition",
+      "Relationship",
+      "Career",
+      "Finance"
     ];
 
     return SafeArea(
@@ -39,42 +39,64 @@ class _TrackStoreMainState extends State<TrackStoreMain> {
                 SliverToBoxAdapter(
                   child: Center(
                     child: Container(
-                      height: Gparam.topPadding,
-                      width: Gparam.width * 0.8,
+                      padding: EdgeInsets.all(8),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: Gparam.widthPadding / 2),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).highlightColor.withOpacity(.1),
                         borderRadius:
                             BorderRadius.circular(Gparam.topPadding / 4),
                       ),
                       child: Row(
                         children: [
+                          SizedBox(
+                            width: 10,
+                          ),
                           Icon(Icons.menu),
                           SizedBox(
                             width: 10,
                           ),
                           Text(
-                            'Search for something here',
-                            // style: TextStyle(
-                            //     color:
-                            //         Theme.of(context).textSelectionHandleColor),
+                            'Search Track & Lifestyle',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Theme.of(context).highlightColor,
+                                fontSize: Gparam.textSmaller,
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: Container(
-                    height: Gparam.topPadding / 2,
-                  ),
-                ),
                 SliverAppBar(
+                  automaticallyImplyLeading: false,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  flexibleSpace: TabBar(
-                    labelColor: Theme.of(context).highlightColor,
-                    indicatorColor: Theme.of(context).textSelectionColor,
-                    isScrollable: true,
-                    tabs: _tabs.map((String name) => Tab(text: name)).toList(),
+                  flexibleSpace: Column(
+                    children: [
+                      TabBar(
+                        
+                        indicatorColor: Theme.of(context).textSelectionColor,
+                        labelColor: Theme.of(context).textSelectionColor,
+                        labelStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                       
+                                        fontSize: Gparam.textVerySmall,
+                                        fontWeight: FontWeight.w500),
+
+                       
+                        isScrollable: true,
+                        unselectedLabelColor: Theme.of(context).highlightColor,
+                        tabs: _tabs
+                            .map((String name) => Tab(
+                                  text: 
+                                    name
+                                  
+                                ))
+                            .toList(),
+                      ),
+                      Divider(height: 1,color: Colors.grey,)
+                    ],
                   ),
                   pinned: true,
                 ),

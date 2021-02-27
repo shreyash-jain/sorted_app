@@ -79,6 +79,7 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
 
         final List<Track> allTracks = await cloudDataSource.getAllTracks();
         marketHeadingModels.forEach((marketHeadingModel) {
+          print(marketHeadingModel.icon_url);
           MarketHeading marketHeading = marketHeadingModel;
           print('TRACK IDS= ');
           print(marketHeadingModel.tracks);

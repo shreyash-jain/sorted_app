@@ -7,14 +7,14 @@ import '../../domain/entities/market_heading.dart';
 
 class MarketHeadingModel extends MarketHeading implements Equatable {
   int id;
-  String icon;
+  String icon_url;
   String name;
   String image_url;
   List<int> tracks;
   List<Track> tracksDetail;
   MarketHeadingModel({
     this.id = 0,
-    this.icon = '',
+    this.icon_url = '',
     this.name = '',
     this.image_url = '',
     this.tracks = const [],
@@ -22,14 +22,14 @@ class MarketHeadingModel extends MarketHeading implements Equatable {
 
   MarketHeadingModel copyWith({
     int id,
-    String icon,
+    String icon_url,
     String name,
     String image_url,
     List<int> tracks,
   }) {
     return MarketHeadingModel(
       id: id ?? this.id,
-      icon: icon ?? this.icon,
+      icon_url: icon_url ?? this.icon_url,
       name: name ?? this.name,
       image_url: image_url ?? this.image_url,
       tracks: tracks ?? this.tracks,
@@ -39,7 +39,7 @@ class MarketHeadingModel extends MarketHeading implements Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'icon': icon,
+      'icon_url': icon_url,
       'name': name,
       'image_url': image_url,
       'tracks': tracks,
@@ -51,7 +51,7 @@ class MarketHeadingModel extends MarketHeading implements Equatable {
 
     return MarketHeadingModel(
       id: map['id'],
-      icon: map['icon'],
+      icon_url: map['icon_url'],
       name: map['name'],
       image_url: map['image_url'],
       tracks: List<int>.from(map['tracks']),
@@ -64,7 +64,7 @@ class MarketHeadingModel extends MarketHeading implements Equatable {
 
     return MarketHeadingModel(
       id: map['id'],
-      icon: map['icon'],
+      icon_url: map['icon_url'],
       name: map['name'],
       image_url: map['image_url'],
       tracks: List<int>.from(map['tracks']),
@@ -83,7 +83,7 @@ class MarketHeadingModel extends MarketHeading implements Equatable {
   List<Object> get props {
     return [
       id,
-      icon,
+      icon_url,
       name,
       image_url,
       tracks,

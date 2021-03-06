@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/market_heading.dart';
 import '../../../../../core/global/constants/constants.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'track_item.dart';
 
 class BuildMarketHeading extends StatelessWidget {
@@ -18,6 +18,17 @@ class BuildMarketHeading extends StatelessWidget {
               EdgeInsets.only(top: 0, left: Gparam.widthPadding / 2, bottom: 5),
           child: Row(
             children: [
+              Container(
+                height: 5 + Gparam.height * 0.05,
+                width: 5 + Gparam.height * 0.05,
+                child: CachedNetworkImage(
+                  imageUrl: marketHeading.icon_url,
+                  errorWidget: (_, __, ___) => Icon(Icons.error),
+                ),
+              ),
+              SizedBox(
+                width: Gparam.widthPadding,
+              ),
               Text(
                 marketHeading.name,
                 style: TextStyle(
@@ -35,8 +46,8 @@ class BuildMarketHeading extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: marketHeading.tracksDetail.length,
             itemBuilder: (_, i) => TrackItem(
-              track: marketHeading.tracksDetail[i],
-            ),
+                track: marketHeading.tracksDetail[i],
+                marketHeading: marketHeading),
           ),
         ),
       ],

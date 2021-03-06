@@ -73,6 +73,7 @@ import 'package:sorted/features/SETTINGS/data/datasources/settings_shared_pref_d
 import 'package:sorted/features/SETTINGS/data/repository/settings_repository_impl.dart';
 import 'package:sorted/features/SETTINGS/domain/repository/settings_repository.dart';
 import 'package:sorted/features/SETTINGS/presentation/bloc/settings_bloc.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/tab_tracks_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -86,6 +87,7 @@ import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_stor
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/repositories/track_store_repository_impl.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/repositories/track_store_repository.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_bloc.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_search/track_store_search_bloc.dart';
 import '../network/network_info.dart';
 
 final GetIt sl = GetIt.instance;
@@ -153,6 +155,14 @@ Future<void> init() async {
 
   sl.registerFactory(
     () => TrackStoreBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => TabTracksBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => TrackStoreSearchBloc(sl()),
   );
 
   //! Use cases
@@ -257,14 +267,14 @@ Future<void> init() async {
 
   sl.registerLazySingleton<TrackStoreRepository>(
     () => TrackStoreRepositoryImpl(
-      networkInfo: sl(),
-      remoteDataSource: sl(),
-      nativeDataSource: sl(),
-      nativeAuth: sl(),
-      remoteAuth: sl(),
-      sharedPref: sl(),
-      cloudDataSource: sl(),
-    ),
+        networkInfo: sl(),
+        remoteDataSource: sl(),
+        nativeDataSource: sl(),
+        nativeAuth: sl(),
+        remoteAuth: sl(),
+        sharedPref: sl(),
+        cloudDataSource: sl(),
+        trackStoreNative: sl()),
   );
   //! Data sources
   sl.registerLazySingleton<GoalNative>(

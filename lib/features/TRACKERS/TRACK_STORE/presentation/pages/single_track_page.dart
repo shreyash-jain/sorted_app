@@ -4,10 +4,12 @@ import 'package:googleapis/dfareporting/v3_3.dart';
 import 'package:sorted/core/global/utility/utils.dart';
 import '../../../../../core/global/constants/constants.dart';
 import '../../domain/entities/track.dart';
+import '../../domain/entities/market_heading.dart';
 
 class SingleTrackPage extends StatelessWidget {
   final Track track;
-  SingleTrackPage({this.track});
+  final MarketHeading marketHeading;
+  const SingleTrackPage({this.track, this.marketHeading});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -23,14 +25,17 @@ class SingleTrackPage extends StatelessWidget {
                 height: Gparam.height * 0.15,
                 child: Row(
                   children: [
-                    Container(
-                      width: Gparam.height * 0.15,
-                      height: Gparam.height * 0.15,
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: CachedNetworkImageProvider(track.icon),
+                    Hero(
+                      tag: "track-icon-${marketHeading?.id}-${track?.id}",
+                      child: Container(
+                        width: Gparam.height * 0.15,
+                        height: Gparam.height * 0.15,
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: CachedNetworkImageProvider(track.icon),
+                          ),
                         ),
                       ),
                     ),

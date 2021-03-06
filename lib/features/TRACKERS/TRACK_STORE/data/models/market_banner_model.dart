@@ -13,6 +13,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
   String heading;
   String sub_heading;
   String image_url;
+  String text_color;
   List<int> tracks;
   List<Track> tracksDetail;
   MarketBannerModel({
@@ -21,6 +22,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
     this.heading = '',
     this.sub_heading = '',
     this.image_url = '',
+    this.text_color = '',
     this.tracks = const [],
   });
 
@@ -30,6 +32,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
     String heading,
     String sub_heading,
     String image_url,
+    String text_color,
     List<int> tracks,
   }) {
     return MarketBannerModel(
@@ -38,6 +41,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
       heading: heading ?? this.heading,
       sub_heading: sub_heading ?? this.sub_heading,
       image_url: image_url ?? this.image_url,
+      text_color: text_color ?? this.text_color,
       tracks: tracks ?? this.tracks,
     );
   }
@@ -49,6 +53,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
       'heading': heading,
       'sub_heading': sub_heading,
       'image_url': image_url,
+      'text_color': text_color,
       'tracks': tracks,
     };
   }
@@ -62,6 +67,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
       heading: map['heading'],
       sub_heading: map['sub_heading'],
       image_url: map['image_url'],
+      text_color: map['text_color'],
       tracks: List<int>.from(map['tracks']),
     );
   }
@@ -76,6 +82,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
       heading: map['heading'],
       sub_heading: map['sub_heading'],
       image_url: map['image_url'],
+      text_color: map['text_color'],
       tracks: List<int>.from(map['tracks']),
     );
   }
@@ -96,6 +103,7 @@ class MarketBannerModel extends MarketBanner implements Equatable {
       heading,
       sub_heading,
       image_url,
+      text_color,
       tracks,
     ];
   }

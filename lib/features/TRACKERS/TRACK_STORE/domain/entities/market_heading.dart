@@ -4,13 +4,13 @@ import 'track.dart';
 
 class MarketHeading extends Equatable {
   int id;
-  String icon;
+  String icon_url;
   String name;
   String image_url;
   List<Track> tracksDetail;
   MarketHeading({
     this.id = 0,
-    this.icon = '',
+    this.icon_url = '',
     this.name = '',
     this.image_url = '',
     this.tracksDetail = const [],
@@ -20,7 +20,7 @@ class MarketHeading extends Equatable {
   List<Object> get props {
     return [
       id,
-      icon,
+      icon_url,
       name,
       image_url,
       tracksDetail,

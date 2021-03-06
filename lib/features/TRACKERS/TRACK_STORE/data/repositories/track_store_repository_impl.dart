@@ -4,6 +4,8 @@ import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 import 'package:sorted/core/global/models/addiction_condition.dart';
 import 'package:sorted/core/network/network_info.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_brief.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -14,7 +16,9 @@ import '../../domain/entities/track.dart';
 import '../../domain/entities/market_banner.dart';
 import '../../domain/entities/market_lifestyle.dart';
 import '../../domain/entities/market_heading.dart';
+import '../../domain/entities/market_tab.dart';
 import '../datasources/track_store_cloud_data_source.dart';
+import '../models/track_brief_model.dart';
 
 class TrackStoreRepositoryImpl implements TrackStoreRepository {
   final UserIntroCloud remoteDataSource;
@@ -23,7 +27,7 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
   final AuthCloudDataSource remoteAuth;
   final AuthNativeDataSource nativeAuth;
   final TrackStoreCloud cloudDataSource;
-
+  final TrackStoreNative trackStoreNative;
   final NetworkInfo networkInfo;
 
   TrackStoreRepositoryImpl({
@@ -34,13 +38,16 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
     @required this.nativeAuth,
     @required this.remoteAuth,
     @required this.cloudDataSource,
+    @required this.trackStoreNative,
   });
   @override
-  Future<Either<Failure, List<Track>>> getTracks() async {
+  Future<Either<Failure, List<Track>>> getTabTracks(List<int> trackIds) async {
     if (await networkInfo.isConnected) {
       print("Connected");
       try {
-        final List<Track> tracks = await cloudDataSource.getAllTracks();
+        final List<Track> tracks =
+            await cloudDataSource.getTracksByIds(trackIds);
+        print(tracks.map((t) => t.id).toList());
         return Right(tracks);
       } catch (error) {
         return Left(ServerFailure());
@@ -95,5 +102,71 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
       print("No internet connection");
       return Left(NetworkFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, List<MarketTab>>> getMarketTabs() async {
+    if (await networkInfo.isConnected) {
+      try {
+        print("Connected");
+        final List<MarketTab> marketTabs =
+            await cloudDataSource.getMarketTabs();
+        print('Market tabs = ');
+        print(marketTabs.map((e) => e.name).toList());
+        return Right(marketTabs);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Track>>> searchForTracks(String word) async {
+    if (await networkInfo.isConnected) {
+      try {
+        print("Connected");
+        final List<Track> searchedTracks =
+            await cloudDataSource.searchForTracks(word);
+        print('Searched Tracks = ');
+        print(searchedTracks.map((e) => e.name).toList());
+        return Right(searchedTracks);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TrackBrief>>> getRecentSearchs() async {
+    try {
+      print('I am here');
+      TrackBrief t =
+          TrackBrief(track_icon: "fff", track_name: "hello", track_id: 0);
+
+      trackStoreNative.addRecentSearch(
+        TrackBriefModel(
+          track_icon: t.track_icon,
+          track_id: t.track_id,
+          track_name: t.track_name,
+        ),
+      );
+      List<TrackBrief> tracks = await trackStoreNative.getRecentSearchs();
+      return Right(tracks);
+    } catch (err) {
+      print("CACHE ERROR " + err.toString());
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Track>> getTrackDetails() {
+    // TODO: implement getTrackDetails
+    throw UnimplementedError();
   }
 }

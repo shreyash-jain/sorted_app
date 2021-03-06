@@ -23,6 +23,38 @@
           }
         },
         {
+          "client_id": "978334225246-2aidvaokhk13grbnbkd02035qfl77a32.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stay.sorted",
+            "certificate_hash": "9cd4038e35af77b6e139b609541085bc4bc784fc"
+          }
+        },
+        {
+          "client_id": "978334225246-3gqdqe99sbp03hgq9le3b01f7eo9s32t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stay.sorted",
+            "certificate_hash": "7ec447de2c0058688db7d87d7fb308f55fd198ea"
+          }
+        },
+        {
+          "client_id": "978334225246-9b45asi441ki5v8n9phufh38nft5cikd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stay.sorted",
+            "certificate_hash": "89665f5af61887c8abdb61eb7572d5ac6afe26a6"
+          }
+        },
+        {
+          "client_id": "978334225246-lceh1tur0b7fk8s05v8omo0lmno53ugg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stay.sorted",
+            "certificate_hash": "4c78d8ed323e8d7f32df2f56072d8c449355b037"
+          }
+        },
+        {
           "client_id": "978334225246-smp1fm7uem7pjr5igv6isoi8q5bd7e07.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -38,6 +70,13 @@
             {
               "client_id": "978334225246-smp1fm7uem7pjr5igv6isoi8q5bd7e07.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "978334225246-2nomto5uhu53qbrsqln5i8vkfjot4v33.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stay.sorted"
+              }
             }
           ]
         }

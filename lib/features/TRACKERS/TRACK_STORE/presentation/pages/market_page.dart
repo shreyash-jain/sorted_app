@@ -16,68 +16,67 @@ import '../widgets/market_carousel_shimmer.dart';
 import '../widgets/market_headings_shimmer.dart';
 
 // ignore: must_be_immutable
-class MarketPage extends StatelessWidget {
-  List<MarketHeading> marketHeadings;
-  List<MarketBanner> marketBanners;
-  bool _isLoading = true;
+class MarketPage extends StatefulWidget {
+  @override
+  _MarketPageState createState() => _MarketPageState();
+}
 
+class _MarketPageState extends State<MarketPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<TrackStoreBloc>()..add(GetMarketsEvent()),
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Builder(
-          builder: (BuildContext context) {
-            return CustomScrollView(
-              key: PageStorageKey<String>(""),
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  child: BlocListener<TrackStoreBloc, TrackStoreState>(
-                    listener: (context, state) {
-                      if (state is GetMarketsLoadedState) {
-                        marketBanners = state.marketBanners;
-                        marketHeadings = state.marketHeadings;
-                        _isLoading = false;
-                      }
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Builder(
+        builder: (BuildContext context) {
+          return CustomScrollView(
+            key: PageStorageKey<String>(""),
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: BlocListener<TrackStoreBloc, TrackStoreState>(
+                  listener: (context, state) {
+                    if (state is GetMarketsLoadedState) {
+                      print("Loaded markets");
+                    }
+                    if (state is GetMarketsFailedState) {
+                      print("Failed to load markets!");
+                    }
+                  },
+                  child: BlocBuilder<TrackStoreBloc, TrackStoreState>(
+                    builder: (_, state) {
+                      return Container(
+                        height: 160,
+                        child: (state is GetMarketsLoadedState)
+                            ? MarketCarousel(
+                                markets: state.marketBanners,
+                              )
+                            : MarketCarouselShimmer(),
+                      );
                     },
-                    child: BlocBuilder<TrackStoreBloc, TrackStoreState>(
-                      builder: (_, state) {
-                        return Container(
-                          height: 160,
-                          child: _isLoading
-                              ? MarketCarouselShimmer()
-                              : MarketCarousel(
-                                  markets: marketBanners,
-                                ),
-                        );
-                      },
-                    ),
                   ),
                 ),
-                BlocBuilder<TrackStoreBloc, TrackStoreState>(
-                  builder: (_, state) {
-                    return _isLoading
-                        ? SliverToBoxAdapter(
-                            child: Container(
-                              child: MarketHeadingsShimmer(),
-                            ),
-                          )
-                        : SliverList(
-                            delegate: SliverChildListDelegate(
-                              marketHeadings
-                                  .map((e) =>
-                                      BuildMarketHeading(marketHeading: e))
-                                  .toList(),
-                            ),
-                          );
-                  },
-                ),
-              ],
-            );
-          },
-        ),
+              ),
+              BlocBuilder<TrackStoreBloc, TrackStoreState>(
+                builder: (_, state) {
+                  return (state is GetMarketsLoadedState)
+                      ? SliverList(
+                          delegate: SliverChildListDelegate(
+                            state.marketHeadings
+                                .map(
+                                    (e) => BuildMarketHeading(marketHeading: e))
+                                .toList(),
+                          ),
+                        )
+                      : SliverToBoxAdapter(
+                          child: Container(
+                            child: MarketHeadingsShimmer(),
+                          ),
+                        );
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }

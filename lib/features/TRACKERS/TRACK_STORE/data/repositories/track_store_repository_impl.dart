@@ -145,19 +145,8 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
   @override
   Future<Either<Failure, List<TrackBrief>>> getRecentSearchs() async {
     try {
-      print('I am here');
-      TrackBrief t =
-          TrackBrief(track_icon: "fff", track_name: "hello", track_id: 0);
-
-      trackStoreNative.addRecentSearch(
-        TrackBriefModel(
-          track_icon: t.track_icon,
-          track_id: t.track_id,
-          track_name: t.track_name,
-        ),
-      );
       List<TrackBrief> tracks = await trackStoreNative.getRecentSearchs();
-      return Right(tracks);
+      return Right(tracks.reversed.toList());
     } catch (err) {
       print("CACHE ERROR " + err.toString());
       return Left(CacheFailure());
@@ -165,8 +154,38 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
   }
 
   @override
-  Future<Either<Failure, Track>> getTrackDetails() {
-    // TODO: implement getTrackDetails
-    throw UnimplementedError();
+  Future<Either<Failure, void>> addTrackToRecentSearchs(
+      {int id, String name, String icon}) async {
+    try {
+      await trackStoreNative.removeSearchByID(id);
+      await trackStoreNative.addRecentSearch(
+        TrackBriefModel(
+          track_id: id,
+          track_name: name,
+          track_icon: icon,
+        ),
+      );
+      return Right(true);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Track>> getTrackDetailsById(int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        print("Connected");
+        final Track trackDetails =
+            await cloudDataSource.getTrackDetailsById(id);
+        print(trackDetails.name);
+        return Right(trackDetails);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
   }
 }

@@ -19,3 +19,19 @@ class GetSuggestionsEvent extends TrackStoreSearchEvent {
   @override
   List<Object> get props => [];
 }
+
+class AddSuggestionEvent extends TrackStoreSearchEvent {
+  final int id;
+  final String name;
+  final String icon;
+  AddSuggestionEvent({this.id, this.name, this.icon});
+  @override
+  List<Object> get props => [];
+}
+
+class GetTrackDetailsEvent extends TrackStoreSearchEvent {
+  final int track_id;
+  GetTrackDetailsEvent({this.track_id});
+  @override
+  List<Object> get props => [track_id];
+}

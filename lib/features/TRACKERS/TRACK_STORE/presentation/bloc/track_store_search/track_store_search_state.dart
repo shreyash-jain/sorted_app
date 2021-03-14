@@ -37,3 +37,25 @@ class SuggestionsFailedState extends TrackStoreSearchState {
   @override
   List<Object> get props => [];
 }
+
+class AddSuggestionFailedState extends TrackStoreSearchState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetTrackDetailsFailedState extends TrackStoreSearchState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetTrackDetailsLoadedState extends TrackStoreSearchState {
+  final Track track;
+  GetTrackDetailsLoadedState(this.track);
+  @override
+  List<Object> get props => [track];
+}
+
+class GetTrackDetailsLoadingState extends TrackStoreSearchState {
+  @override
+  List<Object> get props => [];
+}

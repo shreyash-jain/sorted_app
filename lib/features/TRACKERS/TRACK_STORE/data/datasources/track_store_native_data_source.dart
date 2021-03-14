@@ -4,10 +4,13 @@ import 'package:sqflite/sqflite.dart';
 import '../models/track_brief_model.dart';
 
 String SEARCH_TABLE_NAME = "Track_Store_Search";
+String TRACK_ID_FIELD = 'track_id';
 
 abstract class TrackStoreNative {
   Future<List<TrackBriefModel>> getRecentSearchs();
   Future<void> addRecentSearch(TrackBriefModel track);
+  Future<void> removeAllSearchs();
+  Future<void> removeSearchByID(int id);
 }
 
 class TrackStoreNativeDataSourceImpl implements TrackStoreNative {
@@ -30,5 +33,18 @@ class TrackStoreNativeDataSourceImpl implements TrackStoreNative {
   Future<void> addRecentSearch(TrackBriefModel track) async {
     Database db = await nativeDb.database;
     await db.insert(SEARCH_TABLE_NAME, track.toMap());
+  }
+
+  @override
+  Future<void> removeAllSearchs() async {
+    Database db = await nativeDb.database;
+    await db.delete(SEARCH_TABLE_NAME, where: '1');
+  }
+
+  @override
+  Future<void> removeSearchByID(int id) async {
+    Database db = await nativeDb.database;
+    await db.delete(SEARCH_TABLE_NAME,
+        where: '$TRACK_ID_FIELD = ?', whereArgs: [id]);
   }
 }

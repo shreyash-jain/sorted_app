@@ -17,6 +17,7 @@ class TrackStoreSearchBloc
   Stream<TrackStoreSearchState> mapEventToState(
     TrackStoreSearchEvent event,
   ) async* {
+    final currentState = state;
     if (event is SearchEvent) {
       print("from search bloc!!");
       yield SearchLoadingState();
@@ -47,6 +48,36 @@ class TrackStoreSearchBloc
         yield SuggestionsFailedState();
       } else {
         yield SuggestionsLoadedState(briefTracks: tracks);
+      }
+    }
+    if (event is AddSuggestionEvent) {
+      final result = await repository.addTrackToRecentSearchs(
+        id: event.id,
+        icon: event.icon,
+        name: event.name,
+      );
+      bool failed = false;
+      result.fold(
+        (failure) => failed = true,
+        (r) {},
+      );
+      if (failed) {
+        yield AddSuggestionFailedState();
+      }
+    }
+    if (event is GetTrackDetailsEvent) {
+      yield SearchLoadingState();
+      final trackResult = await repository.getTrackDetailsById(event.track_id);
+      Track track;
+      bool failed = false;
+      trackResult.fold(
+        (failure) => failed = true,
+        (trackDetails) => track = trackDetails,
+      );
+      if (failed) {
+        yield GetTrackDetailsFailedState();
+      } else {
+        yield GetTrackDetailsLoadedState(track);
       }
     }
   }

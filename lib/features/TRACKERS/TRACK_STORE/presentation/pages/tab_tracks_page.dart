@@ -5,6 +5,8 @@ import '../widgets/track_item_large.dart';
 import '../../domain/entities/track.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/global/constants/constants.dart';
+import '../../../../../core/global/animations/shimmer.dart';
 
 class TabTracksPage extends StatefulWidget {
   final List<int> tracks;
@@ -44,8 +46,40 @@ class _TabTracksPageState extends State<TabTracksPage> {
                   TrackItemLarge(track: state?.tracksDetail[i]),
             );
           }
-          return Text("Loading");
+          return _buildTabTracksShimmer();
         },
+      ),
+    );
+  }
+
+  Widget _buildTabTracksShimmer() {
+    return ListView.builder(
+      itemCount: 10,
+      itemBuilder: (_, i) => Container(
+        height: 100,
+        child: Shimmer(
+          period: Duration(milliseconds: 1600),
+          child: Container(
+            width: Gparam.width * 0.9,
+            margin: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.blueAccent,
+            ),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Colors.grey[200],
+              Colors.grey[200],
+              Colors.grey[350],
+              Colors.grey[200],
+              Colors.grey[200]
+            ],
+            stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
+          ),
+        ),
       ),
     );
   }

@@ -15,10 +15,12 @@ const String MARKET_BANNERS_COLLECTION_PATH = 'Market/MarketBanners/Data';
 const String MARKET_HEADINGS_COLLECTION_PATH = 'Market/MarketHeadings/Data';
 const String MARKET_TABS_COLLECTION_PATH = 'Market/MarketTabs/Data';
 const ID_FIELD = 'id';
+const TRACK_NAME_FIELD = "name";
 
 abstract class TrackStoreCloud {
   Future<List<TrackModel>> searchForTracks(String word);
   Future<List<TrackModel>> getAllTracks();
+  Future<TrackModel> getTrackDetailsById(int track_id);
   Future<List<TrackModel>> getTracksByIds(List<int> trackIds);
   Future<List<MarketHeadingModel>> getMarketHeadings();
   Future<List<MarketBannerModel>> getMarketBanners();
@@ -103,13 +105,27 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
 
   @override
   Future<List<TrackModel>> searchForTracks(String word) async {
-    QuerySnapshot querySnapshot =
-        await cloudDb.collection(TRACKS_COLLECTION_PATH).get();
+    print("WORD = $word");
+    QuerySnapshot querySnapshot = await cloudDb
+        .collection(TRACKS_COLLECTION_PATH)
+        .where(TRACK_NAME_FIELD, isGreaterThanOrEqualTo: word.toUpperCase())
+        .get();
     List<TrackModel> tracks = [];
     querySnapshot.docs.forEach((doc) {
       print("track = " + doc.data().toString());
       tracks.add(TrackModel.fromSnapshot(doc));
     });
     return tracks;
+  }
+
+  @override
+  Future<TrackModel> getTrackDetailsById(int track_id) async {
+    QuerySnapshot querySnapshot = await cloudDb
+        .collection(TRACKS_COLLECTION_PATH)
+        .where(ID_FIELD, isEqualTo: track_id)
+        .get();
+    TrackModel track = TrackModel.fromSnapshot(querySnapshot.docs[0]);
+
+    return track;
   }
 }

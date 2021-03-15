@@ -17,16 +17,19 @@ class GetMarketsLoadingState extends TrackStoreState {
 class GetMarketsLoadedState extends TrackStoreState {
   final List<MarketBanner> marketBanners;
   final List<MarketHeading> marketHeadings;
+  final List<MarketTab> marketTabs;
 
-  GetMarketsLoadedState({
+  const GetMarketsLoadedState({
     this.marketBanners,
     this.marketHeadings,
+    this.marketTabs,
   });
 
   @override
   List<Object> get props => [
         marketBanners,
         marketHeadings,
+        marketTabs,
       ];
 }
 

@@ -52,7 +52,8 @@ List<String> tables = [
   "BlockColumn",
   "BlockFormField",
   "BlockSequence",
-  "BlockTableItem"
+  "BlockTableItem",
+  "Track_Store_Search"
 ];
 
 List<String> imagePath = [];
@@ -324,7 +325,8 @@ class SqlDatabaseService {
           'CREATE TABLE Notes_Logs (note_id INTEGER, log_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
       await db.execute(
           'CREATE TABLE Notes_Reviews (note_id INTEGER, review_id INTEGER,savedTs INTEGER,id INTEGER PRIMARY KEY)');
-
+      await db.execute(
+          'CREATE TABLE Track_Store_Search (id INTEGER PRIMARY KEY, track_id INTEGER, track_name TEXT, track_icon TEXT)');
       print('New table created at $path');
     });
   }

@@ -12,9 +12,17 @@ import 'package:sorted/core/error/failures.dart';
 import '../entities/market_heading.dart';
 import '../entities/track.dart';
 import '../entities/market_banner.dart';
+import '../entities/market_tab.dart';
+import '../entities/track_brief.dart';
 
 abstract class TrackStoreRepository {
-  Future<Either<Failure, List<Track>>> getTracks();
+  Future<Either<Failure, void>> addTrackToRecentSearchs(
+      {int id, String name, String icon});
+  Future<Either<Failure, Track>> getTrackDetailsById(int id);
+  Future<Either<Failure, List<TrackBrief>>> getRecentSearchs();
+  Future<Either<Failure, List<Track>>> searchForTracks(String word);
+  Future<Either<Failure, List<Track>>> getTabTracks(List<int> tracks);
   Future<Either<Failure, List<MarketBanner>>> getMarketBanners();
   Future<Either<Failure, List<MarketHeading>>> getMarketHeadings();
+  Future<Either<Failure, List<MarketTab>>> getMarketTabs();
 }

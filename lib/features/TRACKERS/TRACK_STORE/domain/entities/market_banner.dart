@@ -7,6 +7,7 @@ class MarketBanner extends Equatable {
   String heading;
   String sub_heading;
   String image_url;
+  String text_color;
   List<Track> tracksDetail;
   MarketBanner({
     this.id = 0,
@@ -14,6 +15,7 @@ class MarketBanner extends Equatable {
     this.heading = '',
     this.sub_heading = '',
     this.image_url = '',
+    this.text_color = '',
     this.tracksDetail = const [],
   });
 
@@ -25,5 +27,6 @@ class MarketBanner extends Equatable {
         sub_heading,
         image_url,
         tracksDetail,
+        text_color,
       ];
 }

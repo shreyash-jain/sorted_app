@@ -14,6 +14,7 @@ import '../entities/track.dart';
 import '../entities/market_banner.dart';
 import '../entities/market_tab.dart';
 import '../entities/track_brief.dart';
+import '../entities/track_comment.dart';
 
 abstract class TrackStoreRepository {
   Future<Either<Failure, void>> addTrackToRecentSearchs(
@@ -25,4 +26,7 @@ abstract class TrackStoreRepository {
   Future<Either<Failure, List<MarketBanner>>> getMarketBanners();
   Future<Either<Failure, List<MarketHeading>>> getMarketHeadings();
   Future<Either<Failure, List<MarketTab>>> getMarketTabs();
+  Future<Either<Failure, List<String>>> getColossalsByTrackId(int track_id);
+  Future<Either<Failure, List<TrackComment>>> getCommentsByTrackId(
+      int track_id, int from, int to);
 }

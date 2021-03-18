@@ -7,7 +7,7 @@ import '../../TRACK_STORE/domain/entities/track.dart';
 
 //m_facts	is_m_facts_rich	m_reward	is_m_reward_rich
 
-class TrackModel extends Track implements Equatable {
+class TrackModel extends Track with EquatableMixin implements Equatable {
   int id;
   String name;
   String m_description;
@@ -51,62 +51,89 @@ class TrackModel extends Track implements Equatable {
   int ts_permission_type;
   int ts_autofill_freq;
   int u_last_autofill_ts;
+  int ts_has_confirmation;
+  int ts_templetes_path;
+  int ts_combined_db_path;
 
+  int u_active_state;
+  int u_pause_open_ts;
+  int reminder_state;
+  String reminder_text;
+  String reminder_sub_text;
+  int reminder_week_state;
+  int reminder_day_state;
+  int reminder_day_start_ts;
+  int reminder_day_end_ts;
+
+  int last_reminded_ts;
+  int realtime_id;
   TrackModel({
-    this.id,
-    this.name,
-    this.m_description,
-    this.is_m_description_rich,
-    this.m_facts,
-    this.is_m_facts_rich,
-    this.m_reward,
-    this.is_m_reward_rich,
-    this.icon,
-    this.m_banner,
-    this.m_level,
-    this.m_u_freq,
-    this.ts_multifil,
-    this.ts_log_types,
-    this.ts_root_logging_db_path,
-    this.u_root_level_logging_saved_path,
-    this.u_root_level_logging_history_path,
-    this.has_market_detail,
-    this.ts_num_properties,
-    this.m_num_subs,
-    this.u_chat_groups,
-    this.m_num_expert_groups,
-    this.num_comments,
-    this.m_recent_subs,
-    this.m_string_1,
-    this.m_string_2,
-    this.m_color,
-    this.saved_ts,
-    this.u_sub_ts,
-    this.u_sub_end_ts,
-    this.m_rating,
-    this.ts_default_sub_days,
-    this.u_first_fill,
-    this.u_last_fill,
-    this.u_num_fills,
-    this.u_habit_score,
-    this.u_expert_sub,
-    this.u_friends_sub,
-    this.ts_can_delete,
-    this.ts_autofill,
-    this.ts_permission_type,
-    this.ts_autofill_freq,
-    this.u_last_autofill_ts,
+    this.id = 0,
+    this.name = '',
+    this.m_description = '',
+    this.is_m_description_rich = 0,
+    this.m_facts = '',
+    this.is_m_facts_rich = 0,
+    this.m_reward = '',
+    this.is_m_reward_rich = 0,
+    this.icon = '',
+    this.m_banner = '',
+    this.m_level = 0,
+    this.m_u_freq = 0,
+    this.ts_multifil = 0,
+    this.ts_log_types = 0,
+    this.ts_root_logging_db_path = '',
+    this.u_root_level_logging_saved_path = '',
+    this.u_root_level_logging_history_path = '',
+    this.has_market_detail = 0,
+    this.ts_num_properties = 0,
+    this.m_num_subs = 0,
+    this.u_chat_groups = 0,
+    this.m_num_expert_groups = 0,
+    this.num_comments = 0,
+    this.m_recent_subs = 0,
+    this.m_string_1 = '',
+    this.m_string_2 = '',
+    this.m_color = '',
+    this.saved_ts = 0,
+    this.u_sub_ts = 0,
+    this.u_sub_end_ts = 0,
+    this.m_rating = 0.0,
+    this.ts_default_sub_days = 0,
+    this.u_first_fill = 0,
+    this.u_last_fill = 0,
+    this.u_num_fills = 0,
+    this.u_habit_score = 0.0,
+    this.u_expert_sub = 0,
+    this.u_friends_sub = 0,
+    this.ts_can_delete = 0,
+    this.ts_autofill = 0,
+    this.ts_permission_type = 0,
+    this.ts_autofill_freq = 0,
+    this.u_last_autofill_ts = 0,
+    this.ts_has_confirmation = 0,
+    this.u_active_state = 0,
+    this.u_pause_open_ts = 0,
+    this.reminder_state = 0,
+    this.reminder_text = '',
+    this.reminder_sub_text = '',
+    this.reminder_week_state = 0,
+    this.reminder_day_state = 0,
+    this.reminder_day_start_ts = 0,
+    this.reminder_day_end_ts = 0,
+    this.last_reminded_ts = 0,
+    this.realtime_id = 0,
   });
 
   TrackModel copyWith({
     int id,
     String name,
     String m_description,
-    String is_m_description_rich,
+    int is_m_description_rich,
     String m_facts,
-    String is_m_facts_rich,
+    int is_m_facts_rich,
     String m_reward,
-    String is_m_reward_rich,
+    int is_m_reward_rich,
     String icon,
     String m_banner,
     int m_level,
@@ -142,6 +169,18 @@ class TrackModel extends Track implements Equatable {
     int ts_permission_type,
     int ts_autofill_freq,
     int u_last_autofill_ts,
+    int ts_has_confirmation,
+    int u_active_state,
+    int u_pause_open_ts,
+    int reminder_state,
+    String reminder_text,
+    String reminder_sub_text,
+    int reminder_week_state,
+    int reminder_day_state,
+    int reminder_day_start_ts,
+    int reminder_day_end_ts,
+    int last_reminded_ts,
+    int realtime_id,
   }) {
     return TrackModel(
       id: id ?? this.id,
@@ -191,6 +230,19 @@ class TrackModel extends Track implements Equatable {
       ts_permission_type: ts_permission_type ?? this.ts_permission_type,
       ts_autofill_freq: ts_autofill_freq ?? this.ts_autofill_freq,
       u_last_autofill_ts: u_last_autofill_ts ?? this.u_last_autofill_ts,
+      ts_has_confirmation: ts_has_confirmation ?? this.ts_has_confirmation,
+      u_active_state: u_active_state ?? this.u_active_state,
+      u_pause_open_ts: u_pause_open_ts ?? this.u_pause_open_ts,
+      reminder_state: reminder_state ?? this.reminder_state,
+      reminder_text: reminder_text ?? this.reminder_text,
+      reminder_sub_text: reminder_sub_text ?? this.reminder_sub_text,
+      reminder_week_state: reminder_week_state ?? this.reminder_week_state,
+      reminder_day_state: reminder_day_state ?? this.reminder_day_state,
+      reminder_day_start_ts:
+          reminder_day_start_ts ?? this.reminder_day_start_ts,
+      reminder_day_end_ts: reminder_day_end_ts ?? this.reminder_day_end_ts,
+      last_reminded_ts: last_reminded_ts ?? this.last_reminded_ts,
+      realtime_id: realtime_id ?? this.realtime_id,
     );
   }
 
@@ -239,57 +291,80 @@ class TrackModel extends Track implements Equatable {
       'ts_permission_type': ts_permission_type,
       'ts_autofill_freq': ts_autofill_freq,
       'u_last_autofill_ts': u_last_autofill_ts,
+      'ts_has_confirmation': ts_has_confirmation,
+      'u_active_state': u_active_state,
+      'u_pause_open_ts': u_pause_open_ts,
+      'reminder_state': reminder_state,
+      'reminder_text': reminder_text,
+      'reminder_sub_text': reminder_sub_text,
+      'reminder_week_state': reminder_week_state,
+      'reminder_day_state': reminder_day_state,
+      'reminder_day_start_ts': reminder_day_start_ts,
+      'reminder_day_end_ts': reminder_day_end_ts,
+      'last_reminded_ts': last_reminded_ts,
+      'realtime_id': realtime_id,
     };
   }
 
   factory TrackModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return TrackModel(
-      id: map['id'],
-      name: map['name'],
-      m_description: map['m_description'],
-      is_m_description_rich: map['is_m_description_rich'],
-      m_facts: map['m_facts'],
-      is_m_facts_rich: map['is_m_facts_rich'],
-      m_reward: map['m_reward'],
-      is_m_reward_rich: map['is_m_reward_rich'],
-      icon: map['icon'],
-      m_banner: map['m_banner'],
-      m_level: map['m_level'],
-      m_u_freq: map['m_u_freq'],
-      ts_multifil: map['ts_multifil'],
-      ts_log_types: map['ts_log_types'],
-      ts_root_logging_db_path: map['ts_root_logging_db_path'],
-      u_root_level_logging_saved_path: map['u_root_level_logging_saved_path'],
+      id: map['id'] ?? 0,
+      name: map['name'] ?? '',
+      m_description: map['m_description'] ?? '',
+      is_m_description_rich: map['is_m_description_rich'] ?? 0,
+      m_facts: map['m_facts'] ?? '',
+      is_m_facts_rich: map['is_m_facts_rich'] ?? 0,
+      m_reward: map['m_reward'] ?? '',
+      is_m_reward_rich: map['is_m_reward_rich'] ?? 0,
+      icon: map['icon'] ?? '',
+      m_banner: map['m_banner'] ?? '',
+      m_level: map['m_level'] ?? 0,
+      m_u_freq: map['m_u_freq'] ?? 0,
+      ts_multifil: map['ts_multifil'] ?? 0,
+      ts_log_types: map['ts_log_types'] ?? 0,
+      ts_root_logging_db_path: map['ts_root_logging_db_path'] ?? '',
+      u_root_level_logging_saved_path:
+          map['u_root_level_logging_saved_path'] ?? '',
       u_root_level_logging_history_path:
-          map['u_root_level_logging_history_path'],
-      has_market_detail: map['has_market_detail'],
-      ts_num_properties: map['ts_num_properties'],
-      m_num_subs: map['m_num_subs'],
-      u_chat_groups: map['u_chat_groups'],
-      m_num_expert_groups: map['m_num_expert_groups'],
-      num_comments: map['num_comments'],
-      m_recent_subs: map['m_recent_subs'],
-      m_string_1: map['m_string_1'],
-      m_string_2: map['m_string_2'],
-      m_color: map['m_color'],
-      saved_ts: map['saved_ts'],
-      u_sub_ts: map['u_sub_ts'],
-      u_sub_end_ts: map['u_sub_end_ts'],
-      m_rating: map['m_rating'],
-      ts_default_sub_days: map['ts_default_sub_days'],
-      u_first_fill: map['u_first_fill'],
-      u_last_fill: map['u_last_fill'],
-      u_num_fills: map['u_num_fills'],
-      u_habit_score: map['u_habit_score'],
-      u_expert_sub: map['u_expert_sub'],
-      u_friends_sub: map['u_friends_sub'],
-      ts_can_delete: map['ts_can_delete'],
-      ts_autofill: map['ts_autofill'],
-      ts_permission_type: map['ts_permission_type'],
-      ts_autofill_freq: map['ts_autofill_freq'],
-      u_last_autofill_ts: map['u_last_autofill_ts'],
+          map['u_root_level_logging_history_path'] ?? '',
+      has_market_detail: map['has_market_detail'] ?? 0,
+      ts_num_properties: map['ts_num_properties'] ?? 0,
+      m_num_subs: map['m_num_subs'] ?? 0,
+      u_chat_groups: map['u_chat_groups'] ?? 0,
+      m_num_expert_groups: map['m_num_expert_groups'] ?? 0,
+      num_comments: map['num_comments'] ?? 0,
+      m_recent_subs: map['m_recent_subs'] ?? 0,
+      m_string_1: map['m_string_1'] ?? '',
+      m_string_2: map['m_string_2'] ?? '',
+      m_color: map['m_color'] ?? '',
+      saved_ts: map['saved_ts'] ?? 0,
+      u_sub_ts: map['u_sub_ts'] ?? 0,
+      u_sub_end_ts: map['u_sub_end_ts'] ?? 0,
+      m_rating: map['m_rating'] ?? 0.0,
+      ts_default_sub_days: map['ts_default_sub_days'] ?? 0,
+      u_first_fill: map['u_first_fill'] ?? 0,
+      u_last_fill: map['u_last_fill'] ?? 0,
+      u_num_fills: map['u_num_fills'] ?? 0,
+      u_habit_score: map['u_habit_score'] ?? 0.0,
+      u_expert_sub: map['u_expert_sub'] ?? 0,
+      u_friends_sub: map['u_friends_sub'] ?? 0,
+      ts_can_delete: map['ts_can_delete'] ?? 0,
+      ts_autofill: map['ts_autofill'] ?? 0,
+      ts_permission_type: map['ts_permission_type'] ?? 0,
+      ts_autofill_freq: map['ts_autofill_freq'] ?? 0,
+      u_last_autofill_ts: map['u_last_autofill_ts'] ?? 0,
+      ts_has_confirmation: map['ts_has_confirmation'] ?? 0,
+      u_active_state: map['u_active_state'] ?? 0,
+      u_pause_open_ts: map['u_pause_open_ts'] ?? 0,
+      reminder_state: map['reminder_state'] ?? 0,
+      reminder_text: map['reminder_text'] ?? '',
+      reminder_sub_text: map['reminder_sub_text'] ?? '',
+      reminder_week_state: map['reminder_week_state'] ?? 0,
+      reminder_day_state: map['reminder_day_state'] ?? 0,
+      reminder_day_start_ts: map['reminder_day_start_ts'] ?? 0,
+      reminder_day_end_ts: map['reminder_day_end_ts'] ?? 0,
+      last_reminded_ts: map['last_reminded_ts'] ?? 0,
+      realtime_id: map['realtime_id'] ?? 0,
     );
   }
 
@@ -298,50 +373,63 @@ class TrackModel extends Track implements Equatable {
     if (map == null) return null;
     print('MAP ==> ' + map.toString());
     return TrackModel(
-      id: map['id'],
-      name: map['name'],
-      m_description: map['m_description'],
-      is_m_description_rich: map['is_m_description_rich'],
-      m_facts: map['m_facts'],
-      is_m_facts_rich: map['is_m_facts_rich'],
-      m_reward: map['m_reward'],
-      is_m_reward_rich: map['is_m_reward_rich'],
-      icon: map['icon'],
-      m_banner: map['m_banner'],
-      m_level: map['m_level'],
-      m_u_freq: map['m_u_freq'],
-      ts_multifil: map['ts_multifil'],
-      ts_log_types: map['ts_log_types'],
-      ts_root_logging_db_path: map['ts_root_logging_db_path'],
-      u_root_level_logging_saved_path: map['u_root_level_logging_saved_path'],
+      id: map['id'] ?? 0,
+      name: map['name'] ?? '',
+      m_description: map['m_description'] ?? '',
+      is_m_description_rich: map['is_m_description_rich'] ?? 0,
+      m_facts: map['m_facts'] ?? '',
+      is_m_facts_rich: map['is_m_facts_rich'] ?? 0,
+      m_reward: map['m_reward'] ?? '',
+      is_m_reward_rich: map['is_m_reward_rich'] ?? 0,
+      icon: map['icon'] ?? '',
+      m_banner: map['m_banner'] ?? '',
+      m_level: map['m_level'] ?? 0,
+      m_u_freq: map['m_u_freq'] ?? 0,
+      ts_multifil: map['ts_multifil'] ?? 0,
+      ts_log_types: map['ts_log_types'] ?? 0,
+      ts_root_logging_db_path: map['ts_root_logging_db_path'] ?? '',
+      u_root_level_logging_saved_path:
+          map['u_root_level_logging_saved_path'] ?? '',
       u_root_level_logging_history_path:
-          map['u_root_level_logging_history_path'],
-      has_market_detail: map['has_market_detail'],
-      ts_num_properties: map['ts_num_properties'],
-      m_num_subs: map['m_num_subs'],
-      u_chat_groups: map['u_chat_groups'],
-      m_num_expert_groups: map['m_num_expert_groups'],
-      num_comments: map['num_comments'],
-      m_recent_subs: map['m_recent_subs'],
-      m_string_1: map['m_string_1'],
-      m_string_2: map['m_string_2'],
-      m_color: map['m_color'],
-      saved_ts: map['saved_ts'],
-      u_sub_ts: map['u_sub_ts'],
-      u_sub_end_ts: map['u_sub_end_ts'],
-      m_rating: map['m_rating'],
-      ts_default_sub_days: map['ts_default_sub_days'],
-      u_first_fill: map['u_first_fill'],
-      u_last_fill: map['u_last_fill'],
-      u_num_fills: map['u_num_fills'],
-      u_habit_score: map['u_habit_score'],
-      u_expert_sub: map['u_expert_sub'],
-      u_friends_sub: map['u_friends_sub'],
-      ts_can_delete: map['ts_can_delete'],
-      ts_autofill: map['ts_autofill'],
-      ts_permission_type: map['ts_permission_type'],
-      ts_autofill_freq: map['ts_autofill_freq'],
-      u_last_autofill_ts: map['u_last_autofill_ts'],
+          map['u_root_level_logging_history_path'] ?? '',
+      has_market_detail: map['has_market_detail'] ?? 0,
+      ts_num_properties: map['ts_num_properties'] ?? 0,
+      m_num_subs: map['m_num_subs'] ?? 0,
+      u_chat_groups: map['u_chat_groups'] ?? 0,
+      m_num_expert_groups: map['m_num_expert_groups'] ?? 0,
+      num_comments: map['num_comments'] ?? 0,
+      m_recent_subs: map['m_recent_subs'] ?? 0,
+      m_string_1: map['m_string_1'] ?? '',
+      m_string_2: map['m_string_2'] ?? '',
+      m_color: map['m_color'] ?? '',
+      saved_ts: map['saved_ts'] ?? 0,
+      u_sub_ts: map['u_sub_ts'] ?? 0,
+      u_sub_end_ts: map['u_sub_end_ts'] ?? 0,
+      m_rating: map['m_rating'] ?? 0.0,
+      ts_default_sub_days: map['ts_default_sub_days'] ?? 0,
+      u_first_fill: map['u_first_fill'] ?? 0,
+      u_last_fill: map['u_last_fill'] ?? 0,
+      u_num_fills: map['u_num_fills'] ?? 0,
+      u_habit_score: map['u_habit_score'] ?? 0.0,
+      u_expert_sub: map['u_expert_sub'] ?? 0,
+      u_friends_sub: map['u_friends_sub'] ?? 0,
+      ts_can_delete: map['ts_can_delete'] ?? 0,
+      ts_autofill: map['ts_autofill'] ?? 0,
+      ts_permission_type: map['ts_permission_type'] ?? 0,
+      ts_autofill_freq: map['ts_autofill_freq'] ?? 0,
+      u_last_autofill_ts: map['u_last_autofill_ts'] ?? 0,
+      ts_has_confirmation: map['ts_has_confirmation'] ?? 0,
+      u_active_state: map['u_active_state'] ?? 0,
+      u_pause_open_ts: map['u_pause_open_ts'] ?? 0,
+      reminder_state: map['reminder_state'] ?? 0,
+      reminder_text: map['reminder_text'] ?? '',
+      reminder_sub_text: map['reminder_sub_text'] ?? '',
+      reminder_week_state: map['reminder_week_state'] ?? 0,
+      reminder_day_state: map['reminder_day_state'] ?? 0,
+      reminder_day_start_ts: map['reminder_day_start_ts'] ?? 0,
+      reminder_day_end_ts: map['reminder_day_end_ts'] ?? 0,
+      last_reminded_ts: map['last_reminded_ts'] ?? 0,
+      realtime_id: map['realtime_id'] ?? 0,
     );
   }
 
@@ -351,105 +439,66 @@ class TrackModel extends Track implements Equatable {
       TrackModel.fromMap(json.decode(source));
 
   @override
-  String toString() {
-    return 'TrackModel(id: $id, name: $name, m_description: $m_description, is_m_description_rich: $is_m_description_rich, m_facts: $m_facts, is_m_facts_rich: $is_m_facts_rich, m_reward: $m_reward, is_m_reward_rich: $is_m_reward_rich, icon: $icon, m_banner: $m_banner, m_level: $m_level, m_u_freq: $m_u_freq, ts_multifil: $ts_multifil, ts_log_types: $ts_log_types, ts_root_logging_db_path: $ts_root_logging_db_path, u_root_level_logging_saved_path: $u_root_level_logging_saved_path, u_root_level_logging_history_path: $u_root_level_logging_history_path, has_market_detail: $has_market_detail, ts_num_properties: $ts_num_properties, m_num_subs: $m_num_subs, u_chat_groups: $u_chat_groups, m_num_expert_groups: $m_num_expert_groups, num_comments: $num_comments, m_recent_subs: $m_recent_subs, m_string_1: $m_string_1, m_string_2: $m_string_2, m_color: $m_color, saved_ts: $saved_ts, u_sub_ts: $u_sub_ts, u_sub_end_ts: $u_sub_end_ts, m_rating: $m_rating, ts_default_sub_days: $ts_default_sub_days, u_first_fill: $u_first_fill, u_last_fill: $u_last_fill, u_num_fills: $u_num_fills, u_habit_score: $u_habit_score, u_expert_sub: $u_expert_sub, u_friends_sub: $u_friends_sub, ts_can_delete: $ts_can_delete, ts_autofill: $ts_autofill, ts_permission_type: $ts_permission_type, ts_autofill_freq: $ts_autofill_freq, u_last_autofill_ts: $u_last_autofill_ts)';
-  }
+  bool get stringify => true;
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is TrackModel &&
-        o.id == id &&
-        o.name == name &&
-        o.m_description == m_description &&
-        o.is_m_description_rich == is_m_description_rich &&
-        o.m_facts == m_facts &&
-        o.is_m_facts_rich == is_m_facts_rich &&
-        o.m_reward == m_reward &&
-        o.is_m_reward_rich == is_m_reward_rich &&
-        o.icon == icon &&
-        o.m_banner == m_banner &&
-        o.m_level == m_level &&
-        o.m_u_freq == m_u_freq &&
-        o.ts_multifil == ts_multifil &&
-        o.ts_log_types == ts_log_types &&
-        o.ts_root_logging_db_path == ts_root_logging_db_path &&
-        o.u_root_level_logging_saved_path == u_root_level_logging_saved_path &&
-        o.u_root_level_logging_history_path ==
-            u_root_level_logging_history_path &&
-        o.has_market_detail == has_market_detail &&
-        o.ts_num_properties == ts_num_properties &&
-        o.m_num_subs == m_num_subs &&
-        o.u_chat_groups == u_chat_groups &&
-        o.m_num_expert_groups == m_num_expert_groups &&
-        o.num_comments == num_comments &&
-        o.m_recent_subs == m_recent_subs &&
-        o.m_string_1 == m_string_1 &&
-        o.m_string_2 == m_string_2 &&
-        o.m_color == m_color &&
-        o.saved_ts == saved_ts &&
-        o.u_sub_ts == u_sub_ts &&
-        o.u_sub_end_ts == u_sub_end_ts &&
-        o.m_rating == m_rating &&
-        o.ts_default_sub_days == ts_default_sub_days &&
-        o.u_first_fill == u_first_fill &&
-        o.u_last_fill == u_last_fill &&
-        o.u_num_fills == u_num_fills &&
-        o.u_habit_score == u_habit_score &&
-        o.u_expert_sub == u_expert_sub &&
-        o.u_friends_sub == u_friends_sub &&
-        o.ts_can_delete == ts_can_delete &&
-        o.ts_autofill == ts_autofill &&
-        o.ts_permission_type == ts_permission_type &&
-        o.ts_autofill_freq == ts_autofill_freq &&
-        o.u_last_autofill_ts == u_last_autofill_ts;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        m_description.hashCode ^
-        is_m_description_rich.hashCode ^
-        m_facts.hashCode ^
-        is_m_facts_rich.hashCode ^
-        m_reward.hashCode ^
-        is_m_reward_rich.hashCode ^
-        icon.hashCode ^
-        m_banner.hashCode ^
-        m_level.hashCode ^
-        m_u_freq.hashCode ^
-        ts_multifil.hashCode ^
-        ts_log_types.hashCode ^
-        ts_root_logging_db_path.hashCode ^
-        u_root_level_logging_saved_path.hashCode ^
-        u_root_level_logging_history_path.hashCode ^
-        has_market_detail.hashCode ^
-        ts_num_properties.hashCode ^
-        m_num_subs.hashCode ^
-        u_chat_groups.hashCode ^
-        m_num_expert_groups.hashCode ^
-        num_comments.hashCode ^
-        m_recent_subs.hashCode ^
-        m_string_1.hashCode ^
-        m_string_2.hashCode ^
-        m_color.hashCode ^
-        saved_ts.hashCode ^
-        u_sub_ts.hashCode ^
-        u_sub_end_ts.hashCode ^
-        m_rating.hashCode ^
-        ts_default_sub_days.hashCode ^
-        u_first_fill.hashCode ^
-        u_last_fill.hashCode ^
-        u_num_fills.hashCode ^
-        u_habit_score.hashCode ^
-        u_expert_sub.hashCode ^
-        u_friends_sub.hashCode ^
-        ts_can_delete.hashCode ^
-        ts_autofill.hashCode ^
-        ts_permission_type.hashCode ^
-        ts_autofill_freq.hashCode ^
-        u_last_autofill_ts.hashCode;
+  List<Object> get props {
+    return [
+      id,
+      name,
+      m_description,
+      is_m_description_rich,
+      m_facts,
+      is_m_facts_rich,
+      m_reward,
+      is_m_reward_rich,
+      icon,
+      m_banner,
+      m_level,
+      m_u_freq,
+      ts_multifil,
+      ts_log_types,
+      ts_root_logging_db_path,
+      u_root_level_logging_saved_path,
+      u_root_level_logging_history_path,
+      has_market_detail,
+      ts_num_properties,
+      m_num_subs,
+      u_chat_groups,
+      m_num_expert_groups,
+      num_comments,
+      m_recent_subs,
+      m_string_1,
+      m_string_2,
+      m_color,
+      saved_ts,
+      u_sub_ts,
+      u_sub_end_ts,
+      m_rating,
+      ts_default_sub_days,
+      u_first_fill,
+      u_last_fill,
+      u_num_fills,
+      u_habit_score,
+      u_expert_sub,
+      u_friends_sub,
+      ts_can_delete,
+      ts_autofill,
+      ts_permission_type,
+      ts_autofill_freq,
+      u_last_autofill_ts,
+      ts_has_confirmation,
+      u_active_state,
+      u_pause_open_ts,
+      reminder_state,
+      reminder_text,
+      reminder_sub_text,
+      reminder_week_state,
+      reminder_day_state,
+      reminder_day_start_ts,
+      reminder_day_end_ts,
+      last_reminded_ts,
+      realtime_id,
+    ];
   }
 }

@@ -14,6 +14,8 @@ const String TRACKS_COLLECTION_PATH = 'tracking/tracks/data';
 const String MARKET_BANNERS_COLLECTION_PATH = 'Market/MarketBanners/Data';
 const String MARKET_HEADINGS_COLLECTION_PATH = 'Market/MarketHeadings/Data';
 const String MARKET_TABS_COLLECTION_PATH = 'Market/MarketTabs/Data';
+const String COLOSSALS_COLLECTION_NAME = "colossals";
+const String COLOSSAL_URL_FIELD = "url";
 const ID_FIELD = 'id';
 const TRACK_NAME_FIELD = "name";
 
@@ -25,6 +27,7 @@ abstract class TrackStoreCloud {
   Future<List<MarketHeadingModel>> getMarketHeadings();
   Future<List<MarketBannerModel>> getMarketBanners();
   Future<List<MarketTabModel>> getMarketTabs();
+  Future<List<String>> getColossalsByTrackId(int track_id);
 }
 
 class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
@@ -127,5 +130,19 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
     TrackModel track = TrackModel.fromSnapshot(querySnapshot.docs[0]);
 
     return track;
+  }
+
+  @override
+  Future<List<String>> getColossalsByTrackId(int track_id) async {
+    QuerySnapshot querySnapshot = await cloudDb
+        .collection(
+            "$TRACKS_COLLECTION_PATH/$track_id/$COLOSSALS_COLLECTION_NAME")
+        .get();
+    List<String> colossals = [];
+    querySnapshot.docs.forEach((colossal) {
+      colossals.add(colossal.data()[COLOSSAL_URL_FIELD]);
+    });
+
+    return colossals;
   }
 }

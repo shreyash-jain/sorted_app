@@ -1,15 +1,36 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/dfareporting/v3_3.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/utility/utils.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/single_track/single_track_bloc.dart';
 import '../../../../../core/global/constants/constants.dart';
 import '../../domain/entities/track.dart';
 import '../../domain/entities/market_heading.dart';
 
-class SingleTrackPage extends StatelessWidget {
+class SingleTrackPage extends StatefulWidget {
   final Track track;
   final MarketHeading marketHeading;
   const SingleTrackPage({this.track, this.marketHeading});
+
+  @override
+  _SingleTrackPageState createState() => _SingleTrackPageState();
+}
+
+class _SingleTrackPageState extends State<SingleTrackPage> {
+  SingleTrackBloc bloc;
+  @override
+  void initState() {
+    bloc = sl();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,7 +48,8 @@ class SingleTrackPage extends StatelessWidget {
                     width: Gparam.widthPadding,
                   ),
                   Hero(
-                    tag: "track-icon-${marketHeading?.id}-${track?.id}",
+                    tag:
+                        "track-icon-${widget.marketHeading?.id}-${widget.track?.id}",
                     child: Container(
                       width: Gparam.height * 0.15,
                       height: Gparam.height * 0.15,
@@ -35,7 +57,7 @@ class SingleTrackPage extends StatelessWidget {
                         border: Border.all(),
                         image: DecorationImage(
                           fit: BoxFit.fill,
-                          image: CachedNetworkImageProvider(track.icon),
+                          image: CachedNetworkImageProvider(widget.track.icon),
                         ),
                       ),
                     ),
@@ -51,7 +73,7 @@ class SingleTrackPage extends StatelessWidget {
                           height: Gparam.height * 0.03,
                         ),
                         Text(
-                          track.name,
+                          widget.track.name,
                           style: TextStyle(
                             fontSize: Gparam.textMedium,
                           ),
@@ -85,7 +107,7 @@ class SingleTrackPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          track.m_num_subs.toString(),
+                          widget.track.m_num_subs.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: Gparam.textSmall,
@@ -118,7 +140,7 @@ class SingleTrackPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          track.ts_default_sub_days.toString(),
+                          widget.track.ts_default_sub_days.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: Gparam.textSmall,
@@ -151,7 +173,7 @@ class SingleTrackPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          fromLevelToDifficulty(track.m_level),
+                          fromLevelToDifficulty(widget.track.m_level),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: Gparam.textSmall,
@@ -196,7 +218,7 @@ class SingleTrackPage extends StatelessWidget {
                   SizedBox(
                     width: Gparam.widthPadding / 2,
                   ),
-                  track.m_num_expert_groups > 0
+                  widget.track.m_num_expert_groups > 0
                       ? SimpleButton(
                           text: "Track with Expert",
                           onTap: () {},

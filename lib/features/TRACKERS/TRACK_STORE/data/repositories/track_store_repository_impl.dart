@@ -6,6 +6,7 @@ import 'package:sorted/core/global/models/addiction_condition.dart';
 import 'package:sorted/core/network/network_info.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_brief.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_comment.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -187,5 +188,29 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
       print("No internet connection");
       return Left(NetworkFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getColossalsByTrackId(
+      int track_id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final List<String> colossals =
+            await cloudDataSource.getColossalsByTrackId(track_id);
+        return Right(colossals);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TrackComment>>> getCommentsByTrackId(
+      int track_id, int from, int to) {
+    // TODO: implement getCommentsByTrackId
+    throw UnimplementedError();
   }
 }

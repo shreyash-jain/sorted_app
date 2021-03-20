@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/data/models/track_comment_model.dart';
 import '../models/market_banner_model.dart';
 import '../models/market_heading_model.dart';
 import '../models/market_lifestyle_model.dart';
@@ -15,7 +16,9 @@ const String MARKET_BANNERS_COLLECTION_PATH = 'Market/MarketBanners/Data';
 const String MARKET_HEADINGS_COLLECTION_PATH = 'Market/MarketHeadings/Data';
 const String MARKET_TABS_COLLECTION_PATH = 'Market/MarketTabs/Data';
 const String COLOSSALS_COLLECTION_NAME = "colossals";
+const String COMMENTS_COLLECTION_NAME = "comments";
 const String COLOSSAL_URL_FIELD = "url";
+const String COMMENTS_SENTIMENT_VALUE_FIELD = "sentiment_value";
 const ID_FIELD = 'id';
 const TRACK_NAME_FIELD = "name";
 
@@ -28,6 +31,8 @@ abstract class TrackStoreCloud {
   Future<List<MarketBannerModel>> getMarketBanners();
   Future<List<MarketTabModel>> getMarketTabs();
   Future<List<String>> getColossalsByTrackId(int track_id);
+  Future<List<TrackCommentModel>> getCommentsByTrackId(
+      int track_id, int from, int size);
 }
 
 class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
@@ -144,5 +149,24 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
     });
 
     return colossals;
+  }
+
+  @override
+  Future<List<TrackCommentModel>> getCommentsByTrackId(
+      int track_id, int from, int size) async {
+    QuerySnapshot querySnapshot = await cloudDb
+        .collection(
+            "$TRACKS_COLLECTION_PATH/$track_id/$COMMENTS_COLLECTION_NAME")
+        .orderBy(COMMENTS_SENTIMENT_VALUE_FIELD)
+        .startAfterDocument(documentSnapshot)
+        .limit(size)
+        .get();
+    List<TrackCommentModel> trackComments = [];
+    querySnapshot.docs.forEach((doc) {
+      trackComments.add(TrackCommentModel.fromSnapshot(doc));
+      print("DATA = " + doc.data()["comment"].toString());
+    });
+
+    return trackComments;
   }
 }

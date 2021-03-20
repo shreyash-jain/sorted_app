@@ -158,7 +158,6 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
         .collection(
             "$TRACKS_COLLECTION_PATH/$track_id/$COMMENTS_COLLECTION_NAME")
         .orderBy(COMMENTS_SENTIMENT_VALUE_FIELD)
-        .startAfterDocument(documentSnapshot)
         .limit(size)
         .get();
     List<TrackCommentModel> trackComments = [];

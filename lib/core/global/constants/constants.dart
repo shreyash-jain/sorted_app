@@ -70,7 +70,7 @@ class Gtheme {
   static TextStyle blackShadowBold28 = TextStyle(
       color: Colors.black,
       fontFamily: 'Montserrat',
-        fontSize: Gparam.textSmaller,
+      fontSize: Gparam.textSmaller,
       shadows: [
         Shadow(
           blurRadius: 60.0,
@@ -84,4 +84,16 @@ class Gtheme {
       fontFamily: 'Montserrat',
       fontSize: Gparam.textSmaller,
       fontWeight: FontWeight.normal);
+
+  // text bold
+  static TextStyle textBold = TextStyle(
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.bold,
+  );
+
+  // text normal
+  static TextStyle textNormal = TextStyle(
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w600,
+  );
 }

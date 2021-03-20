@@ -209,8 +209,18 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
 
   @override
   Future<Either<Failure, List<TrackComment>>> getCommentsByTrackId(
-      int track_id, int from, int to) {
-    // TODO: implement getCommentsByTrackId
-    throw UnimplementedError();
+      int track_id, int from, int size) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final List<TrackComment> comments =
+            await cloudDataSource.getCommentsByTrackId(track_id, from, size);
+        return Right(comments);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
   }
 }

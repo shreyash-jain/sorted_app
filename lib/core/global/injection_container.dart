@@ -88,6 +88,8 @@ import 'package:sorted/features/TRACKERS/TRACK_STORE/data/repositories/track_sto
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/repositories/track_store_repository.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_bloc.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_search/track_store_search_bloc.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/single_track/single_track_bloc.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_comments/track_comments_bloc.dart';
 import '../network/network_info.dart';
 
 final GetIt sl = GetIt.instance;
@@ -163,6 +165,14 @@ Future<void> init() async {
 
   sl.registerFactory(
     () => TrackStoreSearchBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => SingleTrackBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => TrackCommentsBloc(sl()),
   );
 
   //! Use cases

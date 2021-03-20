@@ -23,6 +23,13 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
   int ts_multifil;
   int ts_log_types;
   String ts_root_logging_db_path;
+  String m_db_string;
+  String m_custom_db_string;
+  String m_template_string;
+  String m_db_icon;
+  String m_custom_db_icon;
+  String m_template_icon;
+
   String u_root_level_logging_saved_path;
   String u_root_level_logging_history_path;
   int has_market_detail;
@@ -52,8 +59,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
   int ts_autofill_freq;
   int u_last_autofill_ts;
   int ts_has_confirmation;
-  int ts_templetes_path;
-  int ts_combined_db_path;
+  String ts_templates_path;
+  String ts_combined_db_path;
 
   int u_active_state;
   int u_pause_open_ts;
@@ -83,6 +90,12 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     this.ts_multifil = 0,
     this.ts_log_types = 0,
     this.ts_root_logging_db_path = '',
+    this.m_db_string = '',
+    this.m_custom_db_string = '',
+    this.m_template_string = '',
+    this.m_db_icon = '',
+    this.m_custom_db_icon = '',
+    this.m_template_icon = '',
     this.u_root_level_logging_saved_path = '',
     this.u_root_level_logging_history_path = '',
     this.has_market_detail = 0,
@@ -112,6 +125,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     this.ts_autofill_freq = 0,
     this.u_last_autofill_ts = 0,
     this.ts_has_confirmation = 0,
+    this.ts_templates_path = '',
+    this.ts_combined_db_path = '',
     this.u_active_state = 0,
     this.u_pause_open_ts = 0,
     this.reminder_state = 0,
@@ -124,6 +139,7 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     this.last_reminded_ts = 0,
     this.realtime_id = 0,
   });
+ 
 
   TrackModel copyWith({
     int id,
@@ -141,6 +157,12 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     int ts_multifil,
     int ts_log_types,
     String ts_root_logging_db_path,
+    String m_db_string,
+    String m_custom_db_string,
+    String m_template_string,
+    String m_db_icon,
+    String m_custom_db_icon,
+    String m_template_icon,
     String u_root_level_logging_saved_path,
     String u_root_level_logging_history_path,
     int has_market_detail,
@@ -170,6 +192,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     int ts_autofill_freq,
     int u_last_autofill_ts,
     int ts_has_confirmation,
+    String ts_templates_path,
+    String ts_combined_db_path,
     int u_active_state,
     int u_pause_open_ts,
     int reminder_state,
@@ -186,8 +210,7 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       id: id ?? this.id,
       name: name ?? this.name,
       m_description: m_description ?? this.m_description,
-      is_m_description_rich:
-          is_m_description_rich ?? this.is_m_description_rich,
+      is_m_description_rich: is_m_description_rich ?? this.is_m_description_rich,
       m_facts: m_facts ?? this.m_facts,
       is_m_facts_rich: is_m_facts_rich ?? this.is_m_facts_rich,
       m_reward: m_reward ?? this.m_reward,
@@ -198,12 +221,15 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       m_u_freq: m_u_freq ?? this.m_u_freq,
       ts_multifil: ts_multifil ?? this.ts_multifil,
       ts_log_types: ts_log_types ?? this.ts_log_types,
-      ts_root_logging_db_path:
-          ts_root_logging_db_path ?? this.ts_root_logging_db_path,
-      u_root_level_logging_saved_path: u_root_level_logging_saved_path ??
-          this.u_root_level_logging_saved_path,
-      u_root_level_logging_history_path: u_root_level_logging_history_path ??
-          this.u_root_level_logging_history_path,
+      ts_root_logging_db_path: ts_root_logging_db_path ?? this.ts_root_logging_db_path,
+      m_db_string: m_db_string ?? this.m_db_string,
+      m_custom_db_string: m_custom_db_string ?? this.m_custom_db_string,
+      m_template_string: m_template_string ?? this.m_template_string,
+      m_db_icon: m_db_icon ?? this.m_db_icon,
+      m_custom_db_icon: m_custom_db_icon ?? this.m_custom_db_icon,
+      m_template_icon: m_template_icon ?? this.m_template_icon,
+      u_root_level_logging_saved_path: u_root_level_logging_saved_path ?? this.u_root_level_logging_saved_path,
+      u_root_level_logging_history_path: u_root_level_logging_history_path ?? this.u_root_level_logging_history_path,
       has_market_detail: has_market_detail ?? this.has_market_detail,
       ts_num_properties: ts_num_properties ?? this.ts_num_properties,
       m_num_subs: m_num_subs ?? this.m_num_subs,
@@ -231,6 +257,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_autofill_freq: ts_autofill_freq ?? this.ts_autofill_freq,
       u_last_autofill_ts: u_last_autofill_ts ?? this.u_last_autofill_ts,
       ts_has_confirmation: ts_has_confirmation ?? this.ts_has_confirmation,
+      ts_templates_path: ts_templates_path ?? this.ts_templates_path,
+      ts_combined_db_path: ts_combined_db_path ?? this.ts_combined_db_path,
       u_active_state: u_active_state ?? this.u_active_state,
       u_pause_open_ts: u_pause_open_ts ?? this.u_pause_open_ts,
       reminder_state: reminder_state ?? this.reminder_state,
@@ -238,8 +266,7 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       reminder_sub_text: reminder_sub_text ?? this.reminder_sub_text,
       reminder_week_state: reminder_week_state ?? this.reminder_week_state,
       reminder_day_state: reminder_day_state ?? this.reminder_day_state,
-      reminder_day_start_ts:
-          reminder_day_start_ts ?? this.reminder_day_start_ts,
+      reminder_day_start_ts: reminder_day_start_ts ?? this.reminder_day_start_ts,
       reminder_day_end_ts: reminder_day_end_ts ?? this.reminder_day_end_ts,
       last_reminded_ts: last_reminded_ts ?? this.last_reminded_ts,
       realtime_id: realtime_id ?? this.realtime_id,
@@ -263,6 +290,12 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       'ts_multifil': ts_multifil,
       'ts_log_types': ts_log_types,
       'ts_root_logging_db_path': ts_root_logging_db_path,
+      'm_db_string': m_db_string,
+      'm_custom_db_string': m_custom_db_string,
+      'm_template_string': m_template_string,
+      'm_db_icon': m_db_icon,
+      'm_custom_db_icon': m_custom_db_icon,
+      'm_template_icon': m_template_icon,
       'u_root_level_logging_saved_path': u_root_level_logging_saved_path,
       'u_root_level_logging_history_path': u_root_level_logging_history_path,
       'has_market_detail': has_market_detail,
@@ -292,6 +325,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       'ts_autofill_freq': ts_autofill_freq,
       'u_last_autofill_ts': u_last_autofill_ts,
       'ts_has_confirmation': ts_has_confirmation,
+      'ts_templates_path': ts_templates_path,
+      'ts_combined_db_path': ts_combined_db_path,
       'u_active_state': u_active_state,
       'u_pause_open_ts': u_pause_open_ts,
       'reminder_state': reminder_state,
@@ -323,10 +358,14 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_multifil: map['ts_multifil'] ?? 0,
       ts_log_types: map['ts_log_types'] ?? 0,
       ts_root_logging_db_path: map['ts_root_logging_db_path'] ?? '',
-      u_root_level_logging_saved_path:
-          map['u_root_level_logging_saved_path'] ?? '',
-      u_root_level_logging_history_path:
-          map['u_root_level_logging_history_path'] ?? '',
+      m_db_string: map['m_db_string'] ?? '',
+      m_custom_db_string: map['m_custom_db_string'] ?? '',
+      m_template_string: map['m_template_string'] ?? '',
+      m_db_icon: map['m_db_icon'] ?? '',
+      m_custom_db_icon: map['m_custom_db_icon'] ?? '',
+      m_template_icon: map['m_template_icon'] ?? '',
+      u_root_level_logging_saved_path: map['u_root_level_logging_saved_path'] ?? '',
+      u_root_level_logging_history_path: map['u_root_level_logging_history_path'] ?? '',
       has_market_detail: map['has_market_detail'] ?? 0,
       ts_num_properties: map['ts_num_properties'] ?? 0,
       m_num_subs: map['m_num_subs'] ?? 0,
@@ -354,6 +393,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_autofill_freq: map['ts_autofill_freq'] ?? 0,
       u_last_autofill_ts: map['u_last_autofill_ts'] ?? 0,
       ts_has_confirmation: map['ts_has_confirmation'] ?? 0,
+      ts_templates_path: map['ts_templates_path'] ?? '',
+      ts_combined_db_path: map['ts_combined_db_path'] ?? '',
       u_active_state: map['u_active_state'] ?? 0,
       u_pause_open_ts: map['u_pause_open_ts'] ?? 0,
       reminder_state: map['reminder_state'] ?? 0,
@@ -368,10 +409,9 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     );
   }
 
-  factory TrackModel.fromSnapshot(DocumentSnapshot snap) {
+   factory TrackModel.fromSnapshot(DocumentSnapshot snap) {
     var map = snap.data();
     if (map == null) return null;
-    print('MAP ==> ' + map.toString());
     return TrackModel(
       id: map['id'] ?? 0,
       name: map['name'] ?? '',
@@ -388,10 +428,14 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_multifil: map['ts_multifil'] ?? 0,
       ts_log_types: map['ts_log_types'] ?? 0,
       ts_root_logging_db_path: map['ts_root_logging_db_path'] ?? '',
-      u_root_level_logging_saved_path:
-          map['u_root_level_logging_saved_path'] ?? '',
-      u_root_level_logging_history_path:
-          map['u_root_level_logging_history_path'] ?? '',
+      m_db_string: map['m_db_string'] ?? '',
+      m_custom_db_string: map['m_custom_db_string'] ?? '',
+      m_template_string: map['m_template_string'] ?? '',
+      m_db_icon: map['m_db_icon'] ?? '',
+      m_custom_db_icon: map['m_custom_db_icon'] ?? '',
+      m_template_icon: map['m_template_icon'] ?? '',
+      u_root_level_logging_saved_path: map['u_root_level_logging_saved_path'] ?? '',
+      u_root_level_logging_history_path: map['u_root_level_logging_history_path'] ?? '',
       has_market_detail: map['has_market_detail'] ?? 0,
       ts_num_properties: map['ts_num_properties'] ?? 0,
       m_num_subs: map['m_num_subs'] ?? 0,
@@ -419,6 +463,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_autofill_freq: map['ts_autofill_freq'] ?? 0,
       u_last_autofill_ts: map['u_last_autofill_ts'] ?? 0,
       ts_has_confirmation: map['ts_has_confirmation'] ?? 0,
+      ts_templates_path: map['ts_templates_path'] ?? '',
+      ts_combined_db_path: map['ts_combined_db_path'] ?? '',
       u_active_state: map['u_active_state'] ?? 0,
       u_pause_open_ts: map['u_pause_open_ts'] ?? 0,
       reminder_state: map['reminder_state'] ?? 0,
@@ -433,10 +479,10 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     );
   }
 
+
   String toJson() => json.encode(toMap());
 
-  factory TrackModel.fromJson(String source) =>
-      TrackModel.fromMap(json.decode(source));
+  factory TrackModel.fromJson(String source) => TrackModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
@@ -459,6 +505,12 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_multifil,
       ts_log_types,
       ts_root_logging_db_path,
+      m_db_string,
+      m_custom_db_string,
+      m_template_string,
+      m_db_icon,
+      m_custom_db_icon,
+      m_template_icon,
       u_root_level_logging_saved_path,
       u_root_level_logging_history_path,
       has_market_detail,
@@ -488,6 +540,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_autofill_freq,
       u_last_autofill_ts,
       ts_has_confirmation,
+      ts_templates_path,
+      ts_combined_db_path,
       u_active_state,
       u_pause_open_ts,
       reminder_state,

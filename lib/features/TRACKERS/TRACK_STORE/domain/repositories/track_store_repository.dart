@@ -28,5 +28,5 @@ abstract class TrackStoreRepository {
   Future<Either<Failure, List<MarketTab>>> getMarketTabs();
   Future<Either<Failure, List<String>>> getColossalsByTrackId(int track_id);
   Future<Either<Failure, List<TrackComment>>> getCommentsByTrackId(
-      int track_id, int from, int to);
+      int track_id, int from, int size);
 }

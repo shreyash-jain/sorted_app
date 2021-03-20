@@ -71,7 +71,7 @@ class TrackCommentModel extends TrackComment implements Equatable {
       user_name: map['user_name'],
       user_id: map['user_id'],
       user_icon: map['user_icon'],
-      comment: map['comment'],
+      comment: map['comment'].toString().trim(),
       sentiment_value: map['sentiment_value'],
     );
   }

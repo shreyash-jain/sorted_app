@@ -161,6 +161,7 @@ class _TrackStoreMainState extends State<TrackStoreMain> {
                                                   .add(GetSuggestionsEvent());
                                             }
                                           },
+                                          autofocus: false,
                                         ),
                                       ),
                                       SizedBox(

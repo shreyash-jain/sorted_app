@@ -64,16 +64,23 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
 
   int u_active_state;
   int u_pause_open_ts;
-  int reminder_state;
-  String reminder_text;
-  String reminder_sub_text;
-  int reminder_week_state;
-  int reminder_day_state;
-  int reminder_day_start_ts;
-  int reminder_day_end_ts;
+  int ts_reminder_state;
+  String ts_reminder_text;
+  String ts_reminder_sub_text;
+  int ts_reminder_week_day_sun;
+  int ts_reminder_week_day_mon;
+  int ts_reminder_week_day_tue;
+  int ts_reminder_week_day_wed;
+  int ts_reminder_week_day_thu;
+  int ts_reminder_week_day_fri;
+  int ts_reminder_week_day_sat;
+  int ts_reminder_interval_days;
+  int ts_reminder_day_state;
+  int ts_reminder_day_start_ts;
+  int ts_reminder_day_end_ts;
 
-  int last_reminded_ts;
-  int realtime_id;
+  int u_last_reminded_ts;
+  int ts_realtime_id;
   TrackModel({
     this.id = 0,
     this.name = '',
@@ -129,17 +136,23 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     this.ts_combined_db_path = '',
     this.u_active_state = 0,
     this.u_pause_open_ts = 0,
-    this.reminder_state = 0,
-    this.reminder_text = '',
-    this.reminder_sub_text = '',
-    this.reminder_week_state = 0,
-    this.reminder_day_state = 0,
-    this.reminder_day_start_ts = 0,
-    this.reminder_day_end_ts = 0,
-    this.last_reminded_ts = 0,
-    this.realtime_id = 0,
+    this.ts_reminder_state = 0,
+    this.ts_reminder_text = '',
+    this.ts_reminder_sub_text = '',
+    this.ts_reminder_week_day_sun = 0,
+    this.ts_reminder_week_day_mon = 0,
+    this.ts_reminder_week_day_tue = 0,
+    this.ts_reminder_week_day_wed = 0,
+    this.ts_reminder_week_day_thu = 0,
+    this.ts_reminder_week_day_fri = 0,
+    this.ts_reminder_week_day_sat = 0,
+    this.ts_reminder_interval_days = 0,
+    this.ts_reminder_day_state = 0,
+    this.ts_reminder_day_start_ts = 0,
+    this.ts_reminder_day_end_ts = 0,
+    this.u_last_reminded_ts = 0,
+    this.ts_realtime_id = 0,
   });
- 
 
   TrackModel copyWith({
     int id,
@@ -196,21 +209,29 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     String ts_combined_db_path,
     int u_active_state,
     int u_pause_open_ts,
-    int reminder_state,
-    String reminder_text,
-    String reminder_sub_text,
-    int reminder_week_state,
-    int reminder_day_state,
-    int reminder_day_start_ts,
-    int reminder_day_end_ts,
-    int last_reminded_ts,
-    int realtime_id,
+    int ts_reminder_state,
+    String ts_reminder_text,
+    String ts_reminder_sub_text,
+    int ts_reminder_week_day_sun,
+    int ts_reminder_week_day_mon,
+    int ts_reminder_week_day_tue,
+    int ts_reminder_week_day_wed,
+    int ts_reminder_week_day_thu,
+    int ts_reminder_week_day_fri,
+    int ts_reminder_week_day_sat,
+    int ts_reminder_interval_days,
+    int ts_reminder_day_state,
+    int ts_reminder_day_start_ts,
+    int ts_reminder_day_end_ts,
+    int u_last_reminded_ts,
+    int ts_realtime_id,
   }) {
     return TrackModel(
       id: id ?? this.id,
       name: name ?? this.name,
       m_description: m_description ?? this.m_description,
-      is_m_description_rich: is_m_description_rich ?? this.is_m_description_rich,
+      is_m_description_rich:
+          is_m_description_rich ?? this.is_m_description_rich,
       m_facts: m_facts ?? this.m_facts,
       is_m_facts_rich: is_m_facts_rich ?? this.is_m_facts_rich,
       m_reward: m_reward ?? this.m_reward,
@@ -221,15 +242,18 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       m_u_freq: m_u_freq ?? this.m_u_freq,
       ts_multifil: ts_multifil ?? this.ts_multifil,
       ts_log_types: ts_log_types ?? this.ts_log_types,
-      ts_root_logging_db_path: ts_root_logging_db_path ?? this.ts_root_logging_db_path,
+      ts_root_logging_db_path:
+          ts_root_logging_db_path ?? this.ts_root_logging_db_path,
       m_db_string: m_db_string ?? this.m_db_string,
       m_custom_db_string: m_custom_db_string ?? this.m_custom_db_string,
       m_template_string: m_template_string ?? this.m_template_string,
       m_db_icon: m_db_icon ?? this.m_db_icon,
       m_custom_db_icon: m_custom_db_icon ?? this.m_custom_db_icon,
       m_template_icon: m_template_icon ?? this.m_template_icon,
-      u_root_level_logging_saved_path: u_root_level_logging_saved_path ?? this.u_root_level_logging_saved_path,
-      u_root_level_logging_history_path: u_root_level_logging_history_path ?? this.u_root_level_logging_history_path,
+      u_root_level_logging_saved_path: u_root_level_logging_saved_path ??
+          this.u_root_level_logging_saved_path,
+      u_root_level_logging_history_path: u_root_level_logging_history_path ??
+          this.u_root_level_logging_history_path,
       has_market_detail: has_market_detail ?? this.has_market_detail,
       ts_num_properties: ts_num_properties ?? this.ts_num_properties,
       m_num_subs: m_num_subs ?? this.m_num_subs,
@@ -261,15 +285,33 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_combined_db_path: ts_combined_db_path ?? this.ts_combined_db_path,
       u_active_state: u_active_state ?? this.u_active_state,
       u_pause_open_ts: u_pause_open_ts ?? this.u_pause_open_ts,
-      reminder_state: reminder_state ?? this.reminder_state,
-      reminder_text: reminder_text ?? this.reminder_text,
-      reminder_sub_text: reminder_sub_text ?? this.reminder_sub_text,
-      reminder_week_state: reminder_week_state ?? this.reminder_week_state,
-      reminder_day_state: reminder_day_state ?? this.reminder_day_state,
-      reminder_day_start_ts: reminder_day_start_ts ?? this.reminder_day_start_ts,
-      reminder_day_end_ts: reminder_day_end_ts ?? this.reminder_day_end_ts,
-      last_reminded_ts: last_reminded_ts ?? this.last_reminded_ts,
-      realtime_id: realtime_id ?? this.realtime_id,
+      ts_reminder_state: ts_reminder_state ?? this.ts_reminder_state,
+      ts_reminder_text: ts_reminder_text ?? this.ts_reminder_text,
+      ts_reminder_sub_text: ts_reminder_sub_text ?? this.ts_reminder_sub_text,
+      ts_reminder_week_day_sun:
+          ts_reminder_week_day_sun ?? this.ts_reminder_week_day_sun,
+      ts_reminder_week_day_mon:
+          ts_reminder_week_day_mon ?? this.ts_reminder_week_day_mon,
+      ts_reminder_week_day_tue:
+          ts_reminder_week_day_tue ?? this.ts_reminder_week_day_tue,
+      ts_reminder_week_day_wed:
+          ts_reminder_week_day_wed ?? this.ts_reminder_week_day_wed,
+      ts_reminder_week_day_thu:
+          ts_reminder_week_day_thu ?? this.ts_reminder_week_day_thu,
+      ts_reminder_week_day_fri:
+          ts_reminder_week_day_fri ?? this.ts_reminder_week_day_fri,
+      ts_reminder_week_day_sat:
+          ts_reminder_week_day_sat ?? this.ts_reminder_week_day_sat,
+      ts_reminder_interval_days:
+          ts_reminder_interval_days ?? this.ts_reminder_interval_days,
+      ts_reminder_day_state:
+          ts_reminder_day_state ?? this.ts_reminder_day_state,
+      ts_reminder_day_start_ts:
+          ts_reminder_day_start_ts ?? this.ts_reminder_day_start_ts,
+      ts_reminder_day_end_ts:
+          ts_reminder_day_end_ts ?? this.ts_reminder_day_end_ts,
+      u_last_reminded_ts: u_last_reminded_ts ?? this.u_last_reminded_ts,
+      ts_realtime_id: ts_realtime_id ?? this.ts_realtime_id,
     );
   }
 
@@ -329,15 +371,22 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       'ts_combined_db_path': ts_combined_db_path,
       'u_active_state': u_active_state,
       'u_pause_open_ts': u_pause_open_ts,
-      'reminder_state': reminder_state,
-      'reminder_text': reminder_text,
-      'reminder_sub_text': reminder_sub_text,
-      'reminder_week_state': reminder_week_state,
-      'reminder_day_state': reminder_day_state,
-      'reminder_day_start_ts': reminder_day_start_ts,
-      'reminder_day_end_ts': reminder_day_end_ts,
-      'last_reminded_ts': last_reminded_ts,
-      'realtime_id': realtime_id,
+      'ts_reminder_state': ts_reminder_state,
+      'ts_reminder_text': ts_reminder_text,
+      'ts_reminder_sub_text': ts_reminder_sub_text,
+      'ts_reminder_week_day_sun': ts_reminder_week_day_sun,
+      'ts_reminder_week_day_mon': ts_reminder_week_day_mon,
+      'ts_reminder_week_day_tue': ts_reminder_week_day_tue,
+      'ts_reminder_week_day_wed': ts_reminder_week_day_wed,
+      'ts_reminder_week_day_thu': ts_reminder_week_day_thu,
+      'ts_reminder_week_day_fri': ts_reminder_week_day_fri,
+      'ts_reminder_week_day_sat': ts_reminder_week_day_sat,
+      'ts_reminder_interval_days': ts_reminder_interval_days,
+      'ts_reminder_day_state': ts_reminder_day_state,
+      'ts_reminder_day_start_ts': ts_reminder_day_start_ts,
+      'ts_reminder_day_end_ts': ts_reminder_day_end_ts,
+      'u_last_reminded_ts': u_last_reminded_ts,
+      'ts_realtime_id': ts_realtime_id,
     };
   }
 
@@ -364,8 +413,10 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       m_db_icon: map['m_db_icon'] ?? '',
       m_custom_db_icon: map['m_custom_db_icon'] ?? '',
       m_template_icon: map['m_template_icon'] ?? '',
-      u_root_level_logging_saved_path: map['u_root_level_logging_saved_path'] ?? '',
-      u_root_level_logging_history_path: map['u_root_level_logging_history_path'] ?? '',
+      u_root_level_logging_saved_path:
+          map['u_root_level_logging_saved_path'] ?? '',
+      u_root_level_logging_history_path:
+          map['u_root_level_logging_history_path'] ?? '',
       has_market_detail: map['has_market_detail'] ?? 0,
       ts_num_properties: map['ts_num_properties'] ?? 0,
       m_num_subs: map['m_num_subs'] ?? 0,
@@ -397,19 +448,26 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_combined_db_path: map['ts_combined_db_path'] ?? '',
       u_active_state: map['u_active_state'] ?? 0,
       u_pause_open_ts: map['u_pause_open_ts'] ?? 0,
-      reminder_state: map['reminder_state'] ?? 0,
-      reminder_text: map['reminder_text'] ?? '',
-      reminder_sub_text: map['reminder_sub_text'] ?? '',
-      reminder_week_state: map['reminder_week_state'] ?? 0,
-      reminder_day_state: map['reminder_day_state'] ?? 0,
-      reminder_day_start_ts: map['reminder_day_start_ts'] ?? 0,
-      reminder_day_end_ts: map['reminder_day_end_ts'] ?? 0,
-      last_reminded_ts: map['last_reminded_ts'] ?? 0,
-      realtime_id: map['realtime_id'] ?? 0,
+      ts_reminder_state: map['ts_reminder_state'] ?? 0,
+      ts_reminder_text: map['ts_reminder_text'] ?? '',
+      ts_reminder_sub_text: map['ts_reminder_sub_text'] ?? '',
+      ts_reminder_week_day_sun: map['ts_reminder_week_day_sun'] ?? 0,
+      ts_reminder_week_day_mon: map['ts_reminder_week_day_mon'] ?? 0,
+      ts_reminder_week_day_tue: map['ts_reminder_week_day_tue'] ?? 0,
+      ts_reminder_week_day_wed: map['ts_reminder_week_day_wed'] ?? 0,
+      ts_reminder_week_day_thu: map['ts_reminder_week_day_thu'] ?? 0,
+      ts_reminder_week_day_fri: map['ts_reminder_week_day_fri'] ?? 0,
+      ts_reminder_week_day_sat: map['ts_reminder_week_day_sat'] ?? 0,
+      ts_reminder_interval_days: map['ts_reminder_interval_days'] ?? 0,
+      ts_reminder_day_state: map['ts_reminder_day_state'] ?? 0,
+      ts_reminder_day_start_ts: map['ts_reminder_day_start_ts'] ?? 0,
+      ts_reminder_day_end_ts: map['ts_reminder_day_end_ts'] ?? 0,
+      u_last_reminded_ts: map['u_last_reminded_ts'] ?? 0,
+      ts_realtime_id: map['ts_realtime_id'] ?? 0,
     );
   }
 
-   factory TrackModel.fromSnapshot(DocumentSnapshot snap) {
+  factory TrackModel.fromSnapshot(DocumentSnapshot snap) {
     var map = snap.data();
     if (map == null) return null;
     return TrackModel(
@@ -434,8 +492,10 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       m_db_icon: map['m_db_icon'] ?? '',
       m_custom_db_icon: map['m_custom_db_icon'] ?? '',
       m_template_icon: map['m_template_icon'] ?? '',
-      u_root_level_logging_saved_path: map['u_root_level_logging_saved_path'] ?? '',
-      u_root_level_logging_history_path: map['u_root_level_logging_history_path'] ?? '',
+      u_root_level_logging_saved_path:
+          map['u_root_level_logging_saved_path'] ?? '',
+      u_root_level_logging_history_path:
+          map['u_root_level_logging_history_path'] ?? '',
       has_market_detail: map['has_market_detail'] ?? 0,
       ts_num_properties: map['ts_num_properties'] ?? 0,
       m_num_subs: map['m_num_subs'] ?? 0,
@@ -467,22 +527,29 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_combined_db_path: map['ts_combined_db_path'] ?? '',
       u_active_state: map['u_active_state'] ?? 0,
       u_pause_open_ts: map['u_pause_open_ts'] ?? 0,
-      reminder_state: map['reminder_state'] ?? 0,
-      reminder_text: map['reminder_text'] ?? '',
-      reminder_sub_text: map['reminder_sub_text'] ?? '',
-      reminder_week_state: map['reminder_week_state'] ?? 0,
-      reminder_day_state: map['reminder_day_state'] ?? 0,
-      reminder_day_start_ts: map['reminder_day_start_ts'] ?? 0,
-      reminder_day_end_ts: map['reminder_day_end_ts'] ?? 0,
-      last_reminded_ts: map['last_reminded_ts'] ?? 0,
-      realtime_id: map['realtime_id'] ?? 0,
+      ts_reminder_state: map['ts_reminder_state'] ?? 0,
+      ts_reminder_text: map['ts_reminder_text'] ?? '',
+      ts_reminder_sub_text: map['ts_reminder_sub_text'] ?? '',
+      ts_reminder_week_day_sun: map['ts_reminder_week_day_sun'] ?? 0,
+      ts_reminder_week_day_mon: map['ts_reminder_week_day_mon'] ?? 0,
+      ts_reminder_week_day_tue: map['ts_reminder_week_day_tue'] ?? 0,
+      ts_reminder_week_day_wed: map['ts_reminder_week_day_wed'] ?? 0,
+      ts_reminder_week_day_thu: map['ts_reminder_week_day_thu'] ?? 0,
+      ts_reminder_week_day_fri: map['ts_reminder_week_day_fri'] ?? 0,
+      ts_reminder_week_day_sat: map['ts_reminder_week_day_sat'] ?? 0,
+      ts_reminder_interval_days: map['ts_reminder_interval_days'] ?? 0,
+      ts_reminder_day_state: map['ts_reminder_day_state'] ?? 0,
+      ts_reminder_day_start_ts: map['ts_reminder_day_start_ts'] ?? 0,
+      ts_reminder_day_end_ts: map['ts_reminder_day_end_ts'] ?? 0,
+      u_last_reminded_ts: map['u_last_reminded_ts'] ?? 0,
+      ts_realtime_id: map['ts_realtime_id'] ?? 0,
     );
   }
 
-
   String toJson() => json.encode(toMap());
 
-  factory TrackModel.fromJson(String source) => TrackModel.fromMap(json.decode(source));
+  factory TrackModel.fromJson(String source) =>
+      TrackModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
@@ -544,15 +611,22 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_combined_db_path,
       u_active_state,
       u_pause_open_ts,
-      reminder_state,
-      reminder_text,
-      reminder_sub_text,
-      reminder_week_state,
-      reminder_day_state,
-      reminder_day_start_ts,
-      reminder_day_end_ts,
-      last_reminded_ts,
-      realtime_id,
+      ts_reminder_state,
+      ts_reminder_text,
+      ts_reminder_sub_text,
+      ts_reminder_week_day_sun,
+      ts_reminder_week_day_mon,
+      ts_reminder_week_day_tue,
+      ts_reminder_week_day_wed,
+      ts_reminder_week_day_thu,
+      ts_reminder_week_day_fri,
+      ts_reminder_week_day_sat,
+      ts_reminder_interval_days,
+      ts_reminder_day_state,
+      ts_reminder_day_start_ts,
+      ts_reminder_day_end_ts,
+      u_last_reminded_ts,
+      ts_realtime_id,
     ];
   }
 }

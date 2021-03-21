@@ -8,9 +8,12 @@ TrackModel food_track = new TrackModel(
     ts_autofill: 0,
     m_db_string: "8000 Recipes",
     ts_default_sub_days: 0,
-    reminder_state: 0,
+    ts_reminder_state: 0,
     m_custom_db_string: "Add custom Recipe",
     m_template_string: "Weekly diet plan",
+    ts_reminder_day_start_ts: 946697400000,
+    ts_reminder_day_end_ts: 946740600000,
+    ts_reminder_interval_days: 10,
     m_db_icon:
         "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2F1%2Frecipes.png?alt=media&token=3b98c93b-7bc1-4af4-b901-ede5fef88ff3",
     m_custom_db_icon:

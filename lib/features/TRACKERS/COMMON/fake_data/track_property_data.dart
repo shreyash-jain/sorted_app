@@ -27,7 +27,7 @@ TrackProperty protien = new TrackProperty(
         "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2F1%2Ficons8-protein-supplement-96.png?alt=media&token=d73b906a-f8da-469d-b3d0-f2244336453a",
     property_description: "Tracks the protien content of a meal");
 TrackProperty carbohydrates = new TrackProperty(
-    id: 3,
+    id: 4,
     track_id: 1,
     property_type: 1,
     property_name: "Carbs",
@@ -35,7 +35,7 @@ TrackProperty carbohydrates = new TrackProperty(
         "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2F1%2Ffrench-fries%20(1).png?alt=media&token=0191e7f0-1b7a-4bb7-896c-08e993a3c28b",
     property_description: "Tracks the carbs content of a meal");
 TrackProperty fats = new TrackProperty(
-    id: 4,
+    id: 5,
     track_id: 1,
     property_type: 1,
     property_name: "Fats",

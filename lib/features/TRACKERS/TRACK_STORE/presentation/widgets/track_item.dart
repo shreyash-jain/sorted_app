@@ -51,6 +51,7 @@ class TrackItem extends StatelessWidget {
                 track.name,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
+                maxLines: 2,
                 style: TextStyle(
                     fontFamily: 'Montserrat',
                     color: Theme.of(context).highlightColor,

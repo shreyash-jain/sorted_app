@@ -24,7 +24,7 @@ TrackGoal build_muscle = TrackGoal(
     goal_name: "Build Muscle",
     icon_url:
         "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2F1%2Fworkout.png?alt=media&token=3e534c9b-0e09-48a5-9f76-bddf9ef7470e");
-TrackGoal pregency_diet = TrackGoal(
+TrackGoal pregnancy_diet = TrackGoal(
     id: 5,
     track_id: 1,
     goal_name: "Pregnency Diet",

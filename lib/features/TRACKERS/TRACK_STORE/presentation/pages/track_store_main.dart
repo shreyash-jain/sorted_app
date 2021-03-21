@@ -354,7 +354,7 @@ class _TrackStoreMainState extends State<TrackStoreMain> {
                 ),
                 InkWell(
                   child: Icon(
-                    Icons.menu,
+                    Icons.search,
                   ),
                 ),
                 SizedBox(

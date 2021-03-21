@@ -46,6 +46,7 @@ class _MarketPageState extends State<MarketPage> {
                     builder: (_, state) {
                       return Container(
                         height: 160,
+                        margin: EdgeInsets.only(bottom: 10),
                         child: (state is GetMarketsLoadedState)
                             ? MarketCarousel(
                                 markets: state.marketBanners,
@@ -56,6 +57,7 @@ class _MarketPageState extends State<MarketPage> {
                   ),
                 ),
               ),
+             
               BlocBuilder<TrackStoreBloc, TrackStoreState>(
                 builder: (_, state) {
                   return (state is GetMarketsLoadedState)

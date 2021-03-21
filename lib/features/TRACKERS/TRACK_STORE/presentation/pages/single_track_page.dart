@@ -67,7 +67,7 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
             slivers: [
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: Gparam.topPadding,
+                  height: Gparam.topPadding / 2,
                 ),
               ),
               SliverToBoxAdapter(
@@ -82,10 +82,9 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                         tag:
                             "track-icon-${widget?.marketHeading?.id}-${widget?.track?.id}",
                         child: Container(
-                          width: Gparam.height * 0.15,
-                          height: Gparam.height * 0.15,
+                          width: 100,
+                          height: 100,
                           decoration: BoxDecoration(
-                            border: Border.all(),
                             image: DecorationImage(
                               fit: BoxFit.fill,
                               image:
@@ -108,12 +107,14 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                               widget.track.name,
                               style: TextStyle(
                                 fontSize: Gparam.textMedium,
+                                 fontFamily: 'Montserrat',
                               ),
                             ),
                             Text(
                               "Market name",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat',
                                 fontSize: Gparam.textSmall,
                               ),
                             ),
@@ -126,12 +127,12 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: Gparam.heightPadding * 2,
+                  height: Gparam.heightPadding,
                 ),
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  height: Gparam.height * 0.11,
+                  height: 50,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -147,28 +148,28 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Gparam.textSmall,
+                                fontFamily: 'Montserrat',
                               ),
                             ),
                             Text(
-                              "people",
+                              "People Tracking",
                               style: TextStyle(
-                                fontSize: Gparam.textSmall,
+                                fontSize: Gparam.textVerySmall,
+                                fontFamily: 'Montserrat',
                               ),
                             ),
-                            Text(
-                              "Tracking",
-                              style: TextStyle(
-                                fontSize: Gparam.textSmall,
-                              ),
-                            ),
+                          
                           ],
                         ),
                       ),
                       SizedBox(
                         width: Gparam.widthPadding * 2,
                         child: VerticalDivider(
-                          color: Theme.of(context).highlightColor,
-                          thickness: 1,
+                          color:
+                              Theme.of(context).highlightColor.withOpacity(.3),
+                          thickness: 2,
+                          indent: 20,
+                          endIndent: 30,
                         ),
                       ),
                       Container(
@@ -180,28 +181,28 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Gparam.textSmall,
+                                fontFamily: 'Montserrat',
                               ),
                             ),
                             Text(
-                              "Track",
+                              "Track Duration",
                               style: TextStyle(
-                                fontSize: Gparam.textSmall,
+                                fontSize: Gparam.textVerySmall,
+                                fontFamily: 'Montserrat',
                               ),
                             ),
-                            Text(
-                              "Duration",
-                              style: TextStyle(
-                                fontSize: Gparam.textSmall,
-                              ),
-                            ),
+                          
                           ],
                         ),
                       ),
                       SizedBox(
                         width: Gparam.widthPadding * 2,
                         child: VerticalDivider(
-                          color: Theme.of(context).highlightColor,
-                          thickness: 1,
+                          color:
+                              Theme.of(context).highlightColor.withOpacity(.3),
+                          thickness: 2,
+                          indent: 20,
+                          endIndent: 30,
                         ),
                       ),
                       Container(
@@ -216,17 +217,14 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                               ),
                             ),
                             Text(
-                              "Habit",
+                              "Habit Difficulty",
                               style: TextStyle(
-                                fontSize: Gparam.textSmall,
+                                fontSize: Gparam.textVerySmall,
+                                fontFamily: 'Montserrat',
                               ),
                             ),
-                            Text(
-                              "Difficulty",
-                              style: TextStyle(
-                                fontSize: Gparam.textSmall,
-                              ),
-                            ),
+                           
+                            
                           ],
                         ),
                       ),
@@ -239,37 +237,49 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
               ),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: Gparam.heightPadding,
+                  height: Gparam.heightPadding / 2,
                 ),
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  height: Gparam.height * 0.07,
+                  height: Gparam.height * 0.05,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
                       SizedBox(
                         width: Gparam.widthPadding,
                       ),
-                      SimpleButton(
-                        text: "Self tracking",
-                        onTap: () {},
+                      MaterialButton(
+                        child: Text("Self tracking"),
+                        onPressed: () {},
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        color: Colors.greenAccent,
                       ),
                       SizedBox(
-                        width: Gparam.widthPadding / 2,
+                        width: Gparam.widthPadding / 4,
                       ),
                       widget.track.m_num_expert_groups > 0
-                          ? SimpleButton(
-                              text: "Track with Expert",
-                              onTap: () {},
+                          ? MaterialButton(
+                              child: Text("Track with Experts"),
+                              elevation: 0,
+                              onPressed: () {},
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0)),
+                              color: Colors.greenAccent,
                             )
                           : Container(),
                       SizedBox(
-                        width: Gparam.widthPadding / 2,
+                        width: Gparam.widthPadding / 4,
                       ),
-                      SimpleButton(
-                        text: "Track with Friends",
-                        onTap: () {},
+                      MaterialButton(
+                        child: Text("Track with Friends"),
+                        elevation: 0,
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        color: Colors.greenAccent,
                       ),
                       SizedBox(
                         width: Gparam.widthPadding,
@@ -278,9 +288,10 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                   ),
                 ),
               ),
+           
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: Gparam.heightPadding * 2,
+                  height: Gparam.heightPadding*2,
                 ),
               ),
               SliverToBoxAdapter(

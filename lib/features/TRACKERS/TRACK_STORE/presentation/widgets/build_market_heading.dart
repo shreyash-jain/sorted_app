@@ -14,20 +14,20 @@ class BuildMarketHeading extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:
-              EdgeInsets.only(top: 0, left: Gparam.widthPadding / 2, bottom: 5),
+          padding: EdgeInsets.only(
+              top: 0, left: Gparam.widthPadding / 1.2, bottom: 15),
           child: Row(
             children: [
               Container(
-                height: 5 + Gparam.height * 0.05,
-                width: 5 + Gparam.height * 0.05,
+                height: 25,
+                width: 25,
                 child: CachedNetworkImage(
                   imageUrl: marketHeading.icon_url,
                   errorWidget: (_, __, ___) => Icon(Icons.error),
                 ),
               ),
               SizedBox(
-                width: Gparam.widthPadding,
+                width: Gparam.widthPadding / 3,
               ),
               Text(
                 marketHeading.name,
@@ -44,10 +44,14 @@ class BuildMarketHeading extends StatelessWidget {
           height: 170,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: marketHeading.tracksDetail.length,
-            itemBuilder: (_, i) => TrackItem(
-                track: marketHeading.tracksDetail[i],
-                marketHeading: marketHeading),
+            itemCount: marketHeading.tracksDetail.length + 1,
+            itemBuilder: (_, i) => (i == 0)
+                ? SizedBox(
+                    width: Gparam.widthPadding/2,
+                  )
+                : TrackItem(
+                    track: marketHeading.tracksDetail[i-1],
+                    marketHeading: marketHeading),
           ),
         ),
       ],

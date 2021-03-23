@@ -9888,18 +9888,18 @@ ul {
 }
 .home-decor .home-circle2 {
   position: absolute;
-  top: 180px;
-  right: 188px;
+  top: 580px;
+  right: 128px;
 }
 .home-decor .home-circle3 {
   position: absolute;
   top: 280px;
-  right: 203px;
+  right: 253px;
 }
 .home-contain {
   display: flex;
   align-items: center;
-  height: calc(100vh - 74px);
+  height: calc(100vh - 150px);
   margin-top: -27px;
 }
 .home-contain h4 {
@@ -11749,11 +11749,11 @@ iframe.video-play {
   }
   .home-decor .home-circle2 {
     top: 130px;
-    right: -30px;
+    right: 60px;
   }
   .home-decor .home-circle3 {
-    top: 200px;
-    right: 25px;
+    top: 400px;
+    right: 65px;
   }
   .feature-phone {
     top: 126px;
@@ -11966,11 +11966,13 @@ iframe.video-play {
     left: 65px;
   }
   .home-decor .home-circle2 {
-    right: -30px;
+    right: 30px;
+    
+    top: 215px;
   }
   .home-decor .home-circle3 {
     top: 211px;
-    right: 5px;
+    right: 50px;
   }
   .feature-phone {
     top: 126px;
@@ -12320,6 +12322,16 @@ iframe.video-play {
   .home-decor .home-circle1 {
     top: auto;
     left: 65px;
+    bottom: 0;
+  }
+   .home-decor .home-circle2 {
+    top: auto;
+    right: 65px;
+    bottom: 0;
+  }
+  .home-decor .home-circle3 {
+   
+    right: 65px;
     bottom: 0;
   }
   .contact-decor .contact-circle2 {

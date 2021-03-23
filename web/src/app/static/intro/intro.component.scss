@@ -6,6 +6,8 @@
       color: #212529;
   }
   .name-color {
-      color: #1297e7;
+      color: #212529;
   }
+  h3{ text-transform: lowercase; }
+  h3:first-letter { text-transform: uppercase; }
 }

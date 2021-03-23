@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FeaturesComponent } from './static/features/features.component';
+import { FeaturesExpertsComponent } from './static/features_experts/features_experts.component';
 import { HeaderComponent } from './static/header/header.component';
 import { HomeComponent } from './static/home/home.component';
 import { IntroComponent } from './static/intro/intro.component';
@@ -25,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     FeaturesComponent,
+    FeaturesExpertsComponent,
     HeaderComponent,
     HomeComponent,
     IntroComponent,

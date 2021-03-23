@@ -10,11 +10,11 @@ export class AboutComponent implements OnInit {
     [
       {
         icon: 'assets/images/icon1.png',
-        text: 'Health',
+        text: 'Gym Workout',
       },
       {
         icon: 'assets/images/icon2.png',
-        text: 'Self-Improvement',
+        text: 'Yoga Workout',
       },
     ],
     [
@@ -24,7 +24,7 @@ export class AboutComponent implements OnInit {
       },
       {
         icon: 'assets/images/icon4.png',
-        text: 'Finance',
+        text: 'Mindfulness',
       },
     ],
   ];

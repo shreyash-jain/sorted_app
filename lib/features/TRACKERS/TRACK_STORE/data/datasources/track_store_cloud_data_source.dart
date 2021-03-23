@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_property_data.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/models/track_comment_model.dart';
 import '../models/market_banner_model.dart';
 import '../models/market_heading_model.dart';
@@ -33,6 +35,7 @@ abstract class TrackStoreCloud {
   Future<List<String>> getColossalsByTrackId(int track_id);
   Future<List<TrackCommentModel>> getCommentsByTrackId(
       int track_id, int from, int size);
+  Future<List<TrackProperty>> getPropertiesByTrackId(int track_id);
 }
 
 class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
@@ -167,5 +170,16 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
     });
 
     return trackComments;
+  }
+
+  @override
+  Future<List<TrackProperty>> getPropertiesByTrackId(int track_id) async {
+    return <TrackProperty>[
+      foodItems,
+      calories,
+      protien,
+      carbohydrates,
+      fats,
+    ];
   }
 }

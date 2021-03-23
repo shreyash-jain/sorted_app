@@ -4,6 +4,7 @@ import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 import 'package:sorted/core/global/models/addiction_condition.dart';
 import 'package:sorted/core/network/network_info.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_brief.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_comment.dart';
@@ -215,6 +216,23 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
         final List<TrackComment> comments =
             await cloudDataSource.getCommentsByTrackId(track_id, from, size);
         return Right(comments);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TrackProperty>>> getPropertiesByTrackId(
+      int track_id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final List<TrackProperty> properties =
+            await cloudDataSource.getPropertiesByTrackId(track_id);
+        return Right(properties);
       } catch (error) {
         return Left(ServerFailure());
       }

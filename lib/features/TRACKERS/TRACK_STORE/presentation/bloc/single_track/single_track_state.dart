@@ -14,8 +14,12 @@ class GetSingleTrackLoadingState extends SingleTrackState {}
 class GetSingleTrackLoadedState extends SingleTrackState {
   List<String> colossals;
   List<TrackComment> trackComments;
-  GetSingleTrackLoadedState(
-      {@required this.colossals, @required this.trackComments});
+  List<TrackProperty> trackProperties;
+  GetSingleTrackLoadedState({
+    @required this.colossals,
+    @required this.trackComments,
+    @required this.trackProperties,
+  });
 }
 
 class GetSingleTrackFailedState extends SingleTrackState {}

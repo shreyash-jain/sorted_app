@@ -7,6 +7,7 @@ import 'package:sorted/core/global/models/physical_health_profile.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sorted/core/error/failures.dart';
 import '../entities/market_heading.dart';
@@ -29,4 +30,6 @@ abstract class TrackStoreRepository {
   Future<Either<Failure, List<String>>> getColossalsByTrackId(int track_id);
   Future<Either<Failure, List<TrackComment>>> getCommentsByTrackId(
       int track_id, int from, int size);
+  Future<Either<Failure, List<TrackProperty>>> getPropertiesByTrackId(
+      int track_id);
 }

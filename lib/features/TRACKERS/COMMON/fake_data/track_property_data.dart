@@ -1,5 +1,6 @@
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
-import 'package:sorted/features/TRACKERS/COMMON/models/track_property.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_property.dart';
 
 //track model id global path -> tracking/data/tracks/1/
 TrackProperty foodItems = new TrackProperty(

@@ -17,6 +17,14 @@ enum TrackDuration {
   ninty,
 }
 
+enum NumberPropertyGoalCondition {
+  less,
+  more,
+  inbetween,
+  exact1,
+  exact2
+}
+
 enum NumberPropertyGoalType {
   daily,
   weekly,
@@ -43,7 +51,7 @@ extension DurationDescription on TrackDuration {
 }
 
 extension DurationIcon on TrackDuration {
-  String get description {
+  String get icon {
     switch (this) {
       case TrackDuration.seven:
         return 'assets/images/iconseven';

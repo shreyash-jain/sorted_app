@@ -42,26 +42,26 @@ export class TestimonialComponent implements OnInit {
     {
       id: 1,
       image: 'assets/images/avatar/1.png',
-      name: 'Anonymous',
-      role: 'Developer',
+      name: 'Mukul Bajpai',
+      role: 'Weight Loss workout',
       content:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.Contrary to popular belief, Lorem Ipsum is not simply random text.',
+        'I enjoyed my 12 week journey with Sort.it.. Not only did I lose weight and inches, this journey changed my eating habits too! What’s more, I’ve become regular at the gym which was something I’ve always struggled with.',
     },
     {
       id: 2,
       image: 'assets/images/avatar/1.png',
-      name: 'Anonymous',
-      role: 'Doctor',
+      name: 'Abhilash Pawar',
+      role: 'Weight Loss workout',
       content:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.Contrary to popular belief, Lorem Ipsum is not simply random text.',
+        'Since I started my journey with Sort.it, I have lost 8kgs and lot of inches in a short span of time. I never thought of losing so much belly fat in this time frame.',
     },
     {
       id: 3,
       image: 'assets/images/avatar/1.png',
-      name: 'Anonymous',
-      role: 'Designer',
+      name: 'Sushma Chaudhary',
+      role: 'Stay Fit program',
       content:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.Contrary to popular belief, Lorem Ipsum is not simply random text.',
+        'The best community if you are looking for a healthy and sustainable lifestyle. Join today for a better tomorrow!!',
     },
   ];
   constructor() {}

@@ -12,7 +12,7 @@
       <div class="col-md-12 col-lg-8 col-sm-12">
         <div class="contact-us">
           <div class="w-100">
-            <h2 class="title"><span>contact </span>information</h2>
+            <h2 class="title"><span>Register </span>Here</h2>
             <form novalidate [formGroup]="contactForm" class="theme-form" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <div class="row">
@@ -23,7 +23,6 @@
                   <div class="col-sm-12 col-md-6">
                     <input type="tel" name="phone" formControlName="phone" placeholder="phone" class="form-control"
                     />
-                    <div *ngIf="submitted && formControl.phone.errors.required && formControl.phone.errors.minLength && formControl.phone.errors.maxLength" class="text text-danger">Invalid Phone Number</div>
                   </div>
                 </div>
               </div>
@@ -39,7 +38,7 @@
                 <button
                   type="submit"
                   class="btn btn-custom theme-color theme-color2"
-                  disabled="submitted"
+                  
                 >
                   send
                 </button>

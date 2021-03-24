@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
       link: '#testimonial',
     },
     {
-      name: 'contact Us',
+      name: 'Register',
       link: '#contact',
     },
   ];

@@ -1,4 +1,7 @@
 {
+  "projects": {
+    "default": "sorted-98c02"
+  },
   "targets": {
     "sorted-98c02": {
       "hosting": {
@@ -7,8 +10,5 @@
         ]
       }
     }
-  },
-  "projects": {
-    "default": "sorted-98c02"
   }
 }

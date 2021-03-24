@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ContactUsService } from '../../contact-us.service';
+import { ActivatedRoute } from '@angular/router';
 import {
   FormBuilder,
   FormControl,
@@ -13,20 +15,23 @@ import {
 })
 export class ContactUsComponent implements OnInit {
   contactForm: FormGroup;
-  submitted = false;
+  submitted = true;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private route: ActivatedRoute,private formBuilder: FormBuilder, private contactService: ContactUsService) { }
 
   ngOnInit(): void {
-    this.submitted = false;
+    console.log("here55");
+    
+
+
+    this.submitted = true;
     this.contactForm = this.formBuilder.group({
       name: ['', Validators.required],
       phone: [
         '',
         [
           Validators.required,
-          Validators.maxLength(10),
-          Validators.minLength(10),
+          
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
@@ -38,9 +43,14 @@ export class ContactUsComponent implements OnInit {
     return this.contactForm.controls;
   }
 
-  onSubmit() {
-    this.submitted=true;
+  public onSubmit() {
+    console.log("here");
+    //this.submitted = true;
+    console.log("here");
     if (this.contactForm.invalid) return;
-    this.submitted = false;
+    console.log(this.contactForm.value['name']);
+    this.contactService.sendMessage([], "name=" + "\"" + this.contactForm.value['name'] + "\"" + "&email=" + "\"" + this.contactForm.value['email'] + "\"" + "&message=" + "\"" + this.contactForm.value['message'] + "\"" + "&phone=" + "\"" + this.contactForm.value['phone'] + "\"");
+
+    //this.submitted = false;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/features/TRACKERS/COMMON/models/track_property.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
 
 class FeatureItem extends StatelessWidget {
   final String text;

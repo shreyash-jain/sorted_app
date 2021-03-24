@@ -35,7 +35,7 @@ extension DurationDescription on TrackDuration {
 }
 
 extension DurationIcon on TrackDuration {
-  String get description {
+  String get icon {
     switch (this) {
       case TrackDuration.seven:
         return 'assets/images/iconseven';

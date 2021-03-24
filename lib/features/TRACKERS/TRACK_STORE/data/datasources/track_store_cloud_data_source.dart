@@ -5,8 +5,10 @@ import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_property_data.dart';
+import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_goal_data.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
-import 'package:sorted/features/TRACKERS/COMMON/models/track_property.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_goal_model.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/models/track_comment_model.dart';
 import '../models/market_banner_model.dart';
 import '../models/market_heading_model.dart';
@@ -35,7 +37,8 @@ abstract class TrackStoreCloud {
   Future<List<String>> getColossalsByTrackId(int track_id);
   Future<List<TrackCommentModel>> getCommentsByTrackId(
       int track_id, int from, int size);
-  Future<List<TrackProperty>> getPropertiesByTrackId(int track_id);
+  Future<List<TrackPropertyModel>> getPropertiesByTrackId(int track_id);
+  Future<List<TrackGoalModel>> getGoalsByTrackId(int track_id);
 }
 
 class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
@@ -48,6 +51,8 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
     @required this.auth,
     @required this.nativeDb,
   });
+
+  DocumentSnapshot lastCommentDoc;
 
   @override
   Future<List<TrackModel>> getAllTracks() async {
@@ -157,14 +162,26 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
   @override
   Future<List<TrackCommentModel>> getCommentsByTrackId(
       int track_id, int from, int size) async {
-    QuerySnapshot querySnapshot = await cloudDb
-        .collection(
-            "$TRACKS_COLLECTION_PATH/$track_id/$COMMENTS_COLLECTION_NAME")
-        .orderBy(COMMENTS_SENTIMENT_VALUE_FIELD)
-        .limit(size)
-        .get();
+    QuerySnapshot querySnapshot;
+    if (from == 0) {
+      querySnapshot = await cloudDb
+          .collection(
+              "$TRACKS_COLLECTION_PATH/$track_id/$COMMENTS_COLLECTION_NAME")
+          .orderBy(COMMENTS_SENTIMENT_VALUE_FIELD)
+          .limit(size)
+          .get();
+    } else {
+      querySnapshot = await cloudDb
+          .collection(
+              "$TRACKS_COLLECTION_PATH/$track_id/$COMMENTS_COLLECTION_NAME")
+          .orderBy(COMMENTS_SENTIMENT_VALUE_FIELD)
+          .startAfterDocument(lastCommentDoc)
+          .limit(size)
+          .get();
+    }
     List<TrackCommentModel> trackComments = [];
     querySnapshot.docs.forEach((doc) {
+      lastCommentDoc = doc;
       trackComments.add(TrackCommentModel.fromSnapshot(doc));
       print("DATA = " + doc.data()["comment"].toString());
     });
@@ -173,13 +190,24 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
   }
 
   @override
-  Future<List<TrackProperty>> getPropertiesByTrackId(int track_id) async {
-    return <TrackProperty>[
+  Future<List<TrackPropertyModel>> getPropertiesByTrackId(int track_id) async {
+    return <TrackPropertyModel>[
       foodItems,
       calories,
       protien,
       carbohydrates,
       fats,
+    ];
+  }
+
+  @override
+  Future<List<TrackGoalModel>> getGoalsByTrackId(int track_id) async {
+    return <TrackGoalModel>[
+      weight_loss,
+      weight_gain,
+      weight_maintain,
+      build_muscle,
+      pregnancy_diet,
     ];
   }
 }

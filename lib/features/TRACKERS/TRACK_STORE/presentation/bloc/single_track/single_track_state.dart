@@ -15,10 +15,12 @@ class GetSingleTrackLoadedState extends SingleTrackState {
   List<String> colossals;
   List<TrackComment> trackComments;
   List<TrackProperty> trackProperties;
+  List<TrackGoal> trackGoals;
   GetSingleTrackLoadedState({
     @required this.colossals,
     @required this.trackComments,
     @required this.trackProperties,
+    @required this.trackGoals,
   });
 }
 

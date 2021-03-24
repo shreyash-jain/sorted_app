@@ -4,21 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:googleapis/dfareporting/v3_3.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/utility/utils.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/data/models/track_comments.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_comment.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_property.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/single_track/single_track_bloc.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_comments/track_comments_bloc.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/track_story_page.dart';
 import '../../../../../core/global/constants/constants.dart';
 import '../../domain/entities/track.dart';
 import '../../domain/entities/market_heading.dart';
+import '../../domain/entities/track_goal.dart';
 import './about_track_page.dart';
 import '../widgets/single_comment.dart';
 import './track_comments_page.dart';
-import '../../../COMMON/models/track_property.dart';
 import '../widgets/property_item.dart';
 import '../widgets/feature_item.dart';
 import '../../../COMMON/constants/enum_constants.dart';
+import '../widgets/pop-ups/self_tracking_popup.dart';
 
 class SingleTrackPage extends StatefulWidget {
   final Track track;
@@ -144,54 +145,17 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: Container(
-                  height: Gparam.height * 0.05,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      SizedBox(
-                        width: Gparam.widthPadding,
-                      ),
-                      MaterialButton(
-                        child: Text("Self tracking"),
-                        onPressed: () {},
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        color: Colors.greenAccent,
-                      ),
-                      SizedBox(
-                        width: Gparam.widthPadding / 4,
-                      ),
-                      widget.track.m_num_expert_groups > 0
-                          ? MaterialButton(
-                              child: Text("Track with Experts"),
-                              elevation: 0,
-                              onPressed: () {},
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0)),
-                              color: Colors.greenAccent,
-                            )
-                          : Container(),
-                      SizedBox(
-                        width: Gparam.widthPadding / 4,
-                      ),
-                      MaterialButton(
-                        child: Text("Track with Friends"),
-                        elevation: 0,
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        color: Colors.greenAccent,
-                      ),
-                      SizedBox(
-                        width: Gparam.widthPadding,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                  child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
+                builder: (_, state) {
+                  if (state is GetSingleTrackLoadingState) {
+                    return _buildLoading();
+                  }
+                  if (state is GetSingleTrackLoadedState) {
+                    return _buildTrackingMethods(state.trackGoals);
+                  }
+                  return Container();
+                },
+              )),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: Gparam.heightPadding * 2,
@@ -436,6 +400,67 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
     );
   }
 
+  Widget _buildTrackingMethods(List<TrackGoal> goals) {
+    return Container(
+      height: Gparam.height * 0.05,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          SizedBox(
+            width: Gparam.widthPadding,
+          ),
+          MaterialButton(
+            child: Text("Self tracking"),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => Dialog(
+                  backgroundColor: Colors.transparent,
+                  child: SelfTrackingPopup(
+                    trackGoals: goals,
+                    track: widget.track,
+                  ),
+                ),
+              );
+            },
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+            color: Colors.greenAccent,
+          ),
+          SizedBox(
+            width: Gparam.widthPadding / 4,
+          ),
+          widget.track.m_num_expert_groups > 0
+              ? MaterialButton(
+                  child: Text("Track with Experts"),
+                  elevation: 0,
+                  onPressed: () {},
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0)),
+                  color: Colors.greenAccent,
+                )
+              : Container(),
+          SizedBox(
+            width: Gparam.widthPadding / 4,
+          ),
+          MaterialButton(
+            child: Text("Track with Friends"),
+            elevation: 0,
+            onPressed: () {},
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            color: Colors.greenAccent,
+          ),
+          SizedBox(
+            width: Gparam.widthPadding,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAboutTrack(Track track, context) {
     return InkWell(
       onTap: () {
@@ -644,28 +669,28 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
 
   Widget _buildTrackFeatures() {
     List<Widget> features = [];
-    if (widget.track.ts_root_logging_db_path == null) {
+    if (widget.track.ts_root_logging_db_path != null) {
       features.add(
         FeatureItem(
-          text: "Text 1",
-          icon_url: widget.track.icon,
+          text: widget.track.m_db_string,
+          icon_url: widget.track.m_db_icon,
         ),
       );
     }
-    if (widget.track.u_root_level_logging_saved_path == null) {
+    if (widget.track.u_root_level_logging_saved_path != null) {
       features.add(
         FeatureItem(
-          text: "Text 2",
-          icon_url: widget.track.icon,
+          text: widget.track.m_custom_db_string,
+          icon_url: widget.track.m_custom_db_icon,
         ),
       );
     }
-    if (widget.track.ts_root_logging_db_path == null) {
+    if (widget.track.ts_root_logging_db_path != null) {
       // if (true) {
       features.add(
         FeatureItem(
-          text: "Text 3",
-          icon_url: widget.track.icon,
+          text: widget.track.m_template_string,
+          icon_url: widget.track.m_template_icon,
         ),
       );
     }

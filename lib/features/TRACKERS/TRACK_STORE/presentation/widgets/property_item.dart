@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/features/TRACKERS/COMMON/models/track_property.dart';
+import '../../domain/entities/track_property.dart';
 
 class PropertyItem extends StatelessWidget {
   TrackProperty trackProperty;
@@ -61,7 +61,7 @@ class PropertyItem extends StatelessWidget {
                       border: Border.all(
                         color: Theme.of(context).highlightColor,
                       ),
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(

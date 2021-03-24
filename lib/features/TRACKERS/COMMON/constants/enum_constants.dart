@@ -17,6 +17,14 @@ enum TrackDuration {
   ninty,
 }
 
+enum NumberPropertyGoalType {
+  daily,
+  weekly,
+  monthly,
+  yearly,
+}
+
+
 extension DurationDescription on TrackDuration {
   String get description {
     switch (this) {

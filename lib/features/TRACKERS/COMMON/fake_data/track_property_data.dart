@@ -15,6 +15,11 @@ TrackProperty calories = new TrackProperty(
     track_id: 1,
     property_type: 1,
     property_name: "Calories",
+    n_max: 500,
+    n_min: 0,
+    n_u_aim_start: 300,
+    n_aim_type: 0,
+    n_u_aim_condition: 0,
     property_icon_url:
         "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2F1%2Fcalories.png?alt=media&token=bba7f04a-15f6-42b2-b362-3faa8d50b4a7",
     property_description: "Tracks the calories of a meal");

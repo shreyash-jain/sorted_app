@@ -5,8 +5,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../TRACK_STORE/domain/entities/track.dart';
 
-//m_facts	is_m_facts_rich	m_reward	is_m_reward_rich
-
 class TrackModel extends Track with EquatableMixin implements Equatable {
   int id;
   String name;

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:faker/faker.dart';
+import '../../TRACK_STORE/domain/entities/track_property.dart';
 
-class TrackProperty extends Equatable {
+class TrackPropertyModel extends TrackProperty implements Equatable {
   int id;
   int track_id;
   int property_type;
@@ -74,7 +74,7 @@ class TrackProperty extends Equatable {
   String i_cloud_path;
   double i_width;
   double i_height;
-  TrackProperty({
+  TrackPropertyModel({
     this.id = 0,
     this.track_id = 0,
     this.property_type = 0,
@@ -224,7 +224,7 @@ class TrackProperty extends Equatable {
     ];
   }
 
-  TrackProperty copyWith({
+  TrackPropertyModel copyWith({
     int id,
     int track_id,
     int property_type,
@@ -296,7 +296,7 @@ class TrackProperty extends Equatable {
     double i_width,
     double i_height,
   }) {
-    return TrackProperty(
+    return TrackPropertyModel(
       id: id ?? this.id,
       track_id: track_id ?? this.track_id,
       property_type: property_type ?? this.property_type,
@@ -449,8 +449,8 @@ class TrackProperty extends Equatable {
     };
   }
 
-  factory TrackProperty.fromMap(Map<String, dynamic> map) {
-    return TrackProperty(
+  factory TrackPropertyModel.fromMap(Map<String, dynamic> map) {
+    return TrackPropertyModel(
       id: map['id'] ?? 0,
       track_id: map['track_id'] ?? 0,
       property_type: map['property_type'] ?? 0,
@@ -524,10 +524,10 @@ class TrackProperty extends Equatable {
     );
   }
 
-  factory TrackProperty.fromSnapshot(DocumentSnapshot snap) {
+  factory TrackPropertyModel.fromSnapshot(DocumentSnapshot snap) {
     var map = snap.data();
     if (map == null) return null;
-    return TrackProperty(
+    return TrackPropertyModel(
       id: map['id'] ?? 0,
       track_id: map['track_id'] ?? 0,
       property_type: map['property_type'] ?? 0,
@@ -603,8 +603,8 @@ class TrackProperty extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory TrackProperty.fromJson(String source) =>
-      TrackProperty.fromMap(json.decode(source));
+  factory TrackPropertyModel.fromJson(String source) =>
+      TrackPropertyModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;

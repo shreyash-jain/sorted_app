@@ -4,9 +4,11 @@ import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 import 'package:sorted/core/global/models/addiction_condition.dart';
 import 'package:sorted/core/network/network_info.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_brief.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_comment.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_goal.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -18,6 +20,7 @@ import '../../domain/entities/market_banner.dart';
 import '../../domain/entities/market_lifestyle.dart';
 import '../../domain/entities/market_heading.dart';
 import '../../domain/entities/market_tab.dart';
+import '../../domain/entities/track_property.dart';
 import '../datasources/track_store_cloud_data_source.dart';
 import '../models/track_brief_model.dart';
 
@@ -215,6 +218,40 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
         final List<TrackComment> comments =
             await cloudDataSource.getCommentsByTrackId(track_id, from, size);
         return Right(comments);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TrackProperty>>> getPropertiesByTrackId(
+      int track_id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final List<TrackProperty> properties =
+            await cloudDataSource.getPropertiesByTrackId(track_id);
+        return Right(properties);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TrackGoal>>> getGoalsByTrackId(
+      int track_id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final List<TrackGoal> goals =
+            await cloudDataSource.getGoalsByTrackId(track_id);
+        return Right(goals);
       } catch (error) {
         return Left(ServerFailure());
       }

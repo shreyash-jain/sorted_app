@@ -1,14 +1,15 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import '../../TRACK_STORE/domain/entities/track_goal.dart';
 
-class TrackGoal extends Equatable {
+class TrackGoalModel extends TrackGoal implements Equatable {
   int id;
   int track_id;
   String goal_name;
   String goal_description;
   String icon_url;
-  TrackGoal({
+  TrackGoalModel({
     this.id = 0,
     this.track_id = 0,
     this.goal_name = '',
@@ -16,14 +17,14 @@ class TrackGoal extends Equatable {
     this.icon_url = '',
   });
 
-  TrackGoal copyWith({
+  TrackGoalModel copyWith({
     int id,
     int track_id,
     String goal_name,
     String goal_description,
     String icon_url,
   }) {
-    return TrackGoal(
+    return TrackGoalModel(
       id: id ?? this.id,
       track_id: track_id ?? this.track_id,
       goal_name: goal_name ?? this.goal_name,
@@ -42,8 +43,8 @@ class TrackGoal extends Equatable {
     };
   }
 
-  factory TrackGoal.fromMap(Map<String, dynamic> map) {
-    return TrackGoal(
+  factory TrackGoalModel.fromMap(Map<String, dynamic> map) {
+    return TrackGoalModel(
       id: map['id'] ?? 0,
       track_id: map['track_id'] ?? 0,
       goal_name: map['goal_name'] ?? '',
@@ -54,8 +55,8 @@ class TrackGoal extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory TrackGoal.fromJson(String source) =>
-      TrackGoal.fromMap(json.decode(source));
+  factory TrackGoalModel.fromJson(String source) =>
+      TrackGoalModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;

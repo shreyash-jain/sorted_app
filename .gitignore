@@ -1,7 +1,0 @@
-
-build/
-.dart_tool/
-.vscode/
-.vscode/launch.json
-pubspec.lock
-android/.gradle/

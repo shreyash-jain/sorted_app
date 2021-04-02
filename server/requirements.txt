@@ -1,0 +1,7 @@
+# requirements.txt
+Werkzeug==0.16.1
+Flask-Gunicorn
+flask-restplus
+statsmodels
+scikit-learn
+nltk

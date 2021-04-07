@@ -4,6 +4,7 @@ import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 import 'package:sorted/core/global/models/addiction_condition.dart';
 import 'package:sorted/core/network/network_info.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_brief.dart';
@@ -177,20 +178,42 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
 
   @override
   Future<Either<Failure, Track>> getTrackDetailsById(int id) async {
-    if (await networkInfo.isConnected) {
-      try {
-        print("Connected");
-        final Track trackDetails =
-            await cloudDataSource.getTrackDetailsById(id);
-        print(trackDetails.name);
-        return Right(trackDetails);
-      } catch (error) {
-        return Left(ServerFailure());
+    try {
+      Track track = await trackStoreNative.getTrackById(id);
+      if (track != null) return Right(track);
+      if (await networkInfo.isConnected) {
+        try {
+          print("Connected");
+          final Track trackDetails =
+              await cloudDataSource.getTrackDetailsById(id);
+          print(trackDetails.name);
+          return Right(trackDetails);
+        } catch (error) {
+          print("error " + error.toString());
+          return Left(ServerFailure());
+        }
+      } else {
+        print("No internet connection");
+        return Left(NetworkFailure());
       }
-    } else {
-      print("No internet connection");
-      return Left(NetworkFailure());
+    } catch (error) {
+      print("error " + error.toString());
+      return Left(CacheFailure());
     }
+    // if (await networkInfo.isConnected) {
+    //   try {
+    //     print("Connected");
+    //     final Track trackDetails =
+    //         await cloudDataSource.getTrackDetailsById(id);
+    //     print(trackDetails.name);
+    //     return Right(trackDetails);
+    //   } catch (error) {
+    //     return Left(ServerFailure());
+    //   }
+    // } else {
+    //   print("No internet connection");
+    //   return Left(NetworkFailure());
+    // }
   }
 
   @override
@@ -200,6 +223,7 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
       try {
         final List<String> colossals =
             await cloudDataSource.getColossalsByTrackId(track_id);
+        print("COLS = " + colossals.toString());
         return Right(colossals);
       } catch (error) {
         return Left(ServerFailure());
@@ -230,17 +254,28 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
   @override
   Future<Either<Failure, List<TrackProperty>>> getPropertiesByTrackId(
       int track_id) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final List<TrackProperty> properties =
-            await cloudDataSource.getPropertiesByTrackId(track_id);
-        return Right(properties);
-      } catch (error) {
-        return Left(ServerFailure());
+    try {
+      Track track = await trackStoreNative.getTrackById(track_id);
+      if (track != null) {
+        List<TrackProperty> trackProps =
+            await trackStoreNative.getTrackProperties(track_id);
+        return Right(trackProps);
       }
-    } else {
-      print("No internet connection");
-      return Left(NetworkFailure());
+      if (await networkInfo.isConnected) {
+        try {
+          final List<TrackProperty> properties =
+              await cloudDataSource.getPropertiesByTrackId(track_id);
+          return Right(properties);
+        } catch (error) {
+          return Left(ServerFailure());
+        }
+      } else {
+        print("No internet connection");
+        return Left(NetworkFailure());
+      }
+    } catch (error) {
+      print("error " + error.toString());
+      return Left(CacheFailure());
     }
   }
 
@@ -258,6 +293,48 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
     } else {
       print("No internet connection");
       return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> subscribeToTrack(
+      Track track, List<TrackProperty> trackProps) async {
+    try {
+      await trackStoreNative.addTrack(track);
+      // TODO: each prop should have an unique id
+      // await trackStoreNative.addTrackProperties(trackProps);
+      print("TRACK ADDED!!!");
+      cloudDataSource.subscribeToTrack(track.id);
+      return Right(true);
+    } catch (error) {
+      print("ERROR = " + error.toString());
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> unsubscribeFromTrack(int track_id) async {
+    try {
+      await trackStoreNative.deleteTrack(track_id);
+      await trackStoreNative.deleteTrackProperties(track_id);
+      print("TRACK DELTED!!!");
+      cloudDataSource.unsubscribeFromTrack(track_id);
+      return Right(true);
+    } catch (error) {
+      print("ERROR = " + error.toString());
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> pauseTrack(Track track) async {
+    try {
+      await trackStoreNative.updateTrack(track);
+
+      return Right(true);
+    } catch (error) {
+      print("ERROR = " + error.toString());
+      return Left(CacheFailure());
     }
   }
 }

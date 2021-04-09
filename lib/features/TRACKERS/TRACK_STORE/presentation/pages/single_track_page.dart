@@ -188,34 +188,6 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
-                    builder: (_, state) {
-                      if (state is GetSingleTrackLoadingState) {
-                        return _buildLoading();
-                      }
-                      if (state is GetSingleTrackLoadedState) {
-                        if (state.colossals.isEmpty) {
-                          return SizedBox.shrink();
-                        }
-                        return _buildColossals(state.colossals);
-                      }
-                      return Container();
-                    },
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: Gparam.heightPadding,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                    child: _buildAboutTrack(widget.track, context)),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: Gparam.heightPadding,
-                  ),
-                ),
-                SliverToBoxAdapter(
                   child: Row(
                     children: [
                       SizedBox(
@@ -255,6 +227,41 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                     height: Gparam.heightPadding,
                   ),
                 ),
+               
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
+                    builder: (_, state) {
+                      if (state is GetSingleTrackLoadingState) {
+                        return _buildLoading();
+                      }
+                      if (state is GetSingleTrackLoadedState) {
+                        if (state.colossals.isEmpty) {
+                          return SizedBox.shrink();
+                        }
+                        return _buildColossals(state.colossals);
+                      }
+                      return Container();
+                    },
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                    child: _buildAboutTrack(widget.track, context)),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                
                 SliverToBoxAdapter(
                   child: _buildAutoFill(),
                 ),

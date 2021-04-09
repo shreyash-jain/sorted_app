@@ -551,6 +551,8 @@ class GoalItem extends StatelessWidget {
             width: 35,
             child: CachedNetworkImage(
               imageUrl: trackGoal.icon_url,
+              placeholder: (context, url) => new CircularProgressIndicator(),
+              errorWidget: (context, url, error) => new Icon(Icons.error),
             ),
           ),
           SizedBox(

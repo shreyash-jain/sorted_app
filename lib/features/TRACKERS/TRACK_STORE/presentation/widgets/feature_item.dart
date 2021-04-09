@@ -25,14 +25,14 @@ class FeatureItem extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Expanded(
+            if (icon_url!=null && icon_url!="")Expanded(
               flex: 3,
               child: Container(
                 width: 85,
                 height: 85,
                 padding: EdgeInsets.all(10),
                 child: CachedNetworkImage(
-                  imageUrl: icon_url ?? "",
+                  imageUrl: icon_url ,
                   errorWidget: (_, __, ___) => Icon(Icons.error),
                 ),
               ),

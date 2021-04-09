@@ -15,7 +15,7 @@ class TrackStoryPage extends StatelessWidget {
           width: double.infinity,
           child: CachedNetworkImage(
             fit: BoxFit.fill,
-            imageUrl: url ?? "",
+            imageUrl: url ,
             progressIndicatorBuilder: (context, url, progress) =>
                 CircularProgressIndicator(),
             errorWidget: (_, __, ___) => Icon(Icons.error),

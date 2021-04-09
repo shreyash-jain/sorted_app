@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:googleapis/dfareporting/v3_3.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/utility/utils.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_comment.dart';
@@ -20,6 +19,8 @@ import '../widgets/property_item.dart';
 import '../widgets/feature_item.dart';
 import '../../../COMMON/constants/enum_constants.dart';
 import '../widgets/pop-ups/self_tracking_popup.dart';
+import '../widgets/pop-ups/loading_dialog.dart';
+import '../widgets/pop-ups/pause_dialog.dart';
 
 class SingleTrackPage extends StatefulWidget {
   final Track track;
@@ -33,7 +34,7 @@ class SingleTrackPage extends StatefulWidget {
 class _SingleTrackPageState extends State<SingleTrackPage> {
   SingleTrackBloc bloc;
   TrackCommentsBloc commentsBloc;
-  List<TrackProperty> properties = [];
+  // List<TrackProperty> properties = [];
   @override
   void initState() {
     bloc = sl();
@@ -67,268 +68,295 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
           create: (_) => commentsBloc,
         ),
       ],
-      child: SafeArea(
-        child: Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.topPadding / 2,
+      child: BlocListener<SingleTrackBloc, SingleTrackState>(
+        listener: (_, state) {
+          if (state is SubscribeToTrackLoadingState) {
+            showDialog(
+              context: context,
+              builder: (context) => LoadingDialog(),
+              barrierDismissible: false,
+            );
+          }
+          if (state is SubscribeToTrackFailedState) {
+            // Navigator.pop(context);
+
+            print("Can't subscribe now !!!!");
+          }
+
+          if (state is SubscribeToTrackLoadedState) {
+            Navigator.pop(context);
+            bloc.add(GetSingleTrackEvent(widget.track.id));
+          }
+        },
+        child: SafeArea(
+          child: Scaffold(
+            body: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.topPadding / 2,
+                  ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  height: Gparam.height * 0.15,
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: Gparam.height * 0.15,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: Gparam.widthPadding,
+                        ),
+                        Hero(
+                          tag:
+                              "track-icon-${widget?.marketHeading?.id}-${widget?.track?.id}",
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: CachedNetworkImageProvider(
+                                    widget.track.icon),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: Gparam.widthPadding / 2,
+                        ),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: Gparam.height * 0.03,
+                              ),
+                              Text(
+                                widget.track.name,
+                                style: TextStyle(
+                                  fontSize: Gparam.textMedium,
+                                  fontFamily: 'Montserrat',
+                                ),
+                              ),
+                              Text(
+                                "Market name",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat',
+                                  fontSize: Gparam.textSmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: _buildTrackInfo(widget.track, context),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding / 2,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
+                    builder: (_, state) {
+                      if (state is GetSingleTrackLoadingState) {
+                        return _buildLoading();
+                      }
+                      if (state is GetSingleTrackLoadedState) {
+                        return _buildTrackingMethods(
+                          state.trackGoals,
+                          state.trackDetails,
+                          state.trackProperties,
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding * 2,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
+                    builder: (_, state) {
+                      if (state is GetSingleTrackLoadingState) {
+                        return _buildLoading();
+                      }
+                      if (state is GetSingleTrackLoadedState) {
+                        if (state.colossals.isEmpty) {
+                          return SizedBox.shrink();
+                        }
+                        return _buildColossals(state.colossals);
+                      }
+                      return Container();
+                    },
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                    child: _buildAboutTrack(widget.track, context)),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                SliverToBoxAdapter(
                   child: Row(
                     children: [
                       SizedBox(
                         width: Gparam.widthPadding,
                       ),
-                      Hero(
-                        tag:
-                            "track-icon-${widget?.marketHeading?.id}-${widget?.track?.id}",
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image:
-                                  CachedNetworkImageProvider(widget.track.icon),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: Gparam.widthPadding / 2,
-                      ),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: Gparam.height * 0.03,
-                            ),
-                            Text(
-                              widget.track.name,
-                              style: TextStyle(
-                                fontSize: Gparam.textMedium,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                            Text(
-                              "Market name",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Montserrat',
-                                fontSize: Gparam.textSmall,
-                              ),
-                            ),
-                          ],
-                        ),
+                      Text(
+                        "What this track has",
+                        style: Gtheme.textBold
+                            .copyWith(fontSize: Gparam.textSmaller),
                       ),
                     ],
                   ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding,
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding / 2,
+                  ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: _buildTrackInfo(widget.track, context),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding / 2,
-                ),
-              ),
-              SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
-                builder: (_, state) {
-                  if (state is GetSingleTrackLoadingState) {
-                    return _buildLoading();
-                  }
-                  if (state is GetSingleTrackLoadedState) {
-                    return _buildTrackingMethods(state.trackGoals);
-                  }
-                  return Container();
-                },
-              )),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding * 2,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
-                  builder: (_, state) {
-                    if (state is GetSingleTrackLoadingState) {
-                      return _buildLoading();
-                    }
-                    if (state is GetSingleTrackLoadedState) {
-                      if (state.colossals.isEmpty) {
-                        return SizedBox.shrink();
+                    builder: (_, state) {
+                      if (state is GetSingleTrackLoadingState) {
+                        return _buildLoading();
                       }
-                      return _buildColossals(state.colossals);
-                    }
-                    return Container();
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding,
-                ),
-              ),
-              SliverToBoxAdapter(
-                  child: _buildAboutTrack(widget.track, context)),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: Gparam.widthPadding,
-                    ),
-                    Text(
-                      "What this track has",
-                      style: Gtheme.textBold
-                          .copyWith(fontSize: Gparam.textSmaller),
-                    ),
-                  ],
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding / 2,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: BlocBuilder<SingleTrackBloc, SingleTrackState>(
-                  builder: (_, state) {
-                    if (state is GetSingleTrackLoadingState) {
-                      return _buildLoading();
-                    }
-                    if (state is GetSingleTrackLoadedState) {
-                      if (state.trackProperties.isEmpty) {
-                        return SizedBox.shrink();
+                      if (state is GetSingleTrackLoadedState) {
+                        if (state.trackProperties.isEmpty) {
+                          return SizedBox.shrink();
+                        }
+                        return _buildTrackProperties(state.trackProperties);
                       }
-                      return _buildTrackProperties(state.trackProperties);
+                      return Container();
+                    },
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: _buildAutoFill(),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: _buildTrackFeatures(),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding * 1.5,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: Gparam.widthPadding,
+                      ),
+                      Text(
+                        "Comments",
+                        style: Gtheme.textBold
+                            .copyWith(fontSize: Gparam.textSmaller),
+                      ),
+                    ],
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: Gparam.heightPadding,
+                  ),
+                ),
+                BlocBuilder<TrackCommentsBloc, TrackCommentsState>(
+                  builder: (_, state) {
+                    if (state is GetTrackCommentsLoadingState) {
+                      return SliverToBoxAdapter(child: _buildLoading());
                     }
-                    return Container();
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: _buildAutoFill(),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: _buildTrackFeatures(),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding * 1.5,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: Gparam.widthPadding,
-                    ),
-                    Text(
-                      "Comments",
-                      style: Gtheme.textBold
-                          .copyWith(fontSize: Gparam.textSmaller),
-                    ),
-                  ],
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: Gparam.heightPadding,
-                ),
-              ),
-              BlocBuilder<TrackCommentsBloc, TrackCommentsState>(
-                builder: (_, state) {
-                  if (state is GetTrackCommentsLoadingState) {
-                    return SliverToBoxAdapter(child: _buildLoading());
-                  }
-                  if (state is GetTrackCommentsLoadedState) {
-                    if (state.comments.isEmpty) {
-                      return SliverToBoxAdapter(
-                        child: Container(
-                          height: 50,
-                          child: Center(
-                            child: Text(
-                              "There is no comments to show",
-                              style: Gtheme.textNormal.copyWith(
-                                fontSize: Gparam.textSmall,
+                    if (state is GetTrackCommentsLoadedState) {
+                      if (state.comments.isEmpty) {
+                        return SliverToBoxAdapter(
+                          child: Container(
+                            height: 50,
+                            child: Center(
+                              child: Text(
+                                "There is no comments to show",
+                                style: Gtheme.textNormal.copyWith(
+                                  fontSize: Gparam.textSmall,
+                                ),
                               ),
                             ),
                           ),
+                        );
+                      }
+                      List<Widget> comments =
+                          _buildCommentsSection(state.comments);
+                      return SliverList(
+                        delegate: SliverChildListDelegate(
+                          [
+                            ...comments,
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => TrackCommentsPage(
+                                      track_id: widget.track.id,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height: 15,
+                                margin:
+                                    EdgeInsets.only(bottom: Gparam.topPadding),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: Gparam.widthPadding,
+                                    ),
+                                    Text(
+                                      "View more",
+                                      style: Gtheme.textBold.copyWith(
+                                        fontSize: Gparam.textSmaller,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     }
-                    List<Widget> comments =
-                        _buildCommentsSection(state.comments);
-                    return SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          ...comments,
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => TrackCommentsPage(
-                                    track_id: widget.track.id,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 15,
-                              margin:
-                                  EdgeInsets.only(bottom: Gparam.topPadding),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: Gparam.widthPadding,
-                                  ),
-                                  Text(
-                                    "View more",
-                                    style: Gtheme.textBold.copyWith(
-                                      fontSize: Gparam.textSmaller,
-                                      color: Theme.of(context).primaryColorDark,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  return SliverToBoxAdapter(child: Container());
-                },
-              ),
-            ],
+                    return SliverToBoxAdapter(child: Container());
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -400,7 +428,13 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
     );
   }
 
-  Widget _buildTrackingMethods(List<TrackGoal> goals) {
+  Widget _buildTrackingMethods(
+    List<TrackGoal> goals,
+    Track track,
+    List<TrackProperty> trackProperties,
+  ) {
+    print("ACTIVE STATE = " + track.u_active_state.toString());
+    int active_state = track.u_active_state;
     return Container(
       height: Gparam.height * 0.05,
       child: ListView(
@@ -409,25 +443,12 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
           SizedBox(
             width: Gparam.widthPadding,
           ),
-          MaterialButton(
-            child: Text("Self tracking"),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (_) => Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: SelfTrackingPopup(
-                    trackGoals: goals,
-                    track: widget.track,
-                  ),
-                ),
-              );
-            },
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)),
-            color: Colors.greenAccent,
-          ),
+          // -1: not traking / 0: paused / 1: active
+          active_state == -1
+              ? _buildSelfTrackingButton(track, trackProperties, goals)
+              : active_state == 0
+                  ? _buildTrackPausedButton()
+                  : _buildTrackRunningButton(),
           SizedBox(
             width: Gparam.widthPadding / 4,
           ),
@@ -718,6 +739,66 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
         ),
       );
     }
+  }
+
+  _buildSelfTrackingButton(
+    Track track,
+    List<TrackProperty> trackProperties,
+    List<TrackGoal> goals,
+  ) {
+    return MaterialButton(
+      child: Text("Self tracking"),
+      onPressed: () async {
+        showDialog(
+          context: context,
+          builder: (_) => Dialog(
+            backgroundColor: Colors.transparent,
+            child: SelfTrackingPopup(
+              trackGoals: goals,
+              track: track,
+              props: trackProperties,
+              bloc: bloc,
+            ),
+          ),
+        );
+      },
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      color: Colors.greenAccent,
+    );
+  }
+
+  _buildTrackPausedButton() {
+    return MaterialButton(
+      child: Text("Tracking is paused"),
+      onPressed: () async {
+        // TODO
+      },
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      color: Colors.greenAccent,
+    );
+  }
+
+  _buildTrackRunningButton() {
+    return MaterialButton(
+      child: Text("Active"),
+      onPressed: () async {
+        showDialog(
+          context: context,
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            child: PauseDialog(
+              track: widget.track,
+              bloc: bloc,
+            ),
+          ),
+        );
+      },
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      color: Colors.greenAccent,
+    );
   }
   // end of the class
 }

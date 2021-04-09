@@ -20,8 +20,11 @@ import '../entities/track_property.dart';
 import '../entities/track_goal.dart';
 
 abstract class TrackStoreRepository {
-  Future<Either<Failure, void>> addTrackToRecentSearchs(
-      {int id, String name, String icon});
+  Future<Either<Failure, void>> addTrackToRecentSearchs({
+    int id,
+    String name,
+    String icon,
+  });
   Future<Either<Failure, Track>> getTrackDetailsById(int id);
   Future<Either<Failure, List<TrackBrief>>> getRecentSearchs();
   Future<Either<Failure, List<Track>>> searchForTracks(String word);
@@ -31,8 +34,22 @@ abstract class TrackStoreRepository {
   Future<Either<Failure, List<MarketTab>>> getMarketTabs();
   Future<Either<Failure, List<String>>> getColossalsByTrackId(int track_id);
   Future<Either<Failure, List<TrackComment>>> getCommentsByTrackId(
-      int track_id, int from, int size);
+    int track_id,
+    int from,
+    int size,
+  );
   Future<Either<Failure, List<TrackProperty>>> getPropertiesByTrackId(
       int track_id);
   Future<Either<Failure, List<TrackGoal>>> getGoalsByTrackId(int track_id);
+
+  Future<Either<Failure, void>> subscribeToTrack(
+    Track track,
+    List<TrackProperty> trackProps,
+  );
+  Future<Either<Failure, void>> unsubscribeFromTrack(
+    int track_id,
+  );
+  Future<Either<Failure, void>> pauseTrack(
+    Track track,
+  );
 }

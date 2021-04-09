@@ -16,7 +16,9 @@ class GetSingleTrackLoadedState extends SingleTrackState {
   List<TrackComment> trackComments;
   List<TrackProperty> trackProperties;
   List<TrackGoal> trackGoals;
+  Track trackDetails;
   GetSingleTrackLoadedState({
+    @required this.trackDetails,
     @required this.colossals,
     @required this.trackComments,
     @required this.trackProperties,
@@ -25,3 +27,9 @@ class GetSingleTrackLoadedState extends SingleTrackState {
 }
 
 class GetSingleTrackFailedState extends SingleTrackState {}
+
+class SubscribeToTrackFailedState extends SingleTrackState {}
+
+class SubscribeToTrackLoadedState extends SingleTrackState {}
+
+class SubscribeToTrackLoadingState extends SingleTrackState {}

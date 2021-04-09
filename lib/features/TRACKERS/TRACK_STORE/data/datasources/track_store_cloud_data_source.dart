@@ -25,6 +25,8 @@ const String COLOSSAL_URL_FIELD = "url";
 const String COMMENTS_SENTIMENT_VALUE_FIELD = "sentiment_value";
 const ID_FIELD = 'id';
 const TRACK_NAME_FIELD = "name";
+const SUB_USERS_COLLECTION = "sub_users";
+const String UID_FIELD = "uid";
 
 abstract class TrackStoreCloud {
   Future<List<TrackModel>> searchForTracks(String word);
@@ -39,6 +41,8 @@ abstract class TrackStoreCloud {
       int track_id, int from, int size);
   Future<List<TrackPropertyModel>> getPropertiesByTrackId(int track_id);
   Future<List<TrackGoalModel>> getGoalsByTrackId(int track_id);
+  Future<void> subscribeToTrack(int track_id);
+  Future<void> unsubscribeFromTrack(int track_id);
 }
 
 class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
@@ -209,5 +213,27 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
       build_muscle,
       pregnancy_diet,
     ];
+  }
+
+  @override
+  Future<void> subscribeToTrack(int track_id) async {
+    String uid = auth.currentUser.uid;
+    Map<String, dynamic> data = {
+      UID_FIELD: uid,
+    };
+    cloudDb
+        .collection("$TRACKS_COLLECTION_PATH/$track_id/$SUB_USERS_COLLECTION")
+        .add(data);
+  }
+
+  @override
+  Future<void> unsubscribeFromTrack(int track_id) async {
+    String uid = auth.currentUser.uid;
+    String path = "$TRACKS_COLLECTION_PATH/$track_id/$SUB_USERS_COLLECTION";
+    final result =
+        await cloudDb.collection(path).where(UID_FIELD, isEqualTo: uid).get();
+    result.docs.forEach((doc) {
+      cloudDb.collection(path).doc(doc.id).delete();
+    });
   }
 }

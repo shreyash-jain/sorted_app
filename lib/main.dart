@@ -122,40 +122,44 @@ class _MyAppState extends State<MyApp> {
         if (Gparam.width < 400) Gparam.isWidthBig = false;
         print(Gparam.width);
         return new AppTheme(
-            child: MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: BlocListener<AuthenticationBloc, AuthenticationState>(
-                  listener: (context, state) {
-                    print(state);
-                    switch (state.status) {
-                      case AuthenticationStatus.authenticated:
-                        print("authenticated");
-                        rt.Router.navigator.pop();
-                        rt.Router.navigator.pushNamed(rt.Router.startPage,
-                            arguments:
-                                rt.MyStartPageArguments(title: "start Page"));
-                        break;
-                      case AuthenticationStatus.unauthenticated:
-                        // todo: send to onboarding page
-                        print("un-authenticated");
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: BlocListener<AuthenticationBloc, AuthenticationState>(
+              listener: (context, state) {
+                print(state);
+                switch (state.status) {
+                  case AuthenticationStatus.authenticated:
+                    print("authenticated");
+                    rt.Router.navigator.pop();
+                    rt.Router.navigator.pushNamed(
+                      rt.Router.startPage,
+                      arguments: rt.MyStartPageArguments(title: "start Page"),
+                    );
+                    break;
+                  case AuthenticationStatus.unauthenticated:
+                    // todo: send to onboarding page
+                    print("un-authenticated");
 
-                        rt.Router.navigator.pop();
-                        rt.Router.navigator.pushNamed(rt.Router.onboardPage,
-                            arguments:
-                                rt.OnboardPageArguments(title: "Onboard Page"));
+                    rt.Router.navigator.pop();
+                    rt.Router.navigator.pushNamed(
+                      rt.Router.onboardPage,
+                      arguments: rt.OnboardPageArguments(title: "Onboard Page"),
+                    );
 
-                        // _navigator.pushAndRemoveUntil<void>(
-                        //   LoginPage.route(),
-                        //   (route) => false,
-                        // );
-                        print("send to onboarding");
-                        break;
-                      default:
-                        break;
-                    }
-                  },
-                  child: child,
-                )));
+                    // _navigator.pushAndRemoveUntil<void>(
+                    //   LoginPage.route(),
+                    //   (route) => false,
+                    // );
+                    print("send to onboarding");
+                    break;
+                  default:
+                    break;
+                }
+              },
+              child: child,
+            ),
+          ),
+        );
       },
     );
   }

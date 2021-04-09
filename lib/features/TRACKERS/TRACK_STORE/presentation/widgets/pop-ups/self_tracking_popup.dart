@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/global/constants/constants.dart';
 import '../../../domain/entities/track.dart';
 import '../../../domain/entities/track_goal.dart';
+import '../../../domain/entities/track_property.dart';
 import '../../../../COMMON/constants/enum_constants.dart';
+import '../../bloc/single_track/single_track_bloc.dart';
 
 class SelfTrackingPopup extends StatefulWidget {
   Track track;
   List<TrackGoal> trackGoals;
-
+  List<TrackProperty> props;
+  final SingleTrackBloc bloc;
   SelfTrackingPopup({
     @required this.track,
     @required this.trackGoals,
+    @required this.bloc,
+    @required this.props,
   });
 
   @override
@@ -26,6 +33,8 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
   bool _switchValue = false;
   bool _checkValueAt = false;
   bool _checkValueFromto = false;
+  int day_start_ts;
+  int day_end_ts;
 
   @override
   Widget build(BuildContext context) {
@@ -119,12 +128,13 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
     //   return _buildDailyReminder(TrackReminder.daily);
     // }
     // if (TrackReminder.values[reminder_state] == TrackReminder.weekly) {
-    //   return _buildWeeklyReminder(TrackReminder.weekly);
+    //   return _buildWeeklyReminder (TrackReminder.weekly);
     // }
     // if (TrackReminder.values[reminder_state] == TrackReminder.monthly) {
     //   return _buildMonthlyReminder(TrackReminder.monthly);
     // }
 
+    return _buildWeeklyReminder(TrackReminder.weekly);
     return _buildMonthlyReminder(TrackReminder.monthly);
   }
 
@@ -172,9 +182,16 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
               RichText(
                 text: TextSpan(
                   text: 'Daily reminder at ',
+                  style: Gtheme.textNormal.copyWith(
+                    color: Theme.of(context).primaryColor,
+                  ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '9 am',
+                      text: DateFormat.jm().format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          widget.track.ts_reminder_day_start_ts,
+                        ),
+                      ),
                       style: Gtheme.textBold,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -206,6 +223,9 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
               RichText(
                 text: TextSpan(
                   text: 'Daily reminder in every',
+                  style: Gtheme.textNormal.copyWith(
+                    color: Theme.of(context).primaryColor,
+                  ),
                   children: <TextSpan>[
                     TextSpan(
                       text: ' 2 ',
@@ -217,12 +237,18 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
                     ),
                     TextSpan(
                       text: 'hours\n',
+                      style: Gtheme.textNormal,
                     ),
                     TextSpan(
                       text: 'From ',
+                      style: Gtheme.textNormal,
                     ),
                     TextSpan(
-                      text: '9 am ',
+                      text: DateFormat.jm().format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          widget.track.ts_reminder_day_start_ts,
+                        ),
+                      ),
                       style: Gtheme.textBold,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -230,10 +256,14 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
                         },
                     ),
                     TextSpan(
-                      text: 'to ',
+                      text: ' to ',
                     ),
                     TextSpan(
-                      text: '9 pm',
+                      text: DateFormat.jm().format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          widget.track.ts_reminder_day_end_ts,
+                        ),
+                      ),
                       style: Gtheme.textBold,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -370,10 +400,13 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
               ),
               RichText(
                 text: TextSpan(
+                  style: Gtheme.textNormal.copyWith(
+                    color: Theme.of(context).primaryColor,
+                  ),
                   text: 'in every ',
                   children: <TextSpan>[
                     TextSpan(
-                      text: '10 ',
+                      text: widget.track.ts_reminder_interval_days.toString(),
                       style: Gtheme.textBold,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -381,10 +414,14 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
                         },
                     ),
                     TextSpan(
-                      text: 'days. At ',
+                      text: ' days. At ',
                     ),
                     TextSpan(
-                      text: '9 am ',
+                      text: DateFormat.jm().format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          widget.track.ts_reminder_day_end_ts,
+                        ),
+                      ),
                       style: Gtheme.textBold,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -428,13 +465,26 @@ class _SelfTrackingPopupState extends State<SelfTrackingPopup> {
     return FlatButton(
       color: Theme.of(context).backgroundColor,
       onPressed: () {
-        // TODO
+        Track track = _updateTrack(widget.track);
+
+        widget.bloc.add(
+          SubscribeToTrackEvent(
+            track: track,
+            trackProps: widget.props,
+          ),
+        );
+        Navigator.pop(context);
       },
       child: Text(
         "Start tracking",
         style: Gtheme.textBold,
       ),
     );
+  }
+
+  Track _updateTrack(Track track) {
+    track.u_active_state = 1;
+    return track;
   }
   // end of class
 }

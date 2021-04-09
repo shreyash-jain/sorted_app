@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track.dart';
 import 'package:meta/meta.dart';
+import 'package:heat_map_calendar/heat_map_calendar.dart';
+import 'package:custom_calendar/custom_calendar.dart';
 
 class AboutTrackPage extends StatelessWidget {
   final Track track;
@@ -107,6 +109,35 @@ class AboutTrackPage extends StatelessWidget {
               ),
               SizedBox(
                 height: Gparam.topPadding,
+              ),
+              HeatMapCalendar(
+                dateFrom: DateTime.now().subtract(Duration(days: 60)),
+                dateTo: DateTime.now(),
+                events: {
+                  "9-4-2021": 1,
+                  "6-4-2021": 0.6,
+                },
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              CustomCalendar(
+                events: {
+                  DateTime.now(): Color(0xffFFA68A),
+                  DateTime.now().subtract(Duration(days: 2)): Colors.blueAccent,
+                },
+                startingDates: [
+                  DateTime.parse("2021-03-15"),
+                  DateTime.parse("2021-02-10"),
+                ],
+                endingDates: [
+                  DateTime.parse("2021-04-12"),
+                  DateTime.parse("2021-03-12"),
+                ],
+                startEndEventsColors: [
+                  Colors.blue,
+                  Colors.amber,
+                ],
               ),
             ],
           ),

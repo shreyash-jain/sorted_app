@@ -100,6 +100,11 @@ dependencies:
   flutter_svg: ^0.18.1
   material_design_icons_flutter: 4.0.5855
 
+  heat_map_calendar:
+    path: packages/heat_map_calendar
+  custom_calendar:
+    path: packages/custom_calendar
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

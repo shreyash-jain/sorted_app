@@ -61,7 +61,7 @@ dependencies:
   firebase_messaging:
   firebase_analytics: ^5.0.6
 
-  fl_chart: ^0.8.7
+  # fl_chart: ^0.8.7
   analyzer: ^0.39.0
   flare_flutter: ^1.5.5
   flutter_bloc: ^6.0.1
@@ -104,6 +104,8 @@ dependencies:
     path: packages/heat_map_calendar
   custom_calendar:
     path: packages/custom_calendar
+  fl_chart:
+    path: packages/fl_chart
 
 dev_dependencies:
   flutter_test:

@@ -4,11 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/core/global/models/log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_property_data.dart';
 import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_goal_data.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_goal_model.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/data/models/log_multifill_model.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/models/track_comment_model.dart';
 import '../models/market_banner_model.dart';
 import '../models/market_heading_model.dart';
@@ -19,6 +21,9 @@ const String TRACKS_COLLECTION_PATH = 'tracking/tracks/data';
 const String MARKET_BANNERS_COLLECTION_PATH = 'Market/MarketBanners/Data';
 const String MARKET_HEADINGS_COLLECTION_PATH = 'Market/MarketHeadings/Data';
 const String MARKET_TABS_COLLECTION_PATH = 'Market/MarketTabs/Data';
+const String TRACK_LOG_MULTIFILL_COLLECTION_PATH = '/visulization/heatmap/data';
+const String LEADERBOARD_COLLECTION_PATH =
+    '/tracking/tracks/data/1/leaderboard';
 const String COLOSSALS_COLLECTION_NAME = "colossals";
 const String COMMENTS_COLLECTION_NAME = "comments";
 const String COLOSSAL_URL_FIELD = "url";
@@ -43,6 +48,8 @@ abstract class TrackStoreCloud {
   Future<List<TrackGoalModel>> getGoalsByTrackId(int track_id);
   Future<void> subscribeToTrack(int track_id);
   Future<void> unsubscribeFromTrack(int track_id);
+  Future<List<LogMultifillModel>> getTrackLogMultifill();
+  Future<List<Map<String, dynamic>>> getLeaderboardData();
 }
 
 class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
@@ -235,5 +242,31 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
     result.docs.forEach((doc) {
       cloudDb.collection(path).doc(doc.id).delete();
     });
+  }
+
+  @override
+  Future<List<LogMultifillModel>> getTrackLogMultifill() async {
+    QuerySnapshot querySnapshot =
+        await cloudDb.collection(TRACK_LOG_MULTIFILL_COLLECTION_PATH).get();
+
+    List<LogMultifillModel> logs = [];
+    querySnapshot.docs.forEach((doc) async {
+      print(doc.data());
+      logs.add(LogMultifillModel.fromSnapshot(doc));
+    });
+    return logs;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getLeaderboardData() async {
+    QuerySnapshot querySnapshot =
+        await cloudDb.collection(LEADERBOARD_COLLECTION_PATH).get();
+
+    List<Map<String, dynamic>> data = [];
+    querySnapshot.docs.forEach((doc) async {
+      print(doc.data());
+      data.add(doc.data());
+    });
+    return data;
   }
 }

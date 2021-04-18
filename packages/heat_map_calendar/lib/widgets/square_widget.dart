@@ -28,7 +28,7 @@ class SquareWidget extends StatelessWidget {
         color: day.isNotDay
             ? Colors.transparent
             : day.isActive
-                ? activeColor.withOpacity(opacity)
+                ? day.color.withOpacity(opacity)
                 : inavtiveColor,
       ),
       margin: EdgeInsets.all(margin),

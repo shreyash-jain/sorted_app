@@ -5,6 +5,7 @@ import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/utility/utils.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_comment.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_property.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/leaderboard/leaderboard_bloc.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/single_track/single_track_bloc.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_comments/track_comments_bloc.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/track_story_page.dart';
@@ -21,6 +22,8 @@ import '../../../COMMON/constants/enum_constants.dart';
 import '../widgets/pop-ups/self_tracking_popup.dart';
 import '../widgets/pop-ups/loading_dialog.dart';
 import '../widgets/pop-ups/pause_dialog.dart';
+import 'leaderboard_page.dart';
+import 'track_log_page.dart';
 
 class SingleTrackPage extends StatefulWidget {
   final Track track;
@@ -92,6 +95,28 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
           child: Scaffold(
             body: CustomScrollView(
               slivers: [
+                SliverToBoxAdapter(
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => LeaderboardPage()));
+                    },
+                    child: Text("Leaderboard"),
+                    color: Colors.amber,
+                    height: Gparam.topPadding * 2,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => TrackLogPage()));
+                    },
+                    child: Text("Track Logs"),
+                    color: Colors.blueAccent,
+                    height: Gparam.topPadding / 2,
+                  ),
+                ),
                 SliverToBoxAdapter(
                   child: SizedBox(
                     height: Gparam.topPadding / 2,
@@ -227,7 +252,6 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                     height: Gparam.heightPadding,
                   ),
                 ),
-               
                 SliverToBoxAdapter(
                   child: SizedBox(
                     height: Gparam.heightPadding,
@@ -261,7 +285,6 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                     height: Gparam.heightPadding,
                   ),
                 ),
-                
                 SliverToBoxAdapter(
                   child: _buildAutoFill(),
                 ),

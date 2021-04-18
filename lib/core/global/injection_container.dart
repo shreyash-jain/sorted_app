@@ -73,7 +73,9 @@ import 'package:sorted/features/SETTINGS/data/datasources/settings_shared_pref_d
 import 'package:sorted/features/SETTINGS/data/repository/settings_repository_impl.dart';
 import 'package:sorted/features/SETTINGS/domain/repository/settings_repository.dart';
 import 'package:sorted/features/SETTINGS/presentation/bloc/settings_bloc.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/leaderboard/leaderboard_bloc.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/tab_tracks_bloc.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_log/track_log_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -173,6 +175,14 @@ Future<void> init() async {
 
   sl.registerFactory(
     () => TrackCommentsBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => TrackLogBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => LeaderboardBloc(sl()),
   );
 
   //! Use cases

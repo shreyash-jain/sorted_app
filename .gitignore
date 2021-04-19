@@ -5,3 +5,9 @@ build/
 .vscode/launch.json
 pubspec.lock
 android/.gradle/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+.packages
+
+.flutter-plugins
+.gitignore

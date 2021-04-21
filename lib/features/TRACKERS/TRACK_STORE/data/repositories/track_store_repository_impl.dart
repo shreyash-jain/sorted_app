@@ -7,6 +7,7 @@ import 'package:sorted/core/network/network_info.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/log_multifill.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_brief.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_comment.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track_goal.dart';
@@ -335,6 +336,39 @@ class TrackStoreRepositoryImpl implements TrackStoreRepository {
     } catch (error) {
       print("ERROR = " + error.toString());
       return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<LogMultifill>>> getTrackLog() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final List<LogMultifill> logs =
+            await cloudDataSource.getTrackLogMultifill();
+        return Right(logs);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Map<String, dynamic>>>>
+      getLeaderboardData() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final List<Map<String, dynamic>> data =
+            await cloudDataSource.getLeaderboardData();
+        return Right(data);
+      } catch (error) {
+        return Left(ServerFailure());
+      }
+    } else {
+      print("No internet connection");
+      return Left(NetworkFailure());
     }
   }
 }

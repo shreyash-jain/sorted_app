@@ -41,6 +41,9 @@ class HeatMapCalendar extends StatefulWidget {
   /// use the Util.fromTimeToString method to convert your dates to string
   final Map<String, double> events;
 
+  /// events colors
+  final Map<String, Color> colors;
+
   /// the height of the container that contains the labels of the months
   final double textContainerHeight;
 
@@ -61,6 +64,7 @@ class HeatMapCalendar extends StatefulWidget {
     this.events,
     this.textContainerHeight = 20,
     this.textStyle = const TextStyle(color: Colors.black),
+    this.colors,
   });
 
   @override
@@ -73,6 +77,7 @@ class _HeatMapCalendarState extends State<HeatMapCalendar> {
   DateTime to = DateTime.now();
 
   Map<String, double> events;
+  Map<String, Color> colors;
   int spaceBetweenMonths = 0;
   Map<int, Color> limitColors;
   List<List<Day>> weeks = [];
@@ -80,6 +85,7 @@ class _HeatMapCalendarState extends State<HeatMapCalendar> {
   @override
   void initState() {
     spaceBetweenMonths = widget.spaceBetweenMonths;
+    colors = widget.colors == null ? Map<String, Color>() : widget.colors;
     events = widget.events == null ? Map<String, double>() : widget.events;
     from = widget.dateFrom;
     to = widget.dateTo;
@@ -103,6 +109,9 @@ class _HeatMapCalendarState extends State<HeatMapCalendar> {
         opacity: events.containsKey(stringCurrentTime)
             ? events[stringCurrentTime]
             : 0,
+        color: events.containsKey(stringCurrentTime)
+            ? colors[stringCurrentTime]
+            : widget.inactiveSquareColor,
         month: currentTime.month - 1,
       );
       currentTime = currentTime.add(Duration(days: 1));

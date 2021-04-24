@@ -2,7 +2,7 @@
 data/
 
 # Filetypes
-*.csv
+
 *.json
 
 # Other

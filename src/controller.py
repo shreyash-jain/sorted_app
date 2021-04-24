@@ -43,7 +43,7 @@ class Controller:
 
         # Start crawling
         data = []
-        process.crawl(spider, sample=sample)
+        process.crawl(GoodFoodSpider, sample=sample)
         process.start()
         if verbose:
             print(data)

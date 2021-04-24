@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import csv
-from src.recipe import Recipe, Nutrition
+from recipe import Recipe, Nutrition
 
 
 def get_urls_from_data(data_path: str, sample):
@@ -38,7 +38,12 @@ class GoodFoodSpider(scrapy.Spider):
     def parse(self, response):
         # Information from header includes title, author, cook time, difficulty, servings
         # and nutritional information
+        print("hello")
+       
+       
         header = response.xpath('//div[contains(@class, "recipe-header")]')
+        print(header)
+        print("hello2")
         recipe_title = header.xpath('h1[contains(@class, "recipe-header__title")]/text()')
         attrib = header.xpath('//div[contains(@class, "recipe-header__chef")]/span/a/text()')
         img = header.xpath('//img[contains(@itemprop, "image")]/@src')

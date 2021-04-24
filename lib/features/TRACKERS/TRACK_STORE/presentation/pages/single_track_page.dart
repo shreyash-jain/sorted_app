@@ -815,15 +815,15 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
       child: Text("Active"),
       onPressed: () async {
         showDialog(
-          context: context,
-          child: Dialog(
-            backgroundColor: Colors.transparent,
-            child: PauseDialog(
-              track: widget.track,
-              bloc: bloc,
-            ),
-          ),
-        );
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                  backgroundColor: Colors.transparent,
+                  child: PauseDialog(
+                    track: widget.track,
+                    bloc: bloc,
+                  ));
+            });
       },
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),

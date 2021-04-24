@@ -99,11 +99,12 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
                               width: Gparam.width,
-                              alignment: Alignment.center,
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(left: Gparam.widthPadding),
                               child: Text(
                                 "Sort.it",
                                 style: TextStyle(

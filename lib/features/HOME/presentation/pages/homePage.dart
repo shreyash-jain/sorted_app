@@ -439,17 +439,20 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
                             backgroundColor:
                                 Theme.of(context).scaffoldBackgroundColor,
                             shadowColor: Colors.black26,
-                            leading: IconButton(
-                              icon: Icon(
-                                OMIcons.flashOn,
-                                color: Theme.of(context).highlightColor,
-                              ),
-                              tooltip: 'Settings',
-                              onPressed: () {
-                                Scaffold.of(context).openDrawer();
-                              },
-                            ),
+                            leading: Container(),
                             actions: <Widget>[
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Switch(
+                                        value: true,
+                                        onChanged: null,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                               IconButton(
                                 icon: Icon(
                                   OMIcons.chat,
@@ -458,6 +461,7 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
                                 tooltip: 'Settings',
                                 onPressed: () {},
                               ),
+                              
                             ],
                             expandedHeight: 190,
                             pinned: true,

@@ -96,10 +96,47 @@ class LeaderboardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Text("$rank."),
-      title: Text("$name"),
-      trailing: Text("${score.round()}"),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          Container(
+            width: 30,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text("$rank."),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Text(
+                "$name",
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 40,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text("${score.round()}"),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -117,31 +154,70 @@ class LeaderboardTopItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Text("$rank."),
-      title: Text(
-        "Top Engager",
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.amber,
-        ),
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 30,
+        bottom: 10,
+        left: 20,
+        right: 20,
       ),
-      subtitle: Text(
-        "$name",
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-      trailing: Text(
-        "${score.round()}",
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.amber,
-        ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 15,
+          ),
+          Container(
+            width: 30,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text("$rank."),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Top Engager",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.amber,
+                    ),
+                  ),
+                  Text(
+                    "$name",
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "${score.round()}",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 15,
+          ),
+        ],
       ),
     );
   }

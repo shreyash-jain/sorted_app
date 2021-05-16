@@ -95,6 +95,7 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
           child: Scaffold(
             body: CustomScrollView(
               slivers: [
+                // TODO! remove this
                 SliverToBoxAdapter(
                   child: FlatButton(
                     onPressed: () {
@@ -106,6 +107,11 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                     height: Gparam.topPadding * 2,
                   ),
                 ),
+                // TODO! remove this
+                SliverToBoxAdapter(
+                  child: MyButton(),
+                ),
+                // TODO! remove this
                 SliverToBoxAdapter(
                   child: FlatButton(
                     onPressed: () {
@@ -859,6 +865,30 @@ class SimpleButton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class MyButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showBottomSheet(
+          context: context,
+          builder: (context) => Container(
+            height: Gparam.height * 0.8,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: LeaderboardPage(),
+          ),
+        );
+      },
+      child: Text("click"),
     );
   }
 }

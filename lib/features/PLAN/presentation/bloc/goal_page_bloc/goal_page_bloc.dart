@@ -165,10 +165,13 @@ class GoalPageBloc extends Bloc<GoalPageEvent, GoalPageBlocState> {
       File result;
       Failure failure;
       print(event.attachmentName);
-      result = await FilePicker.getFile(
+      result = File((await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'jpeg', 'png'],
-      );
+      ))
+          .files
+          .single
+          .path);
 
       if (result != null) {
         print(result.path);

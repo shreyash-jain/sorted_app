@@ -5,10 +5,11 @@ import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/core/global/widgets/on_success.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 import 'package:sorted/features/ONBOARDING/presentation/widgets/body.dart';
 import 'package:sorted/features/ONBOARDING/presentation/widgets/bottom_sheet.dart';
-
+import 'package:auto_route/auto_route.dart';
 
 class OnboardPage extends StatefulWidget {
   OnboardPage({Key key, this.title}) : super(key: key);
@@ -35,26 +36,21 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
   BlocProvider<OnboardingBloc> buildBottomSheet(BuildContext context) {
     return BlocProvider(
       create: (_) => onboardBloc,
-      child:
-              BlocBuilder<OnboardingBloc, OnboardingState>(
-                builder: (context, state) {
-                  if (state is BottomSheetState) {
-                    return ButtomSheet();
-                  } else if (state is Error) {
-                    print("error");
+      child: BlocBuilder<OnboardingBloc, OnboardingState>(
+        builder: (context, state) {
+          if (state is BottomSheetState) {
+            return ButtomSheet();
+          } else if (state is Error) {
+            print("error");
 
-                    return MessageDisplay(
-                      message: state.message,
-                    );
-                  } else {
-                    return SizedBox(height: 0);
-                  }
-                },
-              ),
-              
-            
-        
-      
+            return MessageDisplay(
+              message: state.message,
+            );
+          } else {
+            return SizedBox(height: 0);
+          }
+        },
+      ),
     );
   }
 
@@ -66,7 +62,6 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
           padding: const EdgeInsets.all(0),
           child: Column(
             children: <Widget>[
-              
               // Top half
               BlocConsumer<OnboardingBloc, OnboardingState>(
                 // ignore: missing_return
@@ -88,10 +83,11 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
                 listener: (BuildContext context, OnboardingState state) {
                   if (state is SignInCompleted) {
                     print("listener ran");
-                    
-                     rt.Router.navigator.pop();
-                     rt.Router.navigator.pushNamed( rt.Router.userIntroPage,
-                        arguments:  rt.UserIntroPageArguments(title: "User Intro Page"));
+
+                    context.router.pop();
+                    context.router.push(
+                      UserIntroRoute(),
+                    );
                   }
                 },
               ),
@@ -124,7 +120,7 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
         ),
       ),
       bottomSheet: buildBottomSheet(context),
-        
+
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

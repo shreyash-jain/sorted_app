@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +12,7 @@ import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/PLAN/data/models/goal.dart';
 import 'package:sorted/features/PLAN/data/models/task.dart';
 import 'package:sorted/features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart';
@@ -219,11 +220,11 @@ class GoalPageState extends State<GoalPage> {
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            rt.Router.navigator.pushNamed(
-                                                rt.Router.selectCover,
-                                                arguments:
-                                                    rt.SelectCoverArguments(
-                                                        goalBloc: bloc));
+                                            context.router.push(
+                                             SelectCover(
+                                                  goalBloc: bloc),
+                                            );
+                                            
                                           },
                                           child: Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -373,11 +374,10 @@ class GoalPageState extends State<GoalPage> {
                                       ),
                                       child: InkWell(
                                         onTap: () {
-                                          rt.Router.navigator.pushNamed(
-                                              rt.Router.selectCover,
-                                              arguments:
-                                                  rt.SelectCoverArguments(
-                                                      goalBloc: bloc));
+                                           context.router.push(
+                                             SelectCover(
+                                                  goalBloc: bloc),
+                                            );
                                         },
                                         child: Row(
                                             mainAxisSize: MainAxisSize.min,

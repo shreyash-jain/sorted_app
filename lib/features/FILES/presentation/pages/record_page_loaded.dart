@@ -605,8 +605,8 @@ class CategoryBlock extends StatelessWidget {
   }
 
   onNotebookTap(NotebookModel notebook) {
-    rt.Router.navigator.pushNamed(rt.Router.notesHubPage,
-        arguments: rt.NotesHubPageArguments(thisNotebook: notebook));
+    // rt.Router.navigator.pushNamed(rt.Router.notesHubPage,
+    //     arguments: rt.NotesHubPageArguments(thisNotebook: notebook));
   }
 }
 

@@ -196,9 +196,9 @@ class CameraScreenState extends State<CameraScreen>
       final Directory extDir = await getApplicationDocumentsDirectory();
       final String dirPath = '${extDir.path}/media';
       await Directory(dirPath).create(recursive: true);
-      final String filePath = '$dirPath/${_timestamp()}.jpeg';
+      String filePath = '$dirPath/${_timestamp()}.jpeg';
       print('path: $filePath');
-      await _controller.takePicture(filePath);
+      filePath = (await _controller.takePicture()).path;
       setState(() {});
     }
   }
@@ -225,7 +225,7 @@ class CameraScreenState extends State<CameraScreen>
 
     try {
 //      videoPath = filePath;
-      await _controller.startVideoRecording(filePath);
+      await _controller.startVideoRecording();
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;

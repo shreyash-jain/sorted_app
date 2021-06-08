@@ -1,5 +1,5 @@
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,8 @@ import 'package:sorted/core/global/animations/fade_animationLR.dart';
 
 import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/routes/router.gr.dart' as rt;
+
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/presentation/pages/camera_screen.dart';
 import 'package:sorted/features/HOME/presentation/widgets/animated_fab.dart';
 import 'package:sorted/features/HOME/presentation/widgets/bottom_tab.dart';
@@ -558,13 +559,20 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
 
     if (toIndex == 0) {
       print("introspect");
-      rt.Router.navigator.pushNamed(rt.Router.trackStoreMain);
+      context.router.push(  
+      TrackStoreMain(),  
+    );  
+    
     } else if (toIndex == 1) {
       print("plan");
-      rt.Router.navigator.pushNamed(rt.Router.planHome);
+      context.router.push(  
+      PlanHome(),  
+    );  
     } else if (toIndex == 2) {
       print("record");
-      rt.Router.navigator.pushNamed(rt.Router.recordTab);
+      context.router.push(  
+      RecordTab(),  
+    );  
     }
     if (currentSideTab == toIndex)
       setState(() {

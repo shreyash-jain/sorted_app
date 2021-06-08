@@ -466,7 +466,7 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
   }
 
   factory TrackModel.fromSnapshot(DocumentSnapshot snap) {
-    var map = snap.data();
+    var map = snap.data() as Map;
     if (map == null) return null;
     return TrackModel(
       id: map['id'] ?? 0,

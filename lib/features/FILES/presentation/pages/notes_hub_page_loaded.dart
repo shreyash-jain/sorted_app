@@ -295,8 +295,8 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
       String text, String url, bool hasList, bool hasTable, bool hasCal) {
     return GestureDetector(
       onTap: () {
-        rt.Router.navigator.pushNamed(rt.Router.noteHub,
-            arguments: rt.NoteMainArguments(note: note));
+        // rt.Router.navigator.pushNamed(rt.Router.noteHub,
+        //     arguments: rt.NoteMainArguments(note: note));
       },
       child: Hero(
         tag: note.id.toString(),

@@ -2,13 +2,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/widgets/camera_video/cam_recorder.dart';
 import 'package:sorted/features/HOME/presentation/widgets/rocket_animation/animated_rocket.dart';
 import 'package:sorted/features/HOME/presentation/widgets/scratcher/widgets.dart';
 import 'package:video_player/video_player.dart';
-
+import 'package:auto_route/auto_route.dart';
 class ChallengePageView extends StatefulWidget {
   const ChallengePageView({Key key}) : super(key: key);
 
@@ -372,7 +373,7 @@ class ChallengePageViewState extends State<ChallengePageView>
               children: [
                 Container(
                   child: Center(
-                    child: _video_controller.value.initialized
+                    child: _video_controller.value.isInitialized
                         ? AspectRatio(
                             aspectRatio: _video_controller.value.aspectRatio,
                             child: VideoPlayer(_video_controller),
@@ -392,26 +393,10 @@ class ChallengePageViewState extends State<ChallengePageView>
                 MaterialButton(
                     child: Text("Start Recording"),
                     onPressed: () {
-                      availableCameras().then((cameras) {
-                        print(cameras);
-                        print("availableCameras");
-                        CameraController _controller = CameraController(
-                            cameras[0], ResolutionPreset.high,
-                            enableAudio: true);
-                        print("availableCameras 2");
-                        _controller.initialize().then((_) {
-                          print("availableCameras 3");
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CamRenderer(_controller)));
-                        }).catchError((error, stackTrace) {
-                          print("inner: $error");
-                          // although `throw SecondError()` has the same effect.
-                        });
-                      });
+                      context.router.pop();
+                      context.router.push(
+                        VideoRoute(),
+                      );
                     })
               ],
             ),

@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/animations/progress_goal.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/PLAN/data/models/goal.dart';
 import 'package:sorted/features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart';
+import 'package:auto_route/auto_route.dart';
 
 class GoalListWidget extends StatelessWidget {
   const GoalListWidget({
@@ -42,9 +44,10 @@ class GoalListWidget extends StatelessWidget {
   Widget _buildGoalCard(int i, GoalModel goal, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        rt.Router.navigator.pushNamed(rt.Router.goalPage,
-            arguments: rt.GoalPageArguments(
-                thisGoal: goal, planBloc: BlocProvider.of<PlanBloc>(context)));
+        context.router.push(
+          GoalRoute(
+              thisGoal: goal, planBloc: BlocProvider.of<PlanBloc>(context)),
+        );
       },
       child: Hero(
         tag: goal.id.toString(),

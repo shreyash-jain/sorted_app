@@ -3,8 +3,10 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:sorted/core/global/animations/fade_animationLR.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/presentation/widgets/side_tab_tile.dart';
 import 'package:sorted/features/HOME/presentation/widgets/user_avatar.dart';
+import 'package:auto_route/auto_route.dart';
 
 class SideTab extends StatelessWidget {
   SideTab({
@@ -25,7 +27,8 @@ class SideTab extends StatelessWidget {
         0.8,
         Padding(
           padding: EdgeInsets.only(
-              top: (Gparam.topPadding / 2),),
+            top: (Gparam.topPadding / 2),
+          ),
           child: Stack(
             children: [
               Container(
@@ -135,18 +138,16 @@ class SideTab extends StatelessWidget {
                         description: "",
                         index: 3,
                         onTapAction: onTapAction),
-                    
                   ],
                 ),
               ),
-           
               Container(
                 alignment: Alignment.bottomLeft,
                 height: Gparam.height,
                 width: Gparam.width / 2,
                 child: Container(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                   width: Gparam.width / 2,
+                  width: Gparam.width / 2,
                   child: SideTabTile(
                       icon: Icons.settings,
                       currentSideTab: currentSideTab,
@@ -156,7 +157,10 @@ class SideTab extends StatelessWidget {
                           "The one where you choose and analyse what you want to keep track of",
                       index: 0,
                       onTapAction: (int) {
-                         rt.Router.navigator.pushNamed( rt.Router.settingsPage);
+                        context.router.push(
+                          SettingsRoute(
+                             ),
+                        );
                       }),
                 ),
               )

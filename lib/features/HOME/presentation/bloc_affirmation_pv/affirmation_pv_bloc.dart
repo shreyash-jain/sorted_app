@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:audioplayers/audioplayers.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -21,15 +21,12 @@ const String FAILURE_MESSAGE = "Uncatched error";
 class AffirmationPVBloc extends Bloc<AffirmationPVEvent, AffirmationPVState> {
   final HomeRepository repository;
   final AffirmationBloc outerBloc;
-  AudioPlayer audioPlayer;
 
   AffirmationPVBloc(this.repository, this.outerBloc)
       : super((outerBloc.state is LoadedState)
             ? LoadedPVState(
                 affirmations: (outerBloc.state as LoadedState).affirmations)
-            : LoadingPVState()) {
-    audioPlayer = AudioPlayer();
-  }
+            : LoadingPVState()) {}
 
   String mapFailureToString(Failure failure) {
     if (failure == ServerFailure()) {
@@ -49,11 +46,11 @@ class AffirmationPVBloc extends Bloc<AffirmationPVEvent, AffirmationPVState> {
     AffirmationPVEvent event,
   ) async* {
     if (event is Play) {
-      await audioPlayer.play(
-          'https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/inspiration_music%2Fbensound-anewbeginning.mp3?alt=media&token=cb491c08-6b46-464a-9ccd-4531c498633a');
-      print("play");
+      // await audioPlayer.play(
+      //     'https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/inspiration_music%2Fbensound-anewbeginning.mp3?alt=media&token=cb491c08-6b46-464a-9ccd-4531c498633a');
+      // print("play");
     } else if (event is Pause) {
-      int result = await audioPlayer.pause();
+      // int result = await audioPlayer.pause();
 
       print("pause");
     } else if (event is AddToFav) {
@@ -104,7 +101,7 @@ class AffirmationPVBloc extends Bloc<AffirmationPVEvent, AffirmationPVState> {
 
   @override
   Future<void> close() async {
-    await audioPlayer.release();
+    //await audioPlayer.release();
 
     return super.close();
   }

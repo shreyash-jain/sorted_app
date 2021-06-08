@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -8,9 +9,7 @@ class PushNotificationService {
   PushNotificationService(this._fcm);
 
   Future initialise() async {
-    if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
-    }
+    await Firebase.initializeApp();
 
     // If you want to test the push notification locally,
     // you need to get the token and input to the Firebase console
@@ -18,18 +17,11 @@ class PushNotificationService {
     String token = await _fcm.getToken();
     print("FirebaseMessaging token: $token");
 
-    _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-      },
-      onBackgroundMessage: myBackgroundMessageHandler,
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      myBackgroundMessageHandler(message.data);
+    });
   }
 }
 

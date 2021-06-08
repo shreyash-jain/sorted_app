@@ -341,7 +341,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> onTapGoogleFit(bool gFit) async {
     googleFitSwitched = gFit;
-    bool isAuthorized = await Health.requestAuthorization();
+     List<HealthDataType> types = [
+      HealthDataType.STEPS,
+      HealthDataType.WEIGHT,
+      HealthDataType.HEIGHT,
+      HealthDataType.BLOOD_GLUCOSE,
+      HealthDataType.DISTANCE_WALKING_RUNNING,
+    ];
+    bool isAuthorized = await HealthFactory().requestAuthorization(types);
     if (!isAuthorized) googleFitSwitched = false;
   }
 

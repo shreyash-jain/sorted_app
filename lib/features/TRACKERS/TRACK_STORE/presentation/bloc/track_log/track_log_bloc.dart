@@ -3,12 +3,36 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:heat_map_calendar/heat_map_calendar.dart';
+
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/log_multifill.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/repositories/track_store_repository.dart';
 
 part 'track_log_event.dart';
 part 'track_log_state.dart';
+class Util {
+  static const List<String> monthsLabels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  static String fromTimeToString(DateTime date) {
+    return date.day.toString() +
+        '-' +
+        date.month.toString() +
+        '-' +
+        date.year.toString();
+  }
+}
 
 class TrackLogBloc extends Bloc<TrackLogEvent, TrackLogState> {
   final TrackStoreRepository repository;

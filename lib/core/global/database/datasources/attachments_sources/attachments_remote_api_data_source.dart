@@ -25,8 +25,8 @@ class HomeRemoteApiDataSourceImpl implements AttachmentsApi {
     List<UnsplashImage> images = [];
     print("HomeRemoteApiDataSourceImpl #######");
 
-    http.Response response = await http.get(INSPIRATION_PHOTO_ENDPOINT+
-        'client_id=${UnsplashApi.kAccessKey}');
+    http.Response response = await http.get(Uri.parse(INSPIRATION_PHOTO_ENDPOINT+
+        'client_id=${UnsplashApi.kAccessKey}'));
     print(response.body);
     if (response.statusCode == 200) {
       print("response successful #######");

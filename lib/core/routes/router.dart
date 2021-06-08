@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_route/auto_route_annotations.dart';
+
 import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_page_loaded.dart';
@@ -24,80 +24,37 @@ import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
 import 'package:sorted/features/SPLASH/splash.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/track_store_main.dart';
+import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
 
-@MaterialAutoRouter()
-class $Router {
-  @initial
-  SplashPage splashPage;
-  MyStartPage startPage;
-  OnboardPage onboardPage;
-  UserIntroPage userIntroPage;
-  SortedHome homePage;
-  AffirmationPV affirmationPageview;
-  SettingsPage settingsPage;
-  PlanHome planHome;
-  ChoiceGoalGuide choiceGoalGuide;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  GoalPage goalPage;
-  SelectCover selectCover;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  TaskPage taskPage;
 
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  Kanban kanbanPage;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  TimelineView timelineView;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  YearPlanner yearPlanner;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  LongPlanner longPlanner;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  NoteMain noteHub;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  RecordTab recordTab;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  NotesHubPage notesHubPage;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  RootHome rootHome;
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  ChallengePageView challengePageView;
-
-  @CustomRoute(
-    transitionsBuilder: TransitionsBuilders.fadeIn,
-    durationInMilliseconds: 200,
-  )
-  TrackStoreMain trackStoreMain;
-}
+@MaterialAutoRouter(  
+  replaceInRouteName: 'Page,Route',  
+  routes: <AutoRoute>[  
+    AutoRoute(page: SplashPage, initial: true),  
+    AutoRoute(page: MyStartPage),  
+    AutoRoute(page: OnboardPage),
+    AutoRoute(page: UserIntroPage),
+    AutoRoute(page: SortedHome),
+    AutoRoute(page: AffirmationPV),
+    AutoRoute(page: SettingsPage),
+    AutoRoute(page: PlanHome),
+    AutoRoute(page: ChoiceGoalGuide),
+    AutoRoute(page: GoalPage),
+    AutoRoute(page: ChoiceGoalGuide),
+    AutoRoute(page: SelectCover),
+    AutoRoute(page: TaskPage),
+    AutoRoute(page: Kanban),
+    AutoRoute(page: TimelineView),
+    AutoRoute(page: YearPlanner),
+    AutoRoute(page: LongPlanner),
+    AutoRoute(page: NoteMain),
+    AutoRoute(page: RecordTab),
+    AutoRoute(page: NotesHubPage),
+    AutoRoute(page: RootHome),
+    AutoRoute(page: ChallengePageView),
+    AutoRoute(page: TrackStoreMain),
+    AutoRoute(page: VideoPage),
+    
+  ],  
+)  
+class $ARouter {}  

@@ -93,7 +93,7 @@ class _CamRendererState extends State<CamRenderer> {
                     (dir) {
                       path = dir.path + '$dateTimeStart.mp4';
                       print('Starting video recording');
-                      widget.controller.startVideoRecording(path).then(
+                      widget.controller.startVideoRecording().then(
                         (_) {
                           print('**************');
                           print('Video recording started');

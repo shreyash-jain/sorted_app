@@ -14,22 +14,11 @@ class NoteRemoteApiDataSourceImpl implements NoteRemoteApi {
   var _parsedResponse;
 
   NoteRemoteApiDataSourceImpl();
-  Future<List<UnsplashImage>> fetchWallpapers(String search) async {
-    List<UnsplashImage> images = [];
-    print("HomeRemoteApiDataSourceImpl #######");
 
-    http.Response response = await http.get(INSPIRATION_PHOTO_ENDPOINT+
-        'client_id=${UnsplashApi.kAccessKey}');
-    print(response.body);
-    if (response.statusCode == 200) {
-      print("response successful #######");
-      print(response.body);
-
-      _parsedResponse = json.decode(response.body);
-      Iterable i = _parsedResponse;
-      images = i.map((model) => UnsplashImage.fromJson(model)).toList();
-     
-    }
-    return images;
+  @override
+  Future<List<UnsplashImage>> fetchWallpapers(String search) {
+    // TODO: implement fetchWallpapers
+    throw UnimplementedError();
   }
+
 }

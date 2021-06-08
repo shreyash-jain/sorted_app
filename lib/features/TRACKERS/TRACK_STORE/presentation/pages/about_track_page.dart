@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:custom_calendar/custom_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/entities/track.dart';
 import 'package:meta/meta.dart';
 import 'package:heat_map_calendar/heat_map_calendar.dart';
-import 'package:custom_calendar/custom_calendar.dart';
 
 class AboutTrackPage extends StatelessWidget {
   final Track track;

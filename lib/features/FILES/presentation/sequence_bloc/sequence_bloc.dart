@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_cache_store/flutter_cache_store.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/models/link.dart';
 import 'package:sorted/features/FILES/data/models/block_image.dart';
@@ -11,8 +10,7 @@ import 'package:sorted/features/FILES/data/models/block_textbox.dart';
 import 'package:sorted/features/FILES/domain/repositories/note_repository.dart';
 import 'package:sorted/features/FILES/presentation/note_bloc/note_bloc.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:html/parser.dart';
-import 'package:html/dom.dart' as ht;
+
 
 part 'sequence_event.dart';
 part 'sequence_state.dart';

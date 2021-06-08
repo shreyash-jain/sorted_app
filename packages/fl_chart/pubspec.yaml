@@ -10,9 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  path_drawing: ^0.4.1
-  equatable: ^1.1.1
-  pedantic: ^1.9.0
+  path_drawing: 
+  equatable: 
+  pedantic: 
 
 dev_dependencies:
   flutter_test:

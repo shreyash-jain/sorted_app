@@ -68,7 +68,7 @@ class ActivityModel extends Equatable {
     );
   }
   factory ActivityModel.fromSnapshot(DocumentSnapshot snap) {
-    var map = snap.data();
+    var map = snap.data() as Map;
     if (map == null) return null;
     print(map['id']);
     print(map['weight']);

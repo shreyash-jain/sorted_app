@@ -51,7 +51,7 @@ class InspirationModel extends Equatable {
 
 factory InspirationModel.fromJson(String source) => InspirationModel.fromMap(json.decode(source));
 factory InspirationModel.fromSnapshot(DocumentSnapshot snap) {
-    var map = snap.data();
+    var map = snap.data() as Map;
    
    
     if (map == null) return null;

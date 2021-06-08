@@ -109,9 +109,18 @@ class AffirmationBloc extends Bloc<AffirmationEvent, AffirmationState> {
           showAffirmations: true,
           affirmations: affirmations,
           inspiration: inspiration);
-      Router.navigator.pushNamed(Router.affirmationPageview,
-          arguments: AffirmationPVArguments(
-              affirmations: affirmations, startIndex: 0, outerBloc: this));
+
+
+    //   ARouter.push(  
+    //   BookDetailsRoute(  
+    //       book: book,  
+    //       onRateBook: (rating) {  
+    //        // handle result  
+    //       }),  
+    // );  
+    //   Router.navigator.pushNamed(Router.affirmationPageview,
+    //       arguments: AffirmationPVArguments(
+    //           affirmations: affirmations, startIndex: 0, outerBloc: this));
     }
   }
 

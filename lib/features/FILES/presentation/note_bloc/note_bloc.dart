@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:flutter_cache_store/flutter_cache_store.dart';
+
 import 'package:http/http.dart';
-import 'package:html/parser.dart';
-import 'package:html/dom.dart' as ht;
+
 import 'package:path/path.dart' as p;
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
@@ -423,10 +422,13 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       List<File> result;
       Failure failure;
 
-      result = await FilePicker.getMultiFile(
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png'],
-      );
+      result = (await FilePicker.platform.pickFiles(
+              type: FileType.custom,
+              allowedExtensions: ['jpg', 'jpeg', 'png'],
+              allowMultiple: true))
+          .paths
+          .map((path) => File(path))
+          .toList();
 
       if (result != null && result.length > 0) {}
 
@@ -436,10 +438,13 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       File result;
       Failure failure;
 
-      result = await FilePicker.getFile(
+      result = File((await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'jpeg', 'png'],
-      );
+      ))
+          .files
+          .single
+          .path);
 
       if (result != null) {
         print(result.path);
@@ -1264,38 +1269,13 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       return link;
     }
 
-    final store = await CacheStore.getInstance();
-    var response = await store.getFile(link.url).catchError((error) {
-      return null;
-    });
-    if (response == null) {
-      return link;
-    }
+    
 
-    var document = parse(await response.readAsString());
-    Map data = {};
-    _extractOGData(document, data, 'og:title');
-    _extractOGData(document, data, 'og:description');
-    _extractOGData(document, data, 'og:site_name');
-    _extractOGData(document, data, 'og:image');
-
-    if (data != null && data.isNotEmpty) {
-      link = link.copyWith(image: data['og:image']);
-      link = link.copyWith(title: data['og:title']);
-      link = link.copyWith(siteName: data['og:site_name']);
-      link = link.copyWith(description: data['og:description']);
-    }
+ 
     return link;
   }
 
-  void _extractOGData(ht.Document document, Map data, String parameter) {
-    var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
-        (meta) => meta.attributes['property'] == parameter,
-        orElse: () => null);
-    if (titleMetaTag != null) {
-      data[parameter] = titleMetaTag.attributes['content'];
-    }
-  }
+
 
   void _headingBottomSheet(context, int decoration, HeadingBlock headingBlock,
       HeadingBloc headingBloc) {

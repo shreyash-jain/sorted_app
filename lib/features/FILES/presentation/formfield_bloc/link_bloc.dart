@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_cache_store/flutter_cache_store.dart';
+
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/models/link.dart';
 import 'package:sorted/features/FILES/data/models/block_image.dart';
@@ -10,8 +10,6 @@ import 'package:sorted/features/FILES/data/models/block_textbox.dart';
 import 'package:sorted/features/FILES/domain/repositories/note_repository.dart';
 import 'package:sorted/features/FILES/presentation/note_bloc/note_bloc.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:html/parser.dart';
-import 'package:html/dom.dart' as ht;
 
 part 'link_event.dart';
 part 'link_state.dart';
@@ -70,36 +68,9 @@ class LinkBloc extends Bloc<LinkEvent, LinkState> {
       return link;
     }
 
-    final store = await CacheStore.getInstance();
-    var response = await store.getFile(link.url).catchError((error) {
-      return null;
-    });
-    if (response == null) {
-      return link;
-    }
-
-    var document = parse(await response.readAsString());
-    Map data = {};
-    _extractOGData(document, data, 'og:title');
-    _extractOGData(document, data, 'og:description');
-    _extractOGData(document, data, 'og:site_name');
-    _extractOGData(document, data, 'og:image');
-
-    if (data != null && data.isNotEmpty) {
-      link = link.copyWith(image: data['og:image']);
-      link = link.copyWith(title: data['og:title']);
-      link = link.copyWith(siteName: data['og:site_name']);
-      link = link.copyWith(description: data['og:description']);
-    }
+   
     return link;
   }
 
-  void _extractOGData(ht.Document document, Map data, String parameter) {
-    var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
-        (meta) => meta.attributes['property'] == parameter,
-        orElse: () => null);
-    if (titleMetaTag != null) {
-      data[parameter] = titleMetaTag.attributes['content'];
-    }
-  }
+
 }

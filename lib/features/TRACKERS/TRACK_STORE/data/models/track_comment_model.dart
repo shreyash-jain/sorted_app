@@ -63,7 +63,7 @@ class TrackCommentModel extends TrackComment implements Equatable {
   }
 
   factory TrackCommentModel.fromSnapshot(DocumentSnapshot snap) {
-    var map = snap.data();
+    var map = snap.data() as Map;
     if (map == null) return null;
 
     return TrackCommentModel(

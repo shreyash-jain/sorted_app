@@ -130,7 +130,7 @@ class UserDetail extends Equatable {
     );
   }
   factory UserDetail.fromSnapshot(DocumentSnapshot snap) {
-    var map = snap.data();
+    var map = snap.data() as Map;
     if (map == null) return null;
 
     return UserDetail(

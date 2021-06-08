@@ -90,9 +90,9 @@ class HomeCloudDataSourceImpl implements HomeCloud {
         .doc("data");
 
     await document.get().then((value) {
-      print(value.data().containsKey("signInId").toString());
-      print(value.data()['signInId']);
-      ans = value.data()['signInId'];
+      print((value.data() as Map).containsKey("signInId").toString());
+      print((value.data() as Map)['signInId']);
+      ans = (value.data() as Map)['signInId'];
       return ans;
     });
     return ans;
@@ -109,9 +109,9 @@ class HomeCloudDataSourceImpl implements HomeCloud {
 
     String ans;
     await document.get().then((value) {
-      print(value.data().containsKey("deviceName").toString());
-      print(value.data()['deviceName']);
-      ans = value.data()['deviceName'];
+      print((value.data() as Map).containsKey("deviceName").toString());
+      print((value.data() as Map)['deviceName']);
+      ans = (value.data() as Map)['deviceName'];
       return ans;
     });
 

@@ -48,10 +48,13 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       File result;
       Failure failure;
 
-      result = await FilePicker.getFile(
+      result = File((await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'jpeg', 'png'],
-      );
+      ))
+          .files
+          .single
+          .path);
 
       if (result != null) {
         print(result.path);
@@ -120,7 +123,7 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
     File file =
         new File("IMG-" + '$tempPath' + rng.nextDouble().toString() + '.jpg');
 // call http.get method and pass imageUrl into it to get response.
-    http.Response response = await http.get(image.url);
+    http.Response response = await http.get(Uri.parse(image.url));
 // write bodyBytes received in response to file.
     await file.writeAsBytes(response.bodyBytes);
 // now return the file which is created with random name in

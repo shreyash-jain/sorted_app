@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_utils/date_utils.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -48,16 +47,16 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     print("check kaona");
     final httpClient = GoogleHttpClient(headers);
     var calendar = CalendarApi(httpClient);
-    DateTime lastMonth =
-        Utils.lastDayOfMonth(DateTime.now().subtract(Duration(days: 1)));
-    DateTime firstMonth =
-        Utils.firstDayOfMonth(DateTime.now().add(Duration(days: 1)));
-    var calEvents = calendar.events.list("primary",
-        timeMax: lastMonth.toUtc(), timeMin: firstMonth.toUtc());
-    calEvents.then((events) => {
-          print(events.items.length),
-          events.items.forEach((event) => print("EVENT $event"))
-        });
+    // DateTime lastMonth =
+    //     Utils.lastDayOfMonth(DateTime.now().subtract(Duration(days: 1)));
+    // DateTime firstMonth =
+    //     Utils.firstDayOfMonth(DateTime.now().add(Duration(days: 1)));
+    // var calEvents = calendar.events.list("primary",
+    //     timeMax: lastMonth.toUtc(), timeMin: firstMonth.toUtc());
+    // calEvents.then((events) => {
+    //       print(events.items.length),
+    //       events.items.forEach((event) => print("EVENT $event"))
+    //     });
   }
 
   Future<bool> checkIfUserAlreadyPresent(User user) async {
@@ -92,9 +91,9 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     bool ans;
 
     await document.get().then((value) {
-       print(value.data().containsKey("signInId").toString());
-      print(value.data()['signInId']);
-      if (value.data()['signInId'] != 0)
+       print((value.data() as Map).containsKey("signInId").toString());
+      print((value.data() as Map)['signInId']);
+      if ((value.data() as Map)['signInId'] != 0)
         ans = true;
       else
         ans = false;

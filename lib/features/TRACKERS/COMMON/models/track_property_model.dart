@@ -525,7 +525,7 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
   }
 
   factory TrackPropertyModel.fromSnapshot(DocumentSnapshot snap) {
-    var map = snap.data();
+    var map = snap.data() as Map;
     if (map == null) return null;
     return TrackPropertyModel(
       id: map['id'] ?? 0,

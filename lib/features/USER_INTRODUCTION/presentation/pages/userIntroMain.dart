@@ -5,10 +5,12 @@ import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/global/widgets/on_success.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/interest_bloc/interest_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/interactionPage.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';
+import 'package:auto_route/auto_route.dart';
 
 class UserIntroPage extends StatefulWidget {
   UserIntroPage({Key key, this.title}) : super(key: key);
@@ -72,8 +74,10 @@ class _UserIntroState extends State<UserIntroPage>
           },
           listener: (BuildContext context, UserIntroductionState state) {
             if (state is SuccessState) {
-               rt.Router.navigator.pop();
-               rt.Router.navigator.pushNamed( rt.Router.rootHome);
+              context.router.pop();
+              context.router.push(
+                RootHome(),
+              );
             }
           },
         ));

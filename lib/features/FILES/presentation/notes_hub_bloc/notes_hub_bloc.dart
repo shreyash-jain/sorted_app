@@ -2,10 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:flutter_cache_store/flutter_cache_store.dart';
-import 'package:http/http.dart';
-import 'package:html/parser.dart';
-import 'package:html/dom.dart' as ht;
+
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:equatable/equatable.dart';
@@ -115,8 +112,8 @@ class NotesHubBloc extends Bloc<NotesHubEvent, NotesHubState> {
           prevNoteState.hasList,
           prevNoteState.hasTable,
           prevNoteState.hasCalendar);
-      rt.Router.navigator.pushNamed(rt.Router.noteHub,
-          arguments: rt.NoteMainArguments(note: newNote));
+      // rt.Router.navigator.pushNamed(rt.Router.noteHub,
+      //     arguments: rt.NoteMainArguments(note: newNote));
     }
   }
 

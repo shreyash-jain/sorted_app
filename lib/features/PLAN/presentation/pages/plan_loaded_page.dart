@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:googleapis/plusdomains/v1.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:sorted/core/global/animations/circular_progress.dart';
 import 'package:sorted/core/global/animations/progress_goal.dart';
@@ -8,6 +7,7 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/PLAN/data/models/goal.dart';
@@ -19,6 +19,7 @@ import 'package:sorted/features/PLAN/presentation/widgets/add_goal.dart';
 import 'package:sorted/features/PLAN/presentation/widgets/goal_list.dart';
 import 'package:sorted/features/PLAN/presentation/widgets/tag_list.dart';
 import 'package:sorted/features/PLAN/presentation/widgets/upcomingTasks.dart';
+import 'package:auto_route/auto_route.dart';
 
 class PlanLoadedWidget extends StatefulWidget {
   const PlanLoadedWidget({Key key}) : super(key: key);
@@ -236,8 +237,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                 rt.Router.navigator.pushNamed(
-                   rt.Router.kanbanPage,
+                context.router.push(
+                  Kanban(),
                 );
               },
               child: UnicornOutlineButton(
@@ -296,8 +297,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                 rt.Router.navigator.pushNamed(
-                   rt.Router.timelineView,
+                context.router.push(
+                  TimelineView(),
                 );
               },
               child: UnicornOutlineButton(
@@ -356,8 +357,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                 rt.Router.navigator.pushNamed(
-                   rt.Router.timelineView,
+                context.router.push(
+                  TimelineView(),
                 );
               },
               child: UnicornOutlineButton(
@@ -416,8 +417,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                 rt.Router.navigator.pushNamed(
-                   rt.Router.yearPlanner,
+                context.router.push(
+                  YearPlanner(),
                 );
               },
               child: UnicornOutlineButton(
@@ -476,8 +477,8 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
             ),
             InkWell(
               onTap: () {
-                 rt.Router.navigator.pushNamed(
-                   rt.Router.longPlanner,
+                context.router.push(
+                  LongPlanner(),
                 );
               },
               child: UnicornOutlineButton(
@@ -833,11 +834,12 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                         key: Key(state.tasks[index].id.toString()),
                         child: GestureDetector(
                           onTap: () {
-                             rt.Router.navigator.pushNamed( rt.Router.taskPage,
-                                arguments:  rt.TaskPageArguments(
-                                    thisGoal: state.tasks[index],
-                                    planBloc:
-                                        BlocProvider.of<PlanBloc>(context)));
+                            context.router.push(
+                              TaskRoute(
+                                  thisGoal: state.tasks[index],
+                                  planBloc: BlocProvider.of<PlanBloc>(context)),
+                            );
+                            
                             print("${index} clicked");
                           },
                           child: Container(

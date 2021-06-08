@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_store/flutter_cache_store.dart';
 
-import 'package:html/dom.dart' as ht;
-import 'package:html/parser.dart';
 import 'package:sorted/core/global/utility/url_preview/widgets/url_description.dart';
 import 'package:sorted/core/global/utility/url_preview/widgets/url_image.dart';
 import 'package:sorted/core/global/utility/url_preview/widgets/url_site_name.dart';
@@ -99,55 +96,12 @@ class _SimpleUrlPreviewState extends State<SimpleUrlPreview> {
   }
 
   void _getUrlData() async {
-    if (!isURL(widget.url)) {
-      setState(() {
-        _urlPreviewData = null;
-      });
-      return;
-    }
+  
 
-    final store = await CacheStore.getInstance();
-    var response = await store.getFile(widget.url).catchError((error) {
-      return null;
-    });
-    if (response == null) {
-      if (!this.mounted) {
-        return;
-      }
-      setState(() {
-        _urlPreviewData = null;
-      });
-      return;
-    }
-
-    var document = parse(await response.readAsString());
-    Map data = {};
-    _extractOGData(document, data, 'og:title');
-    _extractOGData(document, data, 'og:description');
-    _extractOGData(document, data, 'og:site_name');
-    _extractOGData(document, data, 'og:image');
-
-    if (!this.mounted) {
-      return;
-    }
-
-    if (data != null && data.isNotEmpty) {
-      setState(() {
-        _urlPreviewData = data;
-        _isVisible = true;
-      });
-    }
+  
   }
 
-  void _extractOGData(ht.Document document, Map data, String parameter) {
-    var titleMetaTag = document.getElementsByTagName("meta")?.firstWhere(
-        (meta) => meta.attributes['property'] == parameter,
-        orElse: () => null);
-    if (titleMetaTag != null) {
-      data[parameter] = titleMetaTag.attributes['content'];
-    }
-  }
-
+ 
   void _launchURL() async {
     if (await canLaunch(Uri.encodeFull(widget.url))) {
       await launch(Uri.encodeFull(widget.url));

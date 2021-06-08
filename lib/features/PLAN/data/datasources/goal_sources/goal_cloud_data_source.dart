@@ -389,8 +389,8 @@ class GoalCloudDataSourceImpl implements GoalCloud {
     'https://api.unsplash.com//search/photos?per_page=30&query=$search&orientation=landscape&';
 
 
-    http.Response response = await http.get(INSPIRATION_PHOTO_ENDPOINT+
-        'client_id=${UnsplashApi.kAccessKey}');
+    http.Response response = await http.get(Uri.parse(INSPIRATION_PHOTO_ENDPOINT+
+        'client_id=${UnsplashApi.kAccessKey}'));
     print(response.body);
     if (response.statusCode == 200) {
       print("response successful #######");

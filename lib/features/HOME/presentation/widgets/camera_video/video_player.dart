@@ -33,7 +33,7 @@ class _VideoPlayerAppState extends State<VideoPlayerApp> {
       title: 'Video Demo',
       home: Scaffold(
         body: Center(
-          child: _controller.value.initialized
+          child: _controller.value.isInitialized
               ? AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
                   child: VideoPlayer(_controller),

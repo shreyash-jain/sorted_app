@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 
@@ -11,7 +13,6 @@ class AffirmationTile extends StatelessWidget {
     @required OverlayEntry popupDialog,
     @required this.affirmationBloc,
     @required this.index,
-    
     @required this.affirmation,
   })  : _popupDialog = popupDialog,
         super(key: key);
@@ -29,14 +30,16 @@ class AffirmationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       // keep the OverlayEntry instance, and insert it into Overlay
-     
+
       onTap: () {
-         rt.Router.navigator.pushNamed( rt.Router.affirmationPageview,
-            arguments:  rt.AffirmationPVArguments(
-                affirmations:
+        context.router.push(
+          AffirmationPV(
+              affirmations:
                     (affirmationBloc.state as LoadedState).affirmations,
                 startIndex: index,
-                outerBloc: affirmationBloc));
+                outerBloc: affirmationBloc),
+        );
+       
       },
       child: Hero(
           tag: "thumbnail" + index.toString(),

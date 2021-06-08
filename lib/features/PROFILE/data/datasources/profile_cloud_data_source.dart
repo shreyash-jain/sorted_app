@@ -8,17 +8,19 @@ import 'package:sorted/core/global/models/physical_health_profile.dart';
 
 abstract class ProfileCloud {
   Future<PhysicalHealthProfile> get fitnessProfile;
+
   Future<MentalHealthProfile> get mindfulProfile;
+
   Future<LifestyleProfile> get lifestyleProfile;
 }
 
 class ProfileCloudDataSourceImpl implements ProfileCloud {
-  final FirebaseFirestore cloudDb;
-  final FirebaseAuth auth;
-  final SqlDatabaseService nativeDb;
-
   ProfileCloudDataSourceImpl(
       {@required this.auth, @required this.nativeDb, @required this.cloudDb});
+
+  final FirebaseAuth auth;
+  final FirebaseFirestore cloudDb;
+  final SqlDatabaseService nativeDb;
 
   @override
   // TODO: implement fitnessProfile

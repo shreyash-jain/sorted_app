@@ -164,7 +164,7 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
         .get();
     List<String> colossals = [];
     querySnapshot.docs.forEach((colossal) {
-      colossals.add(colossal.data()[COLOSSAL_URL_FIELD]);
+      colossals.add((colossal.data() as Map)[COLOSSAL_URL_FIELD]);
     });
 
     return colossals;
@@ -194,7 +194,7 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
     querySnapshot.docs.forEach((doc) {
       lastCommentDoc = doc;
       trackComments.add(TrackCommentModel.fromSnapshot(doc));
-      print("DATA = " + doc.data()["comment"].toString());
+      print("DATA = " + (doc.data() as Map)["comment"].toString());
     });
 
     return trackComments;

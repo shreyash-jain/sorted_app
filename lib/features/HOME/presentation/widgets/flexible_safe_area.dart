@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:sorted/core/global/animations/dialog_animation.dart';
 import 'package:sorted/core/global/animations/fade_animationTB.dart';
@@ -10,6 +11,7 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
@@ -24,7 +26,6 @@ class FlexibleSpaceArea extends StatefulWidget {
   }) : super(key: key);
 
   final double currentSliverheight;
-
   final String name;
 
   @override
@@ -32,11 +33,11 @@ class FlexibleSpaceArea extends StatefulWidget {
 }
 
 class _FlexibleAreaState extends State<FlexibleSpaceArea> {
-  OverlayEntry _popupDialog;
-  ScrollController _controller;
   AffirmationBloc affirmationBloc;
-
   bool showArrow = true;
+
+  ScrollController _controller;
+  OverlayEntry _popupDialog;
 
   @override
   void initState() {
@@ -45,6 +46,43 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
 
     _controller.addListener(_scrollListener);
     super.initState();
+  }
+
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        showArrow = false;
+      });
+    }
+  }
+
+  String getAffirmationString(DateTime dateTime) {
+    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
+      return "Bedtime\nAffirmations";
+    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
+      return "Sunshine\nAffirmations";
+    return "Affirmations";
+  }
+
+  String getMeditationString(DateTime dateTime) {
+    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
+      return "Night\nMeditation";
+    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
+      return "Morning\nMeditation";
+    return "Meditation";
+  }
+
+  String foodString(DateTime dateTime) {
+    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
+      return "Dinner\nInspiration";
+    } else if (dateTime.hour >= 3 && dateTime.hour < 10)
+      return "Breakfast\nInspiration";
+    else if (dateTime.hour >= 10 && dateTime.hour < 15)
+      return "Lunch\nInspiration";
+    else if (dateTime.hour >= 15 && dateTime.hour < 19)
+      return "Snack\nInspiration";
+    return "Meal Inspiration";
   }
 
   @override
@@ -143,10 +181,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                         end: Alignment.bottomCenter,
                                       ),
                                       onPressed: () {
-                                        rt.Router.navigator.pushNamed(
-                                            rt.Router.challengePageView);
-                                      },
-                                      child: Column(
+                                       context.router.push(
+                                         ChallengeRouteView()
+                                         );
+                                                                            } ,                                     child: Column(
                                         children: [
                                           Container(
                                               height: 70,
@@ -548,17 +586,18 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                             .bottomCenter,
                                                       ),
                                                       onPressed: () {
-                                                        rt.Router.navigator.pushNamed(
-                                                            rt.Router
-                                                                .affirmationPageview,
-                                                            arguments: rt.AffirmationPVArguments(
-                                                                affirmations: (affirmationBloc
+
+                                                        context.router.push(  
+      AffirmationPV(  
+            affirmations: (affirmationBloc
                                                                             .state
                                                                         as LoadedState)
                                                                     .affirmations,
                                                                 startIndex: 0,
                                                                 outerBloc:
-                                                                    affirmationBloc));
+                                                                    affirmationBloc),  
+    );  
+                                                      
                                                       },
                                                       child: Hero(
                                                           tag: "thumbnail" +
@@ -1195,42 +1234,5 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 ],
               ))),
         ));
-  }
-
-  _scrollListener() {
-    if (_controller.offset >= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        showArrow = false;
-      });
-    }
-  }
-
-  String getAffirmationString(DateTime dateTime) {
-    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
-      return "Bedtime\nAffirmations";
-    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
-      return "Sunshine\nAffirmations";
-    return "Affirmations";
-  }
-
-  String getMeditationString(DateTime dateTime) {
-    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
-      return "Night\nMeditation";
-    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
-      return "Morning\nMeditation";
-    return "Meditation";
-  }
-
-  String foodString(DateTime dateTime) {
-    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
-      return "Dinner\nInspiration";
-    } else if (dateTime.hour >= 3 && dateTime.hour < 10)
-      return "Breakfast\nInspiration";
-    else if (dateTime.hour >= 10 && dateTime.hour < 15)
-      return "Lunch\nInspiration";
-    else if (dateTime.hour >= 15 && dateTime.hour < 19)
-      return "Snack\nInspiration";
-    return "Meal Inspiration";
   }
 }

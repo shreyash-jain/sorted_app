@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Animation<double> scaleAnimation;
   AnimationController scaleController;
 
-  final _numPages = 4;
+  final _numPages = 3;
   final PageController _pageController = PageController(initialPage: 0);
 
   Color scaleColor = Colors.transparent;
@@ -95,8 +95,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         loginWidget: widget,
                         currentPage: _currentPage,
                       ),
-                      AgeAndProfession(
-                          loginWidget: widget, currentPage: _currentPage),
                       HealthProfile(
                           loginWidget: widget, currentPage: _currentPage),
                       InterestsPV(
@@ -114,21 +112,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: Container(
                   height: 50,
                   decoration: new BoxDecoration(
-                    borderRadius: new BorderRadius.only(
-                        topRight: Radius.circular(0.0),
-                        topLeft: Radius.circular(20.0),
-                        bottomLeft: Radius.circular(0.0),
-                        bottomRight: Radius.circular(0.0)),
-                    gradient: new LinearGradient(
-                        colors: [
-                          Theme.of(context).primaryColorLight,
-                          Theme.of(context).accentColor,
-                        ],
-                        begin: const FractionalOffset(0.0, 0.0),
-                        end: const FractionalOffset(1.0, 1.00),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
+                      borderRadius: new BorderRadius.only(
+                          topRight: Radius.circular(0.0),
+                          topLeft: Radius.circular(20.0),
+                          bottomLeft: Radius.circular(0.0),
+                          bottomRight: Radius.circular(0.0)),
+                          color: Colors.white,
+                      border:
+                          Border.all(color: Colors.grey.shade200, width: 2)),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,

@@ -17,9 +17,9 @@ class TimeMultiply extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: isActive ? Colors.amber : Colors.black,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.white),
+          color: isActive ? Colors.redAccent : Colors.black54,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white10),
         ),
         child: Text(
           text,

@@ -44,8 +44,8 @@ class _VideoPageState extends State<VideoPage> {
                 CustomButton(
                   icon: Icons.folder,
                   text: "Choose from library",
-                  bgColor: Colors.deepPurple,
-                  borderColor: Colors.deepPurple,
+                  bgColor: Colors.white10,
+                  borderColor: Colors.white10,
                   width: 300,
                   onTap: _selectFromLibrary,
                 ),
@@ -53,16 +53,17 @@ class _VideoPageState extends State<VideoPage> {
                   height: 15,
                 ),
                 CustomButton(
-                  icon: Icons.folder,
+                  icon: Icons.music_video,
                   text: "Record new video",
                   bgColor: Colors.black,
-                  borderColor: Colors.deepPurple,
+                  borderColor: Colors.white70,
                   width: 300,
                   onTap: _recordFromCamera,
                 ),
                 SizedBox(
                   height: 20,
                 ),
+                Expanded(child: Container()),
               ],
             ),
             Expanded(child: Container()),
@@ -82,7 +83,7 @@ class _VideoPageState extends State<VideoPage> {
       await _trimmer.loadVideo(videoFile: file);
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) {
-          return TrimmerView(_trimmer);
+          return TrimmerView(file);
         }),
       );
     }

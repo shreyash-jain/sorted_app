@@ -10,7 +10,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("splash");
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      
       body: Center(
           child: Container(
         width: 70,

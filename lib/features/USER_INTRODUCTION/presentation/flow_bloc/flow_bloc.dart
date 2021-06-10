@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
 import 'package:sorted/core/global/injection_container.dart';
@@ -8,6 +9,7 @@ import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
+import 'package:truecaller_sdk/truecaller_sdk.dart';
 part 'flow_event.dart';
 part 'flow_state.dart';
 
@@ -23,10 +25,11 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
   bool oldState;
   int deviceId;
   String deviceName;
-
+  StreamSubscription streamSubscription;
   String userName = "";
 
-  UserIntroductionBloc(this.repository) : super(UserIntroductionInitial());
+  UserIntroductionBloc(this.repository) : super(UserIntroductionInitial()) {}
+
   @override
   Stream<UserIntroductionState> mapEventToState(
     FlowEvent event,
@@ -87,6 +90,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         UserDetail prevDetail = (state as LoginState).userDetail;
         prevDetail.copyWith(gender: event.gender);
         yield LoginState(
+            phoneNumber: (state as LoginState).phoneNumber,
             allActivities: (state as LoginState).allActivities,
             userActivities: (state as LoginState).userActivities,
             userDetail:
@@ -102,6 +106,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
       if (state is LoginState) {
         yield LoginState(
             allActivities: (state as LoginState).allActivities,
+            phoneNumber: (state as LoginState).phoneNumber,
             userActivities: event.activities,
             valid: checkValidity((state as LoginState).userDetail),
             message: generateValidityMessage((state as LoginState).userDetail),
@@ -110,22 +115,26 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
     } else if (event is UpdateUsername) {
       if (state is LoginState) {
         UserDetail prevDetail = (state as LoginState).userDetail;
+
         yield LoginState(
             allActivities: (state as LoginState).allActivities,
             userActivities: (state as LoginState).userActivities,
             userDetail: (state as LoginState).userDetail,
+            phoneNumber: (state as LoginState).phoneNumber,
             valid: 8,
             message: "Loading");
 
         RegExp regExp = new RegExp(
           r"^([A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$)",
         );
+
         if (event.name == null ||
             event.name.length < 4 ||
             !regExp.hasMatch(event.name)) {
           yield LoginState(
               allActivities: (state as LoginState).allActivities,
               userActivities: (state as LoginState).userActivities,
+              phoneNumber: (state as LoginState).phoneNumber,
               userDetail: (state as LoginState)
                   .userDetail
                   .copyWith(userName: event.name),
@@ -148,6 +157,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
               yield LoginState(
                   allActivities: (state as LoginState).allActivities,
                   userActivities: (state as LoginState).userActivities,
+                  phoneNumber: (state as LoginState).phoneNumber,
                   userDetail: (state as LoginState)
                       .userDetail
                       .copyWith(userName: event.name),
@@ -161,6 +171,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
               yield LoginState(
                   allActivities: (state as LoginState).allActivities,
                   userActivities: (state as LoginState).userActivities,
+                  phoneNumber: (state as LoginState).phoneNumber,
                   userDetail: (state as LoginState)
                       .userDetail
                       .copyWith(userName: event.name),
@@ -177,12 +188,23 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         yield LoginState(
             allActivities: (state as LoginState).allActivities,
             userActivities: (state as LoginState).userActivities,
+            phoneNumber: (state as LoginState).phoneNumber,
             userDetail:
                 (state as LoginState).userDetail.copyWith(age: event.age),
             valid: checkValidity(
                 (state as LoginState).userDetail.copyWith(age: event.age)),
             message: generateValidityMessage(
                 (state as LoginState).userDetail.copyWith(age: event.age)));
+      }
+    } else if (event is UpdatePhoneNumber) {
+      if (state is LoginState) {
+        yield LoginState(
+            allActivities: (state as LoginState).allActivities,
+            userActivities: (state as LoginState).userActivities,
+            phoneNumber: event.phoneNumber,
+            userDetail: (state as LoginState).userDetail,
+            valid: (state as LoginState).valid,
+            message: (state as LoginState).message);
       }
     } else if (event is UpdateProfession) {
       if (state is LoginState) {
@@ -191,6 +213,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         yield LoginState(
             allActivities: (state as LoginState).allActivities,
             userActivities: (state as LoginState).userActivities,
+            phoneNumber: (state as LoginState).phoneNumber,
             userDetail: (state as LoginState)
                 .userDetail
                 .copyWith(profession: event.prof),
@@ -222,6 +245,8 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
     List<ActivityModel> allActivities;
     List<UserAModel> userActivities;
     UserDetail userDetail;
+    LoginState downloadedState;
+
     print(doOnEndDownloadEvent);
 
     var failureOrAllActivities = await repository.cloudActivities;
@@ -249,13 +274,18 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
       });
       print(userDetail);
     }
+    print("to enter doOnEndDownloadEvent");
     if (failure == null) {
-      yield LoginState(
+      downloadedState = LoginState(
           allActivities: allActivities,
           userActivities: userActivities,
+          phoneNumber: null,
           userDetail: userDetail,
           valid: checkValidity(userDetail),
           message: "Please enter a username");
+
+      initializeTruecallerSDK(downloadedState);
+      yield downloadedState;
     } else {
       yield Error(message: mapFailureToString(failure));
     }
@@ -287,5 +317,48 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
   Future<void> close() {
     if (_downloadProgress != null) _downloadProgress.cancel();
     return super.close();
+  }
+
+  void initializeTruecallerSDK(LoginState loginState) {
+    print("initializeTruecaller enter");
+
+    TruecallerSdk.initializeSDK(
+        sdkOptions: TruecallerSdkScope.SDK_OPTION_WITH_OTP);
+    TruecallerSdk.isUsable.then((isUsable) {
+      if (isUsable) {
+        TruecallerSdk.getProfile;
+      } else {
+        print("***Not usable***");
+      }
+    });
+    streamSubscription =
+        TruecallerSdk.streamCallbackData.listen((truecallerSdkCallback) {
+      print("***streamCallbackData***");
+      switch (truecallerSdkCallback.result) {
+        case TruecallerSdkCallbackResult.success:
+          //If Truecaller user and has Truecaller app on his device, you'd directly get the Profile
+          print("First Name: ${truecallerSdkCallback.profile.firstName}");
+          print("Last Name: ${truecallerSdkCallback.profile.lastName}");
+          print("Last Name: ${truecallerSdkCallback.profile.phoneNumber}");
+          print("initializeTruecaller case success");
+          this.add(
+              UpdatePhoneNumber(truecallerSdkCallback.profile.phoneNumber));
+
+          break;
+        case TruecallerSdkCallbackResult.failure:
+          print("Error code : ${truecallerSdkCallback.error.code}");
+
+          break;
+        case TruecallerSdkCallbackResult.verification:
+          //If the callback comes here, it indicates that user has to be manually verified, so follow step 4
+          //You'd receive nullable error which can be used to determine user action that led to verification
+          print(
+              "Manual Verification Required!! ${truecallerSdkCallback.error != null ? truecallerSdkCallback.error.code : ""}");
+
+          break;
+        default:
+          print("Invalid result");
+      }
+    });
   }
 }

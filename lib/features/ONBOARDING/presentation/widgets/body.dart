@@ -26,6 +26,7 @@ class _OnboardBodyState extends State<OnboardBody> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<OnboardingBloc>(context).add(OpenBottomSheet());
 
     print("Body");
   }
@@ -60,8 +61,8 @@ class _OnboardBodyState extends State<OnboardBody> {
             Container(
               height: MediaQuery.of(context).size.height,
               child: PageView(
-                scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                physics: AlwaysScrollableScrollPhysics(),
                 controller: _pageController,
                 onPageChanged: (int page) {
                   setState(() {
@@ -85,29 +86,30 @@ class _OnboardBodyState extends State<OnboardBody> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50, right: 40),
+              padding: EdgeInsets.only(top: 50, right: 0),
               child: Align(
                 alignment: FractionalOffset.topRight,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: _buildPageIndicator(),
                 ),
               ),
             ),
             Container(
-                height: MediaQuery.of(context).size.height / 2,
-                child: Column(
+              padding: EdgeInsets.only(top: 30, right: 0),
+                
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    if (_currentPage > 0)
-                      Align(
-                          alignment: FractionalOffset.bottomRight,
-                          child: Button(
-                            direction: false,
-                            onTapAction: moveUp,
-                          )),
+                    // if (_currentPage > 0)
+                    //   Align(
+                    //       alignment: FractionalOffset.bottomRight,
+                    //       child: Button(
+                    //         direction: false,
+                    //         onTapAction: moveUp,
+                    //       )),
                     if (_currentPage < 2)
                       Align(
                           alignment: FractionalOffset.bottomRight,
@@ -127,7 +129,7 @@ class _OnboardBodyState extends State<OnboardBody> {
     print("button down");
     if (_currentPage + 1 == 2) {
       print("add openbottomsheet");
-      BlocProvider.of<OnboardingBloc>(context).add(OpenBottomSheet());
+      
     }
     setState(() {
       _pageController.animateToPage(

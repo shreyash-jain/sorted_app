@@ -29,12 +29,7 @@ class StackConatinerBack extends StatelessWidget {
             EdgeInsets.only(top: Gparam.topPadding, bottom: Gparam.topPadding),
         alignment: imageAlignment,
         curve: Curves.easeOutQuint,
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-            image: new AssetImage(UserIntroStrings.backgroundPath),
-            fit: BoxFit.cover,
-          ),
-        ),
+        
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.only(top: Gparam.heightPadding * 2),

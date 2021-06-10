@@ -52,7 +52,7 @@ dependencies:
   firebase_storage: 
   firebase_messaging:
   firebase_analytics: 
-
+  flutter_ffmpeg:
   # fl_chart: ^0.8.7
   analyzer: 
   flare_flutter: 
@@ -95,7 +95,7 @@ dependencies:
   zefyr: 
   flutter_svg: 
   material_design_icons_flutter: 
-
+  truecaller_sdk:
  
 
 dev_dependencies:
@@ -118,6 +118,7 @@ flutter:
     - assets/images/
     - assets/images/notebooks/
     - assets/animations/
+    - assets/images/onboarding/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -27,25 +27,24 @@ class PageTemplate extends StatelessWidget {
           Align(
             alignment:Alignment.topLeft,
               child: Padding(
-              padding: EdgeInsets.only(top: Gparam.height/20,left:40),
-              child: FadeAnimationTB(
-                0.6,
+              padding: EdgeInsets.only(top: Gparam.height/30,left:0),
+              child: 
                 Container(
                   child: Image(
                     image: AssetImage(
                       imagepath,
                     ),
-                    height: Gparam.height/6,
-                    width: Gparam.height/6,
+                    height: Gparam.width,
+                    width: Gparam.width,
                   ),
                 ),
               ),
-            ),
+            
           ),
           Padding(
-            padding: EdgeInsets.only(top:Gparam.height/40,left:Gparam.width/10,right:Gparam.width/4),
+            padding: EdgeInsets.only(top:0,left:Gparam.width/10,right:Gparam.width/4),
             child: FadeAnimationTB(
-                1.8,
+                1.0,
                 Container(
                     child: Text(
                   title,
@@ -55,7 +54,7 @@ class PageTemplate extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: Gparam.height/45,left:Gparam.width/10,right:Gparam.width/4),
             child: FadeAnimationTB(
-                2.8,
+                1.4,
                 Container(
                   child: Text(
                     description,

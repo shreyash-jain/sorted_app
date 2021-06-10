@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sorted/features/VIDEO_APP/presentation/models/shot.dart';
 
@@ -16,20 +18,28 @@ class ThumbElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.symmetric(horizontal: 4),
       child: InkWell(
         onTap: onTap,
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(8),
-              child: Text(shot.id.toString()),
+              height: 70,
+              padding: EdgeInsets.all(4),
+              child: shot.last_frame == null
+                  ? Text(shot.id.toString())
+                  : ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: Image.file(File(shot.last_frame))),
             ),
             InkWell(
               onTap: onDelete,
               child: Container(
-                child: Text("Delete"),
-              ),
+                  child: Icon(
+                Icons.cancel,
+                color: Colors.red,
+                size: 16,
+              )),
             ),
           ],
         ),

@@ -371,344 +371,7 @@ class _InterestsPVState extends State<InterestsPV> {
                                             ),
                                           )),
                                     ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.all(Gparam.widthPadding),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFF63056e),
-                                              border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(.03),
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    offset: Offset(1, 1),
-                                                    color: Colors.black
-                                                        .withAlpha(10),
-                                                    blurRadius: 2)
-                                              ],
-                                              borderRadius:
-                                                  new BorderRadius.all(
-                                                      Radius.circular(12.0)),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 12,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              'Productivity',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: Gparam.textSmaller,
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Colors.black
-                                                      .withOpacity(.8)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: Gparam.widthPadding),
-                                      padding: EdgeInsets.only(
-                                          left: 2,
-                                          top: Gparam.heightPadding / 2,
-                                          bottom: Gparam.heightPadding / 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                            color:
-                                                Colors.black.withOpacity(.03),
-                                            width: 2),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(1, 1),
-                                              color: Colors.black.withAlpha(2),
-                                              blurRadius: 2)
-                                        ],
-                                        borderRadius: new BorderRadius.only(
-                                            topRight: Radius.circular(0.0),
-                                            topLeft: Radius.circular(12.0),
-                                            bottomLeft: Radius.circular(12.0),
-                                            bottomRight: Radius.circular(0.0)),
-                                      ),
-                                      child: FadeAnimationTB(
-                                          1.6,
-                                          Container(
-                                            child: ListView(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              children: [
-                                                ...giveListForTagsView(
-                                                    state.productivityTags,
-                                                    state
-                                                        .productivityChosenTags,
-                                                    3)
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.all(Gparam.widthPadding),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFe37724),
-                                              border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(.03),
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    offset: Offset(1, 1),
-                                                    color: Colors.black
-                                                        .withAlpha(10),
-                                                    blurRadius: 2)
-                                              ],
-                                              borderRadius:
-                                                  new BorderRadius.all(
-                                                      Radius.circular(12.0)),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 12,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              'Family and Relationship',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: Gparam.textSmaller,
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Colors.black
-                                                      .withOpacity(.8)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: Gparam.widthPadding),
-                                      padding: EdgeInsets.only(
-                                          left: 2,
-                                          top: Gparam.heightPadding / 2,
-                                          bottom: Gparam.heightPadding / 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                            color:
-                                                Colors.black.withOpacity(.03),
-                                            width: 2),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(1, 1),
-                                              color: Colors.black.withAlpha(2),
-                                              blurRadius: 2)
-                                        ],
-                                        borderRadius: new BorderRadius.only(
-                                            topRight: Radius.circular(0.0),
-                                            topLeft: Radius.circular(12.0),
-                                            bottomLeft: Radius.circular(12.0),
-                                            bottomRight: Radius.circular(0.0)),
-                                      ),
-                                      child: FadeAnimationTB(
-                                          1.6,
-                                          Container(
-                                            child: ListView(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              children: [
-                                                ...giveListForTagsView(
-                                                    state.familyTags,
-                                                    state.familyChosenTags,
-                                                    4)
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.all(Gparam.widthPadding),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFed4040),
-                                              border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(.03),
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    offset: Offset(1, 1),
-                                                    color: Colors.black
-                                                        .withAlpha(10),
-                                                    blurRadius: 2)
-                                              ],
-                                              borderRadius:
-                                                  new BorderRadius.all(
-                                                      Radius.circular(12.0)),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 12,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              'Career',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: Gparam.textSmaller,
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Colors.black
-                                                      .withOpacity(.8)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: Gparam.widthPadding),
-                                      padding: EdgeInsets.only(
-                                          left: 2,
-                                          top: Gparam.heightPadding / 2,
-                                          bottom: Gparam.heightPadding / 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                            color:
-                                                Colors.black.withOpacity(.03),
-                                            width: 2),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(1, 1),
-                                              color: Colors.black.withAlpha(2),
-                                              blurRadius: 2)
-                                        ],
-                                        borderRadius: new BorderRadius.only(
-                                            topRight: Radius.circular(0.0),
-                                            topLeft: Radius.circular(12.0),
-                                            bottomLeft: Radius.circular(12.0),
-                                            bottomRight: Radius.circular(0.0)),
-                                      ),
-                                      child: FadeAnimationTB(
-                                          1.6,
-                                          Container(
-                                            child: ListView(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              children: [
-                                                ...giveListForTagsView(
-                                                    state.careerTags,
-                                                    state.careerChosenTags,
-                                                    5)
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.all(Gparam.widthPadding),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFF42ede5),
-                                              border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(.03),
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    offset: Offset(1, 1),
-                                                    color: Colors.black
-                                                        .withAlpha(10),
-                                                    blurRadius: 2)
-                                              ],
-                                              borderRadius:
-                                                  new BorderRadius.all(
-                                                      Radius.circular(12.0)),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 12,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              'Finance and Money',
-                                              style: TextStyle(
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: Gparam.textSmaller,
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Colors.black
-                                                      .withOpacity(.8)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: Gparam.widthPadding),
-                                      padding: EdgeInsets.only(
-                                          left: 2,
-                                          top: Gparam.heightPadding / 2,
-                                          bottom: Gparam.heightPadding / 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                            color:
-                                                Colors.black.withOpacity(.03),
-                                            width: 2),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(1, 1),
-                                              color: Colors.black.withAlpha(2),
-                                              blurRadius: 2)
-                                        ],
-                                        borderRadius: new BorderRadius.only(
-                                            topRight: Radius.circular(0.0),
-                                            topLeft: Radius.circular(12.0),
-                                            bottomLeft: Radius.circular(12.0),
-                                            bottomRight: Radius.circular(0.0)),
-                                      ),
-                                      child: FadeAnimationTB(
-                                          1.6,
-                                          Container(
-                                            child: ListView(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              children: [
-                                                ...giveListForTagsView(
-                                                    state.financeTags,
-                                                    state.financeChosenTags,
-                                                    6)
-                                              ],
-                                            ),
-                                          )),
-                                    ),
-                                    SizedBox(
+                                     SizedBox(
                                       height: 200,
                                     )
                                   ],
@@ -734,7 +397,11 @@ class _InterestsPVState extends State<InterestsPV> {
       List<UserTag> tags, List<UserTag> selectedTags, int type) {
     List<Widget> list = [];
     int tagLength = tags.length;
-    int threeType = (tagLength % 3 == 0) ? 0 : (tagLength % 3 == 1) ? 1 : 2;
+    int threeType = (tagLength % 3 == 0)
+        ? 0
+        : (tagLength % 3 == 1)
+            ? 1
+            : 2;
 
     int numLists = ((tagLength ~/ 3)).toInt();
     for (int i = 0; i < numLists; i++) {
@@ -745,21 +412,21 @@ class _InterestsPVState extends State<InterestsPV> {
             shrinkWrap: true,
             children: [
               UserTagItem(
-                type: type,
+                  type: type,
                   index: 3 * i,
                   onTapAction: selectActivity,
                   userSelectedTags: selectedTags,
                   userTag: tags[3 * i]),
               UserTagItem(
                   index: 3 * i + 1,
-                   type: type,
+                  type: type,
                   onTapAction: selectActivity,
                   userSelectedTags: selectedTags,
                   userTag: tags[3 * i + 1]),
               UserTagItem(
                   index: 3 * i + 2,
                   onTapAction: selectActivity,
-                   type: type,
+                  type: type,
                   userSelectedTags: selectedTags,
                   userTag: tags[3 * i + 2])
             ],
@@ -777,13 +444,13 @@ class _InterestsPVState extends State<InterestsPV> {
               UserTagItem(
                   index: 3 * (numLists),
                   onTapAction: selectActivity,
-                   type: type,
+                  type: type,
                   userSelectedTags: selectedTags,
                   userTag: tags[3 * (numLists)]),
               UserTagItem(
                   index: 3 * (numLists) + 1,
                   onTapAction: selectActivity,
-                   type: type,
+                  type: type,
                   userSelectedTags: selectedTags,
                   userTag: tags[3 * (numLists) + 1])
             ],

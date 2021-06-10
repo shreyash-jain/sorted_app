@@ -69,231 +69,243 @@ class _NameAndGenderState extends State<NameAndGender> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: Gparam.height + 100,
-      child: Padding(
-          padding: EdgeInsets.all(0.0),
-          child: SingleChildScrollView(
-            child: ListView(
-                controller: scrollController,
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
-                    height: 80,
-                    margin: EdgeInsets.only(top: Gparam.heightPadding),
-                    child: Stack(
-                      children: [
-                        Row(children: <Widget>[
-                          SizedBox(
-                            width: Gparam.widthPadding,
-                          ),
-                          if (widget.loginWidget.userDetail.imageUrl != null &&
-                              Gparam.isHeightBig)
-                            Hero(
-                                tag: UserIntroStrings.userImageTag,
-                                child: Container(
-                                  height: Gparam.height / 13,
-                                  width: Gparam.height / 13,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.black12, width: 2),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                          widget
-                                              .loginWidget.userDetail.imageUrl,
-                                        ),
-                                        backgroundColor: Colors.transparent,
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          Container(
-                              height: Gparam.height / 10,
-                              width:
-                                  ((Gparam.width / 1 - Gparam.height / 10) > 0
-                                      ? (Gparam.width / 1 -
-                                          Gparam.widthPadding -
-                                          Gparam.height / 13)
-                                      : Gparam.width / 1.6),
-                              child: Stack(
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+    return BlocListener<UserIntroductionBloc, UserIntroductionState>(
+        listener: (context, state) {
+          if (state is LoginState) {
+            setState(() {
+              phoneController.text = state.phoneNumber ?? "";
+            });
+          }
+        },
+        child: Container(
+          height: Gparam.height + 100,
+          child: Padding(
+              padding: EdgeInsets.all(0.0),
+              child: SingleChildScrollView(
+                child: ListView(
+                    controller: scrollController,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      Container(
+                        height: 80,
+                        margin: EdgeInsets.only(top: Gparam.heightPadding),
+                        child: Stack(
+                          children: [
+                            Row(children: <Widget>[
+                              SizedBox(
+                                width: Gparam.widthPadding,
+                              ),
+                              if (widget.loginWidget.userDetail.imageUrl !=
+                                      null &&
+                                  Gparam.isHeightBig)
+                                Hero(
+                                    tag: UserIntroStrings.userImageTag,
+                                    child: Container(
+                                      height: Gparam.height / 13,
+                                      width: Gparam.height / 13,
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: Colors.black12, width: 2),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                              widget.loginWidget.userDetail
+                                                  .imageUrl,
+                                            ),
+                                            backgroundColor: Colors.transparent,
+                                          )
+                                        ],
+                                      ),
+                                    )),
+                              Container(
+                                  height: Gparam.height / 10,
+                                  width:
+                                      ((Gparam.width / 1 - Gparam.height / 10) >
+                                              0
+                                          ? (Gparam.width / 1 -
+                                              Gparam.widthPadding -
+                                              Gparam.height / 13)
+                                          : Gparam.width / 1.6),
+                                  child: Stack(
                                     children: [
-                                      ProgressBar(
-                                          currentPage: widget.currentPage,
-                                          widget: widget.loginWidget)
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ProgressBar(
+                                              currentPage: widget.currentPage,
+                                              widget: widget.loginWidget)
+                                        ],
+                                      ),
                                     ],
-                                  ),
+                                  )),
+                            ]),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: Gparam.heightPadding / 2,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Text(widget.loginWidget.message),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: Gparam.topPadding,
+                            left: Gparam.widthPadding,
+                            right: Gparam.widthPadding),
+                        child: Row(
+                          children: [
+                            Icon((widget.loginWidget.valid == 9)
+                                ? Icons.cancel
+                                : Icons.whatshot),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            FadeAnimationTB(
+                              1.6,
+                              Container(
+                                child: Text(
+                                  'Select a username',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: Gparam.textSmall,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(.8)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: Gparam.topPadding,
+                            left: Gparam.widthPadding,
+                            right: Gparam.widthPadding),
+                        child: FadeAnimationTB(
+                            2.2,
+                            Container(
+                              child: TextField(
+                                inputFormatters: [
+                                  LowerCaseTextFormatter(),
                                 ],
-                              )),
-                        ]),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: Gparam.heightPadding / 2,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text(widget.loginWidget.message),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: Gparam.topPadding,
-                        left: Gparam.widthPadding,
-                        right: Gparam.widthPadding),
-                    child: Row(
-                      children: [
-                        Icon((widget.loginWidget.valid == 9)
-                            ? Icons.cancel
-                            : Icons.whatshot),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        FadeAnimationTB(
-                          1.6,
-                          Container(
-                            child: Text(
-                              'Select a username',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: Gparam.textSmall,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black.withOpacity(.8)),
+                                focusNode: nameFocus,
+                                controller: nameController,
+                                textCapitalization: TextCapitalization.none,
+                                maxLength: 16,
+                                keyboardType: TextInputType.text,
+                                maxLines: 1,
+                                onChanged: (text) {
+                                  _onChangeHandler(text);
+                                },
+                                onSubmitted: (text) {
+                                  nameFocus.unfocus();
+                                },
+                                textInputAction: TextInputAction.done,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: Gparam.textSmall,
+                                    color: (widget.loginWidget.valid > 0 &&
+                                            widget.loginWidget.valid != 9)
+                                        ? Colors.blueAccent
+                                        : Colors.redAccent,
+                                    fontWeight: FontWeight.w500),
+                                decoration: InputDecoration.collapsed(
+                                  hintText: 'Enter your username',
+                                  hintStyle: TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: Gparam.textSmall,
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: Gparam.topPadding,
+                            left: Gparam.widthPadding,
+                            right: Gparam.widthPadding),
+                        child: Row(
+                          children: [
+                            Icon(Icons.phone),
+                            SizedBox(
+                              width: 12,
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: Gparam.topPadding,
-                        left: Gparam.widthPadding,
-                        right: Gparam.widthPadding),
-                    child: FadeAnimationTB(
-                        2.2,
-                        Container(
-                          child: TextField(
-                            inputFormatters: [
-                              LowerCaseTextFormatter(),
-                            ],
-                            focusNode: nameFocus,
-                            controller: nameController,
-                            textCapitalization: TextCapitalization.none,
-                            maxLength: 16,
-                            keyboardType: TextInputType.text,
-                            maxLines: 1,
-                            onChanged: (text) {
-                              _onChangeHandler(text);
-                            },
-                            onSubmitted: (text) {
-                              nameFocus.unfocus();
-                            },
-                            textInputAction: TextInputAction.done,
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: Gparam.textSmall,
-                                color: (widget.loginWidget.valid > 0 &&
-                                        widget.loginWidget.valid != 9)
-                                    ? Colors.blueAccent
-                                    : Colors.redAccent,
-                                fontWeight: FontWeight.w500),
-                            decoration: InputDecoration.collapsed(
-                              hintText: 'Enter your username',
-                              hintStyle: TextStyle(
-                                  color: Colors.black38,
-                                  fontSize: Gparam.textSmall,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w500),
-                              border: InputBorder.none,
+                            FadeAnimationTB(
+                              1.6,
+                              Container(
+                                child: Text(
+                                  'Type your mobile number',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: Gparam.textSmall,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(.8)),
+                                ),
+                              ),
                             ),
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: Gparam.topPadding,
-                        left: Gparam.widthPadding,
-                        right: Gparam.widthPadding),
-                    child: Row(
-                      children: [
-                        Icon(Icons.phone),
-                        SizedBox(
-                          width: 12,
+                          ],
                         ),
-                        FadeAnimationTB(
-                          1.6,
-                          Container(
-                            child: Text(
-                              'Type your mobile number',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: Gparam.textSmall,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black.withOpacity(.8)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: Gparam.topPadding,
-                        left: Gparam.widthPadding,
-                        right: Gparam.widthPadding),
-                    child: FadeAnimationTB(
-                        2.2,
-                        Container(
-                          child: TextField(
-                            focusNode: phoneFocus,
-                            controller: phoneController,
-                            maxLength: 10,
-                            keyboardType: TextInputType.phone,
-                            maxLines: 1,
-                            onChanged: (text) {
-                              //
-                            },
-                            onSubmitted: (text) {
-                              phoneFocus.unfocus();
-                            },
-                            textInputAction: TextInputAction.done,
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: Gparam.textSmall,
-                                color: (widget.loginWidget.valid > 0 &&
-                                        widget.loginWidget.valid != 9)
-                                    ? Colors.blueAccent
-                                    : Colors.redAccent,
-                                fontWeight: FontWeight.w500),
-                            decoration: InputDecoration.collapsed(
-                              hintText: 'Enter your number',
-                              hintStyle: TextStyle(
-                                  color: Colors.black38,
-                                  fontSize: Gparam.textSmall,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w500),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        )),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  )
-                ]),
-          )),
-    );
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: Gparam.topPadding,
+                            left: Gparam.widthPadding,
+                            right: Gparam.widthPadding),
+                        child: FadeAnimationTB(
+                            2.2,
+                            Container(
+                              child: TextField(
+                                focusNode: phoneFocus,
+                                controller: phoneController,
+                                maxLength: 10,
+                                keyboardType: TextInputType.phone,
+                                maxLines: 1,
+                                onChanged: (text) {
+                                  //
+                                },
+                                onSubmitted: (text) {
+                                  phoneFocus.unfocus();
+                                },
+                                textInputAction: TextInputAction.done,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: Gparam.textSmall,
+                                    color: (widget.loginWidget.valid > 0 &&
+                                            widget.loginWidget.valid != 9)
+                                        ? Colors.blueAccent
+                                        : Colors.redAccent,
+                                    fontWeight: FontWeight.w500),
+                                decoration: InputDecoration.collapsed(
+                                  hintText: 'Enter your number',
+                                  hintStyle: TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: Gparam.textSmall,
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w500),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ]),
+              )),
+        ));
   }
 
   selectGender(Gender gender) {

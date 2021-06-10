@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sorted/features/VIDEO_APP/presentation/pages/trimming/preview_page.dart';
 
 import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimmerView extends StatefulWidget {
-  final Trimmer _trimmer;
-  TrimmerView(this._trimmer);
+  final File file;
+  TrimmerView(this.file);
   @override
   _TrimmerViewState createState() => _TrimmerViewState();
 }
@@ -13,7 +15,7 @@ class TrimmerView extends StatefulWidget {
 class _TrimmerViewState extends State<TrimmerView> {
   double _startValue = 0.0;
   double _endValue = 0.0;
-
+  final Trimmer _trimmer = Trimmer();
   bool _isPlaying = false;
   bool _progressVisibility = false;
 
@@ -24,7 +26,7 @@ class _TrimmerViewState extends State<TrimmerView> {
 
     String _value;
 
-    await widget._trimmer
+    await _trimmer
         .saveTrimmedVideo(startValue: _startValue, endValue: _endValue)
         .then((value) {
       setState(() {
@@ -34,6 +36,18 @@ class _TrimmerViewState extends State<TrimmerView> {
     });
 
     return _value;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadVideo();
+  }
+
+  void _loadVideo() {
+    _trimmer.loadVideo(videoFile: widget.file);
+    print(widget.file.path);
   }
 
   @override
@@ -80,10 +94,11 @@ class _TrimmerViewState extends State<TrimmerView> {
                     child: Text("SAVE"),
                   ),
                   Expanded(
-                    child: VideoViewer(),
+                    child: VideoViewer(trimmer: _trimmer),
                   ),
                   Center(
                     child: TrimEditor(
+                      trimmer: _trimmer,
                       viewerHeight: 50.0,
                       viewerWidth: MediaQuery.of(context).size.width,
                       maxVideoLength: Duration(seconds: 15),
@@ -113,8 +128,7 @@ class _TrimmerViewState extends State<TrimmerView> {
                             color: Colors.white,
                           ),
                     onPressed: () async {
-                      bool playbackState =
-                          await widget._trimmer.videPlaybackControl(
+                      bool playbackState = await _trimmer.videPlaybackControl(
                         startValue: _startValue,
                         endValue: _endValue,
                       );

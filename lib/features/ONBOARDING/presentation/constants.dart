@@ -2,29 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 
 class OnboardStrings {
-  static const String imagePath1 = "assets/images/onboarding1.png";
-  static const String imagePath2 = "assets/images/onboarding0.png";
-  static const String imagePath3 = "assets/images/onboarding2.png";
+  static const String imagePath1 = "assets/images/onboarding/artboard1.jpg";
+  static const String imagePath2 = "assets/images/onboarding/artboard2.jpg";
+  static const String imagePath3 = "assets/images/onboarding/artboard3.jpg";
+
   static const String onboardDiscription1 =
-      "AI generated predictions and past patterns of our activities helps us guide, motivate and if required modify them in future";
+      "Connect to top Trainers and Nutritionists over Video, Voice or Chat anytime";
 
   static const String onboardDiscription2 =
-      "Organize everything Your Plans, Events, Todos and we will intelligently make your dairy entry for each day";
+      "Place where you can discuss health & fitness, learn, get motivated, transform, share health & fitness profile";
 
   static const String onboardDiscription3 =
-      "From AI processing to database everything is Offline, so you can share your personal things";
+      "All in one fitness tracking with more than 50 tracks to analyse progress and achieve your fitness goals";
 
   static const String onboardTitle1 =
-      "Track everything that revolves around you";
+      "Consult Fitness Specialist Anytime, Anywhere";
 
-  static const String onboardTitle2 = "Smart journaling";
-  static const String onboardTitle3 = "Highly Secure";
+  static const String onboardTitle2 =
+      "Connect to people with common Fitness Goals";
+  static const String onboardTitle3 = "Fitness Tracking in a Go";
 }
 
 class OnboardTextStyle {
   static TextStyle descriptionTS = TextStyle(
       fontFamily: 'Montserrat',
-      fontSize: Gparam.textMedium,
+      fontSize: Gparam.textSmaller,
       fontWeight: FontWeight.w500,
       color: Colors.black45);
 

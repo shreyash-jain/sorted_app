@@ -83,7 +83,7 @@ class ProgressBar extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      if (_currentPage == 1) Text("The basics"),
+                      if (_currentPage == 1) Text("Health Profile"),
                       if (_currentPage == 1)
                         SizedBox(
                           height: Gparam.height / 50,
@@ -128,7 +128,7 @@ class ProgressBar extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      if (_currentPage == 2) Text("Health Profile"),
+                      if (_currentPage == 2) Text("Interests and Curiosity"),
                       if (_currentPage == 2)
                         SizedBox(
                           height: Gparam.height / 50,
@@ -155,35 +155,7 @@ class ProgressBar extends StatelessWidget {
                             child: Icon(Icons.check, color: Colors.black26)),
                     ],
                   ),
-                  Column(
-                    children: [
-                      if (_currentPage == 3) Text("Interests and Curiosity"),
-                      if (_currentPage == 3)
-                        SizedBox(
-                          height: Gparam.height / 50,
-                        ),
-                      if (_currentPage < 3)
-                        Container(
-                            width: Gparam.height / 60,
-                            height: Gparam.height / 60,
-                            decoration: BoxDecoration(
-                              // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              color: Colors.black.withOpacity(.09),
-                            )),
-                      if (_currentPage >= 3)
-                        Container(
-                            decoration: BoxDecoration(
-                              // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
-
-                              color: (_currentPage == 3)
-                                  ? Colors.transparent
-                                  : Colors.black.withOpacity(.09),
-                            ),
-                            child: Icon(Icons.check, color: Colors.black26)),
-                    ],
-                  )
+                  
                 ],
               ),
             ],

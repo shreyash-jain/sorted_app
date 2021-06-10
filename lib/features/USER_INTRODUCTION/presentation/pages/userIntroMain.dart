@@ -93,7 +93,7 @@ class _UserIntroState extends State<UserIntroPage>
     // than having to individually change instances of widgets.
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Theme.of(context).primaryColor,
+      
 
       body: SingleChildScrollView(
         child: buildBody(context),

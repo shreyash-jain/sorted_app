@@ -20,8 +20,8 @@ class UserInteractionState extends UserIntroductionState {
 class SuccessState extends UserIntroductionState {}
 
 class LoginState extends UserIntroductionState {
-  LoginState(
-      {this.userDetail,
+  LoginState({this.phoneNumber, 
+      this.userDetail,
       this.valid,
       this.message,
       this.allActivities,
@@ -31,9 +31,10 @@ class LoginState extends UserIntroductionState {
   final List<UserAModel> userActivities;
   final List<ActivityModel> allActivities;
   final UserDetail userDetail;
+  final String phoneNumber;
   @override
   List<Object> get props =>
-      [userDetail, valid, message, allActivities, userActivities];
+      [userDetail, valid, message, allActivities, userActivities,phoneNumber];
 }
 
 class Error extends UserIntroductionState {

@@ -7,12 +7,14 @@ import 'package:sorted/features/VIDEO_APP/presentation/widgets/thumb_element.dar
 import 'package:video_player/video_player.dart';
 
 class PreviewShotsPage extends StatefulWidget {
+  final int id;
   final List<Shot> shots;
   final deleteShot;
   const PreviewShotsPage({
     Key key,
     @required this.shots,
     @required this.deleteShot,
+    @required this.id,
   }) : super(key: key);
 
   @override
@@ -21,19 +23,33 @@ class PreviewShotsPage extends StatefulWidget {
 
 class _PreviewShotsPageState extends State<PreviewShotsPage> {
   VideoPlayerController _controller;
+  Future<void> _initializeVideoPlayerFuture;
   List<Shot> shots;
   @override
   void initState() {
     shots = [];
     shots.addAll(widget.shots);
-    if (shots.isNotEmpty)
-      _controller = VideoPlayerController.file(File(shots[0].path))
-        ..initialize().then((_) async {
-          setState(() {});
-          await _controller.setPlaybackSpeed(shots[0].speed);
-          _controller.play();
-        });
+    Shot clickedShot;
+    if (shots.isNotEmpty) {
+      clickedShot = shots.firstWhere((element) => element.id == widget.id,
+          orElse: () => Shot(id: -1));
+
+      if (clickedShot.id != -1) {
+        _controller = VideoPlayerController.file(File(clickedShot.path));
+        _initializeVideoPlayerFuture =
+            _controller.initialize().then((value) => _controller.play());
+      }
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _initializeVideoPlayerFuture = null;
+    _controller?.pause()?.then((_) {
+      _controller.dispose();
+    });
+    super.dispose();
   }
 
   @override
@@ -45,27 +61,27 @@ class _PreviewShotsPageState extends State<PreviewShotsPage> {
           child: Stack(
             children: [
               Center(
-                child: _controller == null || shots.isEmpty
-                    ? Center(
-                        child: Text(
-                          "There is no shot to show!",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    : _controller.value.isInitialized
-                        ? Container(
-                            child: VideoPlayer(_controller),
-                          )
-                        : Container(
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: Colors.white,
-                              ),
-                            ),
+                  child: _controller == null || shots.isEmpty
+                      ? Center(
+                          child: Text(
+                            "There is no shot to show!",
+                            style: TextStyle(color: Colors.white),
                           ),
-              ),
+                        )
+                      : FutureBuilder(
+                          future: _initializeVideoPlayerFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return Container(
+                                child: VideoPlayer(_controller),
+                              );
+                            } else {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                          })),
               Container(
-                height: 70,
+                height: 110,
                 padding: EdgeInsets.all(10),
                 margin: EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -85,13 +101,19 @@ class _PreviewShotsPageState extends State<PreviewShotsPage> {
                             });
                           },
                           onTap: () async {
-                            _controller =
-                                VideoPlayerController.file(File(e.path))
-                                  ..initialize().then((_) async {
-                                    setState(() {});
-                                    await _controller.setPlaybackSpeed(e.speed);
-                                    _controller.play();
-                                  });
+                            print(e.path + "path1");
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => PreviewShotsPage(
+                                    id: e.id,
+                                    shots: shots,
+                                    deleteShot: widget.deleteShot),
+                              ),
+                            );
+
+                            
                           },
                         ),
                       )
@@ -103,5 +125,31 @@ class _PreviewShotsPageState extends State<PreviewShotsPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _initializePlay(String videoPath) async {
+    _controller = VideoPlayerController.file(File(videoPath));
+
+    _initializeVideoPlayerFuture = _controller.initialize().then((_) {
+      setState(() {
+        _controller.play();
+      });
+    });
+  }
+
+  Future<void> _startPlay(String videoPath) async {
+    setState(() {
+      _initializeVideoPlayerFuture = null;
+    });
+    Future.delayed(const Duration(milliseconds: 400), () {
+      _clearPrevious().then((_) {
+        _initializePlay(videoPath);
+      });
+    });
+  }
+
+  Future<bool> _clearPrevious() async {
+    await _controller?.pause();
+    return true;
   }
 }

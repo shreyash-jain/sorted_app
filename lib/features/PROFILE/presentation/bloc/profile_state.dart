@@ -10,49 +10,11 @@ class ProfileInitial extends ProfileState {
 }
 
 class ProfileLoaded extends ProfileState {
-  final double bmi;
-  final List<String> fitnessStrings;
-  final List<String> mindfulStrings;
-  final List<String> productivityStrings;
-  final List<String> personalityStrings;
-  final List<String> foodStrings;
-  final double sleepScore;
-  final double mentalHealthScore;
-  final double productivityScore;
-  final double vata;
-  final double pitta;
-  final double kapha;
+  final ProfileModel profile;
+  final UserDetail details;
 
-  final String sleepString;
-
-  ProfileLoaded({this.sleepString,
-      this.bmi,
-      this.fitnessStrings,
-      this.mindfulStrings,
-      this.productivityStrings,
-      this.personalityStrings,
-      this.foodStrings,
-      this.sleepScore,
-      this.mentalHealthScore,
-      this.productivityScore,
-      this.vata,
-      this.pitta,
-      this.kapha});
+  ProfileLoaded(this.profile, this.details);
 
   @override
-  List<Object> get props => [
-        bmi,
-        foodStrings,
-        sleepScore,
-        productivityScore,
-        pitta,
-        vata,
-        kapha,
-        mentalHealthScore,
-        fitnessStrings,
-        mindfulStrings,
-        productivityStrings,
-        personalityStrings,
-        sleepString
-      ];
+  List<Object> get props => [profile, details];
 }

@@ -19,7 +19,6 @@ class CustomThreeLinearProgressBar extends StatefulWidget {
   final Color shadowColor;
   final Color dotColor;
   final Color dotEdgeColor;
-  final Color ringColor;
 
   const CustomThreeLinearProgressBar({
     Key key,
@@ -28,7 +27,6 @@ class CustomThreeLinearProgressBar extends StatefulWidget {
     @required this.dotColor,
     this.shadowWidth = 2.0,
     this.shadowColor = Colors.black12,
-    this.ringColor = const Color(0XFFF7F7FC),
     this.dotEdgeColor = const Color(0XFFF5F5FA),
     this.progress1,
     this.progress2,
@@ -52,7 +50,6 @@ class _CircleProgressState extends State<CustomThreeLinearProgressBar>
 
   @override
   void dispose() {
-    
     super.dispose();
   }
 
@@ -70,7 +67,6 @@ class _CircleProgressState extends State<CustomThreeLinearProgressBar>
               dotRadius: widget.dotRadius,
               shadowWidth: widget.shadowWidth,
               shadowColor: widget.shadowColor,
-              ringColor: widget.ringColor,
               dotColor: widget.dotColor,
               dotEdgeColor: widget.dotEdgeColor,
               progress1: widget.progress1,
@@ -88,7 +84,7 @@ class ProgressPainter extends CustomPainter {
   final Color shadowColor;
   final Color dotColor;
   final Color dotEdgeColor;
-  final Color ringColor;
+
   final double progress1;
   final double progress2;
   final double progress3;
@@ -98,7 +94,6 @@ class ProgressPainter extends CustomPainter {
     this.dotRadius,
     this.shadowWidth = 2.0,
     this.shadowColor = Colors.black12,
-    this.ringColor = const Color(0XFFF7F7FC),
     this.dotColor,
     this.dotEdgeColor = const Color(0XFFF5F5FA),
     this.progress1,
@@ -162,13 +157,7 @@ class ProgressPainter extends CustomPainter {
           ..shader = gradient2.createShader(arcRect);
         canvas.drawLine(Offset(size.width * progress1, 0),
             Offset(size.width * progress2, 0), progressPaint2);
-        final progressPaint3 = Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeCap = StrokeCap.round
-          ..strokeWidth = 8
-          ..color = ringColor;
-        canvas.drawLine(Offset(size.width * progress2, 0),
-            Offset(size.width * progress3, 0), progressPaint3);
+
         canvas.restore();
       }
     }

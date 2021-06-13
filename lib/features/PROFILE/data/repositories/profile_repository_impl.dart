@@ -7,6 +7,7 @@ import 'package:sorted/core/network/network_info.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_cloud_data_source.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_native_data_source.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_shared_pref_data_source.dart';
+import 'package:sorted/features/PROFILE/data/models/profile.dart';
 import 'package:sorted/features/PROFILE/domain/repositories/profile_repository.dart';
 
 import '../../../../core/error/failures.dart';
@@ -51,5 +52,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
     } on CacheException {
       return Left(ServerFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, ProfileModel>> getProfileFromCloud() async {
+   try {
+      return Right(await remoteDataSource.profileFromCloud);
+    } on CacheException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileModel>> updateProfileFromCloud(ProfileModel profile) {
+    // TODO: implement updateProfileFromCloud
+    throw UnimplementedError();
   }
 }

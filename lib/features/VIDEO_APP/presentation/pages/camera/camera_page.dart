@@ -10,11 +10,13 @@ import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/utility/export_file.dart';
 import 'package:sorted/core/global/widgets/blend_mask.dart';
 import 'package:sorted/features/VIDEO_APP/presentation/models/shot.dart';
+import 'package:sorted/features/VIDEO_APP/presentation/pages/camera/preview_edited_video_page.dart';
 import 'package:sorted/features/VIDEO_APP/presentation/pages/camera/preview_shots_page.dart';
 import 'package:sorted/features/VIDEO_APP/presentation/widgets/time_multiply.dart';
-
+import 'dart:math';
 import 'video_timer.dart';
 
 class CameraPage extends StatefulWidget {
@@ -45,6 +47,7 @@ class CameraPageState extends State<CameraPage>
   double maxSeconds = 14.9;
   String filePath;
   bool isOnionActivated = false;
+  bool isFinishingVideo = false;
   final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
   final FlutterFFmpegConfig _flutterFFmpegConfig = new FlutterFFmpegConfig();
   @override
@@ -332,6 +335,19 @@ class CameraPageState extends State<CameraPage>
                   onPressed: _onRecordPressed,
                 ),
               ),
+              SizedBox(width: 10),
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 28.0,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.check,
+                    size: 28.0,
+                    color: Colors.black,
+                  ),
+                  onPressed: _onFinishPressed,
+                ),
+              ),
               Expanded(
                 child: Center(
                   child: Text(
@@ -595,4 +611,71 @@ class CameraPageState extends State<CameraPage>
       isOnionActivated = !isOnionActivated;
     });
   }
+
+  void mergeVideos() async {
+    String arguments = "";
+    String cmd = "\"";
+    String m = "";
+    setState(() {
+      isFinishingVideo = true;
+    });
+
+    for (int i = 0; i < shots.length; i++) {
+      arguments += "-i " + "'" + shots[i].path + "'" + " ";
+      cmd +=
+          "[$i:v]setpts=PTS-STARTPTS,scale=1920x1080,fps=24,format=yuv420p[video$i];";
+      m += "[video$i]";
+    }
+    cmd += m;
+    cmd += "concat=n=${shots.length}:v=1 [vv]\" -map \"[vv]\"";
+
+    File textfile = File(await getFilePath("videos.txt"));
+    await textfile.writeAsString(arguments);
+    String fileContent = await textfile.readAsString();
+    print("text file: " + fileContent);
+    File output_file = File(await getFilePath(getRandomString(10) + ".mp4"));
+    String output_path = output_file.path;
+    print("cmd  " + cmd);
+
+    _showLoadingPopup(context);
+    _flutterFFmpeg
+        .execute(" $arguments -filter_complex $cmd -vsync 0 $output_path")
+        .then((rc) {
+      Navigator.of(context);
+
+      if (rc == 0) {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => PreviewEditedVideoPage(
+              editedVideo: File(output_path),
+            ),
+          ),
+        );
+      }
+    });
+  }
+
+  Future<String> getFilePath(String file_name) async {
+    Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory(); // 1
+    String appDocumentsPath = appDocumentsDirectory.path; // 2
+    String filePath = '$appDocumentsPath/' + file_name; // 3
+
+    return filePath;
+  }
+
+  void _onFinishPressed() {
+    if (shots == null || shots.length == 0) {
+      return;
+    }
+    mergeVideos();
+  }
+
+  String _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 }

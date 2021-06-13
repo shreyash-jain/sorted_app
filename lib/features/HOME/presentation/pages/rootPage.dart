@@ -28,7 +28,7 @@ class _RootHomeState extends State<RootHome> {
           Positioned(
               bottom: 12.0,
               left: 16.0,
-              child: Text("Flutter Step-by-Step",
+              child: Text("Sort It",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
@@ -60,26 +60,6 @@ class _RootHomeState extends State<RootHome> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createHeader(),
-            _createDrawerItem(
-              icon: Icons.contacts,
-              text: 'Contacts',
-            ),
-            _createDrawerItem(
-              icon: Icons.event,
-              text: 'Events',
-            ),
-            _createDrawerItem(
-              icon: Icons.note,
-              text: 'Notes',
-            ),
-            Divider(),
-            _createDrawerItem(icon: Icons.collections_bookmark, text: 'Steps'),
-            _createDrawerItem(icon: Icons.face, text: 'Authors'),
-            _createDrawerItem(
-                icon: Icons.account_box, text: 'Flutter Documentation'),
-            _createDrawerItem(icon: Icons.stars, text: 'Useful Links'),
-            Divider(),
-            _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
             ListTile(
               title: Text('0.0.1'),
               onTap: () {},

@@ -5,6 +5,7 @@ import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/core/global/models/lifestyle_profile.dart';
 import 'package:sorted/core/global/models/mental_health_profile.dart';
 import 'package:sorted/core/global/models/physical_health_profile.dart';
+import 'package:sorted/features/PROFILE/data/models/profile.dart';
 
 abstract class ProfileCloud {
   Future<PhysicalHealthProfile> get fitnessProfile;
@@ -12,6 +13,7 @@ abstract class ProfileCloud {
   Future<MentalHealthProfile> get mindfulProfile;
 
   Future<LifestyleProfile> get lifestyleProfile;
+  Future<ProfileModel> get profileFromCloud;
 }
 
 class ProfileCloudDataSourceImpl implements ProfileCloud {
@@ -39,7 +41,6 @@ class ProfileCloudDataSourceImpl implements ProfileCloud {
   }
 
   @override
-  // TODO: implement lifestyleProfile
   Future<LifestyleProfile> get lifestyleProfile async {
     User user = auth.currentUser;
     int ans = 0;
@@ -55,7 +56,6 @@ class ProfileCloudDataSourceImpl implements ProfileCloud {
   }
 
   @override
-  // TODO: implement mindfulProfile
   Future<MentalHealthProfile> get mindfulProfile async {
     User user = auth.currentUser;
     int ans = 0;
@@ -68,5 +68,21 @@ class ProfileCloudDataSourceImpl implements ProfileCloud {
     DocumentSnapshot fitnessDoc = await doc.get();
 
     return MentalHealthProfile.fromSnapshot(fitnessDoc);
+  }
+
+  @override
+  // TODO: implement mindfulProfile
+  Future<ProfileModel> get profileFromCloud async {
+    User user = auth.currentUser;
+    int ans = 0;
+    DocumentReference doc = cloudDb
+        .collection('users')
+        .doc(user.uid)
+        .collection("user_data")
+        .doc("user_profile_data");
+
+    DocumentSnapshot fitnessDoc = await doc.get();
+
+    return ProfileModel.fromSnapshot(fitnessDoc);
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 MyGlobals myGlobals = MyGlobals();
 
-enum GColors {
+enum Gcolors {
   B,
   W,
   B1,
@@ -138,23 +138,23 @@ class Gtheme {
     }
   }
 
-  static Color getColorFromEnum(GColors color) {
+  static Color getColorFromEnum(Gcolors color) {
     switch (color) {
-      case GColors.W:
+      case Gcolors.W:
         return Colors.white;
-      case GColors.W1:
+      case Gcolors.W1:
         return Colors.white70;
-      case GColors.W2:
+      case Gcolors.W2:
         return Colors.white38;
-      case GColors.B:
+      case Gcolors.B:
         return Colors.black;
-      case GColors.B1:
-        return Colors.black87;
-      case GColors.B2:
+      case Gcolors.B1:
+        return Colors.black.withOpacity(.8);
+      case Gcolors.B2:
         return Colors.black45;
-      case GColors.BLUE:
+      case Gcolors.BLUE:
         return Color(0xFF307df0);
-      case GColors.GREEN:
+      case Gcolors.GREEN:
         return Color(0xFF0ec76a);
 
       default:
@@ -176,9 +176,9 @@ class Gtheme {
   }
 
   static Widget stext(String text,
-      {GColors color, GFontSize size, GFontWeight weight}) {
+      {Gcolors color, GFontSize size, GFontWeight weight}) {
     double dsize = getSizeFromEnum(size ?? GFontSize.S);
-    Color dcolor = getColorFromEnum(color ?? GColors.B);
+    Color dcolor = getColorFromEnum(color ?? Gcolors.B);
     FontWeight dweight = getWeightFromEnum(weight ?? GFontWeight.N);
     return Text(
       text,

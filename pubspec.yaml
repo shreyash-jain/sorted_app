@@ -19,67 +19,67 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
-  async: 
-  auto_route: "2.2.0"
-  bloc_provider: 
 
-  cached_network_image: 
-  camera: 
+  async:
+  auto_route: "2.2.0"
+  bloc_provider:
+
+  cached_network_image:
+  camera:
 
   connectivity:
-  crop: 
+  crop:
   csv:
-  flutter_staggered_grid_view: 
-  cupertino_icons: 
+  flutter_staggered_grid_view:
+  cupertino_icons:
   video_player: "2.1.5"
 
   dartz:
-  data_connection_checker: 
+  data_connection_checker:
   youtube_player_flutter:
-  device_info: 
-  emoji_picker: 
-  equatable: 
-  faker: 
-  scratcher: 
-  file_picker: 
+  device_info:
+  emoji_picker:
+  equatable:
+  faker:
+  scratcher:
+  file_picker:
   firebase_core:
   video_trimmer:
-  firebase_auth: 
-  firebase_crashlytics: 
-  cloud_firestore: 
-  cloud_functions: 
-  firebase_storage: 
+  firebase_auth:
+  firebase_crashlytics:
+  cloud_firestore:
+  cloud_functions:
+  firebase_storage:
   firebase_messaging:
-  firebase_analytics: 
+  firebase_analytics:
   flutter_ffmpeg:
   # fl_chart: ^0.8.7
-  analyzer: 
-  flare_flutter: 
-  flutter_bloc: 
-  flutter_calendar_carousel: 
-  flutter_duration_picker: 
-  flutter_form_builder: 
+  analyzer:
+  flare_flutter:
+  flutter_bloc:
+  flutter_calendar_carousel:
+  flutter_duration_picker:
+  flutter_form_builder:
   overlay_support:
-  flutter_local_notifications: 
-  flutter_swiper: 
-  scrollable_positioned_list: 
-  get_it: 
-  google_sign_in: 
-  googleapis: 
-  health: 
-  http: 
-  image_picker: 
-  intl: 
-  local_auth: 
-  outline_material_icons: 
-  path_provider: 
-  permission_handler: 
-  reorderables: 
-  rxdart: 
-  sa_anicoto: 
-  screenshot: 
-  share: 
+  flutter_local_notifications:
+  flutter_swiper:
+  scrollable_positioned_list:
+  get_it:
+  google_sign_in:
+  googleapis:
+  health:
+  http:
+  image_picker:
+  intl:
+  local_auth:
+  outline_material_icons:
+  path_provider:
+  permission_handler:
+  reorderables:
+  rxdart:
+  sa_anicoto:
+  screenshot:
+  share:
   shared_preferences: "2.0.6"
   heat_map_calendar:
     path: packages/heat_map_calendar
@@ -87,22 +87,20 @@ dependencies:
     path: packages/custom_calendar
   fl_chart:
     path: packages/fl_chart
-  simple_animations: 
-  sqflite: 
-  string_validator: 
-  supercharged: 
-  url_launcher: 
-  zefyr: 
-  flutter_svg: 
-  material_design_icons_flutter: 
+  simple_animations:
+  sqflite:
+  string_validator:
+  supercharged:
+  url_launcher:
+  zefyr:
+  flutter_svg:
+  material_design_icons_flutter:
   truecaller_sdk:
- 
 
 dev_dependencies:
-  
-  auto_route_generator: 
+  auto_route_generator:
   build_runner:
-  build_resolvers: 
+  build_resolvers:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -119,6 +117,7 @@ flutter:
     - assets/images/notebooks/
     - assets/animations/
     - assets/images/onboarding/
+    - assets/images/tracks/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

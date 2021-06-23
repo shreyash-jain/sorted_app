@@ -17,6 +17,7 @@ import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_b
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
 import 'package:sorted/features/HOME/presentation/widgets/loaded_affirmation.dart';
 import 'package:sorted/features/HOME/presentation/widgets/loading_affirmations.dart';
+import 'package:sorted/features/HOME/presentation/widgets/story/story_circle.dart';
 
 class FlexibleSpaceArea extends StatefulWidget {
   const FlexibleSpaceArea({
@@ -85,6 +86,10 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
     return "Meal Inspiration";
   }
 
+  onClickChallenges(int id, int storyType) {
+    context.router.push(ChallengeRouteView());
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlexibleSpaceBar(
@@ -142,7 +147,8 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                             Container(
                               width: Gparam.width,
                               alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(left: Gparam.widthPadding),
+                              padding:
+                                  EdgeInsets.only(left: Gparam.widthPadding),
                               child: Text(
                                 "Sort.it",
                                 style: TextStyle(
@@ -165,184 +171,43 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                 SizedBox(
                                   width: Gparam.widthPadding / 2,
                                 ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {
-                                       context.router.push(
-                                         ChallengeRouteView()
-                                         );
-                                                                            } ,                                     child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fcristina-zaragoza-cMVRsfY8R3Q-unsplash.jpg?alt=media&token=95af0462-1040-409b-973b-384fba7662be",
-                                                        fit: BoxFit.cover,
-                                                        height: 70,
-                                                        width: 70,
-                                                      )),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Todays\nChallenge",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {},
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fmarkus-winkler-OQ48N5FDW1w-unsplash.jpg?alt=media&token=76daf5cd-0df7-46d3-a742-7a8bd170fc5c",
-                                                        fit: BoxFit.cover,
-                                                        height: 70,
-                                                        width: 70,
-                                                      )),
-                                                  Stack(
-                                                    children: [],
-                                                  ),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Plan Today",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 4,
-                                ),
+                                StoryCircleWidget(
+                                    storyName: "Daily\nChallenges",
+                                    onClick: onClickChallenges,
+                                    filePath:
+                                        "assets/images/tracks/daily_challenges.png",
+                                    isActive: true,
+                                    urlType: 1),
+                                StoryCircleWidget(
+                                    storyName: "Track\nWorkout",
+                                    filePath:
+                                        "assets/images/tracks/track_workout.png",
+                                    urlType: 1),
+                                StoryCircleWidget(
+                                    storyName: "Track\nDiet",
+                                    filePath:
+                                        "assets/images/tracks/track_diet.png",
+                                    urlType: 1),
+                                StoryCircleWidget(
+                                    storyName: "Track\nSteps",
+                                    filePath:
+                                        "assets/images/tracks/track_steps.png",
+                                    urlType: 1),
+                                StoryCircleWidget(
+                                    storyName: "Track\nFasting",
+                                    filePath:
+                                        "assets/images/tracks/track_fasting.png",
+                                    urlType: 1),
+                                StoryCircleWidget(
+                                    storyName: "Track\nWater intake",
+                                    filePath:
+                                        "assets/images/tracks/track_water.png",
+                                    urlType: 1),
+                                StoryCircleWidget(
+                                    storyName: "Track\nSmoking",
+                                    filePath:
+                                        "assets/images/tracks/track_smoking.png",
+                                    urlType: 1),
                                 Column(
                                   children: [
                                     BlocProvider(
@@ -586,18 +451,16 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                             .bottomCenter,
                                                       ),
                                                       onPressed: () {
-
-                                                        context.router.push(  
-      AffirmationPV(  
-            affirmations: (affirmationBloc
-                                                                            .state
-                                                                        as LoadedState)
-                                                                    .affirmations,
-                                                                startIndex: 0,
-                                                                outerBloc:
-                                                                    affirmationBloc),  
-    );  
-                                                      
+                                                        context.router.push(
+                                                          AffirmationPV(
+                                                              affirmations: (affirmationBloc
+                                                                          .state
+                                                                      as LoadedState)
+                                                                  .affirmations,
+                                                              startIndex: 0,
+                                                              outerBloc:
+                                                                  affirmationBloc),
+                                                        );
                                                       },
                                                       child: Hero(
                                                           tag: "thumbnail" +
@@ -693,540 +556,6 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                 ),
                                 SizedBox(
                                   width: 4,
-                                ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {},
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fzac-durant-_6HzPU9Hyfg-unsplash.jpg?alt=media&token=6de62955-2fd1-4a1e-94e4-6fa8256219a2",
-                                                        fit: BoxFit.cover,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        height: 70,
-                                                        width: 70,
-                                                      )),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                          getMeditationString(DateTime.now()),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {},
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fdane-wetton-t1NEMSm1rgI-unsplash.jpg?alt=media&token=3fc63268-3ae0-46ec-ad66-1817016e063e",
-                                                        fit: BoxFit.cover,
-                                                        height: 70,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        width: 70,
-                                                      )),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Quick\nYoga",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {},
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fbruno-nascimento-PHIgYUGQPvU-unsplash.jpg?alt=media&token=ed7a6e91-d275-4748-8608-06e4136faaee",
-                                                        fit: BoxFit.cover,
-                                                        height: 70,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        width: 70,
-                                                      )),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Flash\nFitness",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {},
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Flaura-johnston-1I4rCoC5oKA-unsplash.jpg?alt=media&token=578f5c4c-f986-4aec-802d-3a4e13e6d7a6",
-                                                        fit: BoxFit.cover,
-                                                        height: 70,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        width: 70,
-                                                      )),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(foodString(DateTime.now()),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 0,
-                                ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {},
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fvincent-ledvina-FJVpeHCqImU-unsplash.jpg?alt=media&token=89c1cfc9-a806-4348-9cf5-d229d6691a72",
-                                                        fit: BoxFit.cover,
-                                                        height: 70,
-                                                        width: 70,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      )),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                          "Positivity around\nthe world",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize:
-                                                  Gparam.textVeryExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 0,
-                                ),
-                                Column(
-                                  children: [
-                                    UnicornOutlineButton(
-                                      strokeWidth: 2,
-                                      radius: 100,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColorLight,
-                                          Theme.of(context).accentColor,
-                                          Theme.of(context).backgroundColor
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      onPressed: () {},
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 70,
-                                              width: 70,
-                                              margin: EdgeInsets.all(2),
-                                              decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.all(
-                                                        Radius.circular(60.0)),
-                                                border: null,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(1, 1),
-                                                      color: Colors.black
-                                                          .withAlpha(40),
-                                                      blurRadius: 10)
-                                                ],
-                                                gradient: new LinearGradient(
-                                                    colors: [
-                                                      Colors.transparent,
-                                                      Colors.transparent,
-                                                    ],
-                                                    begin: FractionalOffset
-                                                        .topCenter,
-                                                    end: FractionalOffset
-                                                        .bottomCenter,
-                                                    stops: [1.0, 0.0],
-                                                    tileMode: TileMode.clamp),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              60.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Fgeorge-pagan-iii-bIlaTxx4nCo-unsplash.jpg?alt=media&token=0dbb9d84-8d53-4368-b31f-3e8dd0fd340c",
-                                                        fit: BoxFit.cover,
-                                                        height: 70,
-                                                        width: 70,
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(
-                                                          Icons.error,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      )),
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Productivity\nBooster",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
                                 ),
                               ],
                             )),

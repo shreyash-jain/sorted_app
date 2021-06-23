@@ -23,11 +23,9 @@ class PersonDisplay extends StatelessWidget {
           height: 40,
           margin: EdgeInsets.fromLTRB(25, 0, 15, 6),
           decoration: new BoxDecoration(
-              border: Border.all(
-                color: (Theme.of(context).brightness == Brightness.dark)
-                    ? Colors.white12
-                    : Colors.black12,
-              ),
+              color: (Theme.of(context).brightness == Brightness.dark)
+                  ? Colors.grey.shade900
+                  : Colors.grey.shade100,
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(
             children: [
@@ -36,8 +34,8 @@ class PersonDisplay extends StatelessWidget {
               ),
               Gtheme.stext(name,
                   color: (Theme.of(context).brightness == Brightness.dark)
-                      ? GColors.W
-                      : GColors.B,
+                      ? Gcolors.W
+                      : Gcolors.B,
                   size: GFontSize.XXS),
               SizedBox(
                 width: 10,
@@ -53,7 +51,9 @@ class PersonDisplay extends StatelessWidget {
             width: 34,
             margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10)),
                 boxShadow: [
                   BoxShadow(
                       color: Colors.grey.shade300,
@@ -61,7 +61,9 @@ class PersonDisplay extends StatelessWidget {
                       blurRadius: 0)
                 ]),
             child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10)),
                 child: CachedNetworkImage(
                   imageUrl: image_url,
                   fit: BoxFit.cover,

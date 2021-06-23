@@ -21,51 +21,66 @@ class MindfulnessProfileWidhet extends StatelessWidget {
         height: 150,
         child: Stack(
           children: [
-            Container(
-              margin: EdgeInsets.only(right: 4),
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(
-                    color: Theme.of(context).highlightColor.withOpacity(.2),
-                    width: 1),
-                boxShadow: [
-                  BoxShadow(
-                      offset: Offset(1, 1),
-                      color: Colors.black.withAlpha(2),
-                      blurRadius: 2)
-                ],
-                borderRadius: new BorderRadius.all(Radius.circular(12.0)),
-              ),
-              child: Text(
-                s,
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: Gparam.textSmaller,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).highlightColor.withOpacity(.6)),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                  margin: EdgeInsets.all(6),
-                  padding: EdgeInsets.all(4),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: 0),
+                  padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      Gtheme.stext(endorsed.toString() + "+ ",
-                          size: GFontSize.XXXS),
-                      Image.asset(
-                        "assets/images/clap.png",
-                        height: 20,
-                        width: 20,
-                      )
+                    color: (Theme.of(context).brightness == Brightness.dark)
+                        ? Colors.grey.shade900
+                        : Colors.grey.shade100,
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(1, 1),
+                          color: Colors.black.withAlpha(2),
+                          blurRadius: 2)
                     ],
-                  )),
-            )
+                    borderRadius: new BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0)),
+                  ),
+                  child: Text(
+                    s,
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: Gparam.textSmaller,
+                        fontWeight: FontWeight.w500,
+                        color:
+                            Theme.of(context).highlightColor.withOpacity(.8)),
+                  ),
+                ),
+                Container(
+                    margin: EdgeInsets.only(right: 4),
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: (Theme.of(context).brightness == Brightness.dark)
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade300,
+                      ),
+                      borderRadius: new BorderRadius.only(
+                          topRight: Radius.circular(10.0),
+                          bottomRight: Radius.circular(10.0)),
+                    ),
+                    child: Row(
+                      children: [
+                        Gtheme.stext(endorsed.toString() + "+ ",
+                            size: GFontSize.XXXS,
+                            color: (Theme.of(context).brightness ==
+                                    Brightness.dark)
+                                ? Gcolors.W
+                                : Gcolors.B),
+                        Image.asset(
+                          "assets/images/clap.png",
+                          height: 20,
+                          width: 20,
+                        )
+                      ],
+                    )),
+              ],
+            ),
           ],
         ),
       ),
@@ -105,7 +120,7 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                           "Mindfulness score",
                           style: TextStyle(
                               fontFamily: 'Montserrat',
-                               fontSize: Gparam.textSmaller,
+                              fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w800,
                               color: Color(0xFF0ec76a)),
                           textAlign: TextAlign.left,
@@ -124,8 +139,11 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 2,
+                  ),
                   Container(
-                    height: 60,
+                    height: 40,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: state.profile.mindfulness_skills.length + 1,
@@ -144,7 +162,7 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 6,
                   ),
                   Container(
                     height: 40,
@@ -159,7 +177,10 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                           return Row(
                             children: [
                               Gtheme.stext("Councellor",
-                                  color: GColors.B,
+                                  color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                      ? Gcolors.W
+                                      : Gcolors.B,
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
                             ],

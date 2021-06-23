@@ -3,6 +3,9 @@
 		{
 			"name": "sorted_app",
 			"path": "."
+		},
+		{
+			"path": "..\\..\\..\\Documents\\sortit_coach\\coachit"
 		}
 	],
 	"settings": {

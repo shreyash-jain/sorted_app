@@ -30,6 +30,9 @@ import 'package:sorted/features/HOME/data/datasources/home_shared_pref_data_sour
 import 'package:sorted/features/HOME/data/repositiries/home_repository_impl.dart';
 import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
+import 'package:sorted/features/HOME/presentation/blogs_bloc/blogs_bloc.dart';
+import 'package:sorted/features/HOME/presentation/recipe_bloc/recipe_bloc.dart';
+import 'package:sorted/features/HOME/presentation/transformation_bloc/transformation_bloc.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
 
 import 'package:sorted/features/ONSTART/data/datasources/onstart_cloud_data_source.dart';
@@ -183,6 +186,18 @@ Future<void> init() async {
 
   sl.registerFactory(
     () => LeaderboardBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => BlogBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => RecipeBloc(sl()),
+  );
+
+  sl.registerFactory(
+    () => TransformationBloc(sl()),
   );
 
   //! Use cases

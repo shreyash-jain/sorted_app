@@ -179,17 +179,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-class MyHome extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: RaisedButton(
-          child: Text("Foo"),
-          onPressed: () => Navigator.pushNamed(context, "/"),
-        ),
-      );
-  }
-}
+
 Future onDidReceiveLocalNotification(
     int id, String title, String body, String payload) {}
 

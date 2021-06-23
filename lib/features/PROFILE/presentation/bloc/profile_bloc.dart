@@ -19,6 +19,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is LoadProfile) {
       yield ProfileInitial();
       var userDetails = CacheDataClass.cacheData.getUserDetail();
+      if (userDetails == null) {
+        userDetails = UserDetail();
+      }
+
       Failure failure;
       ProfileModel profile = ProfileModel();
 
@@ -26,7 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       errorOrProfile.fold((l) => failure = l, (r) => profile = r);
       if (failure == null) {
         print("hello  " + profile.mindfulness_skills.toString());
-        yield ProfileLoaded(profile,userDetails??UserDetail());
+        yield ProfileLoaded(profile, userDetails ?? UserDetail());
       }
     }
   }

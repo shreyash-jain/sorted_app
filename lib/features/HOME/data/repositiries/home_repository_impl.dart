@@ -12,8 +12,14 @@ import 'package:sorted/features/HOME/data/datasources/home_native_data_source.da
 import 'package:sorted/features/HOME/data/datasources/home_remote_api_data_source.dart';
 import 'package:sorted/features/HOME/data/datasources/home_shared_pref_data_source.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
+import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
+import 'package:sorted/features/HOME/data/models/blogs.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart' as ph;
+import 'package:sorted/features/HOME/data/models/recipe.dart';
+import 'package:sorted/features/HOME/data/models/video_recipe.dart';
+import 'package:sorted/features/HOME/data/models/transformation.dart';
+import 'package:sorted/features/HOME/data/models/tagged_recipe.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
@@ -198,8 +204,7 @@ class HomeRepositoryImpl implements HomeRepository {
                   selectImageId.toString() +
                   ".png";
               print("path is here " + path);
-              String url =
-                  await sl<Reference>().child(path).getDownloadURL();
+              String url = await sl<Reference>().child(path).getDownloadURL();
               thumbnailUrls.add(
                 DisplayThumbnail(
                     thumbnailUrl: url,
@@ -222,8 +227,7 @@ class HomeRepositoryImpl implements HomeRepository {
               selectImageId.toString() +
               ".png";
           print("path is here " + path);
-          String url =
-              await sl<Reference>().child(path).getDownloadURL();
+          String url = await sl<Reference>().child(path).getDownloadURL();
           thumbnailUrls.add(DisplayThumbnail(
               thumbnailUrl: url, category: thumbnailsDetailsNative[i].name));
         }
@@ -280,8 +284,7 @@ class HomeRepositoryImpl implements HomeRepository {
               selectImageId.toString() +
               ".png";
           print("path is here " + path);
-          String url =
-              await sl<Reference>().child(path).getDownloadURL();
+          String url = await sl<Reference>().child(path).getDownloadURL();
           thumbnailUrls.add(DisplayThumbnail(
               thumbnailUrl: url, category: thumbnailsDetailsNative[i].name));
         }
@@ -574,10 +577,6 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<DayAffirmation>>> get todayAffirmations async {
-
-
-
-
     Either<Failure, List<DayAffirmation>> result = Left(ServerFailure());
     DateTime now = DateTime.now();
     print("todayAffirmations" + " " + "1");
@@ -803,5 +802,117 @@ class HomeRepositoryImpl implements HomeRepository {
     } on Exception {
       return Left(NativeDatabaseException());
     }
+  }
+
+  @override
+  // TODO: implement blogs
+  Future<Either<Failure, List<BlogModel>>> get blogs =>
+      throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, BlogModel>> getBlogFromId(int id) async {
+    Failure failure;
+    if (await networkInfo.isConnected) {
+      try {
+        BlogModel blog = await remoteDataSource.getBlogFromId(id);
+
+        return (Right(blog));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<BlogTextboxModel>>> getTextBoxesOfBlog(
+      int blogId) async {
+    Failure failure;
+    if (await networkInfo.isConnected) {
+      try {
+        List<BlogTextboxModel> blog =
+            await remoteDataSource.getTextBoxes(blogId);
+
+        return (Right(blog));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<TaggedRecipe>>> getTaggedRecipes(int count) async {
+    Failure failure;
+    if (await networkInfo.isConnected) {
+      try {
+        List<TaggedRecipe> recipes =
+            await remoteDataSource.getTaggedRecipes(count);
+
+        return (Right(recipes));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, TaggedRecipe>> getTaggedRecipesOfId(int id) async {
+    Failure failure;
+    if (await networkInfo.isConnected) {
+      try {
+        TaggedRecipe recipe = await remoteDataSource.getTaggedRecipesOfId(id);
+
+        return (Right(recipe));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, TransformationModel>> getTransformationStory() async {
+     Failure failure;
+    if (await networkInfo.isConnected) {
+      try {
+        TransformationModel transformation = await remoteDataSource.getTransformationStory();
+
+        return (Right(transformation));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, VideoRecipe>> getVideoRecipe() async {
+     Failure failure;
+    if (await networkInfo.isConnected) {
+      try {
+       VideoRecipe videoRecipe = await remoteDataSource.getVideoRecipe();
+
+        return (Right(videoRecipe));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, RecipeModel>> getRecipeById(int id) async {
+     if (await networkInfo.isConnected) {
+      try {
+       RecipeModel recipe = await remoteDataSource.getRecipeById(id);
+
+        return (Right(recipe));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
   }
 }

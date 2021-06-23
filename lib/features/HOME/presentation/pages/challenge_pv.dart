@@ -5,7 +5,6 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
-import 'package:sorted/features/HOME/presentation/widgets/camera_video/cam_recorder.dart';
 import 'package:sorted/features/HOME/presentation/widgets/rocket_animation/animated_rocket.dart';
 import 'package:sorted/features/HOME/presentation/widgets/scratcher/widgets.dart';
 import 'package:video_player/video_player.dart';

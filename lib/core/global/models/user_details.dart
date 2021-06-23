@@ -23,17 +23,18 @@ class UserDetail extends Equatable {
   UserDetail({
     this.currentDevice,
     this.currentDeviceId,
-    this.name,
-    this.imageUrl,
-    this.email,
+    this.name = "User",
+    this.imageUrl =
+        "https://lh4.googleusercontent.com/-EV2-cJYALr0/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmi-Jjd1nedgh6-6T3JFazcDTpFbA/s96-c/photo.jpg",
+    this.email = "sortedlabs@gmail.com",
     this.id,
-    this.userName,
+    this.userName = "Sort It User",
     this.age,
-    this.diaryStreak,
-    this.points,
-    this.level,
-    this.gender,
-    this.profession,
+    this.diaryStreak = 5,
+    this.points = 15,
+    this.level = 25,
+    this.gender = Gender.male,
+    this.profession = Profession.student,
   });
 
   @override

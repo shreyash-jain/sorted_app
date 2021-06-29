@@ -20,42 +20,10 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       Failure failure;
       List<BlogModel> blogs = [];
 
-      var blogOrError = await repository.getBlogFromId(1613913443938);
+      var blogsOrError = await repository.getBlogs(8);
 
-      blogOrError.fold((l) => failure = l, (r) {
-        if (r.id != -1) blogs.add(r);
-      });
-
-      blogOrError = await repository.getBlogFromId(1613878831741);
-
-      blogOrError.fold((l) => failure = l, (r) {
-        if (r.id != -1) blogs.add(r);
-      });
-      blogOrError = await repository.getBlogFromId(1619634783265);
-
-      blogOrError.fold((l) => failure = l, (r) {
-        if (r.id != -1) blogs.add(r);
-      });
-      blogOrError = await repository.getBlogFromId(1618944771013);
-
-      blogOrError.fold((l) => failure = l, (r) {
-        if (r.id != -1) blogs.add(r);
-      });
-      blogOrError = await repository.getBlogFromId(1618941392236);
-
-      blogOrError.fold((l) => failure = l, (r) {
-        if (r.id != -1) blogs.add(r);
-      });
-      blogOrError = await repository.getBlogFromId(1619293175206);
-
-      blogOrError.fold((l) => failure = l, (r) {
-        if (r.id != -1) blogs.add(r);
-      });
-
-      blogOrError = await repository.getBlogFromId(1619633202314);
-
-      blogOrError.fold((l) => failure = l, (r) {
-        if (r.id != -1) blogs.add(r);
+      blogsOrError.fold((l) => failure = l, (r) {
+        blogs = r;
       });
 
       if (failure == null)

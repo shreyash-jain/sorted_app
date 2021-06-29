@@ -7,27 +7,29 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../features/FILES/data/models/note_model.dart' as _i33;
-import '../../features/FILES/data/models/notebook_model.dart' as _i34;
+import '../../features/FILES/data/models/note_model.dart' as _i35;
+import '../../features/FILES/data/models/notebook_model.dart' as _i36;
 import '../../features/FILES/presentation/pages/notes_hub.dart' as _i21;
 import '../../features/FILES/presentation/pages/record_home.dart' as _i20;
 import '../../features/FILES/presentation/pages/test_note.dart' as _i19;
-import '../../features/HOME/data/models/blogs.dart' as _i35;
-import '../../features/HOME/domain/entities/day_affirmations.dart' as _i27;
+import '../../features/HOME/data/models/blogs.dart' as _i37;
+import '../../features/HOME/domain/entities/day_affirmations.dart' as _i29;
 import '../../features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart'
-    as _i28;
+    as _i30;
+import '../../features/HOME/presentation/pages/activity_planner.dart' as _i27;
 import '../../features/HOME/presentation/pages/affirmation_pv.dart' as _i8;
 import '../../features/HOME/presentation/pages/blog_full_page.dart' as _i26;
 import '../../features/HOME/presentation/pages/challenge_pv.dart' as _i23;
+import '../../features/HOME/presentation/pages/diet_palnner.dart' as _i28;
 import '../../features/HOME/presentation/pages/homePage.dart' as _i7;
 import '../../features/HOME/presentation/pages/rootPage.dart' as _i22;
 import '../../features/ONBOARDING/presentation/pages/onboard_page.dart' as _i5;
 import '../../features/ONSTART/presentation/pages/start_page.dart' as _i4;
-import '../../features/PLAN/data/models/goal.dart' as _i29;
-import '../../features/PLAN/data/models/task.dart' as _i32;
+import '../../features/PLAN/data/models/goal.dart' as _i31;
+import '../../features/PLAN/data/models/task.dart' as _i34;
 import '../../features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart'
-    as _i31;
-import '../../features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart' as _i30;
+    as _i33;
+import '../../features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart' as _i32;
 import '../../features/PLAN/presentation/pages/choice_goal_guide.dart' as _i11;
 import '../../features/PLAN/presentation/pages/goal_page.dart' as _i12;
 import '../../features/PLAN/presentation/pages/kanban_view.dart' as _i15;
@@ -201,6 +203,16 @@ class ARouter extends _i1.RootStackRouter {
           final args = data.argsAs<FullBlogRouteArgs>(
               orElse: () => const FullBlogRouteArgs());
           return _i26.FullBlogPage(key: args.key, blog: args.blog);
+        }),
+    ActivityPlanner.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return _i27.ActivityPlanner();
+        }),
+    DietPlanner.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return _i28.DietPlanner();
         })
   };
 
@@ -230,7 +242,9 @@ class ARouter extends _i1.RootStackRouter {
         _i1.RouteConfig(ChallengeRouteView.name, path: '/challenge-page-view'),
         _i1.RouteConfig(TrackStoreMain.name, path: '/track-store-main'),
         _i1.RouteConfig(VideoRoute.name, path: '/video-page'),
-        _i1.RouteConfig(FullBlogRoute.name, path: '/full-blog-page')
+        _i1.RouteConfig(FullBlogRoute.name, path: '/full-blog-page'),
+        _i1.RouteConfig(ActivityPlanner.name, path: '/activity-planner'),
+        _i1.RouteConfig(DietPlanner.name, path: '/diet-planner')
       ];
 }
 
@@ -310,9 +324,9 @@ class SortedHomeArgs {
 class AffirmationPV extends _i1.PageRouteInfo<AffirmationPVArgs> {
   AffirmationPV(
       {_i2.Key key,
-      List<_i27.DayAffirmation> affirmations,
+      List<_i29.DayAffirmation> affirmations,
       int startIndex,
-      _i28.AffirmationBloc outerBloc})
+      _i30.AffirmationBloc outerBloc})
       : super(name,
             path: '/affirmation-pV',
             args: AffirmationPVArgs(
@@ -330,11 +344,11 @@ class AffirmationPVArgs {
 
   final _i2.Key key;
 
-  final List<_i27.DayAffirmation> affirmations;
+  final List<_i29.DayAffirmation> affirmations;
 
   final int startIndex;
 
-  final _i28.AffirmationBloc outerBloc;
+  final _i30.AffirmationBloc outerBloc;
 }
 
 class SettingsRoute extends _i1.PageRouteInfo<SettingsRouteArgs> {
@@ -363,7 +377,7 @@ class ChoiceGoalGuide extends _i1.PageRouteInfo {
 }
 
 class GoalRoute extends _i1.PageRouteInfo<GoalRouteArgs> {
-  GoalRoute({_i2.Key key, _i29.GoalModel thisGoal, _i30.PlanBloc planBloc})
+  GoalRoute({_i2.Key key, _i31.GoalModel thisGoal, _i32.PlanBloc planBloc})
       : super(name,
             path: '/goal-page',
             args: GoalRouteArgs(
@@ -377,13 +391,13 @@ class GoalRouteArgs {
 
   final _i2.Key key;
 
-  final _i29.GoalModel thisGoal;
+  final _i31.GoalModel thisGoal;
 
-  final _i30.PlanBloc planBloc;
+  final _i32.PlanBloc planBloc;
 }
 
 class SelectCover extends _i1.PageRouteInfo<SelectCoverArgs> {
-  SelectCover({_i2.Key key, _i31.GoalPageBloc goalBloc})
+  SelectCover({_i2.Key key, _i33.GoalPageBloc goalBloc})
       : super(name,
             path: '/select-cover',
             args: SelectCoverArgs(key: key, goalBloc: goalBloc));
@@ -396,11 +410,11 @@ class SelectCoverArgs {
 
   final _i2.Key key;
 
-  final _i31.GoalPageBloc goalBloc;
+  final _i33.GoalPageBloc goalBloc;
 }
 
 class TaskRoute extends _i1.PageRouteInfo<TaskRouteArgs> {
-  TaskRoute({_i2.Key key, _i32.TaskModel thisGoal, _i30.PlanBloc planBloc})
+  TaskRoute({_i2.Key key, _i34.TaskModel thisGoal, _i32.PlanBloc planBloc})
       : super(name,
             path: '/task-page',
             args: TaskRouteArgs(
@@ -414,9 +428,9 @@ class TaskRouteArgs {
 
   final _i2.Key key;
 
-  final _i32.TaskModel thisGoal;
+  final _i34.TaskModel thisGoal;
 
-  final _i30.PlanBloc planBloc;
+  final _i32.PlanBloc planBloc;
 }
 
 class Kanban extends _i1.PageRouteInfo {
@@ -444,7 +458,7 @@ class LongPlanner extends _i1.PageRouteInfo {
 }
 
 class NoteMain extends _i1.PageRouteInfo<NoteMainArgs> {
-  NoteMain({_i2.Key key, _i33.NoteModel note})
+  NoteMain({_i2.Key key, _i35.NoteModel note})
       : super(name,
             path: '/note-main', args: NoteMainArgs(key: key, note: note));
 
@@ -456,7 +470,7 @@ class NoteMainArgs {
 
   final _i2.Key key;
 
-  final _i33.NoteModel note;
+  final _i35.NoteModel note;
 }
 
 class RecordTab extends _i1.PageRouteInfo {
@@ -466,7 +480,7 @@ class RecordTab extends _i1.PageRouteInfo {
 }
 
 class NotesHubRoute extends _i1.PageRouteInfo<NotesHubRouteArgs> {
-  NotesHubRoute({_i2.Key key, _i34.NotebookModel thisNotebook})
+  NotesHubRoute({_i2.Key key, _i36.NotebookModel thisNotebook})
       : super(name,
             path: '/notes-hub-page',
             args: NotesHubRouteArgs(key: key, thisNotebook: thisNotebook));
@@ -479,7 +493,7 @@ class NotesHubRouteArgs {
 
   final _i2.Key key;
 
-  final _i34.NotebookModel thisNotebook;
+  final _i36.NotebookModel thisNotebook;
 }
 
 class RootHome extends _i1.PageRouteInfo {
@@ -507,7 +521,7 @@ class VideoRoute extends _i1.PageRouteInfo {
 }
 
 class FullBlogRoute extends _i1.PageRouteInfo<FullBlogRouteArgs> {
-  FullBlogRoute({_i2.Key key, _i35.BlogModel blog})
+  FullBlogRoute({_i2.Key key, _i37.BlogModel blog})
       : super(name,
             path: '/full-blog-page',
             args: FullBlogRouteArgs(key: key, blog: blog));
@@ -520,5 +534,17 @@ class FullBlogRouteArgs {
 
   final _i2.Key key;
 
-  final _i35.BlogModel blog;
+  final _i37.BlogModel blog;
+}
+
+class ActivityPlanner extends _i1.PageRouteInfo {
+  const ActivityPlanner() : super(name, path: '/activity-planner');
+
+  static const String name = 'ActivityPlanner';
+}
+
+class DietPlanner extends _i1.PageRouteInfo {
+  const DietPlanner() : super(name, path: '/diet-planner');
+
+  static const String name = 'DietPlanner';
 }

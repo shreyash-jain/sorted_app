@@ -24,6 +24,7 @@ import 'package:sorted/features/HOME/presentation/pages/camera_screen.dart';
 import 'package:sorted/features/HOME/presentation/recipe_bloc/recipe_bloc.dart';
 import 'package:sorted/features/HOME/presentation/transformation_bloc/transformation_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/blogs/home_blog.dart';
+import 'package:sorted/features/HOME/presentation/widgets/planner/home_planner.dart';
 import 'package:sorted/features/HOME/presentation/widgets/recipes/home_recipe.dart';
 
 import 'package:sorted/features/HOME/presentation/widgets/flexible_safe_area.dart';
@@ -301,8 +302,8 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
                                   width: Gparam.width,
                                   duration: Duration(milliseconds: 700),
                                   child: ListView(children: <Widget>[
-                                    
-                                      Row(
+                                    HomePlanner(),
+                                    Row(
                                       children: [
                                         HomeTransformationWidgetM(
                                           transBloc: transBloc,
@@ -312,7 +313,6 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
                                     HomeRecipeWidget(
                                       recipeBloc: recipeBloc,
                                     ),
-                                  
                                     HomeBlogWidget(blogBloc: blogBloc),
                                     SizedBox(
                                       height: 100,

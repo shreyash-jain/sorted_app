@@ -915,4 +915,20 @@ class HomeRepositoryImpl implements HomeRepository {
     } else
       return Left(NetworkFailure());
   }
+
+    @override
+  Future<Either<Failure, List<BlogModel>>> getBlogs(count) async {
+     if (await networkInfo.isConnected) {
+      try {
+       List<BlogModel> recipe = await remoteDataSource.getBlog(count);
+
+        return (Right(recipe));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+ 
 }

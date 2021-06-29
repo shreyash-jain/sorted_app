@@ -58,14 +58,6 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
     }
   }
 
-  String getAffirmationString(DateTime dateTime) {
-    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
-      return "Bedtime\nAffirmations";
-    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
-      return "Sunshine\nAffirmations";
-    return "Affirmations";
-  }
-
   String getMeditationString(DateTime dateTime) {
     if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
       return "Night\nMeditation";
@@ -180,11 +172,13 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                     urlType: 1),
                                 StoryCircleWidget(
                                     storyName: "Track\nWorkout",
+                                    onClick: onClickWorkout,
                                     filePath:
                                         "assets/images/tracks/track_workout.png",
                                     urlType: 1),
                                 StoryCircleWidget(
                                     storyName: "Track\nDiet",
+                                    onClick: onClickDiet,
                                     filePath:
                                         "assets/images/tracks/track_diet.png",
                                     urlType: 1),
@@ -208,352 +202,8 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                     filePath:
                                         "assets/images/tracks/track_smoking.png",
                                     urlType: 1),
-                                Column(
-                                  children: [
-                                    BlocProvider(
-                                        create: (_) => affirmationBloc,
-                                        child:
-                                            BlocListener<AffirmationBloc,
-                                                    AffirmationState>(
-                                                listener: (context, state) {},
-                                                child: BlocBuilder<
-                                                        AffirmationBloc,
-                                                        AffirmationState>(
-                                                    builder: (context, state) {
-                                                  if (state is InitialState) {
-                                                    return GestureDetector(
-                                                      onTap: () async {
-                                                        print("heeeeeelo");
-                                                        //print(affirmationBloc);
-
-                                                        BlocProvider.of<
-                                                                    AffirmationBloc>(
-                                                                context)
-                                                            .add(LoadStories());
-
-                                                        print("heeeeeelo1");
-                                                      },
-                                                      child:
-                                                          UnicornOutlineButton(
-                                                        strokeWidth: 2,
-                                                        radius: 100,
-                                                        gradient:
-                                                            LinearGradient(
-                                                          colors: [
-                                                            Theme.of(context)
-                                                                .primaryColor,
-                                                            Theme.of(context)
-                                                                .primaryColorLight,
-                                                            Theme.of(context)
-                                                                .accentColor,
-                                                            Theme.of(context)
-                                                                .backgroundColor
-                                                          ],
-                                                          begin: Alignment
-                                                              .topCenter,
-                                                          end: Alignment
-                                                              .bottomCenter,
-                                                        ),
-                                                        onPressed: null,
-                                                        child: Hero(
-                                                            tag: "thumbnail" +
-                                                                0.toString(),
-                                                            child: Stack(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              children: [
-                                                                Container(
-                                                                    height: 70,
-                                                                    width: 70,
-                                                                    margin: EdgeInsets
-                                                                        .all(2),
-                                                                    decoration:
-                                                                        new BoxDecoration(
-                                                                      borderRadius: new BorderRadius
-                                                                              .all(
-                                                                          Radius.circular(
-                                                                              60.0)),
-                                                                      border:
-                                                                          null,
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                            offset: Offset(1,
-                                                                                1),
-                                                                            color:
-                                                                                Colors.black.withAlpha(40),
-                                                                            blurRadius: 10)
-                                                                      ],
-                                                                      gradient: new LinearGradient(
-                                                                          colors: [
-                                                                            Colors.transparent,
-                                                                            Colors.transparent,
-                                                                          ],
-                                                                          begin: FractionalOffset.topCenter,
-                                                                          end: FractionalOffset.bottomCenter,
-                                                                          stops: [1.0, 0.0],
-                                                                          tileMode: TileMode.clamp),
-                                                                    ),
-                                                                    child:
-                                                                        Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .center,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        ClipRRect(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(60.0),
-                                                                            child: CachedNetworkImage(
-                                                                              imageUrl: "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
-                                                                              fit: BoxFit.cover,
-                                                                              height: 70,
-                                                                              width: 70,
-                                                                              errorWidget: (context, url, error) => Icon(
-                                                                                Icons.error,
-                                                                                color: Colors.grey,
-                                                                              ),
-                                                                            )),
-                                                                      ],
-                                                                    )),
-                                                                Text("Initial")
-                                                              ],
-                                                            )),
-                                                      ),
-                                                    );
-                                                  } else if (state
-                                                      is LoadingState) {
-                                                    return UnicornOutlineButton(
-                                                        strokeWidth: 2,
-                                                        radius: 100,
-                                                        gradient:
-                                                            LinearGradient(
-                                                          colors: [
-                                                            Theme.of(context)
-                                                                .primaryColor,
-                                                            Theme.of(context)
-                                                                .primaryColorLight,
-                                                            Theme.of(context)
-                                                                .accentColor,
-                                                            Theme.of(context)
-                                                                .backgroundColor
-                                                          ],
-                                                          begin: Alignment
-                                                              .topCenter,
-                                                          end: Alignment
-                                                              .bottomCenter,
-                                                        ),
-                                                        onPressed: null,
-                                                        child: Stack(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          children: [
-                                                            Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Container(
-                                                                    height: 70,
-                                                                    width: 70,
-                                                                    margin: EdgeInsets
-                                                                        .all(2),
-                                                                    decoration:
-                                                                        new BoxDecoration(
-                                                                      borderRadius: new BorderRadius
-                                                                              .all(
-                                                                          Radius.circular(
-                                                                              60.0)),
-                                                                      border:
-                                                                          null,
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                            offset: Offset(1,
-                                                                                1),
-                                                                            color:
-                                                                                Colors.black.withAlpha(40),
-                                                                            blurRadius: 10)
-                                                                      ],
-                                                                      gradient: new LinearGradient(
-                                                                          colors: [
-                                                                            Colors.transparent,
-                                                                            Colors.transparent,
-                                                                          ],
-                                                                          begin: FractionalOffset.topCenter,
-                                                                          end: FractionalOffset.bottomCenter,
-                                                                          stops: [1.0, 0.0],
-                                                                          tileMode: TileMode.clamp),
-                                                                    ),
-                                                                    child:
-                                                                        Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .center,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        ClipRRect(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(60.0),
-                                                                            child: CachedNetworkImage(
-                                                                              imageUrl: "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
-                                                                              fit: BoxFit.cover,
-                                                                              height: 70,
-                                                                              width: 70,
-                                                                              errorWidget: (context, url, error) => Icon(
-                                                                                Icons.error,
-                                                                                color: Colors.grey,
-                                                                              ),
-                                                                            )),
-                                                                      ],
-                                                                    )),
-                                                              ],
-                                                            ),
-                                                            Container(
-                                                              height: 70,
-                                                              width: 70,
-                                                              child:
-                                                                  CircularProgressIndicator(),
-                                                            ),
-                                                            Text("Loading")
-                                                          ],
-                                                        ));
-                                                  } else if (state is Error) {
-                                                    return Container(
-                                                      width: 0,
-                                                      height: 0,
-                                                    );
-                                                  } else if (state
-                                                      is LoadedState) {
-                                                    return UnicornOutlineButton(
-                                                      strokeWidth: 2,
-                                                      radius: 100,
-                                                      gradient: LinearGradient(
-                                                        colors: [
-                                                          Theme.of(context)
-                                                              .primaryColor,
-                                                          Theme.of(context)
-                                                              .primaryColorLight,
-                                                          Theme.of(context)
-                                                              .accentColor,
-                                                          Theme.of(context)
-                                                              .backgroundColor
-                                                        ],
-                                                        begin:
-                                                            Alignment.topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter,
-                                                      ),
-                                                      onPressed: () {
-                                                        context.router.push(
-                                                          AffirmationPV(
-                                                              affirmations: (affirmationBloc
-                                                                          .state
-                                                                      as LoadedState)
-                                                                  .affirmations,
-                                                              startIndex: 0,
-                                                              outerBloc:
-                                                                  affirmationBloc),
-                                                        );
-                                                      },
-                                                      child: Hero(
-                                                          tag: "thumbnail" +
-                                                              0.toString(),
-                                                          child: Stack(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            children: [
-                                                              Container(
-                                                                  height: 70,
-                                                                  width: 70,
-                                                                  margin:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              2),
-                                                                  decoration:
-                                                                      new BoxDecoration(
-                                                                    borderRadius: new BorderRadius
-                                                                            .all(
-                                                                        Radius.circular(
-                                                                            60.0)),
-                                                                    border:
-                                                                        null,
-                                                                    boxShadow: [
-                                                                      BoxShadow(
-                                                                          offset: Offset(
-                                                                              1,
-                                                                              1),
-                                                                          color: Colors.black.withAlpha(
-                                                                              40),
-                                                                          blurRadius:
-                                                                              10)
-                                                                    ],
-                                                                    gradient: new LinearGradient(
-                                                                        colors: [
-                                                                          Colors
-                                                                              .transparent,
-                                                                          Colors
-                                                                              .transparent,
-                                                                        ],
-                                                                        begin: FractionalOffset.topCenter,
-                                                                        end: FractionalOffset.bottomCenter,
-                                                                        stops: [1.0, 0.0],
-                                                                        tileMode: TileMode.clamp),
-                                                                  ),
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              60.0),
-                                                                          child:
-                                                                              CachedNetworkImage(
-                                                                            imageUrl:
-                                                                                "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                            height:
-                                                                                70,
-                                                                            errorWidget: (context, url, error) =>
-                                                                                Icon(
-                                                                              Icons.error,
-                                                                              color: Colors.grey,
-                                                                            ),
-                                                                            width:
-                                                                                70,
-                                                                          )),
-                                                                    ],
-                                                                  )),
-                                                              Text("Loaded")
-                                                            ],
-                                                          )),
-                                                    );
-                                                  }
-                                                }))),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                          getAffirmationString(DateTime.now()),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: -.3,
-                                              fontFamily: 'Montserrat',
-                                              fontSize: Gparam.textExtraSmall,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ),
+                                AffirmationCircleWidget(
+                                    affirmationBloc: affirmationBloc),
                                 SizedBox(
                                   width: 4,
                                 ),
@@ -563,5 +213,301 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 ],
               ))),
         ));
+  }
+
+  onClickWorkout(int id, int storyType) {
+    context.router.push(ActivityPlanner());
+  }
+
+  onClickDiet(int id, int storyType) {
+    context.router.push(DietPlanner());
+  }
+}
+
+class AffirmationCircleWidget extends StatelessWidget {
+  const AffirmationCircleWidget({
+    Key key,
+    @required this.affirmationBloc,
+  }) : super(key: key);
+
+  final AffirmationBloc affirmationBloc;
+
+  String getAffirmationString(DateTime dateTime) {
+    if (dateTime.hour > 19 || (dateTime.hour > 0 && dateTime.hour < 3)) {
+      return "Bedtime\nAffirmations";
+    } else if (dateTime.hour >= 3 && dateTime.hour < 15)
+      return "Sunshine\nAffirmations";
+    return "Affirmations";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        BlocProvider(
+            create: (_) => affirmationBloc,
+            child: BlocListener<AffirmationBloc, AffirmationState>(
+                listener: (context, state) {},
+                child: BlocBuilder<AffirmationBloc, AffirmationState>(
+                    builder: (context, state) {
+                  if (state is InitialState) {
+                    return GestureDetector(
+                      onTap: () async {
+                        print("heeeeeelo");
+                        //print(affirmationBloc);
+
+                        BlocProvider.of<AffirmationBloc>(context)
+                            .add(LoadStories());
+
+                        print("heeeeeelo1");
+                      },
+                      child: UnicornOutlineButton(
+                        strokeWidth: 2,
+                        radius: 100,
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).primaryColor,
+                            Theme.of(context).primaryColorLight,
+                            Theme.of(context).accentColor,
+                            Theme.of(context).backgroundColor
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        onPressed: null,
+                        child: Hero(
+                            tag: "thumbnail" + 0.toString(),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                    height: 70,
+                                    width: 70,
+                                    margin: EdgeInsets.all(2),
+                                    decoration: new BoxDecoration(
+                                      borderRadius: new BorderRadius.all(
+                                          Radius.circular(60.0)),
+                                      border: null,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            offset: Offset(1, 1),
+                                            color: Colors.black.withAlpha(40),
+                                            blurRadius: 10)
+                                      ],
+                                      gradient: new LinearGradient(
+                                          colors: [
+                                            Colors.transparent,
+                                            Colors.transparent,
+                                          ],
+                                          begin: FractionalOffset.topCenter,
+                                          end: FractionalOffset.bottomCenter,
+                                          stops: [1.0, 0.0],
+                                          tileMode: TileMode.clamp),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(60.0),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
+                                              fit: BoxFit.cover,
+                                              height: 70,
+                                              width: 70,
+                                              errorWidget:
+                                                  (context, url, error) => Icon(
+                                                Icons.error,
+                                                color: Colors.grey,
+                                              ),
+                                            )),
+                                      ],
+                                    )),
+                                Text("Initial")
+                              ],
+                            )),
+                      ),
+                    );
+                  } else if (state is LoadingState) {
+                    return UnicornOutlineButton(
+                        strokeWidth: 2,
+                        radius: 100,
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).primaryColor,
+                            Theme.of(context).primaryColorLight,
+                            Theme.of(context).accentColor,
+                            Theme.of(context).backgroundColor
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        onPressed: null,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                    height: 70,
+                                    width: 70,
+                                    margin: EdgeInsets.all(2),
+                                    decoration: new BoxDecoration(
+                                      borderRadius: new BorderRadius.all(
+                                          Radius.circular(60.0)),
+                                      border: null,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            offset: Offset(1, 1),
+                                            color: Colors.black.withAlpha(40),
+                                            blurRadius: 10)
+                                      ],
+                                      gradient: new LinearGradient(
+                                          colors: [
+                                            Colors.transparent,
+                                            Colors.transparent,
+                                          ],
+                                          begin: FractionalOffset.topCenter,
+                                          end: FractionalOffset.bottomCenter,
+                                          stops: [1.0, 0.0],
+                                          tileMode: TileMode.clamp),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(60.0),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
+                                              fit: BoxFit.cover,
+                                              height: 70,
+                                              width: 70,
+                                              errorWidget:
+                                                  (context, url, error) => Icon(
+                                                Icons.error,
+                                                color: Colors.grey,
+                                              ),
+                                            )),
+                                      ],
+                                    )),
+                              ],
+                            ),
+                            Container(
+                              height: 70,
+                              width: 70,
+                              child: CircularProgressIndicator(),
+                            ),
+                            Text("Loading")
+                          ],
+                        ));
+                  } else if (state is Error) {
+                    return Container(
+                      width: 0,
+                      height: 0,
+                    );
+                  } else if (state is LoadedState) {
+                    return UnicornOutlineButton(
+                      strokeWidth: 2,
+                      radius: 100,
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).primaryColor,
+                          Theme.of(context).primaryColorLight,
+                          Theme.of(context).accentColor,
+                          Theme.of(context).backgroundColor
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      onPressed: () {
+                        context.router.push(
+                          AffirmationPV(
+                              affirmations:
+                                  (affirmationBloc.state as LoadedState)
+                                      .affirmations,
+                              startIndex: 0,
+                              outerBloc: affirmationBloc),
+                        );
+                      },
+                      child: Hero(
+                          tag: "thumbnail" + 0.toString(),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                  height: 70,
+                                  width: 70,
+                                  margin: EdgeInsets.all(2),
+                                  decoration: new BoxDecoration(
+                                    borderRadius: new BorderRadius.all(
+                                        Radius.circular(60.0)),
+                                    border: null,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          offset: Offset(1, 1),
+                                          color: Colors.black.withAlpha(40),
+                                          blurRadius: 10)
+                                    ],
+                                    gradient: new LinearGradient(
+                                        colors: [
+                                          Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        begin: FractionalOffset.topCenter,
+                                        end: FractionalOffset.bottomCenter,
+                                        stops: [1.0, 0.0],
+                                        tileMode: TileMode.clamp),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(60.0),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/home%2Faffirmation.jpg?alt=media&token=a5e30e61-4501-4479-8223-fab5080a6f25",
+                                            fit: BoxFit.cover,
+                                            height: 70,
+                                            errorWidget:
+                                                (context, url, error) => Icon(
+                                              Icons.error,
+                                              color: Colors.grey,
+                                            ),
+                                            width: 70,
+                                          )),
+                                    ],
+                                  )),
+                              Text("Loaded")
+                            ],
+                          )),
+                    );
+                  }
+                }))),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(getAffirmationString(DateTime.now()),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  letterSpacing: -.3,
+                  fontFamily: 'Montserrat',
+                  fontSize: Gparam.textExtraSmall,
+                  fontWeight: FontWeight.w500)),
+        ),
+      ],
+    );
   }
 }

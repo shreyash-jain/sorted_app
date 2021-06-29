@@ -3,6 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
 import 'package:sorted/features/HOME/presentation/widgets/animated_fab.dart';
+import 'package:sorted/features/HOME/presentation/widgets/me_we_switch.dart';
 import 'package:sorted/features/PROFILE/presentation/page/profile_main_page.dart';
 import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
 
@@ -131,7 +132,10 @@ class _RootHomeState extends State<RootHome> {
                 new BottomNavigationBarItem(
                   icon: Stack(
                     children: [
-                      Icon(Icons.add),
+                      Icon(
+                        Icons.add,
+                        color: Colors.transparent,
+                      ),
                     ],
                   ),
                   title: new Text(""),
@@ -148,12 +152,15 @@ class _RootHomeState extends State<RootHome> {
             ),
           ),
           new Positioned(
-            bottom: -60,
-            width: Gparam.width,
-            child: new AnimatedFab(
-              onClick: _changeFilterState,
-            ),
-          ),
+              bottom: -3,
+              right: 0,
+              width: Gparam.width,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: MeWeButton(isMe: true, onChanged: null),
+                ),
+              )),
         ],
       ),
     );

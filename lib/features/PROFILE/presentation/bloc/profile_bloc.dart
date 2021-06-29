@@ -29,7 +29,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       var errorOrProfile = await repository.getProfileFromCloud();
       errorOrProfile.fold((l) => failure = l, (r) => profile = r);
       if (failure == null) {
-        print("hello  " + profile.mindfulness_skills.toString());
+        //print("hello  " + profile.mindfulness_skills.toString());
         yield ProfileLoaded(profile, userDetails ?? UserDetail());
       }
     }

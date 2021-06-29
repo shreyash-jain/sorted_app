@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
@@ -31,13 +32,20 @@ class _HomeBlogWidgetMState extends State<HomeBlogWidgetM> {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               child: Container(
-                width: 192,
-                height: 80,
-                child: CachedNetworkImage(
-                  imageUrl: widget.blog[widget.index].image_url,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  width: 192,
+                  height: 80,
+                  color: (Theme.of(context).brightness == Brightness.dark)
+                      ? Colors.grey.shade900
+                      : Colors.grey.shade100,
+                  child: (widget.blog[widget.index].image_url != null &&
+                          widget.blog[widget.index].image_url != "")
+                      ? CachedNetworkImage(
+                          imageUrl: widget.blog[widget.index].image_url,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          child: Center(child: Icon(Icons.broken_image)),
+                        )),
             ),
             ClipRRect(
               borderRadius: BorderRadius.only(

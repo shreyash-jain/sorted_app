@@ -135,12 +135,12 @@ class BasicInfoWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           GrowthWidget(
-                            percentage: state.profile.fitness_growth,
+                            percentage: state.profile?.fitness_growth??0.0,
                             type: "Fitness",
                             color: Color(0xFF307df0),
                           ),
                            GrowthWidget(
-                            percentage: state.profile.mindfulness_growth,
+                            percentage: state.profile?.mindfulness_growth??0.0,
                             type: "Mindfulness",
                             color: Color(0xFF0ec76a),
                           ),

@@ -16,9 +16,8 @@ import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
 import '../../../../core/error/failures.dart';
 
 abstract class HomeRepository {
-
-  /// Gets the affirmations from cloud and favourates and also adds to local 
-  /// 
+  /// Gets the affirmations from cloud and favourates and also adds to local
+  ///
   ///
   /// returns [Either<Failure, bool>] the state of user
   Future<Either<Failure, List<DayAffirmation>>> get todayAffirmations;
@@ -43,21 +42,18 @@ abstract class HomeRepository {
   /// returns [Either<Failure, bool>] the state of user
   Future<Either<Failure, void>> removeFromFav(AffirmationModel affirmation);
 
-  
   /// Gets the thumbnail details and convert them in urls.
   ///
   /// returns [Either<Failure, bool>] the state of user
-  Future<Either<Failure, void>> updateCurrentAffirmation(DayAffirmation affirmation);
+  Future<Either<Failure, void>> updateCurrentAffirmation(
+      DayAffirmation affirmation);
 
-
-
-    /// Gets the thumbnail details and convert them in urls.
+  /// Gets the thumbnail details and convert them in urls.
   ///
   /// returns [Either<Failure, bool>] the state of user
   Future<Either<Failure, List<BlogModel>>> get blogs;
 
-
-      /// Gets the thumbnail details and convert them in urls.
+  /// Gets the thumbnail details and convert them in urls.
   ///
   /// returns [Either<Failure, bool>] the state of user
   Future<Either<Failure, BlogModel>> getBlogFromId(int id);
@@ -65,14 +61,15 @@ abstract class HomeRepository {
   /// Gets the textboxes of a article from cloud.
   ///
   /// returns [Either<Failure, bool>] the state of user
-  Future<Either<Failure, List<BlogTextboxModel>>> getTextBoxesOfBlog(int blogId);
+  Future<Either<Failure, List<BlogTextboxModel>>> getTextBoxesOfBlog(
+      int blogId);
 
   /// Gets the tagged recipes [count] from cloud.
   ///
   /// returns [Either<Failure, bool>] the state of user
   Future<Either<Failure, List<TaggedRecipe>>> getTaggedRecipes(int count);
 
-    /// Gets the tagged recipes of Id from cloud.
+  /// Gets the tagged recipes of Id from cloud.
   ///
   /// returns [Either<Failure, TaggedRecipe>] the state of user
   Future<Either<Failure, TaggedRecipe>> getTaggedRecipesOfId(int id);
@@ -82,7 +79,7 @@ abstract class HomeRepository {
   /// returns [Either<Failure, VideoRecipe>] the state of user
   Future<Either<Failure, RecipeModel>> getRecipeById(int id);
 
-    /// Gets the video recipe from cloud.
+  /// Gets the video recipe from cloud.
   ///
   /// returns [Either<Failure, VideoRecipe>] the state of user
   Future<Either<Failure, VideoRecipe>> getVideoRecipe();
@@ -91,5 +88,5 @@ abstract class HomeRepository {
   ///
   /// returns [Either<Failure, TransformationModel>] the state of user
   Future<Either<Failure, TransformationModel>> getTransformationStory();
-
+  Future<Either<Failure, List<BlogModel>>> getBlogs(count);
 }

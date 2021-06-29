@@ -47,6 +47,7 @@ abstract class HomeCloud {
   Future<VideoRecipe> getVideoRecipe();
 
   Future<RecipeModel> getRecipeById(int id);
+  Future<List<BlogModel>> getBlog(int count);
 }
 
 class HomeCloudDataSourceImpl implements HomeCloud {
@@ -239,6 +240,41 @@ class HomeCloudDataSourceImpl implements HomeCloud {
       return documents.map((e) => BlogModel.fromSnapshot(e)).toList()[0];
     }
     return Future.value(BlogModel.empty());
+  }
+
+  @override
+  Future<List<BlogModel>> getBlog(int count) async {
+    List<BlogModel> blogsList = [];
+    var rng = new Random();
+    var key = rng.nextInt(10000);
+
+    await cloudDb
+        .collection('articles')
+        .orderBy("random", descending: true)
+        .where("random", isLessThanOrEqualTo: key)
+        .limit(count)
+        .get()
+        .then((snapshot) async {
+      if (snapshot.docs.length > 0) {
+        snapshot.docs.forEach((element) {
+          blogsList.add(BlogModel.fromSnapshot(element));
+        });
+      } else {
+        await cloudDb
+            .collection('RecipesDb/data/TaggedRecipes')
+            .orderBy("random")
+            .where("random", isGreaterThanOrEqualTo: key)
+            .orderBy("random")
+            .limit(count)
+            .get()
+            .then((value) {
+          snapshot.docs.forEach((element) {
+            blogsList.add(BlogModel.fromSnapshot(element));
+          });
+        });
+      }
+    });
+    return blogsList;
   }
 
   @override

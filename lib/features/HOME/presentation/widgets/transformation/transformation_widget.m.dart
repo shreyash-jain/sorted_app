@@ -34,7 +34,7 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                 children: [
                   HomeHeading(
                     heading: "Transformation Story",
-                    subHeading: "Get inspired",
+                    subHeading: "Inspiration of the day",
                   ),
                   Container(
                     height: 300,
@@ -51,8 +51,8 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10)),
+                                  topLeft: Radius.circular(10),
+                                ),
                                 child: Container(
                                   color: (Theme.of(context).brightness ==
                                           Brightness.dark)
@@ -61,7 +61,7 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                                   child: CachedNetworkImage(
                                     imageUrl: state.trans.image_url,
                                     fit: BoxFit.cover,
-                                    height: 300,
+                                    height: 240,
                                     width: 300,
                                   ),
                                 ),
@@ -80,6 +80,8 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                                           ? Colors.grey.shade900
                                           : Colors.grey.shade100,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             padding: EdgeInsets.only(

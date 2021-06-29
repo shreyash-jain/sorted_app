@@ -122,7 +122,7 @@ class FitnessProfileWidget extends StatelessWidget {
           ),
           Container(
             width: 2,
-            height: 110,
+            height: 116,
             color: Color(0xFF307df0),
           ),
           Expanded(
@@ -147,7 +147,7 @@ class FitnessProfileWidget extends StatelessWidget {
                         ),
                         Text(
                           " " +
-                              state.profile.fitness_score
+                              (state.profile?.fitness_score ?? 0.0)
                                   .toStringAsPrecision(3),
                           style: TextStyle(
                               fontFamily: 'Montserrat',
@@ -159,25 +159,64 @@ class FitnessProfileWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 2,
                   ),
                   Container(
                     height: 40,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.profile.fitness_skills.length + 1,
+                      itemCount: state.profile?.fitness_skills?.length ?? 1 + 1,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         if (index == 0) {
                           return SizedBox(width: Gparam.widthPadding / 3);
                         }
 
-                        return stringTile(
-                            state.profile.fitness_skills[index - 1],
-                            context,
-                            state.profile.fitness_endorsed[index - 1],
-                            callback);
+                        if (state.profile != null &&
+                            state.profile.fitness_skills != null)
+                          return stringTile(
+                              state.profile.fitness_skills[index - 1],
+                              context,
+                              state.profile.fitness_endorsed[index - 1],
+                              callback);
+                        else
+                          return Container(
+                            margin: EdgeInsets.only(right: 0),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: (Theme.of(context).brightness ==
+                                      Brightness.dark)
+                                  ? Colors.grey.shade900
+                                  : Colors.grey.shade100,
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(1, 1),
+                                    color: Colors.black.withAlpha(2),
+                                    blurRadius: 2)
+                              ],
+                              borderRadius:
+                                  new BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Add your fitness skills",
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: Gparam.textSmaller,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .highlightColor
+                                          .withOpacity(.8)),
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Icon(Icons.add)
+                              ],
+                            ),
+                          );
                       },
                     ),
                   ),
@@ -188,7 +227,7 @@ class FitnessProfileWidget extends StatelessWidget {
                     height: 40,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: 1 + 2,
+                      itemCount: 1 + 4,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         if (index == 0) {
@@ -203,13 +242,46 @@ class FitnessProfileWidget extends StatelessWidget {
                                       : Gcolors.B,
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
+                              if (state.profile != null &&
+                                  state.profile.trainer_name != null)
+                                PersonDisplay(
+                                  name: state.profile.trainer_name[index - 1],
+                                  image_url: state
+                                      .profile.trainer_image_url[index - 1],
+                                ),
+                              if (state.profile == null ||
+                                  state.profile.trainer_name == null)
+                                PersonDisplay(
+                                  name: "None",
+                                  image_url: null,
+                                )
                             ],
                           );
-
-                        return PersonDisplay(
-                          name: state.profile.trainer_name[index - 1],
-                          image_url: state.profile.trainer_image_url[index - 1],
-                        );
+                        else if (index == 2)
+                          return Row(
+                            children: [
+                              Gtheme.stext("Nutritionist",
+                                  color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                      ? Gcolors.W
+                                      : Gcolors.B,
+                                  size: GFontSize.XS,
+                                  weight: GFontWeight.N),
+                              if (state.profile != null &&
+                                  state.profile.trainer_name != null)
+                                PersonDisplay(
+                                  name: state.profile.trainer_name[index - 1],
+                                  image_url: state
+                                      .profile.trainer_image_url[index - 1],
+                                ),
+                              if (state.profile == null ||
+                                  state.profile.trainer_name == null)
+                                PersonDisplay(
+                                  name: "None",
+                                  image_url: null,
+                                )
+                            ],
+                          );
                       },
                     ),
                   ),

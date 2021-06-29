@@ -21,7 +21,8 @@ class PersonDisplay extends StatelessWidget {
         alignment: Alignment.topLeft,
         child: Container(
           height: 40,
-          margin: EdgeInsets.fromLTRB(25, 0, 15, 6),
+          margin: EdgeInsets.fromLTRB(
+              (image_url != null && image_url != "") ? 25 : 10, 0, 15, 6),
           decoration: new BoxDecoration(
               color: (Theme.of(context).brightness == Brightness.dark)
                   ? Colors.grey.shade900
@@ -30,7 +31,7 @@ class PersonDisplay extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(
-                width: 30,
+                width: (image_url != null && image_url != "") ? 30 : 10,
               ),
               Gtheme.stext(name,
                   color: (Theme.of(context).brightness == Brightness.dark)
@@ -40,37 +41,43 @@ class PersonDisplay extends StatelessWidget {
               SizedBox(
                 width: 10,
               ),
+              if (name.toLowerCase() == "none") Icon(Icons.add),
+              if (name.toLowerCase() == "none")
+                SizedBox(
+                  width: 10,
+                ),
             ],
           ),
         ),
       ),
-      Column(
-        children: [
-          Container(
-            height: 34,
-            width: 34,
-            margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.shade300,
-                      spreadRadius: 1.25,
-                      blurRadius: 0)
-                ]),
-            child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10)),
-                child: CachedNetworkImage(
-                  imageUrl: image_url,
-                  fit: BoxFit.cover,
-                )),
-          ),
-        ],
-      )
+      if (image_url != null && image_url != "")
+        Column(
+          children: [
+            Container(
+              height: 34,
+              width: 34,
+              margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      bottomLeft: Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.shade300,
+                        spreadRadius: 1.25,
+                        blurRadius: 0)
+                  ]),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      bottomLeft: Radius.circular(10)),
+                  child: CachedNetworkImage(
+                    imageUrl: image_url,
+                    fit: BoxFit.cover,
+                  )),
+            ),
+          ],
+        )
     ]);
   }
 }

@@ -186,18 +186,25 @@ class _FullBlogPageState extends State<FullBlogPage> {
                                   BorderRadius.all(Radius.circular(10))),
                           child: Column(
                             children: [
-                              ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                child: Container(
-                                  width: Gparam.width,
-                                  height: Gparam.width / 2,
-                                  child: CachedNetworkImage(
-                                    imageUrl: state.blog.image_url,
-                                    fit: BoxFit.cover,
+                              if (state.blog.image_url != null &&
+                                  state.blog.image_url != "")
+                                ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  child: Container(
+                                    width: Gparam.width,
+                                    height: Gparam.width / 2,
+                                    child: (state.blog.image_url != null &&
+                                            state.blog.image_url != "")
+                                        ? CachedNetworkImage(
+                                            imageUrl: state.blog.image_url,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Container(
+                                            height: 0,
+                                          ),
                                   ),
                                 ),
-                              ),
                               SizedBox(
                                 height: Gparam.heightPadding / 3,
                               ),

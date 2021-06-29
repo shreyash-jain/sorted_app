@@ -4,9 +4,11 @@ import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_page_loaded.dart';
 import 'package:sorted/features/FILES/presentation/pages/test_note.dart';
+import 'package:sorted/features/HOME/presentation/pages/activity_planner.dart';
 import 'package:sorted/features/HOME/presentation/pages/affirmation_pv.dart';
 import 'package:sorted/features/HOME/presentation/pages/blog_full_page.dart';
 import 'package:sorted/features/HOME/presentation/pages/challenge_pv.dart';
+import 'package:sorted/features/HOME/presentation/pages/diet_palnner.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
 import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
 
@@ -55,6 +57,8 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: TrackStoreMain),
     AutoRoute(page: VideoPage),
     AutoRoute(page: FullBlogPage),
+    AutoRoute(page: ActivityPlanner),
+    AutoRoute(page: DietPlanner),
   ],
 )
 class $ARouter {}

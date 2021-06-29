@@ -11,6 +11,7 @@ class MeWeButton extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 4),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Transform.scale(
             scale: 2,

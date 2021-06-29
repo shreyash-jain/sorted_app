@@ -102,7 +102,7 @@ class MindfulnessProfileWidhet extends StatelessWidget {
           ),
           Container(
             width: 2,
-            height: 110,
+            height: 116,
             color: Color(0xFF0ec76a),
           ),
           Expanded(
@@ -127,7 +127,7 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                         ),
                         Text(
                           " " +
-                              state.profile.mindfulness_score
+                              (state.profile?.mindfulness_score ?? 0.0)
                                   .toStringAsPrecision(3),
                           style: TextStyle(
                               fontFamily: 'Montserrat',
@@ -146,18 +146,57 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                     height: 40,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.profile.mindfulness_skills.length + 1,
+                      itemCount:
+                          state.profile?.mindfulness_skills?.length ?? 1 + 1,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         if (index == 0) {
                           return SizedBox(width: Gparam.widthPadding / 3);
                         }
-
-                        return stringTile(
-                            state.profile.mindfulness_skills[index - 1],
-                            context,
-                            state.profile.mindfulness_endorsed[index - 1],
-                            callback);
+                        if (state.profile != null &&
+                            state.profile.mindfulness_skills != null)
+                          return stringTile(
+                              state.profile.mindfulness_skills[index - 1],
+                              context,
+                              state.profile.mindfulness_endorsed[index - 1],
+                              callback);
+                        else
+                          return Container(
+                            margin: EdgeInsets.only(right: 0),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: (Theme.of(context).brightness ==
+                                      Brightness.dark)
+                                  ? Colors.grey.shade900
+                                  : Colors.grey.shade100,
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(1, 1),
+                                    color: Colors.black.withAlpha(2),
+                                    blurRadius: 2)
+                              ],
+                              borderRadius:
+                                  new BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Add your mindful skills",
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: Gparam.textSmaller,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .highlightColor
+                                          .withOpacity(.8)),
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Icon(Icons.add)
+                              ],
+                            ),
+                          );
                       },
                     ),
                   ),
@@ -172,8 +211,8 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         if (index == 0) {
-                          return SizedBox(width: Gparam.widthPadding / 3);
-                        } else if (index == 1)
+                          return SizedBox(width: Gparam.widthPadding / 3 + 4);
+                        } else if (index == 1) {
                           return Row(
                             children: [
                               Gtheme.stext("Councellor",
@@ -185,12 +224,22 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                                   weight: GFontWeight.N),
                             ],
                           );
+                        }
 
-                        return PersonDisplay(
-                          name: state.profile.councellor_name[index - 1],
-                          image_url:
-                              state.profile.councellor_image_url[index - 1],
-                        );
+                        if (state.profile != null &&
+                            state.profile.councellor_name != null)
+                          return PersonDisplay(
+                            name: state.profile?.councellor_name[index - 1] ??
+                                "None",
+                            image_url:
+                                state.profile.councellor_image_url[index - 1],
+                          );
+                        else {
+                          return PersonDisplay(
+                            name: "None",
+                            image_url: null,
+                          );
+                        }
                       },
                     ),
                   ),

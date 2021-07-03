@@ -19,7 +19,7 @@ class HomeHeading extends StatelessWidget {
                 color: (Theme.of(context).brightness == Brightness.dark)
                     ? Gcolors.W
                     : Gcolors.B,
-                size: GFontSize.S,
+                size: GFontSize.M,
                 weight: GFontWeight.B),
             if (subHeading != null)
               SizedBox(

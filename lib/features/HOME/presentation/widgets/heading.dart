@@ -17,8 +17,8 @@ class HomeHeading extends StatelessWidget {
           children: [
             Gtheme.stext(heading,
                 color: (Theme.of(context).brightness == Brightness.dark)
-                    ? Gcolors.W
-                    : Gcolors.B,
+                    ? GColors.W
+                    : GColors.B,
                 size: GFontSize.M,
                 weight: GFontWeight.B),
             if (subHeading != null)
@@ -28,8 +28,8 @@ class HomeHeading extends StatelessWidget {
             if (subHeading != null)
               Gtheme.stext(subHeading,
                   color: (Theme.of(context).brightness == Brightness.dark)
-                      ? Gcolors.W
-                      : Gcolors.B,
+                      ? GColors.W
+                      : GColors.B,
                   size: GFontSize.XXS,
                   weight: GFontWeight.N),
           ],

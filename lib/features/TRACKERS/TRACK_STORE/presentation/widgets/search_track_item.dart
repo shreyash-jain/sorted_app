@@ -40,7 +40,7 @@ class SearchTrackItem extends StatelessWidget {
         title: Text(
           track?.name ?? '',
           style: TextStyle(
-            fontFamily: 'Montserrat',
+            fontFamily: 'Milliard',
             color: Theme.of(context).highlightColor,
             fontSize: Gparam.textSmaller,
             fontWeight: FontWeight.w500,
@@ -54,7 +54,7 @@ class SearchTrackItem extends StatelessWidget {
             Text(
               fromLevelToDifficulty(track.m_level),
               style: TextStyle(
-                fontFamily: 'Montserrat',
+                fontFamily: 'Milliard',
                 color: Theme.of(context).highlightColor,
                 fontSize: Gparam.textVerySmall,
                 fontWeight: FontWeight.w400,
@@ -63,7 +63,7 @@ class SearchTrackItem extends StatelessWidget {
             Text(
               "${track.m_num_subs} tracking this",
               style: TextStyle(
-                fontFamily: 'Montserrat',
+                fontFamily: 'Milliard',
                 color: Theme.of(context).highlightColor,
                 fontSize: Gparam.textVerySmall,
                 fontWeight: FontWeight.w300,

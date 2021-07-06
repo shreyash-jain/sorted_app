@@ -74,9 +74,9 @@ class DateWidgetState extends State<DateWidget> {
       if (phase == (bloc.state as DateLoaded).dateStrings.length) phase = 0;
       if (bloc.state is DateLoaded) {
         if (mounted)
-        setState(() {
-          dateToShow = (bloc.state as DateLoaded).dateStrings[phase];
-        });
+          setState(() {
+            dateToShow = (bloc.state as DateLoaded).dateStrings[phase];
+          });
       }
     });
     bloc..add(GetDate(widget.blockInfo));
@@ -152,7 +152,7 @@ class DateWidgetState extends State<DateWidget> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmall,
                                                   fontWeight: FontWeight.w500),
                                             ),
@@ -218,7 +218,7 @@ class DateWidgetState extends State<DateWidget> {
                                           text: dateToShow,
                                           duration: Duration(milliseconds: 400),
                                           textStyle: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textSmall,
                                               fontWeight: FontWeight.w500),
                                         ),
@@ -280,7 +280,7 @@ class DateWidgetState extends State<DateWidget> {
                     'Edit date',
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      fontFamily: "Montserrat",
+                      fontFamily: "Milliard",
                       height: 1.2,
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w500,

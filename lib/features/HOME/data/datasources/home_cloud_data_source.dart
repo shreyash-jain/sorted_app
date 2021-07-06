@@ -11,10 +11,15 @@ import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
-import 'package:sorted/features/HOME/data/models/recipe.dart';
-import 'package:sorted/features/HOME/data/models/tagged_recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
+import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
 import 'package:sorted/features/HOME/data/models/transformation.dart';
-import 'package:sorted/features/HOME/data/models/video_recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class HomeCloud {
@@ -48,6 +53,12 @@ abstract class HomeCloud {
 
   Future<RecipeModel> getRecipeById(int id);
   Future<List<BlogModel>> getBlog(int count);
+  Future<IngredientAndQuantity> getRecipeIngredients(int recipeId);
+  Future<List<RecipeStep>> getRecipeSteps(int recipeId);
+  Future<List<RecipeNutrition>> getRecipeNutritions(int recipeId);
+  Future<List<RecipeHowTo>> getRecipeHowto(int recipeId);
+
+  Future<List<RecipeToIngredient>> getIngregientQuantities(int recipeId);
 }
 
 class HomeCloudDataSourceImpl implements HomeCloud {
@@ -420,4 +431,111 @@ class HomeCloudDataSourceImpl implements HomeCloud {
     });
     return recipe.length == 0 ? VideoRecipe.empty() : recipe[0];
   }
+
+  @override
+  Future<List<RecipeHowTo>> getRecipeHowto(int recipeId) async {
+    var snapShot = await cloudDb
+        .collection('RecipesDb/data/howToProceed')
+        .where("recipe_id", isEqualTo: recipeId)
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
+      var list = documents.map((e) => RecipeHowTo.fromSnapshot(e)).toList();
+      list.sort((a, b) => a.step.compareTo(b.step));
+      return list;
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<IngredientAndQuantity> getRecipeIngredients(int recipeId) async {
+    List<RecipeToIngredient> rToI = [];
+    List<RecipeIngredient> ingredients = [];
+
+    var snapShot = await cloudDb
+        .collection('RecipesDb/data/recipeToIngredients')
+        .where("recipe_id", isEqualTo: recipeId)
+        .get();
+    print("getRecipeIngredients " + recipeId.toString());
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
+      var list =
+          documents.map((e) => RecipeToIngredient.fromSnapshot(e)).toList();
+      print("getRecipeIngredients " + list.toString());
+      for (var i = 0; i < list.length; i++) {
+        var ingredient = await getRecipeIngredientsById(list[i].ingredient_id);
+        if (ingredient.id != -1) ingredients.add(ingredient);
+      }
+      print("getRecipeIngredients " + ingredients.toString());
+      return IngredientAndQuantity(ingredients, list);
+    }
+    return Future.value(IngredientAndQuantity([], []));
+  }
+
+  Future<RecipeIngredient> getRecipeIngredientsById(int ingredientId) async {
+    var snapShot = await cloudDb
+        .collection('RecipesDb/data/ingredients')
+        .where("id", isEqualTo: ingredientId)
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
+      var list =
+          documents.map((e) => RecipeIngredient.fromSnapshot(e)).toList();
+
+      return list[0];
+    }
+    return Future.value(RecipeIngredient(id: -1));
+  }
+
+  @override
+  Future<List<RecipeNutrition>> getRecipeNutritions(int recipeId) async {
+    var snapShot = await cloudDb
+        .collection('RecipesDb/data/nutritionalValues')
+        .where("recipe_id", isEqualTo: recipeId)
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
+      var list = documents.map((e) => RecipeNutrition.fromSnapshot(e)).toList();
+
+      return list;
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<RecipeStep>> getRecipeSteps(int recipeId) async {
+    var snapShot = await cloudDb
+        .collection('RecipesDb/data/steps')
+        .where("recipe_id", isEqualTo: recipeId)
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
+      var list = documents.map((e) => RecipeStep.fromSnapshot(e)).toList();
+      list.sort((a, b) => a.step.compareTo(b.step));
+      return list;
+    }
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<RecipeToIngredient>> getIngregientQuantities(int recipeId) async {
+    var snapShot = await cloudDb
+        .collection('RecipesDb/data/recipeToIngredients')
+        .where("recipe_id", isEqualTo: recipeId)
+        .get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
+      var list =
+          documents.map((e) => RecipeToIngredient.fromSnapshot(e)).toList();
+      return list;
+    } else
+      return [];
+  }
+}
+
+class IngredientAndQuantity {
+  final List<RecipeIngredient> ingredient;
+  final List<RecipeToIngredient> quantiy;
+
+  IngredientAndQuantity(this.ingredient, this.quantiy);
 }

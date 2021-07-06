@@ -151,7 +151,7 @@ class _InterestsPVState extends State<InterestsPV> {
                                             child: Text(
                                               'Fitness',
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmaller,
                                                   fontWeight: FontWeight.w800,
                                                   color: Colors.black
@@ -235,7 +235,7 @@ class _InterestsPVState extends State<InterestsPV> {
                                             child: Text(
                                               'Mental Health',
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmaller,
                                                   fontWeight: FontWeight.w800,
                                                   color: Colors.black
@@ -320,7 +320,7 @@ class _InterestsPVState extends State<InterestsPV> {
                                             child: Text(
                                               'Food and Nutrition',
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmaller,
                                                   fontWeight: FontWeight.w800,
                                                   color: Colors.black
@@ -371,7 +371,7 @@ class _InterestsPVState extends State<InterestsPV> {
                                             ),
                                           )),
                                     ),
-                                     SizedBox(
+                                    SizedBox(
                                       height: 200,
                                     )
                                   ],

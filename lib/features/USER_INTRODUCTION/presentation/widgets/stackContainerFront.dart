@@ -51,7 +51,7 @@ class StackContainerFront extends StatelessWidget {
                                   ? UserIntroStrings.oldDownloadText
                                   : UserIntroStrings.newDownloadText,
                               style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black),
@@ -94,7 +94,7 @@ class StackContainerFront extends StatelessWidget {
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.normal,
                                     color: Colors.black45,
-                                    fontFamily: 'Montserrat'),
+                                    fontFamily: 'Milliard'),
                               ),
                               SizedBox(width: 10.0),
                               FadeAnimationTB(
@@ -107,7 +107,7 @@ class StackContainerFront extends StatelessWidget {
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white60,
-                                        fontFamily: 'Montserrat'),
+                                        fontFamily: 'Milliard'),
                                   )),
                             ],
                           ),
@@ -180,7 +180,7 @@ class StackContainerFront extends StatelessWidget {
                                   )
                                 : Text("",
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black)),

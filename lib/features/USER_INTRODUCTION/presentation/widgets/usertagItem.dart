@@ -62,7 +62,7 @@ class UserTagItem extends StatelessWidget {
                     userTag.tag,
                     style: TextStyle(
                         color: Colors.black,
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textVerySmall,
                         fontWeight: FontWeight.w500),
                   ),

@@ -23,8 +23,7 @@ import 'package:sorted/features/SETTINGS/presentation/widgets/survey_settings.da
 import 'package:sorted/main.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage({Key key})
-      : super(key: key) {}
+  SettingsPage({Key key}) : super(key: key) {}
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -131,7 +130,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 if (state is SettingsLoaded) {
                   currentState = state;
                   return ListView(
-                   
                     children: <Widget>[
                       Container(
                           child: Column(
@@ -178,7 +176,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 child: Text('About Sort.it',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.bold)),
                               ),
@@ -229,7 +227,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               child: Text(
                                 'Sorted Labs | Sorted Application v.1.0.0 | 2020',
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700),
                               ),
@@ -278,7 +276,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Text(
               'Settings',
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontWeight: FontWeight.w700,
                   fontSize: 20,
                   color: Theme.of(context).highlightColor),
@@ -327,12 +325,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
       if (biometricSwitched)
         prefs.setBool('biometric', true);
-
       else
         prefs.setBool('biometric', false);
     });
     bloc.add(UpdateBiometricState(biometric));
-    
   }
 
   onTapThemeChange(String theme) {
@@ -341,7 +337,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> onTapGoogleFit(bool gFit) async {
     googleFitSwitched = gFit;
-     List<HealthDataType> types = [
+    List<HealthDataType> types = [
       HealthDataType.STEPS,
       HealthDataType.WEIGHT,
       HealthDataType.HEIGHT,
@@ -355,7 +351,8 @@ class _SettingsPageState extends State<SettingsPage> {
   onSliderChange(double timeValue) {
     setState(() {
       _valueSurveyTime = timeValue;
-      bloc.add(UpdateDetails(currentState.settingsDetails.copyWith(surveyTime: timeValue.floor())));
+      bloc.add(UpdateDetails(currentState.settingsDetails
+          .copyWith(surveyTime: timeValue.floor())));
     });
   }
 
@@ -363,15 +360,16 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       selected_currency = currency;
       prefs.setString("currency", symbol);
-      bloc.add(UpdateDetails(currentState.settingsDetails.copyWith(currency: symbol)));
+      bloc.add(UpdateDetails(
+          currentState.settingsDetails.copyWith(currency: symbol)));
     });
   }
 
   onBudgetSliderChange(double timeValue) {
     setState(() {
       _valueBudget = timeValue;
-      bloc.add(UpdateDetails(currentState.settingsDetails.copyWith(budget:timeValue)));
-
+      bloc.add(UpdateDetails(
+          currentState.settingsDetails.copyWith(budget: timeValue)));
     });
   }
 }

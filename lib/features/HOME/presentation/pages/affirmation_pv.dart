@@ -48,9 +48,9 @@ class AffirmationState extends State<AffirmationPV>
 
     _pageNotifier = ValueNotifier(startIndex.toDouble());
     //_pageController.addListener(_listener);
-     WidgetsBinding.instance.addPostFrameCallback((_) {
-        _pageController.addListener(_listener);
-      });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _pageController.addListener(_listener);
+    });
 
     currentPage = startIndex;
   }
@@ -124,7 +124,6 @@ class AffirmationState extends State<AffirmationPV>
           });
       }
 
-     
       if (1 - animationController.value >
               ((passedSum + widget.affirmations[currentPage].waitSeconds) /
                   totalSum) &&
@@ -149,7 +148,7 @@ class AffirmationState extends State<AffirmationPV>
     _pageController.dispose();
     animationController.dispose();
     _pageNotifier.dispose();
-    
+
     super.dispose();
   }
 
@@ -195,7 +194,7 @@ class AffirmationState extends State<AffirmationPV>
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.black87,
-                fontFamily: 'Montserrat',
+                fontFamily: 'Milliard',
                 fontSize: 18,
                 shadows: [
                   Shadow(
@@ -259,7 +258,6 @@ class AffirmationState extends State<AffirmationPV>
                                                 : 1 - ((passedSum) / totalSum));
                                       bloc.add(PageChanged(
                                           currentPage, state.affirmations));
-                                  
                                     },
                                     itemCount: state.affirmations.length,
                                     itemBuilder: (context, position) {
@@ -279,8 +277,10 @@ class AffirmationState extends State<AffirmationPV>
                                                             .affirmations[
                                                                 position]
                                                             .imageUrl,
-                                                        errorWidget: (context, url, error) => new Icon(Icons.network_check),
-
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            new Icon(Icons
+                                                                .network_check),
                                                         fit: BoxFit.cover,
                                                         height: Gparam.height,
                                                         width: Gparam.width,
@@ -560,7 +560,7 @@ class AffirmationState extends State<AffirmationPV>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white.withAlpha(230),
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                     fontSize: 20,
                     height: 1.4,
                     shadows: [
@@ -575,7 +575,7 @@ class AffirmationState extends State<AffirmationPV>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white.withAlpha(230),
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                     fontSize: 20,
                     height: 1.4,
                     shadows: [
@@ -611,7 +611,7 @@ class AffirmationState extends State<AffirmationPV>
               Text("${affirmation.photoGrapherName}",
                   style: TextStyle(
                       color: Colors.white60,
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       fontSize: 14,
                       shadows: [
                         Shadow(
@@ -624,7 +624,7 @@ class AffirmationState extends State<AffirmationPV>
               Text(" on Unsplash.com",
                   style: TextStyle(
                       color: Colors.white60,
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       fontSize: 14,
                       shadows: [
                         Shadow(

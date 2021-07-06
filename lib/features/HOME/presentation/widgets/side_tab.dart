@@ -48,7 +48,7 @@ class SideTab extends StatelessWidget {
                             horizontal: Gparam.widthPadding / 2),
                         child: Text("Track",
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 fontWeight: FontWeight.w800))),
                     Divider(
@@ -97,7 +97,7 @@ class SideTab extends StatelessWidget {
                             horizontal: Gparam.widthPadding / 2),
                         child: Text("Resolve",
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 fontWeight: FontWeight.w800))),
                     Divider(
@@ -158,8 +158,7 @@ class SideTab extends StatelessWidget {
                       index: 0,
                       onTapAction: (int) {
                         context.router.push(
-                          SettingsRoute(
-                             ),
+                          SettingsRoute(),
                         );
                       }),
                 ),

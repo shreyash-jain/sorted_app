@@ -68,7 +68,7 @@ class TodoItemMenuState extends State<TodoItemMenu> {
                   'Move up',
                   style: TextStyle(
                     decoration: TextDecoration.none,
-                    fontFamily: "Montserrat",
+                    fontFamily: "Milliard",
                     height: 1.2,
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
@@ -89,7 +89,7 @@ class TodoItemMenuState extends State<TodoItemMenu> {
                   'Move down',
                   style: TextStyle(
                     decoration: TextDecoration.none,
-                    fontFamily: "Montserrat",
+                    fontFamily: "Milliard",
                     height: 1.2,
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
@@ -107,7 +107,7 @@ class TodoItemMenuState extends State<TodoItemMenu> {
                 'Delete',
                 style: TextStyle(
                   decoration: TextDecoration.none,
-                  fontFamily: "Montserrat",
+                  fontFamily: "Milliard",
                   height: 1.2,
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w500,
@@ -125,7 +125,7 @@ class TodoItemMenuState extends State<TodoItemMenu> {
                 'Duplicate',
                 style: TextStyle(
                   decoration: TextDecoration.none,
-                  fontFamily: "Montserrat",
+                  fontFamily: "Milliard",
                   height: 1.2,
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w500,

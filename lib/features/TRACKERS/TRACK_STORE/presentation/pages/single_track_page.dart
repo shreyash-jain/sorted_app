@@ -159,14 +159,14 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                                 widget.track.name,
                                 style: TextStyle(
                                   fontSize: Gparam.textMedium,
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                 ),
                               ),
                               Text(
                                 "Market name",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                   fontSize: Gparam.textSmall,
                                 ),
                               ),
@@ -569,14 +569,14 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: Gparam.textSmall,
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                   ),
                 ),
                 Text(
                   "People Tracking",
                   style: TextStyle(
                     fontSize: Gparam.textVerySmall,
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                   ),
                 ),
               ],
@@ -600,14 +600,14 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: Gparam.textSmall,
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                   ),
                 ),
                 Text(
                   "Track Duration",
                   style: TextStyle(
                     fontSize: Gparam.textVerySmall,
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                   ),
                 ),
               ],
@@ -637,7 +637,7 @@ class _SingleTrackPageState extends State<SingleTrackPage> {
                   "Habit Difficulty",
                   style: TextStyle(
                     fontSize: Gparam.textVerySmall,
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                   ),
                 ),
               ],

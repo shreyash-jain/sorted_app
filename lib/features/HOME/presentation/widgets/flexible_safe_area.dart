@@ -90,7 +90,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 '',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: 14.0,
                   color: Theme.of(context).highlightColor,
                   fontWeight: FontWeight.w600,
@@ -100,7 +100,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                 '',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -145,7 +145,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                 "Sort.it",
                                 style: TextStyle(
                                     color: Theme.of(context).highlightColor,
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textSmall,
                                     fontWeight: FontWeight.w800),
                               ),
@@ -503,7 +503,7 @@ class AffirmationCircleWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                   letterSpacing: -.3,
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: Gparam.textExtraSmall,
                   fontWeight: FontWeight.w500)),
         ),

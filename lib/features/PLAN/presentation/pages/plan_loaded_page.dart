@@ -88,7 +88,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                 text: TextSpan(
                   text: 'Sort.it',
                   style: TextStyle(
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       fontSize: Gparam.textMedium,
                       fontWeight: FontWeight.w400,
                       color: Theme.of(context).highlightColor),
@@ -96,7 +96,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                     TextSpan(
                         text: ' Planner',
                         style: TextStyle(
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           color: Theme.of(context).highlightColor,
                           fontWeight: FontWeight.w700,
                           fontSize: Gparam.textMedium,
@@ -159,7 +159,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                         text: TextSpan(
                           text: 'Plan',
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textVerySmall,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context)
@@ -169,7 +169,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                             TextSpan(
                                 text: '\nToday',
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                   fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                         text: TextSpan(
                           text: 'Task',
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textVerySmall,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context)
@@ -221,7 +221,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                             TextSpan(
                                 text: '\nMatrix',
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   color: Theme.of(context).highlightColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: Gparam.textVerySmall,
@@ -270,7 +270,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Board',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context)
@@ -280,7 +280,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                               TextSpan(
                                   text: '\nView',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context).highlightColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: Gparam.textVerySmall,
@@ -330,7 +330,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Timeline',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context)
@@ -340,7 +340,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                               TextSpan(
                                   text: '\nView',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context).highlightColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: Gparam.textVerySmall,
@@ -390,7 +390,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Month',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).highlightColor),
@@ -398,7 +398,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                               TextSpan(
                                   text: '\nPlanner',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context)
                                         .highlightColor
                                         .withOpacity(.6),
@@ -450,7 +450,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Year',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).highlightColor),
@@ -458,7 +458,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                               TextSpan(
                                   text: '\nPlanner',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context)
                                         .highlightColor
                                         .withOpacity(.6),
@@ -510,7 +510,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                           text: TextSpan(
                             text: 'Long\nTerm',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).highlightColor),
@@ -518,7 +518,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                               TextSpan(
                                   text: '\nPlanner',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context)
                                         .highlightColor
                                         .withOpacity(.6),
@@ -555,7 +555,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                 text: TextSpan(
                   text: 'My',
                   style: TextStyle(
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       fontSize: Gparam.textSmall,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).highlightColor),
@@ -563,7 +563,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                     TextSpan(
                         text: ' Goals',
                         style: TextStyle(
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           color: Theme.of(context).highlightColor,
                           fontWeight: FontWeight.bold,
                           fontSize: Gparam.textSmall,
@@ -587,7 +587,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
               text: TextSpan(
                 text: "new",
                 style: TextStyle(
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                     fontSize: Gparam.textSmall,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).highlightColor),
@@ -595,7 +595,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   TextSpan(
                       text: " Goal ",
                       style: TextStyle(
-                        fontFamily: "Montserrat",
+                        fontFamily: "Milliard",
                         color: Theme.of(context).highlightColor,
                         fontWeight: FontWeight.bold,
                         fontSize: Gparam.textSmall,
@@ -628,7 +628,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                 text: TextSpan(
                   text: 'Upcoming',
                   style: TextStyle(
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       fontSize: Gparam.textSmall,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).highlightColor),
@@ -636,7 +636,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                     TextSpan(
                         text: ' Tasks',
                         style: TextStyle(
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           color: Theme.of(context).highlightColor,
                           fontWeight: FontWeight.bold,
                           fontSize: Gparam.textSmall,
@@ -727,7 +727,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                         style: TextStyle(
-                                            fontFamily: 'Montserrat',
+                                            fontFamily: 'Milliard',
                                             fontSize: Gparam.textSmall,
                                             fontWeight: FontWeight.w700,
                                             color: Theme.of(context)
@@ -782,7 +782,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                       text: TextSpan(
                                         text: "",
                                         style: TextStyle(
-                                            fontFamily: 'Montserrat',
+                                            fontFamily: 'Milliard',
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w300,
                                             color: Theme.of(context)
@@ -792,7 +792,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                               text:
                                                   "" + state.tasks[index].title,
                                               style: TextStyle(
-                                                fontFamily: "Montserrat",
+                                                fontFamily: "Milliard",
                                                 height: 1.4,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: Gparam.textSmaller,
@@ -839,7 +839,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                   thisGoal: state.tasks[index],
                                   planBloc: BlocProvider.of<PlanBloc>(context)),
                             );
-                            
+
                             print("${index} clicked");
                           },
                           child: Container(
@@ -914,7 +914,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                             style: TextStyle(
                                                 color: Theme.of(context)
                                                     .highlightColor,
-                                                fontFamily: 'Montserrat',
+                                                fontFamily: 'Milliard',
                                                 fontSize: Gparam.textSmall,
                                                 fontWeight: FontWeight.w500),
                                           ),
@@ -938,7 +938,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                                   state.tasks[index].deadLine) +
                                               " ",
                                           style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textVerySmall,
                                               fontWeight: FontWeight.w300,
                                               color: Theme.of(context)
@@ -948,7 +948,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                                 text: countdownDays(state
                                                     .tasks[index].deadLine),
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w700,
                                                   fontSize:
@@ -958,7 +958,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                                 text: countdownDaysUnit(state
                                                     .tasks[index].deadLine),
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize:
@@ -987,7 +987,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                           text: getPriorityString(
                                               state.tasks[index].priority),
                                           style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textVerySmall,
                                               fontWeight: FontWeight.w500,
                                               color: Theme.of(context)
@@ -996,7 +996,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                                             TextSpan(
                                                 text: " priority",
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   color: Theme.of(context)
                                                       .highlightColor,
                                                   fontWeight: FontWeight.normal,
@@ -1197,13 +1197,13 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                       AnimatedDefaultTextStyle(
                         style: (currentTab == i)
                             ? TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmall,
                                 fontWeight: FontWeight.w800,
                                 color: Theme.of(context).highlightColor)
                             : TextStyle(
                                 fontSize: Gparam.textSmaller,
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 color: Theme.of(context).highlightColor,
                                 fontWeight: FontWeight.w400),
                         duration: const Duration(milliseconds: 200),
@@ -1215,7 +1215,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                         text: TextSpan(
                           text: " tasks",
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).highlightColor),
@@ -1229,7 +1229,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   //   text: TextSpan(
                   //     text: tab.tabName,
                   //     style: TextStyle(
-                  //         fontFamily: 'Montserrat',
+                  //         fontFamily: 'Milliard',
                   //         fontSize: Gparam.textSmall,
                   //         fontWeight: FontWeight.w800,
                   //         color: Theme.of(context).primaryColor),
@@ -1237,7 +1237,7 @@ class PlanLoadedWidgetState extends State<PlanLoadedWidget>
                   //       TextSpan(
                   //           text: " tasks",
                   //           style: TextStyle(
-                  //             fontFamily: "Montserrat",
+                  //             fontFamily: "Milliard",
                   //             height: 1.2,
                   //             color: Theme.of(context).primaryColor,
                   //             fontWeight: FontWeight.w400,

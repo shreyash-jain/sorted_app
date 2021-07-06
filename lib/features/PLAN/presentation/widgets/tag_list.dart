@@ -17,9 +17,8 @@ class TagListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 125,
-        alignment: Alignment.bottomLeft,
-      child: 
-      ListView.builder(
+      alignment: Alignment.bottomLeft,
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: (BlocProvider.of<PlanBloc>(context).state as PlanLoaded)
                 .tags
@@ -49,9 +48,8 @@ class TagListWidget extends StatelessWidget {
         //         thisGoal: goal, planBloc: BlocProvider.of<PlanBloc>(context)));
       },
       child: Hero(
-        
-              tag: tag.id.toString(),
-              child: Container(
+        tag: tag.id.toString(),
+        child: Container(
           alignment: Alignment.topLeft,
           margin: EdgeInsets.all(8),
           width: 170.0,
@@ -71,7 +69,6 @@ class TagListWidget extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              
               Column(
                 children: [
                   Padding(
@@ -80,10 +77,10 @@ class TagListWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       text: TextSpan(
-                        text:"",
+                        text: "",
                         style: TextStyle(
                             height: 1.3,
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textSmall,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).scaffoldBackgroundColor),
@@ -91,12 +88,12 @@ class TagListWidget extends StatelessWidget {
                           TextSpan(
                               text: tag.tag,
                               style: TextStyle(
-                                fontFamily: "Montserrat",
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                fontFamily: "Milliard",
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 fontSize: Gparam.textSmall,
                                 fontWeight: FontWeight.w800,
                               )),
-                        
                         ],
                       ),
                     ),
@@ -104,7 +101,6 @@ class TagListWidget extends StatelessWidget {
                   SizedBox(
                     height: Gparam.heightPadding / 2,
                   ),
-                 
                   Row(
                     children: [
                       SizedBox(width: Gparam.widthPadding / 4),
@@ -118,15 +114,16 @@ class TagListWidget extends StatelessWidget {
                                 height: 1.1,
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w700,
-                                color: Theme.of(context).scaffoldBackgroundColor),
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor),
                             children: <TextSpan>[
                               TextSpan(
                                   text: " tasks",
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    color:
-                                        Theme.of(context).scaffoldBackgroundColor,
-                                    fontWeight: FontWeight.w500, 
+                                    fontFamily: "Milliard",
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: Gparam.textVerySmall,
                                   )),
                             ],

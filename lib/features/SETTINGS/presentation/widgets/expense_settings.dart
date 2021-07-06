@@ -69,7 +69,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
               right: Gparam.widthPadding),
           child: Text('Expense Settings',
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
         ),
@@ -84,7 +84,6 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                       decoration: BoxDecoration(
                         borderRadius:
                             new BorderRadius.all(Radius.circular(30.0)),
-                      
                       ),
                       child: Icon(OMIcons.payment),
                     ),
@@ -126,7 +125,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("₹",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -149,7 +148,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("\$",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -172,7 +171,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("€",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -199,7 +198,7 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                             child: new Text("£",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20)),
                             onPressed: () {
@@ -229,7 +228,6 @@ class ExpenseSettingsState extends State<ExpenseSettings> {
                         decoration: BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(30.0)),
-                       
                         ),
                         child: Icon(OMIcons.money)),
                     SizedBox(

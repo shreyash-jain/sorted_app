@@ -174,7 +174,7 @@ class SequenceWidgetState extends State<SequenceWidget> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmall,
                                                   fontWeight: FontWeight.w500),
                                             ),
@@ -256,7 +256,6 @@ class SequenceWidgetState extends State<SequenceWidget> {
                     ),
                     Container(
                       width: Gparam.width - (Gparam.widthPadding * 4),
-                     
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +277,7 @@ class SequenceWidgetState extends State<SequenceWidget> {
                                     duration: Duration(milliseconds: 400),
                                     textStyle: TextStyle(
                                       fontSize: Gparam.textVerySmall,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontWeight: FontWeight.w300,
                                     ),
                                   ),
@@ -301,7 +300,7 @@ class SequenceWidgetState extends State<SequenceWidget> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: Gparam.textSmall,
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -321,7 +320,7 @@ class SequenceWidgetState extends State<SequenceWidget> {
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: Gparam.textSmaller,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -402,7 +401,7 @@ class SequenceWidgetState extends State<SequenceWidget> {
                         : 'Add description',
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      fontFamily: "Montserrat",
+                      fontFamily: "Milliard",
                       height: 1.2,
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w500,

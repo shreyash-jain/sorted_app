@@ -96,6 +96,7 @@ dependencies:
   flutter_svg:
   material_design_icons_flutter:
   truecaller_sdk:
+  pie_chart:
 
 dev_dependencies:
   auto_route_generator:
@@ -161,5 +162,20 @@ flutter:
           weight: 200
         - asset: fonts/Montserrat-Bold.ttf
           weight: 700
+    - family: Milliard
+      fonts:
+        - asset: fonts/Milliard-Medium.otf
+        - asset: fonts/Milliard-Medium-Italic.otf
+          style: italic
+        - asset: fonts/Milliard-Light.otf
+          weight: 200
+        - asset: fonts/Milliard-Medium.otf
+          weight: 500
+        - asset: fonts/Milliard-SemiBold.otf
+          weight: 600
+        - asset: fonts/Milliard-Bold.otf
+          weight: 700
+        - asset: fonts/Milliard-ExtraBold.otf
+          weight: 900
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

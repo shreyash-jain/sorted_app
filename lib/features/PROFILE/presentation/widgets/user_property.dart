@@ -20,7 +20,7 @@ class UserPropertyWidget extends StatelessWidget {
             Text(
               prop_name,
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: 12.0,
                   fontWeight: FontWeight.w400,
                   color: Theme.of(context).highlightColor),
@@ -36,7 +36,7 @@ class UserPropertyWidget extends StatelessWidget {
           child: Text(
             prop_value,
             style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: 14.0,
               fontWeight: FontWeight.w800,
             ),

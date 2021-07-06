@@ -9,6 +9,7 @@ import 'package:sorted/features/HOME/presentation/widgets/rocket_animation/anima
 import 'package:sorted/features/HOME/presentation/widgets/scratcher/widgets.dart';
 import 'package:video_player/video_player.dart';
 import 'package:auto_route/auto_route.dart';
+
 class ChallengePageView extends StatefulWidget {
   const ChallengePageView({Key key}) : super(key: key);
 
@@ -113,7 +114,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                     text: TextSpan(
                       text: 'Scratch the ',
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontSize: Gparam.textSmall,
                           fontWeight: FontWeight.w500,
                           color:
@@ -122,7 +123,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                         TextSpan(
                             text: 'card',
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Milliard",
                               color: Theme.of(context).highlightColor,
                               fontWeight: FontWeight.w500,
                               fontSize: Gparam.textMedium,
@@ -130,7 +131,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                         TextSpan(
                             text: ' to know',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmall,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context)
@@ -139,7 +140,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                         TextSpan(
                             text: '\nToday\'s challenge',
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Milliard",
                               color: Theme.of(context).highlightColor,
                               fontWeight: FontWeight.bold,
                               fontSize: Gparam.textMedium,
@@ -229,7 +230,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                           text:
                                               'Post a 10 second video of you doing',
                                           style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textSmall,
                                               fontWeight: FontWeight.w500,
                                               color: Theme.of(context)
@@ -239,7 +240,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                             TextSpan(
                                                 text: '\nPlank',
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   color: Theme.of(context)
                                                       .highlightColor,
                                                   fontWeight: FontWeight.bold,
@@ -257,7 +258,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                           child: Text(
                                             "Accept the challenge ?",
                                             style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: 18.0,
                                               color: Theme.of(context)
                                                   .scaffoldBackgroundColor,
@@ -317,7 +318,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                             text:
                                                 'Post a 10 second video of you doing',
                                             style: TextStyle(
-                                                fontFamily: 'Montserrat',
+                                                fontFamily: 'Milliard',
                                                 fontSize: Gparam.textSmall,
                                                 fontWeight: FontWeight.w500,
                                                 color: Theme.of(context)
@@ -327,7 +328,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                               TextSpan(
                                                   text: '\nPlank',
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     color: Theme.of(context)
                                                         .highlightColor,
                                                     fontWeight: FontWeight.bold,
@@ -345,7 +346,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                             child: Text(
                                               "Accept the challenge ?",
                                               style: TextStyle(
-                                                fontFamily: 'Montserrat',
+                                                fontFamily: 'Milliard',
                                                 fontSize: 18.0,
                                                 color: Theme.of(context)
                                                     .scaffoldBackgroundColor,

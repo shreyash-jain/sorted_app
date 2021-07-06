@@ -74,7 +74,7 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             color: Theme.of(context).highlightColor,
                             fontSize: Gparam.textVeryLarge,
                             fontWeight: FontWeight.w800),
@@ -87,7 +87,7 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             color: Theme.of(context).highlightColor,
                             fontSize: Gparam.textMedium,
                             fontWeight: FontWeight.w500),
@@ -103,7 +103,7 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         color: Theme.of(context).highlightColor,
                         fontSize: Gparam.textSmaller,
                         fontWeight: FontWeight.w300),
@@ -202,7 +202,7 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       color: otherColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w800),
@@ -393,7 +393,7 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                               text: TextSpan(
                                 text: note.title,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textSmaller,
                                     fontWeight: FontWeight.w800,
                                     color: Theme.of(context)
@@ -474,7 +474,7 @@ class NotesHubLoadedPageState extends State<NotesHubLoadedPage> {
                                     text: TextSpan(
                                       text: text,
                                       style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
                                           color:
@@ -546,7 +546,7 @@ class CategoryItem extends StatelessWidget {
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               color: (selected == index)
                   ? Theme.of(context).textSelectionHandleColor
                   : Theme.of(context).highlightColor,
@@ -577,7 +577,7 @@ class MyFloatingActionButton extends StatelessWidget {
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            fontFamily: 'Montserrat',
+            fontFamily: 'Milliard',
             fontSize: Gparam.textSmaller,
             fontWeight: FontWeight.w500),
       ),

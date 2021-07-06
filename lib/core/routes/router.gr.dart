@@ -7,29 +7,32 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../features/FILES/data/models/note_model.dart' as _i35;
-import '../../features/FILES/data/models/notebook_model.dart' as _i36;
+import '../../features/FILES/data/models/note_model.dart' as _i36;
+import '../../features/FILES/data/models/notebook_model.dart' as _i37;
 import '../../features/FILES/presentation/pages/notes_hub.dart' as _i21;
 import '../../features/FILES/presentation/pages/record_home.dart' as _i20;
 import '../../features/FILES/presentation/pages/test_note.dart' as _i19;
-import '../../features/HOME/data/models/blogs.dart' as _i37;
-import '../../features/HOME/domain/entities/day_affirmations.dart' as _i29;
+import '../../features/HOME/data/models/blogs.dart' as _i38;
+import '../../features/HOME/data/models/recipes/recipe.dart' as _i39;
+import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i40;
+import '../../features/HOME/domain/entities/day_affirmations.dart' as _i30;
 import '../../features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart'
-    as _i30;
+    as _i31;
 import '../../features/HOME/presentation/pages/activity_planner.dart' as _i27;
 import '../../features/HOME/presentation/pages/affirmation_pv.dart' as _i8;
 import '../../features/HOME/presentation/pages/blog_full_page.dart' as _i26;
 import '../../features/HOME/presentation/pages/challenge_pv.dart' as _i23;
 import '../../features/HOME/presentation/pages/diet_palnner.dart' as _i28;
 import '../../features/HOME/presentation/pages/homePage.dart' as _i7;
+import '../../features/HOME/presentation/pages/recipe_full_page.dart' as _i29;
 import '../../features/HOME/presentation/pages/rootPage.dart' as _i22;
 import '../../features/ONBOARDING/presentation/pages/onboard_page.dart' as _i5;
 import '../../features/ONSTART/presentation/pages/start_page.dart' as _i4;
-import '../../features/PLAN/data/models/goal.dart' as _i31;
-import '../../features/PLAN/data/models/task.dart' as _i34;
+import '../../features/PLAN/data/models/goal.dart' as _i32;
+import '../../features/PLAN/data/models/task.dart' as _i35;
 import '../../features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart'
-    as _i33;
-import '../../features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart' as _i32;
+    as _i34;
+import '../../features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart' as _i33;
 import '../../features/PLAN/presentation/pages/choice_goal_guide.dart' as _i11;
 import '../../features/PLAN/presentation/pages/goal_page.dart' as _i12;
 import '../../features/PLAN/presentation/pages/kanban_view.dart' as _i15;
@@ -213,6 +216,17 @@ class ARouter extends _i1.RootStackRouter {
         routeData: routeData,
         builder: (_) {
           return _i28.DietPlanner();
+        }),
+    RecipeRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<RecipeRouteArgs>(
+              orElse: () => const RecipeRouteArgs());
+          return _i29.RecipePage(
+              key: args.key,
+              type: args.type,
+              recipe: args.recipe,
+              taggedRecipe: args.taggedRecipe);
         })
   };
 
@@ -244,7 +258,8 @@ class ARouter extends _i1.RootStackRouter {
         _i1.RouteConfig(VideoRoute.name, path: '/video-page'),
         _i1.RouteConfig(FullBlogRoute.name, path: '/full-blog-page'),
         _i1.RouteConfig(ActivityPlanner.name, path: '/activity-planner'),
-        _i1.RouteConfig(DietPlanner.name, path: '/diet-planner')
+        _i1.RouteConfig(DietPlanner.name, path: '/diet-planner'),
+        _i1.RouteConfig(RecipeRoute.name, path: '/recipe-page')
       ];
 }
 
@@ -324,9 +339,9 @@ class SortedHomeArgs {
 class AffirmationPV extends _i1.PageRouteInfo<AffirmationPVArgs> {
   AffirmationPV(
       {_i2.Key key,
-      List<_i29.DayAffirmation> affirmations,
+      List<_i30.DayAffirmation> affirmations,
       int startIndex,
-      _i30.AffirmationBloc outerBloc})
+      _i31.AffirmationBloc outerBloc})
       : super(name,
             path: '/affirmation-pV',
             args: AffirmationPVArgs(
@@ -344,11 +359,11 @@ class AffirmationPVArgs {
 
   final _i2.Key key;
 
-  final List<_i29.DayAffirmation> affirmations;
+  final List<_i30.DayAffirmation> affirmations;
 
   final int startIndex;
 
-  final _i30.AffirmationBloc outerBloc;
+  final _i31.AffirmationBloc outerBloc;
 }
 
 class SettingsRoute extends _i1.PageRouteInfo<SettingsRouteArgs> {
@@ -377,7 +392,7 @@ class ChoiceGoalGuide extends _i1.PageRouteInfo {
 }
 
 class GoalRoute extends _i1.PageRouteInfo<GoalRouteArgs> {
-  GoalRoute({_i2.Key key, _i31.GoalModel thisGoal, _i32.PlanBloc planBloc})
+  GoalRoute({_i2.Key key, _i32.GoalModel thisGoal, _i33.PlanBloc planBloc})
       : super(name,
             path: '/goal-page',
             args: GoalRouteArgs(
@@ -391,13 +406,13 @@ class GoalRouteArgs {
 
   final _i2.Key key;
 
-  final _i31.GoalModel thisGoal;
+  final _i32.GoalModel thisGoal;
 
-  final _i32.PlanBloc planBloc;
+  final _i33.PlanBloc planBloc;
 }
 
 class SelectCover extends _i1.PageRouteInfo<SelectCoverArgs> {
-  SelectCover({_i2.Key key, _i33.GoalPageBloc goalBloc})
+  SelectCover({_i2.Key key, _i34.GoalPageBloc goalBloc})
       : super(name,
             path: '/select-cover',
             args: SelectCoverArgs(key: key, goalBloc: goalBloc));
@@ -410,11 +425,11 @@ class SelectCoverArgs {
 
   final _i2.Key key;
 
-  final _i33.GoalPageBloc goalBloc;
+  final _i34.GoalPageBloc goalBloc;
 }
 
 class TaskRoute extends _i1.PageRouteInfo<TaskRouteArgs> {
-  TaskRoute({_i2.Key key, _i34.TaskModel thisGoal, _i32.PlanBloc planBloc})
+  TaskRoute({_i2.Key key, _i35.TaskModel thisGoal, _i33.PlanBloc planBloc})
       : super(name,
             path: '/task-page',
             args: TaskRouteArgs(
@@ -428,9 +443,9 @@ class TaskRouteArgs {
 
   final _i2.Key key;
 
-  final _i34.TaskModel thisGoal;
+  final _i35.TaskModel thisGoal;
 
-  final _i32.PlanBloc planBloc;
+  final _i33.PlanBloc planBloc;
 }
 
 class Kanban extends _i1.PageRouteInfo {
@@ -458,7 +473,7 @@ class LongPlanner extends _i1.PageRouteInfo {
 }
 
 class NoteMain extends _i1.PageRouteInfo<NoteMainArgs> {
-  NoteMain({_i2.Key key, _i35.NoteModel note})
+  NoteMain({_i2.Key key, _i36.NoteModel note})
       : super(name,
             path: '/note-main', args: NoteMainArgs(key: key, note: note));
 
@@ -470,7 +485,7 @@ class NoteMainArgs {
 
   final _i2.Key key;
 
-  final _i35.NoteModel note;
+  final _i36.NoteModel note;
 }
 
 class RecordTab extends _i1.PageRouteInfo {
@@ -480,7 +495,7 @@ class RecordTab extends _i1.PageRouteInfo {
 }
 
 class NotesHubRoute extends _i1.PageRouteInfo<NotesHubRouteArgs> {
-  NotesHubRoute({_i2.Key key, _i36.NotebookModel thisNotebook})
+  NotesHubRoute({_i2.Key key, _i37.NotebookModel thisNotebook})
       : super(name,
             path: '/notes-hub-page',
             args: NotesHubRouteArgs(key: key, thisNotebook: thisNotebook));
@@ -493,7 +508,7 @@ class NotesHubRouteArgs {
 
   final _i2.Key key;
 
-  final _i36.NotebookModel thisNotebook;
+  final _i37.NotebookModel thisNotebook;
 }
 
 class RootHome extends _i1.PageRouteInfo {
@@ -521,7 +536,7 @@ class VideoRoute extends _i1.PageRouteInfo {
 }
 
 class FullBlogRoute extends _i1.PageRouteInfo<FullBlogRouteArgs> {
-  FullBlogRoute({_i2.Key key, _i37.BlogModel blog})
+  FullBlogRoute({_i2.Key key, _i38.BlogModel blog})
       : super(name,
             path: '/full-blog-page',
             args: FullBlogRouteArgs(key: key, blog: blog));
@@ -534,7 +549,7 @@ class FullBlogRouteArgs {
 
   final _i2.Key key;
 
-  final _i37.BlogModel blog;
+  final _i38.BlogModel blog;
 }
 
 class ActivityPlanner extends _i1.PageRouteInfo {
@@ -547,4 +562,33 @@ class DietPlanner extends _i1.PageRouteInfo {
   const DietPlanner() : super(name, path: '/diet-planner');
 
   static const String name = 'DietPlanner';
+}
+
+class RecipeRoute extends _i1.PageRouteInfo<RecipeRouteArgs> {
+  RecipeRoute(
+      {_i2.Key key,
+      int type,
+      _i39.RecipeModel recipe,
+      _i40.TaggedRecipe taggedRecipe})
+      : super(name,
+            path: '/recipe-page',
+            args: RecipeRouteArgs(
+                key: key,
+                type: type,
+                recipe: recipe,
+                taggedRecipe: taggedRecipe));
+
+  static const String name = 'RecipeRoute';
+}
+
+class RecipeRouteArgs {
+  const RecipeRouteArgs({this.key, this.type, this.recipe, this.taggedRecipe});
+
+  final _i2.Key key;
+
+  final int type;
+
+  final _i39.RecipeModel recipe;
+
+  final _i40.TaggedRecipe taggedRecipe;
 }

@@ -177,7 +177,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                                 child: Text(
                                   'Select a username',
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontSize: Gparam.textSmall,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(.8)),
@@ -213,7 +213,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                                 },
                                 textInputAction: TextInputAction.done,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textSmall,
                                     color: (widget.loginWidget.valid > 0 &&
                                             widget.loginWidget.valid != 9)
@@ -225,7 +225,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                                   hintStyle: TextStyle(
                                       color: Colors.black38,
                                       fontSize: Gparam.textSmall,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontWeight: FontWeight.w500),
                                   border: InputBorder.none,
                                 ),
@@ -249,7 +249,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                                 child: Text(
                                   'Type your mobile number',
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontSize: Gparam.textSmall,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(.8)),
@@ -281,7 +281,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                                 },
                                 textInputAction: TextInputAction.done,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textSmall,
                                     color: (widget.loginWidget.valid > 0 &&
                                             widget.loginWidget.valid != 9)
@@ -293,7 +293,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                                   hintStyle: TextStyle(
                                       color: Colors.black38,
                                       fontSize: Gparam.textSmall,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontWeight: FontWeight.w500),
                                   border: InputBorder.none,
                                 ),

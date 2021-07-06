@@ -136,7 +136,7 @@ class AddTaskState extends State<AddTask> {
                     Text(
                         (widget.valid != 0) ? 'Add Task' : '👈 press when done',
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textSmall,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColor)),
@@ -152,7 +152,7 @@ class AddTaskState extends State<AddTask> {
                   children: [
                     Text(widget.validString,
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColor)),
@@ -192,7 +192,7 @@ class AddTaskState extends State<AddTask> {
                       text: TextSpan(
                         text: 'use',
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColor),
@@ -200,7 +200,7 @@ class AddTaskState extends State<AddTask> {
                           TextSpan(
                             text: ' # ',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: 14,
                                 fontWeight: FontWeight.w800,
                                 color: Theme.of(context).primaryColor),
@@ -208,7 +208,7 @@ class AddTaskState extends State<AddTask> {
                           TextSpan(
                             text: 'to add ',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColor),
@@ -216,7 +216,7 @@ class AddTaskState extends State<AddTask> {
                           TextSpan(
                             text: 'tags',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: 14,
                                 fontWeight: FontWeight.w800,
                                 color: Theme.of(context).primaryColor),
@@ -255,7 +255,7 @@ class AddTaskState extends State<AddTask> {
                       autofocus: true,
                       cursorColor: Theme.of(context).scaffoldBackgroundColor,
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontSize: Gparam.textSmall,
                           fontWeight: FontWeight.w800,
                           color: Theme.of(context).scaffoldBackgroundColor),
@@ -281,7 +281,7 @@ class AddTaskState extends State<AddTask> {
                         hintStyle: TextStyle(
                           fontSize: Gparam.textSmall,
                           fontWeight: FontWeight.w500,
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                         ),
                       ),
                       controller: widget.newMediaLinkAddressController,
@@ -298,7 +298,7 @@ class AddTaskState extends State<AddTask> {
                       children: [
                         Text('Deadline',
                             style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w500,
                             )),
@@ -307,7 +307,7 @@ class AddTaskState extends State<AddTask> {
                         ),
                         Text(deadlineToStr(widget.deadlineDouble),
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 fontWeight: FontWeight.w500,
                                 color:
@@ -357,7 +357,7 @@ class AddTaskState extends State<AddTask> {
                       children: [
                         Text('Priority',
                             style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w500,
                             )),
@@ -401,7 +401,7 @@ class AddTaskState extends State<AddTask> {
                               widget.priorityDouble,
                             ),
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 fontWeight: FontWeight.w700,
                                 color:
@@ -419,7 +419,7 @@ class AddTaskState extends State<AddTask> {
   }
 
   Color getContrastColor(Color color) {
-    double y = (299 * color.red + 587 * color.green + 114 * color.blue) / 1000 ;
+    double y = (299 * color.red + 587 * color.green + 114 * color.blue) / 1000;
     print(y);
     return y >= 128 ? Colors.black : Colors.white;
   }
@@ -444,7 +444,7 @@ class AddTaskState extends State<AddTask> {
           style: TextStyle(
               color: getContrastColor(
                   Colors.primaries[tag.hashCode % (Colors.primaries.length)]),
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textVerySmall,
               height: 1.4,
               fontWeight: FontWeight.w500)),

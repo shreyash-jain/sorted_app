@@ -156,7 +156,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                             child: Text(
                                               'Physical Fitness Profile',
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmaller,
                                                   fontWeight: FontWeight.w800,
                                                   color: Colors.black
@@ -221,7 +221,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                               'Height',
                                                               style: TextStyle(
                                                                   fontFamily:
-                                                                      'Montserrat',
+                                                                      'Milliard',
                                                                   fontSize: Gparam
                                                                       .textSmaller,
                                                                   fontWeight:
@@ -242,7 +242,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                                     " cm",
                                                                 style: TextStyle(
                                                                     fontFamily:
-                                                                        'Montserrat',
+                                                                        'Milliard',
                                                                     fontSize: Gparam
                                                                         .textSmaller,
                                                                     fontWeight:
@@ -276,7 +276,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                               'Weight',
                                                               style: TextStyle(
                                                                   fontFamily:
-                                                                      'Montserrat',
+                                                                      'Milliard',
                                                                   fontSize: Gparam
                                                                       .textSmaller,
                                                                   fontWeight:
@@ -298,7 +298,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                                     " kg",
                                                                 style: TextStyle(
                                                                     fontFamily:
-                                                                        'Montserrat',
+                                                                        'Milliard',
                                                                     fontSize: Gparam
                                                                         .textSmaller,
                                                                     fontWeight:
@@ -330,7 +330,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                         'Daily Fitness activity',
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'Montserrat',
+                                                                'Milliard',
                                                             fontSize: Gparam
                                                                 .textSmaller,
                                                             fontWeight:
@@ -347,8 +347,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                   child: Text(
                                                     'I generally ...',
                                                     style: TextStyle(
-                                                        fontFamily:
-                                                            'Montserrat',
+                                                        fontFamily: 'Milliard',
                                                         fontSize: Gparam
                                                             .textExtraSmall,
                                                         fontWeight:
@@ -426,7 +425,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                         'I have a health condition',
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'Montserrat',
+                                                                'Milliard',
                                                             fontSize: Gparam
                                                                 .textSmaller,
                                                             fontWeight:
@@ -457,7 +456,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                               'My Fitness Goal',
                                                               style: TextStyle(
                                                                   fontFamily:
-                                                                      'Montserrat',
+                                                                      'Milliard',
                                                                   fontSize: Gparam
                                                                       .textSmaller,
                                                                   fontWeight:
@@ -555,7 +554,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                             child: Text(
                                               'Mental Health Profile',
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmaller,
                                                   fontWeight: FontWeight.w800,
                                                   color: Colors.black
@@ -609,7 +608,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                         'Daily Mindful activity',
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'Montserrat',
+                                                                'Milliard',
                                                             fontSize: Gparam
                                                                 .textSmaller,
                                                             fontWeight:
@@ -626,8 +625,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                   child: Text(
                                                     'I generally ...',
                                                     style: TextStyle(
-                                                        fontFamily:
-                                                            'Montserrat',
+                                                        fontFamily: 'Milliard',
                                                         fontSize: Gparam
                                                             .textExtraSmall,
                                                         fontWeight:
@@ -699,7 +697,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                         'I have a mental condition',
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'Montserrat',
+                                                                'Milliard',
                                                             fontSize: Gparam
                                                                 .textSmaller,
                                                             fontWeight:
@@ -730,7 +728,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                               'My mind Goal',
                                                               style: TextStyle(
                                                                   fontFamily:
-                                                                      'Montserrat',
+                                                                      'Milliard',
                                                                   fontSize: Gparam
                                                                       .textSmaller,
                                                                   fontWeight:
@@ -832,7 +830,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                             child: Text(
                                               'Lifestyle Profile',
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmaller,
                                                   fontWeight: FontWeight.w800,
                                                   color: Colors.black
@@ -885,7 +883,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                         'Sleep pattern',
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'Montserrat',
+                                                                'Milliard',
                                                             fontSize: Gparam
                                                                 .textSmaller,
                                                             fontWeight:
@@ -944,7 +942,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                         'Food preference',
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'Montserrat',
+                                                                'Milliard',
                                                             fontSize: Gparam
                                                                 .textSmaller,
                                                             fontWeight:
@@ -1102,7 +1100,7 @@ class _HealthProfileState extends State<HealthProfile> {
         child: Text(
           s,
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textSmaller,
               fontWeight: FontWeight.w500,
               color: Colors.black.withOpacity(.8)),
@@ -1136,7 +1134,7 @@ class _HealthProfileState extends State<HealthProfile> {
         child: Text(
           s,
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textSmaller,
               fontWeight: FontWeight.w500,
               color: Colors.black.withOpacity(.8)),
@@ -1172,7 +1170,7 @@ class _HealthProfileState extends State<HealthProfile> {
             Text(
               e,
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: Gparam.textSmaller,
                   fontWeight: FontWeight.w500,
                   color: Colors.black.withOpacity(.8)),
@@ -1183,7 +1181,7 @@ class _HealthProfileState extends State<HealthProfile> {
             Text(
               s,
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: Gparam.textSmaller,
                   fontWeight: FontWeight.w500,
                   color: Colors.black.withOpacity(.8)),
@@ -1219,7 +1217,7 @@ class _HealthProfileState extends State<HealthProfile> {
         child: Text(
           s,
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textSmaller,
               fontWeight: FontWeight.w500,
               color: Colors.black.withOpacity(.8)),
@@ -1257,7 +1255,7 @@ class _HealthProfileState extends State<HealthProfile> {
         child: Text(
           s,
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textSmaller,
               fontWeight: FontWeight.w500,
               color: Colors.black.withOpacity(.8)),
@@ -1291,7 +1289,7 @@ class _HealthProfileState extends State<HealthProfile> {
         child: Text(
           s,
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textSmaller,
               fontWeight: FontWeight.w500,
               color: Colors.black.withOpacity(.8)),

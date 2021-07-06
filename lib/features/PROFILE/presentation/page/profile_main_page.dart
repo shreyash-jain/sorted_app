@@ -74,7 +74,7 @@ class _ProfileState extends State<ProfilePage>
                     Text(
                       state.details.userName,
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontWeight: FontWeight.w700,
                           fontSize: 20,
                           color: Theme.of(context).highlightColor),
@@ -84,7 +84,7 @@ class _ProfileState extends State<ProfilePage>
                     Text(
                       "Edit profile",
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
                           color: Theme.of(context).highlightColor),
@@ -123,7 +123,7 @@ class _ProfileState extends State<ProfilePage>
                               child: Text(
                                 "Tracks",
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textVerySmall,
                                     fontWeight: FontWeight.w800,
                                     color: Theme.of(context).highlightColor),
@@ -138,7 +138,7 @@ class _ProfileState extends State<ProfilePage>
                               child: Text(
                                 "Posts",
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textVerySmall,
                                     fontWeight: FontWeight.w800,
                                     color: Theme.of(context).highlightColor),
@@ -153,7 +153,7 @@ class _ProfileState extends State<ProfilePage>
                               child: Text(
                                 "Journal",
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textVerySmall,
                                     fontWeight: FontWeight.w800,
                                     color: Theme.of(context).highlightColor),
@@ -197,4 +197,3 @@ class _ProfileState extends State<ProfilePage>
         }));
   }
 }
-

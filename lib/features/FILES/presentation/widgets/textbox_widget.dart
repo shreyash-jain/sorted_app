@@ -137,7 +137,7 @@ class TextboxWidgetState extends State<TextboxWidget> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         color: Theme.of(context).primaryColor,
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.w500),
@@ -186,7 +186,7 @@ class TextboxWidgetState extends State<TextboxWidget> {
                   initiallyExpanded: true,
                   maintainState: true,
                   expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                  tilePadding: EdgeInsets.only(right:8),
+                  tilePadding: EdgeInsets.only(right: 8),
                   backgroundColor:
                       Theme.of(context).scaffoldBackgroundColor.withAlpha(200),
                   title: Container(
@@ -224,7 +224,7 @@ class TextboxWidgetState extends State<TextboxWidget> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         color: Theme.of(context).highlightColor,
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.w500),

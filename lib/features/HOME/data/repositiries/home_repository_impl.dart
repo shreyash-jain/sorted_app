@@ -16,10 +16,15 @@ import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart' as ph;
-import 'package:sorted/features/HOME/data/models/recipe.dart';
-import 'package:sorted/features/HOME/data/models/video_recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
+import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
 import 'package:sorted/features/HOME/data/models/transformation.dart';
-import 'package:sorted/features/HOME/data/models/tagged_recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
@@ -842,7 +847,8 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<TaggedRecipe>>> getTaggedRecipes(int count) async {
+  Future<Either<Failure, List<TaggedRecipe>>> getTaggedRecipes(
+      int count) async {
     Failure failure;
     if (await networkInfo.isConnected) {
       try {
@@ -874,10 +880,11 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, TransformationModel>> getTransformationStory() async {
-     Failure failure;
+    Failure failure;
     if (await networkInfo.isConnected) {
       try {
-        TransformationModel transformation = await remoteDataSource.getTransformationStory();
+        TransformationModel transformation =
+            await remoteDataSource.getTransformationStory();
 
         return (Right(transformation));
       } on Exception {
@@ -889,10 +896,10 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, VideoRecipe>> getVideoRecipe() async {
-     Failure failure;
+    Failure failure;
     if (await networkInfo.isConnected) {
       try {
-       VideoRecipe videoRecipe = await remoteDataSource.getVideoRecipe();
+        VideoRecipe videoRecipe = await remoteDataSource.getVideoRecipe();
 
         return (Right(videoRecipe));
       } on Exception {
@@ -904,9 +911,9 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, RecipeModel>> getRecipeById(int id) async {
-     if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
-       RecipeModel recipe = await remoteDataSource.getRecipeById(id);
+        RecipeModel recipe = await remoteDataSource.getRecipeById(id);
 
         return (Right(recipe));
       } on Exception {
@@ -916,11 +923,11 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(NetworkFailure());
   }
 
-    @override
+  @override
   Future<Either<Failure, List<BlogModel>>> getBlogs(count) async {
-     if (await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
-       List<BlogModel> recipe = await remoteDataSource.getBlog(count);
+        List<BlogModel> recipe = await remoteDataSource.getBlog(count);
 
         return (Right(recipe));
       } on Exception {
@@ -930,5 +937,81 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(NetworkFailure());
   }
 
- 
+  @override
+  Future<Either<Failure, List<RecipeHowTo>>> getRecipeHowto(
+      int recipeId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        List<RecipeHowTo> recipeHowtos =
+            await remoteDataSource.getRecipeHowto(recipeId);
+
+        return (Right(recipeHowtos));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, IngredientAndQuantity>> getRecipeIngredients(
+      int recipeId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        IngredientAndQuantity ingredients =
+            await remoteDataSource.getRecipeIngredients(recipeId);
+
+        return (Right(ingredients));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<RecipeNutrition>>> getRecipeNutritions(
+      int recipeId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        List<RecipeNutrition> nutritions =
+            await remoteDataSource.getRecipeNutritions(recipeId);
+
+        return (Right(nutritions));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<RecipeStep>>> getRecipeSteps(int recipeId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        List<RecipeStep> steps =
+            await remoteDataSource.getRecipeSteps(recipeId);
+
+        return (Right(steps));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<RecipeToIngredient>>> getIngregientQuantities(int recipeId) async {
+     if (await networkInfo.isConnected) {
+      try {
+        List<RecipeToIngredient> quantities =
+            await remoteDataSource.getIngregientQuantities(recipeId);
+
+        return (Right(quantities));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
 }

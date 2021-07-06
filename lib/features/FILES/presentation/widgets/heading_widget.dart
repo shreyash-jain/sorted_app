@@ -96,7 +96,7 @@ class HeadingWidgetState extends State<HeadingWidget> {
                       BlocProvider.of<HeadingBloc>(context), state.heading);
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 6) ,
+                  padding: EdgeInsets.symmetric(vertical: 6),
                   child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +134,7 @@ class HeadingWidgetState extends State<HeadingWidget> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmall,
                                                   fontWeight: FontWeight.w500),
                                             ),
@@ -147,7 +147,7 @@ class HeadingWidgetState extends State<HeadingWidget> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                                fontFamily: 'Montserrat',
+                                                fontFamily: 'Milliard',
                                                 fontSize: Gparam.textVerySmall,
                                                 fontWeight: FontWeight.w400),
                                           ),
@@ -217,7 +217,7 @@ class HeadingWidgetState extends State<HeadingWidget> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textSmall,
                                               fontWeight: FontWeight.w500),
                                         ),
@@ -230,7 +230,7 @@ class HeadingWidgetState extends State<HeadingWidget> {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontFamily: 'Montserrat',
+                                            fontFamily: 'Milliard',
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w400),
                                       ),

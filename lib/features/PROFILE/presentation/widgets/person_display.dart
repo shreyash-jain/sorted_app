@@ -35,8 +35,8 @@ class PersonDisplay extends StatelessWidget {
               ),
               Gtheme.stext(name,
                   color: (Theme.of(context).brightness == Brightness.dark)
-                      ? Gcolors.W
-                      : Gcolors.B,
+                      ? GColors.W
+                      : GColors.B,
                   size: GFontSize.XXS),
               SizedBox(
                 width: 10,

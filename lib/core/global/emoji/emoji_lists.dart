@@ -2839,7 +2839,7 @@ final Map<String, String> flags = new Map.fromIterables([
   'Flag: Northern Mariana Islands',
   'Flag: Martinique',
   'Flag: Mauritania',
-  'Flag: Montserrat',
+  'Flag: Milliard',
   'Flag: Malta',
   'Flag: Mauritius',
   'Flag: Maldives',

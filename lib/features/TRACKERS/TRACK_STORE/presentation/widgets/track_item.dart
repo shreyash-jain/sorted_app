@@ -53,7 +53,7 @@ class TrackItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                     color: Theme.of(context).highlightColor,
                     fontSize: Gparam.textExtraSmall,
                     fontWeight: FontWeight.w500),

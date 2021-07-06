@@ -10,6 +10,7 @@ import 'package:sorted/features/HOME/presentation/pages/blog_full_page.dart';
 import 'package:sorted/features/HOME/presentation/pages/challenge_pv.dart';
 import 'package:sorted/features/HOME/presentation/pages/diet_palnner.dart';
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
+import 'package:sorted/features/HOME/presentation/pages/recipe_full_page.dart';
 import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
 
 import 'package:sorted/features/ONBOARDING/presentation/pages/onboard_page.dart';
@@ -59,6 +60,7 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: FullBlogPage),
     AutoRoute(page: ActivityPlanner),
     AutoRoute(page: DietPlanner),
+    AutoRoute(page: RecipePage),
   ],
 )
 class $ARouter {}

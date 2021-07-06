@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 
 MyGlobals myGlobals = MyGlobals();
 
-enum Gcolors {
+enum GColors {
   B,
   W,
   B1,
   W1,
   B2,
   W2,
+  O,
   BLUE,
   GREEN,
 }
 
 enum GFontSize { S, M, L, XL, XXL, XS, XXS, XXXS, XXXXS }
 
-enum GFontWeight { B, N, L }
+enum GFontWeight { B, N, L, B1, B2 }
 
 class MyGlobals {
   GlobalKey _scaffoldKey;
@@ -85,7 +86,19 @@ class Gtheme {
 
   static TextStyle blackShadowBold28 = TextStyle(
       color: Colors.black,
-      fontFamily: 'Montserrat',
+      fontFamily: 'Milliard',
+      fontSize: Gparam.textSmall,
+      shadows: [
+        Shadow(
+          blurRadius: 60.0,
+          color: Colors.white,
+          offset: Offset(1.0, 1.0),
+        ),
+      ],
+      fontWeight: FontWeight.normal);
+  static TextStyle blackShadowBold32 = TextStyle(
+      color: Colors.black,
+      fontFamily: 'Milliard',
       fontSize: Gparam.textSmaller,
       shadows: [
         Shadow(
@@ -94,22 +107,22 @@ class Gtheme {
           offset: Offset(1.0, 1.0),
         ),
       ],
-      fontWeight: FontWeight.bold);
+      fontWeight: FontWeight.w700);
   static TextStyle black20 = TextStyle(
       color: Colors.black54,
-      fontFamily: 'Montserrat',
+      fontFamily: 'Milliard',
       fontSize: Gparam.textSmaller,
       fontWeight: FontWeight.normal);
 
   // text bold
   static TextStyle textBold = TextStyle(
-    fontFamily: 'Montserrat',
+    fontFamily: 'Milliard',
     fontWeight: FontWeight.bold,
   );
 
   // text normal
   static TextStyle textNormal = TextStyle(
-    fontFamily: 'Montserrat',
+    fontFamily: 'Milliard',
     fontWeight: FontWeight.w600,
   );
 
@@ -138,33 +151,40 @@ class Gtheme {
     }
   }
 
-  static Color getColorFromEnum(Gcolors color) {
+  static Color getColorFromEnum(GColors color) {
     switch (color) {
-      case Gcolors.W:
+      case GColors.W:
         return Colors.white;
-      case Gcolors.W1:
+      case GColors.W1:
         return Colors.white70;
-      case Gcolors.W2:
+      case GColors.W2:
         return Colors.white38;
-      case Gcolors.B:
+      case GColors.B:
         return Colors.black;
-      case Gcolors.B1:
-        return Colors.black.withOpacity(.8);
-      case Gcolors.B2:
+      case GColors.B1:
+        return Colors.black.withOpacity(.75);
+      case GColors.B2:
         return Colors.black45;
-      case Gcolors.BLUE:
+      case GColors.BLUE:
         return Color(0xFF307df0);
-      case Gcolors.GREEN:
+      case GColors.GREEN:
         return Color(0xFF0ec76a);
+      case GColors.O:
+        return Colors.orangeAccent;
 
       default:
+        return Colors.orangeAccent;
     }
   }
 
   static FontWeight getWeightFromEnum(GFontWeight weight) {
     switch (weight) {
       case GFontWeight.B:
-        return FontWeight.w800;
+        return FontWeight.w900;
+      case GFontWeight.B1:
+        return FontWeight.w600;
+      case GFontWeight.B2:
+        return FontWeight.w700;
 
       case GFontWeight.N:
         return FontWeight.w500;
@@ -176,9 +196,9 @@ class Gtheme {
   }
 
   static Widget stext(String text,
-      {Gcolors color, GFontSize size, GFontWeight weight}) {
+      {GColors color, GFontSize size, GFontWeight weight}) {
     double dsize = getSizeFromEnum(size ?? GFontSize.S);
-    Color dcolor = getColorFromEnum(color ?? Gcolors.B);
+    Color dcolor = getColorFromEnum(color ?? GColors.B);
     FontWeight dweight = getWeightFromEnum(weight ?? GFontWeight.N);
     return Text(
       text,
@@ -186,7 +206,7 @@ class Gtheme {
         color: dcolor,
         fontSize: dsize,
         fontWeight: dweight,
-        fontFamily: 'Montserrat',
+        fontFamily: 'Milliard',
       ),
     );
   }

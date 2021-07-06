@@ -253,7 +253,7 @@ class RecordTabPageState extends State<RecordTabPage> {
                             text: TextSpan(
                               text: 'Sort.it',
                               style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                   fontSize: Gparam.textMedium,
                                   fontWeight: FontWeight.w400,
                                   color: Theme.of(context).primaryColor),
@@ -261,7 +261,7 @@ class RecordTabPageState extends State<RecordTabPage> {
                                 TextSpan(
                                     text: ' Recorder',
                                     style: TextStyle(
-                                      fontFamily: "Montserrat",
+                                      fontFamily: "Milliard",
                                       color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.w700,
                                       fontSize: Gparam.textMedium,
@@ -393,7 +393,7 @@ class RecordTabPageState extends State<RecordTabPage> {
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   shadows: [
                                                     Shadow(
                                                         color: Colors.black38,
@@ -544,7 +544,7 @@ class CategoryBlock extends StatelessWidget {
               child: Text(
                 widget.state.categories[index],
                 style: TextStyle(
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                     color: Theme.of(context).highlightColor,
                     fontSize: Gparam.textMedium,
                     fontWeight: FontWeight.w800),
@@ -566,7 +566,7 @@ class CategoryBlock extends StatelessWidget {
                     widget.state.categoriesDescription[index],
                     maxLines: 2,
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         color: Theme.of(context).highlightColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w300),
@@ -642,7 +642,7 @@ class CategoryItem extends StatelessWidget {
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               color: (selected == index)
                   ? Theme.of(context).textSelectionHandleColor
                   : Theme.of(context).highlightColor,

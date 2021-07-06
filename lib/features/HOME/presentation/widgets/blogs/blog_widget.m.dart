@@ -72,7 +72,7 @@ class _HomeBlogWidgetMState extends State<HomeBlogWidgetM> {
                                       Brightness.dark)
                                   ? Colors.white
                                   : Colors.black,
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmall,
                               fontWeight: FontWeight.w500),
                         ),
@@ -119,15 +119,15 @@ class _HomeBlogWidgetMState extends State<HomeBlogWidgetM> {
                                               color: (Theme.of(context)
                                                           .brightness ==
                                                       Brightness.dark)
-                                                  ? Gcolors.W
-                                                  : Gcolors.B),
+                                                  ? GColors.W
+                                                  : GColors.B),
                                           Gtheme.stext(e.value,
                                               size: GFontSize.XXS,
                                               color: (Theme.of(context)
                                                           .brightness ==
                                                       Brightness.dark)
-                                                  ? Gcolors.W1
-                                                  : Gcolors.B1),
+                                                  ? GColors.W1
+                                                  : GColors.B1),
                                         ],
                                       ),
                                     ),

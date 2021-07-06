@@ -43,7 +43,7 @@ class SurveySettingsState extends State<SurveySettings> {
               right: Gparam.widthPadding),
           child: Text('Survey Settings',
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
         ),
@@ -55,7 +55,6 @@ class SurveySettingsState extends State<SurveySettings> {
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(30.0)),
-                  
                   ),
                   child: Icon(OMIcons.autorenew),
                 ),
@@ -74,10 +73,7 @@ class SurveySettingsState extends State<SurveySettings> {
                       width: 60,
                       child: Switch(
                         value: widget.autofill,
-                        onChanged: (value) async {
-
-                          
-                        },
+                        onChanged: (value) async {},
                         activeColor:
                             (Theme.of(context).brightness == Brightness.dark)
                                 ? Theme.of(context).primaryColor
@@ -105,7 +101,6 @@ class SurveySettingsState extends State<SurveySettings> {
                         decoration: BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(30.0)),
-                        
                         ),
                         child: Icon(OMIcons.timelapse)),
                     SizedBox(
@@ -141,7 +136,7 @@ class SurveySettingsState extends State<SurveySettings> {
                       "${widget._valueSurveyTime.floor()} mins",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor,
@@ -191,7 +186,7 @@ class SurveySettingsState extends State<SurveySettings> {
   Widget buildCardWidget(Widget child, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-           color: Colors.grey.withOpacity(.05),
+          color: Colors.grey.withOpacity(.05),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(

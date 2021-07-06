@@ -105,7 +105,7 @@ class SelectCoverState extends State<SelectCover> {
                                     TextSpan(
                                         text: 'powered by',
                                         style: TextStyle(
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Milliard",
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.w300,
                                           fontSize: 10,
@@ -113,7 +113,7 @@ class SelectCoverState extends State<SelectCover> {
                                     TextSpan(
                                         text: ' unsplash.com',
                                         style: TextStyle(
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Milliard",
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.w700,
                                           fontSize: 12,
@@ -139,7 +139,7 @@ class SelectCoverState extends State<SelectCover> {
                               text: TextSpan(
                                 text: 'Gradients',
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w700,
                                   fontSize: Gparam.textMedium,
@@ -183,7 +183,7 @@ class SelectCoverState extends State<SelectCover> {
                               text: TextSpan(
                                 text: ' Work',
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w700,
                                   fontSize: Gparam.textMedium,
@@ -192,7 +192,7 @@ class SelectCoverState extends State<SelectCover> {
                                   TextSpan(
                                     text: ' goals',
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).primaryColor),
@@ -237,7 +237,7 @@ class SelectCoverState extends State<SelectCover> {
                               text: TextSpan(
                                 text: ' Study',
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w700,
                                   fontSize: Gparam.textMedium,
@@ -246,7 +246,7 @@ class SelectCoverState extends State<SelectCover> {
                                   TextSpan(
                                     text: ' goals',
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).primaryColor),
@@ -291,7 +291,7 @@ class SelectCoverState extends State<SelectCover> {
                               text: TextSpan(
                                 text: ' Get',
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   color: Theme.of(context).primaryColor,
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w500,
@@ -300,7 +300,7 @@ class SelectCoverState extends State<SelectCover> {
                                   TextSpan(
                                     text: ' Inspired',
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textMedium,
                                         fontWeight: FontWeight.w700,
                                         color: Theme.of(context).primaryColor),
@@ -350,7 +350,7 @@ class SelectCoverState extends State<SelectCover> {
                               text: TextSpan(
                                 text: "Search\n",
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                   color: Theme.of(context).primaryColor,
                                   fontSize: Gparam.textMedium,
                                   fontWeight: FontWeight.w500,
@@ -359,7 +359,7 @@ class SelectCoverState extends State<SelectCover> {
                                   TextSpan(
                                       text: "powered by ",
                                       style: TextStyle(
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Milliard",
                                         height: 1.2,
                                         fontWeight: FontWeight.w300,
                                         fontSize: Gparam.textVerySmall,
@@ -367,7 +367,7 @@ class SelectCoverState extends State<SelectCover> {
                                   TextSpan(
                                       text: "Unsplash.com",
                                       style: TextStyle(
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Milliard",
                                         height: 1.2,
                                         fontWeight: FontWeight.w800,
                                         fontSize: Gparam.textVerySmall,
@@ -424,7 +424,7 @@ class SelectCoverState extends State<SelectCover> {
                                 },
                                 textInputAction: TextInputAction.done,
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textMedium,
                                     color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.w800),
@@ -435,7 +435,7 @@ class SelectCoverState extends State<SelectCover> {
                                           .primaryColor
                                           .withOpacity(.5),
                                       fontSize: Gparam.textMedium,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontWeight: FontWeight.w500),
                                   border: InputBorder.none,
                                 ),

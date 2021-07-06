@@ -150,7 +150,7 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         color: Theme.of(context).highlightColor,
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.w500),
@@ -208,7 +208,7 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
                                       child: Text(
                                         state.suggestions[index].todoItem,
                                         style: TextStyle(
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Milliard",
                                           height: 1.2,
                                           color:
                                               Theme.of(context).highlightColor,
@@ -238,7 +238,7 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
                       maxLines: 1,
                       cursorColor: Theme.of(context).primaryColor,
                       style: TextStyle(
-                        fontFamily: "Montserrat",
+                        fontFamily: "Milliard",
                         height: 1.2,
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w500,
@@ -269,7 +269,7 @@ class TodoitemWidgetState extends State<TodoitemWidget> {
                         ),
                         hintText: 'Add New',
                         hintStyle: TextStyle(
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           height: 1.2,
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w300,
@@ -421,7 +421,7 @@ class _ListTodoCard extends State<ListTodoCard> {
                                       maxLines: 2,
                                       style: TextStyle(
                                         decoration: TextDecoration.none,
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Milliard",
                                         height: 1,
                                         color: Theme.of(context).highlightColor,
                                         fontWeight: FontWeight.w500,

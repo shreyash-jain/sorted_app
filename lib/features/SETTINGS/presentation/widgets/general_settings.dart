@@ -52,7 +52,7 @@ class GeneralSettings extends StatelessWidget {
           child: Text('General Settings',
               textAlign: TextAlign.left,
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: Gparam.textSmall,
                   fontWeight: FontWeight.bold)),
         ),

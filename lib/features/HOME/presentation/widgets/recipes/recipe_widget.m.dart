@@ -4,7 +4,7 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:sorted/features/HOME/data/models/tagged_recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
 
 class HomeRecipeWidgetM extends StatefulWidget {
   final List<TaggedRecipe> recipes;
@@ -65,7 +65,7 @@ class _HomeRecipeWidgetMState extends State<HomeRecipeWidgetM> {
                                       Brightness.dark)
                                   ? Colors.white
                                   : Colors.black,
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmall,
                               fontWeight: FontWeight.w500),
                         ),
@@ -95,8 +95,8 @@ class _HomeRecipeWidgetMState extends State<HomeRecipeWidgetM> {
                                     size: GFontSize.XXS,
                                     color: (Theme.of(context).brightness ==
                                             Brightness.dark)
-                                        ? Gcolors.W1
-                                        : Gcolors.B1),
+                                        ? GColors.W1
+                                        : GColors.B1),
                               ])
                             ],
                           )),

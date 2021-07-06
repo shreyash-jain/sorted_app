@@ -52,7 +52,7 @@ class BlockListWidget extends StatelessWidget {
                   text: TextSpan(
                     text: "Select",
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).primaryColor),
@@ -60,7 +60,7 @@ class BlockListWidget extends StatelessWidget {
                       TextSpan(
                           text: " Block",
                           style: TextStyle(
-                            fontFamily: "Montserrat",
+                            fontFamily: "Milliard",
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.normal,
                             fontSize: Gparam.textSmall,

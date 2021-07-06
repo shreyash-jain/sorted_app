@@ -77,7 +77,7 @@ class UpcomingTasks extends StatelessWidget {
                               : "",
                           style: TextStyle(
                               height: 1.3,
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmall,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).highlightColor),
@@ -85,18 +85,16 @@ class UpcomingTasks extends StatelessWidget {
                             TextSpan(
                                 text: task.title,
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
-                                  color:
-                                      Theme.of(context).highlightColor,
+                                  fontFamily: "Milliard",
+                                  color: Theme.of(context).highlightColor,
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w800,
                                 )),
                             TextSpan(
                                 text: "\n",
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
-                                  color:
-                                      Theme.of(context).highlightColor,
+                                  fontFamily: "Milliard",
+                                  color: Theme.of(context).highlightColor,
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w800,
                                 )),
@@ -119,7 +117,7 @@ class UpcomingTasks extends StatelessWidget {
                         text: TextSpan(
                           text: pastDeadline(task.deadLine) + "\n",
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textVerySmall,
                               fontWeight: FontWeight.w300,
                               color: Theme.of(context).highlightColor),
@@ -127,7 +125,7 @@ class UpcomingTasks extends StatelessWidget {
                             TextSpan(
                                 text: countdownDays(task.deadLine),
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   height: 1.2,
                                   fontWeight: FontWeight.w700,
                                   fontSize: Gparam.textVerySmall,
@@ -135,7 +133,7 @@ class UpcomingTasks extends StatelessWidget {
                             TextSpan(
                                 text: countdownDaysUnit(task.deadLine),
                                 style: TextStyle(
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Milliard",
                                   height: 1.2,
                                   fontWeight: FontWeight.w300,
                                   fontSize: Gparam.textVerySmall,

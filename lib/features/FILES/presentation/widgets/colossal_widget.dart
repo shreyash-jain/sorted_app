@@ -122,7 +122,7 @@ class ColossalWidgetState extends State<ColossalWidget> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           color: Theme.of(context).primaryColor,
                                           fontSize: Gparam.textSmall,
                                           fontWeight: FontWeight.w500),

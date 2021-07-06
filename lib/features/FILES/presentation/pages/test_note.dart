@@ -255,7 +255,7 @@ class NoteMainState extends State<NoteMain> {
                               text: TextSpan(
                                 text: 'Tap to',
                                 style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     fontSize: Gparam.textSmaller,
                                     fontWeight: FontWeight.w400,
                                     color: Theme.of(context).primaryColor),
@@ -263,7 +263,7 @@ class NoteMainState extends State<NoteMain> {
                                   TextSpan(
                                       text: ' Edit',
                                       style: TextStyle(
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Milliard",
                                         color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.w700,
                                         fontSize: Gparam.textSmaller,
@@ -271,7 +271,7 @@ class NoteMainState extends State<NoteMain> {
                                   TextSpan(
                                       text: ' image',
                                       style: TextStyle(
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Milliard",
                                         color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.w400,
                                         fontSize: Gparam.textSmaller,
@@ -493,7 +493,7 @@ class NoteMainState extends State<NoteMain> {
                                                 text: TextSpan(
                                                   text: 'Goal',
                                                   style: TextStyle(
-                                                      fontFamily: 'Montserrat',
+                                                      fontFamily: 'Milliard',
                                                       fontSize:
                                                           Gparam.textMedium,
                                                       fontWeight:
@@ -505,7 +505,7 @@ class NoteMainState extends State<NoteMain> {
                                                         text: ' Planner',
                                                         style: TextStyle(
                                                           fontFamily:
-                                                              "Montserrat",
+                                                              "Milliard",
                                                           color:
                                                               Theme.of(context)
                                                                   .primaryColor,
@@ -604,7 +604,7 @@ class NoteMainState extends State<NoteMain> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
-                                                                      'Montserrat',
+                                                                      'Milliard',
                                                                   fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
@@ -617,7 +617,7 @@ class NoteMainState extends State<NoteMain> {
                                                                           "cover",
                                                                       style: TextStyle(
                                                                           fontFamily:
-                                                                              "Montserrat",
+                                                                              "Milliard",
                                                                           height:
                                                                               1.2,
                                                                           fontWeight: FontWeight
@@ -695,7 +695,7 @@ class NoteMainState extends State<NoteMain> {
                                                               state.note.title,
                                                           style: TextStyle(
                                                               fontFamily:
-                                                                  'Montserrat',
+                                                                  'Milliard',
                                                               fontSize: Gparam
                                                                   .textSmall,
                                                               fontWeight:
@@ -725,8 +725,7 @@ class NoteMainState extends State<NoteMain> {
                                                     duration: Duration(
                                                         milliseconds: 300),
                                                     textStyle: TextStyle(
-                                                        fontFamily:
-                                                            'Montserrat',
+                                                        fontFamily: 'Milliard',
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -739,8 +738,7 @@ class NoteMainState extends State<NoteMain> {
                                                     duration: Duration(
                                                         milliseconds: 300),
                                                     textStyle: TextStyle(
-                                                        fontFamily:
-                                                            'Montserrat',
+                                                        fontFamily: 'Milliard',
                                                         fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w300,
@@ -809,7 +807,7 @@ class NoteMainState extends State<NoteMain> {
                                                               text: "Add ",
                                                               style: TextStyle(
                                                                 fontFamily:
-                                                                    'Montserrat',
+                                                                    'Milliard',
                                                                 fontSize: 14,
                                                                 color: Theme.of(
                                                                         context)
@@ -825,7 +823,7 @@ class NoteMainState extends State<NoteMain> {
                                                                         "cover",
                                                                     style: TextStyle(
                                                                         fontFamily:
-                                                                            "Montserrat",
+                                                                            "Milliard",
                                                                         height:
                                                                             1.2,
                                                                         fontWeight:
@@ -917,8 +915,7 @@ class NoteMainState extends State<NoteMain> {
                                                   Text(
                                                     "Block",
                                                     style: TextStyle(
-                                                        fontFamily:
-                                                            "Montserrat",
+                                                        fontFamily: "Milliard",
                                                         height: 1.2,
                                                         fontWeight:
                                                             FontWeight.w500,

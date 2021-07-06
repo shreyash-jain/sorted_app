@@ -32,7 +32,7 @@ class BuildMarketHeading extends StatelessWidget {
               Text(
                 marketHeading.name,
                 style: TextStyle(
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                     color: Theme.of(context).highlightColor,
                     fontSize: Gparam.textSmall,
                     fontWeight: FontWeight.w500),
@@ -47,10 +47,10 @@ class BuildMarketHeading extends StatelessWidget {
             itemCount: marketHeading.tracksDetail.length + 1,
             itemBuilder: (_, i) => (i == 0)
                 ? SizedBox(
-                    width: Gparam.widthPadding/2,
+                    width: Gparam.widthPadding / 2,
                   )
                 : TrackItem(
-                    track: marketHeading.tracksDetail[i-1],
+                    track: marketHeading.tracksDetail[i - 1],
                     marketHeading: marketHeading),
           ),
         ),

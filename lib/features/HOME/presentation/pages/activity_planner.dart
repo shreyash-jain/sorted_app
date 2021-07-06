@@ -432,7 +432,7 @@ class _ActivityPlannerState extends State<ActivityPlanner> {
                           text: TextSpan(
                             text: 'Activity',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textMedium,
                                 fontWeight: FontWeight.w400,
                                 color: (Theme.of(context).brightness ==
@@ -443,7 +443,7 @@ class _ActivityPlannerState extends State<ActivityPlanner> {
                               TextSpan(
                                   text: ' Planner',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: (Theme.of(context).brightness ==
                                             Brightness.dark)
                                         ? Colors.white
@@ -697,7 +697,7 @@ class ItemWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                         color: (Theme.of(context).brightness == Brightness.dark)
                             ? Colors.white
@@ -712,7 +712,7 @@ class ItemWidget extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textVerySmall,
                             color: (Theme.of(context).brightness ==
                                     Brightness.dark)
@@ -749,7 +749,7 @@ class ItemWidget extends StatelessWidget {
                     text: TextSpan(
                       text: pastDeadline(item.task.deadLine) + " ",
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontSize: Gparam.textVerySmall,
                           fontWeight: FontWeight.w300,
                           color:
@@ -760,7 +760,7 @@ class ItemWidget extends StatelessWidget {
                         TextSpan(
                             text: countdownDays(item.task.deadLine),
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Milliard",
                               height: 1.2,
                               fontWeight: FontWeight.w700,
                               fontSize: Gparam.textVerySmall,
@@ -768,7 +768,7 @@ class ItemWidget extends StatelessWidget {
                         TextSpan(
                             text: countdownDaysUnit(item.task.deadLine),
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Milliard",
                               height: 1.2,
                               fontWeight: FontWeight.w300,
                               fontSize: Gparam.textVerySmall,

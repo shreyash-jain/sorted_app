@@ -100,7 +100,7 @@ class ImageWidgetState extends State<ImageWidget> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textSmaller,
                             fontWeight: FontWeight.w500),
                       ),
@@ -183,7 +183,7 @@ class ImageWidgetState extends State<ImageWidget> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           color: Theme.of(context).primaryColor,
                                           fontSize: Gparam.textSmall,
                                           fontWeight: FontWeight.w500),
@@ -323,7 +323,7 @@ class ImageWidgetState extends State<ImageWidget> {
                     'Update Image',
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      fontFamily: "Montserrat",
+                      fontFamily: "Milliard",
                       height: 1.2,
                       color: Theme.of(context2).primaryColor,
                       fontWeight: FontWeight.w500,
@@ -343,7 +343,7 @@ class ImageWidgetState extends State<ImageWidget> {
                     'Delete Image',
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      fontFamily: "Montserrat",
+                      fontFamily: "Milliard",
                       height: 1.2,
                       color: Theme.of(context2).primaryColor,
                       fontWeight: FontWeight.w500,

@@ -51,7 +51,7 @@ class Accountsettings extends StatelessWidget {
               right: Gparam.widthPadding),
           child: Text('Account Settings',
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: Gparam.textSmall,
                   fontWeight: FontWeight.bold)),
         ),
@@ -66,7 +66,6 @@ class Accountsettings extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius:
                               new BorderRadius.all(Radius.circular(30.0)),
-                        
                         ),
                         child: Icon(OMIcons.accountCircle)),
                     SizedBox(
@@ -98,11 +97,10 @@ class Accountsettings extends StatelessWidget {
                                 stops: [.2, .8],
                                 tileMode: TileMode.repeated),
                           ),
-                         
                           child: Text('BASIC',
                               style: TextStyle(
                                 fontFamily: 'Eastman',
-                                fontSize:  Gparam.textVerySmall,
+                                fontSize: Gparam.textVerySmall,
                               )),
                         ),
                       ],
@@ -125,7 +123,7 @@ class Accountsettings extends StatelessWidget {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontFamily: 'Eastman',
-                         fontSize: Gparam.textSmaller,
+                        fontSize: Gparam.textSmaller,
                       ),
                     )),
                 Container(
@@ -143,8 +141,8 @@ class Accountsettings extends StatelessWidget {
                       g_email,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
-                         fontSize: Gparam.textSmall,
+                        fontFamily: 'Milliard',
+                        fontSize: Gparam.textSmall,
                         fontWeight: FontWeight.normal,
                         color: Colors.grey.withOpacity(.8),
                       ),
@@ -194,7 +192,7 @@ class Accountsettings extends StatelessWidget {
                       child: Text('SIGNOUT',
                           style: TextStyle(
                             fontFamily: 'Eastman',
-                              fontSize: Gparam.textVerySmall,
+                            fontSize: Gparam.textVerySmall,
                           )),
                     ),
                   ],
@@ -213,7 +211,6 @@ class Accountsettings extends StatelessWidget {
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(30.0)),
-                   
                   ),
                   child: Image.asset('assets/images/google_fit.png',
                       width: 25,
@@ -239,7 +236,6 @@ class Accountsettings extends StatelessWidget {
                         value: googleFitSwitched,
                         onChanged: (value) async {
                           onTapGoogleFit(value);
-                          
                         },
                         activeColor:
                             (Theme.of(context).brightness == Brightness.dark)

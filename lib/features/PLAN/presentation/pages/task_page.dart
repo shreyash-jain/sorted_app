@@ -177,8 +177,7 @@ class TaskPageState extends State<TaskPage> {
                                     height: 53,
                                     width: Gparam.width,
                                     child: FloatingWidget(
-                                        child:
-                                            ListTodoCard(items[index])),
+                                        child: ListTodoCard(items[index])),
                                   ),
                                 ),
                                 buildItemDragTarget(index, 53),
@@ -288,7 +287,7 @@ class TaskPageState extends State<TaskPage> {
                                                 text: TextSpan(
                                                   text: state.thisTask.title,
                                                   style: TextStyle(
-                                                      fontFamily: 'Montserrat',
+                                                      fontFamily: 'Milliard',
                                                       fontSize:
                                                           Gparam.textSmall,
                                                       fontWeight:
@@ -344,7 +343,7 @@ class TaskPageState extends State<TaskPage> {
                                               text: TextSpan(
                                                 text: "Add ",
                                                 style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: 10,
                                                   color: Theme.of(context)
                                                       .highlightColor,
@@ -354,8 +353,7 @@ class TaskPageState extends State<TaskPage> {
                                                   TextSpan(
                                                       text: "Tag",
                                                       style: TextStyle(
-                                                        fontFamily:
-                                                            "Montserrat",
+                                                        fontFamily: "Milliard",
                                                         height: 1.2,
                                                         fontWeight:
                                                             FontWeight.w300,
@@ -409,9 +407,9 @@ class TaskPageState extends State<TaskPage> {
                                         text: TextSpan(
                                           text: "Created" + "  ",
                                           style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color:
-                                                Theme.of(context).highlightColor,
+                                            fontFamily: 'Milliard',
+                                            color: Theme.of(context)
+                                                .highlightColor,
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w800,
                                           ),
@@ -420,7 +418,7 @@ class TaskPageState extends State<TaskPage> {
                                                 text: countdownDays(
                                                     state.thisTask.savedTs),
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize:
@@ -430,7 +428,7 @@ class TaskPageState extends State<TaskPage> {
                                                 text: countdownDaysUnit(
                                                     state.thisTask.savedTs),
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize:
@@ -439,7 +437,7 @@ class TaskPageState extends State<TaskPage> {
                                             TextSpan(
                                                 text: " ago",
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize:
@@ -476,9 +474,9 @@ class TaskPageState extends State<TaskPage> {
                                                   state.thisTask.deadLine) +
                                               " ",
                                           style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            color:
-                                                Theme.of(context).highlightColor,
+                                            fontFamily: 'Milliard',
+                                            color: Theme.of(context)
+                                                .highlightColor,
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w800,
                                           ),
@@ -487,7 +485,7 @@ class TaskPageState extends State<TaskPage> {
                                                 text: countdownDays(
                                                     widget.thisGoal.deadLine),
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize:
@@ -497,7 +495,7 @@ class TaskPageState extends State<TaskPage> {
                                                 text: countdownDaysUnit(
                                                     state.thisTask.deadLine),
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize:
@@ -508,7 +506,7 @@ class TaskPageState extends State<TaskPage> {
                                               TextSpan(
                                                   text: " ‼ ",
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     color: Colors.redAccent,
                                                     fontWeight: FontWeight.w500,
@@ -519,7 +517,7 @@ class TaskPageState extends State<TaskPage> {
                                               TextSpan(
                                                   text: "near deadline",
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     color: Colors.redAccent,
                                                     fontWeight: FontWeight.w500,
@@ -584,7 +582,7 @@ class TaskPageState extends State<TaskPage> {
                                             text: TextSpan(
                                               text: "Add ",
                                               style: TextStyle(
-                                                fontFamily: 'Montserrat',
+                                                fontFamily: 'Milliard',
                                                 fontSize: Gparam.textVerySmall,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -592,7 +590,7 @@ class TaskPageState extends State<TaskPage> {
                                                 TextSpan(
                                                     text: "Attachment",
                                                     style: TextStyle(
-                                                      fontFamily: "Montserrat",
+                                                      fontFamily: "Milliard",
                                                       height: 1.2,
                                                       fontWeight:
                                                           FontWeight.w300,
@@ -640,7 +638,7 @@ class TaskPageState extends State<TaskPage> {
                                         text: TextSpan(
                                           text: "Add ",
                                           style: TextStyle(
-                                            fontFamily: 'Montserrat',
+                                            fontFamily: 'Milliard',
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -648,7 +646,7 @@ class TaskPageState extends State<TaskPage> {
                                             TextSpan(
                                                 text: "Dependency",
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize: Gparam.textSmaller,
@@ -686,7 +684,7 @@ class TaskPageState extends State<TaskPage> {
                         //           ),
                         //           child: Text('school',
                         //               style: TextStyle(
-                        //                 fontFamily: 'Montserrat',
+                        //                 fontFamily: 'Milliard',
                         //                 fontWeight: FontWeight.w800,
                         //                 color: Colors.white,
                         //                 fontSize: Gparam.textVerySmall,
@@ -710,7 +708,7 @@ class TaskPageState extends State<TaskPage> {
                         //           ),
                         //           child: Text('work',
                         //               style: TextStyle(
-                        //                 fontFamily: 'Montserrat',
+                        //                 fontFamily: 'Milliard',
                         //                 fontWeight: FontWeight.w800,
                         //                 color: Colors.white,
                         //                 fontSize: Gparam.textVerySmall,
@@ -734,7 +732,7 @@ class TaskPageState extends State<TaskPage> {
                         //           ),
                         //           child: Text('cloud',
                         //               style: TextStyle(
-                        //                 fontFamily: 'Montserrat',
+                        //                 fontFamily: 'Milliard',
                         //                 fontWeight: FontWeight.w800,
                         //                 color: Colors.white,
                         //                 fontSize: Gparam.textVerySmall,
@@ -758,7 +756,7 @@ class TaskPageState extends State<TaskPage> {
                         //           ),
                         //           child: Text('boss',
                         //               style: TextStyle(
-                        //                 fontFamily: 'Montserrat',
+                        //                 fontFamily: 'Milliard',
                         //                 fontWeight: FontWeight.w800,
                         //                 color: Colors.white,
                         //                 fontSize: Gparam.textVerySmall,
@@ -782,7 +780,7 @@ class TaskPageState extends State<TaskPage> {
                         //           ),
                         //           child: Text('documentation',
                         //               style: TextStyle(
-                        //                   fontFamily: 'Montserrat',
+                        //                   fontFamily: 'Milliard',
                         //                   fontSize: Gparam.textVerySmall,
                         //                   color: Colors.white,
                         //                   fontWeight: FontWeight.w800)),
@@ -805,7 +803,7 @@ class TaskPageState extends State<TaskPage> {
                         //           ),
                         //           child: Text('database',
                         //               style: TextStyle(
-                        //                   fontFamily: 'Montserrat',
+                        //                   fontFamily: 'Milliard',
                         //                   fontSize: Gparam.textVerySmall,
                         //                   color: Colors.white,
                         //                   fontWeight: FontWeight.w800)),
@@ -834,7 +832,7 @@ class TaskPageState extends State<TaskPage> {
                                   text: TextSpan(
                                       text: "Description\n",
                                       style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           fontSize: Gparam.textVerySmall,
                                           fontWeight: FontWeight.w500,
                                           color:
@@ -843,10 +841,10 @@ class TaskPageState extends State<TaskPage> {
                                         TextSpan(
                                           text: state.thisTask.description,
                                           style: TextStyle(
-                                            fontFamily: "Montserrat",
+                                            fontFamily: "Milliard",
                                             height: 1.2,
-                                            color:
-                                                Theme.of(context).highlightColor,
+                                            color: Theme.of(context)
+                                                .highlightColor,
                                             fontWeight: FontWeight.w300,
                                             fontSize: Gparam.textVerySmall,
                                           ),
@@ -869,17 +867,19 @@ class TaskPageState extends State<TaskPage> {
                                 text: TextSpan(
                                     text: "Lets add some",
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w300,
-                                        color: Theme.of(context).highlightColor),
+                                        color:
+                                            Theme.of(context).highlightColor),
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: " Subtasks",
                                         style: TextStyle(
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Milliard",
                                           height: 1.2,
-                                          color: Theme.of(context).highlightColor,
+                                          color:
+                                              Theme.of(context).highlightColor,
                                           fontWeight: FontWeight.w500,
                                           fontSize: Gparam.textVerySmall,
                                         ),
@@ -915,7 +915,7 @@ class TaskPageState extends State<TaskPage> {
                             maxLines: 1,
                             cursorColor: Theme.of(context).primaryColor,
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Milliard",
                               height: 1.2,
                               color: Theme.of(context).highlightColor,
                               fontWeight: FontWeight.w500,
@@ -938,7 +938,7 @@ class TaskPageState extends State<TaskPage> {
                               ),
                               hintText: 'Enter Todo',
                               hintStyle: TextStyle(
-                                fontFamily: "Montserrat",
+                                fontFamily: "Milliard",
                                 height: 1.2,
                                 color: Theme.of(context).highlightColor,
                                 fontWeight: FontWeight.w300,
@@ -1280,7 +1280,7 @@ class TaskPageState extends State<TaskPage> {
             text: TextSpan(
               text: "#",
               style: TextStyle(
-                fontFamily: 'Montserrat',
+                fontFamily: 'Milliard',
                 fontSize: 14,
                 color: getContrastColor(otherColor),
                 fontWeight: FontWeight.w300,
@@ -1289,7 +1289,7 @@ class TaskPageState extends State<TaskPage> {
                 TextSpan(
                     text: tag.tag,
                     style: TextStyle(
-                      fontFamily: "Montserrat",
+                      fontFamily: "Milliard",
                       height: 1.2,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
@@ -1305,7 +1305,6 @@ class TaskPageState extends State<TaskPage> {
 
 class ListTodoCard extends StatefulWidget {
   final TodoItemModel todo;
-
 
   ListTodoCard(this.todo);
 
@@ -1359,7 +1358,7 @@ class _ListTodoCard extends State<ListTodoCard> {
                           decoration: (widget.todo.state == 1)
                               ? TextDecoration.lineThrough
                               : TextDecoration.none,
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           height: 1.2,
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,

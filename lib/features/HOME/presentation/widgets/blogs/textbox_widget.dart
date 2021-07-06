@@ -19,7 +19,7 @@ class BlogTextBoxWidget extends StatelessWidget {
     print(textbox.content);
     final defaultLineTheme = LineTheme(
       textStyle: TextStyle(
-        fontFamily: 'Montserrat',
+        fontFamily: 'Milliard',
         wordSpacing: 1.2,
         height: 1.5,
         color: (Theme.of(context).brightness == Brightness.dark)
@@ -52,8 +52,8 @@ class BlogTextBoxWidget extends StatelessWidget {
                 weight: GFontWeight.B,
                 size: GFontSize.M,
                 color: (Theme.of(context).brightness == Brightness.dark)
-                    ? Gcolors.W
-                    : Gcolors.B),
+                    ? GColors.W
+                    : GColors.B),
             if (textbox.imageUrl != null && textbox.imageUrl != "")
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10)),

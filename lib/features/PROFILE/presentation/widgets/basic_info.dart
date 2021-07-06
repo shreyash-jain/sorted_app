@@ -68,7 +68,7 @@ class BasicInfoWidget extends StatelessWidget {
                         Text(
                           "Level",
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: 12.0,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).highlightColor),
@@ -82,7 +82,7 @@ class BasicInfoWidget extends StatelessWidget {
                           child: Text(
                             "3",
                             style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: 14.0,
                               fontWeight: FontWeight.w800,
                             ),
@@ -135,12 +135,13 @@ class BasicInfoWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           GrowthWidget(
-                            percentage: state.profile?.fitness_growth??0.0,
+                            percentage: state.profile?.fitness_growth ?? 0.0,
                             type: "Fitness",
                             color: Color(0xFF307df0),
                           ),
-                           GrowthWidget(
-                            percentage: state.profile?.mindfulness_growth??0.0,
+                          GrowthWidget(
+                            percentage:
+                                state.profile?.mindfulness_growth ?? 0.0,
                             type: "Mindfulness",
                             color: Color(0xFF0ec76a),
                           ),
@@ -190,7 +191,7 @@ class GrowthWidget extends StatelessWidget {
           child: Text(
             "${percentage.toStringAsPrecision(2)} %",
             style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: 12,
               color: (percentage > 0) ? Colors.green : Colors.redAccent,
               fontWeight: FontWeight.w800,
@@ -225,7 +226,7 @@ class GrowthWidget extends StatelessWidget {
             Text(
               type,
               style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Milliard',
                   fontSize: 12.0,
                   fontWeight: FontWeight.w400,
                   color: Theme.of(context).highlightColor),

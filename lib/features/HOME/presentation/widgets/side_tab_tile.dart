@@ -52,7 +52,7 @@ class SideTabTile extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(tabName,
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textVerySmall,
                         fontWeight: FontWeight.w500)),
               ),

@@ -77,7 +77,7 @@ class AutherWidgetState extends State<AutherWidget> {
         child: GestureDetector(
           onTap: () {},
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: Gparam.heightPadding/3),
+            padding: EdgeInsets.symmetric(vertical: Gparam.heightPadding / 3),
             child: Row(children: [
               Flexible(
                   child: SingleChildScrollView(
@@ -110,7 +110,7 @@ class AutherWidgetState extends State<AutherWidget> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textVerySmall,
                                 fontWeight: FontWeight.w800),
                           ),
@@ -130,7 +130,7 @@ class AutherWidgetState extends State<AutherWidget> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w500),
                                   ),

@@ -6,6 +6,10 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
@@ -35,6 +39,7 @@ abstract class HomeNative {
   Future<List<Placeholder>> get placeholderDetails;
   Future<List<Placeholder>> get thumbnailDetails;
   Future<List<UnsplashImage>> get unsplashImages;
+ 
 }
 
 class HomeNativeDataSourceImpl implements HomeNative {
@@ -155,8 +160,8 @@ class HomeNativeDataSourceImpl implements HomeNative {
   Future<InspirationModel> get todayInspiration async {
     final db = await nativeDb.database;
     List<Map<String, dynamic>> result;
-    result =
-        await db.rawQuery("SELECT * FROM Inspirations ORDER BY RANDOM() LIMIT 1");
+    result = await db
+        .rawQuery("SELECT * FROM Inspirations ORDER BY RANDOM() LIMIT 1");
     List<InspirationModel> inpirations = result.isNotEmpty
         ? result.map((item) => InspirationModel.fromMap(item)).toList()
         : [
@@ -274,4 +279,6 @@ class HomeNativeDataSourceImpl implements HomeNative {
     else
       return false;
   }
+
+ 
 }

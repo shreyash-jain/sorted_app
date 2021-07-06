@@ -25,13 +25,13 @@ class OnboardStrings {
 
 class OnboardTextStyle {
   static TextStyle descriptionTS = TextStyle(
-      fontFamily: 'Montserrat',
+      fontFamily: 'Milliard',
       fontSize: Gparam.textSmaller,
       fontWeight: FontWeight.w500,
       color: Colors.black45);
 
   static TextStyle titleTS = TextStyle(
-      fontFamily: 'Montserrat',
+      fontFamily: 'Milliard',
       fontSize: Gparam.textSmall,
       fontWeight: FontWeight.w800,
       color: Colors.black87);

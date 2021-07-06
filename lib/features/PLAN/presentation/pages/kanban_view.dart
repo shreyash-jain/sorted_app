@@ -410,7 +410,7 @@ class _KanbanState extends State<Kanban> {
                           text: TextSpan(
                             text: 'Board',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textMedium,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColor),
@@ -418,7 +418,7 @@ class _KanbanState extends State<Kanban> {
                               TextSpan(
                                   text: ' View',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.w700,
                                     fontSize: Gparam.textSmall,
@@ -460,7 +460,6 @@ class _KanbanState extends State<Kanban> {
                             );
                           }).toList()),
                     )),
-                    
               ],
             ),
             Align(
@@ -613,8 +612,6 @@ class AddTaskWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                
-                
               ],
             ),
           ],
@@ -651,7 +648,7 @@ class ItemWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w800,
@@ -664,7 +661,7 @@ class ItemWidget extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textVerySmall,
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w500,
@@ -696,7 +693,7 @@ class ItemWidget extends StatelessWidget {
                     text: TextSpan(
                       text: pastDeadline(item.task.deadLine) + " ",
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontSize: Gparam.textVerySmall,
                           fontWeight: FontWeight.w300,
                           color: Theme.of(context).primaryColor),
@@ -704,7 +701,7 @@ class ItemWidget extends StatelessWidget {
                         TextSpan(
                             text: countdownDays(item.task.deadLine),
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Milliard",
                               height: 1.2,
                               fontWeight: FontWeight.w700,
                               fontSize: Gparam.textVerySmall,
@@ -712,7 +709,7 @@ class ItemWidget extends StatelessWidget {
                         TextSpan(
                             text: countdownDaysUnit(item.task.deadLine),
                             style: TextStyle(
-                              fontFamily: "Montserrat",
+                              fontFamily: "Milliard",
                               height: 1.2,
                               fontWeight: FontWeight.w300,
                               fontSize: Gparam.textVerySmall,

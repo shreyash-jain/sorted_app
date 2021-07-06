@@ -74,7 +74,7 @@ class HeadingMenuState extends State<HeadingMenu> {
                 'Side Heading',
                 style: TextStyle(
                   decoration: TextDecoration.none,
-                  fontFamily: "Montserrat",
+                  fontFamily: "Milliard",
                   height: 1.2,
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w500,
@@ -96,7 +96,7 @@ class HeadingMenuState extends State<HeadingMenu> {
                 'Center Heading',
                 style: TextStyle(
                   decoration: TextDecoration.none,
-                  fontFamily: "Montserrat",
+                  fontFamily: "Milliard",
                   height: 1.2,
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w500,

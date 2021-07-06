@@ -5,7 +5,7 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:sorted/features/HOME/data/models/tagged_recipe.dart';
+import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
 import 'package:sorted/features/HOME/data/models/transformation.dart';
 import 'package:sorted/features/HOME/presentation/transformation_bloc/transformation_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/heading.dart';
@@ -100,7 +100,7 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                                                           Brightness.dark)
                                                       ? Colors.white
                                                       : Colors.black,
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize:
                                                       Gparam.textVerySmall,
                                                   fontWeight: FontWeight.w500),
@@ -136,7 +136,7 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                                               Brightness.dark)
                                           ? Colors.white
                                           : Colors.black,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontSize: Gparam.textSmaller,
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -150,7 +150,7 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                                               Brightness.dark)
                                           ? Colors.white
                                           : Colors.black,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontSize: Gparam.textSmall,
                                       fontWeight: FontWeight.w800),
                                 ),
@@ -168,7 +168,7 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                                                 Brightness.dark)
                                             ? Colors.white
                                             : Colors.black,
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w400),
                                   ),
@@ -186,7 +186,7 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                                                 Brightness.dark)
                                             ? Colors.white
                                             : Colors.black,
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w800),
                                   ),

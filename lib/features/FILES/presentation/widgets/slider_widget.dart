@@ -140,7 +140,7 @@ class SliderWidgetState extends State<SliderWidget> {
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmall,
                                                   fontWeight: FontWeight.w500),
                                             ),
@@ -176,7 +176,6 @@ class SliderWidgetState extends State<SliderWidget> {
                       BlocProvider.of<SliderBloc>(context), state.sliderBlock);
                 },
                 child: Container(
-                 
                   child: Column(children: [
                     SizedBox(
                       height: Gparam.heightPadding,
@@ -189,7 +188,7 @@ class SliderWidgetState extends State<SliderWidget> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: Gparam.textSmaller,
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -209,7 +208,7 @@ class SliderWidgetState extends State<SliderWidget> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                               ),
                             ),
                             SizedBox(
@@ -239,7 +238,7 @@ class SliderWidgetState extends State<SliderWidget> {
                                     valueIndicatorTextStyle: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                     ),
                                     inactiveTickMarkColor: Theme.of(context)
                                         .scaffoldBackgroundColor,
@@ -264,7 +263,7 @@ class SliderWidgetState extends State<SliderWidget> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                               ),
                             ),
                             SizedBox(

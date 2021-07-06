@@ -43,7 +43,7 @@ class FitnessProfileWidget extends StatelessWidget {
                   child: Text(
                     s,
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmaller,
                         fontWeight: FontWeight.w500,
                         color:
@@ -70,8 +70,8 @@ class FitnessProfileWidget extends StatelessWidget {
                             size: GFontSize.XXXS,
                             color: (Theme.of(context).brightness ==
                                     Brightness.dark)
-                                ? Gcolors.W
-                                : Gcolors.B),
+                                ? GColors.W
+                                : GColors.B),
                         Image.asset(
                           "assets/images/clap.png",
                           height: 20,
@@ -139,7 +139,7 @@ class FitnessProfileWidget extends StatelessWidget {
                         Text(
                           "Fitness score",
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w800,
                               color: Color(0xFF307df0)),
@@ -150,7 +150,7 @@ class FitnessProfileWidget extends StatelessWidget {
                               (state.profile?.fitness_score ?? 0.0)
                                   .toStringAsPrecision(3),
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textVerySmall,
                               fontWeight: FontWeight.w800,
                               color: Theme.of(context).highlightColor),
@@ -203,7 +203,7 @@ class FitnessProfileWidget extends StatelessWidget {
                                 Text(
                                   "Add your fitness skills",
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat',
+                                      fontFamily: 'Milliard',
                                       fontSize: Gparam.textSmaller,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context)
@@ -238,8 +238,8 @@ class FitnessProfileWidget extends StatelessWidget {
                               Gtheme.stext("Trainer",
                                   color: (Theme.of(context).brightness ==
                                           Brightness.dark)
-                                      ? Gcolors.W
-                                      : Gcolors.B,
+                                      ? GColors.W
+                                      : GColors.B,
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
                               if (state.profile != null &&
@@ -263,8 +263,8 @@ class FitnessProfileWidget extends StatelessWidget {
                               Gtheme.stext("Nutritionist",
                                   color: (Theme.of(context).brightness ==
                                           Brightness.dark)
-                                      ? Gcolors.W
-                                      : Gcolors.B,
+                                      ? GColors.W
+                                      : GColors.B,
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
                               if (state.profile != null &&

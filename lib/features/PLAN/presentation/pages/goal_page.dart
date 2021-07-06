@@ -159,7 +159,7 @@ class GoalPageState extends State<GoalPage> {
                                     text: TextSpan(
                                       text: 'Goal',
                                       style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           fontSize: Gparam.textMedium,
                                           fontWeight: FontWeight.w400,
                                           color:
@@ -168,7 +168,7 @@ class GoalPageState extends State<GoalPage> {
                                         TextSpan(
                                             text: ' Planner',
                                             style: TextStyle(
-                                              fontFamily: "Montserrat",
+                                              fontFamily: "Milliard",
                                               color: Theme.of(context)
                                                   .highlightColor,
                                               fontWeight: FontWeight.w700,
@@ -221,10 +221,8 @@ class GoalPageState extends State<GoalPage> {
                                         child: InkWell(
                                           onTap: () {
                                             context.router.push(
-                                             SelectCover(
-                                                  goalBloc: bloc),
+                                              SelectCover(goalBloc: bloc),
                                             );
-                                            
                                           },
                                           child: Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -244,7 +242,7 @@ class GoalPageState extends State<GoalPage> {
                                                   text: TextSpan(
                                                     text: "Change ",
                                                     style: TextStyle(
-                                                      fontFamily: 'Montserrat',
+                                                      fontFamily: 'Milliard',
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -254,7 +252,7 @@ class GoalPageState extends State<GoalPage> {
                                                           text: "cover",
                                                           style: TextStyle(
                                                               fontFamily:
-                                                                  "Montserrat",
+                                                                  "Milliard",
                                                               height: 1.2,
                                                               fontWeight:
                                                                   FontWeight
@@ -337,7 +335,7 @@ class GoalPageState extends State<GoalPage> {
                                             text: TextSpan(
                                               text: state.thisGoal.title,
                                               style: TextStyle(
-                                                  fontFamily: 'Montserrat',
+                                                  fontFamily: 'Milliard',
                                                   fontSize: Gparam.textSmall,
                                                   fontWeight: FontWeight.w700,
                                                   color: Theme.of(context)
@@ -374,10 +372,9 @@ class GoalPageState extends State<GoalPage> {
                                       ),
                                       child: InkWell(
                                         onTap: () {
-                                           context.router.push(
-                                             SelectCover(
-                                                  goalBloc: bloc),
-                                            );
+                                          context.router.push(
+                                            SelectCover(goalBloc: bloc),
+                                          );
                                         },
                                         child: Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -396,7 +393,7 @@ class GoalPageState extends State<GoalPage> {
                                                 text: TextSpan(
                                                   text: "Add ",
                                                   style: TextStyle(
-                                                    fontFamily: 'Montserrat',
+                                                    fontFamily: 'Milliard',
                                                     fontSize: 14,
                                                     color: Theme.of(context)
                                                         .primaryColor,
@@ -407,7 +404,7 @@ class GoalPageState extends State<GoalPage> {
                                                         text: "cover",
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                "Montserrat",
+                                                                "Milliard",
                                                             height: 1.2,
                                                             fontWeight:
                                                                 FontWeight.w300,
@@ -461,7 +458,7 @@ class GoalPageState extends State<GoalPage> {
                                           text: TextSpan(
                                             text: "Working since" + "\n",
                                             style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textVerySmall,
                                               color: Theme.of(context)
                                                   .primaryColor,
@@ -472,7 +469,7 @@ class GoalPageState extends State<GoalPage> {
                                                   text: countdownDays(
                                                       state.thisGoal.savedTs),
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: Gparam.textSmall,
@@ -481,7 +478,7 @@ class GoalPageState extends State<GoalPage> {
                                                   text: countdownDaysUnit(
                                                       state.thisGoal.savedTs),
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     fontWeight: FontWeight.w300,
                                                     fontSize:
@@ -526,7 +523,7 @@ class GoalPageState extends State<GoalPage> {
                                                     state.thisGoal.deadLine) +
                                                 "\n",
                                             style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textVerySmall,
                                               color: Theme.of(context)
                                                   .primaryColor,
@@ -537,7 +534,7 @@ class GoalPageState extends State<GoalPage> {
                                                   text: countdownDays(
                                                       widget.thisGoal.deadLine),
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: Gparam.textSmall,
@@ -546,7 +543,7 @@ class GoalPageState extends State<GoalPage> {
                                                   text: countdownDaysUnit(
                                                       state.thisGoal.deadLine),
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     fontWeight: FontWeight.w300,
                                                     fontSize:
@@ -589,7 +586,7 @@ class GoalPageState extends State<GoalPage> {
                                           text: TextSpan(
                                             text: "Tasks done" + "\n",
                                             style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               color: Theme.of(context)
                                                   .primaryColor,
                                               fontSize: Gparam.textVerySmall,
@@ -599,7 +596,7 @@ class GoalPageState extends State<GoalPage> {
                                               TextSpan(
                                                   text: "12",
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: Gparam.textSmall,
@@ -656,7 +653,7 @@ class GoalPageState extends State<GoalPage> {
                                         text: TextSpan(
                                           text: "Add ",
                                           style: TextStyle(
-                                            fontFamily: 'Montserrat',
+                                            fontFamily: 'Milliard',
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -664,7 +661,7 @@ class GoalPageState extends State<GoalPage> {
                                             TextSpan(
                                                 text: "Task",
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize: Gparam.textSmaller,
@@ -715,7 +712,7 @@ class GoalPageState extends State<GoalPage> {
                                         text: TextSpan(
                                           text: "Add ",
                                           style: TextStyle(
-                                            fontFamily: 'Montserrat',
+                                            fontFamily: 'Milliard',
                                             fontSize: Gparam.textVerySmall,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -723,7 +720,7 @@ class GoalPageState extends State<GoalPage> {
                                             TextSpan(
                                                 text: "Event",
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   height: 1.2,
                                                   fontWeight: FontWeight.w300,
                                                   fontSize: Gparam.textSmaller,
@@ -767,7 +764,7 @@ class GoalPageState extends State<GoalPage> {
                                       text: TextSpan(
                                         text: "Add ",
                                         style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           fontSize: Gparam.textVerySmall,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -775,7 +772,7 @@ class GoalPageState extends State<GoalPage> {
                                           TextSpan(
                                               text: "Milestone",
                                               style: TextStyle(
-                                                fontFamily: "Montserrat",
+                                                fontFamily: "Milliard",
                                                 height: 1.2,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: Gparam.textSmaller,
@@ -829,7 +826,7 @@ class GoalPageState extends State<GoalPage> {
                                       text: TextSpan(
                                         text: "Link ",
                                         style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           fontSize: Gparam.textVerySmall,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -837,7 +834,7 @@ class GoalPageState extends State<GoalPage> {
                                           TextSpan(
                                               text: "Track",
                                               style: TextStyle(
-                                                fontFamily: "Montserrat",
+                                                fontFamily: "Milliard",
                                                 height: 1.2,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: Gparam.textSmaller,
@@ -887,7 +884,7 @@ class GoalPageState extends State<GoalPage> {
                                           text: TextSpan(
                                             text: "Add ",
                                             style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textVerySmall,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -895,7 +892,7 @@ class GoalPageState extends State<GoalPage> {
                                               TextSpan(
                                                   text: "Attachment",
                                                   style: TextStyle(
-                                                    fontFamily: "Montserrat",
+                                                    fontFamily: "Milliard",
                                                     height: 1.2,
                                                     fontWeight: FontWeight.w300,
                                                     fontSize:
@@ -942,7 +939,7 @@ class GoalPageState extends State<GoalPage> {
                                       text: TextSpan(
                                         text: "Add ",
                                         style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           fontSize: Gparam.textVerySmall,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -950,7 +947,7 @@ class GoalPageState extends State<GoalPage> {
                                           TextSpan(
                                               text: "Note",
                                               style: TextStyle(
-                                                fontFamily: "Montserrat",
+                                                fontFamily: "Milliard",
                                                 height: 1.2,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: Gparam.textSmaller,
@@ -988,7 +985,7 @@ class GoalPageState extends State<GoalPage> {
                       //           ),
                       //           child: Text('school',
                       //               style: TextStyle(
-                      //                 fontFamily: 'Montserrat',
+                      //                 fontFamily: 'Milliard',
                       //                 fontWeight: FontWeight.w800,
                       //                 color: Colors.white,
                       //                 fontSize: Gparam.textVerySmall,
@@ -1012,7 +1009,7 @@ class GoalPageState extends State<GoalPage> {
                       //           ),
                       //           child: Text('work',
                       //               style: TextStyle(
-                      //                 fontFamily: 'Montserrat',
+                      //                 fontFamily: 'Milliard',
                       //                 fontWeight: FontWeight.w800,
                       //                 color: Colors.white,
                       //                 fontSize: Gparam.textVerySmall,
@@ -1036,7 +1033,7 @@ class GoalPageState extends State<GoalPage> {
                       //           ),
                       //           child: Text('cloud',
                       //               style: TextStyle(
-                      //                 fontFamily: 'Montserrat',
+                      //                 fontFamily: 'Milliard',
                       //                 fontWeight: FontWeight.w800,
                       //                 color: Colors.white,
                       //                 fontSize: Gparam.textVerySmall,
@@ -1060,7 +1057,7 @@ class GoalPageState extends State<GoalPage> {
                       //           ),
                       //           child: Text('boss',
                       //               style: TextStyle(
-                      //                 fontFamily: 'Montserrat',
+                      //                 fontFamily: 'Milliard',
                       //                 fontWeight: FontWeight.w800,
                       //                 color: Colors.white,
                       //                 fontSize: Gparam.textVerySmall,
@@ -1084,7 +1081,7 @@ class GoalPageState extends State<GoalPage> {
                       //           ),
                       //           child: Text('documentation',
                       //               style: TextStyle(
-                      //                   fontFamily: 'Montserrat',
+                      //                   fontFamily: 'Milliard',
                       //                   fontSize: Gparam.textVerySmall,
                       //                   color: Colors.white,
                       //                   fontWeight: FontWeight.w800)),
@@ -1107,7 +1104,7 @@ class GoalPageState extends State<GoalPage> {
                       //           ),
                       //           child: Text('database',
                       //               style: TextStyle(
-                      //                   fontFamily: 'Montserrat',
+                      //                   fontFamily: 'Milliard',
                       //                   fontSize: Gparam.textVerySmall,
                       //                   color: Colors.white,
                       //                   fontWeight: FontWeight.w800)),
@@ -1135,7 +1132,7 @@ class GoalPageState extends State<GoalPage> {
                                 text: TextSpan(
                                     text: "Vision\n",
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w500,
                                         color: Theme.of(context).primaryColor),
@@ -1143,7 +1140,7 @@ class GoalPageState extends State<GoalPage> {
                                       TextSpan(
                                         text: state.thisGoal.description,
                                         style: TextStyle(
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Milliard",
                                           height: 1.2,
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.w300,
@@ -1173,7 +1170,7 @@ class GoalPageState extends State<GoalPage> {
                               text: TextSpan(
                                 text: "Motivation\n",
                                 style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     fontSize: Gparam.textVerySmall,
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).primaryColor),
@@ -1181,7 +1178,7 @@ class GoalPageState extends State<GoalPage> {
                                   TextSpan(
                                       text: state.thisGoal.vision,
                                       style: TextStyle(
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Milliard",
                                         height: 1.2,
                                         color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.w300,
@@ -1253,7 +1250,7 @@ class GoalPageState extends State<GoalPage> {
                                 text: TextSpan(
                                   text: state.image.caption,
                                   style: TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Milliard',
                                     color: Theme.of(context).primaryColor,
                                     fontSize: Gparam.textVerySmall,
                                     fontWeight: FontWeight.w500,
@@ -1262,7 +1259,7 @@ class GoalPageState extends State<GoalPage> {
                                     TextSpan(
                                         text: " Uploading ...",
                                         style: TextStyle(
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Milliard",
                                           height: 1.2,
                                           fontWeight: FontWeight.w500,
                                           fontSize: Gparam.textSmaller,

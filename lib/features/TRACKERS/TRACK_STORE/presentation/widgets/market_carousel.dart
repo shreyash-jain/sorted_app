@@ -45,7 +45,7 @@ class MarketCarousel extends StatelessWidget {
                     Text(
                       markets[i].heading,
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           color: Color(
                               int.parse(markets[i].text_color, radix: 16)),
                           fontSize: Gparam.textSmaller,
@@ -54,7 +54,7 @@ class MarketCarousel extends StatelessWidget {
                     Text(
                       markets[i].sub_heading,
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           color: Color(
                               int.parse(markets[i].text_color, radix: 16)),
                           fontSize: Gparam.textVerySmall,
@@ -107,7 +107,7 @@ class MarketCarousel extends StatelessWidget {
                     Text(
                       markets[i].heading,
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           color: Color(
                               int.parse(markets[i].text_color, radix: 16)),
                           fontSize: Gparam.textSmaller,
@@ -116,7 +116,7 @@ class MarketCarousel extends StatelessWidget {
                     Text(
                       markets[i].sub_heading,
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           color: Color(
                               int.parse(markets[i].text_color, radix: 16)),
                           fontSize: Gparam.textVerySmall,

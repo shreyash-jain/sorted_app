@@ -64,10 +64,9 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
             child: Stack(
               children: [
                 Row(children: <Widget>[
-                 
                   Container(
                       height: Gparam.height / 10,
-                      width: (Gparam.width / 1 ),
+                      width: (Gparam.width / 1),
                       child: Stack(
                         children: [
                           Column(
@@ -84,20 +83,16 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
               ],
             ),
           ),
-         
-        
           Padding(
             padding: EdgeInsets.only(
-                top: 0,
-                left: Gparam.widthPadding,
-                right: Gparam.widthPadding),
+                top: 0, left: Gparam.widthPadding, right: Gparam.widthPadding),
             child: FadeAnimationTB(
               1.6,
               Container(
                 child: Text(
                   '${(widget.loginWidget.userDetail.name == "") ? "Hey " : widget.loginWidget.userDetail.name}, how old are you ?',
                   style: TextStyle(
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       fontSize: Gparam.textSmall,
                       fontWeight: FontWeight.w500,
                       color: Colors.black.withOpacity(.8)),
@@ -132,7 +127,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                     },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                         color: Colors.black45,
                         fontWeight: FontWeight.w500),
@@ -141,7 +136,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                       hintStyle: TextStyle(
                           color: Colors.black38,
                           fontSize: Gparam.textSmall,
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontWeight: FontWeight.w500),
                       border: InputBorder.none,
                     ),
@@ -162,7 +157,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                     'Please tell me about your gender ?',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                         fontWeight: FontWeight.w500,
                         color: Colors.black.withOpacity(.8)),
@@ -250,7 +245,7 @@ class _AgeAndProfessionState extends State<AgeAndProfession> {
                         UserIntroStrings.askProfesssion,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textSmall,
                             fontWeight: FontWeight.w500,
                             color: Colors.black.withOpacity(.8)),

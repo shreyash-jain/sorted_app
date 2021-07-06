@@ -120,7 +120,7 @@ class AddEventState extends State<AddEvent> {
             child: Text(
               hrsList[i],
               style: TextStyle(
-                fontFamily: 'Montserrat',
+                fontFamily: 'Milliard',
                 fontSize: Gparam.textSmaller,
                 fontWeight: FontWeight.w700,
               ),
@@ -150,7 +150,7 @@ class AddEventState extends State<AddEvent> {
             child: Text(
               minsList[i],
               style: TextStyle(
-                fontFamily: 'Montserrat',
+                fontFamily: 'Milliard',
                 fontSize: Gparam.textSmaller,
                 fontWeight: FontWeight.w500,
               ),
@@ -248,7 +248,7 @@ class AddEventState extends State<AddEvent> {
                   ),
                   Text('Add Event',
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontSize: Gparam.textMedium,
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColor)),
@@ -279,7 +279,7 @@ class AddEventState extends State<AddEvent> {
                     child: TextField(
                       autofocus: true,
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                       ),
                       decoration: InputDecoration.collapsed(
@@ -287,7 +287,7 @@ class AddEventState extends State<AddEvent> {
                         hintStyle: TextStyle(
                           fontSize: Gparam.textSmall,
                           fontWeight: FontWeight.w500,
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                         ),
                       ),
                       controller: widget.newMediaLinkAddressController,
@@ -304,7 +304,7 @@ class AddEventState extends State<AddEvent> {
                       children: [
                         Text('Date of event',
                             style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmall,
                               fontWeight: FontWeight.w500,
                             )),
@@ -313,7 +313,7 @@ class AddEventState extends State<AddEvent> {
                         ),
                         Text(deadlineToStr(widget.deadlineDouble),
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmall,
                                 fontWeight: FontWeight.w500,
                                 color:
@@ -349,14 +349,14 @@ class AddEventState extends State<AddEvent> {
                   Row(
                     children: [
                       SizedBox(
-                    width: Gparam.widthPadding/2,
-                  ),
-                       Container(
+                        width: Gparam.widthPadding / 2,
+                      ),
+                      Container(
                         height: 40,
-                        width:40,
+                        width: 40,
                         child: Text(getTimeEmoji(widget.deadlineDouble),
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: 32,
                                 fontWeight: FontWeight.w500,
                                 color:
@@ -379,8 +379,6 @@ class AddEventState extends State<AddEvent> {
                               print(value);
                             });
                             hrs = value;
-
-                            
                           },
                         ),
                       ),
@@ -397,14 +395,13 @@ class AddEventState extends State<AddEvent> {
                           itemExtent: 40,
                           onSelectedItemChanged: (value) {
                             setState(() {
-                               mins = value;
+                              mins = value;
                             });
-                           
+
                             print(value);
                           },
                         ),
                       ),
-                     
                     ],
                   ),
                   SizedBox(
@@ -418,7 +415,7 @@ class AddEventState extends State<AddEvent> {
                       children: [
                         Text('Duration of event',
                             style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmall,
                               fontWeight: FontWeight.w500,
                             )),
@@ -427,7 +424,7 @@ class AddEventState extends State<AddEvent> {
                         ),
                         Text(deadlineToStr(widget.deadlineDouble),
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmall,
                                 fontWeight: FontWeight.w500,
                                 color:
@@ -500,7 +497,7 @@ class AddEventState extends State<AddEvent> {
           text: TextSpan(
             text: date.day.toString() + " ",
             style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textVerySmall,
               color: Theme.of(context).primaryColor,
               fontWeight: FontWeight.w500,
@@ -509,7 +506,7 @@ class AddEventState extends State<AddEvent> {
               TextSpan(
                   text: monthsInYear[date.month].toString() + "\n",
                   style: TextStyle(
-                    fontFamily: "Montserrat",
+                    fontFamily: "Milliard",
                     height: 1.2,
                     fontWeight: FontWeight.w300,
                     color: Theme.of(context).primaryColor,
@@ -517,10 +514,12 @@ class AddEventState extends State<AddEvent> {
                   )),
               TextSpan(
                   text: (index == 0 || index == 1)
-                      ? (index == 1) ? "Tomorrow" : "Today"
+                      ? (index == 1)
+                          ? "Tomorrow"
+                          : "Today"
                       : dayInWeek[date.weekday].toString(),
                   style: TextStyle(
-                    fontFamily: "Montserrat",
+                    fontFamily: "Milliard",
                     height: 1.4,
                     fontWeight: FontWeight.w800,
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -532,23 +531,18 @@ class AddEventState extends State<AddEvent> {
   }
 
   String getTimeEmoji(double deadlineDouble) {
-    
     if (mins == 00) {
       if (hrs == 11)
         return emojiTimeList[0];
       else {
         return emojiTimeList[(hrs + 1) * 2];
       }
-    }
-
-    else {
+    } else {
       if (hrs == 11)
         return emojiTimeList[1];
       else {
-        return emojiTimeList[((hrs + 1) * 2)+1];
+        return emojiTimeList[((hrs + 1) * 2) + 1];
       }
-
-
     }
   }
 }

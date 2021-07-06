@@ -118,7 +118,7 @@ class AddAttachmentState extends State<AddAttachment> {
                   ),
                   Text('Add Attachment',
                       style: TextStyle(
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                           fontSize: Gparam.textMedium,
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColor)),
@@ -149,7 +149,7 @@ class AddAttachmentState extends State<AddAttachment> {
                     child: TextField(
                       autofocus: true,
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                       ),
                       decoration: InputDecoration.collapsed(
@@ -157,7 +157,7 @@ class AddAttachmentState extends State<AddAttachment> {
                         hintStyle: TextStyle(
                           fontSize: Gparam.textSmall,
                           fontWeight: FontWeight.w500,
-                          fontFamily: 'Montserrat',
+                          fontFamily: 'Milliard',
                         ),
                       ),
                       controller: widget.newMediaLinkAddressController,
@@ -183,7 +183,7 @@ class AddAttachmentState extends State<AddAttachment> {
                           ),
                           Text("Image",
                               style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context)
@@ -212,7 +212,7 @@ class AddAttachmentState extends State<AddAttachment> {
                           ),
                           Text("Link",
                               style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context)
@@ -240,7 +240,7 @@ class AddAttachmentState extends State<AddAttachment> {
                           ),
                           Text("Document",
                               style: TextStyle(
-                                  fontFamily: 'Montserrat',
+                                  fontFamily: 'Milliard',
                                   fontSize: Gparam.textSmall,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context)

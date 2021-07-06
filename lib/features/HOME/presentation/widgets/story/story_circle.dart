@@ -109,7 +109,7 @@ class StoryCircleWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     letterSpacing: -.3,
-                    fontFamily: 'Montserrat',
+                    fontFamily: 'Milliard',
                     fontSize: Gparam.textExtraSmall,
                     fontWeight: FontWeight.w500)),
           ),

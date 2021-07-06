@@ -32,7 +32,7 @@ class SearchTrackItemBrief extends StatelessWidget {
         title: Text(
           trackBrief?.track_name ?? '',
           style: TextStyle(
-            fontFamily: 'Montserrat',
+            fontFamily: 'Milliard',
             color: Theme.of(context).highlightColor,
             fontSize: Gparam.textSmaller,
             fontWeight: FontWeight.w500,

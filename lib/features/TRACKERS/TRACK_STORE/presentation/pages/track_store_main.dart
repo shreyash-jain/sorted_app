@@ -126,7 +126,7 @@ class _TrackStoreMainState extends State<TrackStoreMain> {
                                             hintText:
                                                 'Search Track & Lifestyle',
                                             hintStyle: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               color: Theme.of(context)
                                                   .highlightColor,
                                               fontSize: Gparam.textSmaller,
@@ -196,7 +196,7 @@ class _TrackStoreMainState extends State<TrackStoreMain> {
                                     labelColor:
                                         Theme.of(context).textSelectionColor,
                                     labelStyle: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w500),
                                     isScrollable: true,
@@ -373,7 +373,7 @@ class _TrackStoreMainState extends State<TrackStoreMain> {
                       disabledBorder: InputBorder.none,
                       hintText: 'Search Track & Lifestyle',
                       hintStyle: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         color: Theme.of(context).highlightColor,
                         fontSize: Gparam.textSmaller,
                         fontWeight: FontWeight.w500,

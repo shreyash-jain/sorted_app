@@ -11,7 +11,8 @@ class ProfessionCard extends StatelessWidget {
     @required this.onTapAction,
     Key key,
     @required this.image,
-    @required this.description, @required this.professionIndex,
+    @required this.description,
+    @required this.professionIndex,
   }) : super(key: key);
 
   @override
@@ -37,8 +38,6 @@ class ProfessionCard extends StatelessWidget {
             if (professionIndex == index)
               Padding(
                 padding: EdgeInsets.only(),
-
-                
                 child: Align(
                   alignment: Alignment.center,
                   child: Icon(
@@ -52,7 +51,7 @@ class ProfessionCard extends StatelessWidget {
                 alignment:Alignment.bottomCenter,
                 child:Text("Female\n25-50",style: TextStyle(
                 color: Colors.white,
-                fontFamily: 'Montserrat',
+                fontFamily: 'Milliard',
                 fontSize: 20,
                 shadows: <Shadow>[
                   Shadow(

@@ -29,7 +29,6 @@ class StackConatinerBack extends StatelessWidget {
             EdgeInsets.only(top: Gparam.topPadding, bottom: Gparam.topPadding),
         alignment: imageAlignment,
         curve: Curves.easeOutQuint,
-        
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.only(top: Gparam.heightPadding * 2),
@@ -89,7 +88,7 @@ class StackConatinerBack extends StatelessWidget {
                               ? UserIntroStrings.oldGreeting
                               : UserIntroStrings.newGreeting,
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: 22,
                               fontWeight: FontWeight.w400,
                               color: Colors.white60),

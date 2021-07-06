@@ -125,7 +125,7 @@ class ChoiceGoalGuideState extends State<ChoiceGoalGuide> {
                                         text: TextSpan(
                                           text: "Now add your first",
                                           style: TextStyle(
-                                              fontFamily: 'Montserrat',
+                                              fontFamily: 'Milliard',
                                               fontSize: Gparam.textSmall,
                                               fontWeight: FontWeight.w700,
                                               color: Theme.of(context)
@@ -134,7 +134,7 @@ class ChoiceGoalGuideState extends State<ChoiceGoalGuide> {
                                             TextSpan(
                                                 text: "\nGoal",
                                                 style: TextStyle(
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Milliard",
                                                   color: Theme.of(context)
                                                       .scaffoldBackgroundColor,
                                                   fontWeight: FontWeight.normal,

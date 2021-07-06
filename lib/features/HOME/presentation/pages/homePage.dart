@@ -242,16 +242,6 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
                             shadowColor: Colors.black26,
                             leading: Container(),
                             actions: <Widget>[
-                              Container(
-                                child: Row(
-                                  children: [
-                                    MeWeButton(
-                                      isMe: isMe,
-                                      onChanged: onChanged,
-                                    )
-                                  ],
-                                ),
-                              ),
                               SizedBox(
                                 width: 10,
                               ),

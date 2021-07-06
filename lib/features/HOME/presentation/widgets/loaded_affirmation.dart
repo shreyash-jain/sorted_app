@@ -14,7 +14,6 @@ class LoadedAffirmationWidget extends StatelessWidget {
     @required this.showArrow,
     @required this.bloc,
     @required this.state,
-  
     @required this.popUp,
   })  : _controller = controller,
         super(key: key);
@@ -44,7 +43,6 @@ class LoadedAffirmationWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                   
                     if (state.showAffirmations)
                       Container(
                         height: Gparam.height / 10,
@@ -59,7 +57,7 @@ class LoadedAffirmationWidget extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               if (index == 0)
                                 return SizedBox(
-                                  width: Gparam.widthPadding/2,
+                                  width: Gparam.widthPadding / 2,
                                 );
                               return AffirmationTile(
                                 affirmation: state.affirmations[index - 1],
@@ -67,7 +65,6 @@ class LoadedAffirmationWidget extends StatelessWidget {
                                 context: context,
                                 index: index - 1,
                                 popupDialog: popUp,
-                                
                               );
                             }),
                       ),
@@ -89,7 +86,7 @@ class LoadedAffirmationWidget extends StatelessWidget {
                                       text: TextSpan(
                                         text: state.inspiration.text,
                                         style: TextStyle(
-                                            fontFamily: 'Montserrat',
+                                            fontFamily: 'Milliard',
                                             fontSize:
                                                 (state.inspiration.text.length >
                                                         100)
@@ -159,5 +156,4 @@ class LoadedAffirmationWidget extends StatelessWidget {
       ],
     );
   }
-
 }

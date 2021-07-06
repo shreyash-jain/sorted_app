@@ -335,7 +335,7 @@ class _YearPlannerState extends State<YearPlanner> {
                           text: TextSpan(
                             text: 'Year',
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textMedium,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColor),
@@ -343,7 +343,7 @@ class _YearPlannerState extends State<YearPlanner> {
                               TextSpan(
                                   text: ' Planner',
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.w700,
                                     fontSize: Gparam.textSmall,
@@ -393,7 +393,7 @@ class _YearPlannerState extends State<YearPlanner> {
                                                       DateTime.parse(key)) +
                                                   " ends",
                                               style: TextStyle(
-                                                fontFamily: 'Montserrat',
+                                                fontFamily: 'Milliard',
                                                 fontSize: 14,
                                                 color: Theme.of(context)
                                                     .primaryColor,
@@ -466,7 +466,7 @@ class _YearPlannerState extends State<YearPlanner> {
                                                   ? "${board[key].length.toString()} task"
                                                   : "${board[key].length.toString()} tasks",
                                               style: TextStyle(
-                                                fontFamily: 'Montserrat',
+                                                fontFamily: 'Milliard',
                                                 fontSize: 12,
                                                 color: Theme.of(context)
                                                     .primaryColor,
@@ -633,7 +633,7 @@ class ItemWidget extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: 12,
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w500,
@@ -670,7 +670,7 @@ class ItemWidget extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w800,
@@ -683,7 +683,7 @@ class ItemWidget extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: 12,
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w500,

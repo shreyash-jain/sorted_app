@@ -25,7 +25,7 @@ class ProfileTop extends StatelessWidget {
         child: Text(
           s + "  •  ",
           style: TextStyle(
-              fontFamily: 'Montserrat',
+              fontFamily: 'Milliard',
               fontSize: Gparam.textVerySmall,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).highlightColor.withOpacity(.6)),
@@ -57,7 +57,7 @@ class ProfileTop extends StatelessWidget {
                   child: Text(
                     name,
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textVerySmall,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).highlightColor),
@@ -72,7 +72,7 @@ class ProfileTop extends StatelessWidget {
                   child: Text(
                     state.profile?.status ?? "",
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Milliard',
                         fontSize: Gparam.textVerySmall,
                         fontWeight: FontWeight.w300,
                         color: Theme.of(context).highlightColor),

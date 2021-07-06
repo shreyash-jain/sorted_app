@@ -78,7 +78,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                   child: Text(
                     'Property',
                     style: TextStyle(
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Milliard',
                       fontSize: Gparam.textSmaller,
                       fontWeight: FontWeight.w400,
                     ),
@@ -120,7 +120,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                             "Text",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 shadows: [
                                   Shadow(
@@ -157,7 +157,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                             "Number",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 shadows: [
                                   Shadow(
@@ -194,7 +194,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                             "Date",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 shadows: [
                                   Shadow(
@@ -231,7 +231,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                             "Web Link",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 shadows: [
                                   Shadow(
@@ -268,7 +268,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                             "Checkbox",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 shadows: [
                                   Shadow(
@@ -305,7 +305,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                             "Email",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 shadows: [
                                   Shadow(
@@ -342,7 +342,7 @@ class AddColumnBottomSheetState extends State<AddColumnBottomSheet> {
                             "Phone",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 shadows: [
                                   Shadow(

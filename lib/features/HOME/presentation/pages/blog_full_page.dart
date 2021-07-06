@@ -43,7 +43,7 @@ class _FullBlogPageState extends State<FullBlogPage> {
   Widget build(BuildContext context) {
     final defaultLineTheme = LineTheme(
       textStyle: TextStyle(
-        fontFamily: 'Montserrat',
+        fontFamily: 'Milliard',
         wordSpacing: 1.2,
         height: 1.5,
         color: (Theme.of(context).brightness == Brightness.dark)
@@ -118,8 +118,8 @@ class _FullBlogPageState extends State<FullBlogPage> {
                                         weight: GFontWeight.B,
                                         color: (Theme.of(context).brightness ==
                                                 Brightness.dark)
-                                            ? Gcolors.W
-                                            : Gcolors.B),
+                                            ? GColors.W
+                                            : GColors.B),
                                   ]),
                                   SizedBox(height: Gparam.heightPadding / 2),
                                   Row(children: [
@@ -133,15 +133,15 @@ class _FullBlogPageState extends State<FullBlogPage> {
                                                   color: (Theme.of(context)
                                                               .brightness ==
                                                           Brightness.dark)
-                                                      ? Gcolors.W
-                                                      : Gcolors.B),
+                                                      ? GColors.W
+                                                      : GColors.B),
                                               Gtheme.stext(e.value + " ",
                                                   size: GFontSize.XXS,
                                                   color: (Theme.of(context)
                                                               .brightness ==
                                                           Brightness.dark)
-                                                      ? Gcolors.W1
-                                                      : Gcolors.B1),
+                                                      ? GColors.W1
+                                                      : GColors.B1),
                                             ],
                                           ),
                                         ),
@@ -159,8 +159,8 @@ class _FullBlogPageState extends State<FullBlogPage> {
                             size: GFontSize.M,
                             color: (Theme.of(context).brightness ==
                                     Brightness.dark)
-                                ? Gcolors.W
-                                : Gcolors.B),
+                                ? GColors.W
+                                : GColors.B),
                       ),
                       SizedBox(height: Gparam.heightPadding / 2),
                       Padding(
@@ -171,8 +171,8 @@ class _FullBlogPageState extends State<FullBlogPage> {
                             size: GFontSize.XXS,
                             color: (Theme.of(context).brightness ==
                                     Brightness.dark)
-                                ? Gcolors.W2
-                                : Gcolors.B2),
+                                ? GColors.W2
+                                : GColors.B2),
                       ),
                       Container(
                           margin: EdgeInsets.all(Gparam.widthPadding / 2),

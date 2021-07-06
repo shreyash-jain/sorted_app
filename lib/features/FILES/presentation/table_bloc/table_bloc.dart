@@ -80,7 +80,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
                           Text(
                             element.title,
                             style: TextStyle(
-                                fontFamily: 'Montserrat',
+                                fontFamily: 'Milliard',
                                 fontSize: Gparam.textSmaller,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -172,7 +172,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
                         Text(
                           element.title,
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w500),
                         ),
@@ -269,7 +269,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
                         Text(
                           element.title,
                           style: TextStyle(
-                              fontFamily: 'Montserrat',
+                              fontFamily: 'Milliard',
                               fontSize: Gparam.textSmaller,
                               fontWeight: FontWeight.w500),
                         ),
@@ -410,7 +410,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
                       Text(
                         newColumn.title,
                         style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textSmaller,
                             fontWeight: FontWeight.w500),
                       ),

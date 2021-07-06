@@ -51,7 +51,10 @@ class HomeRecipeWidget extends StatelessWidget {
                           .map((e) => HomeRecipeWidgetM(
                               recipes: state.recipes,
                               index: e.key,
-                              onClick: (blog, index) {}))
+                              onClick: (recipes, index) {
+                                context.router.push(RecipeRoute(
+                                    type: 0, taggedRecipe: recipes[index]));
+                              }))
                           .toList()
                     ],
                   ),

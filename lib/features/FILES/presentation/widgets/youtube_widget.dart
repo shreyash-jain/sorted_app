@@ -126,7 +126,7 @@ class YoutubeWidgetState extends State<YoutubeWidget> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontFamily: 'Montserrat',
+                                          fontFamily: 'Milliard',
                                           color:
                                               Theme.of(context).highlightColor,
                                           fontSize: Gparam.textSmall,
@@ -179,7 +179,7 @@ class YoutubeWidgetState extends State<YoutubeWidget> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.w500),
                                   ),
@@ -218,7 +218,7 @@ class YoutubeWidgetState extends State<YoutubeWidget> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         fontSize: Gparam.textVerySmall,
                                         fontWeight: FontWeight.w300),
                                   ),

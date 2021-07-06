@@ -169,7 +169,7 @@ class ProgressPainter extends CustomPainter {
     final double innerRadius = center - dotRadius * 2 + radiusOffset;
     final textStyle = TextStyle(
       color: Colors.black,
-      fontFamily: "Montserrat",
+      fontFamily: "Milliard",
       fontWeight: FontWeight.bold,
       fontSize: Gparam.textVerySmall,
     );
@@ -193,19 +193,15 @@ class ProgressPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..color = shadowColor
       ..strokeCap = StrokeCap.round
-      ..strokeWidth =1.5
+      ..strokeWidth = 1.5
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, shadowWidth);
     //canvas.drawLine(Offset(0,0), Offset(size.width*progress,0), shadowPaint);
     //canvas.drawCircle(offsetCenter, innerRadius, shadowPaint);
 
-    
-     var path = Path();
+    var path = Path();
     path.moveTo(0, 0);
-    path.lineTo(size.width*progress, 0);
-     canvas.drawPath(path, shadowPaint);
-
-    
-  
+    path.lineTo(size.width * progress, 0);
+    canvas.drawPath(path, shadowPaint);
 
     //canvas.drawShadow(path, Colors.amber,1, true);
 

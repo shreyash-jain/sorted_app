@@ -147,7 +147,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Milliard',
                                         color: Theme.of(context).highlightColor,
                                         fontSize: Gparam.textSmall,
                                         fontWeight: FontWeight.w500),
@@ -187,7 +187,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                       mainFormatter.format(state.selectedDate),
                       style: TextStyle(
                         decoration: TextDecoration.none,
-                        fontFamily: "Montserrat",
+                        fontFamily: "Milliard",
                         height: 1.2,
                         fontWeight: FontWeight.w500,
                         fontSize: Gparam.textSmall,
@@ -228,7 +228,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                         "No events ",
                         style: TextStyle(
                           decoration: TextDecoration.none,
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           height: 1.2,
                           fontWeight: FontWeight.w400,
                           fontSize: Gparam.textSmaller,
@@ -331,7 +331,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                         "Add",
                         style: TextStyle(
                           decoration: TextDecoration.none,
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           height: 1.2,
                           fontWeight: FontWeight.w200,
                           fontSize: 12,
@@ -341,7 +341,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                         itemName,
                         style: TextStyle(
                           decoration: TextDecoration.none,
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           height: 1.2,
                           fontWeight: FontWeight.w800,
                           fontSize: 12,
@@ -402,7 +402,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                       initialValue: "",
                       style: TextStyle(
                         decoration: TextDecoration.none,
-                        fontFamily: "Montserrat",
+                        fontFamily: "Milliard",
                         height: 1.2,
                         fontWeight: FontWeight.w500,
                         fontSize: Gparam.textSmall,
@@ -418,7 +418,7 @@ class CalendarWidgetState extends State<CalendarWidget> {
                         hintText: 'Add $eventString',
                         hintStyle: TextStyle(
                           decoration: TextDecoration.none,
-                          fontFamily: "Montserrat",
+                          fontFamily: "Milliard",
                           height: 1.2,
                           fontWeight: FontWeight.w300,
                           fontSize: Gparam.textSmall,
@@ -464,7 +464,6 @@ class _ListTodoCard extends State<DayEventCard> {
                       OMIcons.pinDrop,
                       color: Theme.of(context).highlightColor,
                     ),
-                  
                   if (widget.event.type == 2)
                     Icon(
                       OMIcons.starBorder,
@@ -515,7 +514,7 @@ class _ListTodoCard extends State<DayEventCard> {
                                       maxLines: 2,
                                       style: TextStyle(
                                         decoration: TextDecoration.none,
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Milliard",
                                         height: 1,
                                         color: Theme.of(context).highlightColor,
                                         fontWeight: FontWeight.w500,

@@ -114,7 +114,7 @@ class GoalListWidget extends StatelessWidget {
                             : "",
                         style: TextStyle(
                             height: 1.3,
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Milliard',
                             fontSize: Gparam.textSmall,
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context).scaffoldBackgroundColor),
@@ -122,7 +122,7 @@ class GoalListWidget extends StatelessWidget {
                           TextSpan(
                               text: goal.title,
                               style: TextStyle(
-                                fontFamily: "Montserrat",
+                                fontFamily: "Milliard",
                                 color:
                                     Theme.of(context).scaffoldBackgroundColor,
                                 fontSize: Gparam.textSmall,
@@ -165,7 +165,7 @@ class GoalListWidget extends StatelessWidget {
                               TextSpan(
                                   text: "% tasks complete",
                                   style: TextStyle(
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Milliard",
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
                                     fontWeight: FontWeight.w500,

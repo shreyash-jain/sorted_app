@@ -272,7 +272,7 @@ class HomeCloudDataSourceImpl implements HomeCloud {
         });
       } else {
         await cloudDb
-            .collection('RecipesDb/data/TaggedRecipes')
+            .collection('articles')
             .orderBy("random")
             .where("random", isGreaterThanOrEqualTo: key)
             .orderBy("random")

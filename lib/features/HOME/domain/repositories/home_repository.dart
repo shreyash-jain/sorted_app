@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/HOME/data/datasources/home_cloud_data_source.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
@@ -7,7 +6,6 @@ import 'package:sorted/features/HOME/data/models/blogs.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
-import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
@@ -16,8 +14,6 @@ import 'package:sorted/features/HOME/data/models/transformation.dart';
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
 
 import '../../../../core/error/failures.dart';
 
@@ -98,10 +94,14 @@ abstract class HomeRepository {
 
   Future<Either<Failure, IngredientAndQuantity>> getRecipeIngredients(
       int recipeId);
+
   Future<Either<Failure, List<RecipeStep>>> getRecipeSteps(int recipeId);
+
   Future<Either<Failure, List<RecipeNutrition>>> getRecipeNutritions(
       int recipeId);
+
   Future<Either<Failure, List<RecipeToIngredient>>> getIngregientQuantities(
       int recipeId);
+
   Future<Either<Failure, List<RecipeHowTo>>> getRecipeHowto(int recipeId);
 }

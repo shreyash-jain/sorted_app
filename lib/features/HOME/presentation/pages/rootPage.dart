@@ -123,27 +123,20 @@ class _RootHomeState extends State<RootHome> {
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               items: [
                 new BottomNavigationBarItem(
-                  icon: new Icon(MdiIcons.homeLightbulbOutline),
+                  icon: new Icon(MdiIcons.homeOutline),
                   title: new Text("Home"),
                 ),
                 new BottomNavigationBarItem(
                   icon: new Icon(MdiIcons.accountSearchOutline),
-                  title: new Text("Search"),
+                  title: new Text("Explore"),
                 ),
                 new BottomNavigationBarItem(
-                  icon: Stack(
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: Colors.transparent,
-                      ),
-                    ],
-                  ),
-                  title: new Text(""),
+                  icon: new Icon(MdiIcons.calendar),
+                  title: new Text("Calendar"),
                 ),
                 new BottomNavigationBarItem(
-                  icon: new Icon(MdiIcons.dotsHexagon),
-                  title: new Text("Spaces"),
+                  icon: new Icon(MdiIcons.postOutline),
+                  title: new Text("Feed"),
                 ),
                 new BottomNavigationBarItem(
                   icon: new Icon(MdiIcons.emoticonExcitedOutline),
@@ -152,16 +145,16 @@ class _RootHomeState extends State<RootHome> {
               ],
             ),
           ),
-          new Positioned(
-              bottom: -3,
-              right: 0,
-              width: Gparam.width,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MeWeButton(isMe: true, onChanged: null),
-                ),
-              )),
+          // new Positioned(
+          //     bottom: -3,
+          //     right: 0,
+          //     width: Gparam.width,
+          //     child: Center(
+          //       child: Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: MeWeButton(isMe: true, onChanged: null),
+          //       ),
+          //     )),
         ],
       ),
     );

@@ -33,8 +33,8 @@ class _HomeTransformationWidgetMState extends State<HomeTransformationWidgetM> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   HomeHeading(
-                    heading: "Transformation Story",
-                    subHeading: "Inspiration of the day",
+                    heading: "Inspiration of the day",
+                    subHeading: "Transformation Story",
                   ),
                   Container(
                     height: 300,

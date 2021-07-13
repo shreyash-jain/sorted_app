@@ -29,17 +29,7 @@ class _ClassResourcesWidgetState extends State<ClassResourcesWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.all(Gparam.widthPadding / 2),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Gtheme.stext("Find experts",
-                        size: GFontSize.S, weight: GFontWeight.N),
-                    Spacer(),
-                  ],
-                ),
-              ),
+              SizedBox(height: 20),
               Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: Gparam.widthPadding / 2),
@@ -48,22 +38,30 @@ class _ClassResourcesWidgetState extends State<ClassResourcesWidget> {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
+                        Gtheme.stext("Live Classes"),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Gtheme.stext("Personal Training"),
+                        SizedBox(
+                          width: 12,
+                        ),
                         OrangeActionButton(
-                          text: "Fitness Experts",
+                          text: "Workshops",
                           onClick: null,
                         ),
                         SizedBox(
                           width: 12,
                         ),
                         OrangeActionButton(
-                          text: "Workout Classes",
+                          text: "Online Therapy",
                           onClick: null,
                         ),
                         SizedBox(
                           width: 12,
                         ),
                         OrangeActionButton(
-                          text: "Yoga Classes",
+                          text: "Podcasts",
                           onClick: null,
                         ),
                       ],

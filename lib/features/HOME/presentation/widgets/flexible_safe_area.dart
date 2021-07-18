@@ -1,23 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:sorted/core/global/animations/dialog_animation.dart';
 import 'package:sorted/core/global/animations/fade_animationTB.dart';
-import 'package:sorted/core/global/animations/shimmer.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
-import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/core/routes/router.gr.dart';
-import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
-import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
-import 'package:sorted/features/HOME/presentation/widgets/loaded_affirmation.dart';
-import 'package:sorted/features/HOME/presentation/widgets/loading_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/widgets/story/story_circle.dart';
+import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_data.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
+import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/weight_widget.dart/weight_card.dart';
 
 class FlexibleSpaceArea extends StatefulWidget {
   const FlexibleSpaceArea({
@@ -36,13 +30,17 @@ class FlexibleSpaceArea extends StatefulWidget {
 class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   AffirmationBloc affirmationBloc;
   bool showArrow = true;
+  List<TrackModel> tracks = [];
 
   ScrollController _controller;
   OverlayEntry _popupDialog;
 
+  int weight = 60;
+
   @override
   void initState() {
     _controller = ScrollController();
+    tracks = getTracksForClass();
     affirmationBloc = sl<AffirmationBloc>();
 
     _controller.addListener(_scrollListener);
@@ -78,7 +76,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
     return "Meal Inspiration";
   }
 
-  onClickChallenges(int id, int storyType) {
+  onClickChallenges(int id, int storyType, TrackModel track) {
     context.router.push(ChallengeRouteView());
   }
 
@@ -129,99 +127,124 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
               Container(
                   child: Stack(
                 children: <Widget>[
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: Gparam.width,
-                              alignment: Alignment.centerLeft,
-                              padding:
-                                  EdgeInsets.only(left: Gparam.widthPadding),
-                              child: Text(
-                                "Sort.it",
-                                style: TextStyle(
-                                    color: Theme.of(context).highlightColor,
-                                    fontFamily: 'Milliard',
-                                    fontSize: Gparam.textSmall,
-                                    fontWeight: FontWeight.w800),
+                  SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: Gparam.width,
+                                alignment: Alignment.centerLeft,
+                                padding:
+                                    EdgeInsets.only(left: Gparam.widthPadding),
+                                child: Text(
+                                  "Sort.it",
+                                  style: TextStyle(
+                                      color: Theme.of(context).highlightColor,
+                                      fontFamily: 'Milliard',
+                                      fontSize: Gparam.textSmall,
+                                      fontWeight: FontWeight.w800),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                            height: 130,
-                            width: Gparam.width,
-                            margin: EdgeInsets.only(top: 20),
-                            child: ListView(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                SizedBox(
-                                  width: Gparam.widthPadding / 2,
-                                ),
-                                StoryCircleWidget(
-                                    storyName: "Daily\nChallenges",
-                                    onClick: onClickChallenges,
-                                    filePath:
-                                        "assets/images/tracks/daily_challenges.png",
-                                    isActive: true,
-                                    urlType: 1),
-                                StoryCircleWidget(
-                                    storyName: "Track\nWorkout",
-                                    onClick: onClickWorkout,
-                                    filePath:
-                                        "assets/images/tracks/track_workout.png",
-                                    urlType: 1),
-                                StoryCircleWidget(
-                                    storyName: "Track\nDiet",
-                                    onClick: onClickDiet,
-                                    filePath:
-                                        "assets/images/tracks/track_diet.png",
-                                    urlType: 1),
-                                StoryCircleWidget(
-                                    storyName: "Track\nSteps",
-                                    filePath:
-                                        "assets/images/tracks/track_steps.png",
-                                    urlType: 1),
-                                StoryCircleWidget(
-                                    storyName: "Track\nFasting",
-                                    filePath:
-                                        "assets/images/tracks/track_fasting.png",
-                                    urlType: 1),
-                                StoryCircleWidget(
-                                    storyName: "Track\nWater intake",
-                                    filePath:
-                                        "assets/images/tracks/track_water.png",
-                                    urlType: 1),
-                                StoryCircleWidget(
-                                    storyName: "Track\nSmoking",
-                                    filePath:
-                                        "assets/images/tracks/track_smoking.png",
-                                    urlType: 1),
-                                AffirmationCircleWidget(
-                                    affirmationBloc: affirmationBloc),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                              ],
-                            )),
-                      ]),
+                            ],
+                          ),
+                          Container(
+                              height: 140,
+                              width: Gparam.width,
+                              margin: EdgeInsets.only(top: 20),
+                              child: ListView(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  SizedBox(
+                                    width: Gparam.widthPadding / 2,
+                                  ),
+                                  StoryCircleWidget(
+                                      storyName: "Daily\nChallenges",
+                                      onClick: onClickChallenges,
+                                      filePath:
+                                          "assets/images/tracks/daily_challenges.png",
+                                      isActive: true,
+                                      urlType: 1),
+                                  ...tracks
+                                      .asMap()
+                                      .entries
+                                      .map(
+                                        (e) => StoryCircleWidget(
+                                            storyName: e.value.name,
+                                            track: e.value,
+                                            onClick: (a, b, c) {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        _buildWeightPopupDialog(
+                                                            context),
+                                              );
+                                            },
+                                            filePath: e.value.icon,
+                                            urlType: 0),
+                                      )
+                                      .toList(),
+                                  StoryCircleWidget(
+                                      storyName: "Track\nWorkout",
+                                      onClick: onClickWorkout,
+                                      filePath:
+                                          "assets/images/tracks/track_workout.png",
+                                      urlType: 1),
+                                  StoryCircleWidget(
+                                      storyName: "Track\nDiet",
+                                      onClick: onClickDiet,
+                                      filePath:
+                                          "assets/images/tracks/track_diet.png",
+                                      urlType: 1),
+
+                                  // AffirmationCircleWidget(
+                                  //     affirmationBloc: affirmationBloc),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                ],
+                              )),
+                        ]),
+                  ),
                 ],
               ))),
         ));
   }
 
-  onClickWorkout(int id, int storyType) {
+  onClickWorkout(int id, int storyType, TrackModel track) {
     context.router.push(ActivityPlanner());
   }
 
-  onClickDiet(int id, int storyType) {
+  onClickDiet(int id, int storyType, TrackModel track) {
     context.router.push(DietPlanner());
   }
+
+  Widget _buildWeightPopupDialog(BuildContext context) {
+    print("helloooo");
+    return StatefulBuilder(builder: (context, setState) {
+      return new AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Container(
+            height: Gparam.height / 2,
+            width: Gparam.width,
+            child: WeightCard(
+              onGoBack: onGoBack,
+              weight: weight,
+              onChanged: (val) {
+                setState(() => weight = val);
+                print(val);
+              },
+            ),
+          ));
+    });
+  }
+
+  void onGoBack(void value) {}
 }
 
 class AffirmationCircleWidget extends StatelessWidget {

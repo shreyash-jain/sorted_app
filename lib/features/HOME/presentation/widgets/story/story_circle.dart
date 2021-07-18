@@ -2,15 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 
 class StoryCircleWidget extends StatelessWidget {
+  final TrackModel track;
   final String storyName;
   final String filePath;
   final int urlType;
   final bool isActive;
   final int storyType;
   final int id;
-  final Function(int id, int storyType) onClick;
+  final Function(int id, int storyType, TrackModel track) onClick;
 
   const StoryCircleWidget({
     Key key,
@@ -21,6 +23,7 @@ class StoryCircleWidget extends StatelessWidget {
     this.storyType,
     this.onClick,
     this.id,
+    this.track,
   }) : super(key: key);
 
   @override
@@ -43,7 +46,8 @@ class StoryCircleWidget extends StatelessWidget {
               end: Alignment.bottomCenter,
             ),
             onPressed: () {
-              if (onClick != null) onClick(id ?? 0, storyType ?? 0);
+              if (onClick != null)
+                onClick(id ?? 0, storyType ?? 0, track ?? TrackModel(id: -1));
               //
             },
             child: Column(
@@ -103,15 +107,19 @@ class StoryCircleWidget extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(storyName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    letterSpacing: -.3,
-                    fontFamily: 'Milliard',
-                    fontSize: Gparam.textExtraSmall,
-                    fontWeight: FontWeight.w500)),
+          Container(
+            width: 80,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(storyName,
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      letterSpacing: -.3,
+                      fontFamily: 'Milliard',
+                      fontSize: Gparam.textExtraSmall,
+                      fontWeight: FontWeight.w500)),
+            ),
           ),
         ],
       ),

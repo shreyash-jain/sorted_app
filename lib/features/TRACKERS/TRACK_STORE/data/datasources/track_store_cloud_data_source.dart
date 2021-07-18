@@ -5,8 +5,9 @@ import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/core/global/models/log.dart';
-import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_property_data.dart';
 import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_goal_data.dart';
+import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_property_data.dart';
+
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_goal_model.dart';
@@ -207,7 +208,6 @@ class TrackStoreCloudDataSourceImpl implements TrackStoreCloud {
       calories,
       protien,
       carbohydrates,
-      fats,
     ];
   }
 

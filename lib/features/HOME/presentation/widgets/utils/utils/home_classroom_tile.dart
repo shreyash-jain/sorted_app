@@ -74,7 +74,8 @@ class HomeClassRoomTile extends StatelessWidget {
                     padding: EdgeInsets.all(8),
                     margin: EdgeInsets.only(right: 6),
                     decoration: BoxDecoration(
-                        color: Colors.orange.shade50,
+                        // color: Colors.orange.shade50,
+                        border: Border.all(color: Colors.grey.shade300),
                         borderRadius: BorderRadius.circular(5)),
                     child: Gtheme.stext(
                       time,

@@ -79,6 +79,16 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
 
   int u_last_reminded_ts;
   int ts_realtime_id;
+  int num_colossals;
+  String colossal_url_1;
+  String colossal_url_2;
+  String colossal_url_3;
+  String colossal_url_4;
+  String colossal_url_5;
+  String colossal_url_6;
+  String colossal_url_7;
+
+
   TrackModel({
     this.id = 0,
     this.name = '',
@@ -150,10 +160,18 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     this.ts_reminder_day_end_ts = 0,
     this.u_last_reminded_ts = 0,
     this.ts_realtime_id = 0,
+    this.num_colossals = 0,
+    this.colossal_url_1 = '',
+    this.colossal_url_2 = '',
+    this.colossal_url_3 = '',
+    this.colossal_url_4 = '',
+    this.colossal_url_5 = '',
+    this.colossal_url_6 = '',
+    this.colossal_url_7 = '',
   });
 
   TrackModel copyWith({
-    int id,
+     int id,
     String name,
     String m_description,
     int is_m_description_rich,
@@ -223,13 +241,20 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
     int ts_reminder_day_end_ts,
     int u_last_reminded_ts,
     int ts_realtime_id,
+    int num_colossals,
+    String colossal_url_1,
+    String colossal_url_2,
+    String colossal_url_3,
+    String colossal_url_4,
+    String colossal_url_5,
+    String colossal_url_6,
+    String colossal_url_7,
   }) {
     return TrackModel(
       id: id ?? this.id,
       name: name ?? this.name,
       m_description: m_description ?? this.m_description,
-      is_m_description_rich:
-          is_m_description_rich ?? this.is_m_description_rich,
+      is_m_description_rich: is_m_description_rich ?? this.is_m_description_rich,
       m_facts: m_facts ?? this.m_facts,
       is_m_facts_rich: is_m_facts_rich ?? this.is_m_facts_rich,
       m_reward: m_reward ?? this.m_reward,
@@ -240,18 +265,15 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       m_u_freq: m_u_freq ?? this.m_u_freq,
       ts_multifil: ts_multifil ?? this.ts_multifil,
       ts_log_types: ts_log_types ?? this.ts_log_types,
-      ts_root_logging_db_path:
-          ts_root_logging_db_path ?? this.ts_root_logging_db_path,
+      ts_root_logging_db_path: ts_root_logging_db_path ?? this.ts_root_logging_db_path,
       m_db_string: m_db_string ?? this.m_db_string,
       m_custom_db_string: m_custom_db_string ?? this.m_custom_db_string,
       m_template_string: m_template_string ?? this.m_template_string,
       m_db_icon: m_db_icon ?? this.m_db_icon,
       m_custom_db_icon: m_custom_db_icon ?? this.m_custom_db_icon,
       m_template_icon: m_template_icon ?? this.m_template_icon,
-      u_root_level_logging_saved_path: u_root_level_logging_saved_path ??
-          this.u_root_level_logging_saved_path,
-      u_root_level_logging_history_path: u_root_level_logging_history_path ??
-          this.u_root_level_logging_history_path,
+      u_root_level_logging_saved_path: u_root_level_logging_saved_path ?? this.u_root_level_logging_saved_path,
+      u_root_level_logging_history_path: u_root_level_logging_history_path ?? this.u_root_level_logging_history_path,
       has_market_detail: has_market_detail ?? this.has_market_detail,
       ts_num_properties: ts_num_properties ?? this.ts_num_properties,
       m_num_subs: m_num_subs ?? this.m_num_subs,
@@ -286,30 +308,27 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_reminder_state: ts_reminder_state ?? this.ts_reminder_state,
       ts_reminder_text: ts_reminder_text ?? this.ts_reminder_text,
       ts_reminder_sub_text: ts_reminder_sub_text ?? this.ts_reminder_sub_text,
-      ts_reminder_week_day_sun:
-          ts_reminder_week_day_sun ?? this.ts_reminder_week_day_sun,
-      ts_reminder_week_day_mon:
-          ts_reminder_week_day_mon ?? this.ts_reminder_week_day_mon,
-      ts_reminder_week_day_tue:
-          ts_reminder_week_day_tue ?? this.ts_reminder_week_day_tue,
-      ts_reminder_week_day_wed:
-          ts_reminder_week_day_wed ?? this.ts_reminder_week_day_wed,
-      ts_reminder_week_day_thu:
-          ts_reminder_week_day_thu ?? this.ts_reminder_week_day_thu,
-      ts_reminder_week_day_fri:
-          ts_reminder_week_day_fri ?? this.ts_reminder_week_day_fri,
-      ts_reminder_week_day_sat:
-          ts_reminder_week_day_sat ?? this.ts_reminder_week_day_sat,
-      ts_reminder_interval_days:
-          ts_reminder_interval_days ?? this.ts_reminder_interval_days,
-      ts_reminder_day_state:
-          ts_reminder_day_state ?? this.ts_reminder_day_state,
-      ts_reminder_day_start_ts:
-          ts_reminder_day_start_ts ?? this.ts_reminder_day_start_ts,
-      ts_reminder_day_end_ts:
-          ts_reminder_day_end_ts ?? this.ts_reminder_day_end_ts,
+      ts_reminder_week_day_sun: ts_reminder_week_day_sun ?? this.ts_reminder_week_day_sun,
+      ts_reminder_week_day_mon: ts_reminder_week_day_mon ?? this.ts_reminder_week_day_mon,
+      ts_reminder_week_day_tue: ts_reminder_week_day_tue ?? this.ts_reminder_week_day_tue,
+      ts_reminder_week_day_wed: ts_reminder_week_day_wed ?? this.ts_reminder_week_day_wed,
+      ts_reminder_week_day_thu: ts_reminder_week_day_thu ?? this.ts_reminder_week_day_thu,
+      ts_reminder_week_day_fri: ts_reminder_week_day_fri ?? this.ts_reminder_week_day_fri,
+      ts_reminder_week_day_sat: ts_reminder_week_day_sat ?? this.ts_reminder_week_day_sat,
+      ts_reminder_interval_days: ts_reminder_interval_days ?? this.ts_reminder_interval_days,
+      ts_reminder_day_state: ts_reminder_day_state ?? this.ts_reminder_day_state,
+      ts_reminder_day_start_ts: ts_reminder_day_start_ts ?? this.ts_reminder_day_start_ts,
+      ts_reminder_day_end_ts: ts_reminder_day_end_ts ?? this.ts_reminder_day_end_ts,
       u_last_reminded_ts: u_last_reminded_ts ?? this.u_last_reminded_ts,
       ts_realtime_id: ts_realtime_id ?? this.ts_realtime_id,
+      num_colossals: num_colossals ?? this.num_colossals,
+      colossal_url_1: colossal_url_1 ?? this.colossal_url_1,
+      colossal_url_2: colossal_url_2 ?? this.colossal_url_2,
+      colossal_url_3: colossal_url_3 ?? this.colossal_url_3,
+      colossal_url_4: colossal_url_4 ?? this.colossal_url_4,
+      colossal_url_5: colossal_url_5 ?? this.colossal_url_5,
+      colossal_url_6: colossal_url_6 ?? this.colossal_url_6,
+      colossal_url_7: colossal_url_7 ?? this.colossal_url_7,
     );
   }
 
@@ -385,6 +404,14 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       'ts_reminder_day_end_ts': ts_reminder_day_end_ts,
       'u_last_reminded_ts': u_last_reminded_ts,
       'ts_realtime_id': ts_realtime_id,
+      'num_colossals': num_colossals,
+      'colossal_url_1': colossal_url_1,
+      'colossal_url_2': colossal_url_2,
+      'colossal_url_3': colossal_url_3,
+      'colossal_url_4': colossal_url_4,
+      'colossal_url_5': colossal_url_5,
+      'colossal_url_6': colossal_url_6,
+      'colossal_url_7': colossal_url_7,
     };
   }
 
@@ -411,10 +438,8 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       m_db_icon: map['m_db_icon'] ?? '',
       m_custom_db_icon: map['m_custom_db_icon'] ?? '',
       m_template_icon: map['m_template_icon'] ?? '',
-      u_root_level_logging_saved_path:
-          map['u_root_level_logging_saved_path'] ?? '',
-      u_root_level_logging_history_path:
-          map['u_root_level_logging_history_path'] ?? '',
+      u_root_level_logging_saved_path: map['u_root_level_logging_saved_path'] ?? '',
+      u_root_level_logging_history_path: map['u_root_level_logging_history_path'] ?? '',
       has_market_detail: map['has_market_detail'] ?? 0,
       ts_num_properties: map['ts_num_properties'] ?? 0,
       m_num_subs: map['m_num_subs'] ?? 0,
@@ -462,6 +487,14 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_reminder_day_end_ts: map['ts_reminder_day_end_ts'] ?? 0,
       u_last_reminded_ts: map['u_last_reminded_ts'] ?? 0,
       ts_realtime_id: map['ts_realtime_id'] ?? 0,
+      num_colossals: map['num_colossals'] ?? 0,
+      colossal_url_1: map['colossal_url_1'] ?? '',
+      colossal_url_2: map['colossal_url_2'] ?? '',
+      colossal_url_3: map['colossal_url_3'] ?? '',
+      colossal_url_4: map['colossal_url_4'] ?? '',
+      colossal_url_5: map['colossal_url_5'] ?? '',
+      colossal_url_6: map['colossal_url_6'] ?? '',
+      colossal_url_7: map['colossal_url_7'] ?? '',
     );
   }
 
@@ -625,6 +658,14 @@ class TrackModel extends Track with EquatableMixin implements Equatable {
       ts_reminder_day_end_ts,
       u_last_reminded_ts,
       ts_realtime_id,
+      num_colossals,
+      colossal_url_1,
+      colossal_url_2,
+      colossal_url_3,
+      colossal_url_4,
+      colossal_url_5,
+      colossal_url_6,
+      colossal_url_7,
     ];
   }
 }

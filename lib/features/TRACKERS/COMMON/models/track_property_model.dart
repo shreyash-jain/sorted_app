@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
 import '../../TRACK_STORE/domain/entities/track_property.dart';
 
-class TrackPropertyModel extends TrackProperty implements Equatable {
+class TrackPropertyModel extends TrackProperty with EquatableMixin implements Equatable {
   int id;
   int track_id;
   int property_type;
@@ -74,6 +76,8 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
   String i_cloud_path;
   double i_width;
   double i_height;
+  int is_manual_fill;
+  String has_goal;
   TrackPropertyModel({
     this.id = 0,
     this.track_id = 0,
@@ -145,6 +149,8 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
     this.i_cloud_path = '',
     this.i_width = 0.0,
     this.i_height = 0.0,
+    this.is_manual_fill = 0,
+    this.has_goal = '',
   });
 
   @override
@@ -221,11 +227,13 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
       i_cloud_path,
       i_width,
       i_height,
+      is_manual_fill,
+      has_goal,
     ];
   }
 
   TrackPropertyModel copyWith({
-    int id,
+   int id,
     int track_id,
     int property_type,
     String property_name,
@@ -295,6 +303,8 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
     String i_cloud_path,
     double i_width,
     double i_height,
+    int is_manual_fill,
+    String has_goal,
   }) {
     return TrackPropertyModel(
       id: id ?? this.id,
@@ -328,12 +338,10 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
       n_u_aim_end: n_u_aim_end ?? this.n_u_aim_end,
       n_aim_type: n_aim_type ?? this.n_aim_type,
       n_default_unit_id: n_default_unit_id ?? this.n_default_unit_id,
-      n_u_unfilled_autofill:
-          n_u_unfilled_autofill ?? this.n_u_unfilled_autofill,
+      n_u_unfilled_autofill: n_u_unfilled_autofill ?? this.n_u_unfilled_autofill,
       n_u_aim_condition: n_u_aim_condition ?? this.n_u_aim_condition,
       n_stat_condition: n_stat_condition ?? this.n_stat_condition,
-      n_possible_units_list_id:
-          n_possible_units_list_id ?? this.n_possible_units_list_id,
+      n_possible_units_list_id: n_possible_units_list_id ?? this.n_possible_units_list_id,
       el_max_items: el_max_items ?? this.el_max_items,
       el_hint_text: el_hint_text ?? this.el_hint_text,
       el_aim_limit: el_aim_limit ?? this.el_aim_limit,
@@ -349,14 +357,12 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
       erl_hint_text: erl_hint_text ?? this.erl_hint_text,
       erl_is_multi_choice: erl_is_multi_choice ?? this.erl_is_multi_choice,
       erl_aim_limit: erl_aim_limit ?? this.erl_aim_limit,
-      erl_default_aim_limit:
-          erl_default_aim_limit ?? this.erl_default_aim_limit,
+      erl_default_aim_limit: erl_default_aim_limit ?? this.erl_default_aim_limit,
       erl_property_link: erl_property_link ?? this.erl_property_link,
       erl_operation_type: erl_operation_type ?? this.erl_operation_type,
       d_default_start_time: d_default_start_time ?? this.d_default_start_time,
       d_u_start_time: d_u_start_time ?? this.d_u_start_time,
-      d_default_interval_time:
-          d_default_interval_time ?? this.d_default_interval_time,
+      d_default_interval_time: d_default_interval_time ?? this.d_default_interval_time,
       d_u_interval_time: d_u_interval_time ?? this.d_u_interval_time,
       d_max_duration_min: d_max_duration_min ?? this.d_max_duration_min,
       d_start_time_ts: d_start_time_ts ?? this.d_start_time_ts,
@@ -371,6 +377,8 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
       i_cloud_path: i_cloud_path ?? this.i_cloud_path,
       i_width: i_width ?? this.i_width,
       i_height: i_height ?? this.i_height,
+      is_manual_fill: is_manual_fill ?? this.is_manual_fill,
+      has_goal: has_goal ?? this.has_goal,
     );
   }
 
@@ -446,6 +454,8 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
       'i_cloud_path': i_cloud_path,
       'i_width': i_width,
       'i_height': i_height,
+      'is_manual_fill': is_manual_fill,
+      'has_goal': has_goal,
     };
   }
 
@@ -521,6 +531,8 @@ class TrackPropertyModel extends TrackProperty implements Equatable {
       i_cloud_path: map['i_cloud_path'] ?? '',
       i_width: map['i_width'] ?? 0.0,
       i_height: map['i_height'] ?? 0.0,
+      is_manual_fill: map['is_manual_fill'] ?? 0,
+      has_goal: map['has_goal'] ?? '',
     );
   }
 

@@ -89,8 +89,9 @@ class ProgressBar extends StatelessWidget {
                           height: Gparam.height / 50,
                         ),
                       if (widget.valid != null &&
-                          widget.valid <= 3 &&
-                          widget.valid != 9 || _currentPage < 1)
+                              widget.valid <= 3 &&
+                              widget.valid != 9 ||
+                          _currentPage < 1)
                         Container(
                             width: Gparam.height / 60,
                             height: Gparam.height / 60,
@@ -106,12 +107,13 @@ class ProgressBar extends StatelessWidget {
                             )),
                       if (widget.valid != null &&
                           widget.valid > 3 &&
-                          widget.valid != 9 && _currentPage >= 1)
+                          widget.valid != 9 &&
+                          _currentPage >= 1)
                         Container(
                             decoration: BoxDecoration(
                               // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
 
-                               color: (_currentPage == 1)
+                              color: (_currentPage == 1)
                                   ? Colors.transparent
                                   : Colors.black.withOpacity(.09),
                             ),
@@ -126,36 +128,6 @@ class ProgressBar extends StatelessWidget {
                             child: Icon(Icons.stop, color: Colors.redAccent)),
                     ],
                   ),
-                  Column(
-                    children: [
-                      if (_currentPage == 2) Text("Interests and Curiosity"),
-                      if (_currentPage == 2)
-                        SizedBox(
-                          height: Gparam.height / 50,
-                        ),
-                      if (_currentPage < 2)
-                        Container(
-                            width: Gparam.height / 60,
-                            height: Gparam.height / 60,
-                            decoration: BoxDecoration(
-                              // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                              color: Colors.black.withOpacity(.09),
-                            )),
-                      if (_currentPage >= 2)
-                        Container(
-                            decoration: BoxDecoration(
-                              // border: Border.all(color: Theme.of(context).primaryColor, width: 5),
-
-                              color:  (_currentPage == 2)
-                                  ? Colors.transparent
-                                  : Colors.black.withOpacity(.09),
-                            ),
-                            child: Icon(Icons.check, color: Colors.black26)),
-                    ],
-                  ),
-                  
                 ],
               ),
             ],

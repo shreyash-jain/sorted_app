@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
 import 'package:sorted/core/global/bloc_observer.dart';
@@ -15,12 +18,14 @@ import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/injection_container.dart' as di;
 import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/core/services/dynamic_link_service.dart';
 import 'package:sorted/core/theme/app_theme_wrapper.dart';
 import 'package:sorted/core/notification/push_notification_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sorted/core/theme/theme.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_repository_impl.dart';
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
+import 'package:uni_links/uni_links.dart';
 import 'core/global/injection_container.dart';
 import 'package:flutter/foundation.dart';
 
@@ -78,6 +83,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   final pushNotificationService =
       PushNotificationService(FirebaseMessaging.instance);
+
   pushNotificationService.initialise();
   notificationInit();
 
@@ -96,7 +102,9 @@ void main() async {
       ?.createNotificationChannel(channel);
 
   await di.init();
+  sl<DynamicLinkService>().handleDynamicLinks();
   Bloc.observer = SimpleBlocObserver();
+
   runApp(App(
       authenticationRepository: sl<AuthenticationRepository>(),
       userIntroRepository: sl<UserIntroductionRepository>()));
@@ -121,7 +129,7 @@ class App extends StatelessWidget {
         create: (_) => AuthenticationBloc(
             authenticationRepository: authenticationRepository,
             userIntroRepository: userIntroRepository),
-        child: MyApp(),
+        child: GetMaterialApp(home: MyApp()),
       ),
     );
   }
@@ -134,13 +142,51 @@ class MyApp extends StatefulWidget {
 }
 
 final _appRouter = ARouter();
+enum UniLinksType { string, uri }
 
 class _MyAppState extends State<MyApp> {
   ThemeData _theme = appThemeLight;
+  String _latestLink = 'Unknown';
+  Uri _latestUri;
+
+  StreamSubscription _sub;
+  UniLinksType _type = UniLinksType.string;
 
   @override
   void initState() {
     super.initState();
+    initUniLinks();
+  }
+
+  @override
+  dispose() {
+    if (_sub != null) _sub.cancel();
+
+    super.dispose();
+  }
+
+  Future<void> initUniLinks() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    _sub = uriLinkStream.listen((Uri uri) {
+      // Use the uri and warn the user, if it is not correct
+    }, onError: (err) {
+      // Handle exception by warning the user their action did not succeed
+    });
+    Uri initialUri;
+    String initialLink;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      initialUri = await getInitialUri();
+      print('initial uri: ${initialUri?.path}'
+          ' ${initialUri?.queryParametersAll}');
+      initialLink = initialUri?.toString();
+    } on PlatformException {
+      initialUri = null;
+      initialLink = 'Failed to get initial uri.';
+    } on FormatException {
+      initialUri = null;
+      initialLink = 'Bad parse the initial link as Uri.';
+    }
   }
 
   Widget build(BuildContext context) {
@@ -171,9 +217,8 @@ class _MyAppState extends State<MyApp> {
         print(Gparam.width);
         return new AppTheme(
           child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-            child: child
-          ),
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: child),
         );
       },
     );

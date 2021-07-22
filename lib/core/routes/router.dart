@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
 
 import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
@@ -26,6 +27,7 @@ import 'package:sorted/features/PLAN/presentation/pages/timeline_view.dart';
 import 'package:sorted/features/PLAN/presentation/pages/year_planner.dart';
 import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
 import 'package:sorted/features/SPLASH/splash.dart';
+import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/about_track_page.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/track_store_main.dart';
 import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
@@ -61,6 +63,8 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: ActivityPlanner),
     AutoRoute(page: DietPlanner),
     AutoRoute(page: RecipePage),
+    AutoRoute(page: AboutTrackPage),
+    AutoRoute(page: ClassListPage),
   ],
 )
 class $ARouter {}

@@ -65,6 +65,7 @@ dependencies:
   flutter_swiper:
   scrollable_positioned_list:
   get_it:
+  get:
   google_sign_in:
   googleapis:
   health:
@@ -97,6 +98,8 @@ dependencies:
   material_design_icons_flutter:
   truecaller_sdk:
   pie_chart:
+  firebase_dynamic_links:
+  uni_links:
 
 dev_dependencies:
   auto_route_generator:

@@ -160,7 +160,7 @@ class GoalCloudDataSourceImpl implements GoalCloud {
 
   @override
   Future<void> addLinkTagToGoal(GoalModel goal, TagModel tag, int id) async {
-     User user =  auth.currentUser;
+    User user =  auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')

@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Animation<double> scaleAnimation;
   AnimationController scaleController;
 
-  final _numPages = 3;
+  final _numPages = 2;
   final PageController _pageController = PageController(initialPage: 0);
 
   Color scaleColor = Colors.transparent;
@@ -97,8 +97,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                       HealthProfile(
                           loginWidget: widget, currentPage: _currentPage),
-                      InterestsPV(
-                          loginWidget: widget, currentPage: _currentPage),
+                      // InterestsPV(
+                      //     loginWidget: widget, currentPage: _currentPage),
                     ],
                   ),
                 ),
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           topLeft: Radius.circular(20.0),
                           bottomLeft: Radius.circular(0.0),
                           bottomRight: Radius.circular(0.0)),
-                          color: Colors.white,
+                      color: Colors.white,
                       border:
                           Border.all(color: Colors.grey.shade200, width: 2)),
                   child: Row(
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           onPressed: () {
                             print("pressed");
                             if (widget.valid == 10) {
-                              scaleColor = Theme.of(context).primaryColor;
+                              scaleColor = Colors.white;
                               scaleController.forward();
                             } else {
                               print("pressed 2");

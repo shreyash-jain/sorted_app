@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:auto_route/auto_route.dart';
@@ -14,15 +15,17 @@ class HomeClassRoomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+       // context.router.push(ClassroomMain(classroom: classroom));
+      },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        padding: EdgeInsets.only(bottom: 0),
+        padding: EdgeInsets.only(bottom: 30),
         width: Gparam.width - 1.05 * Gparam.widthPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Gtheme.stext(classroom.name, weight: GFontWeight.N),
+            Gtheme.stext(classroom.name, weight: GFontWeight.B1),
             SizedBox(
               height: 6,
             ),
@@ -30,11 +33,10 @@ class HomeClassRoomTile extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Gtheme.stext(
-                    "No Timetable added yet",
-                    size: GFontSize.XXXS,
-                    weight: GFontWeight.N,
-                  ),
+                  Gtheme.stext("No Timetable added yet",
+                      size: GFontSize.XXXS,
+                      weight: GFontWeight.N,
+                      color: GColors.B2),
                   Spacer(),
                   Container(
                     padding: EdgeInsets.all(4),
@@ -42,11 +44,10 @@ class HomeClassRoomTile extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.orange.shade50,
                         borderRadius: BorderRadius.circular(5)),
-                    child: Gtheme.stext(
-                      " Add Students ",
-                      size: GFontSize.XXS,
-                      weight: GFontWeight.N,
-                    ),
+                    child: Gtheme.stext(" Add Students ",
+                        size: GFontSize.XXS,
+                        weight: GFontWeight.N,
+                        color: GColors.B),
                   ),
                 ],
               ),
@@ -63,11 +64,10 @@ class HomeClassRoomTile extends StatelessWidget {
                       .split(",")
                       .asMap()
                       .entries
-                      .map((e) => Gtheme.stext(
-                            " " + e.value + " |",
-                            size: GFontSize.XXXS,
-                            weight: GFontWeight.N,
-                          ))
+                      .map((e) => Gtheme.stext(" " + e.value + " |",
+                          size: GFontSize.XXXS,
+                          weight: GFontWeight.N,
+                          color: GColors.B2))
                       .toList(),
                   Spacer(),
                   Container(
@@ -77,11 +77,10 @@ class HomeClassRoomTile extends StatelessWidget {
                         // color: Colors.orange.shade50,
                         border: Border.all(color: Colors.grey.shade300),
                         borderRadius: BorderRadius.circular(5)),
-                    child: Gtheme.stext(
-                      time,
-                      size: GFontSize.XS,
-                      weight: GFontWeight.B,
-                    ),
+                    child: Gtheme.stext(time,
+                        size: GFontSize.XS,
+                        weight: GFontWeight.B,
+                        color: GColors.B1),
                   ),
                 ],
               ),

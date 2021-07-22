@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/widgets/image_placeholder_widget.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -140,6 +141,11 @@ class _HomeRecipeWidgetLState extends State<HomeRecipeWidgetL> {
                             child: CachedNetworkImage(
                               imageUrl: widget.recipe.image_url,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => Center(
+                                child: ImagePlaceholderWidget(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
                           ),
                           Container(

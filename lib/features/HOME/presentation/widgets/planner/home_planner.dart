@@ -28,6 +28,23 @@ class _HomePlannerState extends State<HomePlanner> {
           padding: EdgeInsets.symmetric(horizontal: Gparam.widthPadding),
           child: Row(
             children: [
+              Gtheme.stext("Daily Challenge",
+                  size: GFontSize.S, weight: GFontWeight.B),
+              SizedBox(
+                width: 12,
+              ),
+              Spacer(),
+              Icon(Icons.arrow_forward_ios)
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: Gparam.widthPadding),
+          child: Row(
+            children: [
               Gtheme.stext("Workout Plan",
                   size: GFontSize.S, weight: GFontWeight.B),
               SizedBox(

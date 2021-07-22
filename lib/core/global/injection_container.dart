@@ -17,6 +17,7 @@ import 'package:sorted/core/global/database/datasources/attachments_sources/atta
 
 import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/core/services/dynamic_link_service.dart';
 import 'package:sorted/features/FILES/data/datasources/note_sources/note_cloud_data_source.dart';
 import 'package:sorted/features/FILES/data/datasources/note_sources/note_native_data_source.dart';
 import 'package:sorted/features/FILES/data/datasources/note_sources/note_shared_pref_data_source.dart';
@@ -424,6 +425,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DataConnectionChecker());
   sl.registerLazySingleton(() => _auth);
   sl.registerLazySingleton(() => _fireDB);
+  sl.registerLazySingleton(() => DynamicLinkService());
 
   sl.registerLazySingleton(() => refStorage);
 }

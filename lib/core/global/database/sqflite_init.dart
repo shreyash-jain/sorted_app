@@ -6,10 +6,6 @@ final todoTABLE = 'Todo';
 final userTable = 'UserDetails';
 
 List<String> tables = [
-  "Revents",
-  "Friends",
-  "Questions",
-  "Answers",
   "UserDetails",
   "Inspirations",
   "Reminders",

@@ -7,17 +7,18 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../features/FILES/data/models/note_model.dart' as _i36;
-import '../../features/FILES/data/models/notebook_model.dart' as _i37;
+import '../../features/CONNECT/presentation/pages/class_list.dart' as _i31;
+import '../../features/FILES/data/models/note_model.dart' as _i38;
+import '../../features/FILES/data/models/notebook_model.dart' as _i39;
 import '../../features/FILES/presentation/pages/notes_hub.dart' as _i21;
 import '../../features/FILES/presentation/pages/record_home.dart' as _i20;
 import '../../features/FILES/presentation/pages/test_note.dart' as _i19;
-import '../../features/HOME/data/models/blogs.dart' as _i38;
-import '../../features/HOME/data/models/recipes/recipe.dart' as _i39;
-import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i40;
-import '../../features/HOME/domain/entities/day_affirmations.dart' as _i30;
+import '../../features/HOME/data/models/blogs.dart' as _i40;
+import '../../features/HOME/data/models/recipes/recipe.dart' as _i41;
+import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i42;
+import '../../features/HOME/domain/entities/day_affirmations.dart' as _i32;
 import '../../features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart'
-    as _i31;
+    as _i33;
 import '../../features/HOME/presentation/pages/activity_planner.dart' as _i27;
 import '../../features/HOME/presentation/pages/affirmation_pv.dart' as _i8;
 import '../../features/HOME/presentation/pages/blog_full_page.dart' as _i26;
@@ -28,11 +29,11 @@ import '../../features/HOME/presentation/pages/recipe_full_page.dart' as _i29;
 import '../../features/HOME/presentation/pages/rootPage.dart' as _i22;
 import '../../features/ONBOARDING/presentation/pages/onboard_page.dart' as _i5;
 import '../../features/ONSTART/presentation/pages/start_page.dart' as _i4;
-import '../../features/PLAN/data/models/goal.dart' as _i32;
-import '../../features/PLAN/data/models/task.dart' as _i35;
+import '../../features/PLAN/data/models/goal.dart' as _i34;
+import '../../features/PLAN/data/models/task.dart' as _i37;
 import '../../features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart'
-    as _i34;
-import '../../features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart' as _i33;
+    as _i36;
+import '../../features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart' as _i35;
 import '../../features/PLAN/presentation/pages/choice_goal_guide.dart' as _i11;
 import '../../features/PLAN/presentation/pages/goal_page.dart' as _i12;
 import '../../features/PLAN/presentation/pages/kanban_view.dart' as _i15;
@@ -44,6 +45,9 @@ import '../../features/PLAN/presentation/pages/timeline_view.dart' as _i16;
 import '../../features/PLAN/presentation/pages/year_planner.dart' as _i17;
 import '../../features/SETTINGS/presentation/pages/settings_page.dart' as _i9;
 import '../../features/SPLASH/splash.dart' as _i3;
+import '../../features/TRACKERS/COMMON/models/track_model.dart' as _i43;
+import '../../features/TRACKERS/TRACK_STORE/presentation/pages/about_track_page.dart'
+    as _i30;
 import '../../features/TRACKERS/TRACK_STORE/presentation/pages/track_store_main.dart'
     as _i24;
 import '../../features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart'
@@ -227,6 +231,20 @@ class ARouter extends _i1.RootStackRouter {
               type: args.type,
               recipe: args.recipe,
               taggedRecipe: args.taggedRecipe);
+        }),
+    AboutTrackRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<AboutTrackRouteArgs>(
+              orElse: () => const AboutTrackRouteArgs());
+          return _i30.AboutTrackPage(track: args.track);
+        }),
+    ClassListRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<ClassListRouteArgs>(
+              orElse: () => const ClassListRouteArgs());
+          return _i31.ClassListPage(key: args.key, classId: args.classId);
         })
   };
 
@@ -259,7 +277,9 @@ class ARouter extends _i1.RootStackRouter {
         _i1.RouteConfig(FullBlogRoute.name, path: '/full-blog-page'),
         _i1.RouteConfig(ActivityPlanner.name, path: '/activity-planner'),
         _i1.RouteConfig(DietPlanner.name, path: '/diet-planner'),
-        _i1.RouteConfig(RecipeRoute.name, path: '/recipe-page')
+        _i1.RouteConfig(RecipeRoute.name, path: '/recipe-page'),
+        _i1.RouteConfig(AboutTrackRoute.name, path: '/about-track-page'),
+        _i1.RouteConfig(ClassListRoute.name, path: '/class-list-page')
       ];
 }
 
@@ -339,9 +359,9 @@ class SortedHomeArgs {
 class AffirmationPV extends _i1.PageRouteInfo<AffirmationPVArgs> {
   AffirmationPV(
       {_i2.Key key,
-      List<_i30.DayAffirmation> affirmations,
+      List<_i32.DayAffirmation> affirmations,
       int startIndex,
-      _i31.AffirmationBloc outerBloc})
+      _i33.AffirmationBloc outerBloc})
       : super(name,
             path: '/affirmation-pV',
             args: AffirmationPVArgs(
@@ -359,11 +379,11 @@ class AffirmationPVArgs {
 
   final _i2.Key key;
 
-  final List<_i30.DayAffirmation> affirmations;
+  final List<_i32.DayAffirmation> affirmations;
 
   final int startIndex;
 
-  final _i31.AffirmationBloc outerBloc;
+  final _i33.AffirmationBloc outerBloc;
 }
 
 class SettingsRoute extends _i1.PageRouteInfo<SettingsRouteArgs> {
@@ -392,7 +412,7 @@ class ChoiceGoalGuide extends _i1.PageRouteInfo {
 }
 
 class GoalRoute extends _i1.PageRouteInfo<GoalRouteArgs> {
-  GoalRoute({_i2.Key key, _i32.GoalModel thisGoal, _i33.PlanBloc planBloc})
+  GoalRoute({_i2.Key key, _i34.GoalModel thisGoal, _i35.PlanBloc planBloc})
       : super(name,
             path: '/goal-page',
             args: GoalRouteArgs(
@@ -406,13 +426,13 @@ class GoalRouteArgs {
 
   final _i2.Key key;
 
-  final _i32.GoalModel thisGoal;
+  final _i34.GoalModel thisGoal;
 
-  final _i33.PlanBloc planBloc;
+  final _i35.PlanBloc planBloc;
 }
 
 class SelectCover extends _i1.PageRouteInfo<SelectCoverArgs> {
-  SelectCover({_i2.Key key, _i34.GoalPageBloc goalBloc})
+  SelectCover({_i2.Key key, _i36.GoalPageBloc goalBloc})
       : super(name,
             path: '/select-cover',
             args: SelectCoverArgs(key: key, goalBloc: goalBloc));
@@ -425,11 +445,11 @@ class SelectCoverArgs {
 
   final _i2.Key key;
 
-  final _i34.GoalPageBloc goalBloc;
+  final _i36.GoalPageBloc goalBloc;
 }
 
 class TaskRoute extends _i1.PageRouteInfo<TaskRouteArgs> {
-  TaskRoute({_i2.Key key, _i35.TaskModel thisGoal, _i33.PlanBloc planBloc})
+  TaskRoute({_i2.Key key, _i37.TaskModel thisGoal, _i35.PlanBloc planBloc})
       : super(name,
             path: '/task-page',
             args: TaskRouteArgs(
@@ -443,9 +463,9 @@ class TaskRouteArgs {
 
   final _i2.Key key;
 
-  final _i35.TaskModel thisGoal;
+  final _i37.TaskModel thisGoal;
 
-  final _i33.PlanBloc planBloc;
+  final _i35.PlanBloc planBloc;
 }
 
 class Kanban extends _i1.PageRouteInfo {
@@ -473,7 +493,7 @@ class LongPlanner extends _i1.PageRouteInfo {
 }
 
 class NoteMain extends _i1.PageRouteInfo<NoteMainArgs> {
-  NoteMain({_i2.Key key, _i36.NoteModel note})
+  NoteMain({_i2.Key key, _i38.NoteModel note})
       : super(name,
             path: '/note-main', args: NoteMainArgs(key: key, note: note));
 
@@ -485,7 +505,7 @@ class NoteMainArgs {
 
   final _i2.Key key;
 
-  final _i36.NoteModel note;
+  final _i38.NoteModel note;
 }
 
 class RecordTab extends _i1.PageRouteInfo {
@@ -495,7 +515,7 @@ class RecordTab extends _i1.PageRouteInfo {
 }
 
 class NotesHubRoute extends _i1.PageRouteInfo<NotesHubRouteArgs> {
-  NotesHubRoute({_i2.Key key, _i37.NotebookModel thisNotebook})
+  NotesHubRoute({_i2.Key key, _i39.NotebookModel thisNotebook})
       : super(name,
             path: '/notes-hub-page',
             args: NotesHubRouteArgs(key: key, thisNotebook: thisNotebook));
@@ -508,7 +528,7 @@ class NotesHubRouteArgs {
 
   final _i2.Key key;
 
-  final _i37.NotebookModel thisNotebook;
+  final _i39.NotebookModel thisNotebook;
 }
 
 class RootHome extends _i1.PageRouteInfo {
@@ -536,7 +556,7 @@ class VideoRoute extends _i1.PageRouteInfo {
 }
 
 class FullBlogRoute extends _i1.PageRouteInfo<FullBlogRouteArgs> {
-  FullBlogRoute({_i2.Key key, _i38.BlogModel blog})
+  FullBlogRoute({_i2.Key key, _i40.BlogModel blog})
       : super(name,
             path: '/full-blog-page',
             args: FullBlogRouteArgs(key: key, blog: blog));
@@ -549,7 +569,7 @@ class FullBlogRouteArgs {
 
   final _i2.Key key;
 
-  final _i38.BlogModel blog;
+  final _i40.BlogModel blog;
 }
 
 class ActivityPlanner extends _i1.PageRouteInfo {
@@ -568,8 +588,8 @@ class RecipeRoute extends _i1.PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute(
       {_i2.Key key,
       int type,
-      _i39.RecipeModel recipe,
-      _i40.TaggedRecipe taggedRecipe})
+      _i41.RecipeModel recipe,
+      _i42.TaggedRecipe taggedRecipe})
       : super(name,
             path: '/recipe-page',
             args: RecipeRouteArgs(
@@ -588,7 +608,38 @@ class RecipeRouteArgs {
 
   final int type;
 
-  final _i39.RecipeModel recipe;
+  final _i41.RecipeModel recipe;
 
-  final _i40.TaggedRecipe taggedRecipe;
+  final _i42.TaggedRecipe taggedRecipe;
+}
+
+class AboutTrackRoute extends _i1.PageRouteInfo<AboutTrackRouteArgs> {
+  AboutTrackRoute({_i43.TrackModel track})
+      : super(name,
+            path: '/about-track-page', args: AboutTrackRouteArgs(track: track));
+
+  static const String name = 'AboutTrackRoute';
+}
+
+class AboutTrackRouteArgs {
+  const AboutTrackRouteArgs({this.track});
+
+  final _i43.TrackModel track;
+}
+
+class ClassListRoute extends _i1.PageRouteInfo<ClassListRouteArgs> {
+  ClassListRoute({_i2.Key key, String classId})
+      : super(name,
+            path: '/class-list-page',
+            args: ClassListRouteArgs(key: key, classId: classId));
+
+  static const String name = 'ClassListRoute';
+}
+
+class ClassListRouteArgs {
+  const ClassListRouteArgs({this.key, this.classId});
+
+  final _i2.Key key;
+
+  final String classId;
 }

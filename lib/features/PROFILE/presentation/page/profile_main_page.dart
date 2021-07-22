@@ -12,9 +12,11 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/theme/theme.dart';
+import 'package:sorted/features/FEED/presentation/widgets/track_view_small.dart';
 import 'package:sorted/features/PROFILE/presentation/bloc/profile_bloc.dart';
 import 'package:sorted/features/PROFILE/presentation/widgets/person_display.dart';
 import 'package:sorted/features/PROFILE/presentation/widgets/profile_top.dart';
+import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_data.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage(
@@ -168,12 +170,29 @@ class _ProfileState extends State<ProfilePage>
                   body: TabBarView(
                     controller: tab_controller,
                     children: [
-                      GridView.count(
-                        padding: EdgeInsets.zero,
-                        crossAxisCount: 3,
-                        children: Colors.primaries.map((color) {
-                          return Container(color: color, height: 150.0);
-                        }).toList(),
+                      Container(
+                        color: Colors.grey.shade100,
+                        child: ListView(
+                          padding: EdgeInsets.zero,
+                          children: [
+                            ProfileTrackView(
+                                track: track_weight,
+                                text1: "68 Kg",
+                                text2: "Last logged Today at 7:26 PM"),
+                            ProfileTrackView(
+                                track: track_water,
+                                text1: "Today 1500 ml",
+                                text2: "Last logged Today at 4 PM"),
+                            ProfileTrackView(
+                                track: track_body_fat,
+                                text1: "19%",
+                                text2: "Last logged at 15th July"),
+                            ProfileTrackView(
+                                track: track_fasting,
+                                text1: "7 hours today",
+                                text2: "No records Today"),
+                          ],
+                        ),
                       ),
                       ListView(
                         padding: EdgeInsets.zero,

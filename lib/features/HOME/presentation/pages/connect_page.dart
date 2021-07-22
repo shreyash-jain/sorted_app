@@ -4,14 +4,14 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/presentation/widgets/utils/utils/action_button.dart';
 import 'package:sorted/features/HOME/presentation/widgets/utils/utils/action_button_orange.dart';
 
-class ClassResourcesWidget extends StatefulWidget {
-  ClassResourcesWidget({Key key}) : super(key: key);
+class ConnectPage extends StatefulWidget {
+  ConnectPage({Key key}) : super(key: key);
 
   @override
-  _ClassResourcesWidgetState createState() => _ClassResourcesWidgetState();
+  _ConnectPageState createState() => _ConnectPageState();
 }
 
-class _ClassResourcesWidgetState extends State<ClassResourcesWidget> {
+class _ConnectPageState extends State<ConnectPage> {
   @override
   void initState() {
     super.initState();
@@ -38,31 +38,37 @@ class _ClassResourcesWidgetState extends State<ClassResourcesWidget> {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
-                        Gtheme.stext("Live Classes"),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Gtheme.stext("Personal Training"),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        OrangeActionButton(
-                          text: "Workshops",
-                          onClick: null,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Gtheme.stext("Live Classes"),
                         ),
                         SizedBox(
                           width: 12,
                         ),
-                        OrangeActionButton(
-                          text: "Online Therapy",
-                          onClick: null,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Gtheme.stext("Personal Training"),
                         ),
                         SizedBox(
                           width: 12,
                         ),
-                        OrangeActionButton(
-                          text: "Podcasts",
-                          onClick: null,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Gtheme.stext("Workshops"),
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Gtheme.stext("Online Therapy"),
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Gtheme.stext("Fitness Podcasts"),
                         ),
                       ],
                     )),

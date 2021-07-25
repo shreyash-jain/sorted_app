@@ -100,6 +100,7 @@ dependencies:
   pie_chart:
   firebase_dynamic_links:
   uni_links:
+  razorpay_flutter:
 
 dev_dependencies:
   auto_route_generator:

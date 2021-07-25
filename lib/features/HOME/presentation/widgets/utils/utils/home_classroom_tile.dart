@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
 
 class HomeClassRoomTile extends StatelessWidget {
@@ -14,7 +15,9 @@ class HomeClassRoomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        context.router.push(ClassMain());
+      },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         padding: EdgeInsets.only(bottom: 0),

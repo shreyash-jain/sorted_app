@@ -141,7 +141,6 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-final _appRouter = ARouter();
 enum UniLinksType { string, uri }
 
 class _MyAppState extends State<MyApp> {
@@ -197,10 +196,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       theme: ThemeData.dark(),
       routerDelegate: AutoRouterDelegate(
-        _appRouter,
+        sl<ARouter>(),
         navigatorObservers: () => [AutoRouteObserver()],
       ),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+      routeInformationParser: sl<ARouter>().defaultRouteParser(),
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         print("My App");

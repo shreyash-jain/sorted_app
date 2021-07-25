@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
 import 'package:sorted/features/HOME/presentation/widgets/heading.dart';
 import 'package:sorted/features/HOME/presentation/widgets/utils/utils/home_classroom_tile.dart';
+
+import 'package:auto_route/auto_route.dart';
 
 class HomePlanner extends StatefulWidget {
   HomePlanner({Key key}) : super(key: key);
@@ -84,7 +87,7 @@ class _HomePlannerState extends State<HomePlanner> {
           padding: EdgeInsets.all(Gparam.widthPadding),
           child: HomeClassRoomTile(
             classroom: ClassModel(
-              id: 1,
+              id: "hss",
               name: "Evening Yog Nindra",
               description: "",
               shareId: 84521,

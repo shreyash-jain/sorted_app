@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/class_main.dart';
 
 import 'package:sorted/features/FILES/presentation/pages/notes_hub.dart';
 import 'package:sorted/features/FILES/presentation/pages/record_home.dart';
@@ -16,6 +17,7 @@ import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
 
 import 'package:sorted/features/ONBOARDING/presentation/pages/onboard_page.dart';
 import 'package:sorted/features/ONSTART/presentation/pages/start_page.dart';
+import 'package:sorted/features/PAYMENTS/presentation/pages/test_payment.dart';
 import 'package:sorted/features/PLAN/presentation/pages/choice_goal_guide.dart';
 import 'package:sorted/features/PLAN/presentation/pages/goal_page.dart';
 import 'package:sorted/features/PLAN/presentation/pages/kanban_view.dart';
@@ -65,6 +67,8 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: RecipePage),
     AutoRoute(page: AboutTrackPage),
     AutoRoute(page: ClassListPage),
+    AutoRoute(page: TestPayment),
+    AutoRoute(page: ClassMain)
   ],
 )
 class $ARouter {}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sorted/core/global/blocs/deeplink_bloc/deeplink_bloc.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
@@ -90,9 +91,18 @@ class _MyHomePageState extends State<MyStartPage> {
                   if (state is AccessGranted) {
                     print("listener ran");
                     context.router.pop();
+
                     context.router.push(
                       RootHome(),
                     );
+                    if (sl<DeeplinkBloc>().state is DeeplinkLoaded) {
+                      context.router.push(ClassListRoute(
+                          classId: (sl<DeeplinkBloc>().state as DeeplinkLoaded)
+                              .classEnrollData
+                              .classId));
+
+                      sl<DeeplinkBloc>().add(ResetData());
+                    }
                   }
                 },
               ),

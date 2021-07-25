@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,16 +10,21 @@ import 'dart:core';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sorted/core/global/blocs/deeplink_bloc/deeplink_bloc.dart';
 
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/database/cache_deep_link.dart';
 import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted/core/global/models/deep_link_data/deep_link_data.dart';
 
 import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 import 'package:sorted/features/HOME/presentation/blogs_bloc/blogs_bloc.dart';
 import 'package:sorted/features/HOME/presentation/pages/camera_screen.dart';
@@ -48,9 +55,12 @@ class SortedHome extends StatefulWidget {
   _SortedHomeState createState() => _SortedHomeState();
 }
 
-class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
+class _SortedHomeState extends State<SortedHome>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   BlogBloc blogBloc;
+  StreamSubscription<DeepLinkType> _deeplinkSubscription;
   TransformationBloc transBloc;
+  DeeplinkBloc deeplinkBloc;
   RecipeBloc recipeBloc;
   var bottomNavIndex = 0;
   int currentBottomTab;
@@ -70,8 +80,8 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
   SharedPreferences prefs;
   double currentSliverheight, prevSliverHeight;
   Reference refStorage = FirebaseStorage.instance.ref();
-  Animation<double> scaleAnimation;
-  AnimationController scaleController;
+  StreamSubscription deeplinkStateSubscription;
+
   bool showSideTab = true;
   Animation<double> tabAnimation;
   AnimationController tabController;
@@ -84,13 +94,17 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    scaleController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    if (deeplinkStateSubscription != null) deeplinkStateSubscription.cancel();
+
     super.dispose();
   }
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+
     tab_Controller = new TabController(length: 2, vsync: this);
     blogBloc = sl<BlogBloc>()..add(LoadBlogs());
     recipeBloc = sl<RecipeBloc>()..add(LoadRecipes());
@@ -102,18 +116,6 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
       keepScrollOffset: true, // NEW
     );
 
-    scaleController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 2000))
-          ..addStatusListener((status) async {
-            if (status == AnimationStatus.completed) {
-            } else if (status == AnimationStatus.dismissed) {
-              scaleController.forward();
-            }
-          });
-
-    scaleAnimation =
-        Tween<double>(begin: 1.0, end: 1.5).animate(scaleController);
-
     tabController = new AnimationController(
         duration: Duration(milliseconds: 300), vsync: this)
       ..addListener(() => setState(() {}));
@@ -124,9 +126,16 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
         AnimationController(vsync: this, duration: Duration(seconds: 1));
     positionAnimation =
         Tween<double>(begin: 0.0, end: 0.0).animate(positionController);
-    scaleController.curve(Curves.decelerate);
-    scaleController.forward();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => runAfterBuild(context));
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  void afterBuild() {}
 
   void _toEnd() {
     // NEW
@@ -203,125 +212,153 @@ class _SortedHomeState extends State<SortedHome> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: _scaffoldKey,
-        body: SafeArea(child: new LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          return SlideStack(
-            drawer: Container(
-              color: (Theme.of(context).brightness == Brightness.light)
-                  ? Colors.transparent
-                  : Colors.white12,
-              width: Gparam.width,
-              child: Stack(
-                children: [
-                  SideTab(
-                      currentSideTab: currentSideTab,
-                      isNavEnabled: isNavEnabled,
-                      onTapAction: onSideTabSelected),
-                  RightSideOpener(),
-                ],
-              ),
-            ),
-            child: SlideContainer(
-                slideDirection: SlideDirection.left,
-                onSlide: onSlide,
-                drawerSize: Gparam.width / 2,
-                child: Stack(
-                  children: [
-                    CustomPaint(
-                        child: NestedScrollView(
-                      controller: nestedScrollController,
-                      headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                        SliverSafeArea(
-                          top: false,
-                          sliver: SliverAppBar(
-                            elevation: 5,
-                            backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            shadowColor: Colors.black26,
-                            leading: Container(),
-                            actions: <Widget>[
-                              SizedBox(
-                                width: 10,
-                              ),
-                              ChatIconWidget(),
-                            ],
-                            expandedHeight: 190,
-                            pinned: true,
-                            primary: true,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(0.0)),
-                            ),
-                            flexibleSpace: LayoutBuilder(builder:
-                                (BuildContext context,
-                                    BoxConstraints constraints) {
-                              currentSliverheight = constraints.biggest.height;
-                              print(currentSliverheight);
+    return BlocProvider(
+      create: (context) => sl<DeeplinkBloc>(),
+      child: BlocListener<DeeplinkBloc, DeeplinkState>(
+        listener: (context, state) {
+          print("got data from deep link   -   >   no chills");
+          if (state is DeeplinkLoaded) {
+            print("got data from deep link   -   >   ahha");
+            switch (state.type.type) {
+              case 1:
+                print("got data from deep link   -   >   1");
+                context.router.push(
+                    ClassListRoute(classId: state.classEnrollData.classId));
 
-                              bool direction;
-                              if (prevSliverHeight != null &&
-                                  prevSliverHeight > currentSliverheight) {
-                                direction = false;
-                              } else if (prevSliverHeight != null &&
-                                  prevSliverHeight < currentSliverheight)
-                                direction = true;
+                deeplinkBloc.add(ResetData());
 
-                              prevSliverHeight = currentSliverheight;
-
-                              return FlexibleSpaceArea(
-                                  currentSliverheight: currentSliverheight,
-                                  name: name);
-                            }),
-                          ),
-                        ),
-                      ],
-                      body: Container(
-                          height: MediaQuery.of(context).size.height,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Transform.translate(
-                                offset: Offset(tabAnimation.value, 0.0),
-                                child: AnimatedContainer(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                break;
+              default:
+            }
+          } else {
+            print("data from deep link no data");
+          }
+        },
+        child: Scaffold(
+            key: _scaffoldKey,
+            body: SafeArea(child: new LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              return SlideStack(
+                drawer: Container(
+                  color: (Theme.of(context).brightness == Brightness.light)
+                      ? Colors.transparent
+                      : Colors.white12,
+                  width: Gparam.width,
+                  child: Stack(
+                    children: [
+                      SideTab(
+                          currentSideTab: currentSideTab,
+                          isNavEnabled: isNavEnabled,
+                          onTapAction: onSideTabSelected),
+                      RightSideOpener(),
+                    ],
+                  ),
+                ),
+                child: SlideContainer(
+                    slideDirection: SlideDirection.left,
+                    onSlide: onSlide,
+                    drawerSize: Gparam.width / 2,
+                    child: Stack(
+                      children: [
+                        CustomPaint(
+                            child: NestedScrollView(
+                          controller: nestedScrollController,
+                          headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                              [
+                            SliverSafeArea(
+                              top: false,
+                              sliver: SliverAppBar(
+                                elevation: 5,
+                                backgroundColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                shadowColor: Colors.black26,
+                                leading: Container(),
+                                actions: <Widget>[
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                  width: Gparam.width,
-                                  duration: Duration(milliseconds: 700),
-                                  child: ListView(children: <Widget>[
-                                    HomePlanner(),
-                                    Row(
-                                      children: [
-                                        HomeTransformationWidgetM(
-                                          transBloc: transBloc,
-                                        ),
-                                      ],
-                                    ),
-                                    HomeRecipeWidget(
-                                      recipeBloc: recipeBloc,
-                                    ),
-                                    HomeBlogWidget(blogBloc: blogBloc),
-                                    SizedBox(
-                                      height: 100,
-                                    )
-                                  ]),
+                                  ChatIconWidget(),
+                                ],
+                                expandedHeight: 190,
+                                pinned: true,
+                                primary: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(0.0)),
                                 ),
-                              )
-                            ],
-                          )),
-                    )),
-                    //
-                    //! Side bar
+                                flexibleSpace: LayoutBuilder(builder:
+                                    (BuildContext context,
+                                        BoxConstraints constraints) {
+                                  currentSliverheight =
+                                      constraints.biggest.height;
+                                  print(currentSliverheight);
 
-                    //! bottom tab
-                  ],
-                )),
-          );
-        })));
+                                  bool direction;
+                                  if (prevSliverHeight != null &&
+                                      prevSliverHeight > currentSliverheight) {
+                                    direction = false;
+                                  } else if (prevSliverHeight != null &&
+                                      prevSliverHeight < currentSliverheight)
+                                    direction = true;
+
+                                  prevSliverHeight = currentSliverheight;
+
+                                  return FlexibleSpaceArea(
+                                      currentSliverheight: currentSliverheight,
+                                      name: name);
+                                }),
+                              ),
+                            ),
+                          ],
+                          body: Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Transform.translate(
+                                    offset: Offset(tabAnimation.value, 0.0),
+                                    child: AnimatedContainer(
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                      width: Gparam.width,
+                                      duration: Duration(milliseconds: 700),
+                                      child: ListView(children: <Widget>[
+                                        HomePlanner(),
+                                        Row(
+                                          children: [
+                                            HomeTransformationWidgetM(
+                                              transBloc: transBloc,
+                                            ),
+                                          ],
+                                        ),
+                                        HomeRecipeWidget(
+                                          recipeBloc: recipeBloc,
+                                        ),
+                                        HomeBlogWidget(blogBloc: blogBloc),
+                                        SizedBox(
+                                          height: 100,
+                                        )
+                                      ]),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        )),
+                        //
+                        //! Side bar
+
+                        //! bottom tab
+                      ],
+                    )),
+              );
+            }))),
+      ),
+    );
   }
+
+  runAfterBuild(BuildContext context) {}
 }
 
 class ChatIconWidget extends StatelessWidget {

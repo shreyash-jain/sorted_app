@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:sorted/core/global/blocs/deeplink_bloc/deeplink_bloc.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/routes/router.gr.dart';
 
 class SplashPage extends StatelessWidget {
@@ -10,7 +12,6 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("splash");
     return Scaffold(
-      
       body: Center(
           child: Container(
         width: 70,
@@ -22,6 +23,7 @@ class SplashPage extends StatelessWidget {
               case AuthenticationStatus.authenticated:
                 print("authenticated");
                 context.router.pop();
+
                 context.router.push(
                   MyStartRoute(title: "start Page"),
                 );
@@ -46,7 +48,7 @@ class SplashPage extends StatelessWidget {
                 break;
             }
           },
-          child: new FlareActor("assets/animations/Sorted_Logo.flr",
+          child: new FlareActor("assets/animations/logo.flr",
               alignment: Alignment.center,
               fit: BoxFit.contain,
               animation: "Untitled"),

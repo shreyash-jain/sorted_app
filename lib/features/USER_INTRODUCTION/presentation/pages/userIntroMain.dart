@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sorted/core/global/blocs/deeplink_bloc/deeplink_bloc.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
@@ -78,6 +79,14 @@ class _UserIntroState extends State<UserIntroPage>
               context.router.push(
                 RootHome(),
               );
+              if (sl<DeeplinkBloc>().state is DeeplinkLoaded) {
+                context.router.push(ClassListRoute(
+                    classId: (sl<DeeplinkBloc>().state as DeeplinkLoaded)
+                        .classEnrollData
+                        .classId));
+
+                sl<DeeplinkBloc>().add(ResetData());
+              }
             }
           },
         ));
@@ -93,7 +102,6 @@ class _UserIntroState extends State<UserIntroPage>
     // than having to individually change instances of widgets.
     return Scaffold(
       key: _scaffoldKey,
-      
 
       body: SingleChildScrollView(
         child: buildBody(context),

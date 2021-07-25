@@ -11,13 +11,19 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
+import 'package:sorted/core/global/blocs/deeplink_bloc/deeplink_bloc.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
+import 'package:sorted/core/global/database/cache_deep_link.dart';
 import 'package:sorted/core/global/database/datasources/attachments_sources/attachments_cloud_data_source.dart';
 import 'package:sorted/core/global/database/datasources/attachments_sources/attachments_native_data_source.dart';
 
 import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/core/services/dynamic_link_service.dart';
+import 'package:sorted/features/CONNECT/data/datasources/connect_cloud_data_source.dart';
+import 'package:sorted/features/CONNECT/data/repositories/connect_repository_impl.dart';
+import 'package:sorted/features/CONNECT/domain/repositories/connect_repository.dart';
 import 'package:sorted/features/FILES/data/datasources/note_sources/note_cloud_data_source.dart';
 import 'package:sorted/features/FILES/data/datasources/note_sources/note_native_data_source.dart';
 import 'package:sorted/features/FILES/data/datasources/note_sources/note_shared_pref_data_source.dart';
@@ -201,6 +207,8 @@ Future<void> init() async {
     () => TransformationBloc(sl()),
   );
 
+  sl.registerLazySingleton(() => DeeplinkBloc());
+
   //! Use cases
 
   sl.registerLazySingleton(() => DoLocalAuth(sl()));
@@ -312,7 +320,18 @@ Future<void> init() async {
         cloudDataSource: sl(),
         trackStoreNative: sl()),
   );
+
+  sl.registerLazySingleton<ConnectRepository>(
+    () => ConnectRepositoryImpl(
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+    ),
+  );
   //! Data sources
+
+  sl.registerLazySingleton<ConnectCloud>(() =>
+      ConnectCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
+
   sl.registerLazySingleton<GoalNative>(
       () => GoalNativeDataSourceImpl(nativeDb: sl()));
   sl.registerLazySingleton<NoteNative>(
@@ -410,7 +429,9 @@ Future<void> init() async {
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton(() => LocalAuthenticationService());
   final CacheDataClass cacheData = CacheDataClass.cacheData;
+  final CacheDeepLinkDataClass deepLinkData = CacheDeepLinkDataClass.cacheData;
   sl.registerLazySingleton(() => cacheData);
+  sl.registerLazySingleton(() => deepLinkData);
   final SqlDatabaseService sqlProvider = SqlDatabaseService.db;
   sl.registerLazySingleton(() => sqlProvider);
 
@@ -419,6 +440,9 @@ Future<void> init() async {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireDB = FirebaseFirestore.instance;
   final Reference refStorage = FirebaseStorage.instance.ref();
+  final _appRouter = ARouter();
+
+  sl.registerLazySingleton(() => _appRouter);
 
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());

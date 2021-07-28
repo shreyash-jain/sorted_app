@@ -35,130 +35,137 @@ class _ClassListPageState extends State<ClassListPage> {
         child: BlocBuilder<ClassEnrollBloc, ClassEnrollState>(
           builder: (context, state) {
             if (state is ClassEnrollLoaded)
-              return SingleChildScrollView(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(Gparam.widthPadding),
-                        child: Gtheme.stext(state.classroom.name,
-                            size: GFontSize.M, weight: GFontWeight.B1),
-                      ),
-                      ClassroomPreview(
-                          coverImageUrl:
-                              "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/classrooms%2Fplaceholders%2F19347.jpg?alt=media&token=06651a7f-2dd5-4eef-96f5-5a34210df824",
-                          topics: state.topics),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ExpansionTile(
-                        title: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Gparam.widthPadding / 2),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Gtheme.stext("Time Table",
-                                  size: GFontSize.S, weight: GFontWeight.B1),
-                            ],
-                          ),
+              return SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (state.isLoading) LinearProgressIndicator(),
+                        SizedBox(
+                          height: 0,
                         ),
-                        children: <Widget>[
-                          Padding(
+                        Container(
+                          padding: EdgeInsets.all(Gparam.widthPadding),
+                          child: Gtheme.stext(state.classroom.name,
+                              size: GFontSize.M, weight: GFontWeight.B1),
+                        ),
+                        ClassroomPreview(
+                            coverImageUrl: (state.classroom.coverUrl != null &&
+                                    state.classroom.coverUrl != "")
+                                ? state.classroom.coverUrl
+                                : "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/classrooms%2Fplaceholders%2F19347.jpg?alt=media&token=06651a7f-2dd5-4eef-96f5-5a34210df824",
+                            topics: state.topics),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ExpansionTile(
+                          title: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Gparam.widthPadding / 2),
-                            child: ClassTimeTableWidget(
-                                classModel: state.classroom),
-                          ),
-                        ],
-                      ),
-                      ExpansionTile(
-                        title: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Gparam.widthPadding / 2),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Gtheme.stext("About Classroom",
-                                  size: GFontSize.S, weight: GFontWeight.B1),
-                            ],
-                          ),
-                        ),
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Gparam.widthPadding / 2),
-                            child: ClassDescription(
-                              classroom: state.classroom,
-                            ),
-                          )
-                        ],
-                      ),
-                      ExpansionTile(
-                        title: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Gparam.widthPadding / 2),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Gtheme.stext("About Trainer",
-                                  size: GFontSize.S, weight: GFontWeight.B1),
-                            ],
-                          ),
-                        ),
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Gparam.widthPadding / 2),
-                            child: ClassDescription(
-                              classroom: state.classroom,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MaterialButton(
-                            height: 50,
-                            elevation: 0,
-                            minWidth: Gparam.width - Gparam.widthPadding,
-                            onPressed: (state.userEnrollState == 0)
-                                ? () {
-                                    print("something");
-                                    if (!state.isLoading)
-                                      classEnrollBloc.add(
-                                          EnrollRequestEvent(state.classroom));
-                                  }
-                                : null,
-                            color: Colors.grey.shade200,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Icon(
-                                  Icons.live_tv,
-                                  size: 25,
-                                ),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Gtheme.stext(
-                                    (state.userEnrollState == 0)
-                                        ? "Enroll"
-                                        : (state.userEnrollState == 1)
-                                            ? "Requested"
-                                            : "Already Enrolled",
-                                    weight: GFontWeight.B1),
+                                Gtheme.stext("Time Table",
+                                    size: GFontSize.S, weight: GFontWeight.B1),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Gparam.widthPadding / 2),
+                              child: ClassTimeTableWidget(
+                                  classModel: state.classroom),
+                            ),
+                          ],
+                        ),
+                        if (state.classroom.description != '')
+                          ExpansionTile(
+                            title: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Gparam.widthPadding / 2),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Gtheme.stext("About Classroom",
+                                      size: GFontSize.S,
+                                      weight: GFontWeight.B1),
+                                ],
+                              ),
+                            ),
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Gparam.widthPadding / 2),
+                                child: ClassDescription(
+                                  classroom: state.classroom,
+                                ),
+                              )
+                            ],
+                          ),
+                        ExpansionTile(
+                          title: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Gparam.widthPadding / 2),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Gtheme.stext("About Trainer",
+                                    size: GFontSize.S, weight: GFontWeight.B1),
+                              ],
+                            ),
+                          ),
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Gparam.widthPadding / 2),
+                              child: ClassDescription(
+                                classroom: state.classroom,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MaterialButton(
+                              height: 50,
+                              elevation: 0,
+                              minWidth: Gparam.width - Gparam.widthPadding,
+                              onPressed: (state.userEnrollState == 0)
+                                  ? () {
+                                      print("something");
+                                      if (!state.isLoading)
+                                        classEnrollBloc.add(EnrollRequestEvent(
+                                            state.classroom));
+                                    }
+                                  : null,
+                              color: Colors.grey.shade200,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.live_tv,
+                                    size: 25,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Gtheme.stext(
+                                      (state.userEnrollState == 0)
+                                          ? "Enroll"
+                                          : (state.userEnrollState == 1)
+                                              ? "Requested"
+                                              : "Already Enrolled",
+                                      weight: GFontWeight.B1),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.stay.sorted">
+    package="com.stay.sorted"
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -20,6 +21,7 @@
        
         android:label="Sort.it"
         android:name=".Application"
+        tools:node="merge"
         android:icon="@mipmap/ic_launcher">
        
         <meta-data

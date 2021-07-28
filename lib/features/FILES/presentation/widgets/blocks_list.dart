@@ -440,17 +440,8 @@ class BlockListWidget extends StatelessWidget {
           return StatefulBuilder(builder: (BuildContext context,
               StateSetter setState /*You can rename this!*/) {
             return AddLink(
-              newMediaLinkAddressController: _newMediaLinkAddressController,
-              onUrlChanged: (url) {
-                print("hello");
-                print(BlocProvider.of<NoteBloc>(context1));
-                Navigator.pop(context);
-                noteBloc.add(AddLinkBlock(
-                    link: thisLink
-                        .copyWith(id: DateTime.now().millisecondsSinceEpoch)
-                        .copyWith(url: url),
-                    position: (noteBloc.state as OpenSelectBlock).position));
-              },
+              textController: _newMediaLinkAddressController,
+             
               onTitleChanged: (title) {
                 print("hello1");
 

@@ -66,19 +66,22 @@ class ExpertClientsModel extends Equatable {
 
   factory ExpertClientsModel.fromSnapshot(DocumentSnapshot snap) {
     var map = snap.data() as Map;
+    print("t here 0 fromSnapshot"); 
     return ExpertClientsModel(
       requestedClients:
-          List<ClassClientLink>.from(map['enrolledMembers'].map((i) {
+          List<ClassClientLink>.from(map['requestedClients'].map((i) {
                 var z = Map<String, dynamic>.from(i);
+                print("t here fromSnapshot $z");
 
-                return ClientInstance.fromMap(z) ?? ClientInstance();
+                return ClassClientLink.fromMap(z) ?? ClientInstance();
               }) ??
               const []),
       acceptedClients:
           List<ClassClientLink>.from(map['acceptedClients'].map((i) {
                 var z = Map<String, dynamic>.from(i);
+                print("t here 1 fromSnapshot $z");
 
-                return ClientInstance.fromMap(z) ?? ClientInstance();
+                return ClassClientLink.fromMap(z) ?? ClientInstance();
               }) ??
               const []),
       requestedConsultations:

@@ -92,6 +92,7 @@ class ConnectCloudDataSourceImpl implements ConnectCloud {
   @override
   Future<int> enrollClass(ClassInstanceModel classroom, ClassClientLink link,
       String expertId, ClientInstance client) async {
+    print("t here -1");
     await cloudDb.runTransaction((transaction) async {
       var user = auth.currentUser;
       client = client.copyWith(uid: user.uid);
@@ -110,16 +111,20 @@ class ConnectCloudDataSourceImpl implements ConnectCloud {
       DocumentReference clientEnrollsRef = cloudDb
           .collection('users/${user.uid}/user_data/data/enrolled')
           .doc('data');
+      print("t here 0");
 
       DocumentSnapshot classMemberSnap = await transaction.get(classMembersRef);
       DocumentSnapshot expertMembersSnap =
           await transaction.get(expertMembersRef);
       DocumentSnapshot clientEnrollsSnap =
           await transaction.get(clientEnrollsRef);
+      print("t here");
       await transaction.set(
           classMembersRef, addClassMemberSnap(classMemberSnap, client));
+      print("t here 1");
       await transaction.set(
           expertMembersRef, addTrainerMemberSnap(expertMembersSnap, link));
+      print("t here 2");
       await transaction.set(
           clientEnrollsRef, addEnrollsClientSnap(clientEnrollsSnap, classroom));
     }).catchError((error, stackTrace) {
@@ -155,20 +160,31 @@ class ConnectCloudDataSourceImpl implements ConnectCloud {
       DocumentSnapshot snap, ClassClientLink client) {
     ExpertClientsModel expertsMembers;
     if (snap == null || !snap.exists) {
+      print("t here 2.5");
       expertsMembers = ExpertClientsModel(requestedClients: [client]);
+      print("t here 2.6");
 
       return expertsMembers.toMap();
     }
+    print("t here 2.7");
     expertsMembers = ExpertClientsModel.fromSnapshot(snap);
+    print("t here 2.75");
     if (((expertsMembers.requestedClients.singleWhere(
-                (it) => it.clientId == client.clientId,
+                (it) => (it.clientId == client.clientId &&
+                    it.classId == client.classId),
                 orElse: () => null)) !=
             null) ||
         (expertsMembers.acceptedClients.singleWhere(
-                (it) => it.clientId == client.clientId,
+                (it) => (it.clientId == client.clientId &&
+                    it.classId == client.classId),
                 orElse: () => null)) !=
-            null) return snap.data();
+            null) {
+      print("t here 2.756");
+      return snap.data();
+    }
+    print("t here 2.8");
     expertsMembers.requestedClients.add(client);
+    print("t here 2.9");
     return expertsMembers.toMap();
   }
 

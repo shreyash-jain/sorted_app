@@ -1183,7 +1183,7 @@ class TaskPageState extends State<TaskPage> {
           return StatefulBuilder(builder: (BuildContext context,
               StateSetter setState /*You can rename this!*/) {
             return AddLink(
-              newMediaLinkAddressController: _newMediaLinkAddressController,
+              textController: _newMediaLinkAddressController,
             );
           });
         });

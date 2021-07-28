@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
@@ -16,7 +15,7 @@ class ClassDescription extends StatelessWidget {
         children: [
           Flexible(
             child: Gtheme.stext(
-              "Focus on stretching, flexibility and learning simple poses. I recommends these classes for people looking for a gentler practice to relax their mind.",
+              classroom.description,
               weight: GFontWeight.L,
             ),
           ),

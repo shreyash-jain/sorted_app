@@ -46,7 +46,7 @@ class HomeClassRoomTile extends StatelessWidget {
                         color: Colors.orange.shade50,
                         borderRadius: BorderRadius.circular(5)),
                     child: Gtheme.stext(
-                      " Add Students ",
+                      " Add Clients ",
                       size: GFontSize.XXS,
                       weight: GFontWeight.N,
                     ),

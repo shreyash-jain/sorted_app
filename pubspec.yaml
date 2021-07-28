@@ -66,6 +66,7 @@ dependencies:
   scrollable_positioned_list:
   get_it:
   get:
+  dio:
   google_sign_in:
   googleapis:
   health:
@@ -101,6 +102,8 @@ dependencies:
   firebase_dynamic_links:
   uni_links:
   razorpay_flutter:
+  dart_jsonwebtoken:
+  cashfree_pg:
 
 dev_dependencies:
   auto_route_generator:

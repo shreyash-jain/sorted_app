@@ -1518,7 +1518,7 @@ class GoalPageState extends State<GoalPage> {
           return StatefulBuilder(builder: (BuildContext context,
               StateSetter setState /*You can rename this!*/) {
             return AddLink(
-              newMediaLinkAddressController: _newMediaLinkAddressController,
+              textController: _newMediaLinkAddressController,
             );
           });
         });

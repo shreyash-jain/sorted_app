@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sorted/features/CONNECT/data/models/instances/client_instance.dart';
 
-
 class ClassMembersModel extends Equatable {
   List<ClientInstance> enrolledMembers;
   List<ClientInstance> requestedMembers;
@@ -32,9 +31,12 @@ class ClassMembersModel extends Equatable {
 
   factory ClassMembersModel.fromSnapshot(DocumentSnapshot snap) {
     var map = snap.data() as Map;
-    var enrolledMembers =
-        List<ClientInstance>.from(map['enrolledMembers'].map((i) {
+
+    var requestedMembers =
+        List<ClientInstance>.from(map['requestedMembers'].map((i) {
               var z = Map<String, dynamic>.from(i);
+              print("ClassMembersModel.fromSnapshot");
+              print(z);
 
               return ClientInstance.fromMap(z) ?? ClientInstance();
             }) ??
@@ -47,14 +49,12 @@ class ClassMembersModel extends Equatable {
             }) ??
             const []);
     return ClassMembersModel(
-      enrolledMembers: enrolledMembers,
-      requestedMembers: acceptedMembers,
+      enrolledMembers: acceptedMembers,
+      requestedMembers: requestedMembers,
     );
   }
 
   String toJson() => json.encode(toMap());
-
- 
 
   @override
   bool get stringify => true;

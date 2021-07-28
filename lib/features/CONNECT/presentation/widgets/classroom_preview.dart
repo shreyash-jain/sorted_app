@@ -20,7 +20,7 @@ class ClassroomPreview extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 160,
+          height: 200,
           padding: EdgeInsets.all(8),
           child: Stack(
             children: [
@@ -29,7 +29,7 @@ class ClassroomPreview extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
                     width: Gparam.width,
-                    height: 130,
+                    height: 170,
                     fit: BoxFit.cover,
                     imageUrl: coverImageUrl,
                     placeholder: (context, url) => Center(
@@ -43,7 +43,7 @@ class ClassroomPreview extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
                     width: Gparam.width,
-                    height: 130,
+                    height: 170,
                     fit: BoxFit.cover,
                     imageUrl:
                         "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/classrooms%2Fplaceholders%2F19347.jpg?alt=media&token=06651a7f-2dd5-4eef-96f5-5a34210df824",

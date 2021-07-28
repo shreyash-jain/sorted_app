@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/core/global/utility/url_preview/url_preview.dart';
+
 
 class AddLink extends StatefulWidget {
   const AddLink({
     Key key,
-    @required this.newMediaLinkAddressController,
-    @required this.onUrlChanged,
+    @required this.textController,
+
     @required this.onTitleChanged,
   });
 
-  final TextEditingController newMediaLinkAddressController;
-  final Function(String url) onUrlChanged;
+  final TextEditingController textController;
+
   final Function(String url) onTitleChanged;
 
   @override
@@ -53,40 +53,8 @@ class AddLinkState extends State<AddLink> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (_url != "")
-              SimpleUrlPreview(
-                url: _url,
-                textColor: Theme.of(context).scaffoldBackgroundColor,
-                bgColor: Theme.of(context).primaryColor,
-                isClosable: true,
-                titleLines: 2,
-                descriptionLines: 3,
-                imageLoaderColor: Colors.white,
-                previewHeight: 150,
-                previewContainerPadding: EdgeInsets.all(10),
-                onTap: () => print('Hello Flutter URL Preview'),
-              ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: TextField(
-                onSubmitted: (newValue) {
-                  if (newValue.startsWith('https://') ||
-                      newValue.startsWith('http://'))
-                    _onUrlChanged(newValue);
-                  else {
-                    newValue = "https://" + newValue;
-                    _onUrlChanged(newValue);
-                  }
-                  print("newValue");
-                  widget.onUrlChanged(newValue);
-                  print("newValue1");
-                  print(newValue);
-                },
-                decoration: InputDecoration(
-                  hintText: 'Enter the url',
-                ),
-              ),
-            ),
+          
+          
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(

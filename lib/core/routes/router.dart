@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:sorted/core/services/cashfree_gateway.dart';
 import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
 import 'package:sorted/features/CONNECT/presentation/pages/class_main.dart';
 
@@ -68,7 +69,8 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: AboutTrackPage),
     AutoRoute(page: ClassListPage),
     AutoRoute(page: TestPayment),
-    AutoRoute(page: ClassMain)
+    AutoRoute(page: ClassMain),
+    AutoRoute(page: CashFreeTest),
   ],
 )
 class $ARouter {}

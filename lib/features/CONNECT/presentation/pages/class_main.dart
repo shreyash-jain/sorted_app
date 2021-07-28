@@ -18,7 +18,7 @@ class _ClassMainState extends State<ClassMain> {
         child: Center(
             child: MaterialButton(
                 onPressed: () {
-                  context.router.push(TestPayment());
+                  context.router.push(CashFreeTest());
                 },
                 child: Gtheme.stext("payments"))),
       ),

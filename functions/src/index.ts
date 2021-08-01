@@ -1,14 +1,21 @@
 import * as functions from "firebase-functions";
+import { getAllEntries } from "./getExpertProfile";
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 
 const admin = require("firebase-admin");
 const nodemailer = require('nodemailer');
+const express = require('express');
+const app = express();
 
-admin.initializeApp();
+// [START middleware]
+const cors = require('cors')({ origin: true });
+app.use(cors);
+// [END middleware]
+
 export const helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
+  functions.logger.info("Hello logs!", { structuredData: true });
   response.send("Hello from Firebase!");
 });
 
@@ -77,8 +84,8 @@ exports.appinstalled = functions.analytics.event("first_open").onLog((event) => 
 
 exports.appremoved = functions.analytics.event("app_remove").onLog((event) => {
   const thisuser = event.user;
-  functions.logger.info("app_remove!", {structuredData: true});
-  functions.logger.info(deviceToken, {structuredData: true});
+  functions.logger.info("app_remove!", { structuredData: true });
+  functions.logger.info(deviceToken, { structuredData: true });
   const message = {
     notification: {
       title: "You lost a user \uD83D\uDE1E",
@@ -106,3 +113,7 @@ exports.appremoved = functions.analytics.event("app_remove").onLog((event) => {
 
   return admin.messaging().send(message);
 });
+
+
+app.get('^/users/:userName([a-z0-9_\-]+$)', getAllEntries)
+exports.test2 = functions.https.onRequest(app)

@@ -1,13 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:sorted/core/global/models/lifestyle_profile.dart';
-import 'package:sorted/core/global/models/mental_health_profile.dart';
-import 'package:sorted/core/global/models/physical_health_profile.dart';
+import 'package:sorted/core/global/models/health_profile.dart';
+
 import 'package:sorted/core/network/network_info.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_cloud_data_source.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_native_data_source.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_shared_pref_data_source.dart';
-import 'package:sorted/features/PROFILE/data/models/profile.dart';
+
 import 'package:sorted/features/PROFILE/domain/repositories/profile_repository.dart';
 
 import '../../../../core/error/failures.dart';
@@ -26,7 +25,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       this.nativeDataSource});
 
   @override
-  Future<Either<Failure, PhysicalHealthProfile>>
+  Future<Either<Failure, HealthProfile>>
       getFitnessProfileFromCloud() async {
     try {
       return Right(await remoteDataSource.fitnessProfile);
@@ -35,36 +34,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
     }
   }
 
+  
   @override
-  Future<Either<Failure, LifestyleProfile>> getLifestyleFromCloud() async {
-    try {
-      return Right(await remoteDataSource.lifestyleProfile);
-    } on CacheException {
-      return Left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, MentalHealthProfile>>
-      getMindfulProfileFromCloud() async {
-    try {
-      return Right(await remoteDataSource.mindfulProfile);
-    } on CacheException {
-      return Left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, ProfileModel>> getProfileFromCloud() async {
-   try {
-      return Right(await remoteDataSource.profileFromCloud);
-    } on CacheException {
-      return Left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, ProfileModel>> updateProfileFromCloud(ProfileModel profile) {
+  Future<Either<Failure, HealthProfile>> updateProfileFromCloud(HealthProfile profile) {
     // TODO: implement updateProfileFromCloud
     throw UnimplementedError();
   }

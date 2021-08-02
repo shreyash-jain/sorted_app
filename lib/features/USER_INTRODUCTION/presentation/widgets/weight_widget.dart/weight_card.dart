@@ -8,7 +8,7 @@ import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/weight_wi
 class WeightCard extends StatelessWidget {
   final int weight;
   final ValueChanged<int> onChanged;
-  final ValueChanged<void> onGoBack;
+  final ValueChanged<BuildContext> onGoBack;
 
   const WeightCard({Key key, this.weight = 70, this.onChanged, this.onGoBack})
       : super(key: key);
@@ -26,7 +26,7 @@ class WeightCard extends StatelessWidget {
         children: <Widget>[
           InkWell(
               onTap: () {
-                onGoBack(null);
+                onGoBack(context);
               },
               child: CardTitle("Done", subtitle: "")),
           CardTitle("Weight", subtitle: "(kg)"),

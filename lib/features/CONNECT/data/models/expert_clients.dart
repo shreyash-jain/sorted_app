@@ -73,7 +73,7 @@ class ExpertClientsModel extends Equatable {
                 var z = Map<String, dynamic>.from(i);
                 print("t here fromSnapshot $z");
 
-                return ClassClientLink.fromMap(z) ?? ClientInstance();
+                return ClassClientLink.fromMap(z) ?? ClassClientLink();
               }) ??
               const []),
       acceptedClients:
@@ -81,7 +81,7 @@ class ExpertClientsModel extends Equatable {
                 var z = Map<String, dynamic>.from(i);
                 print("t here 1 fromSnapshot $z");
 
-                return ClassClientLink.fromMap(z) ?? ClientInstance();
+                return ClassClientLink.fromMap(z) ?? ClassClientLink();
               }) ??
               const []),
       requestedConsultations:

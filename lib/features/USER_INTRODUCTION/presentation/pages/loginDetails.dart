@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         loginWidget: widget,
                         currentPage: _currentPage,
                       ),
-                      HealthProfile(
+                      HealthProfileWidget(
                           loginWidget: widget, currentPage: _currentPage),
                       // InterestsPV(
                       //     loginWidget: widget, currentPage: _currentPage),

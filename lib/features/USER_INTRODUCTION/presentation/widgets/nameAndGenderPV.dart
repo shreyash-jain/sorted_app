@@ -23,6 +23,7 @@ class NameAndGender extends StatefulWidget {
 
   @override
   _NameAndGenderState createState() => _NameAndGenderState();
+  
 }
 
 class _NameAndGenderState extends State<NameAndGender> {

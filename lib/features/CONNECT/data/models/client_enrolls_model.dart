@@ -14,6 +14,7 @@ class ClientEnrollsModel extends Equatable {
   List<ConsultationInstanceModel> enrolledConsultation;
   List<InstituteInstanceModel> requestedInstitutes;
   List<InstituteInstanceModel> enrolledInstitutes;
+  
   ClientEnrollsModel({
     this.requestedClasses = const [],
     this.enrolledClasses = const [],

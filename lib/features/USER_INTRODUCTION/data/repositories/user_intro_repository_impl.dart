@@ -2,11 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
-import 'package:sorted/core/global/models/addiction_condition.dart';
+
 import 'package:sorted/core/global/models/health_condition.dart';
-import 'package:sorted/core/global/models/lifestyle_profile.dart';
-import 'package:sorted/core/global/models/mental_health_profile.dart';
-import 'package:sorted/core/global/models/physical_health_profile.dart';
+import 'package:sorted/core/global/models/health_profile.dart';
+
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/core/network/network_info.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
@@ -329,19 +328,13 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
 
   @override
   Future<Either<Failure, bool>> saveHealthProfile(
-      PhysicalHealthProfile fitnessProfile,
-      MentalHealthProfile mentalProfile,
-      LifestyleProfile lifestyleProfile,
-      HealthConditions healthConditions,
-      AddictionConditions addictionConditions) async {
+    HealthProfile lifestyleProfile,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
         return Right(await remoteDataSource.saveHealthProfile(
-            fitnessProfile,
-            mentalProfile,
-            lifestyleProfile,
-            healthConditions,
-            addictionConditions));
+          lifestyleProfile,
+        ));
       } on Exception {
         return Left(ServerFailure());
       }

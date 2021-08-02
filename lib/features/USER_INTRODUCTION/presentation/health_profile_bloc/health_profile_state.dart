@@ -6,21 +6,14 @@ abstract class HealthProfileState extends Equatable {
 }
 
 class LoadedState extends HealthProfileState {
-  final PhysicalHealthProfile fitnessProfile;
-  final MentalHealthProfile mentalProfile;
-  final LifestyleProfile lifestyleProfile;
-  final HealthConditions healthCondition;
-  final AddictionConditions addictionCondition;
+  final HealthProfile healthProfile;
 
-  LoadedState(this.fitnessProfile, this.mentalProfile, this.lifestyleProfile,
-      this.healthCondition, this.addictionCondition);
+  LoadedState(
+    this.healthProfile,
+  );
   @override
   List<Object> get props => [
-        fitnessProfile,
-        mentalProfile,
-        lifestyleProfile,
-        healthCondition,
-        addictionCondition
+        healthProfile,
       ];
 }
 

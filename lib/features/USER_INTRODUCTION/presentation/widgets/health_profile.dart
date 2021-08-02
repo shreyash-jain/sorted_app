@@ -11,7 +11,7 @@ import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/health_profile_bloc/health_profile_bloc.dart';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/height_widget/height_card.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/usertagItem.dart';
@@ -19,20 +19,20 @@ import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/progressB
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/userActivityItem.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/weight_widget.dart/weight_card.dart';
 
-class HealthProfile extends StatefulWidget {
+class HealthProfileWidget extends StatefulWidget {
   final int currentPage;
   final LoginPage loginWidget;
-  const HealthProfile({
+  const HealthProfileWidget({
     Key key,
     this.loginWidget,
     this.currentPage,
   }) : super(key: key);
 
   @override
-  _HealthProfileState createState() => _HealthProfileState();
+  _HealthProfileWidgetState createState() => _HealthProfileWidgetState();
 }
 
-class _HealthProfileState extends State<HealthProfile> {
+class _HealthProfileWidgetState extends State<HealthProfileWidget> {
   final controller = TextEditingController();
   String inputStr;
   int height = 170;
@@ -236,7 +236,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                               width: 12,
                                                             ),
                                                             Text(
-                                                                state.fitnessProfile
+                                                                state.healthProfile
                                                                         .height_cm
                                                                         .toString() +
                                                                     " cm",
@@ -291,7 +291,7 @@ class _HealthProfileState extends State<HealthProfile> {
                                                               width: 12,
                                                             ),
                                                             Text(
-                                                                state.fitnessProfile
+                                                                state.healthProfile
                                                                         .weight_kg
                                                                         .toInt()
                                                                         .toString() +
@@ -365,19 +365,19 @@ class _HealthProfileState extends State<HealthProfile> {
                                                           fitnessActivityTile(
                                                               "Go on a walk/Run",
                                                               state
-                                                                  .fitnessProfile
+                                                                  .healthProfile
                                                                   .do_walk,
                                                               0),
                                                           fitnessActivityTile(
                                                               "Do Exercise",
                                                               state
-                                                                  .fitnessProfile
+                                                                  .healthProfile
                                                                   .do_exercise,
                                                               1),
                                                           fitnessActivityTile(
                                                               "Do Yoga",
                                                               state
-                                                                  .fitnessProfile
+                                                                  .healthProfile
                                                                   .do_yoga,
                                                               2),
                                                         ])),
@@ -394,19 +394,19 @@ class _HealthProfileState extends State<HealthProfile> {
                                                           fitnessActivityTile(
                                                               "Do Dance",
                                                               state
-                                                                  .fitnessProfile
+                                                                  .healthProfile
                                                                   .do_dance,
                                                               3),
                                                           fitnessActivityTile(
                                                               "Play Sports",
                                                               state
-                                                                  .fitnessProfile
+                                                                  .healthProfile
                                                                   .play_sports,
                                                               4),
                                                           fitnessActivityTile(
                                                               "Ride Cycle",
                                                               state
-                                                                  .fitnessProfile
+                                                                  .healthProfile
                                                                   .ride_cycle,
                                                               5),
                                                         ])),
@@ -484,25 +484,25 @@ class _HealthProfileState extends State<HealthProfile> {
                                                                 fitnessGoalTile(
                                                                     "Stay Fit",
                                                                     state
-                                                                        .fitnessProfile
+                                                                        .healthProfile
                                                                         .goal_stay_fit,
                                                                     0),
                                                                 fitnessGoalTile(
                                                                     "Gain Muscle",
                                                                     state
-                                                                        .fitnessProfile
+                                                                        .healthProfile
                                                                         .goal_gain_muscle,
                                                                     1),
                                                                 fitnessGoalTile(
                                                                     "Lose Weight",
                                                                     state
-                                                                        .fitnessProfile
+                                                                        .healthProfile
                                                                         .goal_loose_weight,
                                                                     2),
                                                                 fitnessGoalTile(
                                                                     "Be more Active",
                                                                     state
-                                                                        .fitnessProfile
+                                                                        .healthProfile
                                                                         .goal_get_more_active,
                                                                     3),
                                                               ])),
@@ -643,13 +643,13 @@ class _HealthProfileState extends State<HealthProfile> {
                                                           mindfulActivityTile(
                                                               "Talk about my feelings",
                                                               state
-                                                                  .mentalProfile
+                                                                  .healthProfile
                                                                   .do_talk_ablout_feelings,
                                                               0),
                                                           mindfulActivityTile(
                                                               "Enjoy my work",
                                                               state
-                                                                  .mentalProfile
+                                                                  .healthProfile
                                                                   .do_enjoy_work,
                                                               1),
                                                         ])),
@@ -666,19 +666,19 @@ class _HealthProfileState extends State<HealthProfile> {
                                                           mindfulActivityTile(
                                                               "Do meditate",
                                                               state
-                                                                  .mentalProfile
+                                                                  .healthProfile
                                                                   .do_meditation,
                                                               2),
                                                           mindfulActivityTile(
                                                               "Love my self",
                                                               state
-                                                                  .mentalProfile
+                                                                  .healthProfile
                                                                   .do_love_self,
                                                               3),
                                                           mindfulActivityTile(
                                                               "Think positive",
                                                               state
-                                                                  .mentalProfile
+                                                                  .healthProfile
                                                                   .do_stay_positive,
                                                               4),
                                                         ])),
@@ -756,31 +756,31 @@ class _HealthProfileState extends State<HealthProfile> {
                                                                 mindfulGoalTile(
                                                                     "Live in present",
                                                                     state
-                                                                        .mentalProfile
+                                                                        .healthProfile
                                                                         .goal_live_in_present,
                                                                     0),
                                                                 mindfulGoalTile(
                                                                     "Reduce stress",
                                                                     state
-                                                                        .mentalProfile
+                                                                        .healthProfile
                                                                         .goal_reduce_stress,
                                                                     1),
                                                                 mindfulGoalTile(
                                                                     "Get more sleep",
                                                                     state
-                                                                        .mentalProfile
+                                                                        .healthProfile
                                                                         .goal_sleep_more,
                                                                     2),
                                                                 mindfulGoalTile(
                                                                     "Control Anger",
                                                                     state
-                                                                        .mentalProfile
+                                                                        .healthProfile
                                                                         .goal_control_anger,
                                                                     3),
                                                                 mindfulGoalTile(
                                                                     "Control Thoughts",
                                                                     state
-                                                                        .mentalProfile
+                                                                        .healthProfile
                                                                         .goal_control_thoughts,
                                                                     4),
                                                               ])),
@@ -905,24 +905,21 @@ class _HealthProfileState extends State<HealthProfile> {
                                                             "Early bird",
                                                             0,
                                                             "🐓",
-                                                            state
-                                                                .lifestyleProfile
+                                                            state.healthProfile
                                                                 .is_early_bird,
                                                           ),
                                                           sleepActivityTile(
                                                             "Night owl",
                                                             1,
                                                             "🦉",
-                                                            state
-                                                                .lifestyleProfile
+                                                            state.healthProfile
                                                                 .is_night_owl,
                                                           ),
                                                           sleepActivityTile(
                                                             "Humming bird",
                                                             2,
                                                             "🐦",
-                                                            state
-                                                                .lifestyleProfile
+                                                            state.healthProfile
                                                                 .is_humming_bird,
                                                           ),
                                                         ])),
@@ -962,45 +959,27 @@ class _HealthProfileState extends State<HealthProfile> {
                                                         children: [
                                                           foodActivityTile(
                                                             "Vegetarian",
-                                                            state
-                                                                .lifestyleProfile
+                                                            state.healthProfile
                                                                 .is_vegetarian,
                                                             0,
                                                           ),
                                                           foodActivityTile(
                                                             "Vegan",
-                                                            state
-                                                                .lifestyleProfile
+                                                            state.healthProfile
                                                                 .is_vegan,
                                                             1,
                                                           ),
                                                           foodActivityTile(
-                                                            "High Protien",
-                                                            state
-                                                                .lifestyleProfile
-                                                                .is_high_protien,
+                                                            "Keto",
+                                                            state.healthProfile
+                                                                .is_keto,
                                                             2,
                                                           ),
                                                           foodActivityTile(
-                                                            "Low Calorie",
-                                                            state
-                                                                .lifestyleProfile
-                                                                .is_low_calorie,
-                                                            3,
-                                                          ),
-                                                          foodActivityTile(
-                                                            "Keto",
-                                                            state
-                                                                .lifestyleProfile
-                                                                .is_keto,
-                                                            4,
-                                                          ),
-                                                          foodActivityTile(
                                                             "Sattvik",
-                                                            state
-                                                                .lifestyleProfile
+                                                            state.healthProfile
                                                                 .is_sattvik,
-                                                            5,
+                                                            3,
                                                           ),
                                                         ])),
                                                 SizedBox(
@@ -1042,7 +1021,9 @@ class _HealthProfileState extends State<HealthProfile> {
             height: Gparam.height,
             width: Gparam.width,
             child: HeightCard(
-              onGoBack: onGoBack,
+              onGoBack: (context) {
+                Navigator.pop(context);
+              },
               height: height,
               onChanged: (val) {
                 setState(() => height = val);
@@ -1063,7 +1044,9 @@ class _HealthProfileState extends State<HealthProfile> {
             height: Gparam.height / 2,
             width: Gparam.width,
             child: WeightCard(
-              onGoBack: onGoBack,
+              onGoBack: (context) {
+                Navigator.pop(context);
+              },
               weight: weight,
               onChanged: (val) {
                 setState(() => weight = val);
@@ -1320,9 +1303,5 @@ class _HealthProfileState extends State<HealthProfile> {
 
   void handleSleepActivityTap(int i) {
     bloc.add(UpdateSleepActivity(i));
-  }
-
-  void onGoBack(void value) {
-    Navigator.pop(context);
   }
 }

@@ -3,11 +3,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sorted/core/error/failures.dart';
-import 'package:sorted/core/global/models/addiction_condition.dart';
+
 import 'package:sorted/core/global/models/health_condition.dart';
-import 'package:sorted/core/global/models/lifestyle_profile.dart';
-import 'package:sorted/core/global/models/mental_health_profile.dart';
-import 'package:sorted/core/global/models/physical_health_profile.dart';
+import 'package:sorted/core/global/models/health_profile.dart';
+
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
@@ -35,8 +34,7 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
 
       if (failure == null) {
         print("worked");
-        yield LoadedState(PhysicalHealthProfile(), MentalHealthProfile(),
-            LifestyleProfile(), HealthConditions(), AddictionConditions());
+        yield LoadedState(HealthProfile());
       } else {
         print("not worked");
       }
@@ -46,23 +44,17 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
       LoadedState prevState = (state as LoadedState);
 
       yield LoadedState(
-          prevState.fitnessProfile.copyWith(weight_kg: event.weightInKG),
-          prevState.mentalProfile,
-          prevState.lifestyleProfile,
-          prevState.healthCondition,
-          prevState.addictionCondition);
+        prevState.healthProfile,
+      );
     } else if (event is UpdateHeight) {
       LoadedState prevState = (state as LoadedState);
 
       yield LoadedState(
-          prevState.fitnessProfile.copyWith(height_cm: event.heightInCm),
-          prevState.mentalProfile,
-          prevState.lifestyleProfile,
-          prevState.healthCondition,
-          prevState.addictionCondition);
+        prevState.healthProfile.copyWith(height_cm: event.heightInCm),
+      );
     } else if (event is UpdateHealthDailyActivity) {
       LoadedState oldState = (state as LoadedState);
-      PhysicalHealthProfile fitnessProfile = oldState.fitnessProfile;
+      HealthProfile fitnessProfile = oldState.healthProfile;
 
       switch (event.category) {
         case 0:
@@ -108,14 +100,11 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
       }
 
       yield LoadedState(
-          fitnessProfile,
-          oldState.mentalProfile,
-          oldState.lifestyleProfile,
-          oldState.healthCondition,
-          oldState.addictionCondition);
+        fitnessProfile,
+      );
     } else if (event is UpdateHealthGoalActivity) {
       LoadedState oldState = (state as LoadedState);
-      PhysicalHealthProfile fitnessProfile = oldState.fitnessProfile;
+      HealthProfile fitnessProfile = oldState.healthProfile;
 
       switch (event.category) {
         case 0:
@@ -149,14 +138,11 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
       }
 
       yield LoadedState(
-          fitnessProfile,
-          oldState.mentalProfile,
-          oldState.lifestyleProfile,
-          oldState.healthCondition,
-          oldState.addictionCondition);
+        fitnessProfile,
+      );
     } else if (event is UpdateMentalDailyActivity) {
       LoadedState oldState = (state as LoadedState);
-      MentalHealthProfile mentalProfile = oldState.mentalProfile;
+      HealthProfile mentalProfile = oldState.healthProfile;
 
       switch (event.category) {
         case 0:
@@ -197,14 +183,11 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
       }
 
       yield LoadedState(
-          oldState.fitnessProfile,
-          mentalProfile,
-          oldState.lifestyleProfile,
-          oldState.healthCondition,
-          oldState.addictionCondition);
+        mentalProfile,
+      );
     } else if (event is UpdateMentalGoalActivity) {
       LoadedState oldState = (state as LoadedState);
-      MentalHealthProfile mentalProfile = oldState.mentalProfile;
+      HealthProfile mentalProfile = oldState.healthProfile;
 
       switch (event.category) {
         case 0:
@@ -244,14 +227,11 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
       }
 
       yield LoadedState(
-          oldState.fitnessProfile,
-          mentalProfile,
-          oldState.lifestyleProfile,
-          oldState.healthCondition,
-          oldState.addictionCondition);
+        mentalProfile,
+      );
     } else if (event is UpdateSleepActivity) {
       LoadedState oldState = (state as LoadedState);
-      LifestyleProfile lifestyleProfile = oldState.lifestyleProfile;
+      HealthProfile lifestyleProfile = oldState.healthProfile;
 
       switch (event.category) {
         case 0:
@@ -279,14 +259,11 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
       }
 
       yield LoadedState(
-          oldState.fitnessProfile,
-          oldState.mentalProfile,
-          lifestyleProfile,
-          oldState.healthCondition,
-          oldState.addictionCondition);
+        lifestyleProfile,
+      );
     } else if (event is UpdateFoodPreference) {
       LoadedState oldState = (state as LoadedState);
-      LifestyleProfile lifestyleProfile = oldState.lifestyleProfile;
+      HealthProfile lifestyleProfile = oldState.healthProfile;
 
       switch (event.category) {
         case 0:
@@ -305,22 +282,10 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
         case 2:
           {
             lifestyleProfile = lifestyleProfile.copyWith(
-                is_high_protien: 1 - lifestyleProfile.is_high_protien);
-            break;
-          }
-        case 3:
-          {
-            lifestyleProfile = lifestyleProfile.copyWith(
-                is_low_calorie: 1 - lifestyleProfile.is_low_calorie);
-            break;
-          }
-        case 4:
-          {
-            lifestyleProfile = lifestyleProfile.copyWith(
                 is_keto: 1 - lifestyleProfile.is_keto);
             break;
           }
-        case 5:
+        case 3:
           {
             lifestyleProfile = lifestyleProfile.copyWith(
                 is_sattvik: 1 - lifestyleProfile.is_sattvik);
@@ -332,11 +297,8 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
       }
 
       yield LoadedState(
-          oldState.fitnessProfile,
-          oldState.mentalProfile,
-          lifestyleProfile,
-          oldState.healthCondition,
-          oldState.addictionCondition);
+        lifestyleProfile,
+      );
     } else if (event is SaveHealthProfile) {}
   }
 
@@ -345,11 +307,8 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
     print("health block");
     LoadedState oldState = (state as LoadedState);
     repository.saveHealthProfile(
-        oldState.fitnessProfile,
-        oldState.mentalProfile,
-        oldState.lifestyleProfile,
-        oldState.healthCondition,
-        oldState.addictionCondition);
+      oldState.healthProfile,
+    );
 
     return super.close();
   }

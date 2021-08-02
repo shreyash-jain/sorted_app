@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:sorted/core/global/models/addiction_condition.dart';
+
 import 'package:sorted/core/global/models/health_condition.dart';
-import 'package:sorted/core/global/models/lifestyle_profile.dart';
-import 'package:sorted/core/global/models/mental_health_profile.dart';
-import 'package:sorted/core/global/models/physical_health_profile.dart';
+import 'package:sorted/core/global/models/health_profile.dart';
+
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
@@ -83,11 +82,9 @@ abstract class UserIntroductionRepository {
   ///
   /// returns [Either<Failure, List<UserAModel>>] true if succeeded
   Future<Either<Failure, bool>> saveHealthProfile(
-      PhysicalHealthProfile fitnessProfile,
-      MentalHealthProfile mentalProfile,
-      LifestyleProfile lifestyleProfile,
-      HealthConditions healthConditions,
-      AddictionConditions addictionConditions);
+    
+      HealthProfile lifestyleProfile,
+     );
 
   /// Gets user details from user path from native
   ///

@@ -12,7 +12,7 @@ class HeightPicker extends StatefulWidget {
   final int height;
   final double widgetHeight;
   final ValueChanged<int> onChange;
-  final ValueChanged<void> onGoBack;
+  final ValueChanged<BuildContext> onGoBack;
 
   const HeightPicker(
       {Key key,

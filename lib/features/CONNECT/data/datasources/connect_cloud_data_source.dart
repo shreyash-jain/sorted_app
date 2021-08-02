@@ -127,6 +127,7 @@ class ConnectCloudDataSourceImpl implements ConnectCloud {
       print("t here 2");
       await transaction.set(
           clientEnrollsRef, addEnrollsClientSnap(clientEnrollsSnap, classroom));
+      return Future.value(1);
     }).catchError((error, stackTrace) {
       return Future.value(0);
     });

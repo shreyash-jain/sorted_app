@@ -4,11 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
-import 'package:sorted/core/global/models/addiction_condition.dart';
+
 import 'package:sorted/core/global/models/health_condition.dart';
-import 'package:sorted/core/global/models/lifestyle_profile.dart';
-import 'package:sorted/core/global/models/mental_health_profile.dart';
-import 'package:sorted/core/global/models/physical_health_profile.dart';
+import 'package:sorted/core/global/models/health_profile.dart';
 
 import 'package:sorted/features/PROFILE/data/models/activity.dart';
 import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
@@ -33,11 +31,8 @@ abstract class UserIntroCloud {
   Future<List<UserTag>> getFamilyTags();
   Future<List<UserTag>> getChildrenOfTag(UserTag tag, String category);
   Future<bool> saveHealthProfile(
-      PhysicalHealthProfile fitnessProfile,
-      MentalHealthProfile mentalProfile,
-      LifestyleProfile lifestyleProfile,
-      HealthConditions healthConditions,
-      AddictionConditions addictionConditions);
+    HealthProfile lifestyleProfile,
+  );
   Future<bool> saveUserInterests(
     List<UserTag> fitnessTags,
     List<UserTag> mindfulTags,
@@ -61,7 +56,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   @override
   Stream<double> getUserCloudData() async* {
     yield (0);
-   User user = auth.currentUser;
+    User user = auth.currentUser;
     final db = await nativeDb.database;
     nativeDb.cleanDatabase();
 
@@ -91,7 +86,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   @override
   Stream<double> copyToUserCloudData() async* {
     yield (0);
-   User user = auth.currentUser;
+    User user = auth.currentUser;
     nativeDb.cleanDatabase();
     final db = await nativeDb.database;
     batch = db.batch();
@@ -143,7 +138,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
 
   @override
   Future<List<UserAModel>> get userActivities async {
-   User user = auth.currentUser;
+    User user = auth.currentUser;
     QuerySnapshot snapShot = await cloudDb
         .collection('users')
         .doc(user.uid)
@@ -160,7 +155,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
   @override
   Future<void> add(UserAModel newActivity) async {
     print("add useract in cloud " + newActivity.name);
-   User user = auth.currentUser;
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
@@ -176,7 +171,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
 
   @override
   Future<void> delete(UserAModel newActivity) async {
-   User user = auth.currentUser;
+    User user = auth.currentUser;
 
     DocumentReference ref = cloudDb
         .collection('users')
@@ -192,12 +187,10 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
 
   @override
   Future<void> deleteUserActivityTable() async {
-   User user = auth.currentUser;
+    User user = auth.currentUser;
 
-    var ref = cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("User_Activity");
+    var ref =
+        cloudDb.collection('users').doc(user.uid).collection("User_Activity");
 
     await ref.get().then((value) => {
           value.docs.forEach((element) {
@@ -351,60 +344,23 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
 
   @override
   Future<bool> saveHealthProfile(
-      PhysicalHealthProfile fitnessProfile,
-      MentalHealthProfile mentalProfile,
-      LifestyleProfile lifestyleProfile,
-      HealthConditions healthConditions,
-      AddictionConditions addictionConditions) async {
-   User user = auth.currentUser;
+    HealthProfile fitnessProfile,
+  ) async {
+    User user = auth.currentUser;
 
     DocumentReference refFitness = cloudDb
         .collection('users')
         .doc(user.uid)
         .collection("user_data")
         .doc("fitness_profile");
-    DocumentReference refMind = cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("user_data")
-        .doc("mental_profile");
-    DocumentReference refLifestyle = cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("user_data")
-        .doc("lifestyle_profile");
-    DocumentReference refHealthCond = cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("user_data")
-        .doc("health_condition");
-    DocumentReference refAddiction = cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("user_data")
-        .doc("user_addiction");
+  
 
     refFitness
-        .set(fitnessProfile.toMap())
+        .set(fitnessProfile.toMap(),SetOptions(merge: true))
         .then((value) => print(refFitness.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
-    refMind
-        .set(mentalProfile.toMap())
-        .then((value) => print(refMind.id))
-        .catchError((onError) => {print("nhi chala\n"), print("hello")});
-    refLifestyle
-        .set(lifestyleProfile.toMap())
-        .then((value) => print(refFitness.id))
-        .catchError((onError) => {print("nhi chala\n"), print("hello")});
-    refHealthCond
-        .set(healthConditions.toMap())
-        .then((value) => print(refFitness.id))
-        .catchError((onError) => {print("nhi chala\n"), print("hello")});
-    refAddiction
-        .set(addictionConditions.toMap())
-        .then((value) => print(refFitness.id))
-        .catchError((onError) => {print("nhi chala\n"), print("hello")});
-        return true;
+   
+    return true;
   }
 
   @override
@@ -416,7 +372,7 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
       List<UserTag> relationshipTags,
       List<UserTag> careerTags,
       List<UserTag> financeTags) async {
-   User user = auth.currentUser;
+    User user = auth.currentUser;
 
     CollectionReference refFitness = cloudDb
         .collection('users')

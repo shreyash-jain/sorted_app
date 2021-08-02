@@ -16,20 +16,16 @@ class Add extends HealthProfileEvent {
 class LoadProfile extends HealthProfileEvent {}
 
 class UpdateProfile extends HealthProfileEvent {
-  final PhysicalHealthProfile fitnessProfile;
-  final MentalHealthProfile mentalProfile;
-  final LifestyleProfile lifestyleProfile;
-  final HealthConditions healthCondition;
-  final AddictionConditions addictionCondition;
-  UpdateProfile(this.fitnessProfile, this.mentalProfile, this.lifestyleProfile,
-      this.healthCondition, this.addictionCondition);
+  final HealthProfile lifestyleProfile;
+
+  UpdateProfile(
+    this.lifestyleProfile,
+  );
   @override
   List<Object> get props => [
-        fitnessProfile,
-        mentalProfile,
+     
         lifestyleProfile,
-        healthCondition,
-        addictionCondition
+      
       ];
 }
 
@@ -109,9 +105,7 @@ class ChangeHealthCondition extends HealthProfileEvent {
 }
 
 class SaveHealthProfile extends HealthProfileEvent {
-  
   SaveHealthProfile();
- 
 }
 
 class Remove extends HealthProfileEvent {

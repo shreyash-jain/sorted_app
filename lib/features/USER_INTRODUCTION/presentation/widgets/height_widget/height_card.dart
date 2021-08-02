@@ -7,7 +7,7 @@ import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/height_wi
 class HeightCard extends StatelessWidget {
   final int height;
   final ValueChanged<int> onChanged;
-  final ValueChanged<void> onGoBack;
+  final ValueChanged<BuildContext> onGoBack;
 
   const HeightCard({Key key, this.height = 170, this.onChanged, this.onGoBack})
       : super(key: key);
@@ -24,7 +24,7 @@ class HeightCard extends StatelessWidget {
         children: <Widget>[
           InkWell(
               onTap: () {
-                onGoBack(null);
+                onGoBack(context);
               },
               child: CardTitle("Done", subtitle: "")),
           CardTitle("Height", subtitle: "(cm)"),

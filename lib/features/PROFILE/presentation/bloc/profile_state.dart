@@ -10,7 +10,7 @@ class ProfileInitial extends ProfileState {
 }
 
 class ProfileLoaded extends ProfileState {
-  final ProfileModel profile;
+  final HealthProfile profile;
   final UserDetail details;
 
   ProfileLoaded(this.profile, this.details);

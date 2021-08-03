@@ -116,4 +116,4 @@ exports.appremoved = functions.analytics.event("app_remove").onLog((event) => {
 
 
 app.get('^/users/:userName([a-z0-9_\-]+$)', getAllEntries)
-exports.test2 = functions.https.onRequest(app)
+exports.expertWebsiteDataFun = functions.https.onRequest(app)

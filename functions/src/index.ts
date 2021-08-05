@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import { getAllEntries } from "./getExpertProfile";
-
+import { testPayout } from "./payout_test";
+var bodyParser = require('body-parser');
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 
@@ -8,7 +9,7 @@ const admin = require("firebase-admin");
 const nodemailer = require('nodemailer');
 const express = require('express');
 const app = express();
-
+app.use(bodyParser.json());
 // [START middleware]
 const cors = require('cors')({ origin: true });
 app.use(cors);
@@ -116,4 +117,5 @@ exports.appremoved = functions.analytics.event("app_remove").onLog((event) => {
 
 
 app.get('^/users/:userName([a-z0-9_\-]+$)', getAllEntries)
+app.get('/balance', testPayout);
 exports.expertWebsiteDataFun = functions.https.onRequest(app)

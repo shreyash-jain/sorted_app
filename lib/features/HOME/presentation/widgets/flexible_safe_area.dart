@@ -216,13 +216,9 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
         ));
   }
 
-  onClickWorkout(int id, int storyType, TrackModel track) {
-    context.router.push(ActivityPlanner());
-  }
+  onClickWorkout(int id, int storyType, TrackModel track) {}
 
-  onClickDiet(int id, int storyType, TrackModel track) {
-    context.router.push(DietPlanner());
-  }
+  onClickDiet(int id, int storyType, TrackModel track) {}
 
   Widget _buildWeightPopupDialog(BuildContext context) {
     print("helloooo");

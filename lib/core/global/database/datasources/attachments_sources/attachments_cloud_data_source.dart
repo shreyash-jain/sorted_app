@@ -17,7 +17,7 @@ import 'package:sorted/core/global/models/tag.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
-import 'package:sorted/features/PLAN/data/models/goal.dart';
+
 import 'package:sqflite/sqflite.dart';
 
 abstract class AttachmentsCloud {

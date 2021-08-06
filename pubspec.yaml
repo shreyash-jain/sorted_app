@@ -53,7 +53,7 @@ dependencies:
   firebase_messaging:
   firebase_analytics:
   flutter_ffmpeg:
-  # fl_chart: ^0.8.7
+  chewie:
   analyzer:
   flare_flutter:
   flutter_bloc:

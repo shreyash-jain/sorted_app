@@ -27,22 +27,36 @@ class _HomeRecipeWidgetLState extends State<HomeRecipeWidgetL> {
   @override
   void dispose() {
     super.dispose();
-    videoController.dispose();
+    if (videoController != null) videoController.dispose();
   }
 
   @override
   void initState() {
     super.initState();
     print("hello  " + widget.videoRecipe.video_url.toString());
-    videoController =
-        VideoPlayerController.network(widget.videoRecipe.video_url)
-          ..initialize().then((_) {
-            // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-            videoController.play();
-            videoController.setLooping(true);
+    initializeVideo();
+  }
 
-            setState(() {});
-          });
+  initializeVideo() {
+    if (widget.videoRecipe.video_url != null &&
+        widget.videoRecipe.video_url != '') {
+      print("hello 4 " + widget.videoRecipe.video_url.toString());
+      videoController = VideoPlayerController.network(
+          widget.videoRecipe.video_url,
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true))
+        ..initialize().then((_) {
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          videoController.play();
+          videoController.setVolume(0);
+
+          videoController.setLooping(true);
+          print("hello 1 " + widget.videoRecipe.video_url.toString());
+
+          setState(() {});
+        });
+    } else {
+      print("hello  2" + widget.videoRecipe.video_url.toString());
+    }
   }
 
   @override
@@ -152,7 +166,8 @@ class _HomeRecipeWidgetLState extends State<HomeRecipeWidgetL> {
                               height: 240,
                               color: Colors.transparent,
                               width: 130,
-                              child: (videoController.value.isInitialized)
+                              child: (videoController != null &&
+                                      videoController.value.isInitialized)
                                   ? new ClipRect(
                                       child: new OverflowBox(
                                           maxWidth: 200,

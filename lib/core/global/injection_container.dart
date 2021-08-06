@@ -24,12 +24,7 @@ import 'package:sorted/core/services/dynamic_link_service.dart';
 import 'package:sorted/features/CONNECT/data/datasources/connect_cloud_data_source.dart';
 import 'package:sorted/features/CONNECT/data/repositories/connect_repository_impl.dart';
 import 'package:sorted/features/CONNECT/domain/repositories/connect_repository.dart';
-import 'package:sorted/features/FILES/data/datasources/note_sources/note_cloud_data_source.dart';
-import 'package:sorted/features/FILES/data/datasources/note_sources/note_native_data_source.dart';
-import 'package:sorted/features/FILES/data/datasources/note_sources/note_shared_pref_data_source.dart';
-import 'package:sorted/features/FILES/data/repositories/note_repository_impl.dart';
-import 'package:sorted/features/FILES/domain/repositories/note_repository.dart';
-import 'package:sorted/features/FILES/presentation/note_bloc/note_bloc.dart';
+
 import 'package:sorted/features/HOME/data/datasources/home_cloud_data_source.dart';
 import 'package:sorted/features/HOME/data/datasources/home_native_data_source.dart';
 import 'package:sorted/features/HOME/data/datasources/home_remote_api_data_source.dart';
@@ -53,24 +48,7 @@ import 'package:sorted/features/ONSTART/presentation/bloc/onstart_bloc.dart';
 import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sorted/features/PLAN/data/datasources/goal_sources/goal_cloud_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/goal_sources/goal_native_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/goal_sources/goal_shared_pref_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/task_sources/task_cloud_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/task_sources/task_native_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/task_sources/task_shared_pref_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/todo_sources/todo_cloud_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/todo_sources/todo_native_data_source.dart';
-import 'package:sorted/features/PLAN/data/datasources/todo_sources/todo_shared_pref_data_source.dart';
-import 'package:sorted/features/PLAN/data/repositories/goal_repository_impl.dart';
-import 'package:sorted/features/PLAN/data/repositories/task_repository_impl.dart';
-import 'package:sorted/features/PLAN/data/repositories/todo_repository_impl.dart';
-import 'package:sorted/features/PLAN/domain/repositories/goal_repository.dart';
-import 'package:sorted/features/PLAN/domain/repositories/task_repository.dart';
-import 'package:sorted/features/PLAN/domain/repositories/todo_repository.dart';
-import 'package:sorted/features/PLAN/presentation/bloc/cover_change_bloc/cover_bloc.dart';
-import 'package:sorted/features/PLAN/presentation/bloc/goal_page_bloc/goal_page_bloc.dart';
-import 'package:sorted/features/PLAN/presentation/bloc/plan_bloc/plan_bloc.dart';
+
 import 'package:sorted/features/PROFILE/data/datasources/profile_cloud_data_source.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_native_data_source.dart';
 import 'package:sorted/features/PROFILE/data/datasources/profile_shared_pref_data_source.dart';
@@ -141,23 +119,7 @@ Future<void> init() async {
   );
   //* Plan Page Bloc
   ///
-  sl.registerFactory(
-    () => PlanBloc(sl(), sl()),
-  );
-  //* Goal Page Bloc
-  ///
-  sl.registerFactory(
-    () => GoalPageBloc(sl(), sl(), sl()),
-  );
-  //* Cover select Bloc
-  ///
-  sl.registerFactory(
-    () => CoverBloc(sl(), sl()),
-  );
 
-  sl.registerFactory(
-    () => NoteBloc(sl(), sl()),
-  );
 
   sl.registerFactory(
     () => ProfileBloc(sl()),
@@ -216,50 +178,8 @@ Future<void> init() async {
 
   //! Repository
 
-  sl.registerLazySingleton<NoteRepository>(
-    () => NoteRepositoryImpl(
-      remoteNoteDataSource: sl(),
-      nativeNoteDataSource: sl(),
-      nativeAttachmentDataSource: sl(),
-      networkInfo: sl(),
-      sharedPrefNote: sl(),
-      remoteAttachmentDataSource: sl(),
-    ),
-  );
 
-  sl.registerLazySingleton<TodoRepository>(
-    () => TodoRepositoryImpl(
-      networkInfo: sl(),
-      nativeTodoDataSource: sl(),
-      remoteTodoDataSource: sl(),
-      sharedPrefTodo: sl(),
-    ),
-  );
 
-  sl.registerLazySingleton<TaskRepository>(
-    () => TaskRepositoryImpl(
-      remoteTaskDataSource: sl(),
-      remoteGoalDataSource: sl(),
-      nativeTaskDataSource: sl(),
-      nativeGoalDataSource: sl(),
-      nativeAttachmentDataSource: sl(),
-      networkInfo: sl(),
-      sharedPrefTask: sl(),
-      remoteAttachmentDataSource: sl(),
-    ),
-  );
-  sl.registerLazySingleton<GoalRepository>(
-    () => GoalRepositoryImpl(
-      remoteTaskDataSource: sl(),
-      remoteGoalDataSource: sl(),
-      nativeTaskDataSource: sl(),
-      nativeGoalDataSource: sl(),
-      nativeAttachmentDataSource: sl(),
-      networkInfo: sl(),
-      sharedPrefGoal: sl(),
-      remoteAttachmentDataSource: sl(),
-    ),
-  );
 
   sl.registerLazySingleton<OnStartRepository>(
     () => OnStartRepositoryImpl(
@@ -332,44 +252,14 @@ Future<void> init() async {
   sl.registerLazySingleton<ConnectCloud>(() =>
       ConnectCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
 
-  sl.registerLazySingleton<GoalNative>(
-      () => GoalNativeDataSourceImpl(nativeDb: sl()));
-  sl.registerLazySingleton<NoteNative>(
-      () => NoteNativeDataSourceImpl(nativeDb: sl()));
-  sl.registerLazySingleton<TaskNative>(
-      () => TaskNativeDataSourceImpl(nativeDb: sl()));
-  sl.registerLazySingleton<ProfileNative>(
-      () => ProfileNativeDataSourceImpl(nativeDb: sl()));
-  sl.registerLazySingleton<TodoNative>(
-      () => TodoNativeDataSourceImpl(nativeDb: sl()));
+  
   sl.registerLazySingleton<AttachmentsNative>(
       () => AttachmentNativeDataSourceImpl(nativeDb: sl()));
   sl.registerLazySingleton<AttachmentsCloud>(() =>
       AttachmentCloudDataSourceImpl(
           cloudDb: sl(), auth: sl(), nativeDb: sl(), cloudStorage: sl()));
 
-  sl.registerLazySingleton<GoalSharedPref>(
-      () => GoalSharedPrefDataSourceImpl(sharedPreferences: sl()));
-  sl.registerLazySingleton<ProfileSharedPref>(
-      () => ProfileSharedPrefDataSourceImpl(sharedPreferences: sl()));
-  sl.registerLazySingleton<TaskSharedPref>(
-      () => TaskSharedPrefDataSourceImpl(sharedPreferences: sl()));
-  sl.registerLazySingleton<NoteSharedPref>(
-      () => NoteSharedPrefDataSourceImpl(sharedPreferences: sl()));
-  sl.registerLazySingleton<TodoSharedPref>(
-      () => TodoSharedPrefDataSourceImpl(sharedPreferences: sl()));
-
-  sl.registerLazySingleton<GoalCloud>(
-      () => GoalCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
-  sl.registerLazySingleton<NoteCloud>(
-      () => NoteCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
-  sl.registerLazySingleton<ProfileCloud>(() =>
-      ProfileCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
-
-  sl.registerLazySingleton<TaskCloud>(
-      () => TaskCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
-  sl.registerLazySingleton<TodoCloud>(
-      () => TodoCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
+ 
   sl.registerLazySingleton<HomeCloud>(
       () => HomeCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
 

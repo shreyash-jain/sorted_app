@@ -177,14 +177,8 @@ class _SortedHomeState extends State<SortedHome>
       );
     } else if (toIndex == 1) {
       print("plan");
-      context.router.push(
-        PlanHome(),
-      );
     } else if (toIndex == 2) {
       print("record");
-      context.router.push(
-        RecordTab(),
-      );
     }
     if (currentSideTab == toIndex)
       setState(() {
@@ -238,120 +232,97 @@ class _SortedHomeState extends State<SortedHome>
             key: _scaffoldKey,
             body: SafeArea(child: new LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
-              return SlideStack(
-                drawer: Container(
-                  color: (Theme.of(context).brightness == Brightness.light)
-                      ? Colors.transparent
-                      : Colors.white12,
-                  width: Gparam.width,
-                  child: Stack(
-                    children: [
-                      SideTab(
-                          currentSideTab: currentSideTab,
-                          isNavEnabled: isNavEnabled,
-                          onTapAction: onSideTabSelected),
-                      RightSideOpener(),
-                    ],
-                  ),
-                ),
-                child: SlideContainer(
-                    slideDirection: SlideDirection.left,
-                    onSlide: onSlide,
-                    drawerSize: Gparam.width / 2,
-                    child: Stack(
-                      children: [
-                        CustomPaint(
-                            child: NestedScrollView(
-                          controller: nestedScrollController,
-                          headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                              [
-                            SliverSafeArea(
-                              top: false,
-                              sliver: SliverAppBar(
-                                elevation: 5,
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                shadowColor: Colors.black26,
-                                leading: Container(),
-                                actions: <Widget>[
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  ChatIconWidget(),
-                                ],
-                                expandedHeight: 190,
-                                pinned: true,
-                                primary: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(0.0)),
-                                ),
-                                flexibleSpace: LayoutBuilder(builder:
-                                    (BuildContext context,
-                                        BoxConstraints constraints) {
-                                  currentSliverheight =
-                                      constraints.biggest.height;
-                                  print(currentSliverheight);
-
-                                  bool direction;
-                                  if (prevSliverHeight != null &&
-                                      prevSliverHeight > currentSliverheight) {
-                                    direction = false;
-                                  } else if (prevSliverHeight != null &&
-                                      prevSliverHeight < currentSliverheight)
-                                    direction = true;
-
-                                  prevSliverHeight = currentSliverheight;
-
-                                  return FlexibleSpaceArea(
-                                      currentSliverheight: currentSliverheight,
-                                      name: name);
-                                }),
-                              ),
+              return Stack(
+                children: [
+                  CustomPaint(
+                      child: NestedScrollView(
+                    controller: nestedScrollController,
+                    headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                      SliverSafeArea(
+                        top: false,
+                        sliver: SliverAppBar(
+                          elevation: 5,
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          shadowColor: Colors.black26,
+                          leading: Container(),
+                          actions: <Widget>[
+                            SizedBox(
+                              width: 10,
                             ),
+                            ChatIconWidget(),
                           ],
-                          body: Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Transform.translate(
-                                    offset: Offset(tabAnimation.value, 0.0),
-                                    child: AnimatedContainer(
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                      ),
-                                      width: Gparam.width,
-                                      duration: Duration(milliseconds: 700),
-                                      child: ListView(children: <Widget>[
-                                        HomePlanner(),
-                                        Row(
-                                          children: [
-                                            HomeTransformationWidgetM(
-                                              transBloc: transBloc,
-                                            ),
-                                          ],
-                                        ),
-                                        HomeRecipeWidget(
-                                          recipeBloc: recipeBloc,
-                                        ),
-                                        HomeBlogWidget(blogBloc: blogBloc),
-                                        SizedBox(
-                                          height: 100,
-                                        )
-                                      ]),
-                                    ),
-                                  )
-                                ],
-                              )),
-                        )),
-                        //
-                        //! Side bar
+                          expandedHeight: 190,
+                          pinned: true,
+                          primary: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(0.0)),
+                          ),
+                          flexibleSpace: LayoutBuilder(builder:
+                              (BuildContext context,
+                                  BoxConstraints constraints) {
+                            currentSliverheight = constraints.biggest.height;
+                            print(currentSliverheight);
 
-                        //! bottom tab
-                      ],
-                    )),
+                            bool direction;
+                            if (prevSliverHeight != null &&
+                                prevSliverHeight > currentSliverheight) {
+                              direction = false;
+                            } else if (prevSliverHeight != null &&
+                                prevSliverHeight < currentSliverheight)
+                              direction = true;
+
+                            prevSliverHeight = currentSliverheight;
+
+                            return FlexibleSpaceArea(
+                                currentSliverheight: currentSliverheight,
+                                name: name);
+                          }),
+                        ),
+                      ),
+                    ],
+                    body: Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Transform.translate(
+                              offset: Offset(tabAnimation.value, 0.0),
+                              child: AnimatedContainer(
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                width: Gparam.width,
+                                duration: Duration(milliseconds: 700),
+                                child: ListView(children: <Widget>[
+                                  HomePlanner(),
+                                  Row(
+                                    children: [
+                                      HomeTransformationWidgetM(
+                                        transBloc: transBloc,
+                                      ),
+                                    ],
+                                  ),
+                                  HomeRecipeWidget(
+                                    recipeBloc: recipeBloc,
+                                  ),
+                                  HomeBlogWidget(blogBloc: blogBloc),
+                                  SizedBox(
+                                    height: 100,
+                                  )
+                                ]),
+                              ),
+                            )
+                          ],
+                        )),
+                  )),
+                  //
+                  //! Side bar
+
+                  //! bottom tab
+                ],
               );
             }))),
       ),

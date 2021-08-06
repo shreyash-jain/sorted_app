@@ -44,7 +44,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       } else {
         vTaggedRecipe = TaggedRecipe.empty();
       }
-      print("Video here  " + vRecipe.id.toString());
+     
       print("Here 3" + Failure.mapToString(failure));
 
       if (failure == null)

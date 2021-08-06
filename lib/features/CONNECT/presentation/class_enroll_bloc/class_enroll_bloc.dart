@@ -104,14 +104,14 @@ class ClassEnrollBloc extends Bloc<ClassEnrollEvent, ClassEnrollState> {
         return (clientEnrollsModel.enrolledClasses
                 .singleWhere((it) => it.classId == id, orElse: () => null)) !=
             null;
-      case "pt_requested":
-        return (clientEnrollsModel.requestedConsultation
-                .singleWhere((it) => it.id == id, orElse: () => null)) !=
-            null;
-      case "pt_enrolled":
-        return (clientEnrollsModel.enrolledConsultation
-                .singleWhere((it) => it.id == id, orElse: () => null)) !=
-            null;
+      // case "pt_requested":
+      //   return (clientEnrollsModel.requestedConsultation
+      //           .singleWhere((it) => it.id == id, orElse: () => null)) !=
+      //       null;
+      // case "pt_enrolled":
+      //   return (clientEnrollsModel.enrolledConsultation
+      //           .singleWhere((it) => it.id == id, orElse: () => null)) !=
+      //       null;
       case "it_requested":
         return (clientEnrollsModel.requestedInstitutes
                 .singleWhere((it) => it.id == id, orElse: () => null)) !=

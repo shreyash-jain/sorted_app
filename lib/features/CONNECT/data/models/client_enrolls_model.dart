@@ -4,14 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:sorted/features/CONNECT/data/models/instances/class_instance.dart';
-import 'package:sorted/features/CONNECT/data/models/instances/consultation_instance.dart';
+import 'package:sorted/features/CONNECT/data/models/instances/consultation_trainer_instance.dart';
 import 'package:sorted/features/CONNECT/data/models/instances/institute_instance.dart';
 
 class ClientEnrollsModel extends Equatable {
   List<ClassInstanceModel> requestedClasses;
   List<ClassInstanceModel> enrolledClasses;
-  List<ConsultationInstanceModel> requestedConsultation;
-  List<ConsultationInstanceModel> enrolledConsultation;
+  List<ConsultationTrainerInstanceModel> requestedConsultation;
+  List<ConsultationTrainerInstanceModel> enrolledConsultation;
   List<InstituteInstanceModel> requestedInstitutes;
   List<InstituteInstanceModel> enrolledInstitutes;
   
@@ -27,8 +27,8 @@ class ClientEnrollsModel extends Equatable {
   ClientEnrollsModel copyWith({
     List<ClassInstanceModel> requestedClasses,
     List<ClassInstanceModel> enrolledClasses,
-    List<ConsultationInstanceModel> requestedConsultation,
-    List<ConsultationInstanceModel> enrolledConsultation,
+    List<ConsultationTrainerInstanceModel> requestedConsultation,
+    List<ConsultationTrainerInstanceModel> enrolledConsultation,
     List<InstituteInstanceModel> requestedInstitutes,
     List<InstituteInstanceModel> enrolledInstitutes,
   }) {
@@ -67,15 +67,15 @@ class ClientEnrollsModel extends Equatable {
               ?.map((x) =>
                   ClassInstanceModel.fromMap(x) ?? ClassInstanceModel()) ??
           const []),
-      requestedConsultation: List<ConsultationInstanceModel>.from(
+      requestedConsultation: List<ConsultationTrainerInstanceModel>.from(
           map['requestedConsultation']?.map((x) =>
-                  ConsultationInstanceModel.fromMap(x) ??
-                  ConsultationInstanceModel()) ??
+                  ConsultationTrainerInstanceModel.fromMap(x) ??
+                  ConsultationTrainerInstanceModel()) ??
               const []),
-      enrolledConsultation: List<ConsultationInstanceModel>.from(
+      enrolledConsultation: List<ConsultationTrainerInstanceModel>.from(
           map['enrolledConsultation']?.map((x) =>
-                  ConsultationInstanceModel.fromMap(x) ??
-                  ConsultationInstanceModel()) ??
+                  ConsultationTrainerInstanceModel.fromMap(x) ??
+                  ConsultationTrainerInstanceModel()) ??
               const []),
       requestedInstitutes: List<InstituteInstanceModel>.from(
           map['requestedInstitutes']?.map((x) =>
@@ -108,20 +108,20 @@ class ClientEnrollsModel extends Equatable {
                 return ClassInstanceModel.fromMap(z) ?? ClassInstanceModel();
               }) ??
               const []),
-      requestedConsultation: List<ConsultationInstanceModel>.from(
+      requestedConsultation: List<ConsultationTrainerInstanceModel>.from(
           map['requestedConsultation'].map((i) {
                 var z = Map<String, dynamic>.from(i);
 
-                return ConsultationInstanceModel.fromMap(z) ??
-                    ConsultationInstanceModel();
+                return ConsultationTrainerInstanceModel.fromMap(z) ??
+                    ConsultationTrainerInstanceModel();
               }) ??
               const []),
-      enrolledConsultation: List<ConsultationInstanceModel>.from(
+      enrolledConsultation: List<ConsultationTrainerInstanceModel>.from(
           map['enrolledConsultation'].map((i) {
                 var z = Map<String, dynamic>.from(i);
 
-                return ConsultationInstanceModel.fromMap(z) ??
-                    ConsultationInstanceModel();
+                return ConsultationTrainerInstanceModel.fromMap(z) ??
+                    ConsultationTrainerInstanceModel();
               }) ??
               const []),
       requestedInstitutes:

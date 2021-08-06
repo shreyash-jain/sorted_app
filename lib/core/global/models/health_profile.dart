@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-
+//!Do changes at trainer's app
 class HealthProfile extends Equatable {
   int is_early_bird;
   int is_night_owl;

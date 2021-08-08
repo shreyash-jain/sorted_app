@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sorted/core/global/database/cache_deep_link.dart';
 import 'package:sorted/core/global/injection_container.dart';
-import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/request_pages/class_list.dart';
 import 'package:sorted/features/FEED/presentation/pages/feed_main.dart';
 
 import 'package:sorted/features/HOME/presentation/pages/connect_page.dart';

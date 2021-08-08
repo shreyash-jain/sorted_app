@@ -6,7 +6,8 @@ import 'package:sorted/core/global/blocs/deeplink_bloc/deeplink_bloc.dart';
 import 'package:sorted/core/global/database/cache_deep_link.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/models/deep_link_data/deep_link_data.dart';
-import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
+import 'package:sorted/features/CONNECT/data/models/package_model.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/request_pages/class_list.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
 
 class DynamicLinkService {
@@ -33,6 +34,8 @@ class DynamicLinkService {
       print('handleDeepLink | deeplink: $deeplink');
 
       var isClass = deeplink.pathSegments.contains('class');
+      var isConsultation = deeplink.pathSegments.contains('consultation');
+      var isPackage = deeplink.pathSegments.contains('package');
 
       if (isClass) {
         print("Deeplink data added");
@@ -43,12 +46,23 @@ class DynamicLinkService {
           print("handleDeepLink " + classId);
           print("set data from deep link   -   >   none");
 
-          sl<DeeplinkBloc>().add(AddDeeplinkClassData(
+          sl<DeeplinkBloc>().add(AddDeeplinkData(
               DeepLinkType(1, deeplink.toString()),
-              ClassEnrollData(classId, ClassModel())));
+              classEnrollData: ClassEnrollData(classId, ClassModel())));
           // sl<CacheDeepLinkDataClass>()
           //     .setClassEnrollData(ClassEnrollData(classId, ClassModel()));
         }
+      } else if (isConsultation) {
+        var trainerId = deeplink.queryParameters['id'];
+        sl<DeeplinkBloc>().add(AddDeeplinkData(
+            DeepLinkType(2, deeplink.toString()),
+            consultationEnrollData: ConsultationEnrollData(trainerId, [])));
+      } else if (isPackage) {
+        var packageId = deeplink.queryParameters['id'];
+        sl<DeeplinkBloc>().add(AddDeeplinkData(
+            DeepLinkType(3, deeplink.toString()),
+            packageEnrollData:
+                PackageEnrollData(packageId, ConsultationPackageModel())));
       }
     }
   }

@@ -5,8 +5,7 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
@@ -14,9 +13,9 @@ import 'package:sorted/features/USER_INTRODUCTION/presentation/health_profile_bl
 import 'package:auto_route/auto_route.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/height_widget/height_card.dart';
-import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/usertagItem.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/progressBar.dart';
-import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/userActivityItem.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/weight_widget.dart/weight_card.dart';
 
 class HealthProfileWidget extends StatefulWidget {

@@ -95,12 +95,29 @@ class _MyHomePageState extends State<MyStartPage> {
                     context.router.push(
                       RootHome(),
                     );
-                    if (sl<DeeplinkBloc>().state is DeeplinkLoaded) {
+                    if (sl<DeeplinkBloc>().state is DeeplinkClassLoaded) {
                       context.router.push(ClassListRoute(
-                          classId: (sl<DeeplinkBloc>().state as DeeplinkLoaded)
-                              .classEnrollData
-                              .classId));
+                          classId:
+                              (sl<DeeplinkBloc>().state as DeeplinkClassLoaded)
+                                  .classEnrollData
+                                  .classId));
 
+                      sl<DeeplinkBloc>().add(ResetData());
+                    } else if (sl<DeeplinkBloc>().state
+                        is DeeplinkConsultationLoaded) {
+                      context.router.push(ExpertPackagesCatalogue(
+                          expertId: (sl<DeeplinkBloc>().state
+                                  as DeeplinkConsultationLoaded)
+                              .consultationEnrollData
+                              .expertId));
+                      sl<DeeplinkBloc>().add(ResetData());
+                    } else if (sl<DeeplinkBloc>().state
+                        is DeeplinkPackageLoaded) {
+                      context.router.push(ExpertPackageRequestRoute(
+                          packageId: (sl<DeeplinkBloc>().state
+                                  as DeeplinkPackageLoaded)
+                              .packageEnrollData
+                              .packageId));
                       sl<DeeplinkBloc>().add(ResetData());
                     }
                   }

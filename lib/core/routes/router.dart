@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:sorted/core/services/cashfree_gateway.dart';
-import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/class/classroom_main.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/request_pages/class_list.dart';
 import 'package:sorted/features/CONNECT/presentation/pages/class_main.dart';
-
-
+import 'package:sorted/features/CONNECT/presentation/pages/request_pages/client_consultation_request_form.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/request_pages/package_request.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/request_pages/packages_list.dart';
 
 import 'package:sorted/features/HOME/presentation/pages/affirmation_pv.dart';
 import 'package:sorted/features/HOME/presentation/pages/blog_full_page.dart';
@@ -45,6 +47,10 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: TestPayment),
     AutoRoute(page: ClassMain),
     AutoRoute(page: CashFreeTest),
+    AutoRoute(page: ExpertPackageRequestPage),
+    AutoRoute(page: ExpertPackagesCatalogue),
+    AutoRoute(page: ClientRequestForm),
+    AutoRoute(page: ClassroomMain),
   ],
 )
 class $ARouter {}

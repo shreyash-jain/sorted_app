@@ -3,27 +3,24 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/features/ONBOARDING/presentation/widgets/button_up_down.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/ageAndProfessionPV.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/health_profile.dart';
-import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/interestsPV.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/nameAndGenderPV.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/notificationPV.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/progressBar.dart';
 
 class LoginPage extends StatefulWidget {
   final UserDetail userDetail;
-  final List<ActivityModel> allActivities;
-  final List<UserAModel> userActivities;
+
   final int valid;
   final String message;
   LoginPage({
     this.userDetail,
-    this.allActivities,
-    this.userActivities,
+
     this.valid,
     this.message,
     Key key,
@@ -234,9 +231,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ..addStatusListener((status) async {
             if (status == AnimationStatus.completed) {
               print("done");
-              print(widget.userActivities.length);
+
               BlocProvider.of<UserIntroductionBloc>(context)
-                  .add(SaveDetails(widget.userDetail, widget.userActivities));
+                  .add(SaveDetails(widget.userDetail));
             }
           });
     scaleAnimation =

@@ -23,18 +23,15 @@ class LoginState extends UserIntroductionState {
   LoginState({this.phoneNumber, 
       this.userDetail,
       this.valid,
-      this.message,
-      this.allActivities,
-      this.userActivities});
+      this.message,});
   final int valid;
   final String message;
-  final List<UserAModel> userActivities;
-  final List<ActivityModel> allActivities;
+
   final UserDetail userDetail;
   final String phoneNumber;
   @override
   List<Object> get props =>
-      [userDetail, valid, message, allActivities, userActivities,phoneNumber];
+      [userDetail, valid, message,phoneNumber];
 }
 
 class Error extends UserIntroductionState {

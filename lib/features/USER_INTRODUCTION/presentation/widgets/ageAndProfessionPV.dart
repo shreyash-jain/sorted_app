@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/models/user_details.dart';
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';

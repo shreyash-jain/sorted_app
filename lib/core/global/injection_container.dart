@@ -70,7 +70,7 @@ import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_sh
 import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_repository_impl.dart';
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
-import 'package:sorted/features/USER_INTRODUCTION/presentation/interest_bloc/interest_bloc.dart';
+
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_cloud_data_source.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
 import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_shared_pref_data_source.dart';
@@ -106,12 +106,6 @@ Future<void> init() async {
     () => UserIntroductionBloc(sl()),
   );
 
-  ///* User Interest Flow Page Bloc
-  ///
-  sl.registerFactory(
-    () => UserInterestBloc(repository: sl(), flowBloc: sl()),
-  );
-
   ///* Settings Flow Page Bloc
   ///
   sl.registerFactory(
@@ -119,7 +113,6 @@ Future<void> init() async {
   );
   //* Plan Page Bloc
   ///
-
 
   sl.registerFactory(
     () => ProfileBloc(sl()),
@@ -177,9 +170,6 @@ Future<void> init() async {
   sl.registerLazySingleton(() => CancelLocalAuth(sl()));
 
   //! Repository
-
-
-
 
   sl.registerLazySingleton<OnStartRepository>(
     () => OnStartRepositoryImpl(
@@ -252,14 +242,12 @@ Future<void> init() async {
   sl.registerLazySingleton<ConnectCloud>(() =>
       ConnectCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
 
-  
   sl.registerLazySingleton<AttachmentsNative>(
       () => AttachmentNativeDataSourceImpl(nativeDb: sl()));
   sl.registerLazySingleton<AttachmentsCloud>(() =>
       AttachmentCloudDataSourceImpl(
           cloudDb: sl(), auth: sl(), nativeDb: sl(), cloudStorage: sl()));
 
- 
   sl.registerLazySingleton<HomeCloud>(
       () => HomeCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
 
@@ -310,6 +298,13 @@ Future<void> init() async {
   sl.registerLazySingleton<TrackStoreSharedPref>(
     () => TrackStoreSharedPrefDataSourceImpl(sharedPreferences: sl()),
   );
+  sl.registerLazySingleton<ProfileCloud>(() =>
+      ProfileCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
+  sl.registerLazySingleton<ProfileNative>(
+      () => ProfileNativeDataSourceImpl(nativeDb: sl()));
+
+  sl.registerLazySingleton<ProfileSharedPref>(
+      () => ProfileSharedPrefDataSourceImpl(sharedPreferences: sl()));
 
   //! Core
   //Global shared pref helper

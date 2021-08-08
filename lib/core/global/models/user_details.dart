@@ -20,6 +20,10 @@ class UserDetail extends Equatable {
   final int level;
   final Gender gender;
   final Profession profession;
+
+  final int mobileNumber;
+  final String status;
+  
   UserDetail({
     this.currentDevice,
     this.currentDeviceId,
@@ -35,6 +39,8 @@ class UserDetail extends Equatable {
     this.level = 25,
     this.gender = Gender.male,
     this.profession = Profession.student,
+    this.mobileNumber = 0,
+    this.status=''
   });
 
   @override
@@ -53,6 +59,8 @@ class UserDetail extends Equatable {
       level,
       gender,
       profession,
+      mobileNumber,
+      status
     ];
   }
 
@@ -70,6 +78,8 @@ class UserDetail extends Equatable {
     int level,
     Gender gender,
     Profession profession,
+    int mobileNumber,
+    String status
   }) {
     print(5);
     return UserDetail(
@@ -86,6 +96,9 @@ class UserDetail extends Equatable {
       level: level ?? this.level,
       gender: gender ?? this.gender,
       profession: profession ?? this.profession,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      status : status ?? this.status
+
     );
   }
 
@@ -103,6 +116,8 @@ class UserDetail extends Equatable {
       'points': points,
       'level': level,
       'gender': gender == Gender.male ? 0 : 1,
+     'mobileNumber' : mobileNumber ,
+     'status' : status,
       'profession': profession == Profession.student
           ? 0
           : (profession == Profession.working)
@@ -126,6 +141,8 @@ class UserDetail extends Equatable {
       currentDevice: map['currentDevice'],
       points: map['points'],
       level: map['level'],
+      status: map['status'],
+      mobileNumber: map['mobileNumber'],
       gender: Gender.values[(map['gender'])],
       profession: Profession.values[(map['profession'])],
     );
@@ -145,6 +162,8 @@ class UserDetail extends Equatable {
       age: map['age'],
       diaryStreak: map['diary_streak'],
       points: map['points'],
+      status: map['status'],
+      mobileNumber: map['mobileNumber'],
       level: map['level'],
       gender: Gender.values[(map['gender'])],
       profession: Profession.values[(map['profession'])],

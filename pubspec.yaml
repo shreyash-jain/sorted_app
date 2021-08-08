@@ -104,6 +104,7 @@ dependencies:
   razorpay_flutter:
   dart_jsonwebtoken:
   cashfree_pg:
+  jitsi_meet:
 
 dev_dependencies:
   auto_route_generator:

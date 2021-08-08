@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:googleapis/calendar/v3.dart';
 import 'package:meta/meta.dart';
@@ -22,13 +23,14 @@ abstract class AuthCloudDataSource {
   Future<void> signOutLocalDuplicate(User user);
   Future<bool> checkIfUserAlreadyPresent(User user);
   Future<bool> getSignInState(User user);
-  Future<void> updateUserData(User user,bool oldState);
+  Future<void> updateUserData(User user, bool oldState);
   Future<void> makeSingleSignIn(User user);
   Future<void> updateLastScene(User user);
   void addUserInCloud(User user);
   void updateUserInCloud(UserDetail detail);
   Future<UserDetail> getUserFromCloud();
   Future<void> addUserDetailInCloud(UserDetail detail);
+  Future<void> saveDeviceToken();
 }
 
 class AuthCloudDataSourceImpl implements AuthCloudDataSource {
@@ -91,7 +93,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     bool ans;
 
     await document.get().then((value) {
-       print((value.data() as Map).containsKey("signInId").toString());
+      print((value.data() as Map).containsKey("signInId").toString());
       print((value.data() as Map)['signInId']);
       if ((value.data() as Map)['signInId'] != 0)
         ans = true;
@@ -114,7 +116,33 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await prefs.setBool('onboard', false);
   }
 
-  Future<void> updateUserData(User user,bool oldState) async {
+  Future<void> saveDeviceToken() async {
+    print("token " + saveDeviceToken.toString());
+    User user = auth.currentUser;
+    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+
+    // Get the token for this device
+    String fcmToken = await _fcm.getToken();
+    print("token " + fcmToken.toString());
+
+    // Save it to Firestore
+    if (fcmToken != null) {
+      var tokens = cloudDb
+          .collection('users')
+          .doc(user.uid)
+          .collection("user_data")
+          .doc("data")
+          .collection('private')
+          .doc('token');
+
+      tokens.set({
+        'token': FieldValue.arrayUnion([fcmToken]),
+        'createdAt': FieldValue.serverTimestamp(), // optional
+      }, SetOptions(merge: true));
+    }
+  }
+
+  Future<void> updateUserData(User user, bool oldState) async {
     DocumentReference ref = cloudDb
         .collection('users')
         .doc(user.uid)
@@ -125,7 +153,6 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     ref.set({'email': user.email}, SetOptions(merge: true));
     ref.set({'photoURL': user.photoURL}, SetOptions(merge: true));
     ref.set({'displayName': user.displayName}, SetOptions(merge: true));
-   
 
     prefs.setBool("old_user", oldState);
     print("signed in " + user.displayName);
@@ -134,7 +161,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     prefs.setString("google_email", user.email);
 
     prefs.setString('user_image', "assets/images/male1.png");
-    print(updateUserData.toString()+"    >>>>   "+deviceId.toString());
+    print(updateUserData.toString() + "    >>>>   " + deviceId.toString());
 
     UserDetail userDetail = new UserDetail(
         name: user.displayName,
@@ -171,7 +198,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
       await ref.set({
         'signInId': deviceId,
         'deviceName': deviceName,
-      },SetOptions(merge: true));
+      }, SetOptions(merge: true));
 
       await prefs.setInt('signInId', deviceId);
     } catch (error) {
@@ -242,7 +269,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
 
   @override
   Future<void> addUserDetailInCloud(UserDetail detail) async {
-    User user =  auth.currentUser;
+    User user = auth.currentUser;
     print(addUserDetailInCloud);
     DocumentReference ref = cloudDb
         .collection('users')
@@ -255,7 +282,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
 
   @override
   Future<void> updateUserInCloud(UserDetail detail) async {
-    User user =  auth.currentUser;
+    User user = auth.currentUser;
     DocumentReference ref = cloudDb
         .collection('users')
         .doc(user.uid)
@@ -267,7 +294,7 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
 
   @override
   Future<UserDetail> getUserFromCloud() async {
-    User user =  auth.currentUser;
+    User user = auth.currentUser;
     UserDetail thisUser;
     DocumentReference ref = cloudDb
         .collection('users')

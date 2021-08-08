@@ -124,6 +124,12 @@
 @import image_picker;
 #endif
 
+#if __has_include(<jitsi_meet/JitsiMeetPlugin.h>)
+#import <jitsi_meet/JitsiMeetPlugin.h>
+#else
+@import jitsi_meet;
+#endif
+
 #if __has_include(<local_auth/FLTLocalAuthPlugin.h>)
 #import <local_auth/FLTLocalAuthPlugin.h>
 #else
@@ -219,6 +225,7 @@
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [HealthPlugin registerWithRegistrar:[registry registrarForPlugin:@"HealthPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
+  [JitsiMeetPlugin registerWithRegistrar:[registry registrarForPlugin:@"JitsiMeetPlugin"]];
   [FLTLocalAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTLocalAuthPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];

@@ -8,7 +8,7 @@ import 'package:sorted/core/global/widgets/on_success.dart';
 import 'package:sorted/core/routes/router.gr.dart' as rt;
 import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
-import 'package:sorted/features/USER_INTRODUCTION/presentation/interest_bloc/interest_bloc.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/interactionPage.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';
 import 'package:auto_route/auto_route.dart';
@@ -24,7 +24,7 @@ class UserIntroPage extends StatefulWidget {
 
 class _UserIntroState extends State<UserIntroPage>
     with TickerProviderStateMixin {
-  UserInterestBloc interestBloc;
+
   UserIntroductionBloc onboardBloc;
   int professionIndex = -1;
   UserDetail detail = new UserDetail(
@@ -65,26 +65,44 @@ class _UserIntroState extends State<UserIntroPage>
             } else if (state is LoginState) {
               return LoginPage(
                   userDetail: state.userDetail,
-                  allActivities: state.allActivities,
-                  userActivities: state.userActivities,
+
                   valid: state.valid,
                   message: state.message);
             } else if (state is SuccessState) {
               return OnSuccessWidget();
-            }
+            } else
+              return Container(
+                height: 0,
+              );
           },
           listener: (BuildContext context, UserIntroductionState state) {
             if (state is SuccessState) {
               context.router.pop();
+              
               context.router.push(
                 RootHome(),
               );
-              if (sl<DeeplinkBloc>().state is DeeplinkLoaded) {
+              if (sl<DeeplinkBloc>().state is DeeplinkClassLoaded) {
                 context.router.push(ClassListRoute(
-                    classId: (sl<DeeplinkBloc>().state as DeeplinkLoaded)
+                    classId: (sl<DeeplinkBloc>().state as DeeplinkClassLoaded)
                         .classEnrollData
                         .classId));
 
+                sl<DeeplinkBloc>().add(ResetData());
+              } else if (sl<DeeplinkBloc>().state
+                  is DeeplinkConsultationLoaded) {
+                context.router.push(ExpertPackagesCatalogue(
+                    expertId:
+                        (sl<DeeplinkBloc>().state as DeeplinkConsultationLoaded)
+                            .consultationEnrollData
+                            .expertId));
+                sl<DeeplinkBloc>().add(ResetData());
+              } else if (sl<DeeplinkBloc>().state is DeeplinkPackageLoaded) {
+                context.router.push(ExpertPackageRequestRoute(
+                    packageId:
+                        (sl<DeeplinkBloc>().state as DeeplinkPackageLoaded)
+                            .packageEnrollData
+                            .packageId));
                 sl<DeeplinkBloc>().add(ResetData());
               }
             }

@@ -82,8 +82,7 @@ class AuthenticationRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final  authResult =
-          await _firebaseAuth.signInWithCredential(credential);
+      final authResult = await _firebaseAuth.signInWithCredential(credential);
 
       final User user = authResult.user;
 
@@ -110,6 +109,16 @@ class AuthenticationRepository {
     }
   }
 
+  Future<int> saveDeviceToken() {
+    print(saveDeviceToken);
+    try {
+      _authDataSource.saveDeviceToken();
+      return Future.value(1);
+    } on Exception {
+      throw ServerException();
+    }
+  }
+
   /// Signs in with the provided [email] and [password].
   ///
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
@@ -129,7 +138,7 @@ class AuthenticationRepository {
   }
 
   Future<Either<Failure, User>> currentUser() async {
-    User user =  _firebaseAuth.currentUser;
+    User user = _firebaseAuth.currentUser;
     if (user != null) {
       return Right(user);
     } else {

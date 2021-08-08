@@ -21,6 +21,7 @@
        
         android:label="Sort.it"
         android:name=".Application"
+        tools:replace="android:label"
         tools:node="merge"
         android:icon="@mipmap/ic_launcher">
        
@@ -80,7 +81,7 @@
         </receiver>
          <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="high_importance_channel" />
+            android:value="sortit_importance_channel" />
         <meta-data 
         android:name="com.truecaller.android.sdk.PartnerKey" 
         android:value="Y6RWAc9c32a1e646a498bbf81e9defd3ee73d"/> 

@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
 import 'package:sorted/features/CONNECT/data/models/client_enrolls_model.dart';
-import 'package:sorted/features/CONNECT/data/models/expert_profile.dart';
+import 'package:sorted/features/CONNECT/data/models/expert/expert_profile.dart';
 import 'package:sorted/features/CONNECT/data/models/instances/class_client_link.dart';
 import 'package:sorted/features/CONNECT/data/models/instances/class_instance.dart';
 import 'package:sorted/features/CONNECT/data/models/instances/client_instance.dart';

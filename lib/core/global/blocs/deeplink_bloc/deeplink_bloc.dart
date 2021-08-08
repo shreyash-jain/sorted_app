@@ -11,12 +11,25 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
   Stream<DeeplinkState> mapEventToState(
     DeeplinkEvent event,
   ) async* {
-    if (event is AddDeeplinkClassData) {
+    if (event is AddDeeplinkData) {
       print("bloc data from deep link   -   >   none");
       yield DeeplinkInitial();
-      
-      
-      yield DeeplinkLoaded(event.type, event.classEnrollData);
+      if (event.type.type == 1)
+        yield DeeplinkClassLoaded(
+          event.type,
+          event.classEnrollData,
+        );
+      else if (event.type.type == 2)
+        yield DeeplinkConsultationLoaded(
+          event.type,
+          event.consultationEnrollData,
+        );
+      else if (event.type.type == 3) {
+        yield DeeplinkPackageLoaded(
+          event.type,
+          event.packageEnrollData,
+        );
+      }
     } else if (event is ResetData) {
       yield DeeplinkInitial();
     }

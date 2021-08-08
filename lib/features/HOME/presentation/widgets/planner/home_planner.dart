@@ -78,27 +78,23 @@ class _HomePlannerState extends State<HomePlanner> {
         SizedBox(
           height: 12,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: Gparam.widthPadding),
-          child:
-              Gtheme.stext("Classes", size: GFontSize.S, weight: GFontWeight.B),
-        ),
-        Padding(
-          padding: EdgeInsets.all(Gparam.widthPadding),
-          child: HomeClassRoomTile(
-            classroom: ClassModel(
-              id: "hss",
-              name: "Evening Yog Nindra",
-              description: "",
-              shareId: 84521,
-              type: 1,
-              hasTimeTable: 1,
-              timeTableWeekdays: "Mon,Wed,Fri",
-              topics: "Yog Nindra",
-            ),
-            time: "Today at 7 PM",
-          ),
-        )
+      
+        // Padding(
+        //   padding: EdgeInsets.all(Gparam.widthPadding),
+        //   child: HomeClassRoomTile(
+        //     classroom: ClassModel(
+        //       id: "hss",
+        //       name: "Evening Yog Nindra",
+        //       description: "",
+        //       shareId: 84521,
+        //       type: 1,
+        //       hasTimeTable: 1,
+        //       timeTableWeekdays: "Mon,Wed,Fri",
+        //       topics: "Yog Nindra",
+        //     ),
+        //     time: "Today at 7 PM",
+        //   ),
+        // )
       ],
     );
   }

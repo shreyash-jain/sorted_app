@@ -2,18 +2,21 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+//! commom with pro
 class ConsultationTrainerInstanceModel extends Equatable {
   String consultationId;
   String coachName;
   String coachUrl;
   String packageName;
   String packageId;
+  String coachId;
   ConsultationTrainerInstanceModel({
     this.consultationId = '',
     this.coachName = '',
     this.coachUrl = '',
     this.packageName = '',
     this.packageId = '',
+    this.coachId = '',
   });
 
   ConsultationTrainerInstanceModel copyWith({
@@ -22,6 +25,7 @@ class ConsultationTrainerInstanceModel extends Equatable {
     String coachUrl,
     String packageName,
     String packageId,
+    String coachId,
   }) {
     return ConsultationTrainerInstanceModel(
       consultationId: consultationId ?? this.consultationId,
@@ -29,6 +33,7 @@ class ConsultationTrainerInstanceModel extends Equatable {
       coachUrl: coachUrl ?? this.coachUrl,
       packageName: packageName ?? this.packageName,
       packageId: packageId ?? this.packageId,
+      coachId: coachId ?? this.coachId,
     );
   }
 
@@ -39,6 +44,7 @@ class ConsultationTrainerInstanceModel extends Equatable {
       'coachUrl': coachUrl,
       'packageName': packageName,
       'packageId': packageId,
+      'coachId': coachId,
     };
   }
 
@@ -49,6 +55,7 @@ class ConsultationTrainerInstanceModel extends Equatable {
       coachUrl: map['coachUrl'] ?? '',
       packageName: map['packageName'] ?? '',
       packageId: map['packageId'] ?? '',
+      coachId: map['coachId'] ?? '',
     );
   }
 
@@ -68,6 +75,7 @@ class ConsultationTrainerInstanceModel extends Equatable {
       coachUrl,
       packageName,
       packageId,
+      coachId,
     ];
   }
 }

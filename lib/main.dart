@@ -49,7 +49,7 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 void notificationInit() async {
   if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
+      'sortit_importance_channel', // id
       'High Importance Notifications', // title
       'This channel is used for important notifications.', // description
       importance: Importance.high,
@@ -155,6 +155,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initUniLinks();
+    setupInteractedMessage();
   }
 
   @override
@@ -221,6 +222,59 @@ class _MyAppState extends State<MyApp> {
         );
       },
     );
+  }
+
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                // TODO add a proper drawable resource to android, for now using
+                //      one that already exists in example app.
+                icon: 'launch_background',
+              ),
+            ));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+      // Navigator.pushNamed(context, '/message',
+      //     arguments: MessageArguments(message, true));
+    });
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print("Message aaya  " + message.data.toString());
+    if (message.data['type'] == 'chat') {
+      // Navigator.pushNamed(
+      //   context,
+      //   '/chat',
+      //   arguments: ChatArguments(message),
+      // );
+    }
   }
 }
 

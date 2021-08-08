@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-//!Do changes at trainer's app
+
+//!Do changes at pro app
 class HealthProfile extends Equatable {
   int is_early_bird;
   int is_night_owl;
@@ -65,10 +66,7 @@ class HealthProfile extends Equatable {
 
   double target_weight_kg;
 
-
-
-
-   int coins;
+  int coins;
   List<int> councellor_id;
   List<String> councellor_image_url;
   List<String> councellor_name;
@@ -160,10 +158,9 @@ class HealthProfile extends Equatable {
     this.trainer_image_url = const [],
     this.trainer_name = const [],
   });
- 
 
   HealthProfile copyWith({
-   int is_early_bird,
+    int is_early_bird,
     int is_night_owl,
     int is_humming_bird,
     int is_vegan,
@@ -243,14 +240,20 @@ class HealthProfile extends Equatable {
       is_vegetarian: is_vegetarian ?? this.is_vegetarian,
       is_keto: is_keto ?? this.is_keto,
       is_sattvik: is_sattvik ?? this.is_sattvik,
-      has_alcohol_addiction: has_alcohol_addiction ?? this.has_alcohol_addiction,
-      has_pornography_addiction: has_pornography_addiction ?? this.has_pornography_addiction,
+      has_alcohol_addiction:
+          has_alcohol_addiction ?? this.has_alcohol_addiction,
+      has_pornography_addiction:
+          has_pornography_addiction ?? this.has_pornography_addiction,
       has_tobaco_addiction: has_tobaco_addiction ?? this.has_tobaco_addiction,
-      has_internet_addiction: has_internet_addiction ?? this.has_internet_addiction,
+      has_internet_addiction:
+          has_internet_addiction ?? this.has_internet_addiction,
       has_drug_addiction: has_drug_addiction ?? this.has_drug_addiction,
-      has_cigearette_addiction: has_cigearette_addiction ?? this.has_cigearette_addiction,
-      has_videi_games_addiction: has_videi_games_addiction ?? this.has_videi_games_addiction,
-      do_talk_ablout_feelings: do_talk_ablout_feelings ?? this.do_talk_ablout_feelings,
+      has_cigearette_addiction:
+          has_cigearette_addiction ?? this.has_cigearette_addiction,
+      has_videi_games_addiction:
+          has_videi_games_addiction ?? this.has_videi_games_addiction,
+      do_talk_ablout_feelings:
+          do_talk_ablout_feelings ?? this.do_talk_ablout_feelings,
       do_meditation: do_meditation ?? this.do_meditation,
       do_enjoy_work: do_enjoy_work ?? this.do_enjoy_work,
       do_love_self: do_love_self ?? this.do_love_self,
@@ -261,14 +264,18 @@ class HealthProfile extends Equatable {
       has_thyroid: has_thyroid ?? this.has_thyroid,
       has_high_bp: has_high_bp ?? this.has_high_bp,
       has_low_bp: has_low_bp ?? this.has_low_bp,
-      is_mind_activity_private: is_mind_activity_private ?? this.is_mind_activity_private,
+      is_mind_activity_private:
+          is_mind_activity_private ?? this.is_mind_activity_private,
       goal_control_anger: goal_control_anger ?? this.goal_control_anger,
       goal_reduce_stress: goal_reduce_stress ?? this.goal_reduce_stress,
       goal_sleep_more: goal_sleep_more ?? this.goal_sleep_more,
-      goal_control_thoughts: goal_control_thoughts ?? this.goal_control_thoughts,
+      goal_control_thoughts:
+          goal_control_thoughts ?? this.goal_control_thoughts,
       goal_live_in_present: goal_live_in_present ?? this.goal_live_in_present,
-      goal_improve_will_power: goal_improve_will_power ?? this.goal_improve_will_power,
-      goal_overcome_addiction: goal_overcome_addiction ?? this.goal_overcome_addiction,
+      goal_improve_will_power:
+          goal_improve_will_power ?? this.goal_improve_will_power,
+      goal_overcome_addiction:
+          goal_overcome_addiction ?? this.goal_overcome_addiction,
       make_goal_private: make_goal_private ?? this.make_goal_private,
       weight_kg: weight_kg ?? this.weight_kg,
       weight_unit: weight_unit ?? this.weight_unit,
@@ -281,8 +288,10 @@ class HealthProfile extends Equatable {
       do_yoga: do_yoga ?? this.do_yoga,
       play_sports: play_sports ?? this.play_sports,
       do_dance: do_dance ?? this.do_dance,
-      is_health_activity_private: is_health_activity_private ?? this.is_health_activity_private,
-      have_health_condition: have_health_condition ?? this.have_health_condition,
+      is_health_activity_private:
+          is_health_activity_private ?? this.is_health_activity_private,
+      have_health_condition:
+          have_health_condition ?? this.have_health_condition,
       goal_stay_fit: goal_stay_fit ?? this.goal_stay_fit,
       goal_gain_muscle: goal_gain_muscle ?? this.goal_gain_muscle,
       goal_loose_weight: goal_loose_weight ?? this.goal_loose_weight,
@@ -301,7 +310,8 @@ class HealthProfile extends Equatable {
       mindfulness_skills: mindfulness_skills ?? this.mindfulness_skills,
       mindfulness_endorsed: mindfulness_endorsed ?? this.mindfulness_endorsed,
       nutritionist_id: nutritionist_id ?? this.nutritionist_id,
-      nutritionist_image_url: nutritionist_image_url ?? this.nutritionist_image_url,
+      nutritionist_image_url:
+          nutritionist_image_url ?? this.nutritionist_image_url,
       nutritionist_name: nutritionist_name ?? this.nutritionist_name,
       status: status ?? this.status,
       trainer_id: trainer_id ?? this.trainer_id,
@@ -442,7 +452,8 @@ class HealthProfile extends Equatable {
       target_weight_kg: map['target_weight_kg'] ?? 0.0,
       coins: map['coins'] ?? 0,
       councellor_id: List<int>.from(map['councellor_id'] ?? const []),
-      councellor_image_url: List<String>.from(map['councellor_image_url'] ?? const []),
+      councellor_image_url:
+          List<String>.from(map['councellor_image_url'] ?? const []),
       councellor_name: List<String>.from(map['councellor_name'] ?? const []),
       fitness_endorsed: List<int>.from(map['fitness_endorsed'] ?? const []),
       fitness_growth: map['fitness_growth'] ?? 0.0,
@@ -450,21 +461,27 @@ class HealthProfile extends Equatable {
       fitness_skills: List<String>.from(map['fitness_skills'] ?? const []),
       mindfulness_growth: map['mindfulness_growth'] ?? 0.0,
       mindfulness_score: map['mindfulness_score'] ?? 0.0,
-      mindfulness_skills: List<String>.from(map['mindfulness_skills'] ?? const []),
-      mindfulness_endorsed: List<int>.from(map['mindfulness_endorsed'] ?? const []),
+      mindfulness_skills:
+          List<String>.from(map['mindfulness_skills'] ?? const []),
+      mindfulness_endorsed:
+          List<int>.from(map['mindfulness_endorsed'] ?? const []),
       nutritionist_id: List<int>.from(map['nutritionist_id'] ?? const []),
-      nutritionist_image_url: List<String>.from(map['nutritionist_image_url'] ?? const []),
-      nutritionist_name: List<String>.from(map['nutritionist_name'] ?? const []),
+      nutritionist_image_url:
+          List<String>.from(map['nutritionist_image_url'] ?? const []),
+      nutritionist_name:
+          List<String>.from(map['nutritionist_name'] ?? const []),
       status: map['status'] ?? '',
       trainer_id: List<int>.from(map['trainer_id'] ?? const []),
-      trainer_image_url: List<String>.from(map['trainer_image_url'] ?? const []),
+      trainer_image_url:
+          List<String>.from(map['trainer_image_url'] ?? const []),
       trainer_name: List<String>.from(map['trainer_name'] ?? const []),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory HealthProfile.fromJson(String source) => HealthProfile.fromMap(json.decode(source));
+  factory HealthProfile.fromJson(String source) =>
+      HealthProfile.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;

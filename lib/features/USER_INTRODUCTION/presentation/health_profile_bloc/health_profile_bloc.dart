@@ -4,10 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sorted/core/error/failures.dart';
 
-import 'package:sorted/core/global/models/health_condition.dart';
 import 'package:sorted/core/global/models/health_profile.dart';
 
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';

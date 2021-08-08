@@ -2,8 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/models/user_details.dart';
 
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+
 import 'package:sorted/features/SETTINGS/data/models/settings_details.dart';
 
 

@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 
-import 'package:sorted/core/global/models/health_condition.dart';
 import 'package:sorted/core/global/models/health_profile.dart';
 
 import 'package:sorted/core/global/models/user_details.dart';
 import 'package:sorted/core/network/network_info.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
+
+
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -34,54 +33,6 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
       @required this.networkInfo,
       @required this.nativeAuth,
       @required this.remoteAuth});
-
-  @override
-  Future<Either<Failure, int>> add(UserAModel activity) async {
-    UserAModel thisActivity = activity;
-    try {
-      print(" add u activity " + thisActivity.name);
-      thisActivity = await nativeDataSource.add(activity);
-      print(thisActivity.id.toString() + "  " + thisActivity.name);
-      try {
-        remoteDataSource.add(thisActivity);
-      } on Exception {
-        print("server exception");
-      }
-      return Right(thisActivity.id);
-    } on Exception {
-      print("NativeDatabaseException  ");
-      return Future.value(Left(NativeDatabaseException()));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<ActivityModel>>> get cloudActivities async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.allActivities);
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, bool>> delete(UserAModel activity) async {
-    try {
-      await nativeDataSource.delete(activity);
-      try {
-        remoteDataSource.delete(activity);
-        return Right(true);
-      } on Exception {
-        print("server exception");
-        return Right(false);
-      }
-    } on Exception {
-      return Future.value(Left(NativeDatabaseException()));
-    }
-  }
 
   @override
   Future<Either<Failure, Stream<double>>> doInitialDownload() async {
@@ -135,19 +86,6 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
       return Right(true);
     } on Exception {
       return Future.value(Left(NativeDatabaseException()));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserAModel>>> get userActivities async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.userActivities);
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
     }
   }
 
@@ -222,111 +160,6 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
   }
 
   @override
-  Future<Either<Failure, List<UserTag>>> getCareerTags() async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getCareerTags());
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserTag>>> getChildrenOfTag(
-      UserTag tag, String category) async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getChildrenOfTag(tag, category));
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserTag>>> getFamilyTags() async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getFamilyTags());
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserTag>>> getFinanceTags() async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getFinanceTags());
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserTag>>> getFitnessTags() async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getFitnessTags());
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserTag>>> getFoodTags() async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getFoodTags());
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserTag>>> getMentalHealthTags() async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getMentalHealthTags());
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<UserTag>>> getProductivityTags() async {
-    if (await networkInfo.isConnected) {
-      try {
-        return Right(await remoteDataSource.getProductivityTags());
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(NetworkFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, bool>> saveHealthProfile(
     HealthProfile lifestyleProfile,
   ) async {
@@ -344,24 +177,10 @@ class UserIntroRepositoryImpl implements UserIntroductionRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> saveUserInterests(
-      List<UserTag> fitnessTags,
-      List<UserTag> mindfulTags,
-      List<UserTag> foodTags,
-      List<UserTag> productivityTags,
-      List<UserTag> relationshipTags,
-      List<UserTag> careerTags,
-      List<UserTag> financeTags) async {
+  Future<Either<Failure, HealthProfile>> getHealthProfile() async {
     if (await networkInfo.isConnected) {
       try {
-        return Right(await remoteDataSource.saveUserInterests(
-            fitnessTags,
-            mindfulTags,
-            foodTags,
-            productivityTags,
-            relationshipTags,
-            careerTags,
-            financeTags));
+        return Right(await remoteDataSource.getHealthProfile());
       } on Exception {
         return Left(ServerFailure());
       }

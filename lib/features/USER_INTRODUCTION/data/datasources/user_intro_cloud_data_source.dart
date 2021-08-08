@@ -5,43 +5,23 @@ import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
 
-import 'package:sorted/core/global/models/health_condition.dart';
 import 'package:sorted/core/global/models/health_profile.dart';
 
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class UserIntroCloud {
   Stream<double> getUserCloudData();
   Stream<double> copyToUserCloudData();
-  Future<List<ActivityModel>> get allActivities;
-  Future<List<UserAModel>> get userActivities;
-  Future<void> add(UserAModel newActivity);
-  Future<void> delete(UserAModel newActivity);
+
   Future<void> deleteUserActivityTable();
   Future<bool> isUserNameAvailable(String username);
-  Future<List<UserTag>> getFitnessTags();
-  Future<List<UserTag>> getMentalHealthTags();
-  Future<List<UserTag>> getFoodTags();
-  Future<List<UserTag>> getFinanceTags();
-  Future<List<UserTag>> getProductivityTags();
-  Future<List<UserTag>> getCareerTags();
-  Future<List<UserTag>> getFamilyTags();
-  Future<List<UserTag>> getChildrenOfTag(UserTag tag, String category);
+
   Future<bool> saveHealthProfile(
     HealthProfile lifestyleProfile,
   );
-  Future<bool> saveUserInterests(
-    List<UserTag> fitnessTags,
-    List<UserTag> mindfulTags,
-    List<UserTag> foodTags,
-    List<UserTag> productivityTags,
-    List<UserTag> relationshipTags,
-    List<UserTag> careerTags,
-    List<UserTag> financeTags,
-  );
+  Future<HealthProfile> getHealthProfile();
 }
 
 class UserIntroCloudDataSourceImpl implements UserIntroCloud {
@@ -122,68 +102,11 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
     await batch.commit(noResult: true);
   }
 
-  @override
-  Future<List<ActivityModel>> get allActivities async {
-    QuerySnapshot snapShot = await cloudDb
-        .collection('StartData')
-        .doc('data')
-        .collection('Activity')
-        .get();
-    if (snapShot != null && snapShot.docs.length != 0) {
-      final List<DocumentSnapshot> docs = snapShot.docs;
-      return docs.map((e) => ActivityModel.fromSnapshot(e)).toList();
-    }
-    return Future.value([]);
-  }
 
-  @override
-  Future<List<UserAModel>> get userActivities async {
-    User user = auth.currentUser;
-    QuerySnapshot snapShot = await cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("User_Activity")
-        .get();
-    if (snapShot == null) return Future.value([]);
-    if (snapShot != null && snapShot.docs.length != 0) {
-      final List<DocumentSnapshot> docs = snapShot.docs;
-      return docs.map((e) => UserAModel.fromSnapshot(e)).toList();
-    }
-    return Future.value([]);
-  }
 
-  @override
-  Future<void> add(UserAModel newActivity) async {
-    print("add useract in cloud " + newActivity.name);
-    User user = auth.currentUser;
 
-    DocumentReference ref = cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("User_Activity")
-        .doc(newActivity.id.toString());
 
-    await ref
-        .set(newActivity.toMap())
-        .then((value) => print(ref.id))
-        .catchError((onError) => {print("nhi chala\n"), print("hello")});
-  }
 
-  @override
-  Future<void> delete(UserAModel newActivity) async {
-    User user = auth.currentUser;
-
-    DocumentReference ref = cloudDb
-        .collection('users')
-        .doc(user.uid)
-        .collection("User_Activity")
-        .doc(newActivity.id.toString());
-
-    ref
-        .delete()
-        .then((value) => print(ref.id))
-        .catchError((onError) => {print("nhi chala\n"), print("hello")});
-  }
 
   @override
   Future<void> deleteUserActivityTable() async {
@@ -353,13 +276,12 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
         .doc(user.uid)
         .collection("user_data")
         .doc("fitness_profile");
-  
 
     refFitness
-        .set(fitnessProfile.toMap(),SetOptions(merge: true))
+        .set(fitnessProfile.toMap(), SetOptions(merge: true))
         .then((value) => print(refFitness.id))
         .catchError((onError) => {print("nhi chala\n"), print("hello")});
-   
+
     return true;
   }
 
@@ -460,5 +382,20 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
           .then((value) => print(""));
     });
     return true;
+  }
+
+  @override
+  Future<HealthProfile> getHealthProfile() async {
+    User user = auth.currentUser;
+
+    DocumentReference refFitness = cloudDb
+        .collection('users')
+        .doc(user.uid)
+        .collection("user_data")
+        .doc("fitness_profile");
+
+    var snapShot = await refFitness.get();
+    if (snapShot == null || !snapShot.exists) return HealthProfile();
+    return HealthProfile.fromMap(snapShot.data() as Map);
   }
 }

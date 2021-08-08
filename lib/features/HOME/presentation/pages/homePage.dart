@@ -24,13 +24,14 @@ import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/models/deep_link_data/deep_link_data.dart';
 
 import 'package:sorted/core/routes/router.gr.dart';
-import 'package:sorted/features/CONNECT/presentation/pages/class_list.dart';
+import 'package:sorted/features/CONNECT/presentation/pages/request_pages/class_list.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 import 'package:sorted/features/HOME/presentation/blogs_bloc/blogs_bloc.dart';
 import 'package:sorted/features/HOME/presentation/pages/camera_screen.dart';
 import 'package:sorted/features/HOME/presentation/recipe_bloc/recipe_bloc.dart';
 import 'package:sorted/features/HOME/presentation/transformation_bloc/transformation_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/blogs/home_blog.dart';
+import 'package:sorted/features/HOME/presentation/widgets/connect/client_enrolls.dart';
 import 'package:sorted/features/HOME/presentation/widgets/planner/home_planner.dart';
 import 'package:sorted/features/HOME/presentation/widgets/recipes/home_recipe.dart';
 
@@ -211,7 +212,7 @@ class _SortedHomeState extends State<SortedHome>
       child: BlocListener<DeeplinkBloc, DeeplinkState>(
         listener: (context, state) {
           print("got data from deep link   -   >   no chills");
-          if (state is DeeplinkLoaded) {
+          if (state is DeeplinkClassLoaded) {
             print("got data from deep link   -   >   ahha");
             switch (state.type.type) {
               case 1:
@@ -224,8 +225,14 @@ class _SortedHomeState extends State<SortedHome>
                 break;
               default:
             }
-          } else {
-            print("data from deep link no data");
+          } else if (state is DeeplinkConsultationLoaded) {
+            context.router.push(ExpertPackagesCatalogue(
+                expertId: state.consultationEnrollData.expertId));
+            deeplinkBloc.add(ResetData());
+          } else if (state is DeeplinkPackageLoaded) {
+            context.router.push(ExpertPackageRequestRoute(
+                packageId: state.packageEnrollData.packageId));
+            deeplinkBloc.add(ResetData());
           }
         },
         child: Scaffold(
@@ -298,6 +305,7 @@ class _SortedHomeState extends State<SortedHome>
                                 duration: Duration(milliseconds: 700),
                                 child: ListView(children: <Widget>[
                                   HomePlanner(),
+                                  ClientEnrollHomeWidget(),
                                   Row(
                                     children: [
                                       HomeTransformationWidgetM(

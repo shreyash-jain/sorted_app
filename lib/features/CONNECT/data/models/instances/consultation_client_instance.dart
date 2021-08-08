@@ -1,19 +1,21 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-
+//! commom with pro
 class ConsultationClientInstanceModel extends Equatable {
   String consultationId;
   String clientName;
   String clientUrl;
   String packageName;
   String packageId;
+  String clientId;
   ConsultationClientInstanceModel({
     this.consultationId = '',
     this.clientName = '',
     this.clientUrl = '',
     this.packageName = '',
     this.packageId = '',
+    this.clientId = '',
   });
 
   ConsultationClientInstanceModel copyWith({
@@ -22,6 +24,7 @@ class ConsultationClientInstanceModel extends Equatable {
     String clientUrl,
     String packageName,
     String packageId,
+    String clientId,
   }) {
     return ConsultationClientInstanceModel(
       consultationId: consultationId ?? this.consultationId,
@@ -29,6 +32,7 @@ class ConsultationClientInstanceModel extends Equatable {
       clientUrl: clientUrl ?? this.clientUrl,
       packageName: packageName ?? this.packageName,
       packageId: packageId ?? this.packageId,
+      clientId: clientId ?? this.clientId,
     );
   }
 
@@ -39,6 +43,7 @@ class ConsultationClientInstanceModel extends Equatable {
       'clientUrl': clientUrl,
       'packageName': packageName,
       'packageId': packageId,
+      'clientId': clientId,
     };
   }
 
@@ -49,6 +54,7 @@ class ConsultationClientInstanceModel extends Equatable {
       clientUrl: map['clientUrl'] ?? '',
       packageName: map['packageName'] ?? '',
       packageId: map['packageId'] ?? '',
+      clientId: map['clientId'] ?? '',
     );
   }
 
@@ -68,6 +74,7 @@ class ConsultationClientInstanceModel extends Equatable {
       clientUrl,
       packageName,
       packageId,
+      clientId,
     ];
   }
 }

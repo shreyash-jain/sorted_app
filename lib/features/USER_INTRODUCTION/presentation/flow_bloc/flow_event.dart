@@ -48,16 +48,11 @@ class UpdatePhoneNumber extends FlowEvent {
   @override
   List<Object> get props => [phoneNumber];
 }
-class UpdateUserActivities extends FlowEvent {
-  final List<UserAModel> activities;
-  UpdateUserActivities(this.activities);
-  @override
-  List<Object> get props => [activities];
-}
+
 class SaveDetails extends FlowEvent {
   final UserDetail details;
-  final List<UserAModel> activities;
-  SaveDetails(this.details,this.activities);
+
+  SaveDetails(this.details);
   @override
-  List<Object> get props => [details,activities];
+  List<Object> get props => [details];
 }

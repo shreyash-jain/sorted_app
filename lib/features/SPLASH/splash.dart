@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:sorted/core/authentication/remote_auth_repository.dart';
 import 'package:sorted/core/global/blocs/deeplink_bloc/deeplink_bloc.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/routes/router.gr.dart';
@@ -22,6 +23,7 @@ class SplashPage extends StatelessWidget {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 print("authenticated");
+                 sl<AuthenticationRepository>().saveDeviceToken();
                 context.router.pop();
 
                 context.router.push(

@@ -6,8 +6,7 @@ import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/models/user_details.dart';
-import 'package:sorted/features/PROFILE/data/models/activity.dart';
-import 'package:sorted/features/PROFILE/data/models/user_activity.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 import 'package:truecaller_sdk/truecaller_sdk.dart';
 part 'flow_event.dart';
@@ -91,8 +90,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         prevDetail.copyWith(gender: event.gender);
         yield LoginState(
             phoneNumber: (state as LoginState).phoneNumber,
-            allActivities: (state as LoginState).allActivities,
-            userActivities: (state as LoginState).userActivities,
+
             userDetail:
                 (state as LoginState).userDetail.copyWith(gender: event.gender),
             valid: checkValidity((state as LoginState)
@@ -102,23 +100,13 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
                 .userDetail
                 .copyWith(gender: event.gender)));
       }
-    } else if (event is UpdateUserActivities) {
-      if (state is LoginState) {
-        yield LoginState(
-            allActivities: (state as LoginState).allActivities,
-            phoneNumber: (state as LoginState).phoneNumber,
-            userActivities: event.activities,
-            valid: checkValidity((state as LoginState).userDetail),
-            message: generateValidityMessage((state as LoginState).userDetail),
-            userDetail: (state as LoginState).userDetail);
-      }
+    
     } else if (event is UpdateUsername) {
       if (state is LoginState) {
         UserDetail prevDetail = (state as LoginState).userDetail;
 
         yield LoginState(
-            allActivities: (state as LoginState).allActivities,
-            userActivities: (state as LoginState).userActivities,
+           
             userDetail: (state as LoginState).userDetail,
             phoneNumber: (state as LoginState).phoneNumber,
             valid: 8,
@@ -132,8 +120,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
             event.name.length < 4 ||
             !regExp.hasMatch(event.name)) {
           yield LoginState(
-              allActivities: (state as LoginState).allActivities,
-              userActivities: (state as LoginState).userActivities,
+             
               phoneNumber: (state as LoginState).phoneNumber,
               userDetail: (state as LoginState)
                   .userDetail
@@ -155,8 +142,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
             prevDetail.copyWith(userName: event.name);
             if (isAvailable)
               yield LoginState(
-                  allActivities: (state as LoginState).allActivities,
-                  userActivities: (state as LoginState).userActivities,
+                 
                   phoneNumber: (state as LoginState).phoneNumber,
                   userDetail: (state as LoginState)
                       .userDetail
@@ -169,8 +155,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
                       .copyWith(name: event.name)));
             else {
               yield LoginState(
-                  allActivities: (state as LoginState).allActivities,
-                  userActivities: (state as LoginState).userActivities,
+                 
                   phoneNumber: (state as LoginState).phoneNumber,
                   userDetail: (state as LoginState)
                       .userDetail
@@ -186,8 +171,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         UserDetail prevDetail = (state as LoginState).userDetail;
         prevDetail.copyWith(age: event.age);
         yield LoginState(
-            allActivities: (state as LoginState).allActivities,
-            userActivities: (state as LoginState).userActivities,
+          
             phoneNumber: (state as LoginState).phoneNumber,
             userDetail:
                 (state as LoginState).userDetail.copyWith(age: event.age),
@@ -199,8 +183,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
     } else if (event is UpdatePhoneNumber) {
       if (state is LoginState) {
         yield LoginState(
-            allActivities: (state as LoginState).allActivities,
-            userActivities: (state as LoginState).userActivities,
+          
             phoneNumber: event.phoneNumber,
             userDetail: (state as LoginState).userDetail,
             valid: (state as LoginState).valid,
@@ -211,8 +194,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
         UserDetail prevDetail = (state as LoginState).userDetail;
         prevDetail.copyWith(profession: event.prof);
         yield LoginState(
-            allActivities: (state as LoginState).allActivities,
-            userActivities: (state as LoginState).userActivities,
+            
             phoneNumber: (state as LoginState).phoneNumber,
             userDetail: (state as LoginState)
                 .userDetail
@@ -225,44 +207,25 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
                 .copyWith(profession: event.prof)));
       }
     } else if (event is SaveDetails) {
-      print("@SaveDetails  " + event.activities.length.toString());
-      if (event.activities.length > 0)
-        await repository.deleteUserActivityTable();
-      event.activities.forEach((element) {
-        print(element.name);
-        repository.add(element);
-      });
       //print("at save  >>>" + event.details.currentDevice);
       UserDetail toSaveDetail = event.details
           .copyWith(currentDevice: deviceName, currentDeviceId: deviceId);
+
       repository.addUser(toSaveDetail);
+
       yield SuccessState();
     }
   }
 
   Stream<UserIntroductionState> doOnEndDownloadEvent() async* {
     Failure failure;
-    List<ActivityModel> allActivities;
-    List<UserAModel> userActivities;
+
     UserDetail userDetail;
     LoginState downloadedState;
 
     print(doOnEndDownloadEvent);
 
-    var failureOrAllActivities = await repository.cloudActivities;
-    failureOrAllActivities.fold((l) {
-      failure = l;
-    }, (r) {
-      allActivities = r;
-    });
-    print(allActivities);
-    var failureOrUserActivities = await repository.userActivities;
-    failureOrUserActivities.fold((l) {
-      failure = l;
-    }, (r) {
-      userActivities = r;
-    });
-    print(userActivities);
+   
     if (oldState == null || !oldState) {
       userDetail = sl<CacheDataClass>().getUserDetail();
     } else {
@@ -277,8 +240,7 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
     print("to enter doOnEndDownloadEvent");
     if (failure == null) {
       downloadedState = LoginState(
-          allActivities: allActivities,
-          userActivities: userActivities,
+ 
           phoneNumber: null,
           userDetail: userDetail,
           valid: checkValidity(userDetail),

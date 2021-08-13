@@ -54,43 +54,6 @@ class BasicInfoWidget extends StatelessWidget {
                     SizedBox(
                       height: 8,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(
-                          MdiIcons.starCircle,
-                          size: 16,
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          "Level",
-                          style: TextStyle(
-                              fontFamily: 'Milliard',
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).highlightColor),
-                          textAlign: TextAlign.left,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          child: Text(
-                            "3",
-                            style: TextStyle(
-                              fontFamily: 'Milliard',
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w800,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
                 Container(
@@ -101,16 +64,12 @@ class BasicInfoWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           UserPropertyWidget(
-                            prop_name: "Tracks",
-                            prop_value: "5",
+                            prop_name: "Points",
+                            prop_value: "0",
                           ),
                           UserPropertyWidget(
-                            prop_name: "Score",
-                            prop_value: "48",
-                          ),
-                          UserPropertyWidget(
-                            prop_name: "Fit Buddies",
-                            prop_value: "5",
+                            prop_name: "Level",
+                            prop_value: "0",
                           ),
                         ],
                       ),
@@ -122,9 +81,9 @@ class BasicInfoWidget extends StatelessWidget {
                             2.6,
                         dotRadius: 40,
                         shadowWidth: 4.0,
-                        progress1: .2,
-                        progress2: .4,
-                        progress3: .4,
+                        progress1: .07,
+                        progress2: .05,
+                        progress3: .1,
                         shadowColor: Color(0xFF0ec76a),
                         dotColor: Colors.blueAccent,
                       ),

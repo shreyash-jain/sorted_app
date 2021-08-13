@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:sorted/core/authentication/remote_auth_repository.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
 import 'package:sorted/core/global/models/health_profile.dart';
@@ -13,7 +14,9 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository repository;
-  ProfileBloc(this.repository) : super(ProfileInitial());
+  final AuthenticationRepository authenticationRepository;
+  ProfileBloc(this.repository, this.authenticationRepository)
+      : super(ProfileInitial());
   @override
   Stream<ProfileState> mapEventToState(
     ProfileEvent event,
@@ -34,6 +37,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         //print("hello  " + profile.mindfulness_skills.toString());
         yield ProfileLoaded(profile, userDetails ?? UserDetail());
       }
+    } else if (event is Signout) {
+
+      
+      authenticationRepository.logOut();
     }
   }
 }

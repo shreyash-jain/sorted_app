@@ -9,7 +9,6 @@ import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dar
 import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
-import 'package:sorted/features/USER_INTRODUCTION/presentation/health_profile_bloc/health_profile_bloc.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/height_widget/height_card.dart';
@@ -40,7 +39,8 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
   FocusNode ageFocus = FocusNode();
 
   ScrollController _scrollController;
-  HealthProfileBloc bloc;
+  UserIntroductionBloc bloc;
+
   TextEditingController ageController = TextEditingController();
 
   @override
@@ -52,10 +52,7 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
       keepScrollOffset: true, // NEW
     );
     if (mounted)
-      bloc = HealthProfileBloc(
-          repository: sl(),
-          flowBloc: BlocProvider.of<UserIntroductionBloc>(context))
-        ..add(LoadProfile());
+      bloc =  BlocProvider.of<UserIntroductionBloc>(context);
 
     print("Login Body");
   }
@@ -113,12 +110,12 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
                     BlocProvider(
                       create: (_) => bloc,
                       child:
-                          BlocListener<HealthProfileBloc, HealthProfileState>(
+                          BlocListener<UserIntroductionBloc, UserIntroductionState>(
                         listener: (context, state) {},
                         child:
-                            BlocBuilder<HealthProfileBloc, HealthProfileState>(
+                            BlocBuilder<UserIntroductionBloc, UserIntroductionState>(
                           builder: (context, state) {
-                            if (state is LoadedState) {
+                            if (state is LoginState) {
                               return SingleChildScrollView(
                                 child: Column(
                                   children: [
@@ -995,10 +992,10 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
                                   ],
                                 ),
                               );
-                            } else if (state is LoadingState) {
+                            } else {
                               return LoadingWidget();
                             }
-                            return Container();
+                           
                           },
                         ),
                       ),
@@ -1050,6 +1047,7 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
               onChanged: (val) {
                 setState(() => weight = val);
                 print(val);
+
                 bloc.add(UpdateWeight(val.toDouble()));
               },
             ),

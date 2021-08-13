@@ -10,6 +10,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+
 import 'package:sorted/core/authentication/bloc/authentication_bloc.dart';
 import 'package:sorted/core/authentication/remote_auth_repository.dart';
 import 'package:sorted/core/global/bloc_observer.dart';

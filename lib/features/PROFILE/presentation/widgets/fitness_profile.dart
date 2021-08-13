@@ -163,63 +163,22 @@ class FitnessProfileWidget extends StatelessWidget {
                     height: 2,
                   ),
                   Container(
-                    height: 40,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.profile?.fitness_skills?.length ?? 1 + 1,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == 0) {
-                          return SizedBox(width: Gparam.widthPadding / 3);
-                        }
-
-                        if (state.profile != null &&
-                            state.profile.fitness_skills != null)
-                          return stringTile(
-                              state.profile.fitness_skills[index - 1],
-                              context,
-                              state.profile.fitness_endorsed[index - 1],
-                              callback);
-                        else
-                          return Container(
-                            margin: EdgeInsets.only(right: 0),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: (Theme.of(context).brightness ==
-                                      Brightness.dark)
-                                  ? Colors.grey.shade900
-                                  : Colors.grey.shade100,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(1, 1),
-                                    color: Colors.black.withAlpha(2),
-                                    blurRadius: 2)
-                              ],
-                              borderRadius:
-                                  new BorderRadius.all(Radius.circular(10.0)),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Add your fitness skills",
-                                  style: TextStyle(
-                                      fontFamily: 'Milliard',
-                                      fontSize: Gparam.textSmaller,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context)
-                                          .highlightColor
-                                          .withOpacity(.8)),
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Icon(Icons.add)
-                              ],
-                            ),
-                          );
-                      },
-                    ),
-                  ),
+                      height: 36,
+                      child:
+                          ListView(scrollDirection: Axis.horizontal, children: [
+                        fitnessActivityTile(
+                            "Go on a walk/Run", state.profile.do_walk, 0),
+                        fitnessActivityTile(
+                            "Do Exercise", state.profile.do_exercise, 1),
+                        fitnessActivityTile(
+                            "Do Yoga", state.profile.do_yoga, 2),
+                        fitnessActivityTile(
+                            "Do Dance", state.profile.do_dance, 3),
+                        fitnessActivityTile(
+                            "Play Sports", state.profile.play_sports, 4),
+                        fitnessActivityTile(
+                            "Ride Cycle", state.profile.ride_cycle, 5),
+                      ])),
                   SizedBox(
                     height: 6,
                   ),
@@ -243,14 +202,14 @@ class FitnessProfileWidget extends StatelessWidget {
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
                               if (state.profile != null &&
-                                  state.profile.trainer_name != null)
+                                  state.profile.trainer_name.length != 0)
                                 PersonDisplay(
                                   name: state.profile.trainer_name[index - 1],
                                   image_url: state
                                       .profile.trainer_image_url[index - 1],
                                 ),
-                              if (state.profile == null ||
-                                  state.profile.trainer_name == null)
+                              if (state.profile != null ||
+                                  state.profile.trainer_name.length == 0)
                                 PersonDisplay(
                                   name: "None",
                                   image_url: null,
@@ -268,14 +227,15 @@ class FitnessProfileWidget extends StatelessWidget {
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
                               if (state.profile != null &&
-                                  state.profile.trainer_name != null)
+                                  state.profile.nutritionist_name.length != 0)
                                 PersonDisplay(
-                                  name: state.profile.trainer_name[index - 1],
-                                  image_url: state
-                                      .profile.trainer_image_url[index - 1],
+                                  name: state
+                                      .profile.nutritionist_name[index - 1],
+                                  image_url: state.profile
+                                      .nutritionist_image_url[index - 1],
                                 ),
-                              if (state.profile == null ||
-                                  state.profile.trainer_name == null)
+                              if (state.profile != null ||
+                                  state.profile.trainer_name.length == 0)
                                 PersonDisplay(
                                   name: "None",
                                   image_url: null,
@@ -293,6 +253,71 @@ class FitnessProfileWidget extends StatelessWidget {
       ),
     );
   }
+
+  Widget fitnessActivityTile(String s, int value, int i) {
+    return (value == 1)
+        ? GestureDetector(
+            onTap: () {},
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(1, 1),
+                      color: Colors.black.withAlpha(2),
+                      blurRadius: 2)
+                ],
+                borderRadius: new BorderRadius.all(Radius.circular(12.0)),
+              ),
+              child: Text(
+                s,
+                style: TextStyle(
+                    fontFamily: 'Milliard',
+                    fontSize: Gparam.textSmaller,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black.withOpacity(.8)),
+              ),
+            ),
+          )
+        : Container(
+            width: 0,
+          );
+  }
+
+  Widget foodActivityTile(String s, int value, int i) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(
+              color:
+                  (value == 0) ? Colors.black.withOpacity(.03) : Colors.black87,
+              width: 1),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(1, 1),
+                color: Colors.black.withAlpha(2),
+                blurRadius: 2)
+          ],
+          borderRadius: new BorderRadius.all(Radius.circular(12.0)),
+        ),
+        child: Text(
+          s,
+          style: TextStyle(
+              fontFamily: 'Milliard',
+              fontSize: Gparam.textSmaller,
+              fontWeight: FontWeight.w500,
+              color: Colors.black.withOpacity(.8)),
+        ),
+      ),
+    );
+  }
+
 
   void callback() {}
 }

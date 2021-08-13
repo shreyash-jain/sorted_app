@@ -109,6 +109,7 @@ class _HeatMapCalendarState extends State<HeatMapCalendar> {
         opacity: events.containsKey(stringCurrentTime)
             ? events[stringCurrentTime]
             : 0,
+        day: currentTime.day,
         color: events.containsKey(stringCurrentTime)
             ? colors[stringCurrentTime]
             : widget.inactiveSquareColor,
@@ -172,25 +173,30 @@ class _HeatMapCalendarState extends State<HeatMapCalendar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.backgroundColor,
-      height: 7 * (widget.squareSize + 2 * widget.squareMargin) +
-          widget.textContainerHeight,
+      height:
+          7 * (widget.squareSize + 2 * widget.squareMargin) * months.length +
+              widget.textContainerHeight,
+      alignment: Alignment.topCenter,
       child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
         itemCount: months.length + 1,
         itemBuilder: (_, i) {
           if (i == 0) {
-            return _buildWeekDays(widget.squareMargin, widget.squareSize);
+            return Container(
+                child: _buildWeekDays(widget.squareMargin, widget.squareSize));
           }
-          return MonthWidget(
-            month: months[i - 1],
-            monthsLabels: widget.monthsLabels,
-            activeColor: widget.activeColor,
-            inavtiveColor: widget.inactiveSquareColor,
-            margin: widget.squareMargin,
-            squareSize: widget.squareSize,
-            backgroundColor: widget.backgroundColor,
-            textContainerHeight: widget.textContainerHeight,
-            textStyle: widget.textStyle,
+          return Container(
+            child: MonthWidget(
+              month: months[i - 1],
+              monthsLabels: widget.monthsLabels,
+              activeColor: widget.activeColor,
+              inavtiveColor: widget.inactiveSquareColor,
+              margin: widget.squareMargin,
+              squareSize: widget.squareSize,
+              backgroundColor: widget.backgroundColor,
+              textContainerHeight: widget.textContainerHeight,
+              textStyle: widget.textStyle,
+            ),
           );
         },
       ),
@@ -204,8 +210,8 @@ class _HeatMapCalendarState extends State<HeatMapCalendar> {
           height: margin * 2,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(width: 6 * margin + 3 * squareSize),
             _buildWeekDay("Mon", squareSize),
             SizedBox(width: 2 * margin),
             _buildWeekDay("Tue", squareSize),
@@ -236,7 +242,7 @@ class _HeatMapCalendarState extends State<HeatMapCalendar> {
         child: Text(
           day,
           style: widget.textStyle.copyWith(
-              fontWeight: FontWeight.w300, fontSize: squareSize * 0.45),
+              fontWeight: FontWeight.w800, fontSize: squareSize * 0.35),
         ),
       ),
     );

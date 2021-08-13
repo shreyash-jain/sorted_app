@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -21,6 +22,8 @@ import 'package:sorted/core/global/database/shared_pref_helper.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/core/services/dynamic_link_service.dart';
+import 'package:sorted/core/services/notifications/notification_remote_data_source.dart';
+import 'package:sorted/core/services/notifications/notification_repository.dart';
 import 'package:sorted/features/CONNECT/data/datasources/connect_cloud_data_source.dart';
 import 'package:sorted/features/CONNECT/data/repositories/connect_repository_impl.dart';
 import 'package:sorted/features/CONNECT/domain/repositories/connect_repository.dart';
@@ -33,6 +36,7 @@ import 'package:sorted/features/HOME/data/repositiries/home_repository_impl.dart
 import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
 import 'package:sorted/features/HOME/presentation/blogs_bloc/blogs_bloc.dart';
+import 'package:sorted/features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart';
 import 'package:sorted/features/HOME/presentation/recipe_bloc/recipe_bloc.dart';
 import 'package:sorted/features/HOME/presentation/transformation_bloc/transformation_bloc.dart';
 import 'package:sorted/features/ONBOARDING/presentation/bloc/onboarding_bloc.dart';
@@ -61,9 +65,10 @@ import 'package:sorted/features/SETTINGS/data/datasources/settings_shared_pref_d
 import 'package:sorted/features/SETTINGS/data/repository/settings_repository_impl.dart';
 import 'package:sorted/features/SETTINGS/domain/repository/settings_repository.dart';
 import 'package:sorted/features/SETTINGS/presentation/bloc/settings_bloc.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/leaderboard/leaderboard_bloc.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/tab_tracks_bloc.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_log/track_log_bloc.dart';
+import 'package:sorted/features/TRACKERS/PERMORMANCE/data/datasources/performance_cloud_data_source.dart';
+import 'package:sorted/features/TRACKERS/PERMORMANCE/data/repositories/performance_repository_impl.dart';
+import 'package:sorted/features/TRACKERS/PERMORMANCE/domain/repositories/performance_repository.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_cloud_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_native_data_source.dart';
 import 'package:sorted/features/USER_INTRODUCTION/data/datasources/user_intro_shared_pref_data_source.dart';
@@ -71,15 +76,6 @@ import 'package:sorted/features/USER_INTRODUCTION/data/repositories/user_intro_r
 import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 
-import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_cloud_data_source.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_native_data_source.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/data/datasources/track_store_shared_pref_data_source.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/data/repositories/track_store_repository_impl.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/domain/repositories/track_store_repository.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_bloc.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_store_search/track_store_search_bloc.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/single_track/single_track_bloc.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/bloc/track_comments/track_comments_bloc.dart';
 import '../network/network_info.dart';
 
 final GetIt sl = GetIt.instance;
@@ -103,7 +99,7 @@ Future<void> init() async {
   ///* User Intro Flow Page Bloc
   ///
   sl.registerFactory(
-    () => UserIntroductionBloc(sl()),
+    () => UserIntroductionBloc(sl(), sl()),
   );
 
   ///* Settings Flow Page Bloc
@@ -115,39 +111,11 @@ Future<void> init() async {
   ///
 
   sl.registerFactory(
-    () => ProfileBloc(sl()),
+    () => ProfileBloc(sl(), sl()),
   );
 
   sl.registerFactory(
     () => AffirmationBloc(sl()),
-  );
-
-  sl.registerFactory(
-    () => TrackStoreBloc(sl()),
-  );
-
-  sl.registerFactory(
-    () => TabTracksBloc(sl()),
-  );
-
-  sl.registerFactory(
-    () => TrackStoreSearchBloc(sl()),
-  );
-
-  sl.registerFactory(
-    () => SingleTrackBloc(sl()),
-  );
-
-  sl.registerFactory(
-    () => TrackCommentsBloc(sl()),
-  );
-
-  sl.registerFactory(
-    () => TrackLogBloc(sl()),
-  );
-
-  sl.registerFactory(
-    () => LeaderboardBloc(sl()),
   );
 
   sl.registerFactory(
@@ -163,6 +131,7 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton(() => DeeplinkBloc());
+  sl.registerLazySingleton(() => HomeStoriesBloc(sl()));
 
   //! Use cases
 
@@ -178,8 +147,11 @@ Future<void> init() async {
       remoteDataSource: sl(),
     ),
   );
-  sl.registerLazySingleton(
-      () => AuthenticationRepository(authDataSource: sl(), firebaseAuth: sl()));
+  sl.registerLazySingleton(() => AuthenticationRepository(
+      authDataSource: sl(), firebaseAuth: sl(), networkInfo: sl()));
+
+  sl.registerLazySingleton(() => NotificationRepository(
+      notificationDataSource: sl(), firebaseAuth: sl(), networkInfo: sl()));
 
   sl.registerLazySingleton<UserIntroductionRepository>(
     () => UserIntroRepositoryImpl(
@@ -219,16 +191,16 @@ Future<void> init() async {
     ),
   );
 
-  sl.registerLazySingleton<TrackStoreRepository>(
-    () => TrackStoreRepositoryImpl(
-        networkInfo: sl(),
-        remoteDataSource: sl(),
-        nativeDataSource: sl(),
-        nativeAuth: sl(),
-        remoteAuth: sl(),
-        sharedPref: sl(),
-        cloudDataSource: sl(),
-        trackStoreNative: sl()),
+  sl.registerLazySingleton<PerformanceRepository>(
+    () => PerformanceRepositoryImpl(
+      networkInfo: sl(),
+      remoteDataSource: sl(),
+      nativeDataSource: sl(),
+      nativeAuth: sl(),
+      remoteAuth: sl(),
+      sharedPref: sl(),
+      cloudDataSource: sl(),
+    ),
   );
 
   sl.registerLazySingleton<ConnectRepository>(
@@ -237,8 +209,11 @@ Future<void> init() async {
       remoteDataSource: sl(),
     ),
   );
+
   //! Data sources
 
+  sl.registerLazySingleton<NotificationRemoteDataSource>(() =>
+      NotificationCloudDataSourceImpl(dio: sl(), auth: sl(), cloudDb: sl()));
   sl.registerLazySingleton<ConnectCloud>(() =>
       ConnectCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
 
@@ -288,16 +263,11 @@ Future<void> init() async {
     () => UserSharedPrefDataSourceImpl(sharedPreferences: sl()),
   );
 
-  sl.registerLazySingleton<TrackStoreCloud>(
-    () => TrackStoreCloudDataSourceImpl(
+  sl.registerLazySingleton<PerformanceCloud>(
+    () => PerformanceCloudDataSourceImpl(
         cloudDb: sl(), auth: sl(), nativeDb: sl()),
   );
-  sl.registerLazySingleton<TrackStoreNative>(
-    () => TrackStoreNativeDataSourceImpl(nativeDb: sl()),
-  );
-  sl.registerLazySingleton<TrackStoreSharedPref>(
-    () => TrackStoreSharedPrefDataSourceImpl(sharedPreferences: sl()),
-  );
+
   sl.registerLazySingleton<ProfileCloud>(() =>
       ProfileCloudDataSourceImpl(cloudDb: sl(), auth: sl(), nativeDb: sl()));
   sl.registerLazySingleton<ProfileNative>(
@@ -326,6 +296,7 @@ Future<void> init() async {
   final FirebaseFirestore _fireDB = FirebaseFirestore.instance;
   final Reference refStorage = FirebaseStorage.instance.ref();
   final _appRouter = ARouter();
+  final dio = Dio();
 
   sl.registerLazySingleton(() => _appRouter);
 
@@ -334,6 +305,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DataConnectionChecker());
   sl.registerLazySingleton(() => _auth);
   sl.registerLazySingleton(() => _fireDB);
+  sl.registerLazySingleton(() => dio);
   sl.registerLazySingleton(() => DynamicLinkService());
 
   sl.registerLazySingleton(() => refStorage);

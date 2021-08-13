@@ -37,7 +37,6 @@ class WeightSlider extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemExtent: itemExtent,
         itemCount: itemCount,
-        physics: BouncingScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           int itemValue = _indexToValue(index);
           bool isExtra = index == 0 || index == itemCount - 1;

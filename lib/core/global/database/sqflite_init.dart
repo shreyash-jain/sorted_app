@@ -4,6 +4,10 @@ import 'package:sqflite/sqflite.dart';
 
 final todoTABLE = 'Todo';
 final userTable = 'UserDetails';
+final recipeTable = 'TaggedRecipes';
+final challengeTable = 'ChallengeModel';
+final pepTalkTable = 'PepTalk';
+final transformationTable = 'TransformationModel';
 
 List<String> tables = [
   "UserDetails",
@@ -13,7 +17,6 @@ List<String> tables = [
   "SettingsDetails",
   "FavAffirmations",
   "Logs",
-
   "Tags",
 ];
 
@@ -112,7 +115,7 @@ class SqlDatabaseService {
           "imageUrl TEXT "
           ")");
       await db.execute("CREATE TABLE UserDetails ("
-          "id INTEGER PRIMARY KEY, "
+          "id TEXT, "
           "name TEXT, "
           "imageUrl TEXT, "
           "email TEXT, "
@@ -137,6 +140,16 @@ class SqlDatabaseService {
           'CREATE TABLE Tags (id INTEGER PRIMARY KEY,  url TEXT,tag TEXT,color TEXT, savedTs INTEGER, items INTEGER)');
       // await db.execute(
       //     'CREATE TABLE Dates (id INTEGER PRIMARY KEY,  savedTs TEXT,appOpened INTEGER,date TEXT, dateFormatted Text, dateMilliSec INTEGER)');
+      await db.execute(
+          'CREATE TABLE TaggedRecipes ( difficulty TEXT,  id INTEGER,  is_breakfast TEXT,  is_dieting TEXT,  is_dinner TEXT,  is_healthy TEXT,  is_high_calorie TEXT,  is_high_protien TEXT,  is_kapha_balancing TEXT,  is_keto TEXT,  is_loose_weight TEXT ,  is_low_cholesterol TEXT,  is_low_sugar TEXT,  is_lunch TEXT,  is_pitta_balancing TEXT,  is_pregnency TEXT,  is_sattvik TEXT,  is_vata_balancing TEXT,  is_vegan TEXT,  is_vegetarian TEXT,  is_weight_gain TEXT,  name TEXT,  recipe_id INTEGER,  recipe_link TEXT,  image_url TEXT,  description TEXT )');
+
+      await db.execute(
+          'CREATE TABLE TransformationModel ( image_url TEXT,  id INTEGER,  person TEXT, source_title TEXT, source_link TEXT,  story TEXT,  title TEXT )');
+
+      await db.execute(
+          'CREATE TABLE PepTalk ( content TEXT,  id INTEGER,  imageUrl TEXT,  fileLink TEXT,  title TEXT )');
+      await db.execute(
+          'CREATE TABLE ChallengeModel ( category INTEGER,  id INTEGER,  output_type INTEGER,  type INTEGER,  name TEXT )');
 
       await db.execute(
           'CREATE TABLE Track_Store_Search (id INTEGER PRIMARY KEY, track_id INTEGER, track_name TEXT, track_icon TEXT)');

@@ -6,3 +6,6 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class LoadProfile extends ProfileEvent {}
+
+
+class Signout extends ProfileEvent {}

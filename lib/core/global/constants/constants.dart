@@ -54,12 +54,12 @@ class UnsplashApi {
 
 class Gtheme {
   static BoxDecoration roundedWhite = new BoxDecoration(
-    borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+    borderRadius: new BorderRadius.all(Radius.circular(10.0)),
     boxShadow: [
       BoxShadow(
           offset: Offset(0, 1),
           color: Colors.black.withAlpha(80),
-          blurRadius: 4)
+          blurRadius: 1)
     ],
     gradient: new LinearGradient(
         colors: [

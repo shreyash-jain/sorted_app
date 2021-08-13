@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-import '../../TRACK_STORE/domain/entities/track_goal.dart';
 
-class TrackGoalModel extends TrackGoal implements Equatable {
+
+class TrackGoalModel implements Equatable {
   int id;
   int track_id;
   String goal_name;

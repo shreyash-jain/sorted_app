@@ -7,7 +7,9 @@ class Day {
   double opacity;
   bool isNotDay;
   Color color;
+  int day;
   Day({
+    this.day,
     this.isActive = false,
     this.numberOfEvents = 0,
     this.month = -1,

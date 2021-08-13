@@ -13,7 +13,10 @@ class ProfileLoaded extends ProfileState {
   final HealthProfile profile;
   final UserDetail details;
 
-  ProfileLoaded(this.profile, this.details);
+  ProfileLoaded(
+    this.profile,
+    this.details,
+  );
 
   @override
   List<Object> get props => [profile, details];

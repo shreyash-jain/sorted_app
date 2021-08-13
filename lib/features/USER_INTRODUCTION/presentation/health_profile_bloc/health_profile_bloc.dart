@@ -28,6 +28,7 @@ class HealthProfileBloc extends Bloc<HealthProfileEvent, HealthProfileState> {
     HealthProfileEvent event,
   ) async* {
     if (event is LoadProfile) {
+      
       Failure failure;
 
       if (failure == null) {

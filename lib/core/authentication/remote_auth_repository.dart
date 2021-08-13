@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/core/global/entities/day_at_sortit.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/error/exceptions.dart';
@@ -9,17 +11,21 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sorted/core/global/models/auth_user.dart';
 import 'dart:async';
 import 'package:meta/meta.dart';
+import 'package:sorted/core/network/network_info.dart';
 
 class AuthenticationRepository {
   // Dependencies
 
   AuthenticationRepository(
-      {FirebaseAuth firebaseAuth, AuthCloudDataSource authDataSource})
+      {this.networkInfo,
+      FirebaseAuth firebaseAuth,
+      AuthCloudDataSource authDataSource})
       : _firebaseAuth = firebaseAuth ?? sl.get<FirebaseAuth>(),
         _authDataSource = authDataSource;
 
   final FirebaseAuth _firebaseAuth;
   final AuthCloudDataSource _authDataSource;
+  final NetworkInfo networkInfo;
   // Shared State for Widgets
   //Observable<FirebaseUser> user;
 
@@ -28,7 +34,6 @@ class AuthenticationRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
-      'https://www.googleapis.com/auth/calendar.events.readonly',
     ],
   );
 
@@ -73,9 +78,11 @@ class AuthenticationRepository {
   /// Starts the Sign In with Google Flow.
   ///
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
-  Future<void> logInWithGoogle() async {
+  Future<Either<Failure, int>> logInWithGoogle() async {
+    Failure failure;
     try {
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
@@ -91,8 +98,12 @@ class AuthenticationRepository {
       bool oldUser = await _authDataSource.checkIfUserAlreadyPresent(user);
       print("old_user " + oldUser.toString());
       if (!oldUser) {
+
+        
         await _authDataSource.makeSingleSignIn(user);
       } else {
+
+
         bool isLoggedIn = await _authDataSource.getSignInState(user);
         print(isLoggedIn.toString() + " logged in ?");
         if (isLoggedIn) {
@@ -104,8 +115,11 @@ class AuthenticationRepository {
 
       }
       await _authDataSource.updateUserData(user, oldUser);
-    } on Exception {
-      throw LogInWithGoogleFailure();
+      return (Right(1));
+    } on Exception catch (e) {
+      failure = LogInWithGoogleFailure();
+
+      return (Left(failure));
     }
   }
 
@@ -117,6 +131,17 @@ class AuthenticationRepository {
     } on Exception {
       throw ServerException();
     }
+  }
+
+  Future<DayAtSortit> getDayAtSortit() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (await _authDataSource.getDayAtSortIt());
+      } on Exception {
+        return DayAtSortit(day: -1, loginTime: DateTime.now());
+      }
+    } else
+      return DayAtSortit(day: -1, loginTime: DateTime.now());
   }
 
   /// Signs in with the provided [email] and [password].
@@ -150,9 +175,10 @@ class AuthenticationRepository {
   /// [User.empty] from the [user] Stream.
   ///
   /// Throws a [LogOutFailure] if an exception occurs.
-  Future<void> logOut(User user) async {
+  Future<void> logOut() async {
+    await SqlDatabaseService.db.cleanDatabase();
+
     try {
-      _authDataSource.makeSingleSignOut(user);
       await Future.wait([
         _firebaseAuth.signOut(),
         _googleSignIn.signOut(),

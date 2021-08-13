@@ -11,12 +11,16 @@ import 'package:sorted/core/global/animations/three_progress.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
+import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/core/theme/theme.dart';
 import 'package:sorted/features/FEED/presentation/widgets/track_view_small.dart';
+import 'package:sorted/features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart';
 import 'package:sorted/features/PROFILE/presentation/bloc/profile_bloc.dart';
 import 'package:sorted/features/PROFILE/presentation/widgets/person_display.dart';
 import 'package:sorted/features/PROFILE/presentation/widgets/profile_top.dart';
-import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_data.dart';
+import 'package:sorted/features/TRACKERS/COMMON/performance_track_data/track_data.dart';
+import 'package:sorted/features/TRACKERS/COMMON/performance_track_data/track_property_data.dart';
+import 'package:auto_route/auto_route.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage(
@@ -52,16 +56,23 @@ class _ProfileState extends State<ProfilePage>
 
   @override
   void initState() {
-    bloc = ProfileBloc(sl())..add(LoadProfile());
+    bloc = ProfileBloc(sl(), sl())..add(LoadProfile());
 
     super.initState();
-    tab_controller = TabController(length: 3, vsync: this);
+    tab_controller = TabController(length: 1, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => bloc,
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<ProfileBloc>(
+            create: (BuildContext context) => bloc,
+          ),
+          BlocProvider<HomeStoriesBloc>(
+            create: (BuildContext context) => sl<HomeStoriesBloc>(),
+          ),
+        ],
         child:
             BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
           if (state is ProfileLoaded)
@@ -83,21 +94,40 @@ class _ProfileState extends State<ProfilePage>
                       overflow: TextOverflow.clip,
                       softWrap: false,
                     ),
-                    Text(
-                      "Edit profile",
-                      style: TextStyle(
-                          fontFamily: 'Milliard',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: Theme.of(context).highlightColor),
-                      overflow: TextOverflow.clip,
-                      softWrap: false,
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            bloc.add(Signout());
+                          },
+                          child: Text(
+                            "Sign out",
+                            style: TextStyle(
+                                fontFamily: 'Milliard',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Theme.of(context).highlightColor),
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
+                          ),
+                        ),
+                        Text(
+                          "Edit profile",
+                          style: TextStyle(
+                              fontFamily: 'Milliard',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Theme.of(context).highlightColor),
+                          overflow: TextOverflow.clip,
+                          softWrap: false,
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
               body: DefaultTabController(
-                length: 3,
+                length: 1,
                 child: NestedScrollView(
                   headerSliverBuilder: (context, _) {
                     return [
@@ -132,36 +162,6 @@ class _ProfileState extends State<ProfilePage>
                                 textAlign: TextAlign.left,
                               ),
                             ),
-                            Tab(
-                              icon: Icon(
-                                MdiIcons.postOutline,
-                                color: Theme.of(context).highlightColor,
-                              ),
-                              child: Text(
-                                "Posts",
-                                style: TextStyle(
-                                    fontFamily: 'Milliard',
-                                    fontSize: Gparam.textVerySmall,
-                                    fontWeight: FontWeight.w800,
-                                    color: Theme.of(context).highlightColor),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            Tab(
-                              icon: Icon(
-                                MdiIcons.timelineTextOutline,
-                                color: Theme.of(context).highlightColor,
-                              ),
-                              child: Text(
-                                "Journal",
-                                style: TextStyle(
-                                    fontFamily: 'Milliard',
-                                    fontSize: Gparam.textVerySmall,
-                                    fontWeight: FontWeight.w800,
-                                    color: Theme.of(context).highlightColor),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
                           ],
                         ),
                       )
@@ -170,49 +170,53 @@ class _ProfileState extends State<ProfilePage>
                   body: TabBarView(
                     controller: tab_controller,
                     children: [
-                      Container(
-                        color: Colors.grey.shade100,
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: [
-                            ProfileTrackView(
-                                track: track_weight,
-                                text1: "68 Kg",
-                                text2: "Last logged Today at 7:26 PM"),
-                            ProfileTrackView(
-                                track: track_water,
-                                text1: "Today 1500 ml",
-                                text2: "Last logged Today at 4 PM"),
-                            ProfileTrackView(
-                                track: track_body_fat,
-                                text1: "19%",
-                                text2: "Last logged at 15th July"),
-                            ProfileTrackView(
-                                track: track_fasting,
-                                text1: "7 hours today",
-                                text2: "No records Today"),
-                          ],
-                        ),
-                      ),
-                      ListView(
-                        padding: EdgeInsets.zero,
-                        children: Colors.primaries.map((color) {
-                          return Container(color: color, height: 150.0);
-                        }).toList(),
-                      ),
-                      GridView.count(
-                        padding: EdgeInsets.zero,
-                        crossAxisCount: 3,
-                        children: Colors.primaries.map((color) {
-                          return Container(color: color, height: 150.0);
-                        }).toList(),
+                      BlocBuilder<HomeStoriesBloc, HomeStoriesState>(
+                        builder: (context, homestate) {
+                          if (homestate is HomeStoriesLoaded)
+                            return Container(
+                              color: Colors.grey.shade200,
+                              child: ListView(
+                                padding: EdgeInsets.zero,
+                                children: [
+                                  ...homestate.subsTracks.asMap().entries.map(
+                                        (e) => ProfileTrackView(
+                                          track: e.value,
+                                          property: getAllProperties()
+                                              .firstWhere((element) =>
+                                                  e.value.primary_property_id ==
+                                                  element.id),
+                                          onClick: () {
+                                            context.router.push(
+                                                PerformanceAnalysisRoute(
+                                                    track: e.value,
+                                                    summary: homestate
+                                                            .trackSummaries[
+                                                        e.key]));
+                                          },
+                                          summary:
+                                              homestate.trackSummaries[e.key],
+                                        ),
+                                      )
+                                ],
+                              ),
+                            );
+                          else
+                            return Container(
+                              height: 00,
+                            );
+                        },
                       ),
                     ],
                   ),
                 ),
               ),
             );
-          else if (state is ProfileInitial) return LoadingWidget();
+          else if (state is ProfileInitial)
+            return LoadingWidget();
+          else
+            return Container(
+              height: 0,
+            );
         }));
   }
 }

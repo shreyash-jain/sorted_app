@@ -37,7 +37,7 @@ class HomeRecipeWidget extends StatelessWidget {
                   subHeading: "Recommended to reach your health goal",
                 ),
                 Container(
-                  height: 240,
+                  height: 550,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -45,23 +45,46 @@ class HomeRecipeWidget extends StatelessWidget {
                         recipe: state.taggedVideoRecipe,
                         videoRecipe: state.videoRecipe,
                       ),
-                      ...state.recipes
-                          .asMap()
-                          .entries
-                          .map((e) => HomeRecipeWidgetM(
-                              recipes: state.recipes,
-                              index: e.key,
-                              onClick: (recipes, index) {
-                                context.router.push(RecipeRoute(
-                                    type: 0, taggedRecipe: recipes[index]));
-                              }))
-                          .toList()
+                      ...state.recipes.asMap().entries.map((e) {
+                        return Column(
+                          children: [
+                            (2 * e.key < state.recipes.length)
+                                ? HomeRecipeWidgetM(
+                                    recipes: state.recipes,
+                                    index: 2 * e.key,
+                                    onClick: (recipes, index) {
+                                      context.router.push(RecipeRoute(
+                                          type: 0,
+                                          taggedRecipe: recipes[index]));
+                                    })
+                                : Container(
+                                    height: 0,
+                                  ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            (2 * e.key + 1 < state.recipes.length)
+                                ? HomeRecipeWidgetM(
+                                    recipes: state.recipes,
+                                    index: 2 * e.key + 1,
+                                    onClick: (recipes, index) {
+                                      context.router.push(RecipeRoute(
+                                          type: 0,
+                                          taggedRecipe: recipes[index]));
+                                    })
+                                : Container(
+                                    height: 0,
+                                  )
+                          ],
+                        );
+                      }).toList()
                     ],
                   ),
                 ),
               ],
             );
-          }
+          } else
+            return Container(height: 0);
         },
       ),
     );

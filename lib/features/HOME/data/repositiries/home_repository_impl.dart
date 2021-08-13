@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dartz/dartz_streaming.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/network/network_info.dart';
+import 'package:sorted/features/FEED/domain/entities/feed_post_entity.dart';
+import 'package:sorted/features/FEED/data/models/feed_model.dart';
 import 'package:sorted/features/HOME/data/datasources/home_cloud_data_source.dart';
 import 'package:sorted/features/HOME/data/datasources/home_native_data_source.dart';
 import 'package:sorted/features/HOME/data/datasources/home_remote_api_data_source.dart';
@@ -14,7 +17,10 @@ import 'package:sorted/features/HOME/data/datasources/home_shared_pref_data_sour
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
+import 'package:sorted/features/HOME/data/models/challenge_model.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
+import 'package:sorted/features/HOME/data/models/motivation/pep_talks.dart';
+import 'package:sorted/features/HOME/data/models/motivation/transformation.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart' as ph;
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
@@ -23,7 +29,7 @@ import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart'
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
-import 'package:sorted/features/HOME/data/models/transformation.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
@@ -850,17 +856,53 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<Either<Failure, List<TaggedRecipe>>> getTaggedRecipes(
       int count) async {
     Failure failure;
+    Either<Failure, List<TaggedRecipe>> result = Left(NetworkFailure());
+    DateTime now = DateTime.now();
+    if ((await sharedPref.lastUpdatedRecipes)
+        .isAfter(DateTime(now.year, now.month, now.day, 0, 00))) {
+      try {
+        return Right(await nativeDataSource.taggedRecipes);
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
     if (await networkInfo.isConnected) {
       try {
-        List<TaggedRecipe> recipes =
+        List<TaggedRecipe> cloudData =
             await remoteDataSource.getTaggedRecipes(count);
-
-        return (Right(recipes));
+        if (cloudData != null && cloudData.length > 0) {
+          result = Right(cloudData);
+          nativeDataSource.deleteRecipeTable();
+          nativeDataSource.addTaggedRecipes(cloudData);
+        } else {
+          try {
+            List<TaggedRecipe> nativeData =
+                await nativeDataSource.taggedRecipes;
+            if (nativeData != null) {
+              result = Right(nativeData);
+            } else
+              result = Left(ServerFailure());
+          } on Exception {
+            result = Left(NativeDatabaseException());
+          }
+        }
       } on Exception {
-        return Left(ServerFailure());
+        result = Left(ServerFailure());
       }
-    } else
-      return Left(NetworkFailure());
+
+      sharedPref.updateRecipes(now);
+    } else {
+      try {
+        List<TaggedRecipe> nativeData = await nativeDataSource.taggedRecipes;
+        if (nativeData != null) {
+          result = Right(nativeData);
+        } else
+          result = Left(ServerFailure());
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
+    return result;
   }
 
   @override
@@ -881,17 +923,53 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<Either<Failure, TransformationModel>> getTransformationStory() async {
     Failure failure;
+    Either<Failure, TransformationModel> result = Left(NetworkFailure());
+    DateTime now = DateTime.now();
+    if ((await sharedPref.lastUpdatedTranformationStory)
+        .isAfter(DateTime(now.year, now.month, now.day, 0, 00))) {
+      try {
+        return Right(await nativeDataSource.transformation);
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
     if (await networkInfo.isConnected) {
       try {
-        TransformationModel transformation =
+        TransformationModel cloudData =
             await remoteDataSource.getTransformationStory();
-
-        return (Right(transformation));
+        if (cloudData != null) {
+          result = Right(cloudData);
+          nativeDataSource.deleteTransformationTable();
+          nativeDataSource.addTransformation(cloudData);
+        } else {
+          try {
+            TransformationModel nativeData =
+                await nativeDataSource.transformation;
+            if (nativeData != null) {
+              result = Right(nativeData);
+            } else
+              result = Left(ServerFailure());
+          } on Exception {
+            result = Left(NativeDatabaseException());
+          }
+        }
       } on Exception {
-        return Left(ServerFailure());
+        result = Left(ServerFailure());
       }
-    } else
-      return Left(NetworkFailure());
+
+      sharedPref.updateTransformationStory(now);
+    } else {
+      try {
+        TransformationModel nativeData = await nativeDataSource.transformation;
+        if (nativeData != null) {
+          result = Right(nativeData);
+        } else
+          result = Left(ServerFailure());
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
+    return result;
   }
 
   @override
@@ -1001,8 +1079,9 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<RecipeToIngredient>>> getIngregientQuantities(int recipeId) async {
-     if (await networkInfo.isConnected) {
+  Future<Either<Failure, List<RecipeToIngredient>>> getIngregientQuantities(
+      int recipeId) async {
+    if (await networkInfo.isConnected) {
       try {
         List<RecipeToIngredient> quantities =
             await remoteDataSource.getIngregientQuantities(recipeId);
@@ -1013,5 +1092,133 @@ class HomeRepositoryImpl implements HomeRepository {
       }
     } else
       return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, int>> addPost(PostModel post) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (Right(await remoteDataSource.addPost(post)));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, ChallengeModel>> getChallengeOfTheDay() async {
+    Failure failure;
+
+    Either<Failure, ChallengeModel> result = Left(NetworkFailure());
+    DateTime now = DateTime.now();
+    if ((await sharedPref.lastUpdatedChallenge)
+        .isAfter(DateTime(now.year, now.month, now.day, 0, 00))) {
+      try {
+        var thisChallenge = await nativeDataSource.challenge;
+        if (thisChallenge.id != -1) return Right(thisChallenge);
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
+    if (await networkInfo.isConnected) {
+      try {
+        ChallengeModel cloudData =
+            await remoteDataSource.getChallengeOfTheDay();
+        if (cloudData != null) {
+          result = Right(cloudData);
+          nativeDataSource.deleteChallengeTable();
+          nativeDataSource.addChallenge(cloudData);
+        } else {
+          try {
+            ChallengeModel nativeData = await nativeDataSource.challenge;
+            if (nativeData != null) {
+              result = Right(nativeData);
+            } else
+              result = Left(ServerFailure());
+          } on Exception {
+            result = Left(NativeDatabaseException());
+          }
+        }
+      } on Exception {
+        result = Left(ServerFailure());
+      }
+
+      sharedPref.updateChallenge(now);
+    } else {
+      try {
+        ChallengeModel nativeData = await nativeDataSource.challenge;
+        if (nativeData != null) {
+          result = Right(nativeData);
+        } else
+          result = Left(ServerFailure());
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
+    return result;
+  }
+
+  @override
+  Future<Either<Failure, FeedPostEntity>> getFeed(
+      int limit, DocumentSnapshot<Object> lastDoc) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (Right(await remoteDataSource.getFeed(limit, lastDoc)));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, PepTalkModel>> getMotivationOfTheDay() async {
+    Failure failure;
+    Either<Failure, PepTalkModel> result = Left(NetworkFailure());
+    DateTime now = DateTime.now();
+    if ((await sharedPref.lastUpdatedPepTalk)
+        .isAfter(DateTime(now.year, now.month, now.day, 0, 00))) {
+      try {
+        return Right(await nativeDataSource.pepTalk);
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
+    if (await networkInfo.isConnected) {
+      try {
+        PepTalkModel cloudData = await remoteDataSource.getMotivationOfTheDay();
+        if (cloudData != null) {
+          result = Right(cloudData);
+          nativeDataSource.deleteTalkTable();
+          nativeDataSource.addPepTalk(cloudData);
+        } else {
+          try {
+            PepTalkModel nativeData = await nativeDataSource.pepTalk;
+            if (nativeData != null) {
+              result = Right(nativeData);
+            } else
+              result = Left(ServerFailure());
+          } on Exception {
+            result = Left(NativeDatabaseException());
+          }
+        }
+      } on Exception {
+        result = Left(ServerFailure());
+      }
+
+      sharedPref.updateChallenge(now);
+    } else {
+      try {
+        PepTalkModel nativeData = await nativeDataSource.pepTalk;
+        if (nativeData != null) {
+          result = Right(nativeData);
+        } else
+          result = Left(ServerFailure());
+      } on Exception {
+        result = Left(NativeDatabaseException());
+      }
+    }
+    return result;
   }
 }

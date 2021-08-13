@@ -14,8 +14,8 @@ class Loading extends OnboardingState {}
 
 class SignInCompleted extends OnboardingState {}
 
-class Error extends OnboardingState {
-  Error({@required this.message});
+class SigninError extends OnboardingState {
+  SigninError({@required this.message});
 
   final String message;
 

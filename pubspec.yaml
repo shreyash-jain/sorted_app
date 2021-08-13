@@ -26,14 +26,14 @@ dependencies:
 
   cached_network_image:
   camera:
-
+  pin_code_fields:
   connectivity:
   crop:
   csv:
   flutter_staggered_grid_view:
   cupertino_icons:
   video_player: "2.1.5"
-
+  confetti:
   dartz:
   data_connection_checker:
   youtube_player_flutter:
@@ -105,6 +105,8 @@ dependencies:
   dart_jsonwebtoken:
   cashfree_pg:
   jitsi_meet:
+  just_audio:
+  audio_session:
 
 dev_dependencies:
   auto_route_generator:

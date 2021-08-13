@@ -20,7 +20,6 @@ class LoginPage extends StatefulWidget {
   final String message;
   LoginPage({
     this.userDetail,
-
     this.valid,
     this.message,
     Key key,
@@ -34,14 +33,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   int _currentPage = 0;
   Animation<double> scaleAnimation;
   AnimationController scaleController;
+  UserIntroductionBloc bloc;
 
   final _numPages = 2;
   final PageController _pageController = PageController(initialPage: 0);
 
-  Color scaleColor = Colors.transparent;
+  Color scaleColor = Colors.white;
 
   @override
   void initState() {
+    bloc = BlocProvider.of<UserIntroductionBloc>(context);
     super.initState();
     setUpScaleAnimation();
 
@@ -162,7 +163,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: Icon(
                                   Icons.check,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   size: 45.0,
                                 ),
                               ),
@@ -198,18 +199,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   moveDown() {
-    print("button down");
-    if (_currentPage + 1 == _numPages - 1) {
-      print("add openbottomsheet");
-      // BlocProvider.of<OnboardingBloc>(context).add(OpenBottomSheet());
+    if ((bloc.state is LoginState)) {
+
+      
+      if ((bloc.state as LoginState).isPhoneCorrect)
+        setState(() {
+          _pageController.animateToPage(
+            _currentPage + 1,
+            duration: Duration(milliseconds: 800),
+            curve: Curves.easeInOut,
+          );
+        });
+     
     }
-    setState(() {
-      _pageController.animateToPage(
-        _currentPage + 1,
-        duration: Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-      );
-    });
   }
 
   moveUp() {
@@ -231,9 +233,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ..addStatusListener((status) async {
             if (status == AnimationStatus.completed) {
               print("done");
-
-              BlocProvider.of<UserIntroductionBloc>(context)
-                  .add(SaveDetails(widget.userDetail));
+              if (bloc.state is LoginState) {
+                bloc.add(SaveDetails((bloc.state as LoginState).userDetail,
+                    (bloc.state as LoginState).healthProfile));
+              }
             }
           });
     scaleAnimation =

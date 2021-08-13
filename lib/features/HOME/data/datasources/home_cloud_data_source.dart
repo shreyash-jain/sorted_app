@@ -6,10 +6,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
+import 'package:sorted/features/FEED/data/models/feed_model.dart';
+import 'package:sorted/features/FEED/domain/entities/feed_post_entity.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
+import 'package:sorted/features/HOME/data/models/challenge_model.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
+import 'package:sorted/features/HOME/data/models/motivation/pep_talks.dart';
+import 'package:sorted/features/HOME/data/models/motivation/transformation.dart';
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
@@ -18,7 +23,7 @@ import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
 import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
-import 'package:sorted/features/HOME/data/models/transformation.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -59,6 +64,14 @@ abstract class HomeCloud {
   Future<List<RecipeHowTo>> getRecipeHowto(int recipeId);
 
   Future<List<RecipeToIngredient>> getIngregientQuantities(int recipeId);
+
+  Future<int> addPost(PostModel post);
+
+  Future<ChallengeModel> getChallengeOfTheDay();
+
+  Future<FeedPostEntity> getFeed(int limit, DocumentSnapshot<Object> lastDoc);
+
+  Future<PepTalkModel> getMotivationOfTheDay();
 }
 
 class HomeCloudDataSourceImpl implements HomeCloud {
@@ -530,6 +543,84 @@ class HomeCloudDataSourceImpl implements HomeCloud {
       return list;
     } else
       return [];
+  }
+
+  @override
+  Future<int> addPost(PostModel post) {
+    User user = auth.currentUser;
+    post = post.copyWith(
+        senderId: user.uid,
+        senderName: auth.currentUser.displayName,
+        senderUrl: auth.currentUser.photoURL);
+
+    var docId = cloudDb
+        .collection('feed')
+        .doc('unmoderated')
+        .collection("posts")
+        .doc()
+        .id;
+
+    DocumentReference ref = cloudDb
+        .collection('feed')
+        .doc('unmoderated')
+        .collection("posts")
+        .doc(docId);
+
+    ref.set(post.toMap());
+  }
+
+  @override
+  Future<ChallengeModel> getChallengeOfTheDay() async {
+    int number = next(1, 34);
+
+    var snapShot = await cloudDb
+        .collection('ChallengesDb/data/Challenges')
+        .doc('$number')
+        .get();
+        
+    if (snapShot != null && snapShot.exists) {
+      return ChallengeModel.fromMap(snapShot.data() as Map);
+    }
+    return Future.value(ChallengeModel(id: -1));
+  }
+
+  @override
+  Future<FeedPostEntity> getFeed(
+      int limit, DocumentSnapshot<Object> lastDoc) async {
+    FeedPostEntity newfeed = FeedPostEntity();
+    QuerySnapshot<Map<String, dynamic>> snapShot;
+    if (lastDoc != null)
+      snapShot = await cloudDb
+          .collection('feed/moderated/posts')
+          .startAfterDocument(lastDoc)
+          .limit(limit)
+          .get();
+    else
+      snapShot =
+          await cloudDb.collection('feed/moderated/posts').limit(limit).get();
+    if (snapShot != null && snapShot.docs.length != 0) {
+      final List<DocumentSnapshot> documents = snapShot.docs;
+      var list =
+          documents.map((e) => PostModel.fromMap(e.data() as Map)).toList();
+      newfeed.posts = list;
+      newfeed.lastDoc = snapShot.docs[snapShot.docs.length - 1];
+      return newfeed;
+    } else
+      return newfeed;
+  }
+
+  @override
+  Future<PepTalkModel> getMotivationOfTheDay() async {
+    var now = DateTime.now();
+    final diff = now.difference(new DateTime(now.year, 1, 1, 0, 0));
+    final diffInDays = diff.inDays;
+    int number = (diffInDays % 40) + 1;
+    var snapShot =
+        await cloudDb.collection('ExpertDb/data/PepTalks').doc('$number').get();
+    if (snapShot != null && snapShot.exists) {
+      return PepTalkModel.fromMap(snapShot.data() as Map);
+    }
+    return Future.value(PepTalkModel(id: -1));
   }
 }
 

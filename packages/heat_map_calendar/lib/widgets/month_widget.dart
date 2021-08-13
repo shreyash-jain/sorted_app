@@ -25,53 +25,66 @@ class MonthWidget extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          height: textContainerHeight,
-          child: Row(
-            children: [
-              SizedBox(
-                width: 2 * margin,
-              ),
-              SizedBox(
-                width: 3 * squareSize + 2 * margin,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    monthsLabels[month.number],
-                    style: textStyle,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 2 * margin,
+          ),
+          Container(
+            height: textContainerHeight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 2 * margin,
+                ),
+                SizedBox(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      monthsLabels[month.number],
+                      style: TextStyle(
+                          fontFamily: "Milliard",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: margin,
-              ),
-            ],
+                SizedBox(
+                  width: margin,
+                ),
+              ],
+            ),
           ),
-        ),
-        Column(
-          children: month.weeks.map((week) {
-            return Row(
-              children: week
-                  .map(
-                    (e) => SquareWidget(
-                      day: e,
-                      activeColor: activeColor,
-                      backgroundColor: backgroundColor,
-                      inavtiveColor: inavtiveColor,
-                      margin: margin,
-                      opacity: e.opacity,
-                      squareSize: squareSize,
-                    ),
-                  )
-                  .toList(),
-            );
-          }).toList(),
-        ),
-      ],
+          SizedBox(
+            height: 2 * margin,
+          ),
+          Column(
+            children: month.weeks.map((week) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: week
+                    .map(
+                      (e) => SquareWidget(
+                        day: e,
+                        activeColor: activeColor,
+                        backgroundColor: backgroundColor,
+                        inavtiveColor: inavtiveColor,
+                        margin: margin,
+                        opacity: e.opacity,
+                        squareSize: squareSize,
+                      ),
+                    )
+                    .toList(),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 }

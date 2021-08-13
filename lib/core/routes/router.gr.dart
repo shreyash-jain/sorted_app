@@ -9,43 +9,45 @@ import 'package:flutter/material.dart' as _i2;
 
 import '../../features/CONNECT/data/models/expert/expert_calendar.dart' as _i31;
 import '../../features/CONNECT/presentation/pages/class/classroom_main.dart'
-    as _i24;
-import '../../features/CONNECT/presentation/pages/class_main.dart' as _i19;
-import '../../features/CONNECT/presentation/pages/request_pages/class_list.dart'
-    as _i17;
-import '../../features/CONNECT/presentation/pages/request_pages/client_consultation_request_form.dart'
-    as _i23;
-import '../../features/CONNECT/presentation/pages/request_pages/package_request.dart'
-    as _i21;
-import '../../features/CONNECT/presentation/pages/request_pages/packages_list.dart'
     as _i22;
-import '../../features/HOME/data/models/blogs.dart' as _i27;
+import '../../features/CONNECT/presentation/pages/class_main.dart' as _i17;
+import '../../features/CONNECT/presentation/pages/request_pages/class_list.dart'
+    as _i15;
+import '../../features/CONNECT/presentation/pages/request_pages/client_consultation_request_form.dart'
+    as _i21;
+import '../../features/CONNECT/presentation/pages/request_pages/package_request.dart'
+    as _i19;
+import '../../features/CONNECT/presentation/pages/request_pages/packages_list.dart'
+    as _i20;
+import '../../features/HOME/data/models/blogs.dart' as _i28;
 import '../../features/HOME/data/models/class_model.dart' as _i32;
-import '../../features/HOME/data/models/recipes/recipe.dart' as _i28;
-import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i29;
-import '../../features/HOME/domain/entities/day_affirmations.dart' as _i25;
+import '../../features/HOME/data/models/motivation/pep_talks.dart' as _i33;
+import '../../features/HOME/data/models/recipes/recipe.dart' as _i29;
+import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i30;
+import '../../features/HOME/domain/entities/day_affirmations.dart' as _i26;
 import '../../features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart'
-    as _i26;
+    as _i27;
 import '../../features/HOME/presentation/pages/affirmation_pv.dart' as _i8;
-import '../../features/HOME/presentation/pages/blog_full_page.dart' as _i14;
+import '../../features/HOME/presentation/pages/blog_full_page.dart' as _i13;
 import '../../features/HOME/presentation/pages/challenge_pv.dart' as _i11;
+import '../../features/HOME/presentation/pages/fit_info_pv.dart' as _i24;
 import '../../features/HOME/presentation/pages/homePage.dart' as _i7;
-import '../../features/HOME/presentation/pages/recipe_full_page.dart' as _i15;
+import '../../features/HOME/presentation/pages/recipe_full_page.dart' as _i14;
 import '../../features/HOME/presentation/pages/rootPage.dart' as _i10;
+import '../../features/HOME/presentation/widgets/pep_talk_player.dart' as _i23;
 import '../../features/ONBOARDING/presentation/pages/onboard_page.dart' as _i5;
 import '../../features/ONSTART/presentation/pages/start_page.dart' as _i4;
-import '../../features/PAYMENTS/presentation/pages/test_payment.dart' as _i18;
+import '../../features/PAYMENTS/presentation/pages/test_payment.dart' as _i16;
 import '../../features/SETTINGS/presentation/pages/settings_page.dart' as _i9;
 import '../../features/SPLASH/splash.dart' as _i3;
-import '../../features/TRACKERS/COMMON/models/track_model.dart' as _i30;
-import '../../features/TRACKERS/TRACK_STORE/presentation/pages/about_track_page.dart'
-    as _i16;
-import '../../features/TRACKERS/TRACK_STORE/presentation/pages/track_store_main.dart'
-    as _i12;
+import '../../features/TRACKERS/COMMON/models/track_model.dart' as _i34;
+import '../../features/TRACKERS/COMMON/models/track_summary.dart' as _i35;
+import '../../features/TRACKERS/presentation/pages/track_analysis_page.dart'
+    as _i25;
 import '../../features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart'
     as _i6;
-import '../../features/VIDEO_APP/presentation/pages/video_page.dart' as _i13;
-import '../services/cashfree_gateway.dart' as _i20;
+import '../../features/VIDEO_APP/presentation/pages/video_page.dart' as _i12;
+import '../services/cashfree_gateway.dart' as _i18;
 
 class ARouter extends _i1.RootStackRouter {
   ARouter([_i2.GlobalKey<_i2.NavigatorState> navigatorKey])
@@ -114,73 +116,61 @@ class ARouter extends _i1.RootStackRouter {
         builder: (_) {
           return const _i11.ChallengePageView();
         }),
-    TrackStoreMain.name: (routeData) => _i1.MaterialPageX<dynamic>(
-        routeData: routeData,
-        builder: (_) {
-          return _i12.TrackStoreMain();
-        }),
     VideoRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i13.VideoPage();
+          return _i12.VideoPage();
         }),
     FullBlogRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<FullBlogRouteArgs>(
               orElse: () => const FullBlogRouteArgs());
-          return _i14.FullBlogPage(key: args.key, blog: args.blog);
+          return _i13.FullBlogPage(key: args.key, blog: args.blog);
         }),
     RecipeRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<RecipeRouteArgs>(
               orElse: () => const RecipeRouteArgs());
-          return _i15.RecipePage(
+          return _i14.RecipePage(
               key: args.key,
               type: args.type,
               recipe: args.recipe,
               taggedRecipe: args.taggedRecipe);
-        }),
-    AboutTrackRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
-        routeData: routeData,
-        builder: (data) {
-          final args = data.argsAs<AboutTrackRouteArgs>(
-              orElse: () => const AboutTrackRouteArgs());
-          return _i16.AboutTrackPage(track: args.track);
         }),
     ClassListRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<ClassListRouteArgs>(
               orElse: () => const ClassListRouteArgs());
-          return _i17.ClassListPage(key: args.key, classId: args.classId);
+          return _i15.ClassListPage(key: args.key, classId: args.classId);
         }),
     TestPayment.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<TestPaymentArgs>(
               orElse: () => const TestPaymentArgs());
-          return _i18.TestPayment(key: args.key);
+          return _i16.TestPayment(key: args.key);
         }),
     ClassMain.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args =
               data.argsAs<ClassMainArgs>(orElse: () => const ClassMainArgs());
-          return _i19.ClassMain(key: args.key);
+          return _i17.ClassMain(key: args.key);
         }),
     CashFreeTest.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i20.CashFreeTest();
+          return _i18.CashFreeTest();
         }),
     ExpertPackageRequestRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<ExpertPackageRequestRouteArgs>(
               orElse: () => const ExpertPackageRequestRouteArgs());
-          return _i21.ExpertPackageRequestPage(
+          return _i19.ExpertPackageRequestPage(
               key: args.key, packageId: args.packageId);
         }),
     ExpertPackagesCatalogue.name: (routeData) => _i1.MaterialPageX<dynamic>(
@@ -188,7 +178,7 @@ class ARouter extends _i1.RootStackRouter {
         builder: (data) {
           final args = data.argsAs<ExpertPackagesCatalogueArgs>(
               orElse: () => const ExpertPackagesCatalogueArgs());
-          return _i22.ExpertPackagesCatalogue(
+          return _i20.ExpertPackagesCatalogue(
               key: args.key, expertId: args.expertId);
         }),
     ClientRequestForm.name: (routeData) => _i1.MaterialPageX<dynamic>(
@@ -196,7 +186,7 @@ class ARouter extends _i1.RootStackRouter {
         builder: (data) {
           final args = data.argsAs<ClientRequestFormArgs>(
               orElse: () => const ClientRequestFormArgs());
-          return _i23.ClientRequestForm(
+          return _i21.ClientRequestForm(
               key: args.key,
               calendarModel: args.calendarModel,
               packageType: args.packageType,
@@ -207,7 +197,32 @@ class ARouter extends _i1.RootStackRouter {
         builder: (data) {
           final args = data.argsAs<ClassroomMainArgs>(
               orElse: () => const ClassroomMainArgs());
-          return _i24.ClassroomMain(key: args.key, classroom: args.classroom);
+          return _i22.ClassroomMain(key: args.key, classroom: args.classroom);
+        }),
+    PepTalkPlayer.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<PepTalkPlayerArgs>(
+              orElse: () => const PepTalkPlayerArgs());
+          return _i23.PepTalkPlayer(key: args.key, talk: args.talk);
+        }),
+    FitInfoPV.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args =
+              data.argsAs<FitInfoPVArgs>(orElse: () => const FitInfoPVArgs());
+          return _i24.FitInfoPV(
+              key: args.key,
+              trackModel: args.trackModel,
+              summary: args.summary);
+        }),
+    PerformanceAnalysisRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<PerformanceAnalysisRouteArgs>(
+              orElse: () => const PerformanceAnalysisRouteArgs());
+          return _i25.PerformanceAnalysisPage(
+              key: args.key, summary: args.summary, track: args.track);
         })
   };
 
@@ -222,11 +237,9 @@ class ARouter extends _i1.RootStackRouter {
         _i1.RouteConfig(SettingsRoute.name, path: '/settings-page'),
         _i1.RouteConfig(RootHome.name, path: '/root-home'),
         _i1.RouteConfig(ChallengeRouteView.name, path: '/challenge-page-view'),
-        _i1.RouteConfig(TrackStoreMain.name, path: '/track-store-main'),
         _i1.RouteConfig(VideoRoute.name, path: '/video-page'),
         _i1.RouteConfig(FullBlogRoute.name, path: '/full-blog-page'),
         _i1.RouteConfig(RecipeRoute.name, path: '/recipe-page'),
-        _i1.RouteConfig(AboutTrackRoute.name, path: '/about-track-page'),
         _i1.RouteConfig(ClassListRoute.name, path: '/class-list-page'),
         _i1.RouteConfig(TestPayment.name, path: '/test-payment'),
         _i1.RouteConfig(ClassMain.name, path: '/class-main'),
@@ -236,7 +249,11 @@ class ARouter extends _i1.RootStackRouter {
         _i1.RouteConfig(ExpertPackagesCatalogue.name,
             path: '/expert-packages-catalogue'),
         _i1.RouteConfig(ClientRequestForm.name, path: '/client-request-form'),
-        _i1.RouteConfig(ClassroomMain.name, path: '/classroom-main')
+        _i1.RouteConfig(ClassroomMain.name, path: '/classroom-main'),
+        _i1.RouteConfig(PepTalkPlayer.name, path: '/pep-talk-player'),
+        _i1.RouteConfig(FitInfoPV.name, path: '/fit-info-pV'),
+        _i1.RouteConfig(PerformanceAnalysisRoute.name,
+            path: '/performance-analysis-page')
       ];
 }
 
@@ -316,9 +333,9 @@ class SortedHomeArgs {
 class AffirmationPV extends _i1.PageRouteInfo<AffirmationPVArgs> {
   AffirmationPV(
       {_i2.Key key,
-      List<_i25.DayAffirmation> affirmations,
+      List<_i26.DayAffirmation> affirmations,
       int startIndex,
-      _i26.AffirmationBloc outerBloc})
+      _i27.AffirmationBloc outerBloc})
       : super(name,
             path: '/affirmation-pV',
             args: AffirmationPVArgs(
@@ -336,11 +353,11 @@ class AffirmationPVArgs {
 
   final _i2.Key key;
 
-  final List<_i25.DayAffirmation> affirmations;
+  final List<_i26.DayAffirmation> affirmations;
 
   final int startIndex;
 
-  final _i26.AffirmationBloc outerBloc;
+  final _i27.AffirmationBloc outerBloc;
 }
 
 class SettingsRoute extends _i1.PageRouteInfo<SettingsRouteArgs> {
@@ -368,12 +385,6 @@ class ChallengeRouteView extends _i1.PageRouteInfo {
   static const String name = 'ChallengeRouteView';
 }
 
-class TrackStoreMain extends _i1.PageRouteInfo {
-  const TrackStoreMain() : super(name, path: '/track-store-main');
-
-  static const String name = 'TrackStoreMain';
-}
-
 class VideoRoute extends _i1.PageRouteInfo {
   const VideoRoute() : super(name, path: '/video-page');
 
@@ -381,7 +392,7 @@ class VideoRoute extends _i1.PageRouteInfo {
 }
 
 class FullBlogRoute extends _i1.PageRouteInfo<FullBlogRouteArgs> {
-  FullBlogRoute({_i2.Key key, _i27.BlogModel blog})
+  FullBlogRoute({_i2.Key key, _i28.BlogModel blog})
       : super(name,
             path: '/full-blog-page',
             args: FullBlogRouteArgs(key: key, blog: blog));
@@ -394,15 +405,15 @@ class FullBlogRouteArgs {
 
   final _i2.Key key;
 
-  final _i27.BlogModel blog;
+  final _i28.BlogModel blog;
 }
 
 class RecipeRoute extends _i1.PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute(
       {_i2.Key key,
       int type,
-      _i28.RecipeModel recipe,
-      _i29.TaggedRecipe taggedRecipe})
+      _i29.RecipeModel recipe,
+      _i30.TaggedRecipe taggedRecipe})
       : super(name,
             path: '/recipe-page',
             args: RecipeRouteArgs(
@@ -421,23 +432,9 @@ class RecipeRouteArgs {
 
   final int type;
 
-  final _i28.RecipeModel recipe;
+  final _i29.RecipeModel recipe;
 
-  final _i29.TaggedRecipe taggedRecipe;
-}
-
-class AboutTrackRoute extends _i1.PageRouteInfo<AboutTrackRouteArgs> {
-  AboutTrackRoute({_i30.TrackModel track})
-      : super(name,
-            path: '/about-track-page', args: AboutTrackRouteArgs(track: track));
-
-  static const String name = 'AboutTrackRoute';
-}
-
-class AboutTrackRouteArgs {
-  const AboutTrackRouteArgs({this.track});
-
-  final _i30.TrackModel track;
+  final _i30.TaggedRecipe taggedRecipe;
 }
 
 class ClassListRoute extends _i1.PageRouteInfo<ClassListRouteArgs> {
@@ -573,4 +570,64 @@ class ClassroomMainArgs {
   final _i2.Key key;
 
   final _i32.ClassModel classroom;
+}
+
+class PepTalkPlayer extends _i1.PageRouteInfo<PepTalkPlayerArgs> {
+  PepTalkPlayer({_i2.Key key, _i33.PepTalkModel talk})
+      : super(name,
+            path: '/pep-talk-player',
+            args: PepTalkPlayerArgs(key: key, talk: talk));
+
+  static const String name = 'PepTalkPlayer';
+}
+
+class PepTalkPlayerArgs {
+  const PepTalkPlayerArgs({this.key, this.talk});
+
+  final _i2.Key key;
+
+  final _i33.PepTalkModel talk;
+}
+
+class FitInfoPV extends _i1.PageRouteInfo<FitInfoPVArgs> {
+  FitInfoPV(
+      {_i2.Key key, _i34.TrackModel trackModel, _i35.TrackSummary summary})
+      : super(name,
+            path: '/fit-info-pV',
+            args: FitInfoPVArgs(
+                key: key, trackModel: trackModel, summary: summary));
+
+  static const String name = 'FitInfoPV';
+}
+
+class FitInfoPVArgs {
+  const FitInfoPVArgs({this.key, this.trackModel, this.summary});
+
+  final _i2.Key key;
+
+  final _i34.TrackModel trackModel;
+
+  final _i35.TrackSummary summary;
+}
+
+class PerformanceAnalysisRoute
+    extends _i1.PageRouteInfo<PerformanceAnalysisRouteArgs> {
+  PerformanceAnalysisRoute(
+      {_i2.Key key, _i35.TrackSummary summary, _i34.TrackModel track})
+      : super(name,
+            path: '/performance-analysis-page',
+            args: PerformanceAnalysisRouteArgs(
+                key: key, summary: summary, track: track));
+
+  static const String name = 'PerformanceAnalysisRoute';
+}
+
+class PerformanceAnalysisRouteArgs {
+  const PerformanceAnalysisRouteArgs({this.key, this.summary, this.track});
+
+  final _i2.Key key;
+
+  final _i35.TrackSummary summary;
+
+  final _i34.TrackModel track;
 }

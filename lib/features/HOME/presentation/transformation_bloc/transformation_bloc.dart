@@ -4,8 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
+import 'package:sorted/features/HOME/data/models/motivation/transformation.dart';
 import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
-import 'package:sorted/features/HOME/data/models/transformation.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
 import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
 part 'transformation_event.dart';
@@ -27,7 +28,7 @@ class TransformationBloc
       var transformationOrError = await repository.getTransformationStory();
       transformationOrError.fold((l) => failure = l, (r) => trans = r);
 
-      if (failure == null)
+      if (failure == null && trans.id!=-1)
         yield HomePageTransformationLoaded(trans);
       else {
         yield TransformationError(Failure.mapToString(failure));

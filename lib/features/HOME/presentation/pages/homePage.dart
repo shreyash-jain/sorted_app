@@ -60,9 +60,9 @@ class _SortedHomeState extends State<SortedHome>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   BlogBloc blogBloc;
   StreamSubscription<DeepLinkType> _deeplinkSubscription;
-  TransformationBloc transBloc;
+  
   DeeplinkBloc deeplinkBloc;
-  RecipeBloc recipeBloc;
+
   var bottomNavIndex = 0;
   int currentBottomTab;
   int currentSideTab;
@@ -108,8 +108,7 @@ class _SortedHomeState extends State<SortedHome>
 
     tab_Controller = new TabController(length: 2, vsync: this);
     blogBloc = sl<BlogBloc>()..add(LoadBlogs());
-    recipeBloc = sl<RecipeBloc>()..add(LoadRecipes());
-    transBloc = sl<TransformationBloc>()..add(LoadTransformation());
+
 
     nestedScrollController = new ScrollController(
       // NEW
@@ -167,29 +166,6 @@ class _SortedHomeState extends State<SortedHome>
   }
 
   void _changeFilterState() {}
-
-  void onSideTabSelected(int toIndex) {
-    print(toIndex);
-
-    if (toIndex == 0) {
-      print("introspect");
-      context.router.push(
-        TrackStoreMain(),
-      );
-    } else if (toIndex == 1) {
-      print("plan");
-    } else if (toIndex == 2) {
-      print("record");
-    }
-    if (currentSideTab == toIndex)
-      setState(() {
-        currentSideTab = null;
-      });
-    else
-      setState(() {
-        currentSideTab = toIndex;
-      });
-  }
 
   void onBottomTabSelected(int index) {
     setState(() {
@@ -304,18 +280,9 @@ class _SortedHomeState extends State<SortedHome>
                                 width: Gparam.width,
                                 duration: Duration(milliseconds: 700),
                                 child: ListView(children: <Widget>[
-                                  HomePlanner(),
                                   ClientEnrollHomeWidget(),
-                                  Row(
-                                    children: [
-                                      HomeTransformationWidgetM(
-                                        transBloc: transBloc,
-                                      ),
-                                    ],
-                                  ),
-                                  HomeRecipeWidget(
-                                    recipeBloc: recipeBloc,
-                                  ),
+                                  HomePlanner(),
+                                 
                                   HomeBlogWidget(blogBloc: blogBloc),
                                   SizedBox(
                                     height: 100,

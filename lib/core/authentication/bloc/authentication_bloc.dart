@@ -46,7 +46,7 @@ class AuthenticationBloc
       Either<Failure, User> user =
           await _authenticationRepository.currentUser();
       user.fold((l) => print("user already Logged out"),
-          (r) => unawaited(_authenticationRepository.logOut(r)));
+          (r) => unawaited(_authenticationRepository.logOut()));
     }
   }
 
@@ -65,11 +65,12 @@ class AuthenticationBloc
       print("check native user details");
       var fOrD = await _userIntroRepository.getUserDetailsNative();
       yield fOrD.fold((l) => const AuthenticationState.unauthenticated(), (r) {
-        if (r.id == -1) {
+        if (r.id == "") {
           print("auth but not recognized ");
           return const AuthenticationState.unauthenticated();
         } else {
           print("auth but recognized ");
+          
           CacheDataClass.cacheData.setUserDetail(r);
           return AuthenticationState.authenticated(event.user);
         }

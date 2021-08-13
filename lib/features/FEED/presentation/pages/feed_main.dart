@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/features/FEED/presentation/widgets/image_post.dart';
+import 'package:sorted/features/HOME/presentation/recipe_bloc/recipe_bloc.dart';
+import 'package:sorted/features/HOME/presentation/transformation_bloc/transformation_bloc.dart';
+import 'package:sorted/features/HOME/presentation/widgets/recipes/home_recipe.dart';
+import 'package:sorted/features/HOME/presentation/widgets/transformation/transformation_widget.m.dart';
 
 class FeedHomePage extends StatefulWidget {
   FeedHomePage({Key key}) : super(key: key);
@@ -10,6 +15,16 @@ class FeedHomePage extends StatefulWidget {
 }
 
 class _FeedHomePageState extends State<FeedHomePage> {
+  TransformationBloc transBloc;
+  RecipeBloc recipeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    recipeBloc = sl<RecipeBloc>()..add(LoadRecipes());
+    transBloc = sl<TransformationBloc>()..add(LoadTransformation());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,6 +160,20 @@ class _FeedHomePageState extends State<FeedHomePage> {
                         ),
                       ],
                     )),
+
+                    
+                Row(
+                  children: [
+                    HomeTransformationWidgetM(
+                      transBloc: transBloc,
+                    ),
+                  ],
+                ),
+
+                HomeRecipeWidget(
+                  recipeBloc: recipeBloc,
+                ),
+
                 Padding(
                   padding: EdgeInsets.all(Gparam.widthPadding / 2),
                   child: ImagePost(

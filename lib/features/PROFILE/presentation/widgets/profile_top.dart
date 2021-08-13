@@ -58,7 +58,7 @@ class ProfileTop extends StatelessWidget {
                     name,
                     style: TextStyle(
                         fontFamily: 'Milliard',
-                        fontSize: Gparam.textVerySmall,
+                        fontSize: Gparam.textSmall,
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).highlightColor),
                     textAlign: TextAlign.left,
@@ -67,21 +67,21 @@ class ProfileTop extends StatelessWidget {
                 SizedBox(
                   height: 4,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: Gparam.widthPadding / 2),
-                  child: Text(
-                    state.profile?.status ?? "",
-                    style: TextStyle(
-                        fontFamily: 'Milliard',
-                        fontSize: Gparam.textVerySmall,
-                        fontWeight: FontWeight.w300,
-                        color: Theme.of(context).highlightColor),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(left: Gparam.widthPadding / 2),
+                //   child: Text(
+                //     state.profile?.status ?? "",
+                //     style: TextStyle(
+                //         fontFamily: 'Milliard',
+                //         fontSize: Gparam.textVerySmall,
+                //         fontWeight: FontWeight.w300,
+                //         color: Theme.of(context).highlightColor),
+                //     textAlign: TextAlign.left,
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 8,
+                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

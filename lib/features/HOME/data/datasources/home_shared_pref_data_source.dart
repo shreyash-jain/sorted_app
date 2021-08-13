@@ -15,6 +15,18 @@ abstract class HomeSharedPref {
   Future<void> updateInspiration(DateTime filled);
   Future<void> updateThumbnailDetail(DateTime filled);
   Future<void> updatePlaceholderDetail(DateTime filled);
+
+  Future<DateTime> get lastUpdatedPepTalk;
+  Future<DateTime> get lastUpdatedChallenge;
+  Future<DateTime> get lastUpdatedTranformationStory;
+  Future<DateTime> get lastUpdatedInfo;
+  Future<DateTime> get lastUpdatedRecipes;
+
+  Future<void> updatePeptalk(DateTime filled);
+  Future<void> updateChallenge(DateTime filled);
+  Future<void> updateTransformationStory(DateTime filled);
+  Future<void> updateInfo(DateTime filled);
+  Future<void> updateRecipes(DateTime filled);
 }
 
 const LOGGED_IN_STATE_TAG = 'LoggedIn';
@@ -24,6 +36,11 @@ const LAST_UPDATED_AFFIRMATIONS_TAG = 'affirmations_last_updated';
 const LAST_UPDATED_THUMBNAILS_TAG = 'thumbnail_last_updated';
 const LAST_UPDATED_PLACEHOLDER_TAG = 'placeholder_last_updated';
 const CURRENT_DEVICE_NAME_ID_TAG = 'device_name';
+const LAST_UPDATED_CHALLENGE_TAG = 'challenge_last_updated';
+const LAST_UPDATED_INFO_TAG = 'updated_last_info';
+const LAST_UPDATED_PEPTALK_TAG = 'updated_last_peptalk';
+const LAST_UPDATED_TSTORY_TAG = 'updated_last_tstory';
+const LAST_UPDATED_RECIPE_TAG = 'updated_last_recipe';
 
 class HomeSharedPrefDataSourceImpl implements HomeSharedPref {
   final SharedPreferences sharedPreferences;
@@ -180,6 +197,132 @@ class HomeSharedPrefDataSourceImpl implements HomeSharedPref {
   Future<void> updateDeviceName(String name) async {
     try {
       sharedPreferences.setString(CURRENT_DEVICE_NAME_ID_TAG, name);
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<DateTime> get lastUpdatedChallenge async {
+    String lastUpdatedValue =
+        DateTime.now().add(Duration(days: -10)).toIso8601String();
+    if (sharedPreferences.getString(LAST_UPDATED_CHALLENGE_TAG) != null) {
+      lastUpdatedValue =
+          sharedPreferences.getString(LAST_UPDATED_CHALLENGE_TAG);
+    }
+
+    try {
+      return Future.value(DateTime.parse(lastUpdatedValue));
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<DateTime> get lastUpdatedInfo async {
+    String lastUpdatedValue =
+        DateTime.now().add(Duration(days: -10)).toIso8601String();
+    if (sharedPreferences.getString(LAST_UPDATED_INFO_TAG) != null) {
+      lastUpdatedValue = sharedPreferences.getString(LAST_UPDATED_INFO_TAG);
+    }
+
+    try {
+      return Future.value(DateTime.parse(lastUpdatedValue));
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<DateTime> get lastUpdatedPepTalk async {
+    String lastUpdatedValue =
+        DateTime.now().add(Duration(days: -10)).toIso8601String();
+    if (sharedPreferences.getString(LAST_UPDATED_PEPTALK_TAG) != null) {
+      lastUpdatedValue = sharedPreferences.getString(LAST_UPDATED_PEPTALK_TAG);
+    }
+
+    try {
+      return Future.value(DateTime.parse(lastUpdatedValue));
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<DateTime> get lastUpdatedRecipes async {
+    String lastUpdatedValue =
+        DateTime.now().add(Duration(days: -10)).toIso8601String();
+    if (sharedPreferences.getString(LAST_UPDATED_RECIPE_TAG) != null) {
+      lastUpdatedValue = sharedPreferences.getString(LAST_UPDATED_RECIPE_TAG);
+    }
+
+    try {
+      return Future.value(DateTime.parse(lastUpdatedValue));
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<DateTime> get lastUpdatedTranformationStory async {
+    String lastUpdatedValue =
+        DateTime.now().add(Duration(days: -10)).toIso8601String();
+    if (sharedPreferences.getString(LAST_UPDATED_TSTORY_TAG) != null) {
+      lastUpdatedValue = sharedPreferences.getString(LAST_UPDATED_TSTORY_TAG);
+    }
+
+    try {
+      return Future.value(DateTime.parse(lastUpdatedValue));
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> updateChallenge(DateTime filled) {
+    try {
+      sharedPreferences.setString(
+          LAST_UPDATED_CHALLENGE_TAG, filled.toIso8601String());
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> updateInfo(DateTime filled) {
+    try {
+      sharedPreferences.setString(
+          LAST_UPDATED_INFO_TAG, filled.toIso8601String());
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> updatePeptalk(DateTime filled) {
+    try {
+      sharedPreferences.setString(
+          LAST_UPDATED_PEPTALK_TAG, filled.toIso8601String());
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> updateRecipes(DateTime filled) {
+    try {
+      sharedPreferences.setString(
+          LAST_UPDATED_RECIPE_TAG, filled.toIso8601String());
+    } on Exception {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> updateTransformationStory(DateTime filled) {
+    try {
+      sharedPreferences.setString(
+          LAST_UPDATED_TSTORY_TAG, filled.toIso8601String());
     } on Exception {
       throw CacheException();
     }

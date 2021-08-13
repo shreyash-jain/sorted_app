@@ -55,7 +55,7 @@ class StackConatinerBack extends StatelessWidget {
                                           color: Colors.black12,
                                           width: 3 / scaleAnimation.value),
                                       borderRadius: BorderRadius.all(
-                                          Radius.circular(50))),
+                                          Radius.circular(10))),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,

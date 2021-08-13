@@ -6,6 +6,7 @@ import 'package:sorted/features/CONNECT/presentation/resources/class_resources.d
 import 'package:sorted/features/CONNECT/presentation/widgets/chat/chat_main.dart';
 import 'package:sorted/features/CONNECT/presentation/widgets/summary/class_summary.dart';
 import 'package:sorted/features/CONNECT/presentation/workout/classroom_workout.dart';
+
 import 'package:sorted/features/HOME/data/models/class_model.dart';
 
 class ClassroomMain extends StatefulWidget {

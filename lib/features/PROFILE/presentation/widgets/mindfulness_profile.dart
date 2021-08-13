@@ -143,63 +143,20 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                     height: 2,
                   ),
                   Container(
-                    height: 40,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount:
-                          state.profile?.mindfulness_skills?.length ?? 1 + 1,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == 0) {
-                          return SizedBox(width: Gparam.widthPadding / 3);
-                        }
-                        if (state.profile != null &&
-                            state.profile.mindfulness_skills != null)
-                          return stringTile(
-                              state.profile.mindfulness_skills[index - 1],
-                              context,
-                              state.profile.mindfulness_endorsed[index - 1],
-                              callback);
-                        else
-                          return Container(
-                            margin: EdgeInsets.only(right: 0),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: (Theme.of(context).brightness ==
-                                      Brightness.dark)
-                                  ? Colors.grey.shade900
-                                  : Colors.grey.shade100,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: Offset(1, 1),
-                                    color: Colors.black.withAlpha(2),
-                                    blurRadius: 2)
-                              ],
-                              borderRadius:
-                                  new BorderRadius.all(Radius.circular(10.0)),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Add your mindful skills",
-                                  style: TextStyle(
-                                      fontFamily: 'Milliard',
-                                      fontSize: Gparam.textSmaller,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context)
-                                          .highlightColor
-                                          .withOpacity(.8)),
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Icon(Icons.add)
-                              ],
-                            ),
-                          );
-                      },
-                    ),
-                  ),
+                      height: 36,
+                      child:
+                          ListView(scrollDirection: Axis.horizontal, children: [
+                        mindfulActivityTile("Talk about my feelings",
+                            state.profile.do_talk_ablout_feelings, 0),
+                        mindfulActivityTile(
+                            "Enjoy my work", state.profile.do_enjoy_work, 1),
+                        mindfulActivityTile(
+                            "Do meditate", state.profile.do_meditation, 2),
+                        mindfulActivityTile(
+                            "Love my self", state.profile.do_love_self, 3),
+                        mindfulActivityTile("Think positive",
+                            state.profile.do_stay_positive, 4),
+                      ])),
                   SizedBox(
                     height: 6,
                   ),
@@ -227,7 +184,7 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                         }
 
                         if (state.profile != null &&
-                            state.profile.councellor_name != null)
+                            state.profile.councellor_name.length != 0)
                           return PersonDisplay(
                             name: state.profile?.councellor_name[index - 1] ??
                                 "None",
@@ -250,6 +207,38 @@ class MindfulnessProfileWidhet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget mindfulActivityTile(String s, int value, int i) {
+    return (value == 1)
+        ? GestureDetector(
+            onTap: () {},
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(1, 1),
+                      color: Colors.black.withAlpha(2),
+                      blurRadius: 2)
+                ],
+                borderRadius: new BorderRadius.all(Radius.circular(12.0)),
+              ),
+              child: Text(
+                s,
+                style: TextStyle(
+                    fontFamily: 'Milliard',
+                    fontSize: Gparam.textSmaller,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black.withOpacity(.8)),
+              ),
+            ),
+          )
+        : Container(
+            width: 0,
+          );
   }
 
   void callback() {}

@@ -40,12 +40,10 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
         builder: (context, state) {
           if (state is BottomSheetState) {
             return ButtomSheet();
-          } else if (state is Error) {
-            print("error");
+          } else if (state is SigninError) {
 
-            return MessageDisplay(
-              message: state.message,
-            );
+            
+            return ButtomSheet();
           } else {
             return SizedBox(height: 0);
           }
@@ -68,7 +66,7 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
                 builder: (context, state) {
                   if (state is StartState || state is BottomSheetState) {
                     return OnboardBody();
-                  } else if (state is Error) {
+                  } else if (state is SigninError) {
                     print("error restart");
 
                     return MessageDisplay(
@@ -110,7 +108,6 @@ class _OnboardState extends State<OnboardPage> with TickerProviderStateMixin {
     // than having to individually change instances of widgets.
     return Scaffold(
       key: _scaffoldKey,
-      
 
       body: Center(
         // Center is a layout widget. It takes a single child and positions it

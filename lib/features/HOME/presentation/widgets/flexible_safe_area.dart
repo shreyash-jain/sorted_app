@@ -6,11 +6,16 @@ import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/UnicornOutlineButton.dart';
+import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/core/routes/router.gr.dart';
+import 'package:sorted/features/CONNECT/presentation/widgets/classroom_preview.dart';
 import 'package:sorted/features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart';
+import 'package:sorted/features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart';
+import 'package:sorted/features/HOME/presentation/track_log_bloc/track_log_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/story/story_circle.dart';
-import 'package:sorted/features/TRACKERS/COMMON/fake_data/track_data.dart';
+
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
+import 'package:sorted/features/TRACKERS/COMMON/performance_track_data/track_data.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/widgets/weight_widget.dart/weight_card.dart';
 
 class FlexibleSpaceArea extends StatefulWidget {
@@ -28,7 +33,8 @@ class FlexibleSpaceArea extends StatefulWidget {
 }
 
 class _FlexibleAreaState extends State<FlexibleSpaceArea> {
-  AffirmationBloc affirmationBloc;
+
+  HomeStoriesBloc homeStoriesBloc;
   bool showArrow = true;
   List<TrackModel> tracks = [];
 
@@ -41,7 +47,8 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   void initState() {
     _controller = ScrollController();
     tracks = getTracksForClass();
-    affirmationBloc = sl<AffirmationBloc>();
+   
+    homeStoriesBloc = sl<HomeStoriesBloc>()..add(LoadTrackStories());
 
     _controller.addListener(_scrollListener);
     super.initState();
@@ -151,64 +158,92 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                               ),
                             ],
                           ),
-                          Container(
-                              height: 140,
-                              width: Gparam.width,
-                              margin: EdgeInsets.only(top: 20),
-                              child: ListView(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  SizedBox(
-                                    width: Gparam.widthPadding / 2,
-                                  ),
-                                  StoryCircleWidget(
-                                      storyName: "Daily\nChallenges",
-                                      onClick: onClickChallenges,
-                                      filePath:
-                                          "assets/images/tracks/daily_challenges.png",
-                                      isActive: true,
-                                      urlType: 1),
-                                  ...tracks
-                                      .asMap()
-                                      .entries
-                                      .map(
-                                        (e) => StoryCircleWidget(
-                                            storyName: e.value.name,
-                                            track: e.value,
-                                            onClick: (a, b, c) {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        _buildWeightPopupDialog(
-                                                            context),
-                                              );
-                                            },
-                                            filePath: e.value.icon,
-                                            urlType: 0),
-                                      )
-                                      .toList(),
-                                  StoryCircleWidget(
-                                      storyName: "Track\nWorkout",
-                                      onClick: onClickWorkout,
-                                      filePath:
-                                          "assets/images/tracks/track_workout.png",
-                                      urlType: 1),
-                                  StoryCircleWidget(
-                                      storyName: "Track\nDiet",
-                                      onClick: onClickDiet,
-                                      filePath:
-                                          "assets/images/tracks/track_diet.png",
-                                      urlType: 1),
+                          BlocProvider(
+                            create: (context) => homeStoriesBloc,
+                            child:
+                                BlocBuilder<HomeStoriesBloc, HomeStoriesState>(
+                              builder: (context, state) {
+                                if (state is HomeStoriesLoaded)
+                                  return Container(
+                                      height: 140,
+                                      width: Gparam.width,
+                                      margin: EdgeInsets.only(top: 20),
+                                      child: ListView(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          SizedBox(
+                                            width: Gparam.widthPadding / 2,
+                                          ),
+                                          ...state.subsTracks
+                                              .asMap()
+                                              .entries
+                                              .map(
+                                                (e) => StoryCircleWidget(
+                                                    storyName: e.value.name,
+                                                    track: e.value,
+                                                    isActive:
+                                                        state.isLoading[e.key],
+                                                    onClick: (a, b, c) {
+                                                      // showDialog(
+                                                      //   context: context,
+                                                      //   builder: (BuildContext
+                                                      //           context) =>
+                                                      //       _buildWeightPopupDialog(
+                                                      //           context),
+                                                      // );
 
-                                  // AffirmationCircleWidget(
-                                  //     affirmationBloc: affirmationBloc),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                ],
-                              )),
+                                                      if (state.isLoading[
+                                                              e.key] ==
+                                                          false)
+                                                        new PerformanceLogBloc(
+                                                            sl(),
+                                                            homeStoriesBloc:
+                                                                homeStoriesBloc)
+                                                          ..add(LoadFromStory(
+                                                              state.trackSummaries[
+                                                                  e.key],
+                                                              e.value,
+                                                              context));
+
+                                                      print("Say");
+                                                    },
+                                                    filePath: e.value.icon,
+                                                    urlType: 0),
+                                              )
+                                              .toList(),
+                                          StoryCircleWidget(
+                                              storyName: "Track\nWorkout",
+                                              onClick: onClickWorkout,
+                                              filePath:
+                                                  "assets/images/tracks/track_workout.png",
+                                              urlType: 1),
+                                          StoryCircleWidget(
+                                              storyName: "Track\nDiet",
+                                              onClick: onClickDiet,
+                                              filePath:
+                                                  "assets/images/tracks/track_diet.png",
+                                              urlType: 1),
+                                          // AffirmationCircleWidget(
+                                          //     affirmationBloc: affirmationBloc),
+                                          SizedBox(
+                                            width: 4,
+                                          ),
+                                        ],
+                                      ));
+                                else if (state is HomeStoriesError)
+                                  return Center(
+                                      child: MessageDisplay(
+                                          message: state.message));
+                                else if (state is HomeStoriesInitial)
+                                  return Container(
+                                      height: 140,
+                                      child: ImagePlaceholderWidget());
+                                else
+                                  return Container(height: 0);
+                              },
+                            ),
+                          ),
                         ]),
                   ),
                 ],
@@ -275,8 +310,8 @@ class AffirmationCircleWidget extends StatelessWidget {
                         print("heeeeeelo");
                         //print(affirmationBloc);
 
-                        BlocProvider.of<AffirmationBloc>(context)
-                            .add(LoadStories());
+                        // BlocProvider.of<AffirmationBloc>(context)
+                        //     .add(LoadStories());
 
                         print("heeeeeelo1");
                       },
@@ -514,7 +549,8 @@ class AffirmationCircleWidget extends StatelessWidget {
                             ],
                           )),
                     );
-                  }
+                  } else
+                    return Container(height: 0);
                 }))),
         Padding(
           padding: const EdgeInsets.all(8.0),

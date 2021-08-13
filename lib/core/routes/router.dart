@@ -10,10 +10,12 @@ import 'package:sorted/features/CONNECT/presentation/pages/request_pages/package
 import 'package:sorted/features/HOME/presentation/pages/affirmation_pv.dart';
 import 'package:sorted/features/HOME/presentation/pages/blog_full_page.dart';
 import 'package:sorted/features/HOME/presentation/pages/challenge_pv.dart';
+import 'package:sorted/features/HOME/presentation/pages/fit_info_pv.dart';
 
 import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
 import 'package:sorted/features/HOME/presentation/pages/recipe_full_page.dart';
 import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
+import 'package:sorted/features/HOME/presentation/widgets/pep_talk_player.dart';
 
 import 'package:sorted/features/ONBOARDING/presentation/pages/onboard_page.dart';
 import 'package:sorted/features/ONSTART/presentation/pages/start_page.dart';
@@ -21,9 +23,10 @@ import 'package:sorted/features/PAYMENTS/presentation/pages/test_payment.dart';
 
 import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
 import 'package:sorted/features/SPLASH/splash.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/about_track_page.dart';
+import 'package:sorted/features/TRACKERS/presentation/pages/track_analysis_page.dart';
+
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart';
-import 'package:sorted/features/TRACKERS/TRACK_STORE/presentation/pages/track_store_main.dart';
+
 import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
 
 @MaterialAutoRouter(
@@ -38,11 +41,9 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: SettingsPage),
     AutoRoute(page: RootHome),
     AutoRoute(page: ChallengePageView),
-    AutoRoute(page: TrackStoreMain),
     AutoRoute(page: VideoPage),
     AutoRoute(page: FullBlogPage),
     AutoRoute(page: RecipePage),
-    AutoRoute(page: AboutTrackPage),
     AutoRoute(page: ClassListPage),
     AutoRoute(page: TestPayment),
     AutoRoute(page: ClassMain),
@@ -51,6 +52,9 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: ExpertPackagesCatalogue),
     AutoRoute(page: ClientRequestForm),
     AutoRoute(page: ClassroomMain),
+    AutoRoute(page: PepTalkPlayer),
+    AutoRoute(page: FitInfoPV),
+    AutoRoute(page: PerformanceAnalysisPage),
   ],
 )
 class $ARouter {}

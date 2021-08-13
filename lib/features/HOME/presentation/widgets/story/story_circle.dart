@@ -55,7 +55,6 @@ class StoryCircleWidget extends StatelessWidget {
                 Container(
                     height: 70,
                     width: 70,
-                    margin: EdgeInsets.all(2),
                     decoration: new BoxDecoration(
                       borderRadius: new BorderRadius.all(Radius.circular(60.0)),
                       border: null,
@@ -69,37 +68,34 @@ class StoryCircleWidget extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(0.0),
-                            child: (urlType == 0)
-                                ? CachedNetworkImage(
-                                    errorWidget: (context, url, error) => Icon(
-                                      Icons.error,
-                                      color: Colors.grey,
-                                    ),
-                                    imageUrl: filePath,
-                                    fit: BoxFit.cover,
-                                    height: 70,
-                                    width: 70,
-                                  )
-                                : Container(
-                                    child: Image(
-                                    image: AssetImage(filePath),
-                                    height: 70,
-                                    width: 70,
-                                    fit: BoxFit.cover,
-                                  ))),
+                        if (filePath != "")
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(0.0),
+                              child: (urlType == 0)
+                                  ? CachedNetworkImage(
+                                      errorWidget: (context, url, error) =>
+                                          Icon(
+                                        Icons.error,
+                                        color: Colors.grey,
+                                      ),
+                                      imageUrl: filePath,
+                                      fit: BoxFit.cover,
+                                      height: 70,
+                                      width: 70,
+                                    )
+                                  : Container(
+                                      child: Image(
+                                      image: AssetImage(filePath),
+                                      height: 70,
+                                      width: 70,
+                                      fit: BoxFit.cover,
+                                    ))),
                         if (isActive ?? false)
-                          Positioned(
-                            right: 0,
-                            bottom: 0,
+                          Center(
                             child: Container(
-                              width: 16,
-                              height: 16,
-                              decoration: BoxDecoration(
-                                color: Colors.redAccent, // border color
-                                shape: BoxShape.circle,
-                              ),
+                              width: 80,
+                              height: 80,
+                              child: CircularProgressIndicator(),
                             ),
                           ),
                       ],

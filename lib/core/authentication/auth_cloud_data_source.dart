@@ -8,9 +8,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:googleapis/calendar/v3.dart';
 import 'package:meta/meta.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sorted/core/authentication/GoogleHttpClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
+import 'package:sorted/core/global/entities/day_at_sortit.dart';
 import 'package:sorted/core/global/injection_container.dart';
 
 import 'package:sorted/core/global/models/user_details.dart';
@@ -26,11 +28,12 @@ abstract class AuthCloudDataSource {
   Future<void> updateUserData(User user, bool oldState);
   Future<void> makeSingleSignIn(User user);
   Future<void> updateLastScene(User user);
-  void addUserInCloud(User user);
+
   void updateUserInCloud(UserDetail detail);
   Future<UserDetail> getUserFromCloud();
   Future<void> addUserDetailInCloud(UserDetail detail);
   Future<void> saveDeviceToken();
+  Future<DayAtSortit> getDayAtSortIt();
 }
 
 class AuthCloudDataSourceImpl implements AuthCloudDataSource {
@@ -116,9 +119,18 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await prefs.setBool('onboard', false);
   }
 
+  _write(String text) async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/my_file.txt');
+    await file.writeAsString(text);
+  }
+
   Future<void> saveDeviceToken() async {
     print("token " + saveDeviceToken.toString());
     User user = auth.currentUser;
+
+    var result = await auth.currentUser.getIdToken();
+
     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
     // Get the token for this device
@@ -166,12 +178,14 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     UserDetail userDetail = new UserDetail(
         name: user.displayName,
         email: user.email,
+        id: user.uid,
         imageUrl: user.photoURL,
         currentDevice: deviceName,
         currentDeviceId: deviceId);
     print(2);
 
     sl<CacheDataClass>().setUserDetail(userDetail);
+
     sl<CacheDataClass>().setOldState(oldState);
   }
 
@@ -302,10 +316,46 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
         .collection("user_data")
         .doc("details");
     DocumentSnapshot this_snapshot = await ref.get();
-    if (this_snapshot.data != null)
+    if (this_snapshot.data != null && this_snapshot.exists)
       thisUser = UserDetail.fromSnapshot(await ref.get());
     else
       thisUser = sl<CacheDataClass>().getUserDetail();
     return thisUser;
+  }
+
+  @override
+  Future<DayAtSortit> getDayAtSortIt() async {
+    User user = auth.currentUser;
+    DayAtSortit thisDay;
+    DayAtSortit updatedDay;
+
+    DocumentReference ref = cloudDb
+        .collection('users')
+        .doc(user.uid)
+        .collection("user_data")
+        .doc("day_sortit");
+    DocumentSnapshot this_snapshot = await ref.get();
+    if (this_snapshot != null && this_snapshot.exists) {
+      {
+        thisDay = DayAtSortit.fromMap(this_snapshot.data() as Map);
+        if (!isSameDate(thisDay.loginTime, DateTime.now())) {
+          updatedDay =
+              DayAtSortit(day: thisDay.day + 1, loginTime: DateTime.now());
+          ref.set(updatedDay.toMap());
+        } else
+          updatedDay = thisDay;
+      }
+    } else {
+      updatedDay = DayAtSortit(day: 1, loginTime: DateTime.now());
+      ref.set(updatedDay.toMap());
+    }
+
+    return updatedDay;
+  }
+
+  bool isSameDate(DateTime thisDate, DateTime other) {
+    return thisDate.year == other.year &&
+        thisDate.month == other.month &&
+        thisDate.day == other.day;
   }
 }

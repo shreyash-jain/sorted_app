@@ -6,6 +6,7 @@ import 'package:sorted/core/global/widgets/image_placeholder_widget.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
 import 'package:sorted/features/HOME/presentation/client_enroll_bloc/enroll_bloc.dart';
+import 'package:sorted/features/HOME/presentation/widgets/planner/home_planner.dart';
 import 'package:sorted/features/HOME/presentation/widgets/utils/utils/home_classroom_tile.dart';
 
 class ClientEnrollHomeWidget extends StatefulWidget {
@@ -38,11 +39,10 @@ class _ClientEnrollHomeWidgetState extends State<ClientEnrollHomeWidget> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Gparam.widthPadding),
-                        child: Gtheme.stext("My Classes",
-                            size: GFontSize.S, weight: GFontWeight.B),
+                      HomeDayActivityTile(
+                        assetPath: 'assets/images/classroom.png',
+                        title: "My Fitness Classes",
+                        subTitle: "30-40 min",
                       ),
                       SizedBox(
                         height: 8,
@@ -51,14 +51,18 @@ class _ClientEnrollHomeWidgetState extends State<ClientEnrollHomeWidget> {
                         color: Colors.grey,
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 18,
                       ),
                       if (state.requestedClasses.length > 0)
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: Gparam.widthPadding),
                           child: Gtheme.stext("Requested Class",
-                              size: GFontSize.XXS, weight: GFontWeight.B2),
+                              size: GFontSize.M, weight: GFontWeight.N),
+                        ),
+                      if (state.requestedClasses.length > 0)
+                        SizedBox(
+                          height: 8,
                         ),
                       ...state.requestedClasses
                           .asMap()
@@ -81,7 +85,11 @@ class _ClientEnrollHomeWidgetState extends State<ClientEnrollHomeWidget> {
                           padding: EdgeInsets.symmetric(
                               horizontal: Gparam.widthPadding),
                           child: Gtheme.stext("Enrolled Class",
-                              size: GFontSize.XXS, weight: GFontWeight.B2),
+                              size: GFontSize.M, weight: GFontWeight.N),
+                        ),
+                      if (state.enrolledClasses.length > 0)
+                        SizedBox(
+                          height: 8,
                         ),
                       ...state.enrolledClasses
                           .asMap()

@@ -1,16 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:sorted/features/FEED/data/models/feed_model.dart';
+import 'package:sorted/features/FEED/domain/entities/feed_post_entity.dart';
 import 'package:sorted/features/HOME/data/datasources/home_cloud_data_source.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
+import 'package:sorted/features/HOME/data/models/challenge_model.dart';
 import 'package:sorted/features/HOME/data/models/inspiration.dart';
+import 'package:sorted/features/HOME/data/models/motivation/pep_talks.dart';
+import 'package:sorted/features/HOME/data/models/motivation/transformation.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
 import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
-import 'package:sorted/features/HOME/data/models/transformation.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
@@ -104,4 +110,11 @@ abstract class HomeRepository {
       int recipeId);
 
   Future<Either<Failure, List<RecipeHowTo>>> getRecipeHowto(int recipeId);
+
+  Future<Either<Failure, ChallengeModel>> getChallengeOfTheDay();
+  Future<Either<Failure, PepTalkModel>> getMotivationOfTheDay();
+
+  Future<Either<Failure, FeedPostEntity>> getFeed(
+      int limit, DocumentSnapshot lastDoc);
+  Future<Either<Failure, int>> addPost(PostModel post);
 }

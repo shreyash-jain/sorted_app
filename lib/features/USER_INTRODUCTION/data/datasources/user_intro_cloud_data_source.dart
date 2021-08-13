@@ -6,7 +6,11 @@ import 'package:meta/meta.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
 
 import 'package:sorted/core/global/models/health_profile.dart';
-
+import 'package:sorted/features/TRACKERS/COMMON/models/track_summary.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_details.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_log.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property_settings.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_user_settings.dart';
 
 import 'package:sorted/features/USER_INTRODUCTION/data/models/user_tag.dart';
 import 'package:sqflite/sqflite.dart';
@@ -22,9 +26,12 @@ abstract class UserIntroCloud {
     HealthProfile lifestyleProfile,
   );
   Future<HealthProfile> getHealthProfile();
+
+  
 }
 
 class UserIntroCloudDataSourceImpl implements UserIntroCloud {
+
   final FirebaseFirestore cloudDb;
   final FirebaseAuth auth;
   final SqlDatabaseService nativeDb;
@@ -101,12 +108,6 @@ class UserIntroCloudDataSourceImpl implements UserIntroCloud {
     yield (1);
     await batch.commit(noResult: true);
   }
-
-
-
-
-
-
 
   @override
   Future<void> deleteUserActivityTable() async {

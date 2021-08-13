@@ -54,7 +54,7 @@ class AuthNativeDataSourceImpl implements AuthNativeDataSource {
 
     List<UserDetail> details = result.isNotEmpty
         ? result.map((item) => UserDetail.fromMap(item)).toList()
-        : [new UserDetail(id:-1)];
+        : [new UserDetail(id:"")];
     return details[0];
 
     

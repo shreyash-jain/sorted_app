@@ -74,16 +74,16 @@ class _HomeRecipeWidgetLState extends State<HomeRecipeWidgetL> {
                 SizedBox(
                   width: Gparam.widthPadding / 2,
                 ),
-                Row(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)),
+                          topRight: Radius.circular(10)),
                       child: Container(
-                          width: 200,
-                          height: 240,
+                          width: 254,
+                          height: 80,
                           color:
                               (Theme.of(context).brightness == Brightness.dark)
                                   ? Colors.grey.shade900
@@ -108,50 +108,17 @@ class _HomeRecipeWidgetLState extends State<HomeRecipeWidgetL> {
                                       fontWeight: FontWeight.w500),
                                 ),
                               ),
-                              Container(
-                                  height: 35,
-                                  margin: EdgeInsets.only(left: 8),
-                                  alignment: Alignment.topLeft,
-                                  decoration: new BoxDecoration(
-                                      color: (Theme.of(context).brightness ==
-                                              Brightness.dark)
-                                          ? Colors.black
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          bottomLeft: Radius.circular(10))),
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.all(0),
-                                    scrollDirection: Axis.horizontal,
-                                    children: [
-                                      Row(children: [
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                        Gtheme.stext("Healthy",
-                                            size: GFontSize.XXS,
-                                            color:
-                                                (Theme.of(context).brightness ==
-                                                        Brightness.dark)
-                                                    ? GColors.W1
-                                                    : GColors.B1),
-                                      ])
-                                    ],
-                                  )),
                             ],
                           )),
                     ),
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10)),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: Stack(
                         children: [
                           Container(
-                            height: 240,
+                            height: 450,
                             color: Colors.blueGrey,
-                            width: 130,
+                            width: 254,
                             child: CachedNetworkImage(
                               imageUrl: widget.recipe.image_url,
                               fit: BoxFit.cover,
@@ -163,14 +130,14 @@ class _HomeRecipeWidgetLState extends State<HomeRecipeWidgetL> {
                             ),
                           ),
                           Container(
-                              height: 240,
+                              height: 450,
                               color: Colors.transparent,
-                              width: 130,
+                              width: 254,
                               child: (videoController != null &&
                                       videoController.value.isInitialized)
                                   ? new ClipRect(
                                       child: new OverflowBox(
-                                          maxWidth: 200,
+                                          maxWidth: 254,
                                           maxHeight: double.infinity,
                                           alignment: Alignment.center,
                                           child: new FittedBox(

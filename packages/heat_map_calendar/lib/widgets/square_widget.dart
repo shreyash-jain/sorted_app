@@ -21,17 +21,43 @@ class SquareWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: squareSize,
-      width: squareSize,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(squareSize / 6),
-        color: day.isNotDay
-            ? Colors.transparent
-            : day.isActive
-                ? day.color.withOpacity(opacity)
-                : inavtiveColor,
-      ),
-      margin: EdgeInsets.all(margin),
-    );
+        height: squareSize,
+        width: squareSize,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(squareSize / 6),
+          color: day.isNotDay
+              ? Colors.transparent
+              : day.isActive
+                  ? day.color
+                  : inavtiveColor,
+        ),
+        margin: EdgeInsets.all(margin),
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (day.opacity != 0)
+              Text(
+                day.opacity.toStringAsFixed(1).toString(),
+                style: TextStyle(
+                    fontFamily: "Milliard",
+                    fontSize:
+                        (day.opacity.toStringAsFixed(1).toString().length > 3)
+                            ? 9
+                            : 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              ),
+            if (day.day != null)
+              Text(
+                day.day.toString(),
+                style: TextStyle(
+                    fontFamily: "Milliard",
+                    fontSize: 10,
+                    color: Colors.black38,
+                    fontWeight: FontWeight.w500),
+              )
+          ],
+        )));
   }
 }

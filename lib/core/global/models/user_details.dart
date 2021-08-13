@@ -10,7 +10,7 @@ class UserDetail extends Equatable {
   final String name;
   final String imageUrl;
   final String email;
-  final int id;
+  final String id;
   final String userName;
   final int age;
   final int diaryStreak;
@@ -23,6 +23,7 @@ class UserDetail extends Equatable {
 
   final int mobileNumber;
   final String status;
+  
   
   UserDetail({
     this.currentDevice,
@@ -68,7 +69,7 @@ class UserDetail extends Equatable {
     String name,
     String imageUrl,
     String email,
-    int id,
+    String id,
     String userName,
     int currentDeviceId,
     String currentDevice,
@@ -178,7 +179,7 @@ class UserDetail extends Equatable {
   bool get stringify => true;
 
   int checkValidityOnUserIntro() {
-    if (userName == null || userName == "") return 0;
+    if (mobileNumber == null || mobileNumber.toString().length < 10) return 0;
     if (gender == null) return 1;
     if (age == null || age < 10) return 2;
 
@@ -189,10 +190,10 @@ class UserDetail extends Equatable {
 
   String generateMessageOnUserIntro() {
     if (userName == null || userName == "")
-      return "Please enter a valid Username";
+      return "Please enter a valid phone number";
     if (age == null || age < 10) return "$name, please enter your valid age";
 
-    if (profession == null) return "$name, please complete all details";
+  
     if (gender == null) return "$name, please complete all details";
     return "";
   }

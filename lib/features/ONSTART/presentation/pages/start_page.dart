@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyStartPage> {
                 listener: (BuildContext context, OnstartState state) {
                   if (state is AccessGranted) {
                     print("listener ran");
-                    context.router.pop();
+                    context.router.removeLast();
 
                     context.router.push(
                       RootHome(),

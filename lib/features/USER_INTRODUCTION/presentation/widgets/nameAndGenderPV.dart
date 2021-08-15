@@ -8,6 +8,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sorted/core/global/animations/fade_animationTB.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/models/user_details.dart';
+import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/constants.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/flow_bloc/flow_bloc.dart';
 import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/loginDetails.dart';
@@ -263,9 +264,9 @@ class _NameAndGenderState extends State<NameAndGender> {
                                     focusNode: phoneFocus,
                                     maxLength: 10,
                                     onChanged: (text) {
-                                      // BlocProvider.of<UserIntroductionBloc>(
-                                      //         context)
-                                      //     .add(SetValidPhone());
+                                      BlocProvider.of<UserIntroductionBloc>(
+                                              context)
+                                          .add(SetInvalidPhone());
                                     },
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly
@@ -297,25 +298,30 @@ class _NameAndGenderState extends State<NameAndGender> {
                               ],
                             ),
                           ),
-                        //if (!state.isPhoneCorrect)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 160,
-                              child: MaterialButton(
-                                  onPressed: () {
-                                    BlocProvider.of<UserIntroductionBloc>(
-                                            context)
-                                        .add(RequestOTP(phoneController.text));
-                                  },
-                                  child: Text(
-                                    "Send Otp",
-                                    style: Gtheme.blackShadowBold32,
-                                  )),
-                            ),
-                          ],
-                        ),
+                        if (!state.isPhoneCorrect && !state.isOtpLoading)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 160,
+                                child: MaterialButton(
+                                    elevation: 0,
+                                    color: Colors.grey.shade300,
+                                    onPressed: () {
+                                      BlocProvider.of<UserIntroductionBloc>(
+                                              context)
+                                          .add(
+                                              RequestOTP(phoneController.text));
+                                    },
+                                    child: Text(
+                                      "Send Otp",
+                                      style: Gtheme.blackShadowBold32,
+                                    )),
+                              ),
+                            ],
+                          ),
+                        if (state.isOtpLoading)
+                          Container(child: LoadingWidget()),
                         SizedBox(
                           height: 16,
                         ),
@@ -326,31 +332,28 @@ class _NameAndGenderState extends State<NameAndGender> {
                               child: PinCodeTextField(
                                 appContext: context,
                                 pastedTextStyle: TextStyle(
-                                  color: Colors.green.shade600,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 length: 6,
                                 obscureText: true,
+                                backgroundColor: Colors.white,
                                 obscuringCharacter: '*',
-                                obscuringWidget: FlutterLogo(
-                                  size: 24,
-                                ),
+
                                 blinkWhenObscuring: true,
                                 animationType: AnimationType.fade,
-                                validator: (v) {
-                                  if (v.length < 3) {
-                                    return "I'm from validator";
-                                  } else {
-                                    return null;
-                                  }
-                                },
+
                                 pinTheme: PinTheme(
-                                  shape: PinCodeFieldShape.box,
-                                  borderRadius: BorderRadius.circular(5),
-                                  fieldHeight: 50,
-                                  fieldWidth: 40,
-                                  activeFillColor: Colors.white,
-                                ),
+                                    shape: PinCodeFieldShape.box,
+                                    borderRadius: BorderRadius.circular(5),
+                                    fieldHeight: 50,
+                                    activeColor: Colors.black,
+                                    inactiveFillColor: Colors.white,
+                                    inactiveColor: Colors.white,
+                                    selectedColor: Colors.white,
+                                    fieldWidth: 40,
+                                    activeFillColor: Colors.white,
+                                    selectedFillColor: Colors.black12),
                                 cursorColor: Colors.black,
                                 animationDuration: Duration(milliseconds: 300),
                                 enableActiveFill: true,
@@ -378,7 +381,6 @@ class _NameAndGenderState extends State<NameAndGender> {
 
                                   if (state.actualOtp != null &&
                                       currentText == state.actualOtp) {
-                                        
                                     BlocProvider.of<UserIntroductionBloc>(
                                             context)
                                         .add(SetValidPhone());
@@ -391,6 +393,9 @@ class _NameAndGenderState extends State<NameAndGender> {
                                   return true;
                                 },
                               )),
+                        SizedBox(
+                          height: 16,
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 0,

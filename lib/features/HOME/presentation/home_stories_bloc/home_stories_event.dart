@@ -31,3 +31,22 @@ class UpdateTrackSummary extends HomeStoriesEvent {
   @override
   List<Object> get props => [summary];
 }
+
+
+class UpdateActivitySummary extends HomeStoriesEvent {
+  final ActivityLogSummary summary;
+
+  UpdateActivitySummary(this.summary);
+  @override
+  List<Object> get props => [summary];
+}
+
+
+
+class UpdateDietSummary extends HomeStoriesEvent {
+  final DietLogSummary summary;
+
+  UpdateDietSummary(this.summary);
+  @override
+  List<Object> get props => [summary];
+}

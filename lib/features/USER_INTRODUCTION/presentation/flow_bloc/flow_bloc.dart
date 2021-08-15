@@ -403,6 +403,43 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
 
         yield (state as LoginState).copyWith(healthProfile: lifestyleProfile);
       }
+    } else if (event is UpdateHealthCondition) {
+      if (state is LoginState) {
+        HealthProfile lifestyleProfile = (state as LoginState).healthProfile;
+
+        switch (event.category) {
+          case 0:
+            {
+              print("walk");
+              lifestyleProfile = lifestyleProfile.copyWith(
+                  has_high_bp: 1 - lifestyleProfile.has_high_bp);
+              break;
+            }
+          case 1:
+            {
+              lifestyleProfile = lifestyleProfile.copyWith(
+                  has_diabetes: 1 - lifestyleProfile.has_diabetes);
+              break;
+            }
+          case 2:
+            {
+              lifestyleProfile = lifestyleProfile.copyWith(
+                  has_cholesterol: 1 - lifestyleProfile.has_cholesterol);
+              break;
+            }
+          case 3:
+            {
+              lifestyleProfile = lifestyleProfile.copyWith(
+                  has_hypertension: 1 - lifestyleProfile.has_hypertension);
+              break;
+            }
+
+            break;
+          default:
+        }
+
+        yield (state as LoginState).copyWith(healthProfile: lifestyleProfile);
+      }
     } else if (event is SaveDetails) {
       //print("at save  >>>" + event.details.currentDevice);
       UserDetail toSaveDetail = event.details

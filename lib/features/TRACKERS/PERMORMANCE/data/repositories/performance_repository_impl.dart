@@ -4,6 +4,9 @@ import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 
 import 'package:sorted/core/network/network_info.dart';
+import 'package:sorted/features/PLANNER/data/models/activity.dart';
+import 'package:sorted/features/PLANNER/domain/entities/entities/elastic_activity_response_parser.dart';
+import 'package:sorted/features/PLANNER/domain/entities/entities/filter_query.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/diet_summary.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/diet_settings.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/diet_log.dart';
@@ -15,6 +18,7 @@ import 'package:sorted/features/TRACKERS/COMMON/models/track_property_settings.d
 import 'package:sorted/features/TRACKERS/COMMON/models/track_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_details.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_summary.dart';
+import 'package:sorted/features/TRACKERS/PERMORMANCE/data/datasources/elastic_cloud_data_source.dart';
 
 import 'package:sorted/features/TRACKERS/PERMORMANCE/domain/repositories/performance_repository.dart';
 
@@ -33,10 +37,11 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
   final AuthCloudDataSource remoteAuth;
   final AuthNativeDataSource nativeAuth;
   final PerformanceCloud cloudDataSource;
-
+  final ElasticRemoteApi elasticRemoteApi;
   final NetworkInfo networkInfo;
 
   PerformanceRepositoryImpl({
+    @required this.elasticRemoteApi,
     @required this.remoteDataSource,
     @required this.nativeDataSource,
     @required this.sharedPref,
@@ -244,8 +249,7 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
   }
 
   @override
-  Future<Either<Failure, List<List<DietLog>>>>
-      getPast3MonthDietLogs() async {
+  Future<Either<Failure, List<List<DietLog>>>> getPast3MonthDietLogs() async {
     if (await networkInfo.isConnected) {
       try {
         return (Right(await cloudDataSource.getPast3MonthDietLogs()));
@@ -325,6 +329,41 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
     if (await networkInfo.isConnected) {
       try {
         return (Right(await cloudDataSource.setDietSummary(summary)));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<ActivityModel>>> getSearchActivities(
+      List<FilterQuery> filters) async {
+    if (await networkInfo.isConnected) {
+      try {
+        List<ActivityHits> hits =
+            await elasticRemoteApi.getArticlesSearchResults(filters);
+        List<ActivityModel> items = [];
+        hits.forEach((element) {
+          items.add(ActivityModel.fromActivityModel(element.activity));
+        });
+
+        return (Right(items));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, ActivityModel>> getActivityById(int activityId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        ActivityModel activity =
+            await cloudDataSource.getActivityById(activityId);
+
+        return (Right(activity));
       } on Exception {
         return Left(ServerFailure());
       }

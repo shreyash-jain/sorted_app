@@ -37,10 +37,11 @@ class ActivityLogSummary extends Equatable {
 
   factory ActivityLogSummary.fromMap(Map<String, dynamic> map) {
 
-    //Todo: Change data to Map
     return ActivityLogSummary(
-      activities: List<ActivityLog>.from(map['activities']
-              ?.map((x) => ActivityLog.fromMap(x) ?? ActivityLog()) ??
+      activities: List<ActivityLog>.from(map['activities']?.map((x) {
+            var z = Map<String, dynamic>.from(x);
+            return ActivityLog.fromMap(z) ?? ActivityLog();
+          }) ??
           const []),
       last_log: DateTime.parse((map['last_log'])),
       calorieBurnt: map['calorieBurnt'] ?? '',

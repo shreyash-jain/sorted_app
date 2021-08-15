@@ -5,7 +5,7 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
-import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
 import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
@@ -13,6 +13,7 @@ import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
 import 'package:sorted/features/HOME/presentation/recipe_bloc/recipe_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/recipes/ingredient_tile.dart';
 import 'package:sorted/features/HOME/presentation/widgets/recipes/recipe_nutririon.dart';
+import 'package:timelines/timelines.dart';
 
 class RecipePage extends StatefulWidget {
   final int type;
@@ -28,6 +29,7 @@ class RecipePage extends StatefulWidget {
 class _RecipePageState extends State<RecipePage> {
   RecipeBloc recipeBloc;
   Map<String, double> dataMap = {};
+  bool isReadMore = false;
   @override
   void initState() {
     recipeBloc = new RecipeBloc(sl<HomeRepository>())
@@ -55,21 +57,21 @@ class _RecipePageState extends State<RecipePage> {
                           Flexible(
                             child: Padding(
                               padding: EdgeInsets.all(Gparam.widthPadding),
-                              child: Gtheme.stext(state.taggedRecipe.name,
+                              child: Gtheme.stext(state.recipe.name,
                                   weight: GFontWeight.B, size: GFontSize.M),
                             ),
                           ),
                         ],
                       ),
-                      if (state.taggedRecipe.image_url != null &&
-                          state.taggedRecipe.image_url != "")
+                      if (state.recipe.image_url != null &&
+                          state.recipe.image_url != "")
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: Gparam.widthPadding),
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: CachedNetworkImage(
-                                  imageUrl: state.taggedRecipe.image_url,
+                                  imageUrl: state.recipe.image_url,
                                   errorWidget: (c, s, d) =>
                                       Icon(Icons.error_outline),
                                   width: Gparam.width - 2 * Gparam.widthPadding,
@@ -81,25 +83,88 @@ class _RecipePageState extends State<RecipePage> {
                       SizedBox(
                         height: 16,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Gparam.widthPadding),
-                        child: Text(
-                          state.taggedRecipe.description,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontFamily: 'Milliard',
-                              fontSize: Gparam.textSmall,
-                              fontWeight: FontWeight.w600),
+                      GestureDetector(
+                        onTap: () {
+                          isReadMore = !isReadMore;
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Gparam.widthPadding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.recipe.description,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: (isReadMore) ? 10 : 3,
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontFamily: 'Milliard',
+                                    fontSize: Gparam.textSmall,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                "read more",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontFamily: 'Milliard',
+                                    fontSize: Gparam.textSmaller,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      if (state.nutritions.length != 0)
+                      if (state.recipe.nutrients_name.length != 0)
                         SizedBox(
                           height: 16,
                         ),
-                      if (state.nutritions.length != 0)
+                      if (state.ingredients.length != 0)
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Gparam.widthPadding),
+                              child: Gtheme.stext("Ingredients",
+                                  weight: GFontWeight.B, size: GFontSize.S),
+                            ),
+                          ],
+                        ),
+                      if (state.ingredients.length != 0)
+                        SizedBox(
+                          height: 16,
+                        ),
+                      if (state.ingredients.length != 0)
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
+                          child: Container(
+                            height: 50,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                SizedBox(width: Gparam.widthPadding),
+                                ...state.ingredients.asMap().entries.map((e) {
+                                  return Column(
+                                    children: [
+                                      IngredientTile(
+                                        ingredient: e.value,
+                                      )
+                                    ],
+                                  );
+                                }).toList()
+                              ],
+                            ),
+                          ),
+                        ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      if (state.recipe.nutrients_name.length != 0)
                         Row(
                           children: [
                             Padding(
@@ -110,11 +175,11 @@ class _RecipePageState extends State<RecipePage> {
                             ),
                           ],
                         ),
-                      if (state.nutritions.length != 0)
+                      if (state.recipe.nutrients_name.length != 0)
                         SizedBox(
                           height: 16,
                         ),
-                      if (state.nutritions.length != 0)
+                      if (state.recipe.nutrients_name.length != 0)
                         RecipeNutritionWidget(nutritions: state.nutritions),
                       SizedBox(
                         height: 24,
@@ -130,7 +195,7 @@ class _RecipePageState extends State<RecipePage> {
                         ],
                       ),
                       SizedBox(
-                        height: 6,
+                        height: 16,
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -148,7 +213,10 @@ class _RecipePageState extends State<RecipePage> {
                   ));
                 else if (state is RecipeInitial) {
                   return Center(child: LoadingWidget());
-                }
+                } else
+                  return Container(
+                    height: 0,
+                  );
               },
             ),
           ),
@@ -157,13 +225,11 @@ class _RecipePageState extends State<RecipePage> {
     );
   }
 
-  List<Widget> getIngredients(
-      List<RecipeIngredient> ingredients, List<RecipeToIngredient> quantities) {
+  List<Widget> getIngredients(List<RecipeIngredients> ingredients) {
     List<Widget> items = [];
     for (var i = 0; i < ingredients.length; i++) {
       items.add(IngredientTile(
         ingredient: ingredients[i],
-        quantity: quantities[i],
       ));
     }
     return items;
@@ -177,7 +243,11 @@ class _RecipePageState extends State<RecipePage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Gtheme.stext(steps[i].step.toString(), weight: GFontWeight.B),
+            OutlinedDotIndicator(
+              color: Color(0xffe6e7e9),
+              backgroundColor: Color(0xffc2c5c9),
+              borderWidth: 2.5,
+            ),
             SizedBox(width: 14),
             Flexible(child: Gtheme.stext(steps[i].description.toString()))
           ],
@@ -187,3 +257,16 @@ class _RecipePageState extends State<RecipePage> {
     return items;
   }
 }
+
+enum _TimelineStatus {
+  done,
+  sync,
+  inProgress,
+  todo,
+}
+
+extension on _TimelineStatus {
+  bool get isInProgress => this == _TimelineStatus.inProgress;
+}
+
+const kTileHeight = 50.0;

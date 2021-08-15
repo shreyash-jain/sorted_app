@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,6 +62,7 @@ import 'package:sorted/features/SETTINGS/data/datasources/settings_shared_pref_d
 import 'package:sorted/features/SETTINGS/data/repository/settings_repository_impl.dart';
 import 'package:sorted/features/SETTINGS/domain/repository/settings_repository.dart';
 import 'package:sorted/features/SETTINGS/presentation/bloc/settings_bloc.dart';
+import 'package:sorted/features/TRACKERS/PERMORMANCE/data/datasources/elastic_cloud_data_source.dart';
 import 'package:sorted/features/TRACKERS/PERMORMANCE/data/datasources/performance_cloud_data_source.dart';
 import 'package:sorted/features/TRACKERS/PERMORMANCE/data/repositories/performance_repository_impl.dart';
 import 'package:sorted/features/TRACKERS/PERMORMANCE/domain/repositories/performance_repository.dart';
@@ -193,6 +191,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<PerformanceRepository>(
     () => PerformanceRepositoryImpl(
+      elasticRemoteApi: sl(),
       networkInfo: sl(),
       remoteDataSource: sl(),
       nativeDataSource: sl(),
@@ -262,6 +261,9 @@ Future<void> init() async {
   sl.registerLazySingleton<UserIntroductionSharedPref>(
     () => UserSharedPrefDataSourceImpl(sharedPreferences: sl()),
   );
+
+  sl.registerLazySingleton<ElasticRemoteApi>(
+      () => ElasticRemoteApiDataSourceImpl());
 
   sl.registerLazySingleton<PerformanceCloud>(
     () => PerformanceCloudDataSourceImpl(

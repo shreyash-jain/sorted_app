@@ -28,18 +28,18 @@ class RecipeError extends RecipeState {
 }
 
 class RecipePageLoaded extends RecipeState {
-  final List<RecipeIngredient> ingredients;
+  final List<RecipeIngredients> ingredients;
   final List<RecipeStep> steps;
-  final List<RecipeHowTo> howtos;
+
   final List<RecipeNutrition> nutritions;
-  final List<RecipeToIngredient> quanities;
-  final TaggedRecipe taggedRecipe;
- 
+
+
   final RecipeModel recipe;
-  final int type;
 
 
-  RecipePageLoaded(this.ingredients, this.steps, this.howtos, this.nutritions, this.taggedRecipe, this.recipe, this.type, this.quanities);
+  RecipePageLoaded(this.ingredients, this.steps, this.nutritions, this.recipe,
+  );
   @override
-  List<Object> get props => [ingredients,steps,howtos,nutritions,taggedRecipe,recipe,type,quanities];
+  List<Object> get props =>
+      [ingredients, steps, nutritions, recipe];
 }

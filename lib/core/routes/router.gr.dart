@@ -7,7 +7,7 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../features/CONNECT/data/models/expert/expert_calendar.dart' as _i31;
+import '../../features/CONNECT/data/models/expert/expert_calendar.dart' as _i32;
 import '../../features/CONNECT/presentation/pages/class/classroom_main.dart'
     as _i22;
 import '../../features/CONNECT/presentation/pages/class_main.dart' as _i17;
@@ -19,14 +19,16 @@ import '../../features/CONNECT/presentation/pages/request_pages/package_request.
     as _i19;
 import '../../features/CONNECT/presentation/pages/request_pages/packages_list.dart'
     as _i20;
-import '../../features/HOME/data/models/blogs.dart' as _i28;
-import '../../features/HOME/data/models/class_model.dart' as _i32;
-import '../../features/HOME/data/models/motivation/pep_talks.dart' as _i33;
-import '../../features/HOME/data/models/recipes/recipe.dart' as _i29;
-import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i30;
-import '../../features/HOME/domain/entities/day_affirmations.dart' as _i26;
+import '../../features/HOME/data/models/blogs.dart' as _i29;
+import '../../features/HOME/data/models/class_model.dart' as _i33;
+import '../../features/HOME/data/models/motivation/pep_talks.dart' as _i34;
+import '../../features/HOME/data/models/recipes/recipe.dart' as _i30;
+import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i31;
+import '../../features/HOME/domain/entities/day_affirmations.dart' as _i27;
 import '../../features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart'
-    as _i27;
+    as _i28;
+import '../../features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart'
+    as _i37;
 import '../../features/HOME/presentation/pages/affirmation_pv.dart' as _i8;
 import '../../features/HOME/presentation/pages/blog_full_page.dart' as _i13;
 import '../../features/HOME/presentation/pages/challenge_pv.dart' as _i11;
@@ -35,13 +37,16 @@ import '../../features/HOME/presentation/pages/homePage.dart' as _i7;
 import '../../features/HOME/presentation/pages/recipe_full_page.dart' as _i14;
 import '../../features/HOME/presentation/pages/rootPage.dart' as _i10;
 import '../../features/HOME/presentation/widgets/pep_talk_player.dart' as _i23;
+import '../../features/HOME/presentation/widgets/performance_log/activity_log.dart'
+    as _i26;
 import '../../features/ONBOARDING/presentation/pages/onboard_page.dart' as _i5;
 import '../../features/ONSTART/presentation/pages/start_page.dart' as _i4;
 import '../../features/PAYMENTS/presentation/pages/test_payment.dart' as _i16;
 import '../../features/SETTINGS/presentation/pages/settings_page.dart' as _i9;
 import '../../features/SPLASH/splash.dart' as _i3;
-import '../../features/TRACKERS/COMMON/models/track_model.dart' as _i34;
-import '../../features/TRACKERS/COMMON/models/track_summary.dart' as _i35;
+import '../../features/TRACKERS/COMMON/models/activity_summary.dart' as _i38;
+import '../../features/TRACKERS/COMMON/models/track_model.dart' as _i35;
+import '../../features/TRACKERS/COMMON/models/track_summary.dart' as _i36;
 import '../../features/TRACKERS/presentation/pages/track_analysis_page.dart'
     as _i25;
 import '../../features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart'
@@ -223,6 +228,14 @@ class ARouter extends _i1.RootStackRouter {
               orElse: () => const PerformanceAnalysisRouteArgs());
           return _i25.PerformanceAnalysisPage(
               key: args.key, summary: args.summary, track: args.track);
+        }),
+    ActivityLogRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<ActivityLogRouteArgs>(
+              orElse: () => const ActivityLogRouteArgs());
+          return _i26.ActivityLogPage(
+              key: args.key, homeBloc: args.homeBloc, summary: args.summary);
         })
   };
 
@@ -253,7 +266,8 @@ class ARouter extends _i1.RootStackRouter {
         _i1.RouteConfig(PepTalkPlayer.name, path: '/pep-talk-player'),
         _i1.RouteConfig(FitInfoPV.name, path: '/fit-info-pV'),
         _i1.RouteConfig(PerformanceAnalysisRoute.name,
-            path: '/performance-analysis-page')
+            path: '/performance-analysis-page'),
+        _i1.RouteConfig(ActivityLogRoute.name, path: '/activity-log-page')
       ];
 }
 
@@ -333,9 +347,9 @@ class SortedHomeArgs {
 class AffirmationPV extends _i1.PageRouteInfo<AffirmationPVArgs> {
   AffirmationPV(
       {_i2.Key key,
-      List<_i26.DayAffirmation> affirmations,
+      List<_i27.DayAffirmation> affirmations,
       int startIndex,
-      _i27.AffirmationBloc outerBloc})
+      _i28.AffirmationBloc outerBloc})
       : super(name,
             path: '/affirmation-pV',
             args: AffirmationPVArgs(
@@ -353,11 +367,11 @@ class AffirmationPVArgs {
 
   final _i2.Key key;
 
-  final List<_i26.DayAffirmation> affirmations;
+  final List<_i27.DayAffirmation> affirmations;
 
   final int startIndex;
 
-  final _i27.AffirmationBloc outerBloc;
+  final _i28.AffirmationBloc outerBloc;
 }
 
 class SettingsRoute extends _i1.PageRouteInfo<SettingsRouteArgs> {
@@ -392,7 +406,7 @@ class VideoRoute extends _i1.PageRouteInfo {
 }
 
 class FullBlogRoute extends _i1.PageRouteInfo<FullBlogRouteArgs> {
-  FullBlogRoute({_i2.Key key, _i28.BlogModel blog})
+  FullBlogRoute({_i2.Key key, _i29.BlogModel blog})
       : super(name,
             path: '/full-blog-page',
             args: FullBlogRouteArgs(key: key, blog: blog));
@@ -405,15 +419,15 @@ class FullBlogRouteArgs {
 
   final _i2.Key key;
 
-  final _i28.BlogModel blog;
+  final _i29.BlogModel blog;
 }
 
 class RecipeRoute extends _i1.PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute(
       {_i2.Key key,
       int type,
-      _i29.RecipeModel recipe,
-      _i30.TaggedRecipe taggedRecipe})
+      _i30.RecipeModel recipe,
+      _i31.TaggedRecipe taggedRecipe})
       : super(name,
             path: '/recipe-page',
             args: RecipeRouteArgs(
@@ -432,9 +446,9 @@ class RecipeRouteArgs {
 
   final int type;
 
-  final _i29.RecipeModel recipe;
+  final _i30.RecipeModel recipe;
 
-  final _i30.TaggedRecipe taggedRecipe;
+  final _i31.TaggedRecipe taggedRecipe;
 }
 
 class ClassListRoute extends _i1.PageRouteInfo<ClassListRouteArgs> {
@@ -526,7 +540,7 @@ class ExpertPackagesCatalogueArgs {
 class ClientRequestForm extends _i1.PageRouteInfo<ClientRequestFormArgs> {
   ClientRequestForm(
       {_i2.Key key,
-      _i31.ExpertCalendarModel calendarModel,
+      _i32.ExpertCalendarModel calendarModel,
       int packageType,
       dynamic Function(List<int>, List<int>, List<int>, DateTime, String, int)
           onPressEnroll})
@@ -547,7 +561,7 @@ class ClientRequestFormArgs {
 
   final _i2.Key key;
 
-  final _i31.ExpertCalendarModel calendarModel;
+  final _i32.ExpertCalendarModel calendarModel;
 
   final int packageType;
 
@@ -556,7 +570,7 @@ class ClientRequestFormArgs {
 }
 
 class ClassroomMain extends _i1.PageRouteInfo<ClassroomMainArgs> {
-  ClassroomMain({_i2.Key key, _i32.ClassModel classroom})
+  ClassroomMain({_i2.Key key, _i33.ClassModel classroom})
       : super(name,
             path: '/classroom-main',
             args: ClassroomMainArgs(key: key, classroom: classroom));
@@ -569,11 +583,11 @@ class ClassroomMainArgs {
 
   final _i2.Key key;
 
-  final _i32.ClassModel classroom;
+  final _i33.ClassModel classroom;
 }
 
 class PepTalkPlayer extends _i1.PageRouteInfo<PepTalkPlayerArgs> {
-  PepTalkPlayer({_i2.Key key, _i33.PepTalkModel talk})
+  PepTalkPlayer({_i2.Key key, _i34.PepTalkModel talk})
       : super(name,
             path: '/pep-talk-player',
             args: PepTalkPlayerArgs(key: key, talk: talk));
@@ -586,12 +600,12 @@ class PepTalkPlayerArgs {
 
   final _i2.Key key;
 
-  final _i33.PepTalkModel talk;
+  final _i34.PepTalkModel talk;
 }
 
 class FitInfoPV extends _i1.PageRouteInfo<FitInfoPVArgs> {
   FitInfoPV(
-      {_i2.Key key, _i34.TrackModel trackModel, _i35.TrackSummary summary})
+      {_i2.Key key, _i35.TrackModel trackModel, _i36.TrackSummary summary})
       : super(name,
             path: '/fit-info-pV',
             args: FitInfoPVArgs(
@@ -605,15 +619,15 @@ class FitInfoPVArgs {
 
   final _i2.Key key;
 
-  final _i34.TrackModel trackModel;
+  final _i35.TrackModel trackModel;
 
-  final _i35.TrackSummary summary;
+  final _i36.TrackSummary summary;
 }
 
 class PerformanceAnalysisRoute
     extends _i1.PageRouteInfo<PerformanceAnalysisRouteArgs> {
   PerformanceAnalysisRoute(
-      {_i2.Key key, _i35.TrackSummary summary, _i34.TrackModel track})
+      {_i2.Key key, _i36.TrackSummary summary, _i35.TrackModel track})
       : super(name,
             path: '/performance-analysis-page',
             args: PerformanceAnalysisRouteArgs(
@@ -627,7 +641,30 @@ class PerformanceAnalysisRouteArgs {
 
   final _i2.Key key;
 
-  final _i35.TrackSummary summary;
+  final _i36.TrackSummary summary;
 
-  final _i34.TrackModel track;
+  final _i35.TrackModel track;
+}
+
+class ActivityLogRoute extends _i1.PageRouteInfo<ActivityLogRouteArgs> {
+  ActivityLogRoute(
+      {_i2.Key key,
+      _i37.HomeStoriesBloc homeBloc,
+      _i38.ActivityLogSummary summary})
+      : super(name,
+            path: '/activity-log-page',
+            args: ActivityLogRouteArgs(
+                key: key, homeBloc: homeBloc, summary: summary));
+
+  static const String name = 'ActivityLogRoute';
+}
+
+class ActivityLogRouteArgs {
+  const ActivityLogRouteArgs({this.key, this.homeBloc, this.summary});
+
+  final _i2.Key key;
+
+  final _i37.HomeStoriesBloc homeBloc;
+
+  final _i38.ActivityLogSummary summary;
 }

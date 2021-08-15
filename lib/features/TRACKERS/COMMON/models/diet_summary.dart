@@ -14,7 +14,6 @@ class DietLogSummary extends Equatable {
     this.last_log,
     this.calorieTaken = '',
   });
-  
 
   DietLogSummary copyWith({
     List<DietLog> diets,
@@ -38,9 +37,12 @@ class DietLogSummary extends Equatable {
 
   factory DietLogSummary.fromMap(Map<String, dynamic> map) {
 
-    //Todo: firestore to map
     return DietLogSummary(
-      diets: List<DietLog>.from(map['diets']?.map((x) => DietLog.fromMap(x) ?? DietLog()) ?? const []),
+      diets: List<DietLog>.from(map['diets']?.map((x) {
+            var z = Map<String, dynamic>.from(x);
+            return DietLog.fromMap(z) ?? DietLog();
+          }) ??
+          const []),
       last_log: DateTime.parse((map['last_log'])),
       calorieTaken: map['calorieTaken'] ?? '',
     );
@@ -48,7 +50,8 @@ class DietLogSummary extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory DietLogSummary.fromJson(String source) => DietLogSummary.fromMap(json.decode(source));
+  factory DietLogSummary.fromJson(String source) =>
+      DietLogSummary.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;

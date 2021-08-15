@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/features/PLANNER/data/models/activity.dart';
+import 'package:sorted/features/PLANNER/domain/entities/entities/filter_query.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_settings.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_summary.dart';
@@ -35,7 +37,7 @@ abstract class PerformanceRepository {
   Future<Either<Failure, int>> setPropertySettings(
       TrackPropertySettings setting);
 
-  //Actvities and Diet Log
+
 
   Future<Either<Failure, int>> setActivitySummary(ActivityLogSummary summary);
   Future<Either<Failure, int>> setDietSummary(ActivityLogSummary summary);
@@ -53,4 +55,8 @@ abstract class PerformanceRepository {
 
   Future<Either<Failure, List<List<ActivityLog>>>> getPast3MonthActivityLogs();
   Future<Either<Failure, List<List<DietLog>>>> getPast3MonthDietLogs();
+
+  Future<Either<Failure, List<ActivityModel>>> getSearchActivities(
+      List<FilterQuery> filters);
+  Future<Either<Failure, ActivityModel>> getActivityById(int activityId);
 }

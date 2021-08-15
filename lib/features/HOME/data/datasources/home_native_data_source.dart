@@ -10,7 +10,7 @@ import 'package:sorted/features/HOME/data/models/inspiration.dart';
 import 'package:sorted/features/HOME/data/models/motivation/pep_talks.dart';
 import 'package:sorted/features/HOME/data/models/motivation/transformation.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
-import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';

@@ -23,8 +23,8 @@ class SplashPage extends StatelessWidget {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 print("authenticated");
-                 sl<AuthenticationRepository>().saveDeviceToken();
-                context.router.pop();
+                sl<AuthenticationRepository>().saveDeviceToken();
+                context.router.removeLast();
 
                 context.router.push(
                   MyStartRoute(title: "start Page"),
@@ -35,7 +35,7 @@ class SplashPage extends StatelessWidget {
                 // todo: send to onboarding page
                 print("un-authenticated");
 
-                context.router.pop();
+                context.router.removeLast();
                 context.router.push(
                   OnboardRoute(title: "start Page"),
                 );

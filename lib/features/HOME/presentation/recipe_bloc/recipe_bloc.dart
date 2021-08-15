@@ -7,7 +7,7 @@ import 'package:sorted/features/HOME/data/models/blog_textbox.dart';
 import 'package:sorted/features/HOME/data/models/blogs.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
-import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
@@ -44,7 +44,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       } else {
         vTaggedRecipe = TaggedRecipe.empty();
       }
-     
+
       print("Here 3" + Failure.mapToString(failure));
 
       if (failure == null)
@@ -60,30 +60,41 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     } else if (event is LoadRecipeFullPage) {
       Failure failure;
       int type = event.type;
+      List<RecipeIngredients> ingredients = [];
+      List<RecipeStep> steps = [];
+      RecipeModel recipe;
+
+      List<RecipeNutrition> nutritions = [];
 
       int recipeId =
           (type == 0) ? event.taggedRecipe.recipe_id : event.recipe.id;
-     
-      List<RecipeStep> steps = [];
-      (await repository.getRecipeSteps(recipeId))
-          .fold((l) => failure = l, (r) => steps = r);
-      List<RecipeHowTo> howtos = [];
-      (await repository.getRecipeHowto(recipeId))
-          .fold((l) => failure = l, (r) => howtos = r);
-      List<RecipeNutrition> nutritions = [];
-      (await repository.getRecipeNutritions(recipeId))
-          .fold((l) => failure = l, (r) => nutritions = r);
+
+      var recipeResult = await repository.getRecipeById(recipeId);
+
+      recipeResult.fold((l) => failure = l, (r) => recipe = r);
 
       if (failure == null) {
-        yield RecipePageLoaded(
-            [],
-            steps,
-            howtos,
-            nutritions,
-            event.taggedRecipe,
-            event.recipe,
-            type,
-            []);
+        for (var i = 0; i < recipe.ingredients_name.length; i++) {
+          ingredients.add(RecipeIngredients(
+              name: recipe.ingredients_name[i],
+              unit: recipe.ingredients_units[i],
+              quality: recipe.ingredients_quantity[i]));
+        }
+        for (var i = 0; i < recipe.nutrients_name.length; i++) {
+          nutritions.add(RecipeNutrition(
+              nutrients: recipe.nutrients_name[i],
+              units: recipe.nutrients_units[i],
+              value: recipe.nutrients_value[i]));
+        }
+
+        for (var i = 0; i < recipe.steps.length; i++) {
+          steps.add(RecipeStep(
+            description: recipe.steps[i],
+            step: i,
+          ));
+        }
+
+        yield RecipePageLoaded(ingredients, steps, nutritions, recipe);
       } else
         yield RecipeError(Failure.mapToString(failure));
     }

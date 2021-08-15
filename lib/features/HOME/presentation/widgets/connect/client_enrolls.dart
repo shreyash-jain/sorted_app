@@ -45,12 +45,6 @@ class _ClientEnrollHomeWidgetState extends State<ClientEnrollHomeWidget> {
                         subTitle: "30-40 min",
                       ),
                       SizedBox(
-                        height: 8,
-                      ),
-                      Divider(
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
                         height: 18,
                       ),
                       if (state.requestedClasses.length > 0)
@@ -85,7 +79,7 @@ class _ClientEnrollHomeWidgetState extends State<ClientEnrollHomeWidget> {
                           padding: EdgeInsets.symmetric(
                               horizontal: Gparam.widthPadding),
                           child: Gtheme.stext("Enrolled Class",
-                              size: GFontSize.M, weight: GFontWeight.N),
+                              size: GFontSize.S, weight: GFontWeight.N),
                         ),
                       if (state.enrolledClasses.length > 0)
                         SizedBox(

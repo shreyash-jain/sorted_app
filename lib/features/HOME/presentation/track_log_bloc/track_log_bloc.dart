@@ -8,12 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/widgets/slider_widget.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/aim_reach_page.dart';
+import 'package:sorted/features/HOME/presentation/widgets/performance_log/duration_log.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/number_log.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/rate_log.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/text_log.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/weight_log.dart';
+import 'package:sorted/features/PLANNER/data/models/activity.dart';
+import 'package:sorted/features/PLANNER/data/models/day_workout.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/activity_log.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/activity_settings.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/activity_summary.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/diet_log.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/diet_settings.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/diet_summary.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_summary.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
@@ -78,7 +88,109 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
       if (homeStoriesBloc != null) {
         homeStoriesBloc.add(EndLoading(track));
       }
+    } else if (event is LoadActivityStory) {
+      Failure failure;
+      TrackModel track = track_workout;
+      ActivityLogSettings settings;
+      ActivityLogSummary summary = event.trackSummary; //
+      int totalCalBurntToday = 0;
+      try {
+        totalCalBurntToday = double.parse(summary.calorieBurnt).toInt();
+      } catch (e) {}
+
+      List<ActivityModel> todayActivities = [];
+      List<WorkoutModel> workouts = [];
+
+      var trackSettingsResult = await repository.getActivityLogSettings();
+
+      trackSettingsResult.fold((l) => failure = l, (r) => settings = r);
+
+      List<ActivityLog> todayLogs = summary.activities
+          .where((element) => isSameDate(element.time, DateTime.now()))
+          .toList();
+
+      if (summary.activities.isNotEmpty) {
+        try {
+          List todayActivitiesResult = await Future.wait([
+            for (int i = 0; i < todayLogs.length; i++)
+              getActivityById(todayLogs[i].activityId),
+          ]);
+
+          if (todayActivitiesResult.length > 0)
+            todayActivities = todayActivitiesResult.map((e) {
+              var activity = e as ActivityModel;
+
+              if (activity.id != -1) return activity;
+            }).toList();
+
+          todayActivities.forEach((element) {
+            totalCalBurntToday += element.calorie_burn.toInt();
+          });
+        } catch (e) {
+          yield PerformanceLogError("Server Error");
+        }
+      }
+
+      if (failure == null)
+        yield ActivityLogLoaded(track, settings, summary, totalCalBurntToday,
+            getWorkoutsFromLogs(todayActivities, summary.activities));
+      else
+        yield PerformanceLogError(Failure.mapToString(failure));
+    } else if (event is AddActivityLog) {
+      var prevState = state as ActivityLogLoaded;
+      int totalCalBurntToday = prevState.totalCalBurntToday;
+      List<ActivityModel> todayActivities = List<ActivityModel>.from(
+          prevState.todayActivities.map((e) => e.activity).toList());
+      todayActivities.add(event.model);
+
+      repository.addActivityLog(event.activity);
+      ActivityLogSummary newSummary =
+          updateActivitySummary(prevState.summary, event.activity);
+
+      repository.setActivitySummary(newSummary);
+
+      homeStoriesBloc.add(UpdateActivitySummary(newSummary));
+      yield prevState.copyWith(
+          summary: newSummary,
+          totalCalBurntToday: totalCalBurntToday + event.activity.caloriesBurnt,
+          todayActivities:
+              getWorkoutsFromLogs(todayActivities, newSummary.activities));
     }
+  }
+
+  bool isSameDate(DateTime thisDate, DateTime other) {
+    return thisDate.year == other.year &&
+        thisDate.month == other.month &&
+        thisDate.day == other.day;
+  }
+
+  List<WorkoutModel> getWorkoutsFromLogs(
+      List<ActivityModel> models, List<ActivityLog> logs) {
+    List<WorkoutModel> workouts = [];
+
+    int reps;
+    for (var i = 0; i < models.length; i++) {
+      reps = 0;
+      try {
+        reps = double.parse(logs[i].reps).toInt();
+      } catch (e) {}
+      if (models[i].id == -1) continue;
+      workouts.add(WorkoutModel(
+          activity: models[i],
+          restTime: [30],
+          activityType: models[i].is_yoga,
+          sequence: [reps]));
+    }
+    return workouts;
+  }
+
+  Future<ActivityModel> getActivityById(int activityId) async {
+    ActivityModel activity = ActivityModel(id: -1);
+
+    var result = await repository.getActivityById(activityId);
+    result.fold((l) => null, (r) => activity = r);
+
+    return activity;
   }
 
   Future<TrackPropertySettings> getPropertySettings(
@@ -240,6 +352,13 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
             summary: summary,
             onLog: onLog);
         break;
+      case 4:
+        return DurationLog(
+            property: property,
+            settings: settings,
+            summary: summary,
+            onLog: onLog);
+        break;
       default:
         return Container(height: 0);
     }
@@ -265,18 +384,70 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
     return newSummary;
   }
 
+  ActivityLogSummary updateActivitySummary(
+      ActivityLogSummary summary, ActivityLog newLog) {
+    String updatedValue = getUpdatedActivityCurrentValue(summary, newLog);
+
+    List<ActivityLog> logs = updateActivityLogInSummary(summary, newLog);
+
+    ActivityLogSummary newSummary = ActivityLogSummary(
+        last_log: newLog.time, activities: logs, calorieBurnt: updatedValue);
+    return newSummary;
+  }
+
+  DietLogSummary updateDietSummary(DietLogSummary summary, DietLog newLog) {
+    String updatedValue = getUpdatedDietCurrentValue(summary, newLog);
+
+    List<DietLog> logs = updateDietLogInSummary(summary, newLog);
+
+    DietLogSummary newSummary = DietLogSummary(
+        last_log: newLog.time, diets: logs, calorieTaken: updatedValue);
+    return newSummary;
+  }
+
   List<TrackLog> updateTrackLogInSummary(
       TrackSummary summary, TrackLog newLog) {
     if (summary.track_logs.length == 0) {
       return [newLog];
     }
-    if (summary.track_logs.length >= 30) {
+    if (summary.track_logs.length >= 60) {
       List<TrackLog> newList = List<TrackLog>.from(summary.track_logs);
       newList.removeAt(0);
       newList.add(newLog);
       return newList;
     }
     List<TrackLog> newList = List<TrackLog>.from(summary.track_logs);
+    newList.add(newLog);
+    return newList;
+  }
+
+  List<ActivityLog> updateActivityLogInSummary(
+      ActivityLogSummary summary, ActivityLog newLog) {
+    if (summary.activities.length == 0) {
+      return [newLog];
+    }
+    if (summary.activities.length >= 60) {
+      List<ActivityLog> newList = List<ActivityLog>.from(summary.activities);
+      newList.removeAt(0);
+      newList.add(newLog);
+      return newList;
+    }
+    List<ActivityLog> newList = List<ActivityLog>.from(summary.activities);
+    newList.add(newLog);
+    return newList;
+  }
+
+  List<DietLog> updateDietLogInSummary(DietLogSummary summary, DietLog newLog) {
+    if (summary.diets.length == 0) {
+      return [newLog];
+    }
+    if (summary.diets.length >= 60) {
+      List<DietLog> newList = List<DietLog>.from(summary.diets);
+      newList.removeAt(0);
+      newList.add(newLog);
+      return newList;
+    }
+    List<DietLog> newList = List<DietLog>.from(summary.diets);
     newList.add(newLog);
     return newList;
   }
@@ -421,6 +592,70 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
     }
   }
 
+  String getUpdatedActivityCurrentValue(
+      ActivityLogSummary prevSummary, ActivityLog newLog) {
+    if (prevSummary.activities.length != 0) {
+      if (sameDay(prevSummary.last_log, newLog.time)) {
+        double value;
+        try {
+          value = double.parse(prevSummary.calorieBurnt) +
+              (newLog.caloriesBurnt).toDouble();
+        } catch (c) {
+          value = 0.0;
+        }
+        return value.toStringAsFixed(0);
+      } else {
+        double value;
+        try {
+          value = newLog.caloriesBurnt.toDouble();
+        } catch (c) {
+          value = 0.0;
+        }
+        return value.toStringAsFixed(0);
+      }
+    } else {
+      double value;
+      try {
+        value = newLog.caloriesBurnt.toDouble();
+      } catch (c) {
+        value = 0.0;
+      }
+      return value.toStringAsFixed(0);
+    }
+  }
+
+  String getUpdatedDietCurrentValue(
+      DietLogSummary prevSummary, DietLog newLog) {
+    if (prevSummary.diets.length != 0) {
+      if (sameDay(prevSummary.last_log, newLog.time)) {
+        double value;
+        try {
+          value = double.parse(prevSummary.calorieTaken) +
+              (newLog.calories).toDouble();
+        } catch (c) {
+          value = 0.0;
+        }
+        return value.toStringAsFixed(0);
+      } else {
+        double value;
+        try {
+          value = newLog.calories.toDouble();
+        } catch (c) {
+          value = 0.0;
+        }
+        return value.toStringAsFixed(0);
+      }
+    } else {
+      double value;
+      try {
+        value = newLog.calories.toDouble();
+      } catch (c) {
+        value = 0.0;
+      }
+      return value.toStringAsFixed(0);
+    }
+  }
+
   bool sameDay(DateTime d1, DateTime d2) {
     return (d1.year == d2.year && d1.month == d2.month && d1.day == d2.day);
   }
@@ -431,7 +666,7 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
         builder: (BuildContext context) {
           return AlertDialog(
               content: GoalCompletedPopup(
-            text: "Yay!! you completed your goal",
+            text: "Yay!! We reached closer to being fit, one step at a time",
             track: track,
           ));
         });

@@ -40,6 +40,7 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
 
   ScrollController _scrollController;
   UserIntroductionBloc bloc;
+  bool hasHealthCondition = false;
 
   TextEditingController ageController = TextEditingController();
 
@@ -51,8 +52,7 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
       initialScrollOffset: 0.0, // NEW
       keepScrollOffset: true, // NEW
     );
-    if (mounted)
-      bloc =  BlocProvider.of<UserIntroductionBloc>(context);
+    if (mounted) bloc = BlocProvider.of<UserIntroductionBloc>(context);
 
     print("Login Body");
   }
@@ -109,11 +109,11 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
                   children: [
                     BlocProvider(
                       create: (_) => bloc,
-                      child:
-                          BlocListener<UserIntroductionBloc, UserIntroductionState>(
+                      child: BlocListener<UserIntroductionBloc,
+                          UserIntroductionState>(
                         listener: (context, state) {},
-                        child:
-                            BlocBuilder<UserIntroductionBloc, UserIntroductionState>(
+                        child: BlocBuilder<UserIntroductionBloc,
+                            UserIntroductionState>(
                           builder: (context, state) {
                             if (state is LoginState) {
                               return SingleChildScrollView(
@@ -415,8 +415,14 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
                                                   child: Row(
                                                     children: [
                                                       Checkbox(
-                                                          value: true,
-                                                          onChanged: null),
+                                                          value:
+                                                              hasHealthCondition,
+                                                          onChanged: (b) {
+                                                            setState(() {
+                                                              hasHealthCondition =
+                                                                  b;
+                                                            });
+                                                          }),
                                                       Text(
                                                         'I have a health condition',
                                                         style: TextStyle(
@@ -433,6 +439,38 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
                                                     ],
                                                   ),
                                                 ),
+                                                if (hasHealthCondition)
+                                                  Container(
+                                                      height: 36,
+                                                      child: ListView(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          children: [
+                                                            healthConditionTile(
+                                                                "Heart realted issues",
+                                                                state
+                                                                    .healthProfile
+                                                                    .has_high_bp,
+                                                                0),
+                                                            healthConditionTile(
+                                                                "Diabetes",
+                                                                state
+                                                                    .healthProfile
+                                                                    .has_diabetes,
+                                                                1),
+                                                            healthConditionTile(
+                                                                "Cholesterol",
+                                                                state
+                                                                    .healthProfile
+                                                                    .has_cholesterol,
+                                                                2),
+                                                            healthConditionTile(
+                                                                "Hypertension",
+                                                                state
+                                                                    .healthProfile
+                                                                    .has_hypertension,
+                                                                3),
+                                                          ])),
                                                 Divider(
                                                   color: Colors.black26,
                                                 ),
@@ -681,29 +719,6 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
                                                 SizedBox(
                                                   height:
                                                       Gparam.heightPadding / 3,
-                                                ),
-                                                Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  child: Row(
-                                                    children: [
-                                                      Checkbox(
-                                                          value: true,
-                                                          onChanged: null),
-                                                      Text(
-                                                        'I have a mental condition',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Milliard',
-                                                            fontSize: Gparam
-                                                                .textSmaller,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    .8)),
-                                                      ),
-                                                    ],
-                                                  ),
                                                 ),
                                                 Divider(
                                                   color: Colors.black26,
@@ -995,7 +1010,6 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
                             } else {
                               return LoadingWidget();
                             }
-                           
                           },
                         ),
                       ),
@@ -1059,6 +1073,40 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
     return GestureDetector(
       onTap: () {
         handleFitnessActivityTap(i);
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(
+              color:
+                  (value == 0) ? Colors.black.withOpacity(.03) : Colors.black87,
+              width: 1),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(1, 1),
+                color: Colors.black.withAlpha(2),
+                blurRadius: 2)
+          ],
+          borderRadius: new BorderRadius.all(Radius.circular(12.0)),
+        ),
+        child: Text(
+          s,
+          style: TextStyle(
+              fontFamily: 'Milliard',
+              fontSize: Gparam.textSmaller,
+              fontWeight: FontWeight.w500,
+              color: Colors.black.withOpacity(.8)),
+        ),
+      ),
+    );
+  }
+
+  Widget healthConditionTile(String s, int value, int i) {
+    return GestureDetector(
+      onTap: () {
+        handleHealthConditionTap(i);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 4),
@@ -1300,5 +1348,9 @@ class _HealthProfileWidgetState extends State<HealthProfileWidget> {
 
   void handleSleepActivityTap(int i) {
     bloc.add(UpdateSleepActivity(i));
+  }
+
+  void handleHealthConditionTap(int i) {
+    bloc.add(UpdateHealthCondition(i));
   }
 }

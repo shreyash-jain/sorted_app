@@ -65,18 +65,8 @@ List<TrackPropertySettings> getAllDefaultPropertySettings() {
 
 //track model id global path -> tracking/data/tracks/1/
 
-List<TrackPropertyModel> trackFood = [
-  foodItems,
-  calories,
-  protien,
-  carbohydrates,
-  fat
-];
-List<TrackPropertyModel> trackWorkout = [
-  activityList,
-  calorieBurnt,
-  workoutTime
-];
+
+
 TrackPropertyModel foodItems = new TrackPropertyModel(
   id: 1,
   track_id: 1,

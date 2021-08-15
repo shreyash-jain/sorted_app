@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   decoration: new BoxDecoration(
                       borderRadius: new BorderRadius.only(
                           topRight: Radius.circular(0.0),
-                          topLeft: Radius.circular(20.0),
+                          topLeft: Radius.circular(10.0),
                           bottomLeft: Radius.circular(0.0),
                           bottomRight: Radius.circular(0.0)),
                       color: Colors.white,
@@ -200,8 +200,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   moveDown() {
     if ((bloc.state is LoginState)) {
-
-      
       if ((bloc.state as LoginState).isPhoneCorrect)
         setState(() {
           _pageController.animateToPage(
@@ -210,7 +208,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             curve: Curves.easeInOut,
           );
         });
-     
     }
   }
 

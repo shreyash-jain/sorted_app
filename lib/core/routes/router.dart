@@ -16,6 +16,8 @@ import 'package:sorted/features/HOME/presentation/pages/homePage.dart';
 import 'package:sorted/features/HOME/presentation/pages/recipe_full_page.dart';
 import 'package:sorted/features/HOME/presentation/pages/rootPage.dart';
 import 'package:sorted/features/HOME/presentation/widgets/pep_talk_player.dart';
+import 'package:sorted/features/HOME/presentation/widgets/performance_log/activity_log.dart';
+import 'package:sorted/features/HOME/presentation/widgets/performance_log/diet_log.dart';
 
 import 'package:sorted/features/ONBOARDING/presentation/pages/onboard_page.dart';
 import 'package:sorted/features/ONSTART/presentation/pages/start_page.dart';
@@ -55,6 +57,8 @@ import 'package:sorted/features/VIDEO_APP/presentation/pages/video_page.dart';
     AutoRoute(page: PepTalkPlayer),
     AutoRoute(page: FitInfoPV),
     AutoRoute(page: PerformanceAnalysisPage),
+    AutoRoute(page: ActivityLogPage),
+    AutoRoute(page: DietLogPage),
   ],
 )
 class $ARouter {}

@@ -110,6 +110,14 @@ class UpdateFoodPreference extends FlowEvent {
   List<Object> get props => [category];
 }
 
+class UpdateHealthCondition extends FlowEvent {
+  final int category;
+
+  UpdateHealthCondition(this.category);
+  @override
+  List<Object> get props => [category];
+}
+
 class UpdateMentalDailyActivity extends FlowEvent {
   final int category;
 

@@ -99,6 +99,9 @@ class _ProfileState extends State<ProfilePage>
                         InkWell(
                           onTap: () {
                             bloc.add(Signout());
+
+                            context.router
+                                .replaceAll([SplashRoute(), OnboardRoute()]);
                           },
                           child: Text(
                             "Sign out",
@@ -196,7 +199,10 @@ class _ProfileState extends State<ProfilePage>
                                           summary:
                                               homestate.trackSummaries[e.key],
                                         ),
-                                      )
+                                      ),
+                                  SizedBox(
+                                    height: 100,
+                                  ),
                                 ],
                               ),
                             );

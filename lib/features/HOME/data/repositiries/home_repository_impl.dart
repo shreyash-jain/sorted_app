@@ -25,7 +25,7 @@ import 'package:sorted/features/HOME/data/models/placeholder_info.dart' as ph;
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
-import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
@@ -858,9 +858,11 @@ class HomeRepositoryImpl implements HomeRepository {
     Failure failure;
     Either<Failure, List<TaggedRecipe>> result = Left(NetworkFailure());
     DateTime now = DateTime.now();
+
     if ((await sharedPref.lastUpdatedRecipes)
         .isAfter(DateTime(now.year, now.month, now.day, 0, 00))) {
       try {
+
         return Right(await nativeDataSource.taggedRecipes);
       } on Exception {
         result = Left(NativeDatabaseException());
@@ -872,12 +874,14 @@ class HomeRepositoryImpl implements HomeRepository {
             await remoteDataSource.getTaggedRecipes(count);
         if (cloudData != null && cloudData.length > 0) {
           result = Right(cloudData);
+
           nativeDataSource.deleteRecipeTable();
           nativeDataSource.addTaggedRecipes(cloudData);
         } else {
           try {
             List<TaggedRecipe> nativeData =
                 await nativeDataSource.taggedRecipes;
+                
             if (nativeData != null) {
               result = Right(nativeData);
             } else
@@ -1015,84 +1019,12 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(NetworkFailure());
   }
 
-  @override
-  Future<Either<Failure, List<RecipeHowTo>>> getRecipeHowto(
-      int recipeId) async {
-    if (await networkInfo.isConnected) {
-      try {
-        List<RecipeHowTo> recipeHowtos =
-            await remoteDataSource.getRecipeHowto(recipeId);
 
-        return (Right(recipeHowtos));
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else
-      return Left(NetworkFailure());
-  }
 
-  @override
-  Future<Either<Failure, IngredientAndQuantity>> getRecipeIngredients(
-      int recipeId) async {
-    if (await networkInfo.isConnected) {
-      try {
-        IngredientAndQuantity ingredients =
-            await remoteDataSource.getRecipeIngredients(recipeId);
 
-        return (Right(ingredients));
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else
-      return Left(NetworkFailure());
-  }
 
-  @override
-  Future<Either<Failure, List<RecipeNutrition>>> getRecipeNutritions(
-      int recipeId) async {
-    if (await networkInfo.isConnected) {
-      try {
-        List<RecipeNutrition> nutritions =
-            await remoteDataSource.getRecipeNutritions(recipeId);
 
-        return (Right(nutritions));
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else
-      return Left(NetworkFailure());
-  }
 
-  @override
-  Future<Either<Failure, List<RecipeStep>>> getRecipeSteps(int recipeId) async {
-    if (await networkInfo.isConnected) {
-      try {
-        List<RecipeStep> steps =
-            await remoteDataSource.getRecipeSteps(recipeId);
-
-        return (Right(steps));
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else
-      return Left(NetworkFailure());
-  }
-
-  @override
-  Future<Either<Failure, List<RecipeToIngredient>>> getIngregientQuantities(
-      int recipeId) async {
-    if (await networkInfo.isConnected) {
-      try {
-        List<RecipeToIngredient> quantities =
-            await remoteDataSource.getIngregientQuantities(recipeId);
-
-        return (Right(quantities));
-      } on Exception {
-        return Left(ServerFailure());
-      }
-    } else
-      return Left(NetworkFailure());
-  }
 
   @override
   Future<Either<Failure, int>> addPost(PostModel post) async {
@@ -1221,4 +1153,6 @@ class HomeRepositoryImpl implements HomeRepository {
     }
     return result;
   }
+
+
 }

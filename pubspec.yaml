@@ -23,12 +23,13 @@ dependencies:
   async:
   auto_route: "2.2.0"
   bloc_provider:
-
+  timelines:
   cached_network_image:
   camera:
   pin_code_fields:
   connectivity:
   crop:
+  material_floating_search_bar:
   csv:
   flutter_staggered_grid_view:
   cupertino_icons:

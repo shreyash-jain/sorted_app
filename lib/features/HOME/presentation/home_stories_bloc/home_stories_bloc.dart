@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/activity_summary.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/diet_summary.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_summary.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_details.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
@@ -25,11 +27,19 @@ class HomeStoriesBloc extends Bloc<HomeStoriesEvent, HomeStoriesState> {
       List<TrackModel> subTracks = [];
       List<TrackSummary> trackSummaries = [];
       List<bool> isLoading = [];
+      ActivityLogSummary activityLogSummary;
+      DietLogSummary dietLogSummary;
 
       var userTrackResult = await repository.getUserTracks();
       userTrackResult.fold((l) => failure = l, (r) {
         if (r.subscribed_ids.length > 0) tracksIds = r;
       });
+
+      var dietSummartResult = await repository.getDietLogSummary();
+      dietSummartResult.fold((l) => failure = l, (r) => dietLogSummary = r);
+      var activitySummartResult = await repository.getActivityLogSummary();
+      activitySummartResult.fold(
+          (l) => failure = l, (r) => activityLogSummary = r);
       if (failure == null) {
         isLoading = List.filled(tracksIds.subscribed_ids.length, false);
         subTracks = getAllTracks()
@@ -44,7 +54,8 @@ class HomeStoriesBloc extends Bloc<HomeStoriesEvent, HomeStoriesState> {
             trackSummaries =
                 summaryResult.map((e) => e as TrackSummary).toList();
 
-          yield HomeStoriesLoaded(subTracks, trackSummaries, isLoading);
+          yield HomeStoriesLoaded(subTracks, trackSummaries, isLoading,
+              activityLogSummary, dietLogSummary);
         } catch (e) {
           yield HomeStoriesError(Failure.mapToString(failure));
         }
@@ -95,6 +106,14 @@ class HomeStoriesBloc extends Bloc<HomeStoriesEvent, HomeStoriesState> {
           yield prevState.copyWith(trackSummaries: newSummaries);
         }
       }
+    } else if (event is UpdateActivitySummary) {
+      var prevState = state as HomeStoriesLoaded;
+
+      yield prevState.copyWith(activityLogSummary: event.summary);
+    } else if (event is UpdateDietSummary) {
+      var prevState = state as HomeStoriesLoaded;
+
+      yield prevState.copyWith(dietLogSummary: event.summary);
     }
   }
 

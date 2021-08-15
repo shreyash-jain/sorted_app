@@ -98,18 +98,13 @@ abstract class HomeRepository {
   Future<Either<Failure, TransformationModel>> getTransformationStory();
   Future<Either<Failure, List<BlogModel>>> getBlogs(count);
 
-  Future<Either<Failure, IngredientAndQuantity>> getRecipeIngredients(
-      int recipeId);
 
-  Future<Either<Failure, List<RecipeStep>>> getRecipeSteps(int recipeId);
 
-  Future<Either<Failure, List<RecipeNutrition>>> getRecipeNutritions(
-      int recipeId);
 
-  Future<Either<Failure, List<RecipeToIngredient>>> getIngregientQuantities(
-      int recipeId);
 
-  Future<Either<Failure, List<RecipeHowTo>>> getRecipeHowto(int recipeId);
+
+
+
 
   Future<Either<Failure, ChallengeModel>> getChallengeOfTheDay();
   Future<Either<Failure, PepTalkModel>> getMotivationOfTheDay();

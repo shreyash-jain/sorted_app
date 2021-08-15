@@ -33,7 +33,6 @@ class FlexibleSpaceArea extends StatefulWidget {
 }
 
 class _FlexibleAreaState extends State<FlexibleSpaceArea> {
-
   HomeStoriesBloc homeStoriesBloc;
   bool showArrow = true;
   List<TrackModel> tracks = [];
@@ -47,7 +46,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   void initState() {
     _controller = ScrollController();
     tracks = getTracksForClass();
-   
+
     homeStoriesBloc = sl<HomeStoriesBloc>()..add(LoadTrackStories());
 
     _controller.addListener(_scrollListener);
@@ -195,16 +194,26 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
 
                                                       if (state.isLoading[
                                                               e.key] ==
-                                                          false)
-                                                        new PerformanceLogBloc(
-                                                            sl(),
-                                                            homeStoriesBloc:
-                                                                homeStoriesBloc)
-                                                          ..add(LoadFromStory(
-                                                              state.trackSummaries[
-                                                                  e.key],
-                                                              e.value,
-                                                              context));
+                                                          false) {
+                                                        if (e.value.id == 2) {
+                                                          context.router.push(
+                                                              ActivityLogRoute(
+                                                                  summary: state
+                                                                      .activityLogSummary,
+                                                                  homeBloc:
+                                                                      homeStoriesBloc));
+                                                        } else {
+                                                          new PerformanceLogBloc(
+                                                              sl(),
+                                                              homeStoriesBloc:
+                                                                  homeStoriesBloc)
+                                                            ..add(LoadFromStory(
+                                                                state.trackSummaries[
+                                                                    e.key],
+                                                                e.value,
+                                                                context));
+                                                        }
+                                                      }
 
                                                       print("Say");
                                                     },
@@ -212,18 +221,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                     urlType: 0),
                                               )
                                               .toList(),
-                                          StoryCircleWidget(
-                                              storyName: "Track\nWorkout",
-                                              onClick: onClickWorkout,
-                                              filePath:
-                                                  "assets/images/tracks/track_workout.png",
-                                              urlType: 1),
-                                          StoryCircleWidget(
-                                              storyName: "Track\nDiet",
-                                              onClick: onClickDiet,
-                                              filePath:
-                                                  "assets/images/tracks/track_diet.png",
-                                              urlType: 1),
+
                                           // AffirmationCircleWidget(
                                           //     affirmationBloc: affirmationBloc),
                                           SizedBox(
@@ -232,9 +230,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                         ],
                                       ));
                                 else if (state is HomeStoriesError)
-                                  return Center(
-                                      child: MessageDisplay(
-                                          message: state.message));
+                                  return MessageDisplay(message: state.message);
                                 else if (state is HomeStoriesInitial)
                                   return Container(
                                       height: 140,

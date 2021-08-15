@@ -16,5 +16,28 @@ class LoadFromStory extends PerformanceEvent {
   List<Object> get props => [trackSummary, track, context];
 }
 
+class LoadActivityStory extends PerformanceEvent {
+  final ActivityLogSummary trackSummary;
 
+  LoadActivityStory(this.trackSummary);
+  @override
+  List<Object> get props => [trackSummary];
+}
 
+class LoadDietlogStory extends PerformanceEvent {
+  final DietLogSummary trackSummary;
+
+  LoadDietlogStory(this.trackSummary);
+  @override
+  List<Object> get props => [trackSummary];
+}
+
+class AddActivityLog extends PerformanceEvent {
+  final ActivityLog activity;
+  final ActivityModel model;
+
+  AddActivityLog(this.activity, this.model);
+
+  @override
+  List<Object> get props => [activity, model];
+}

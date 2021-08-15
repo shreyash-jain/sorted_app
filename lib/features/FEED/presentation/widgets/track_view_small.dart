@@ -94,18 +94,27 @@ class ProfileTrackView extends StatelessWidget {
                     if ((summary != null || summary.track_logs.length > 0))
                       Container(
                         child: Gtheme.stext(
-                            getStringFromCurrentValue(property.property_type,
-                                property.n_stat_condition),
+                            getStringFromCurrentValue(
+                                property.property_type,
+                                property.n_stat_condition,
+                                summary.last_log,
+                                summary.currentValue),
                             size: GFontSize.XS,
-                            weight: GFontWeight.B),
+                            weight: GFontWeight.N),
                       ),
                     SizedBox(
                       height: 8,
                     ),
                     if ((summary != null || summary.track_logs.length > 0))
                       Container(
-                        child: Gtheme.stext(summary.currentValue,
-                            size: GFontSize.M, weight: GFontWeight.B),
+                        child: Gtheme.stext(
+                            getUpdatedStringForCurrentValue(
+                              summary.currentValue,
+                              property.property_type,
+                              property.n_stat_condition,
+                            ),
+                            size: GFontSize.M,
+                            weight: GFontWeight.B),
                       ),
                   ],
                 ),
@@ -115,7 +124,61 @@ class ProfileTrackView extends StatelessWidget {
         ));
   }
 
-  String getStringFromCurrentValue(int type, int stat) {
+  String getUpdatedStringForCurrentValue(
+      String currentValue, int type, int stat) {
+    if (currentValue == null || currentValue == "") return "";
+    switch (type) {
+      case 2:
+        {
+          switch (stat) {
+            case 0:
+              return "$currentValue ${property.n_unit}";
+            case 1:
+              return "$currentValue ${property.n_unit}";
+
+              break;
+            default:
+              return "$currentValue";
+          }
+          break;
+        }
+      case 3:
+        return "$currentValue rated out of 5";
+      case 4:
+        double val = 0;
+        try {
+          val = double.parse(currentValue);
+        } catch (e) {
+          return "$currentValue";
+        }
+        if (val < 60)
+          return "$currentValue mins";
+        else
+          return _printDuration(Duration(minutes: val.toInt()));
+        break;
+      default:
+        return "$currentValue";
+    }
+  }
+
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes Hours";
+  }
+
+  String getStringFromCurrentValue(
+      int type, int stat, DateTime date, String currentValue) {
+    String dateString;
+    if (date == null) return "No data";
+    dateString = formatterDate.format(date);
+    if (date == null)
+      dateString = "Never filled";
+    else if (isSameDate(DateTime.now(), date))
+      dateString = "today";
+    else if (isSameDate(DateTime.now().subtract(Duration(days: 1)), date))
+      dateString = "yesterday";
     if (type == 1)
       return "Your last log";
     else if (type == 2) {
@@ -124,9 +187,9 @@ class ProfileTrackView extends StatelessWidget {
           return "Last logged value in ${property.n_unit}";
           break;
         case 1:
-          return "Total ${property.n_unit} today";
+          return "Total in ${property.n_unit} on $dateString";
         case 2:
-          return "Average ${property.n_unit} today";
+          return "Average ${property.n_unit} on $dateString";
           break;
         default:
           return "";
@@ -134,8 +197,14 @@ class ProfileTrackView extends StatelessWidget {
     } else if (type == 3)
       return "Average value for today";
     else if (type == 4)
-      return "Today's total duration";
+      return "Today's total duration ";
     else
       return "";
+  }
+
+  bool isSameDate(DateTime thisDate, DateTime other) {
+    return thisDate.year == other.year &&
+        thisDate.month == other.month &&
+        thisDate.day == other.day;
   }
 }

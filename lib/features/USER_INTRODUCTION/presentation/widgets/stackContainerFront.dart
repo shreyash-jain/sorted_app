@@ -79,38 +79,6 @@ class StackContainerFront extends StatelessWidget {
                     .9,
                     Column(
                       children: [
-                        if (widget.progress < 1)
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                width: Gparam.widthPadding,
-                              ),
-                              Text(
-                                (widget.oldState)
-                                    ? UserIntroStrings.oldActionDownloading
-                                    : UserIntroStrings.newActionDownloading,
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.black45,
-                                    fontFamily: 'Milliard'),
-                              ),
-                              SizedBox(width: 10.0),
-                              FadeAnimationTB(
-                                  .8,
-                                  TextTransition(
-                                    text: currentItemInDownload,
-                                    width: Gparam.width / 2,
-                                    duration: Duration(milliseconds: 200),
-                                    textStyle: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white60,
-                                        fontFamily: 'Milliard'),
-                                  )),
-                            ],
-                          ),
                         SizedBox(height: 10),
                         Center(
                           child: Container(
@@ -121,69 +89,34 @@ class StackContainerFront extends StatelessWidget {
                                     children: <Widget>[
                                       ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(5),
                                           child: Container(
                                               height: 20,
                                               child: LinearProgressIndicator(
-                                                backgroundColor: Colors.black45,
+                                                backgroundColor:
+                                                    Colors.black.withAlpha(20),
                                                 valueColor:
                                                     new AlwaysStoppedAnimation<
-                                                        Color>(Colors.white),
+                                                            Color>(
+                                                        Colors.blueGrey
+                                                            .withAlpha(60)),
                                                 value: widget.progress,
                                               ))),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Container(
-                                        decoration: Gtheme.roundedWhite,
-                                        padding: EdgeInsets.only(
-                                            left: 20,
-                                            right: 20,
-                                            top: 10,
-                                            bottom: 10),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            (widget.progress < 1)
-                                                ? Container(
-                                                    height: 20,
-                                                    width: 20,
-                                                    decoration:
-                                                        new BoxDecoration(
-                                                      image:
-                                                          new DecorationImage(
-                                                        image: new AssetImage(
-                                                            UserIntroStrings
-                                                                .downloadingPath),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : Icon(
-                                                    Icons.check,
-                                                    color: Colors.black87,
-                                                    size: 20,
-                                                  ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Text(
-                                              '${(widget.progress * 100).round()}%',
-                                              style: Gtheme.blackShadowBold28,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      SizedBox(height: 10),
+                                      Text("loading",
+                                          style: TextStyle(
+                                              fontFamily: 'Milliard',
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black45))
                                     ],
                                   )
                                 : Text("",
                                     style: TextStyle(
                                         fontFamily: 'Milliard',
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black)),
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black45)),
                           ),
                         ),
                       ],

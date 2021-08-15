@@ -18,7 +18,7 @@ import 'package:sorted/features/HOME/data/models/motivation/transformation.dart'
 import 'package:sorted/features/HOME/data/models/placeholder_info.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_howto.dart';
-import 'package:sorted/features/HOME/data/models/recipes/recipe_ingredient.dart';
+
 import 'package:sorted/features/HOME/data/models/recipes/recipe_nutrition.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_step.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.dart';
@@ -58,12 +58,6 @@ abstract class HomeCloud {
 
   Future<RecipeModel> getRecipeById(int id);
   Future<List<BlogModel>> getBlog(int count);
-  Future<IngredientAndQuantity> getRecipeIngredients(int recipeId);
-  Future<List<RecipeStep>> getRecipeSteps(int recipeId);
-  Future<List<RecipeNutrition>> getRecipeNutritions(int recipeId);
-  Future<List<RecipeHowTo>> getRecipeHowto(int recipeId);
-
-  Future<List<RecipeToIngredient>> getIngregientQuantities(int recipeId);
 
   Future<int> addPost(PostModel post);
 
@@ -304,7 +298,7 @@ class HomeCloudDataSourceImpl implements HomeCloud {
   @override
   Future<RecipeModel> getRecipeById(int id) async {
     var snapShot = await cloudDb
-        .collection('Recipes')
+        .collection('RecipeBank')
         .where(FieldPath.documentId, isEqualTo: id.toString())
         .get();
     if (snapShot != null && snapShot.docs.length != 0) {
@@ -316,6 +310,9 @@ class HomeCloudDataSourceImpl implements HomeCloud {
 
   @override
   Future<List<TaggedRecipe>> getTaggedRecipes(int count) async {
+
+
+    
     List<TaggedRecipe> recipeList = [];
     var rng = new Random();
     var key = rng.nextInt(10000);
@@ -347,6 +344,7 @@ class HomeCloudDataSourceImpl implements HomeCloud {
         });
       }
     });
+
     return recipeList;
   }
 
@@ -446,61 +444,6 @@ class HomeCloudDataSourceImpl implements HomeCloud {
   }
 
   @override
-  Future<List<RecipeHowTo>> getRecipeHowto(int recipeId) async {
-    var snapShot = await cloudDb
-        .collection('RecipesDb/data/howToProceed')
-        .where("recipe_id", isEqualTo: recipeId)
-        .get();
-    if (snapShot != null && snapShot.docs.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.docs;
-      var list = documents.map((e) => RecipeHowTo.fromSnapshot(e)).toList();
-      list.sort((a, b) => a.step.compareTo(b.step));
-      return list;
-    }
-    return Future.value([]);
-  }
-
-  @override
-  Future<IngredientAndQuantity> getRecipeIngredients(int recipeId) async {
-    List<RecipeToIngredient> rToI = [];
-    List<RecipeIngredient> ingredients = [];
-
-    var snapShot = await cloudDb
-        .collection('RecipesDb/data/recipeToIngredients')
-        .where("recipe_id", isEqualTo: recipeId)
-        .get();
-    print("getRecipeIngredients " + recipeId.toString());
-    if (snapShot != null && snapShot.docs.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.docs;
-      var list =
-          documents.map((e) => RecipeToIngredient.fromSnapshot(e)).toList();
-      print("getRecipeIngredients " + list.toString());
-      for (var i = 0; i < list.length; i++) {
-        var ingredient = await getRecipeIngredientsById(list[i].ingredient_id);
-        if (ingredient.id != -1) ingredients.add(ingredient);
-      }
-      print("getRecipeIngredients " + ingredients.toString());
-      return IngredientAndQuantity(ingredients, list);
-    }
-    return Future.value(IngredientAndQuantity([], []));
-  }
-
-  Future<RecipeIngredient> getRecipeIngredientsById(int ingredientId) async {
-    var snapShot = await cloudDb
-        .collection('RecipesDb/data/ingredients')
-        .where("id", isEqualTo: ingredientId)
-        .get();
-    if (snapShot != null && snapShot.docs.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.docs;
-      var list =
-          documents.map((e) => RecipeIngredient.fromSnapshot(e)).toList();
-
-      return list[0];
-    }
-    return Future.value(RecipeIngredient(id: -1));
-  }
-
-  @override
   Future<List<RecipeNutrition>> getRecipeNutritions(int recipeId) async {
     var snapShot = await cloudDb
         .collection('RecipesDb/data/nutritionalValues')
@@ -513,36 +456,6 @@ class HomeCloudDataSourceImpl implements HomeCloud {
       return list;
     }
     return Future.value([]);
-  }
-
-  @override
-  Future<List<RecipeStep>> getRecipeSteps(int recipeId) async {
-    var snapShot = await cloudDb
-        .collection('RecipesDb/data/steps')
-        .where("recipe_id", isEqualTo: recipeId)
-        .get();
-    if (snapShot != null && snapShot.docs.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.docs;
-      var list = documents.map((e) => RecipeStep.fromSnapshot(e)).toList();
-      list.sort((a, b) => a.step.compareTo(b.step));
-      return list;
-    }
-    return Future.value([]);
-  }
-
-  @override
-  Future<List<RecipeToIngredient>> getIngregientQuantities(int recipeId) async {
-    var snapShot = await cloudDb
-        .collection('RecipesDb/data/recipeToIngredients')
-        .where("recipe_id", isEqualTo: recipeId)
-        .get();
-    if (snapShot != null && snapShot.docs.length != 0) {
-      final List<DocumentSnapshot> documents = snapShot.docs;
-      var list =
-          documents.map((e) => RecipeToIngredient.fromSnapshot(e)).toList();
-      return list;
-    } else
-      return [];
   }
 
   @override
@@ -577,7 +490,7 @@ class HomeCloudDataSourceImpl implements HomeCloud {
         .collection('ChallengesDb/data/Challenges')
         .doc('$number')
         .get();
-        
+
     if (snapShot != null && snapShot.exists) {
       return ChallengeModel.fromMap(snapShot.data() as Map);
     }
@@ -622,11 +535,4 @@ class HomeCloudDataSourceImpl implements HomeCloud {
     }
     return Future.value(PepTalkModel(id: -1));
   }
-}
-
-class IngredientAndQuantity {
-  final List<RecipeIngredient> ingredient;
-  final List<RecipeToIngredient> quantiy;
-
-  IngredientAndQuantity(this.ingredient, this.quantiy);
 }

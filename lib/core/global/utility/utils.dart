@@ -15,3 +15,9 @@ String fromLevelToDifficulty(int level) {
   if (level == 1) return "Medium";
   return "Hard";
 }
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}

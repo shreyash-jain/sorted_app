@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/core/global/models/log.dart';
+import 'package:sorted/features/PLANNER/data/models/activity.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_settings.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_summary.dart';
@@ -84,6 +85,8 @@ abstract class PerformanceCloud {
   Future<ActivityLogSettings> getActivityLogSettings();
 
   Future<DietLogSettings> getDietLogSettings();
+
+  Future<ActivityModel> getActivityById(int activityId);
 }
 
 class PerformanceCloudDataSourceImpl implements PerformanceCloud {
@@ -200,7 +203,6 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
   Future<TrackSummary> getTrackSummary(int id) async {
     var user = auth.currentUser;
 
-    
     var snapShot = await cloudDb
         .collection('users/${user.uid}/performance_data/$id/trackSummary')
         .doc('data')
@@ -231,6 +233,7 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
             'users/${user.uid}/performance_data/${setting.track_id}/properties')
         .doc({setting.property_id}.toString())
         .set(setting.toMap());
+    return 1;
   }
 
   @override
@@ -240,7 +243,8 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
         .collection(
             'users/${user.uid}/performance_data/${setting.track_id}/trackSettings')
         .doc('data')
-        .get();
+        .set(setting.toMap());
+    return 1;
   }
 
   @override
@@ -252,6 +256,7 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
             'users/${user.uid}/performance_data/${summary.track_id}/trackSummary')
         .doc('data')
         .set(summary.toMap());
+    return 1;
   }
 
   @override
@@ -262,6 +267,7 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
         .collection('users/${user.uid}/performance_data/')
         .doc('subs')
         .set(setting.toMap());
+    return 1;
   }
 
   @override
@@ -445,17 +451,19 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
     var snapShot = await cloudDb
         .collection('users/${user.uid}/performance_data/2/trackSettings')
         .doc('data')
-        .get();
+        .set(setting.toMap());
+    return 1;
   }
 
   @override
-  Future<int> setActivitySummary(ActivityLogSummary summary) {
+  Future<int> setActivitySummary(ActivityLogSummary summary) async {
     var user = auth.currentUser;
 
     var snapShot = cloudDb
         .collection('users/${user.uid}/performance_data/2/trackSummary')
         .doc('data')
         .set(summary.toMap());
+    return 1;
   }
 
   @override
@@ -464,16 +472,32 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
     var snapShot = await cloudDb
         .collection('users/${user.uid}/performance_data/1/trackSettings')
         .doc('data')
-        .get();
+        .set(setting.toMap());
+    return 1;
   }
 
   @override
-  Future<int> setDietSummary(ActivityLogSummary summary) {
+  Future<int> setDietSummary(ActivityLogSummary summary) async {
     var user = auth.currentUser;
 
     var snapShot = cloudDb
         .collection('users/${user.uid}/performance_data/1/trackSummary')
         .doc('data')
         .set(summary.toMap());
+    return 1;
+  }
+
+  @override
+  Future<ActivityModel> getActivityById(int activityId) async {
+    var snapShot = await cloudDb
+        .collection('ActivitiesDb/data/activities')
+        .doc(activityId.toString())
+        .get();
+
+        
+    if (snapShot != null) {
+      return ActivityModel.fromSnapshot(snapShot);
+    } else
+      return Future.value(ActivityModel(id: -1));
   }
 }

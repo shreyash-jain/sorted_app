@@ -46,7 +46,11 @@ class ProgressBar extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      if (_currentPage == 0) Text("Account setup"),
+                      if (_currentPage == 0)
+                        Text(
+                          "Account setup",
+                          style: Gtheme.blackShadowBold32,
+                        ),
                       if (_currentPage == 0)
                         SizedBox(
                           height: Gparam.height / 50,
@@ -83,7 +87,11 @@ class ProgressBar extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      if (_currentPage == 1) Text("Health Profile"),
+                      if (_currentPage == 1)
+                        Text(
+                          "Health Profile",
+                          style: Gtheme.blackShadowBold32,
+                        ),
                       if (_currentPage == 1)
                         SizedBox(
                           height: Gparam.height / 50,

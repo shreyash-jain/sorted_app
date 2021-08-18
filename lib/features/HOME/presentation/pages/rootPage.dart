@@ -121,7 +121,7 @@ class _RootHomeState extends State<RootHome> {
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               currentIndex: _currentIndex,
-              selectedItemColor: Theme.of(context).highlightColor,
+              selectedItemColor: Theme.of(context).primaryColor,
               unselectedItemColor: Colors.grey.withOpacity(.6),
               onTap: (val) => _onTap(val, context),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,

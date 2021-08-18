@@ -131,7 +131,8 @@ class _NumberLogState extends State<NumberLog> {
                   child: SliderNumberWidget(
                     fullWidth: true,
                     sliderHeight: 60,
-                    initialValue: initialValue,
+                    initialValue:
+                        (_property.n_stat_condition == 1) ? 0 : initialValue,
                     precision: widget.property.n_after_decimal,
                     unit: widget.property.n_unit,
                     onUpdate: (v) {

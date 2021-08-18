@@ -14,6 +14,7 @@ class PostModel extends Equatable {
   int feedType;
   int clickAction;
   String feedId;
+  int likes;
   PostModel({
     this.id = '',
     this.title = '',
@@ -21,12 +22,14 @@ class PostModel extends Equatable {
     this.senderUrl = '',
     this.senderId = '',
     this.senderName = '',
-    this.time,
+     this.time,
     this.feedUrl = '',
     this.feedType = 0,
     this.clickAction = 0,
     this.feedId = '',
+    this.likes = 0,
   });
+
 
   PostModel copyWith({
     String id,
@@ -38,8 +41,9 @@ class PostModel extends Equatable {
     DateTime time,
     String feedUrl,
     int feedType,
-    String feedId,
     int clickAction,
+    String feedId,
+    int likes,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -53,6 +57,7 @@ class PostModel extends Equatable {
       feedType: feedType ?? this.feedType,
       clickAction: clickAction ?? this.clickAction,
       feedId: feedId ?? this.feedId,
+      likes: likes ?? this.likes,
     );
   }
 
@@ -69,6 +74,7 @@ class PostModel extends Equatable {
       'feedType': feedType,
       'clickAction': clickAction,
       'feedId': feedId,
+      'likes': likes,
     };
   }
 
@@ -85,13 +91,13 @@ class PostModel extends Equatable {
       feedType: map['feedType'] ?? 0,
       clickAction: map['clickAction'] ?? 0,
       feedId: map['feedId'] ?? '',
+      likes: map['likes'] ?? 0,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory PostModel.fromJson(String source) =>
-      PostModel.fromMap(json.decode(source));
+  factory PostModel.fromJson(String source) => PostModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
@@ -110,6 +116,7 @@ class PostModel extends Equatable {
       feedType,
       clickAction,
       feedId,
+      likes,
     ];
   }
 }

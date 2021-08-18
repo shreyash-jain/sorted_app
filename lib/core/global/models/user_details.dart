@@ -23,26 +23,24 @@ class UserDetail extends Equatable {
 
   final int mobileNumber;
   final String status;
-  
-  
-  UserDetail({
-    this.currentDevice,
-    this.currentDeviceId,
-    this.name = "User",
-    this.imageUrl =
-        "https://lh4.googleusercontent.com/-EV2-cJYALr0/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmi-Jjd1nedgh6-6T3JFazcDTpFbA/s96-c/photo.jpg",
-    this.email = "sortedlabs@gmail.com",
-    this.id,
-    this.userName = "Sort It User",
-    this.age,
-    this.diaryStreak = 5,
-    this.points = 15,
-    this.level = 25,
-    this.gender = Gender.male,
-    this.profession = Profession.student,
-    this.mobileNumber = 0,
-    this.status=''
-  });
+
+  UserDetail(
+      {this.currentDevice,
+      this.currentDeviceId,
+      this.name = "User",
+      this.imageUrl =
+          "https://lh4.googleusercontent.com/-EV2-cJYALr0/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmi-Jjd1nedgh6-6T3JFazcDTpFbA/s96-c/photo.jpg",
+      this.email = "sortedlabs@gmail.com",
+      this.id,
+      this.userName = "Sort It User",
+      this.age,
+      this.diaryStreak = 5,
+      this.points = 15,
+      this.level = 25,
+      this.gender = Gender.male,
+      this.profession = Profession.student,
+      this.mobileNumber = 0,
+      this.status = ''});
 
   @override
   List<Object> get props {
@@ -65,42 +63,39 @@ class UserDetail extends Equatable {
     ];
   }
 
-  UserDetail copyWith({
-    String name,
-    String imageUrl,
-    String email,
-    String id,
-    String userName,
-    int currentDeviceId,
-    String currentDevice,
-    int age,
-    int diaryStreak,
-    int points,
-    int level,
-    Gender gender,
-    Profession profession,
-    int mobileNumber,
-    String status
-  }) {
+  UserDetail copyWith(
+      {String name,
+      String imageUrl,
+      String email,
+      String id,
+      String userName,
+      int currentDeviceId,
+      String currentDevice,
+      int age,
+      int diaryStreak,
+      int points,
+      int level,
+      Gender gender,
+      Profession profession,
+      int mobileNumber,
+      String status}) {
     print(5);
     return UserDetail(
-      name: name ?? this.name,
-      imageUrl: imageUrl ?? this.imageUrl,
-      email: email ?? this.email,
-      id: id ?? this.id,
-      userName: userName ?? this.userName,
-      age: age ?? this.age,
-      currentDeviceId: currentDeviceId ?? this.currentDeviceId,
-      currentDevice: currentDevice ?? this.currentDevice,
-      diaryStreak: diaryStreak ?? this.diaryStreak,
-      points: points ?? this.points,
-      level: level ?? this.level,
-      gender: gender ?? this.gender,
-      profession: profession ?? this.profession,
-      mobileNumber: mobileNumber ?? this.mobileNumber,
-      status : status ?? this.status
-
-    );
+        name: name ?? this.name,
+        imageUrl: imageUrl ?? this.imageUrl,
+        email: email ?? this.email,
+        id: id ?? this.id,
+        userName: userName ?? this.userName,
+        age: age ?? this.age,
+        currentDeviceId: currentDeviceId ?? this.currentDeviceId,
+        currentDevice: currentDevice ?? this.currentDevice,
+        diaryStreak: diaryStreak ?? this.diaryStreak,
+        points: points ?? this.points,
+        level: level ?? this.level,
+        gender: gender ?? this.gender,
+        profession: profession ?? this.profession,
+        mobileNumber: mobileNumber ?? this.mobileNumber,
+        status: status ?? this.status);
   }
 
   Map<String, dynamic> toMap() {
@@ -117,8 +112,8 @@ class UserDetail extends Equatable {
       'points': points,
       'level': level,
       'gender': gender == Gender.male ? 0 : 1,
-     'mobileNumber' : mobileNumber ,
-     'status' : status,
+      'mobileNumber': mobileNumber,
+      'status': status,
       'profession': profession == Profession.student
           ? 0
           : (profession == Profession.working)
@@ -179,11 +174,8 @@ class UserDetail extends Equatable {
   bool get stringify => true;
 
   int checkValidityOnUserIntro() {
-    if (mobileNumber == null || mobileNumber.toString().length < 10) return 0;
     if (gender == null) return 1;
-    if (age == null || age < 10) return 2;
-
-    if (profession == null) return 3;
+    if (age == null || age < 1) return 2;
 
     return 10;
   }
@@ -193,7 +185,6 @@ class UserDetail extends Equatable {
       return "Please enter a valid phone number";
     if (age == null || age < 10) return "$name, please enter your valid age";
 
-  
     if (gender == null) return "$name, please complete all details";
     return "";
   }

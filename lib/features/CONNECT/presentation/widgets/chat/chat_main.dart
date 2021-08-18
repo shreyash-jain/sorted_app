@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/constants/constants.dart';
@@ -32,7 +31,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     _messageController = TextEditingController();
     _messageFocus = FocusNode();
     _scrollController.addListener(_onScroll);
-    chatBloc = ClassChatBloc(sl(), widget.classroom);
+    chatBloc = ClassChatBloc(sl(), widget.classroom, null);
 
     _messageFocus.addListener(() {
       if (_messageFocus.hasFocus) {
@@ -158,7 +157,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                           FloatingActionButton(
                             onPressed: () {
                               chatBloc
-                                  .add(AddNewMessage(_messageController.text));
+                                  .add(AddNewClassMessage(_messageController.text));
                               _messageController.clear();
                             },
                             child: Icon(

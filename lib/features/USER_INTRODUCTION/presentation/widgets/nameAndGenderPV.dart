@@ -88,17 +88,26 @@ class _NameAndGenderState extends State<NameAndGender> {
       oneSec,
       (Timer timer) {
         if (_start == 0) {
-          setState(() {
-            timer.cancel();
-            _start = 60;
-          });
+          if (_timer.isActive)
+            setState(() {
+              timer.cancel();
+              _start = 60;
+            });
         } else {
-          setState(() {
-            _start--;
-          });
+          if (_timer.isActive)
+            setState(() {
+              _start--;
+            });
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+
+    super.dispose();
   }
 
   @override
@@ -358,7 +367,6 @@ class _NameAndGenderState extends State<NameAndGender> {
                                 animationDuration: Duration(milliseconds: 300),
                                 enableActiveFill: true,
 
-                                controller: textEditingController,
                                 keyboardType: TextInputType.number,
                                 boxShadows: [
                                   BoxShadow(

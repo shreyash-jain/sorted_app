@@ -6,11 +6,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission  android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+   
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"/>
+
     
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
@@ -24,6 +23,7 @@
         android:name=".Application"
         tools:replace="android:label"
         tools:node="merge"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
        
         <meta-data

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -190,6 +192,8 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  FirebaseAnalytics analytics = FirebaseAnalytics();
+
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -199,7 +203,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.dark(),
       routerDelegate: AutoRouterDelegate(
         sl<ARouter>(),
-        navigatorObservers: () => [AutoRouteObserver()],
+        navigatorObservers: () => [
+          AutoRouteObserver(),
+          FirebaseAnalyticsObserver(analytics: analytics)
+        ],
       ),
       routeInformationParser: sl<ARouter>().defaultRouteParser(),
       debugShowCheckedModeBanner: false,

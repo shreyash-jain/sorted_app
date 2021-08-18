@@ -98,12 +98,8 @@ class AuthenticationRepository {
       bool oldUser = await _authDataSource.checkIfUserAlreadyPresent(user);
       print("old_user " + oldUser.toString());
       if (!oldUser) {
-
-        
         await _authDataSource.makeSingleSignIn(user);
       } else {
-
-
         bool isLoggedIn = await _authDataSource.getSignInState(user);
         print(isLoggedIn.toString() + " logged in ?");
         if (isLoggedIn) {
@@ -123,8 +119,11 @@ class AuthenticationRepository {
     }
   }
 
-  Future<int> saveDeviceToken() {
+  Future<int> saveDeviceToken() async {
     print(saveDeviceToken);
+
+    var userId = await _firebaseAuth.currentUser.getIdToken();
+
     try {
       _authDataSource.saveDeviceToken();
       return Future.value(1);

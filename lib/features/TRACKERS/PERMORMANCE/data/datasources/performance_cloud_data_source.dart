@@ -80,7 +80,7 @@ abstract class PerformanceCloud {
 
   Future<int> setDietLogSettings(DietLogSettings setting);
 
-  Future<int> setDietSummary(ActivityLogSummary summary);
+  Future<int> setDietSummary(DietLogSummary summary);
 
   Future<ActivityLogSettings> getActivityLogSettings();
 
@@ -477,7 +477,7 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
   }
 
   @override
-  Future<int> setDietSummary(ActivityLogSummary summary) async {
+  Future<int> setDietSummary(DietLogSummary summary) async {
     var user = auth.currentUser;
 
     var snapShot = cloudDb

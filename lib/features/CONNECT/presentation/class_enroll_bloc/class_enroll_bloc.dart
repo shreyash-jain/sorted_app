@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
+import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted/features/CONNECT/data/datasources/expert_speciality_db.dart';
 import 'package:sorted/features/CONNECT/data/models/client_enrolls_model.dart';
 import 'package:sorted/features/CONNECT/data/models/expert/expert_profile.dart';
 import 'package:sorted/features/CONNECT/data/models/instances/class_client_link.dart';
@@ -26,6 +29,8 @@ class ClassEnrollBloc extends Bloc<ClassEnrollEvent, ClassEnrollState> {
     ClassEnrollEvent event,
   ) async* {
     if (event is GetClassDetails) {
+       sl<FirebaseAnalytics>().logEvent(
+          name: 'DynamicClassEnroll', parameters: null);
       String classId = event.classId;
       Failure failure;
       ClassModel classroom;
@@ -64,9 +69,20 @@ class ClassEnrollBloc extends Bloc<ClassEnrollEvent, ClassEnrollState> {
       }
     } else if (event is EnrollRequestEvent) {
       Failure failure;
+      List<String> topic = [];
+          sl<FirebaseAnalytics>()
+          .logEvent(name: 'DynamicClassEnrollRequest', parameters: null);
+
       ClassEnrollLoaded prevState = (state as ClassEnrollLoaded);
+      var classroom = prevState.classroom;
+      if (classroom.topics == null) classroom.topics = "";
+      topic = (classroom.topics.split(","));
+      List<String> topicNames = [];
+      topic.forEach((element) {
+        if (element != "") topicNames.add(getStringFromId(int.parse(element)));
+      });
       yield ClassEnrollLoaded(prevState.classroom, prevState.userEnrollState,
-          prevState.expertProfile, ["Vinyasa"], true);
+          prevState.expertProfile, topicNames, true);
       var userDetails = CacheDataClass.cacheData.getUserDetail();
       ClassInstanceModel classInstance = ClassInstanceModel(
           classId: prevState.classroom.id,
@@ -85,6 +101,7 @@ class ClassEnrollBloc extends Bloc<ClassEnrollEvent, ClassEnrollState> {
       int isSuccess;
       result.fold((l) => failure = l, (r) => isSuccess = r);
       if (failure == null) {
+        repository.notifyExpertforNewClass(prevState.classroom.coachUid);
         yield ClassEnrollLoaded(prevState.classroom, (isSuccess == 1) ? 1 : 0,
             prevState.expertProfile, ["Vinyasa"], false);
       } else {

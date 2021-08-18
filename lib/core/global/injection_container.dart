@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -22,6 +24,7 @@ import 'package:sorted/core/services/dynamic_link_service.dart';
 import 'package:sorted/core/services/notifications/notification_remote_data_source.dart';
 import 'package:sorted/core/services/notifications/notification_repository.dart';
 import 'package:sorted/features/CONNECT/data/datasources/connect_cloud_data_source.dart';
+import 'package:sorted/features/CONNECT/data/datasources/connect_remote_data_source.dart';
 import 'package:sorted/features/CONNECT/data/repositories/connect_repository_impl.dart';
 import 'package:sorted/features/CONNECT/domain/repositories/connect_repository.dart';
 
@@ -263,7 +266,7 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton<ElasticRemoteApi>(
-      () => ElasticRemoteApiDataSourceImpl());
+      () => ElasticRemoteApiDataSourceImpl(sl()));
 
   sl.registerLazySingleton<PerformanceCloud>(
     () => PerformanceCloudDataSourceImpl(
@@ -277,6 +280,8 @@ Future<void> init() async {
 
   sl.registerLazySingleton<ProfileSharedPref>(
       () => ProfileSharedPrefDataSourceImpl(sharedPreferences: sl()));
+  sl.registerLazySingleton<ConnectRemoteCloudDataSource>(
+      () => ConnectRemoteDataSourceImpl(sl(), sl()));
 
   //! Core
   //Global shared pref helper
@@ -299,9 +304,15 @@ Future<void> init() async {
   final Reference refStorage = FirebaseStorage.instance.ref();
   final _appRouter = ARouter();
   final dio = Dio();
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
+
+  sl.registerLazySingleton(() => analytics);
+  final FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: sl());
 
   sl.registerLazySingleton(() => _appRouter);
 
+  sl.registerLazySingleton(() => observer);
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => DataConnectionChecker());

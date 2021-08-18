@@ -75,6 +75,10 @@ class TrackAnalysisPrevLogs extends StatelessWidget {
                                     size: GFontSize.L, weight: GFontWeight.B),
                                 Gtheme.stext(" " + property.n_unit,
                                     size: GFontSize.XS, weight: GFontWeight.L),
+                                if (property.property_type == 4)
+                                  Gtheme.stext(" mins",
+                                      size: GFontSize.XS,
+                                      weight: GFontWeight.L),
                               ],
                             ),
                             SizedBox(
@@ -104,5 +108,12 @@ class TrackAnalysisPrevLogs extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes Hours";
   }
 }

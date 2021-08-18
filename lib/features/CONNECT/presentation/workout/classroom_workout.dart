@@ -24,7 +24,7 @@ class _ClassroomWorkoutState extends State<ClassroomWorkout>
   ClassModel _classroom;
   @override
   void initState() {
-    workoutPlanBloc = new WorkoutPlanBloc( sl());
+    workoutPlanBloc = new WorkoutPlanBloc(sl(), sl(), sl());
     _classroom = widget.classroom;
     super.initState();
   }
@@ -81,7 +81,6 @@ class _ClassroomWorkoutState extends State<ClassroomWorkout>
                             SizedBox(
                               height: 16,
                             ),
-                          
                           ],
                         ));
                   } else
@@ -99,8 +98,4 @@ class _ClassroomWorkoutState extends State<ClassroomWorkout>
 
   @override
   bool get wantKeepAlive => true;
-
-
-
-
 }

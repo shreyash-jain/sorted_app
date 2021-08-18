@@ -20,6 +20,8 @@ import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
+import 'package:sorted/features/PLANNER/data/models/diet_plan.dart';
+import 'package:sorted/features/PLANNER/data/models/workout_plan.dart';
 
 import '../../../../core/error/failures.dart';
 
@@ -98,18 +100,13 @@ abstract class HomeRepository {
   Future<Either<Failure, TransformationModel>> getTransformationStory();
   Future<Either<Failure, List<BlogModel>>> getBlogs(count);
 
-
-
-
-
-
-
-
-
   Future<Either<Failure, ChallengeModel>> getChallengeOfTheDay();
   Future<Either<Failure, PepTalkModel>> getMotivationOfTheDay();
 
   Future<Either<Failure, FeedPostEntity>> getFeed(
       int limit, DocumentSnapshot lastDoc);
   Future<Either<Failure, int>> addPost(PostModel post);
+
+  Future<Either<Failure, List<DietPlanModel>>> getGlobalDietPlans();
+  Future<Either<Failure, List<WorkoutPlanModel>>> getGlobalWorkoutPlans();
 }

@@ -1,22 +1,32 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:math';
 import 'package:bloc/bloc.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/core/global/models/health_profile.dart';
 import 'package:sorted/features/CONNECT/data/models/client_consultation_model.dart';
 import 'package:sorted/features/CONNECT/domain/repositories/connect_repository.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
+import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
+import 'package:sorted/features/PLANNER/data/datasources/static_data.dart';
 import 'package:sorted/features/PLANNER/data/models/activity.dart';
 import 'package:sorted/features/PLANNER/data/models/day_workout.dart';
 import 'package:sorted/features/PLANNER/data/models/workout_plan.dart';
 import 'package:sorted/features/PLANNER/domain/entities/workout_plan_entity.dart';
+import 'package:sorted/features/USER_INTRODUCTION/domain/repositories/user_intro_repository.dart';
 part 'workout_plan_event.dart';
 part 'workout_plan_state.dart';
 
 class WorkoutPlanBloc extends Bloc<WorkoutPlanEvent, WorkoutPlanState> {
   final ConnectRepository connectRepository;
-  WorkoutPlanBloc(this.connectRepository) : super(WorkoutPlanInitial());
+  final HomeRepository homeRepository;
+  final UserIntroductionRepository introductionRepository;
+  final _random = new Random();
+  WorkoutPlanBloc(
+      this.connectRepository, this.introductionRepository, this.homeRepository)
+      : super(WorkoutPlanInitial());
 
   @override
   Stream<WorkoutPlanState> mapEventToState(
@@ -147,6 +157,109 @@ class WorkoutPlanBloc extends Bloc<WorkoutPlanEvent, WorkoutPlanState> {
     } else if (event is LoadWorkoutEntity) {
       if (state is WorkoutPlanLoaded)
         yield WorkoutPlanLoaded(workoutEntity: event.plan);
+    } else if (event is GetRecommendedWorkoutPlan) {
+      Failure failure;
+      WorkoutPlanModel plan = workoutPlan;
+      HealthProfile healthProfile;
+      List<WorkoutPlanModel> workoutPlanModels = [];
+      var profileResult = await introductionRepository.getHealthProfile();
+      profileResult.fold((l) => failure = l, (r) => healthProfile = r);
+      var globalDietPlansResult = await homeRepository.getGlobalWorkoutPlans();
+      globalDietPlansResult.fold(
+          (l) => failure = l, (r) => workoutPlanModels = r);
+      if (failure == null) {
+        int isVegeratian = (healthProfile.is_vegetarian == 1 ||
+                healthProfile.is_vegan == 1 ||
+                healthProfile.is_sattvik == 1)
+            ? 1
+            : 0;
+
+        int isMuscleGain = (healthProfile.goal_gain_muscle == 1) ? 1 : 0;
+        int isWeightLoose = (healthProfile.goal_loose_weight == 1 ||
+                healthProfile.goal_stay_fit == 1)
+            ? 1
+            : 0;
+
+        /// Level 1
+        ///
+        if (workoutPlanModels.length > 0 && isVegeratian == 1)
+          workoutPlanModels =
+              workoutPlanModels.where((element) => element.isVegetarian == 1);
+        if (workoutPlanModels.length > 0)
+          plan = workoutPlanModels[_random.nextInt(workoutPlanModels.length)];
+
+        /// Level 2
+        ///
+        if (workoutPlanModels.length > 0 && isWeightLoose == 1)
+          workoutPlanModels =
+              workoutPlanModels.where((element) => element.weightLoss == 1);
+        if (workoutPlanModels.length > 0)
+          plan = workoutPlanModels[_random.nextInt(workoutPlanModels.length)];
+
+        /// Level 3
+        ///
+        if (workoutPlanModels.length > 0 && isMuscleGain == 1)
+          workoutPlanModels =
+              workoutPlanModels.where((element) => element.isGainMuscle == 1);
+        if (workoutPlanModels.length > 0)
+          plan = workoutPlanModels[_random.nextInt(workoutPlanModels.length)];
+
+        this.add(LoadWorkoutPlan(plan));
+      }
+    } else if (event is LoadCurrentConsultationWorkoutPlan) {
+      print("parsed json ");
+      List<WorkoutPlanModel> plans = [];
+      List<WorkoutPlanEntitiy> entities = [];
+      Failure failure;
+      var workoutResult;
+
+      workoutResult = await connectRepository
+          .getConsultationWorkoutPlans(event.consultation);
+
+      workoutResult.fold((l) => failure = l, (r) {
+        plans = r;
+      });
+
+      if (failure == null) {
+        if (plans.length > 0) {
+          WorkoutPlanModel data = plans[plans.length - 1];
+          print("parsed json ");
+
+          List<DayWorkout> dayWorkouts = [];
+
+          List<int> indexList = List<int>.generate(
+              getPlanLength(plans[plans.length - 1]), (index) {
+            int obj = index;
+
+            return obj;
+          });
+
+          var workoutResult = await Future.wait(
+              indexList.map((i) => getCompletedDayWorkout(data, i + 1)));
+          dayWorkouts = workoutResult;
+
+          // for (var i = 1; i <= data.length; i++) {
+          //   DayDiet thisDiets = getCompletedDayDiet(data, i);
+          //   print("index " + i.toString());
+          //   print(thisDiets.dayBreakfastDiets.toString());
+
+          //   dayDiets.add(thisDiets);
+          // }
+
+          yield WorkoutPlanLoaded(
+              workoutEntity: WorkoutPlanEntitiy(
+                  planLength: data.length,
+                  dayWorkouts: dayWorkouts,
+                  id: data.id,
+                  planName: data.name,
+                  planImage: data.name,
+                  startDate: data.startDate));
+        } else {
+          yield WorkoutPlanEmpty();
+        }
+      } else {
+        yield WorkoutPlanError(Failure.mapToString(failure));
+      }
     }
   }
 
@@ -351,7 +464,11 @@ class WorkoutPlanBloc extends Bloc<WorkoutPlanEvent, WorkoutPlanState> {
     print(activitySubString + " activitySubString ");
 
     var activityIdList = activitySubString.split(',').toList();
-    var sequence = reps.substring(1, reps.length - 1).split(',').toList();
+    var sequence;
+    if (reps.length > 1)
+      sequence = reps.substring(1, reps.length - 1).split(',').toList();
+    else
+      sequence = [];
     for (var i = 0; i < activityIdList.length; i++) {
       List<int> activitySets = [];
       try {
@@ -377,12 +494,17 @@ class WorkoutPlanBloc extends Bloc<WorkoutPlanEvent, WorkoutPlanState> {
         activitySets.addAll([10, 12, 12]);
       }
 
-      activities.add(WorkoutModel(
-        activity: ActivityModel(id: int.parse(activityIdList[i])),
-        sequence: activitySets,
-        activityType: 0,
-        restTime: List.filled(activitySets.length, 30),
-      ));
+      int activityId = 0;
+      try {
+        activityId = int.parse(activityIdList[i]);
+      } catch (e) {}
+      if (activityId != 0)
+        activities.add(WorkoutModel(
+          activity: ActivityModel(id: activityId),
+          sequence: activitySets,
+          activityType: 0,
+          restTime: List.filled(activitySets.length, 30),
+        ));
     }
     return activities;
   }

@@ -13,8 +13,11 @@ import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/core/theme/theme.dart';
+import 'package:sorted/features/FEED/presentation/widgets/track_diet_activity.dart';
+import 'package:sorted/features/FEED/presentation/widgets/track_view_activity.dart';
 import 'package:sorted/features/FEED/presentation/widgets/track_view_small.dart';
 import 'package:sorted/features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart';
+import 'package:sorted/features/HOME/presentation/track_log_bloc/track_log_bloc.dart';
 import 'package:sorted/features/PROFILE/presentation/bloc/profile_bloc.dart';
 import 'package:sorted/features/PROFILE/presentation/widgets/person_display.dart';
 import 'package:sorted/features/PROFILE/presentation/widgets/profile_top.dart';
@@ -114,6 +117,9 @@ class _ProfileState extends State<ProfilePage>
                             softWrap: false,
                           ),
                         ),
+                        SizedBox(
+                          width: 8,
+                        ),
                         Text(
                           "Edit profile",
                           style: TextStyle(
@@ -136,7 +142,8 @@ class _ProfileState extends State<ProfilePage>
                     return [
                       SliverList(
                         delegate: SliverChildListDelegate([
-                          ProfileTop(name: name, state: state),
+                          ProfileTop(
+                              name: state.details.userName, state: state),
                         ]),
                       ),
                       SliverAppBar(
@@ -181,7 +188,43 @@ class _ProfileState extends State<ProfilePage>
                               child: ListView(
                                 padding: EdgeInsets.zero,
                                 children: [
-                                  ...homestate.subsTracks.asMap().entries.map(
+                                  BlocProvider(
+                                    create: (context) => PerformanceLogBloc(
+                                        sl(), sl(),
+                                        homeStoriesBloc: sl<HomeStoriesBloc>())
+                                      ..add(LoadDietlogStory(
+                                          homestate.dietLogSummary)),
+                                    child: ProfileTrackDietView(
+                                      track: homestate.subsTracks[0],
+                                      onClick: () {
+                                        context.router.push(DietLogRoute(
+                                            summary: homestate.dietLogSummary,
+                                            homeBloc: sl<HomeStoriesBloc>()));
+                                      },
+                                    ),
+                                  ),
+                                  BlocProvider(
+                                    create: (context) => PerformanceLogBloc(
+                                        sl(), sl(),
+                                        homeStoriesBloc: sl<HomeStoriesBloc>())
+                                      ..add(LoadActivityStory(
+                                          homestate.activityLogSummary)),
+                                    child: ProfileTrackActivityView(
+                                      track: homestate.subsTracks[1],
+                                      onClick: () {
+                                        context.router.push(ActivityLogRoute(
+                                            summary:
+                                                homestate.activityLogSummary,
+                                            homeBloc: sl<HomeStoriesBloc>()));
+                                      },
+                                    ),
+                                  ),
+                                  ...homestate.subsTracks
+                                      .skip(2)
+                                      .toList()
+                                      .asMap()
+                                      .entries
+                                      .map(
                                         (e) => ProfileTrackView(
                                           track: e.value,
                                           property: getAllProperties()
@@ -193,11 +236,13 @@ class _ProfileState extends State<ProfilePage>
                                                 PerformanceAnalysisRoute(
                                                     track: e.value,
                                                     summary: homestate
-                                                            .trackSummaries[
-                                                        e.key]));
+                                                        .trackSummaries
+                                                        .skip(2)
+                                                        .toList()[e.key]));
                                           },
-                                          summary:
-                                              homestate.trackSummaries[e.key],
+                                          summary: homestate.trackSummaries
+                                              .skip(2)
+                                              .toList()[e.key],
                                         ),
                                       ),
                                   SizedBox(

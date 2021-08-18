@@ -60,7 +60,7 @@ class _SortedHomeState extends State<SortedHome>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   BlogBloc blogBloc;
   StreamSubscription<DeepLinkType> _deeplinkSubscription;
-  
+
   DeeplinkBloc deeplinkBloc;
 
   var bottomNavIndex = 0;
@@ -108,7 +108,6 @@ class _SortedHomeState extends State<SortedHome>
 
     tab_Controller = new TabController(length: 2, vsync: this);
     blogBloc = sl<BlogBloc>()..add(LoadBlogs());
-
 
     nestedScrollController = new ScrollController(
       // NEW
@@ -176,9 +175,9 @@ class _SortedHomeState extends State<SortedHome>
   void onSlide(double value) {}
 
   onClickBlog(List<BlogModel> blog, int index) {
-    context.router.push(
-      FullBlogRoute(blog: blog[index]),
-    );
+    // context.router.push(
+    //   FullBlogRoute(blog: blog[index]),
+    // );
   }
 
   @override
@@ -233,7 +232,6 @@ class _SortedHomeState extends State<SortedHome>
                             SizedBox(
                               width: 10,
                             ),
-                            ChatIconWidget(),
                           ],
                           expandedHeight: 190,
                           pinned: true,
@@ -282,8 +280,8 @@ class _SortedHomeState extends State<SortedHome>
                                 child: ListView(children: <Widget>[
                                   ClientEnrollHomeWidget(),
                                   HomePlanner(),
-                                 
-                                  HomeBlogWidget(blogBloc: blogBloc),
+
+                                  //HomeBlogWidget(blogBloc: blogBloc),
                                   SizedBox(
                                     height: 100,
                                   )

@@ -182,6 +182,16 @@ class DietPlanModel extends Equatable {
   String day28lunchIds;
   String day28dinnerItems;
   String day28dinnerIds;
+
+  int isVegetarian;
+  int isAdvanced;
+  int isWeightLoss;
+  int southIndian;
+  int northIndian;
+  int isGainMuscle;
+  int isForPcos;
+  int isForDiabetes;
+  int isForPregnant;
   DietPlanModel({
     this.id = 0,
     this.name = '',
@@ -362,6 +372,15 @@ class DietPlanModel extends Equatable {
     this.day28lunchIds = '',
     this.day28dinnerItems = '',
     this.day28dinnerIds = '',
+    this.isVegetarian = 0,
+    this.isAdvanced = 0,
+    this.isWeightLoss = 0,
+    this.southIndian = 0,
+    this.northIndian = 0,
+    this.isGainMuscle = 0,
+    this.isForPcos = 0,
+    this.isForDiabetes = 0,
+    this.isForPregnant = 0,
   });
 
   DietPlanModel copyWith({
@@ -544,6 +563,15 @@ class DietPlanModel extends Equatable {
     String day28lunchIds,
     String day28dinnerItems,
     String day28dinnerIds,
+    int isVegetarian,
+    int isAdvanced,
+    int weightLoss,
+    int southIndian,
+    int northIndian,
+    int isGainMuscle,
+    int isForPcos,
+    int isForDiabetes,
+    int isForPregnant,
   }) {
     return DietPlanModel(
       id: id ?? this.id,
@@ -725,6 +753,15 @@ class DietPlanModel extends Equatable {
       day28lunchIds: day28lunchIds ?? this.day28lunchIds,
       day28dinnerItems: day28dinnerItems ?? this.day28dinnerItems,
       day28dinnerIds: day28dinnerIds ?? this.day28dinnerIds,
+      isVegetarian: isVegetarian ?? this.isVegetarian,
+      isAdvanced: isAdvanced ?? this.isAdvanced,
+      isWeightLoss: weightLoss ?? this.isWeightLoss,
+      southIndian: southIndian ?? this.southIndian,
+      northIndian: northIndian ?? this.northIndian,
+      isGainMuscle: isGainMuscle ?? this.isGainMuscle,
+      isForPcos: isForPcos ?? this.isForPcos,
+      isForDiabetes: isForDiabetes ?? this.isForDiabetes,
+      isForPregnant: isForPregnant ?? this.isForPregnant,
     );
   }
 
@@ -909,6 +946,15 @@ class DietPlanModel extends Equatable {
       'day28lunchIds': day28lunchIds,
       'day28dinnerItems': day28dinnerItems,
       'day28dinnerIds': day28dinnerIds,
+      'isVegetarian': isVegetarian,
+      'isAdvanced': isAdvanced,
+      'weightLoss': isWeightLoss,
+      'southIndian': southIndian,
+      'northIndian': northIndian,
+      'isGainMuscle': isGainMuscle,
+      'isForPcos': isForPcos,
+      'isForDiabetes': isForDiabetes,
+      'isForPregnant': isForPregnant,
     };
   }
 
@@ -1093,6 +1139,15 @@ class DietPlanModel extends Equatable {
       day28lunchIds: map['day28lunchIds'] ?? '',
       day28dinnerItems: map['day28dinnerItems'] ?? '',
       day28dinnerIds: map['day28dinnerIds'] ?? '',
+      isVegetarian: map['isVegetarian'] ?? 0,
+      isAdvanced: map['isAdvanced'] ?? 0,
+      isWeightLoss: map['weightLoss'] ?? 0,
+      southIndian: map['southIndian'] ?? 0,
+      northIndian: map['northIndian'] ?? 0,
+      isGainMuscle: map['isGainMuscle'] ?? 0,
+      isForPcos: map['isForPcos'] ?? 0,
+      isForDiabetes: map['isForDiabetes'] ?? 0,
+      isForPregnant: map['isForPregnant'] ?? 0,
     );
   }
 
@@ -1286,6 +1341,15 @@ class DietPlanModel extends Equatable {
       day28lunchIds,
       day28dinnerItems,
       day28dinnerIds,
+      isVegetarian,
+      isAdvanced,
+      isWeightLoss,
+      southIndian,
+      northIndian,
+      isGainMuscle,
+      isForPcos,
+      isForDiabetes,
+      isForPregnant,
     ];
   }
 }

@@ -105,8 +105,7 @@ class _DurationLogState extends State<DurationLog> {
                 Padding(
                   padding: EdgeInsets.all(Gparam.widthPadding),
                   child: Gtheme.stext(
-                      value.toStringAsFixed(widget.property.n_after_decimal) +
-                          " " +
+                      _printDuration(Duration(minutes: value.toInt())) +
                           widget.property.n_unit +
                           " " +
                           getStatString(widget.property.n_stat_condition),
@@ -117,14 +116,9 @@ class _DurationLogState extends State<DurationLog> {
                   padding:
                       EdgeInsets.symmetric(horizontal: Gparam.widthPadding),
                   child: Gtheme.stext(_property.property_question,
-                      size: GFontSize.XS, weight: GFontWeight.B1),
+                      size: GFontSize.S, weight: GFontWeight.B1),
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: Gparam.widthPadding),
-                  child: Gtheme.stext("Add ${widget.property.n_unit}",
-                      size: GFontSize.XS, weight: GFontWeight.B1),
-                ),
+
                 SizedBox(
                   height: 10,
                 ),
@@ -224,6 +218,13 @@ class _DurationLogState extends State<DurationLog> {
         ],
       ),
     );
+  }
+
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes Hours";
   }
 
   String getStatString(int statCondition) {

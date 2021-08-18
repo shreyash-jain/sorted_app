@@ -4,6 +4,7 @@ import 'package:sorted/core/authentication/auth_cloud_data_source.dart';
 import 'package:sorted/core/authentication/auth_native_data_source.dart';
 
 import 'package:sorted/core/network/network_info.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/PLANNER/data/models/activity.dart';
 import 'package:sorted/features/PLANNER/domain/entities/entities/elastic_activity_response_parser.dart';
 import 'package:sorted/features/PLANNER/domain/entities/entities/filter_query.dart';
@@ -325,7 +326,7 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
 
   @override
   Future<Either<Failure, int>> setDietSummary(
-      ActivityLogSummary summary) async {
+      DietLogSummary summary) async {
     if (await networkInfo.isConnected) {
       try {
         return (Right(await cloudDataSource.setDietSummary(summary)));
@@ -364,6 +365,23 @@ class PerformanceRepositoryImpl implements PerformanceRepository {
             await cloudDataSource.getActivityById(activityId);
 
         return (Right(activity));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  
+  @override
+  Future<Either<Failure, List<RecipeModel>>> getSearchRecipe(
+      List<FilterQuery> filters) async {
+    if (await networkInfo.isConnected) {
+      try {
+        List<RecipeModel> hits =
+            await elasticRemoteApi.getRecipeSearchResults(filters);
+
+        return (Right(hits));
       } on Exception {
         return Left(ServerFailure());
       }

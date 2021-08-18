@@ -45,7 +45,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
   @override
   void initState() {
     _controller = ScrollController();
-    tracks = getTracksForClass();
+    tracks = getTracksForClasses();
 
     homeStoriesBloc = sl<HomeStoriesBloc>()..add(LoadTrackStories());
 
@@ -138,25 +138,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: Gparam.width,
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    EdgeInsets.only(left: Gparam.widthPadding),
-                                child: Text(
-                                  "Sort.it",
-                                  style: TextStyle(
-                                      color: Theme.of(context).highlightColor,
-                                      fontFamily: 'Milliard',
-                                      fontSize: Gparam.textSmall,
-                                      fontWeight: FontWeight.w800),
-                                ),
-                              ),
-                            ],
-                          ),
+                         
                           BlocProvider(
                             create: (context) => homeStoriesBloc,
                             child:
@@ -195,7 +177,15 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                       if (state.isLoading[
                                                               e.key] ==
                                                           false) {
-                                                        if (e.value.id == 2) {
+                                                        if (e.value.id == 1) {
+                                                          context.router.push(
+                                                              DietLogRoute(
+                                                                  summary: state
+                                                                      .dietLogSummary,
+                                                                  homeBloc:
+                                                                      homeStoriesBloc));
+                                                        } else if (e.value.id ==
+                                                            2) {
                                                           context.router.push(
                                                               ActivityLogRoute(
                                                                   summary: state
@@ -204,7 +194,7 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                                                       homeStoriesBloc));
                                                         } else {
                                                           new PerformanceLogBloc(
-                                                              sl(),
+                                                              sl(), sl(),
                                                               homeStoriesBloc:
                                                                   homeStoriesBloc)
                                                             ..add(LoadFromStory(

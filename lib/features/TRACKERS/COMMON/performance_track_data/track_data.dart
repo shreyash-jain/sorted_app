@@ -1,13 +1,20 @@
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 
-List<TrackModel> getTracksForClass() {
+List<TrackModel> getTracksForConsultation() {
   return [
-    diet_track,
-    track_workout,
     track_weight,
     track_water,
     track_body_fat,
-    track_my_transformation
+    track_fasting,
+  ];
+}
+
+List<TrackModel> getTracksForClasses() {
+  return [
+    track_weight,
+    track_water,
+    track_body_fat,
+    track_fasting,
   ];
 }
 
@@ -36,6 +43,7 @@ List<TrackModel> getAllTracks() {
     track_fasting
   ];
 }
+//! do not changes corousel images
 
 TrackModel diet_track = new TrackModel(
   id: 1,
@@ -54,12 +62,10 @@ TrackModel diet_track = new TrackModel(
   m_reward:
       "Stay healthy and energetic. Grow your metabolism rate. Perform all tasks with high energy and no fatigue.",
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FArtboard%201.png?alt=media&token=23b28b81-a565-46ed-b370-1cf48ec8454d",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FArtboard%202.png?alt=media&token=4e5f253a-8262-47d9-926e-670a3b65e47d",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FArtboard%204.png?alt=media&token=0cc75345-c5d4-4b3b-92a7-bec9b30ca22b",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FArtboard%205.png?alt=media&token=47861d14-f867-4e8b-8937-9c840b31e103",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FArtboard%206.png?alt=media&token=be60246f-5329-4b67-9d6d-6bb765a97711",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FArtboard%207.png?alt=media&token=2dddaf19-ffef-4e65-8ed6-afecc8550278"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FiPhone%2011%20Pro%20Max%20-%2066.png?alt=media&token=e0c06f69-fc86-4f55-90c5-f41dc4018794",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FiPhone%2011%20Pro%20Max%20-%2067.png?alt=media&token=e9dd2941-28ca-4783-8b44-ee6f1e5f1cf3",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FiPhone%2011%20Pro%20Max%20-%2068.png?alt=media&token=8762651e-66f8-48d8-9e9f-9001f780162f",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F1%2FiPhone%2011%20Pro%20Max%20-%2070.png?alt=media&token=a575239e-824b-4d5a-a283-ee520068c391",
   ],
 );
 
@@ -78,10 +84,10 @@ TrackModel track_workout = new TrackModel(
   ts_autofill: 0,
   ts_default_sub_days: 0,
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2010.png?alt=media&token=7ecfe11b-9346-4afa-afcb-bde17f8a0b6c",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2011.png?alt=media&token=2059bcf5-7d8e-446b-ad06-abf085ec054f",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2012.png?alt=media&token=4d74e772-5a19-4a9d-99f2-5743c3aae147",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2013.png?alt=media&token=e84f770a-a709-4c2c-9305-73e6e958a2a4"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2010.png?alt=media&token=4182da1e-00c7-4afa-abeb-d4d762d71951",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2011.png?alt=media&token=76f4a5a5-7636-4932-a515-b58b9f86a876",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2012.png?alt=media&token=30871f05-9531-41e7-9c8c-a2ed899054a9",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F2%2FiPhone%2011%20Pro%20Max%20-%2013.png?alt=media&token=08ed8344-1392-40db-9285-cde3f256fc05"
   ],
   ts_multifil: 1,
 );
@@ -99,10 +105,10 @@ TrackModel track_weight = new TrackModel(
   m_reward:
       "Your body more efficiently circulates blood. Your fluid levels are more easily managed. You are less likely to develop diabetes, heart disease, certain cancers, gallstones, osteoarthritis, breathing problems and sleep apnea. You may feel better about yourself and have more energy to make other positive health changes.",
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2038.png?alt=media&token=0a4681de-0590-4f82-975b-ad1aae1826c0",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2040.png?alt=media&token=475886fb-85ea-4bfe-9854-2417264b6678",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2041.png?alt=media&token=f0778771-6b5c-4a82-ba3e-fb1d986d5029",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2042.png?alt=media&token=cc63642a-c608-42e5-acb2-b474ccb9bc3c"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2038.png?alt=media&token=d7f8a316-26c1-40a9-b2ae-86541ca5ee5b",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2040.png?alt=media&token=4ffa8d25-b8f6-4983-b887-d12a463a1e91",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2041.png?alt=media&token=36aa3cc8-92a3-4b52-9413-c207ac0ca979",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F3%2FiPhone%2011%20Pro%20Max%20-%2042.png?alt=media&token=2d4b098f-c720-4d2a-9566-7b5f2a35ca30"
   ],
   ts_autofill: 0,
 );
@@ -121,10 +127,10 @@ TrackModel track_water = new TrackModel(
   m_reward:
       "Maintained blood pressure with a healthy body with access to necessary minerals and nutrients. A boost in skin health and beauty. A healthy bowel system  ",
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2058.png?alt=media&token=94df9f0f-fe90-4ed1-b028-ab9c41150ac3",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2059.png?alt=media&token=69123c42-e9a9-4fc8-a0cb-14b6fd5fd1dd",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2060.png?alt=media&token=c532bb25-1b35-4043-821c-3655cb102c0e",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2061.png?alt=media&token=fe3afd2c-a415-403b-9602-41edddc276ec"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2058.png?alt=media&token=db76da1c-0532-4444-8c22-4f90e72b4920",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2059.png?alt=media&token=fef89cd2-2dd7-4b49-9fec-eb2ba5dc688f",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2060.png?alt=media&token=904a87af-cebc-4f27-b435-a860310fa070",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F4%2FiPhone%2011%20Pro%20Max%20-%2061.png?alt=media&token=1a237883-5dbf-48a6-b6b4-de625e88b683"
   ],
   ts_default_sub_days: 0,
 );
@@ -140,10 +146,10 @@ TrackModel track_body_fat = new TrackModel(
     m_facts:
         "According to the Centers for Disease Control and Prevention (CDC)Trusted Source, a healthy diet to maintain body fat includes: vegetables, fruit, whole grains, and fat-free or low fat dairy products lean meats, fish, poultry, eggs, nuts, and beans minimal added sugars, salt, cholesterol, saturated fats, and trans fats",
     carousel: [
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2054.png?alt=media&token=92200893-591f-4cc3-988a-c1128d4b4973",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2055.png?alt=media&token=9afe029c-27a9-4fa5-9c71-ce996e3bf0eb",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2056.png?alt=media&token=78bf62c1-5b38-48b1-8c94-1ca4f70c0eea",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2057.png?alt=media&token=774a8215-990c-433b-bf31-392a453523fb"
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2054.png?alt=media&token=9deaf098-7b62-42c5-9638-1e416830257a",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2055.png?alt=media&token=783f20b8-7deb-41ce-84ad-1cf741c6f067",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2056.png?alt=media&token=75cc98f7-621f-4c6d-9259-0abbc55274a9",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F5%2FiPhone%2011%20Pro%20Max%20-%2057.png?alt=media&token=f509e88d-60fe-47aa-b965-87e00ad475db"
     ],
     m_reward:
         "Freedom from obesity A strong cardiovascular system. A balanced physique to conquer all arenas of work.");
@@ -156,9 +162,9 @@ TrackModel track_my_transformation = new TrackModel(
       "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_transformation.png?alt=media&token=e792ad90-f3eb-42aa-8ab3-892ee5672094",
   m_description: "",
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F6%2FiPhone%2011%20Pro%20Max%20-%2035.png?alt=media&token=9e708760-62f4-4775-9e15-8341c3cc5a12",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F6%2FiPhone%2011%20Pro%20Max%20-%2036.png?alt=media&token=087b9245-1143-44b2-962d-3c3d4e9e9041",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F6%2FiPhone%2011%20Pro%20Max%20-%2037.png?alt=media&token=8a7c3a99-dc69-4df1-bf80-9598e57600b2",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F6%2FiPhone%2011%20Pro%20Max%20-%2035.png?alt=media&token=29f0e377-afd7-4e70-be9e-920d5e660e57",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F6%2FiPhone%2011%20Pro%20Max%20-%2036.png?alt=media&token=89f98d1c-f883-44c2-8181-5ae671076a35",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F6%2FiPhone%2011%20Pro%20Max%20-%2037.png?alt=media&token=198a3a89-b5ae-439e-abe0-70916267d155",
     "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F6%2FiPhone%2011%20Pro%20Max%20-%2038.png?alt=media&token=1ec0090b-87a3-4ae5-8057-8b402c43864d"
   ],
   ts_autofill: 0,
@@ -170,10 +176,10 @@ TrackModel track_my_steps = new TrackModel(
   name: "Track Steps",
   primary_property_id: 13,
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2062.png?alt=media&token=ddc106cb-fbbf-4210-a9dd-1c91ec2c89b6",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2063.png?alt=media&token=4551339c-7276-4699-87e5-9ace3076c28a",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2064.png?alt=media&token=4cf642dd-6694-4fc3-95e0-d1284371707a",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2065.png?alt=media&token=17e89c0c-aa8f-4c6d-93fd-65d251df23a4"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2062.png?alt=media&token=e063f999-7a49-452e-9bb3-a6cabc9845ea",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2063.png?alt=media&token=6bef7e50-74b2-4a4b-ab22-d84d27f5c112",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2064.png?alt=media&token=f4377ef2-9e32-458d-a43e-33ce0563f471",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F7%2FiPhone%2011%20Pro%20Max%20-%2065.png?alt=media&token=9b1eb32d-6089-40a4-afe3-a59cf5f83064"
   ],
   icon:
       "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_steps.png?alt=media&token=8ce18b74-84cf-4d6b-b1e9-0f65ef6f7339",
@@ -190,10 +196,10 @@ TrackModel track_fasting = new TrackModel(
       "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_fasting.png?alt=media&token=a61c4d5a-3bde-4d19-b8c2-81560c58742b",
   m_description: "",
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2050.png?alt=media&token=090dc3f1-a4e8-48d0-90e3-b88750beb323",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2051.png?alt=media&token=bd4c2dd8-31a7-43af-a303-d4fe8b89b4f5",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2052.png?alt=media&token=fb948425-b21a-4453-903e-d08ec082feae",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2053.png?alt=media&token=3a613c2a-3f32-4834-ac99-ee15f5805c51"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2050.png?alt=media&token=911d7571-7295-42a6-b761-ee2da6f495e5",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2051.png?alt=media&token=bfdb20dc-2ab0-4530-ae7c-df96f22fedfc",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2052.png?alt=media&token=1d24af17-ae40-4acf-ba0c-8be34095fe2f",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F8%2FiPhone%2011%20Pro%20Max%20-%2053.png?alt=media&token=b75614e5-5709-40dd-afba-d7d4cbbf3c84"
   ],
   ts_autofill: 0,
   ts_default_sub_days: 0,
@@ -204,15 +210,15 @@ TrackModel track_sugar_consumption = new TrackModel(
   name: "Track Sugar intake",
   primary_property_id: 15,
   icon:
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_fasting.png?alt=media&token=a61c4d5a-3bde-4d19-b8c2-81560c58742b",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_sugar.png?alt=media&token=92f47b6b-a7e5-4861-97ae-5fb596f68a9e",
   m_description:
       "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_sugar.png?alt=media&token=0f9151c0-30b7-4bf9-8961-e76de4dedcee",
   ts_autofill: 0,
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2030.png?alt=media&token=84dd027b-3375-47d0-abff-4e1efd267f29",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2031.png?alt=media&token=0591cea8-5e98-463f-a1a9-99fc263b84f2",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2033.png?alt=media&token=355d4ead-bd0a-4cac-8875-6f1c27ae565a",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2034.png?alt=media&token=631bf02d-95d9-4ef0-b2ac-a4eee3df58cd"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2030.png?alt=media&token=1fb585c4-eb4a-4d08-b264-c8f25811b49b",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2031.png?alt=media&token=d7858b69-57d5-4683-96ca-7402065850d5",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2033.png?alt=media&token=14c911d4-140e-42bc-8b9b-bec6f42c476e",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F9%2FiPhone%2011%20Pro%20Max%20-%2034.png?alt=media&token=a25fff54-162e-49fc-8d4e-5c0268c184f9"
   ],
   ts_default_sub_days: 0,
 );
@@ -246,10 +252,10 @@ TrackModel track_mood = new TrackModel(
       "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_mood.png?alt=media&token=ac418155-7abf-44f5-950b-8ffe64298f34",
   m_description: "",
   carousel: [
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2014.png?alt=media&token=64b5d31b-b0e2-444a-83d6-81d6214a828f",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2015.png?alt=media&token=c016bdd6-17a3-4702-a688-ee72124d7f83",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2016.png?alt=media&token=52d90446-e4bd-4a70-8437-69f43031fd8b",
-    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2017.png?alt=media&token=2dcf7147-48f1-4b6d-b2a6-515e4f294158"
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2014.png?alt=media&token=5fc897e5-e284-4ccd-a440-bc10cc5a2188",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2015.png?alt=media&token=9e60ed74-2b33-4d28-9885-e5e9ad69b1a7",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2016.png?alt=media&token=abce695b-e6cf-42af-9d90-2d03a4579c81",
+    "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F12%2FiPhone%2011%20Pro%20Max%20-%2017.png?alt=media&token=f907caa7-2b10-47ef-b099-18b0ed79c874"
   ],
   ts_autofill: 0,
   ts_default_sub_days: 0,
@@ -264,50 +270,50 @@ TrackModel track_anger = new TrackModel(
     m_description: "",
     ts_autofill: 0,
     carousel: [
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2071.png?alt=media&token=e1c8720f-eade-444a-8912-816ea601a511",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2072.png?alt=media&token=7145beda-0137-49bb-8230-d5bf90de7f23",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2074.png?alt=media&token=566aa555-ea2a-4c81-9ba1-432e9e3b4d44",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2075.png?alt=media&token=cf1dc055-f5e7-4756-bf13-8d05174f42ef"
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2071.png?alt=media&token=e8070a26-17e0-46df-bf1d-ae05c29909fd",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2072.png?alt=media&token=a5167ae9-74c2-43ab-ab53-c9cac6571549",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2074.png?alt=media&token=48cce181-1520-47e1-b743-52cf9e88b96b",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F13%2FiPhone%2011%20Pro%20Max%20-%2075.png?alt=media&token=d8696e0a-3905-44c0-a196-56c0df9bca4c"
     ]);
 TrackModel track_sleep = new TrackModel(
     id: 14,
     name: "Track Sleep",
     primary_property_id: 22,
     icon:
-        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_anxiety.png?alt=media&token=c0685ad9-84c3-41aa-9681-7f1011103f49",
+        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_sleep.png?alt=media&token=21463253-5a01-4e59-8c01-efcaa3e77780",
     m_description: "",
     ts_autofill: 0,
     carousel: [
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2026.png?alt=media&token=87ca256a-868d-4063-a846-250f0e233570",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2027.png?alt=media&token=e2bc8e04-f773-4050-8af5-117f75a377c3",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2028.png?alt=media&token=4c15755f-5d26-4897-b994-02668ff1dc0b",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2030.png?alt=media&token=2aaae052-54f8-4046-8b46-daa2d8729415"
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2026.png?alt=media&token=2899b724-a0bd-4381-a8b3-f19f468fe68e",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2027.png?alt=media&token=0afaace6-84d6-456c-8b07-b060887faa0d",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2028.png?alt=media&token=64f35c15-3771-4a4c-854e-fbf398e9e3d3",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F14%2FiPhone%2011%20Pro%20Max%20-%2029.png?alt=media&token=c8cac6ea-3190-4ce7-9116-51a8f1eecf84"
     ]);
 TrackModel track_yoga = new TrackModel(
     id: 2,
     name: "Track Yoga workout",
     primary_property_id: 2,
     icon:
-        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_anxiety.png?alt=media&token=c0685ad9-84c3-41aa-9681-7f1011103f49",
+        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_yoga.png?alt=media&token=bfd1c0d4-6bd8-41f7-8f14-5477ade74f66",
     m_description: "",
     ts_autofill: 0,
     carousel: [
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F15%2FiPhone%2011%20Pro%20Max%20-%205.png?alt=media&token=bb89cafb-a95d-4df6-a447-79602b744ba6",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F15%2FiPhone%2011%20Pro%20Max%20-%206.png?alt=media&token=cc60b252-ad93-44e0-89d0-c1ac6bd5bc2f",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F15%2FiPhone%2011%20Pro%20Max%20-%207.png?alt=media&token=3c99e1e0-5081-431e-a913-9e5f7611599b",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F15%2FiPhone%2011%20Pro%20Max%20-%208.png?alt=media&token=f8b153c3-551b-4fcf-add2-8501d91d574e"
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2Fyoga%2FiPhone%2011%20Pro%20Max%20-%205.png?alt=media&token=09bcf4fa-1512-4ecc-8234-28e1e5ba6818",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2Fyoga%2FiPhone%2011%20Pro%20Max%20-%206.png?alt=media&token=e1ad66b8-9ded-4ff2-990f-bd6a366a10bb",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2Fyoga%2FiPhone%2011%20Pro%20Max%20-%207.png?alt=media&token=d33214d1-5716-409a-98d1-3e84f4899a50",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2Fyoga%2FiPhone%2011%20Pro%20Max%20-%208.png?alt=media&token=8cc9939a-de69-4770-b03c-f769ddef7d7a"
     ]);
 TrackModel track_screentime = new TrackModel(
     id: 16,
     name: "Track Screentime",
     primary_property_id: 23,
     icon:
-        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_anxiety.png?alt=media&token=c0685ad9-84c3-41aa-9681-7f1011103f49",
+        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_icons%2Ftrack_screentime.png?alt=media&token=55ecb46e-9cba-4f42-abd3-cb155a7d9013",
     m_description: "",
     ts_autofill: 0,
     carousel: [
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2018.png?alt=media&token=84508902-9225-446f-86f7-200aa860e388",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2019.png?alt=media&token=1bc4bb62-8bc7-4fc7-9a55-c79ea9adc060",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2020.png?alt=media&token=ad6f372c-cc6f-4dd6-b14b-0ae2fbcf0cb1",
-      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2021.png?alt=media&token=908b90a1-103d-4f9c-9670-a1313fed2a6e"
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2018.png?alt=media&token=8aa73ae1-3718-4a99-aa40-4aa9e68a2a96",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2019.png?alt=media&token=aa4b315b-263c-47d4-9397-f3c76248d02e",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2020.png?alt=media&token=f5368b74-a1d2-4764-940d-fdee2ffa5a56",
+      "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/track_store%2Ftrack_colossal%2F16%2FiPhone%2011%20Pro%20Max%20-%2021.png?alt=media&token=7266c4f8-3ab9-472a-a228-b5a44b52d9ab"
     ]);

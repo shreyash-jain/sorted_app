@@ -122,6 +122,16 @@ class WorkoutPlanModel extends Equatable {
   String day28activityIds;
   String day28sets;
   String day28reps;
+
+  int isVegetarian;
+  int isAdvanced;
+  int weightLoss;
+  int southIndian;
+  int northIndian;
+  int isGainMuscle;
+  int isForPcos;
+  int isForDiabetes;
+  int isForPregnant;
   WorkoutPlanModel({
     this.id = 0,
     this.name = '',
@@ -242,6 +252,15 @@ class WorkoutPlanModel extends Equatable {
     this.day28activityIds = '',
     this.day28sets = '',
     this.day28reps = '',
+    this.isVegetarian = 0,
+    this.isAdvanced = 0,
+    this.weightLoss = 0,
+    this.southIndian = 0,
+    this.northIndian = 0,
+    this.isGainMuscle = 0,
+    this.isForPcos = 0,
+    this.isForDiabetes = 0,
+    this.isForPregnant = 0,
   });
 
   WorkoutPlanModel copyWith({
@@ -364,6 +383,15 @@ class WorkoutPlanModel extends Equatable {
     String day28activityIds,
     String day28sets,
     String day28reps,
+    int isVegetarian,
+    int isAdvanced,
+    int weightLoss,
+    int southIndian,
+    int northIndian,
+    int isGainMuscle,
+    int isForPcos,
+    int isForDiabetes,
+    int isForPregnant,
   }) {
     return WorkoutPlanModel(
       id: id ?? this.id,
@@ -485,6 +513,15 @@ class WorkoutPlanModel extends Equatable {
       day28activityIds: day28activityIds ?? this.day28activityIds,
       day28sets: day28sets ?? this.day28sets,
       day28reps: day28reps ?? this.day28reps,
+      isVegetarian: isVegetarian ?? this.isVegetarian,
+      isAdvanced: isAdvanced ?? this.isAdvanced,
+      weightLoss: weightLoss ?? this.weightLoss,
+      southIndian: southIndian ?? this.southIndian,
+      northIndian: northIndian ?? this.northIndian,
+      isGainMuscle: isGainMuscle ?? this.isGainMuscle,
+      isForPcos: isForPcos ?? this.isForPcos,
+      isForDiabetes: isForDiabetes ?? this.isForDiabetes,
+      isForPregnant: isForPregnant ?? this.isForPregnant,
     );
   }
 
@@ -609,6 +646,15 @@ class WorkoutPlanModel extends Equatable {
       'day28activityIds': day28activityIds,
       'day28sets': day28sets,
       'day28reps': day28reps,
+      'isVegetarian': isVegetarian,
+      'isAdvanced': isAdvanced,
+      'weightLoss': weightLoss,
+      'southIndian': southIndian,
+      'northIndian': northIndian,
+      'isGainMuscle': isGainMuscle,
+      'isForPcos': isForPcos,
+      'isForDiabetes': isForDiabetes,
+      'isForPregnant': isForPregnant,
     };
   }
 
@@ -733,12 +779,22 @@ class WorkoutPlanModel extends Equatable {
       day28activityIds: map['day28activityIds'] ?? '',
       day28sets: map['day28sets'] ?? '',
       day28reps: map['day28reps'] ?? '',
+      isVegetarian: map['isVegetarian'] ?? 0,
+      isAdvanced: map['isAdvanced'] ?? 0,
+      weightLoss: map['weightLoss'] ?? 0,
+      southIndian: map['southIndian'] ?? 0,
+      northIndian: map['northIndian'] ?? 0,
+      isGainMuscle: map['isGainMuscle'] ?? 0,
+      isForPcos: map['isForPcos'] ?? 0,
+      isForDiabetes: map['isForDiabetes'] ?? 0,
+      isForPregnant: map['isForPregnant'] ?? 0,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory WorkoutPlanModel.fromJson(String source) => WorkoutPlanModel.fromMap(json.decode(source));
+  factory WorkoutPlanModel.fromJson(String source) =>
+      WorkoutPlanModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
@@ -865,6 +921,15 @@ class WorkoutPlanModel extends Equatable {
       day28activityIds,
       day28sets,
       day28reps,
+      isVegetarian,
+      isAdvanced,
+      weightLoss,
+      southIndian,
+      northIndian,
+      isGainMuscle,
+      isForPcos,
+      isForDiabetes,
+      isForPregnant,
     ];
   }
 }

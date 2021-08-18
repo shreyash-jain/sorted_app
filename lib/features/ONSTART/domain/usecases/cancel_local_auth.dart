@@ -1,5 +1,3 @@
-
-
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -18,15 +16,8 @@ class CancelLocalAuth implements UseCase<void, NoParams> {
   CancelLocalAuth(this.repository);
 
   @override
-  
-  Future<Either<Failure, void>> call(NoParams params)  {
-     
-    
-     
-        sl<LocalAuthenticationService>().cancelAuthentication();
-        return Future.value(Right(null));
-    
-    
+  Future<Either<Failure, void>> call(NoParams params) {
+    return Future.value(Right(null));
   }
 }
 

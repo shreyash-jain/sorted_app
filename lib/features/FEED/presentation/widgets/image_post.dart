@@ -27,19 +27,20 @@ class ImagePost extends StatelessWidget {
         children: [
           Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: senderImageUrl,
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Center(
-                    child: ImagePlaceholderWidget(),
+              if (senderImageUrl != null && senderImageUrl != "")
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: CachedNetworkImage(
+                    imageUrl: senderImageUrl,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Center(
+                      child: ImagePlaceholderWidget(),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
-              ),
               SizedBox(
                 width: 16,
               ),
@@ -64,19 +65,20 @@ class ImagePost extends StatelessWidget {
             child: Gtheme.stext(caption,
                 size: GFontSize.XS, weight: GFontWeight.N),
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              width: Gparam.width,
-              height: Gparam.width,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Center(
-                child: ImagePlaceholderWidget(),
+          if (imageUrl != null && imageUrl != "")
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                width: Gparam.width,
+                height: Gparam.width,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Center(
+                  child: ImagePlaceholderWidget(),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-          ),
           SizedBox(
             height: 10,
           ),

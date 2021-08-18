@@ -1,3 +1,4 @@
+
 import 'package:sorted/core/global/entities/sub_profiles/fitness_goals.dart';
 import 'package:sorted/core/global/entities/sub_profiles/mindful_goals.dart';
 import 'package:sorted/features/CONNECT/data/models/expert/expert_speciality.dart';
@@ -23,6 +24,23 @@ int getIdfromString(String topic) {
           ?.key ??
       -1;
 }
+
+List<String> getFitnessStringsFromKey(List<int> goals) {
+  List<String> values = [];
+  for (var i = 0; i < goals.length; i++) {
+    values.add(getStringFromId(goals[i]));
+  }
+  return values;
+}
+
+String getStringFromId(int id) {
+  return fitnessGoalsTags
+          .where((element) => (element.key == id))
+          .toList()[0]
+          ?.value ??
+      "";
+}
+
 
 FitnessGoals fitnessGoalsFromTags(List<int> tags) {
   return FitnessGoals(
@@ -62,12 +80,4 @@ List<int> listFromMindfulGoals(MindfulGoals minfulGoals) {
   if (minfulGoals.goal_improve_will_power == 1) tags.add(9);
   if (minfulGoals.goal_overcome_addiction == 1) tags.add(10);
   return tags;
-}
-
-String getStringFromId(int id) {
-  return fitnessGoalsTags
-          .where((element) => (element.key == id))
-          .toList()[0]
-          ?.value ??
-      "";
 }

@@ -55,7 +55,7 @@ class HomeRecipeWidget extends StatelessWidget {
                                     onClick: (recipes, index) {
                                       context.router.push(RecipeRoute(
                                           type: 0,
-                                          taggedRecipe: recipes[index]));
+                                          taggedRecipe: recipes[2 * e.key]));
                                     })
                                 : Container(
                                     height: 0,
@@ -70,7 +70,7 @@ class HomeRecipeWidget extends StatelessWidget {
                                     onClick: (recipes, index) {
                                       context.router.push(RecipeRoute(
                                           type: 0,
-                                          taggedRecipe: recipes[index]));
+                                          taggedRecipe: recipes[2 * e.key + 1]));
                                     })
                                 : Container(
                                     height: 0,

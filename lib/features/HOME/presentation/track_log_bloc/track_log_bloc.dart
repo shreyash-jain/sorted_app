@@ -3,12 +3,15 @@ import 'package:bloc/bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:confetti/confetti.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/constants/constants.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/slider_widget.dart';
 import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
+import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
 import 'package:sorted/features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/aim_reach_page.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/duration_log.dart';
@@ -17,6 +20,7 @@ import 'package:sorted/features/HOME/presentation/widgets/performance_log/rate_l
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/text_log.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/weight_log.dart';
 import 'package:sorted/features/PLANNER/data/models/activity.dart';
+import 'package:sorted/features/PLANNER/data/models/day_diets.dart';
 import 'package:sorted/features/PLANNER/data/models/day_workout.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_settings.dart';
@@ -38,11 +42,13 @@ part 'track_log_state.dart';
 
 class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
   final PerformanceRepository repository;
+  final HomeRepository homeRepository;
   HomeStoriesBloc homeStoriesBloc;
   TrackLog currentLog;
   TrackSummary currentTrackSummary;
 
-  PerformanceLogBloc(this.repository, {this.homeStoriesBloc})
+  PerformanceLogBloc(this.repository, this.homeRepository,
+      {this.homeStoriesBloc})
       : super(PerformanceLogInitial());
   @override
   Stream<PerformanceLogState> mapEventToState(
@@ -57,6 +63,8 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
 
       List<TrackPropertyModel> properties;
       List<TrackPropertySettings> propertySettings;
+      sl<FirebaseAnalytics>().logEvent(
+          name: 'TrackLog', parameters: {"trackId": track.id.toString()});
       if (homeStoriesBloc != null) {
         homeStoriesBloc.add(StartLoading(track));
       }
@@ -91,6 +99,8 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
     } else if (event is LoadActivityStory) {
       Failure failure;
       TrackModel track = track_workout;
+      sl<FirebaseAnalytics>()
+          .logEvent(name: 'TrackLog', parameters: {"trackId": "2"});
       ActivityLogSettings settings;
       ActivityLogSummary summary = event.trackSummary; //
       int totalCalBurntToday = 0;
@@ -108,6 +118,10 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
       List<ActivityLog> todayLogs = summary.activities
           .where((element) => isSameDate(element.time, DateTime.now()))
           .toList();
+      totalCalBurntToday = 0;
+      for (var i = 0; i < todayLogs.length; i++) {
+        totalCalBurntToday += todayLogs[i].caloriesBurnt;
+      }
 
       if (summary.activities.isNotEmpty) {
         try {
@@ -122,10 +136,6 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
 
               if (activity.id != -1) return activity;
             }).toList();
-
-          todayActivities.forEach((element) {
-            totalCalBurntToday += element.calorie_burn.toInt();
-          });
         } catch (e) {
           yield PerformanceLogError("Server Error");
         }
@@ -133,7 +143,57 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
 
       if (failure == null)
         yield ActivityLogLoaded(track, settings, summary, totalCalBurntToday,
-            getWorkoutsFromLogs(todayActivities, summary.activities));
+            getWorkoutsFromLogs(todayActivities, todayLogs));
+      else
+        yield PerformanceLogError(Failure.mapToString(failure));
+    } else if (event is LoadDietlogStory) {
+      Failure failure;
+      TrackModel track = track_workout;
+      DietLogSettings settings;
+      sl<FirebaseAnalytics>()
+          .logEvent(name: 'TrackLog', parameters: {"trackId": "1"});
+      DietLogSummary summary = event.trackSummary; //
+      int totalCalBurntToday = 0;
+      // try {
+      //   totalCalBurntToday = double.parse(summary.calorieBurnt).toInt();
+      // } catch (e) {}
+
+      List<RecipeModel> todayActivities = [];
+      List<DietModel> workouts = [];
+
+      var trackSettingsResult = await repository.getDietLogSettings();
+
+      trackSettingsResult.fold((l) => failure = l, (r) => settings = r);
+
+      List<DietLog> todayLogs = summary.diets
+          .where((element) => isSameDate(element.time, DateTime.now()))
+          .toList();
+      totalCalBurntToday = 0;
+      for (var i = 0; i < todayLogs.length; i++) {
+        totalCalBurntToday += todayLogs[i].calories.toInt();
+      }
+
+      if (summary.diets.isNotEmpty) {
+        try {
+          List todayActivitiesResult = await Future.wait([
+            for (int i = 0; i < todayLogs.length; i++)
+              getRecipeById(todayLogs[i].dietId),
+          ]);
+
+          if (todayActivitiesResult.length > 0)
+            todayActivities = todayActivitiesResult.map((e) {
+              var activity = e as RecipeModel;
+
+              return activity;
+            }).toList();
+        } catch (e) {
+          yield PerformanceLogError("Server Error");
+        }
+      }
+
+      if (failure == null)
+        yield DietLogLoaded(track, settings, summary, totalCalBurntToday,
+            getDietsFromLogs(todayActivities, todayLogs));
       else
         yield PerformanceLogError(Failure.mapToString(failure));
     } else if (event is AddActivityLog) {
@@ -155,6 +215,32 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
           totalCalBurntToday: totalCalBurntToday + event.activity.caloriesBurnt,
           todayActivities:
               getWorkoutsFromLogs(todayActivities, newSummary.activities));
+    } else if (event is AddDietLog) {
+      var prevState = state as DietLogLoaded;
+      int totalCalBurntToday = prevState.totalCalTakenToday;
+      List<DietModel> todayActivities =
+          List<DietModel>.from(prevState.todayDiets.map((e) => e).toList());
+      todayActivities.add(DietModel(
+          recipeId: event.model.id,
+          recipeImage: event.model.image_url,
+          name: event.model.name,
+          servingUnit: "Servings",
+          daySlot: event.diet.daySlot,
+          servings: event.diet.servings.toInt(),
+          calories: event.diet.calories.toInt()));
+
+      repository.addDietLog(event.diet);
+      DietLogSummary newSummary =
+          updateDietSummary(prevState.summary, event.diet);
+
+      repository.setDietSummary(newSummary);
+
+      homeStoriesBloc.add(UpdateDietSummary(newSummary));
+      yield prevState.copyWith(
+          summary: newSummary,
+          totalCalTakenToday:
+              (totalCalBurntToday + event.diet.calories).toInt(),
+          todayDiets: todayActivities);
     }
   }
 
@@ -184,10 +270,38 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
     return workouts;
   }
 
+  List<DietModel> getDietsFromLogs(
+      List<RecipeModel> models, List<DietLog> logs) {
+    List<DietModel> workouts = [];
+
+    int reps;
+    for (var i = 0; i < models.length; i++) {
+      if (models[i].id == -1) continue;
+      workouts.add(DietModel(
+          recipeId: models[i].id,
+          recipeImage: models[i].image_url,
+          name: models[i].name,
+          servingUnit: "Servings",
+          daySlot: logs[i].daySlot,
+          servings: logs[i].servings.toInt(),
+          calories: logs[i].calories.toInt()));
+    }
+    return workouts;
+  }
+
   Future<ActivityModel> getActivityById(int activityId) async {
     ActivityModel activity = ActivityModel(id: -1);
 
     var result = await repository.getActivityById(activityId);
+    result.fold((l) => null, (r) => activity = r);
+
+    return activity;
+  }
+
+  Future<RecipeModel> getRecipeById(int recipeId) async {
+    RecipeModel activity = RecipeModel(id: -1);
+
+    var result = await homeRepository.getRecipeById(recipeId);
     result.fold((l) => null, (r) => activity = r);
 
     return activity;
@@ -321,6 +435,8 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
 
   Widget popertyTypeToWidget(TrackPropertyModel property,
       TrackPropertySettings settings, TrackSummary summary) {
+    sl<FirebaseAnalytics>()
+        .logEvent(name: 'TrackLogView', parameters: {"trackId": property.track_id.toString()});
     if (property.track_id == 3)
       return WeightLog(
         property: property,
@@ -667,7 +783,8 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
           return AlertDialog(
               content: GoalCompletedPopup(
             text: "Yay!! We reached closer to being fit, one step at a time",
-            track: track,
+            title: track.name,
+            imageUrl: track.icon,
           ));
         });
   }

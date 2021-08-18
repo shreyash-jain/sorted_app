@@ -25,6 +25,8 @@ import 'package:sorted/features/HOME/data/models/recipes/recipe_to_ingredient.da
 import 'package:sorted/features/HOME/data/models/recipes/tagged_recipe.dart';
 
 import 'package:sorted/features/HOME/data/models/recipes/video_recipe.dart';
+import 'package:sorted/features/PLANNER/data/models/diet_plan.dart';
+import 'package:sorted/features/PLANNER/data/models/workout_plan.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class HomeCloud {
@@ -66,6 +68,10 @@ abstract class HomeCloud {
   Future<FeedPostEntity> getFeed(int limit, DocumentSnapshot<Object> lastDoc);
 
   Future<PepTalkModel> getMotivationOfTheDay();
+
+  Future<List<DietPlanModel>> getGlobalDietPlans();
+
+  Future<List<WorkoutPlanModel>> getGlobalWorkoutPlans();
 }
 
 class HomeCloudDataSourceImpl implements HomeCloud {
@@ -310,9 +316,6 @@ class HomeCloudDataSourceImpl implements HomeCloud {
 
   @override
   Future<List<TaggedRecipe>> getTaggedRecipes(int count) async {
-
-
-    
     List<TaggedRecipe> recipeList = [];
     var rng = new Random();
     var key = rng.nextInt(10000);
@@ -501,7 +504,9 @@ class HomeCloudDataSourceImpl implements HomeCloud {
   Future<FeedPostEntity> getFeed(
       int limit, DocumentSnapshot<Object> lastDoc) async {
     FeedPostEntity newfeed = FeedPostEntity();
+
     QuerySnapshot<Map<String, dynamic>> snapShot;
+
     if (lastDoc != null)
       snapShot = await cloudDb
           .collection('feed/moderated/posts')
@@ -534,5 +539,35 @@ class HomeCloudDataSourceImpl implements HomeCloud {
       return PepTalkModel.fromMap(snapShot.data() as Map);
     }
     return Future.value(PepTalkModel(id: -1));
+  }
+
+  @override
+  Future<List<DietPlanModel>> getGlobalDietPlans() async {
+    List<DietPlanModel> data = [];
+    var user = auth.currentUser;
+    var colPath = cloudDb.collection('dietplans');
+
+    var value = await colPath.get();
+    if (value.docs.length > 0) {
+      value.docs.forEach((element) {
+        data.add(DietPlanModel.fromMap(element as Map));
+      });
+    }
+    return data;
+  }
+
+  @override
+  Future<List<WorkoutPlanModel>> getGlobalWorkoutPlans() async {
+    List<WorkoutPlanModel> data = [];
+    var user = auth.currentUser;
+    var colPath = cloudDb.collection('workoutplans');
+
+    var value = await colPath.get();
+    if (value.docs.length > 0) {
+      value.docs.forEach((element) {
+        data.add(WorkoutPlanModel.fromMap(element as Map));
+      });
+    }
+    return data;
   }
 }

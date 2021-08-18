@@ -1,23 +1,31 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:googleapis/cloudsearch/v1.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/loading_widget.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
 import 'package:sorted/features/CONNECT/presentation/workout/activity_tile_view.dart';
+import 'package:sorted/features/HOME/data/models/recipes/recipe.dart';
 import 'package:sorted/features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart';
 import 'package:sorted/features/HOME/presentation/track_log_bloc/track_log_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/widgets/activity_log_view.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/widgets/activity_tile.dart';
+import 'package:sorted/features/HOME/presentation/widgets/performance_log/widgets/diet_tile.dart';
 import 'package:sorted/features/HOME/presentation/widgets/search_bars/activity_search_bar.dart';
+import 'package:sorted/features/HOME/presentation/widgets/search_bars/recipe_search_bar.dart';
 import 'package:sorted/features/PLANNER/data/models/activity.dart';
+import 'package:sorted/features/PLANNER/data/models/day_diets.dart';
 import 'package:sorted/features/PLANNER/data/models/day_workout.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_summary.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/diet_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/diet_summary.dart';
 import 'package:sorted/features/TRACKERS/COMMON/performance_track_data/track_data.dart';
 import 'package:sorted/features/TRACKERS/COMMON/performance_track_data/track_property_data.dart';
+import 'package:sorted/features/TRACKERS/presentation/widgets/diet_analysis_heat_map.dart';
 
 class DietLogPage extends StatefulWidget {
   final HomeStoriesBloc homeBloc;
@@ -30,14 +38,25 @@ class DietLogPage extends StatefulWidget {
 
 class _DietLogPageState extends State<DietLogPage> {
   PerformanceLogBloc performanceLogBloc;
+  int daySlot = 0;
+  FloatingSearchBarController searchController;
 
   @override
   void initState() {
+    searchController = FloatingSearchBarController();
     performanceLogBloc =
-        PerformanceLogBloc(sl(), homeStoriesBloc: widget.homeBloc)
+        PerformanceLogBloc(sl(), sl(), homeStoriesBloc: widget.homeBloc)
           ..add(LoadDietlogStory(widget.summary));
+     sl<FirebaseAnalytics>()
+        .logEvent(name: 'TrackAnalysisView', parameters: {"trackId": "1"});
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -61,7 +80,7 @@ class _DietLogPageState extends State<DietLogPage> {
                             padding: EdgeInsets.all(Gparam.widthPadding),
                             child: Row(
                               children: [
-                                Gtheme.stext("Cal burnt today  ",
+                                Gtheme.stext("Cal taken today  ",
                                     size: GFontSize.S, weight: GFontWeight.N),
                                 Gtheme.stext(
                                     state.totalCalTakenToday.toString(),
@@ -70,16 +89,109 @@ class _DietLogPageState extends State<DietLogPage> {
                               ],
                             ),
                           ),
-                          // Divider(color: Colors.grey),
-                          // ...state.todayDiets
-                          //     .asMap()
-                          //     .entries
-                          //     .map((e) => Padding(
-                          //           padding: EdgeInsets.symmetric(
-                          //               horizontal: Gparam.widthPadding,
-                          //               vertical: 8),
-                          //           child: ActivityLogView(workout: e.value),
-                          //         ))
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                daySlot = 0;
+                                if (searchController.isClosed)
+                                  searchController.open();
+                              });
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Gparam.widthPadding,
+                                  vertical: Gparam.widthPadding / 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Gtheme.stext("BreakFast"),
+                                  Icon(Icons.add)
+                                ],
+                              ),
+                            ),
+                          ),
+                          Divider(color: Colors.grey),
+                          ...state.todayDiets
+                              .where((element) => element.daySlot == 0)
+                              .toList()
+                              .asMap()
+                              .entries
+                              .map((e) => Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Gparam.widthPadding,
+                                        vertical: 8),
+                                    child: MealTile(meal: e.value),
+                                  )),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                daySlot = 1;
+                                if (searchController.isClosed)
+                                  searchController.open();
+                              });
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Gparam.widthPadding,
+                                  vertical: Gparam.widthPadding / 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Gtheme.stext("Lunch"),
+                                  Icon(Icons.add)
+                                ],
+                              ),
+                            ),
+                          ),
+                          Divider(color: Colors.grey),
+                          ...state.todayDiets
+                              .where((element) => element.daySlot == 1)
+                              .toList()
+                              .asMap()
+                              .entries
+                              .map((e) => Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Gparam.widthPadding,
+                                        vertical: 8),
+                                    child: MealTile(meal: e.value),
+                                  )),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                daySlot = 2;
+                                if (searchController.isClosed)
+                                  searchController.open();
+                              });
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Gparam.widthPadding,
+                                  vertical: Gparam.widthPadding / 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Gtheme.stext("Dinner"),
+                                  Icon(Icons.add)
+                                ],
+                              ),
+                            ),
+                          ),
+                          Divider(color: Colors.grey),
+                          ...state.todayDiets
+                              .where((element) => element.daySlot == 2)
+                              .toList()
+                              .asMap()
+                              .entries
+                              .map((e) => Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Gparam.widthPadding,
+                                        vertical: 8),
+                                    child: MealTile(meal: e.value),
+                                  )),
+                          DietListAnalysis(logs: [state.summary.diets])
                         ],
                       ),
                     );
@@ -96,26 +208,42 @@ class _DietLogPageState extends State<DietLogPage> {
                 },
               ),
             ),
-            ActivitySearchBar(onActivitySelect: onActivitySelect)
+            RecipeSearchBar(
+              onRecipeSelect: onRecipeSelect,
+              searchController: searchController,
+            )
           ]),
         ),
       ),
     );
   }
 
-  onActivitySelect(ActivityModel p1) {
-    print("print activity ${p1.exercise_name}");
+  onRecipeSelect(RecipeModel p1) {
+    print("print activity ${p1.name}");
+    int localDaySlot = daySlot;
+    setState(() {
+      daySlot = -1;
+      if (searchController.isOpen) searchController.close();
+    });
     showDialog(
         context: context,
-        builder: (BuildContext context) => _buildPopupDialog(context, p1));
+        builder: (BuildContext context) =>
+            _buildPopupDialog(context, p1, localDaySlot));
   }
 
-  Widget _buildPopupDialog(BuildContext context, ActivityModel activity) {
-    WorkoutModel workout = WorkoutModel(
-        activity: activity,
-        activityType: activity.is_yoga,
-        sequence: [],
-        restTime: []);
+  Widget _buildPopupDialog(
+      BuildContext context, RecipeModel recipe, int localDaySlot) {
+    int calories = 0;
+    if (recipe.nutrients_name.length > 0)
+      calories = recipe.nutrients_value[0].toInt();
+    DietModel meal = DietModel(
+        recipeId: recipe.id,
+        recipeImage: recipe.image_url,
+        name: recipe.name,
+        servingUnit: "Servings",
+        daySlot: localDaySlot,
+        servings: 1,
+        calories: calories);
 
     return StatefulBuilder(builder: (context, setPopupState) {
       return new AlertDialog(
@@ -123,7 +251,7 @@ class _DietLogPageState extends State<DietLogPage> {
         contentPadding: EdgeInsets.all(20),
         title: Column(
           children: [
-            Gtheme.stext('Activity Log'),
+            Gtheme.stext('Diet Log'),
             Divider(
               color: Colors.grey,
             )
@@ -134,37 +262,23 @@ class _DietLogPageState extends State<DietLogPage> {
           width: double.maxFinite,
           child: Column(
             children: [
-              ActivityTile(
-                workout: workout,
-                addSet: (w) {
-                  print("shreyash");
-                  setPopupState(() {
-                    if (w.activityType == 0)
-                      w.sequence.add(12);
-                    else
-                      w.sequence.add(5);
-                    workout = w;
-                  });
-                },
+              MealTile(
+                meal: meal,
               ),
               SizedBox(
                 height: 30,
               ),
               MaterialButton(
                 onPressed: () {
-                  ActivityLog newLog = ActivityLog(
+                  DietLog newLog = DietLog(
                       id: DateTime.now().microsecondsSinceEpoch,
-                      activityId: workout.activity.id,
+                      dietId: meal.recipeId,
                       time: DateTime.now(),
-                      reps: (workout.activityType == 0)
-                          ? (workout.sequence.length * 12).toString()
-                          : (workout.sequence.length * 5).toString(),
-                      caloriesBurnt: (workout.sequence.length *
-                              workout.activity.calorie_burn)
-                          .toInt());
+                      servings: meal.servings.toDouble(),
+                      calories: meal.calories.toDouble(),
+                      daySlot: localDaySlot);
 
-                  performanceLogBloc
-                      .add(AddActivityLog(newLog, workout.activity));
+                  performanceLogBloc.add(AddDietLog(newLog, recipe));
 
                   Navigator.of(context).pop();
                 },

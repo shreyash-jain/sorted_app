@@ -12,10 +12,18 @@ class ClientEnrollInitial extends ClientEnrollState {
 class ClientEnrollLoaded extends ClientEnrollState {
   final List<ClassModel> requestedClasses;
   final List<ClassModel> enrolledClasses;
+  final List<ClientConsultationModel> requestedConsultations;
+  final List<ClientConsultationModel> enrolledConsultations;
 
-  ClientEnrollLoaded(this.requestedClasses, this.enrolledClasses);
+  ClientEnrollLoaded(this.requestedClasses, this.enrolledClasses,
+      this.requestedConsultations, this.enrolledConsultations);
   @override
-  List<Object> get props => [requestedClasses, enrolledClasses];
+  List<Object> get props => [
+        requestedClasses,
+        enrolledClasses,
+        enrolledConsultations,
+        requestedConsultations
+      ];
 }
 
 class ClientEnrollError extends ClientEnrollState {

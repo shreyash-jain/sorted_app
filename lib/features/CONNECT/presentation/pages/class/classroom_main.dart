@@ -137,12 +137,6 @@ class _ClassroomMainState extends State<ClassroomMain>
                     ),
                   ],
                 ),
-                Spacer(),
-                Icon(
-                  MdiIcons.pen,
-                  color: Colors.black45,
-                  size: 30,
-                ),
               ],
             ),
           ),
@@ -232,7 +226,9 @@ class _ClassroomMainState extends State<ClassroomMain>
 
                 ChatWidget(classroom: _classroom),
                 ChatNoticeBoardWidget(classroom: _classroom),
-                ClassResourcesWidget(),
+                ChatNoticeBoardWidget(
+                  classroom: _classroom,
+                ),
               ],
             ),
           ),

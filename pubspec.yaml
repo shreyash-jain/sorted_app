@@ -11,7 +11,7 @@ description: Get it done
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.10.0 <3.0.0"
@@ -30,8 +30,6 @@ dependencies:
   connectivity:
   crop:
   material_floating_search_bar:
-  csv:
-  flutter_staggered_grid_view:
   cupertino_icons:
   video_player: "2.1.5"
   confetti:
@@ -53,8 +51,6 @@ dependencies:
   firebase_storage:
   firebase_messaging:
   firebase_analytics:
-  flutter_ffmpeg:
-  chewie:
   analyzer:
   flare_flutter:
   flutter_bloc:
@@ -74,7 +70,6 @@ dependencies:
   http:
   image_picker:
   intl:
-  local_auth:
   outline_material_icons:
   path_provider:
   permission_handler:
@@ -95,19 +90,17 @@ dependencies:
   string_validator:
   supercharged:
   url_launcher:
-  zefyr:
   flutter_svg:
   material_design_icons_flutter:
   truecaller_sdk:
   pie_chart:
   firebase_dynamic_links:
   uni_links:
-  razorpay_flutter:
   dart_jsonwebtoken:
   cashfree_pg:
   jitsi_meet:
   just_audio:
-  audio_session:
+  simple_url_preview:
 
 dev_dependencies:
   auto_route_generator:

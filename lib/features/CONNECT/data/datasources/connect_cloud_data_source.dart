@@ -48,6 +48,8 @@ abstract class ConnectCloud {
   Future<ChatMessageEntitiy> addChatMessage(
       ChatMessage message, ClassModel classroom);
   Future<List<DietPlanModel>> getClassDietPlans(ClassModel classroom);
+  Future<List<ResourceMessage>> getConsultationResourceMessages(
+      ClientConsultationModel consultation);
   Future<List<WorkoutPlanModel>> getClasWorkoutPlans(ClassModel classroom);
   Future<List<ChatMessageEntitiy>> getChatMessages(
       ClassModel classroom, ChatMessage startAfterChat, int limit);
@@ -83,6 +85,26 @@ class ConnectCloudDataSourceImpl implements ConnectCloud {
       return ClassModel.fromSnapshot(snapShot);
     }
     return Future.value(ClassModel(id: ""));
+  }
+
+  @override
+  Future<List<ResourceMessage>> getConsultationResourceMessages(
+      ClientConsultationModel consultation) async {
+    var result = await FirebaseFirestore.instance
+        .collection('consultations/${consultation.id}/resources')
+        .doc('data')
+        .get();
+
+    if (result != null && result.exists) {
+      return List<ResourceMessage>.from((result.data() as Map)['data'].map((i) {
+            var z = Map<String, dynamic>.from(i);
+            print("t here fromSnapshot $z");
+
+            return ResourceMessage.fromMap(z) ?? ResourceMessage();
+          }) ??
+          const []);
+    } else
+      return [];
   }
 
   @override

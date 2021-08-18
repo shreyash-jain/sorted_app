@@ -47,6 +47,7 @@ class _ListAnalysisState extends State<ListAnalysis> {
     stattype = widget.property.n_stat_condition;
 
     if (tracktype == 3) stattype = 2;
+    if (tracktype == 4) stattype = 1;
 
     listToMap(widget.logs);
     convergeDataFromMap(stattype);

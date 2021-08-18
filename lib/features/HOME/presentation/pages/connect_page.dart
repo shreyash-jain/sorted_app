@@ -25,105 +25,11 @@ class _ConnectPageState extends State<ConnectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFf7f7f7),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
-              SizedBox(height: 20),
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: Gparam.widthPadding / 2),
-                child: Container(
-                    height: 35,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Gtheme.stext("Live Classes"),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Gtheme.stext("Personal Training"),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Gtheme.stext("Workshops"),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Gtheme.stext("Online Therapy"),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Gtheme.stext("Fitness Podcasts"),
-                        ),
-                      ],
-                    )),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Divider(
-                color: Colors.grey.shade200,
-                thickness: 2,
-              ),
-              Padding(
-                padding: EdgeInsets.all(Gparam.widthPadding / 2),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Gtheme.stext("Filter",
-                        size: GFontSize.S, weight: GFontWeight.N),
-                    Spacer(),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: Gparam.widthPadding / 2),
-                child: Container(
-                    height: 35,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        ActionButton(
-                          text: "All",
-                          onClick: null,
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        ActionButton(
-                          text: "Top Rated",
-                          onClick: null,
-                          icon: MdiIcons.star,
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                      ],
-                    )),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-            ],
+            children: [Image(image: AssetImage('assets/images/explore.png'))],
           ),
         ),
       ),

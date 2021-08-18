@@ -62,6 +62,15 @@ abstract class ConnectRepository {
       ClassModel classroom);
   Future<Either<Failure, List<WorkoutPlanModel>>> getClassWorkoutPlans(
       ClassModel classroom);
+  Future<Either<Failure, List<ResourceMessage>>>
+      getConsultationResourceMessages(ClientConsultationModel consultation);
 
   Future<Either<Failure, ActivityModel>> getActivityById(int activityId);
+
+  Future<Either<Failure, int>> leaveClassClient(
+      String trainerId, String clientId, String classroomId);
+  Future<Either<Failure, int>> leaveConsultationClient(
+      String trainerId, String clientId, String consultationId);
+  Future<Either<Failure, int>> notifyExpertforNewClass(String trainerId);
+  Future<Either<Failure, int>> notifyExpertforNewConsultation(String trainerId);
 }

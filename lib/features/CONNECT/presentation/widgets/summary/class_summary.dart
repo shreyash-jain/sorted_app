@@ -146,14 +146,7 @@ class _ClassroomSummaryState extends State<ClassroomSummary>
                                   ],
                                 ),
                               ),
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: Gparam.widthPadding / 2),
-                                  child:
-                                      ClassFeeWidget(fee: state.classFeeModel),
-                                )
-                              ],
+                              children: <Widget>[],
                             ),
                             ExpansionTile(
                               iconColor: Colors.orange,

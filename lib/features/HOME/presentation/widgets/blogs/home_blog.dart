@@ -29,7 +29,10 @@ class HomeBlogWidget extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HomeHeading(heading: "Blogs",subHeading: "Curated just for you",),
+                HomeHeading(
+                  heading: "Blogs",
+                  subHeading: "Curated just for you",
+                ),
                 Container(
                   height: 200,
                   child: ListView(
@@ -43,9 +46,7 @@ class HomeBlogWidget extends StatelessWidget {
                               blog: state.blogs,
                               index: e.key,
                               onClick: (blog, index) {
-                                context.router.push(
-                                  FullBlogRoute(blog: blog[index]),
-                                );
+                               
                               }))
                           .toList()
                     ],

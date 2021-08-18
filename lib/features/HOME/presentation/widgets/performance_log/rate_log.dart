@@ -99,6 +99,8 @@ class _RateLogState extends State<RateLog> {
     );
   }
 
+ 
+
   String getStatString(int statCondition) {
     switch (statCondition) {
       case 0:

@@ -13,6 +13,7 @@ enum GColors {
   O,
   BLUE,
   GREEN,
+  PRIMARY,
 }
 
 enum GFontSize { S, M, L, XL, XXL, XS, XXS, XXXS, XXXXS }
@@ -171,6 +172,8 @@ class Gtheme {
         return Color(0xFF0ec76a);
       case GColors.O:
         return Colors.orangeAccent;
+      case GColors.PRIMARY:
+        return Color(0xFF21739d);
 
       default:
         return Colors.orangeAccent;

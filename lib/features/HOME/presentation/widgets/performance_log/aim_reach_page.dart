@@ -7,8 +7,11 @@ import 'dart:math';
 
 class GoalCompletedPopup extends StatefulWidget {
   final String text;
-  final TrackModel track;
-  GoalCompletedPopup({Key key, this.text, this.track}) : super(key: key);
+  final String title;
+  final String imageUrl;
+
+  GoalCompletedPopup({Key key, this.text, this.title, this.imageUrl})
+      : super(key: key);
 
   @override
   _GoalCompletedPopupState createState() => _GoalCompletedPopupState();
@@ -43,23 +46,24 @@ class _GoalCompletedPopupState extends State<GoalCompletedPopup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CachedNetworkImage(
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.error,
-                    color: Colors.grey,
+                if (widget.imageUrl != null)
+                  CachedNetworkImage(
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.error,
+                      color: Colors.grey,
+                    ),
+                    imageUrl: widget.imageUrl,
+                    fit: BoxFit.cover,
+                    height: 100,
+                    width: 100,
                   ),
-                  imageUrl: widget.track.icon,
-                  fit: BoxFit.cover,
-                  height: 100,
-                  width: 100,
-                ),
                 SizedBox(
                   height: 25,
                 ),
                 Center(
                     child: Container(
-                  child: Gtheme.stext(widget.track.name,
-                      size: GFontSize.L, weight: GFontWeight.L),
+                  child: Gtheme.stext(widget.title,
+                      size: GFontSize.S, weight: GFontWeight.L),
                 )),
                 SizedBox(
                   height: 25,
@@ -67,6 +71,7 @@ class _GoalCompletedPopupState extends State<GoalCompletedPopup> {
                 if (widget.text != null)
                   Center(
                       child: Container(
+                    padding: EdgeInsets.all(16),
                     child: Gtheme.stext(widget.text),
                   )),
               ],

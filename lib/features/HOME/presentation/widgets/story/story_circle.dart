@@ -38,9 +38,9 @@ class StoryCircleWidget extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 Theme.of(context).primaryColor,
-                Color(0xFF307df0),
+                Color(0xFF21739d),
                 Theme.of(context).accentColor,
-                Color(0xFF307df0)
+                Color(0xFF21739d)
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -95,7 +95,9 @@ class StoryCircleWidget extends StatelessWidget {
                             child: Container(
                               width: 80,
                               height: 80,
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                color: Color(0xFF21739d),
+                              ),
                             ),
                           ),
                       ],

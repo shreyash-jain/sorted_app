@@ -60,13 +60,29 @@ class DietLogLoaded extends PerformanceLogState {
   final DietLogSettings settings;
   final DietLogSummary summary;
   final int totalCalTakenToday;
-  final List<RecipeModel> todayDiets;
+  final List<DietModel> todayDiets;
 
   DietLogLoaded(this.track, this.settings, this.summary,
       this.totalCalTakenToday, this.todayDiets);
 
   @override
-  List<Object> get props => [track, settings, summary];
+  List<Object> get props => [track, settings, summary, totalCalTakenToday, todayDiets];
+
+  DietLogLoaded copyWith({
+    TrackModel track,
+    DietLogSettings settings,
+    DietLogSummary summary,
+    int totalCalTakenToday,
+    List<DietModel> todayDiets,
+  }) {
+    return DietLogLoaded(
+      track ?? this.track,
+      settings ?? this.settings,
+      summary ?? this.summary,
+      totalCalTakenToday ?? this.totalCalTakenToday,
+      todayDiets ?? this.todayDiets,
+    );
+  }
 }
 
 class PerformanceLogError extends PerformanceLogState {

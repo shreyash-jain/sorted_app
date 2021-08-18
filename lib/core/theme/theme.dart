@@ -12,7 +12,7 @@ Color blueMid = Color(0xFF4563DB);
 //* white Theme | pref_name = "light"
 String lightString = "light";
 ThemeData appThemeLight = ThemeData.light().copyWith(
-  primaryColor: primaryColorDarkAndLight,
+  primaryColor: Color(0xFF21739d),
   primaryColorDark: quaternaryColor,
   dialogBackgroundColor: lightWhiteColor,
   scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),

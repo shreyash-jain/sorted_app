@@ -144,15 +144,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         FlatButton(
                           onPressed: () {
                             print("pressed");
-                            if (widget.valid == 10) {
+                            if ((bloc.state as LoginState).valid == 10) {
                               scaleColor = Colors.white;
                               scaleController.forward();
                             } else {
-                              print("pressed 2");
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text(widget.message),
-                                duration: Duration(seconds: 3),
-                              ));
+                              print("hello  " +
+                                  (bloc.state as LoginState).valid.toString());
                             }
                           },
                           child: Row(
@@ -202,6 +199,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     if ((bloc.state is LoginState)) {
       if ((bloc.state as LoginState).isPhoneCorrect)
         setState(() {
+          FocusScope.of(context).unfocus();
           _pageController.animateToPage(
             _currentPage + 1,
             duration: Duration(milliseconds: 800),

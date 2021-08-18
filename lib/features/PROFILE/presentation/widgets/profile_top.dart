@@ -64,6 +64,18 @@ class ProfileTop extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(left: Gparam.widthPadding / 2),
+                  child: Text(
+                    state.details.email,
+                    style: TextStyle(
+                        fontFamily: 'Milliard',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black54),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
                 SizedBox(
                   height: 4,
                 ),

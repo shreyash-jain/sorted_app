@@ -122,6 +122,9 @@ class _HomePlannerState extends State<HomePlanner> {
           assetPath: 'assets/images/wplan.png',
           title: "My workout plan",
           subTitle: "All day",
+          onClick: () {
+            context.router.push(ActivityPlanView());
+          },
         ),
         SizedBox(
           height: 12,
@@ -130,6 +133,9 @@ class _HomePlannerState extends State<HomePlanner> {
           assetPath: 'assets/images/dplan.png',
           title: "My diet plan",
           subTitle: "All Day",
+          onClick: () {
+            context.router.push(DietPlanView());
+          },
         ),
 
         BlocProvider(
@@ -235,8 +241,6 @@ class HomeDayActivityTile extends StatelessWidget {
             SizedBox(
               width: 12,
             ),
-            Spacer(),
-            Icon(Icons.arrow_forward_ios)
           ],
         ),
       ),

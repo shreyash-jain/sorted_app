@@ -62,7 +62,7 @@ class _PropertySetGoalState extends State<PropertySetGoal> {
                 children: [
                   Container(
                     child: Gtheme.stext(
-                        "Set your ${stattype != 0 ? "daily " : ""}goal in ${widget.property.n_unit}",
+                        "Set your ${stattype != 0 ? "daily " : ""}goal in ${widget.property.property_type == 4 ? "mins" : ""} ${widget.property.n_unit}",
                         size: GFontSize.S,
                         weight: GFontWeight.N),
                   ),
@@ -73,6 +73,20 @@ class _PropertySetGoalState extends State<PropertySetGoal> {
               ),
               SizedBox(
                 height: 8,
+              ),
+              Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  children: [
+                    Gtheme.stext("Set your Daily Goal",
+                        size: GFontSize.S, weight: GFontWeight.N),
+                    Gtheme.stext("  coming soon",
+                        size: GFontSize.XXS, weight: GFontWeight.L),
+                  ],
+                ),
               ),
             ],
           ),

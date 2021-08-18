@@ -15,26 +15,21 @@ class ClassNoticeTile extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          child: Gtheme.stext(notice, weight: GFontWeight.L),
+          child: Gtheme.stext(notice, weight: GFontWeight.N),
         ),
         Container(
           height: 12,
         ),
         Row(
           children: [
-            OutlinedButton(
-              onPressed: () {},
-              child: Gtheme.stext(subText,
-                  weight: GFontWeight.B1, size: GFontSize.XXS),
-            ),
             Spacer(),
             Container(
               child: Gtheme.stext(DateFormat('MMM dd, ').format(time),
-                  weight: GFontWeight.L, size: GFontSize.XXXS),
+                  weight: GFontWeight.N, size: GFontSize.XXXS),
             ),
             Container(
-              child: Gtheme.stext(DateFormat(' HH:mm').format(time),
-                  weight: GFontWeight.N, size: GFontSize.XXXS),
+              child: Gtheme.stext(DateFormat('jm').format(time),
+                  weight: GFontWeight.L, size: GFontSize.XXXS),
             ),
           ],
         ),

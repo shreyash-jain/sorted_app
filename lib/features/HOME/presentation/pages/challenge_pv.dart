@@ -9,6 +9,7 @@ import 'package:sorted/core/routes/router.gr.dart';
 import 'package:sorted/features/HOME/data/models/affirmation.dart';
 import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/presentation/challenge_bloc/home_bloc.dart';
+import 'package:sorted/features/HOME/presentation/widgets/performance_log/aim_reach_page.dart';
 import 'package:sorted/features/HOME/presentation/widgets/rocket_animation/animated_rocket.dart';
 import 'package:sorted/features/HOME/presentation/widgets/scratcher/widgets.dart';
 import 'package:video_player/video_player.dart';
@@ -29,7 +30,21 @@ class ChallengePageViewState extends State<ChallengePageView>
   AnimationController rocketController, steamController, scaleController;
   Animation<double> rocketAnimation, steamAnimation, scaleAnimation;
   Animation<double> onCompletionAnimation;
+  String challengeStatus = "Mark as Done ?";
   ChallengeBloc challengeBloc;
+  void openGoalCompletedPopup(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              content: GoalCompletedPopup(
+            text: "Yay!! Lets keep the streak ON!",
+            title: "Challenge Completed",
+            imageUrl:
+                "https://firebasestorage.googleapis.com/v0/b/sorted-98c02.appspot.com/o/Placeholders%2Fconfetti.png?alt=media&token=78f77117-ff3b-4ff2-8f10-415d8c482587",
+          ));
+        });
+  }
 
   @override
   void initState() {
@@ -39,11 +54,14 @@ class ChallengePageViewState extends State<ChallengePageView>
         AnimationController(vsync: this, duration: Duration(seconds: 2))
           ..addStatusListener((status) async {
             if (status == AnimationStatus.completed) {
-              context.router.pop();
-              context.router.push(
-                VideoRoute(),
-              );
-              setState(() {});
+              // context.router.pop();
+              // context.router.push(
+              //   VideoRoute(),
+              // );
+              openGoalCompletedPopup(context);
+              setState(() {
+                challengeStatus = "Challenge Completed";
+              });
             }
           });
     scaleAnimation = Tween<double>(begin: 0.0, end: 1000.0).animate(
@@ -251,11 +269,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                                   children: <TextSpan>[
                                                     TextSpan(
                                                         text: '\n\n' +
-                                                            ((state.challenge
-                                                                        .type ==
-                                                                    1)
-                                                                ? "Fitness"
-                                                                : "Mindfulness"),
+                                                            ("Fitness Challenge of the day \n"),
                                                         style: TextStyle(
                                                           fontFamily:
                                                               "Milliard",
@@ -265,7 +279,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize:
-                                                              Gparam.textLarge,
+                                                              Gparam.textSmall,
                                                         )),
                                                   ],
                                                 ),
@@ -277,7 +291,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                                   color: Theme.of(context)
                                                       .highlightColor,
                                                   child: Text(
-                                                    "Accept the challenge ?",
+                                                    challengeStatus,
                                                     style: TextStyle(
                                                       fontFamily: 'Milliard',
                                                       fontSize: 18.0,
@@ -290,7 +304,10 @@ class ChallengePageViewState extends State<ChallengePageView>
                                                   ),
                                                   onPressed: () {
                                                     setState(() {
-                                                      scaleController.forward();
+                                                      if (challengeStatus !=
+                                                          "Challenge Completed")
+                                                        scaleController
+                                                            .forward();
                                                     });
                                                   })
                                             ],
@@ -371,7 +388,7 @@ class ChallengePageViewState extends State<ChallengePageView>
                                                     color: Theme.of(context)
                                                         .highlightColor,
                                                     child: Text(
-                                                      "Accept the challenge ?",
+                                                      " ?",
                                                       style: TextStyle(
                                                         fontFamily: 'Milliard',
                                                         fontSize: 18.0,

@@ -41,3 +41,14 @@ class AddActivityLog extends PerformanceEvent {
   @override
   List<Object> get props => [activity, model];
 }
+
+
+class AddDietLog extends PerformanceEvent {
+  final DietLog diet;
+  final RecipeModel model;
+
+  AddDietLog(this.diet, this.model);
+
+  @override
+  List<Object> get props => [diet, model];
+}

@@ -1,4 +1,3 @@
-import 'package:sorted/core/global/entities/sub_profiles/fitness_goals.dart';
 import 'package:sorted/core/global/entities/sub_profiles/food_preferences.dart';
 import 'package:sorted/features/CONNECT/data/models/expert/expert_speciality.dart';
 
@@ -17,6 +16,22 @@ int getIdfromString(String topic) {
       -1;
 }
 
+String getStringFromId(int id) {
+  return dietPreferencesTags
+          .where((element) => (element.key == id))
+          .toList()[0]
+          ?.value ??
+      "";
+}
+
+List<String> getPreferencesStringsFromKey(List<int> goals) {
+  List<String> values = [];
+  for (var i = 0; i < goals.length; i++) {
+    values.add(getStringFromId(goals[i]));
+  }
+  return values;
+}
+
 UserFoodPreferences foodPreferencesFromTags(List<int> tags) {
   return UserFoodPreferences(
       is_vegan: tags.contains(0) ? 1 : 0,
@@ -32,12 +47,4 @@ List<int> listFromFoodPreference(UserFoodPreferences preferences) {
   if (preferences.is_keto == 1) tags.add(2);
   if (preferences.is_sattvik == 1) tags.add(3);
   return tags;
-}
-
-String getStringFromId(int id) {
-  return dietPreferencesTags
-          .where((element) => (element.key == id))
-          .toList()[0]
-          ?.value ??
-      "";
 }

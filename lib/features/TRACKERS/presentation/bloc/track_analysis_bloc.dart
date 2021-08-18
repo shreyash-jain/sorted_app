@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
@@ -22,6 +24,9 @@ class TrackAnalysisBloc extends Bloc<TrackAnalysisEvent, TrackAnalysisState> {
   ) async* {
     if (event is GetTrackData) {
       Failure failure;
+      sl<FirebaseAnalytics>().logEvent(
+          name: 'TrackAnalysisView',
+          parameters: {"trackId": event.track.id.toString()});
 
       TrackModel track = event.track;
       TrackSummary summary = event.summary;

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/network/network_info.dart';
 import 'package:sorted/features/CONNECT/data/datasources/connect_cloud_data_source.dart';
+import 'package:sorted/features/CONNECT/data/datasources/connect_remote_data_source.dart';
 import 'package:sorted/features/CONNECT/data/models/chat_message.dart';
 import 'package:sorted/features/CONNECT/data/models/class_members.dart';
 import 'package:sorted/features/CONNECT/data/models/client_consultation_model.dart';
@@ -26,10 +27,12 @@ import 'package:sorted/features/PLANNER/data/models/diet_plan.dart';
 
 class ConnectRepositoryImpl implements ConnectRepository {
   final ConnectCloud remoteDataSource;
+  final ConnectRemoteCloudDataSource remoteApiDataSource;
 
   final NetworkInfo networkInfo;
 
-  ConnectRepositoryImpl({this.remoteDataSource, this.networkInfo});
+  ConnectRepositoryImpl(
+      {this.remoteApiDataSource, this.remoteDataSource, this.networkInfo});
 
   @override
   Future<Either<Failure, ClassModel>> getClass(String id) async {
@@ -303,8 +306,6 @@ class ConnectRepositoryImpl implements ConnectRepository {
       return Left(NetworkFailure());
   }
 
-
-
   @override
   Future<Either<Failure, List<NoticeboardMessage>>> getNoticeBoardMessages(
       ClassModel classroom) async {
@@ -327,6 +328,76 @@ class ConnectRepositoryImpl implements ConnectRepository {
             await remoteDataSource.getActivityById(activityId);
 
         return (Right(activity));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, int>> leaveClassClient(
+      String trainerId, String clientId, String classroomId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (await remoteApiDataSource.leaveClassClient(
+            trainerId, clientId, classroomId));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<ResourceMessage>>>
+      getConsultationResourceMessages(
+          ClientConsultationModel consultation) async {
+    if (await networkInfo.isConnected) {
+      try {
+        var result = await remoteDataSource
+            .getConsultationResourceMessages(consultation);
+        return (Right(result));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, int>> leaveConsultationClient(
+      String trainerId, String clientId, String consultationId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (await remoteApiDataSource.leaveConsultationClient(
+            trainerId, clientId, consultationId));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, int>> notifyExpertforNewClass(String trainerId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (await remoteApiDataSource.notifyExpertforNewClass(trainerId));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, int>> notifyExpertforNewConsultation(
+      String trainerId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (await remoteApiDataSource
+            .notifyExpertforNewConsultation(trainerId));
       } on Exception {
         return Left(ServerFailure());
       }

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/features/CONNECT/data/models/client_consultation_model.dart';
 import 'package:sorted/features/CONNECT/data/models/client_enrolls_model.dart';
 import 'package:sorted/features/CONNECT/data/models/expert/expert_calendar.dart';
@@ -33,6 +35,7 @@ class ConsultationEnrollBloc
     ConsultationEnrollEvent event,
   ) async* {
     if (event is GetExpertDetails) {
+      sl<FirebaseAnalytics>().logEvent(name: 'DynamicConsultationEnrollOpen', parameters: null);
       String expertId = event.trainerId;
       Failure failure;
       List<ConsultationPackageModel> packages;
@@ -79,6 +82,8 @@ class ConsultationEnrollBloc
       }
     } else if (event is EnrollRequestEvent) {
       Failure failure;
+      sl<FirebaseAnalytics>()
+          .logEvent(name: 'DynamicConsultationClientEnrollRequest', parameters: null);
 
       ConsultationEnrollLoaded prevState = (state as ConsultationEnrollLoaded);
 

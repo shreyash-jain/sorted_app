@@ -4,6 +4,10 @@ import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/core/global/widgets/image_placeholder_widget.dart';
 import 'package:sorted/core/global/widgets/message_display.dart';
+import 'package:sorted/core/routes/router.gr.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:sorted/features/CONNECT/presentation/consultation/widgets/enrolled_client_tile.dart';
+import 'package:sorted/features/CONNECT/presentation/consultation/widgets/requested_client_tile.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
 import 'package:sorted/features/HOME/presentation/client_enroll_bloc/enroll_bloc.dart';
 import 'package:sorted/features/HOME/presentation/widgets/planner/home_planner.dart';
@@ -92,8 +96,88 @@ class _ClientEnrollHomeWidgetState extends State<ClientEnrollHomeWidget> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: Gparam.widthPadding,
                                     vertical: 12),
-                                child: HomeClassRoomTile(
-                                  classroom: e.value,
+                                child: InkWell(
+                                  onTap: () {
+                                    context.router.push(
+                                        ClassroomMain(classroom: e.value));
+                                  },
+                                  child: HomeClassRoomTile(
+                                    classroom: e.value,
+                                  ),
+                                ),
+                              ))
+                    ],
+                  ),
+                if (state.enrolledConsultations.length +
+                        state.requestedConsultations.length >
+                    0)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HomeDayActivityTile(
+                        assetPath: 'assets/images/consultation.png',
+                        title: "My Fitness Consultations",
+                        subTitle: "",
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      if (state.requestedConsultations.length > 0)
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Gparam.widthPadding),
+                          child: Gtheme.stext("Requested Consultations",
+                              size: GFontSize.S, weight: GFontWeight.N),
+                        ),
+                      if (state.requestedClasses.length > 0)
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ...state.requestedConsultations
+                          .asMap()
+                          .entries
+                          .map((e) => Container(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: Gparam.widthPadding,
+                                      vertical: 12),
+                                  child: ConsultationRequestedClientTile(
+                                      consultation: e.value,
+                                      onClickClient: (c) {}),
+                                ),
+                              )),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      if (state.enrolledConsultations.length > 0)
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Gparam.widthPadding),
+                          child: Gtheme.stext("Enrolled Consultations",
+                              size: GFontSize.S, weight: GFontWeight.N),
+                        ),
+                      if (state.enrolledConsultations.length > 0)
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ...state.enrolledConsultations
+                          .asMap()
+                          .entries
+                          .map((e) => Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Gparam.widthPadding,
+                                    vertical: 12),
+                                child: InkWell(
+                                  onTap: () {
+                                     context.router.push(
+                                    ConsultationMain(consultation: e.value));
+                                  },
+                                  child: ConsultationEnrolledClientTile(
+                                      consultation: e.value,
+                                      onClickClient: (c) {
+                                        context.router.push(ConsultationMain(
+                                        consultation: e.value));
+                                      }),
                                 ),
                               ))
                     ],

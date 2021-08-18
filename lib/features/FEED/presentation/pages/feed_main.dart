@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/core/global/injection_container.dart';
+import 'package:sorted/features/FEED/presentation/bloc/feed_bloc.dart';
+import 'package:sorted/features/FEED/presentation/widgets/feed_widget.dart';
 import 'package:sorted/features/FEED/presentation/widgets/image_post.dart';
 import 'package:sorted/features/HOME/presentation/recipe_bloc/recipe_bloc.dart';
 import 'package:sorted/features/HOME/presentation/transformation_bloc/transformation_bloc.dart';
@@ -17,10 +20,13 @@ class FeedHomePage extends StatefulWidget {
 class _FeedHomePageState extends State<FeedHomePage> {
   TransformationBloc transBloc;
   RecipeBloc recipeBloc;
+  FeedBloc feedBloc;
 
   @override
   void initState() {
     super.initState();
+
+    feedBloc = FeedBloc(sl())..add(GetUserFeed());
     recipeBloc = sl<RecipeBloc>()..add(LoadRecipes());
     transBloc = sl<TransformationBloc>()..add(LoadTransformation());
   }
@@ -54,10 +60,8 @@ class _FeedHomePageState extends State<FeedHomePage> {
                             SizedBox(
                               height: 4,
                             ),
-                            Gtheme.stext(
-                                "Show the world what you are working on",
-                                size: GFontSize.XXS,
-                                weight: GFontWeight.L),
+                            Gtheme.stext("This feature is coming soon",
+                                size: GFontSize.XXS, weight: GFontWeight.L),
                           ],
                         ),
                       )
@@ -141,27 +145,13 @@ class _FeedHomePageState extends State<FeedHomePage> {
                                   width: 3.0, color: Colors.lightBlue),
                             ),
                           ),
-                          child: Gtheme.stext("FEED",
-                              size: GFontSize.XXS, weight: GFontWeight.N),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.all(4),
-                          decoration: BoxDecoration(),
-                          child: Gtheme.stext("BY SORT IT",
-                              size: GFontSize.XXS, weight: GFontWeight.N),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.all(4),
-                          decoration: BoxDecoration(),
-                          child: Gtheme.stext("DISCUSSIONS",
-                              size: GFontSize.XXS, weight: GFontWeight.N),
+                          child: Gtheme.stext(
+                              "Add to feed feature is coming soon",
+                              size: GFontSize.XXS,
+                              weight: GFontWeight.N),
                         ),
                       ],
                     )),
-
-                    
                 Row(
                   children: [
                     HomeTransformationWidgetM(
@@ -169,59 +159,33 @@ class _FeedHomePageState extends State<FeedHomePage> {
                     ),
                   ],
                 ),
-
                 HomeRecipeWidget(
                   recipeBloc: recipeBloc,
                 ),
-
-                Padding(
-                  padding: EdgeInsets.all(Gparam.widthPadding / 2),
-                  child: ImagePost(
-                    senderImageUrl:
-                        'https://cms.qz.com/wp-content/uploads/2019/07/IMG_8407-copy-e1563479651241.jpg?quality=75&strip=all&w=200&h=200',
-                    senderName: "Rajat",
-                    imageUrl:
-                        "https://www.india.com/wp-content/uploads/2017/12/Yoga-for-men.jpg",
-                    caption: "What a great day for yoga",
+                BlocProvider(
+                  create: (context) => feedBloc,
+                  child: BlocBuilder<FeedBloc, FeedState>(
+                    builder: (context, state) {
+                      if (state is FeedLoaded)
+                        return Column(
+                          children: [
+                            ...state.posts.posts.asMap().entries.map(
+                                  (e) => Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Gparam.widthPadding,
+                                        vertical: Gparam.widthPadding / 2),
+                                    child: FeedWidget(post: e.value),
+                                  ),
+                                )
+                          ],
+                        );
+                      else
+                        return Container(
+                          height: 0,
+                        );
+                    },
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(Gparam.widthPadding / 2),
-                  child: ImagePost(
-                    senderImageUrl:
-                        'https://img.etimg.com/photo/msid-73693525,quality-100/the-young-woman-has-been-working-really-hard-on-her-fitness-and-is-trying-to-get-her-a-game-on-.jpg',
-                    senderName: "Namita Chandel",
-                    imageUrl:
-                        "https://i2.wp.com/pixahive.com/wp-content/uploads/2020/09/Girl-Doing-Triangle-Pose-in-Yoga-61130-pixahive.jpg?fit=1560%2C2340&ssl=1",
-                    caption:
-                        "Tried this for 1st time, and thanks to my trainer I did it correctly, Trangle pose check ✔️",
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(Gparam.widthPadding / 2),
-                  child: ImagePost(
-                    senderImageUrl:
-                        'https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/feed%2Fic_launcher.png?alt=media&token=998542ba-2eeb-42bb-9fe9-895504fdc970',
-                    senderName: "Sort It Expert",
-                    userDiscription: "By Sort It team",
-                    imageUrl:
-                        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/feed%2Fplaceholders%2FArtboard%201-100.jpg?alt=media&token=f4f5877b-6cbd-4097-b761-001b55cc7e36",
-                    caption: "Oh! I just found this, did you knew",
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(Gparam.widthPadding / 2),
-                  child: ImagePost(
-                    senderImageUrl:
-                        'https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/feed%2Fic_launcher.png?alt=media&token=998542ba-2eeb-42bb-9fe9-895504fdc970',
-                    senderName: "Sort It Expert",
-                    userDiscription: "By Sort It team",
-                    imageUrl:
-                        "https://firebasestorage.googleapis.com/v0/b/sorted-98c02/o/feed%2Fplaceholders%2FArtboard%201.png?alt=media&token=e8c6356f-570a-42bf-a2f7-300db9b8f55d",
-                    caption:
-                        "As offices all over world are reopening, find out best ways to be fit while working at your office",
-                  ),
-                )
               ],
             ),
           ),

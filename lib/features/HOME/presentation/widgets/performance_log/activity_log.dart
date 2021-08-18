@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:googleapis/cloudsearch/v1.dart';
@@ -17,6 +18,7 @@ import 'package:sorted/features/TRACKERS/COMMON/models/activity_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/activity_summary.dart';
 import 'package:sorted/features/TRACKERS/COMMON/performance_track_data/track_data.dart';
 import 'package:sorted/features/TRACKERS/COMMON/performance_track_data/track_property_data.dart';
+import 'package:sorted/features/TRACKERS/presentation/widgets/workout_analysis_heat_map.dart';
 
 class ActivityLogPage extends StatefulWidget {
   final HomeStoriesBloc homeBloc;
@@ -33,9 +35,10 @@ class _ActivityLogPageState extends State<ActivityLogPage> {
   @override
   void initState() {
     performanceLogBloc =
-        PerformanceLogBloc(sl(), homeStoriesBloc: widget.homeBloc)
+        PerformanceLogBloc(sl(), sl(), homeStoriesBloc: widget.homeBloc)
           ..add(LoadActivityStory(widget.summary));
-
+    sl<FirebaseAnalytics>()
+        .logEvent(name: 'TrackAnalysisView', parameters: {"trackId": "2"});
     super.initState();
   }
 
@@ -78,12 +81,14 @@ class _ActivityLogPageState extends State<ActivityLogPage> {
                                         horizontal: Gparam.widthPadding,
                                         vertical: 8),
                                     child: ActivityLogView(workout: e.value),
-                                  ))
+                                  )),
+                          WorkoutListAnalysis(logs: [state.summary.activities])
                         ],
                       ),
                     );
                   else if (state is PerformanceLogError) {
-                    return MessageDisplay(message: state.message);
+                    return Center(
+                        child: MessageDisplay(message: state.message));
                   } else if (state is PerformanceLogInitial) {
                     return Center(
                       child: LoadingWidget(),

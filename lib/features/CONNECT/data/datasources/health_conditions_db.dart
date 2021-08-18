@@ -1,5 +1,5 @@
-import 'package:sorted/core/global/entities/sub_profiles/fitness_goals.dart';
-import 'package:sorted/core/global/entities/sub_profiles/food_preferences.dart';
+
+
 import 'package:sorted/core/global/entities/sub_profiles/health_condition.dart';
 import 'package:sorted/features/CONNECT/data/models/expert/expert_speciality.dart';
 
@@ -16,6 +16,22 @@ int getIdfromString(String topic) {
           .toList()[0]
           ?.key ??
       -1;
+}
+
+List<String> getConditionStringsFromKey(List<int> goals) {
+  List<String> values = [];
+  for (var i = 0; i < goals.length; i++) {
+    values.add(getStringFromId(goals[i]));
+  }
+  return values;
+}
+
+String getStringFromId(int id) {
+  return healthConditionsTags
+          .where((element) => (element.key == id))
+          .toList()[0]
+          ?.value ??
+      "";
 }
 
 HealthConditions healthConditionsFromTags(List<int> tags) {
@@ -35,12 +51,4 @@ List<int> listFromHealthConditions(HealthConditions conditions) {
   if (conditions.has_thyroid == 1) tags.add(3);
 
   return tags;
-}
-
-String getStringFromId(int id) {
-  return healthConditionsTags
-          .where((element) => (element.key == id))
-          .toList()[0]
-          ?.value ??
-      "";
 }

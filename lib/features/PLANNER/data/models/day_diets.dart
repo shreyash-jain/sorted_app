@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-
 class DayDiet extends Equatable {
   int id;
   List<DietModel> dayBreakfastDiets;
@@ -10,7 +9,7 @@ class DayDiet extends Equatable {
   List<DietModel> dayDinnerDiets;
   int totalCalories;
   String dayName;
-  
+
   DayDiet({
     this.id = 0,
     this.dayBreakfastDiets = const [],
@@ -94,6 +93,7 @@ class DietModel extends Equatable {
   int servings;
   int calories;
   String servingUnit;
+  int daySlot;
   DietModel({
     this.recipeId = 0,
     this.recipeImage = '',
@@ -101,19 +101,9 @@ class DietModel extends Equatable {
     this.servings = 0,
     this.calories = 0,
     this.servingUnit = '',
+    this.daySlot = 0,
   });
-
-  @override
-  List<Object> get props {
-    return [
-      recipeId,
-      recipeImage,
-      name,
-      servings,
-      calories,
-      servingUnit,
-    ];
-  }
+ 
 
   DietModel copyWith({
     int recipeId,
@@ -122,6 +112,7 @@ class DietModel extends Equatable {
     int servings,
     int calories,
     String servingUnit,
+    int daySlot,
   }) {
     return DietModel(
       recipeId: recipeId ?? this.recipeId,
@@ -130,6 +121,7 @@ class DietModel extends Equatable {
       servings: servings ?? this.servings,
       calories: calories ?? this.calories,
       servingUnit: servingUnit ?? this.servingUnit,
+      daySlot: daySlot ?? this.daySlot,
     );
   }
 
@@ -141,6 +133,7 @@ class DietModel extends Equatable {
       'servings': servings,
       'calories': calories,
       'servingUnit': servingUnit,
+      'daySlot': daySlot,
     };
   }
 
@@ -152,14 +145,27 @@ class DietModel extends Equatable {
       servings: map['servings'] ?? 0,
       calories: map['calories'] ?? 0,
       servingUnit: map['servingUnit'] ?? '',
+      daySlot: map['daySlot'] ?? 0,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory DietModel.fromJson(String source) =>
-      DietModel.fromMap(json.decode(source));
+  factory DietModel.fromJson(String source) => DietModel.fromMap(json.decode(source));
 
   @override
   bool get stringify => true;
+
+  @override
+  List<Object> get props {
+    return [
+      recipeId,
+      recipeImage,
+      name,
+      servings,
+      calories,
+      servingUnit,
+      daySlot,
+    ];
+  }
 }

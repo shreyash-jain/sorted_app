@@ -35,6 +35,8 @@ import 'package:sorted/features/HOME/domain/entities/day_affirmations.dart';
 import 'package:sorted/features/HOME/domain/entities/display_thumbnail.dart';
 import 'package:sorted/features/HOME/domain/entities/unsplash_image.dart';
 import 'package:sorted/features/HOME/domain/repositories/home_repository.dart';
+import 'package:sorted/features/PLANNER/data/models/workout_plan.dart';
+import 'package:sorted/features/PLANNER/data/models/diet_plan.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeCloud remoteDataSource;
@@ -1094,8 +1096,10 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<Either<Failure, FeedPostEntity>> getFeed(
       int limit, DocumentSnapshot<Object> lastDoc) async {
+
     if (await networkInfo.isConnected) {
       try {
+        
         return (Right(await remoteDataSource.getFeed(limit, lastDoc)));
       } on Exception {
         return Left(ServerFailure());
@@ -1152,6 +1156,30 @@ class HomeRepositoryImpl implements HomeRepository {
       }
     }
     return result;
+  }
+ @override
+  Future<Either<Failure, List<DietPlanModel>>> getGlobalDietPlans() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (Right(await remoteDataSource.getGlobalDietPlans()));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<WorkoutPlanModel>>>
+      getGlobalWorkoutPlans() async {
+    if (await networkInfo.isConnected) {
+      try {
+        return (Right(await remoteDataSource.getGlobalWorkoutPlans()));
+      } on Exception {
+        return Left(ServerFailure());
+      }
+    } else
+      return Left(NetworkFailure());
   }
 
 

@@ -38,7 +38,7 @@ class ReceiveMessage extends StatelessWidget {
             Flexible(
               child: Container(
                 decoration: new BoxDecoration(
-                    color: Colors.grey.shade50,
+                    color: Colors.grey.shade100,
                     borderRadius: BorderRadius.circular(10)),
                 padding: EdgeInsets.all(12),
                 margin: EdgeInsets.all(4),
@@ -48,9 +48,10 @@ class ReceiveMessage extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: EdgeInsets.only(left: 65),
+          padding: EdgeInsets.only(
+              left: (imageUrl != null && imageUrl != '') ? 65 : 16),
           child: Gtheme.stext(senderName,
-              size: GFontSize.XXS, weight: GFontWeight.B1),
+              size: GFontSize.XXS, weight: GFontWeight.N),
         ),
       ],
     );

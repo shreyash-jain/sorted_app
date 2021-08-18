@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:sorted/core/error/failures.dart';
 import 'package:sorted/core/global/database/cacheDataClass.dart';
+import 'package:sorted/core/global/injection_container.dart';
 import 'package:sorted/features/CONNECT/data/models/client_consultation_model.dart';
 import 'package:sorted/features/CONNECT/data/models/client_enrolls_model.dart';
 import 'package:sorted/features/CONNECT/data/models/expert/expert_calendar.dart';
@@ -31,6 +33,8 @@ class PackageEnrollBloc extends Bloc<PackageEnrollEvent, PackageEnrollState> {
     PackageEnrollEvent event,
   ) async* {
     if (event is GetExpertDetails) {
+      sl<FirebaseAnalytics>()
+          .logEvent(name: 'DynamicPackageEnroll', parameters: null);
       String packageId = event.packageId;
       Failure failure;
       ConsultationPackageModel package;
@@ -70,6 +74,8 @@ class PackageEnrollBloc extends Bloc<PackageEnrollEvent, PackageEnrollState> {
         yield PackageEnrollError(Failure.mapToString(failure));
       }
     } else if (event is EnrollRequestEvent) {
+      sl<FirebaseAnalytics>()
+          .logEvent(name: 'DynamicClientPackageEnrollRequest', parameters: null);
       Failure failure;
       PackageEnrollLoaded prevState = (state as PackageEnrollLoaded);
 
@@ -84,7 +90,7 @@ class PackageEnrollBloc extends Bloc<PackageEnrollEvent, PackageEnrollState> {
 
       ClientConsultationModel consultation = event.consultation;
       consultation = consultation.copyWith(
-           hasPackage: 1,
+          hasPackage: 1,
           packageId: thisPackage.id,
           email: userDetails.email,
           packageName: thisPackage.name,
@@ -121,6 +127,7 @@ class PackageEnrollBloc extends Bloc<PackageEnrollEvent, PackageEnrollState> {
       int isSuccess;
       result.fold((l) => failure = l, (r) => isSuccess = r);
       if (failure == null) {
+        repository.notifyExpertforNewConsultation(prevState.expertProfile.id);
         yield PackageEnrollLoaded(
             prevState.package,
             (isSuccess == 1) ? 1 : 0,

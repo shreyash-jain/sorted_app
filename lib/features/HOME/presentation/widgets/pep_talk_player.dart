@@ -51,7 +51,8 @@ class _PepTalkPlayerState extends State<PepTalkPlayer> {
       print('A stream error occurred: $e');
     });
     try {
-      //await _audioSource.clearCache();
+      print("heeelo $_audioSource");
+      await _audioSource.clearCache();
       await _player.setAudioSource(_audioSource);
     } catch (e) {
       print("Error loading audio source: $e");

@@ -1,19 +1,10 @@
 part of 'class_chat_bloc.dart';
 
-abstract class ClassChatEvent extends Equatable {
-  const ClassChatEvent();
+abstract class ChatEvent extends Equatable {
+  const ChatEvent();
 }
 
-class GetInitialChats extends ClassChatEvent {
-  final ClassModel classroom;
-
-  GetInitialChats(this.classroom);
-
-  @override
-  List<Object> get props => [classroom];
-}
-
-class MessagesFetched extends ClassChatEvent {
+class MessagesFetched extends ChatEvent {
   final bool changeMaxReached;
 
   MessagesFetched({this.changeMaxReached});
@@ -21,31 +12,28 @@ class MessagesFetched extends ClassChatEvent {
   List<Object> get props => [changeMaxReached];
 }
 
-class AddNewMessage extends ClassChatEvent {
+class AddNewClassMessage extends ChatEvent {
   final String text;
 
-  AddNewMessage(this.text);
+  AddNewClassMessage(this.text);
 
   @override
   List<Object> get props => [text];
 }
 
-class AddNewImage extends ClassChatEvent {
-  final ClassModel classroom;
-  final File file;
+class AddNewConsultationMessage extends ChatEvent {
+  final String text;
 
-  AddNewImage(this.classroom, this.file);
+  AddNewConsultationMessage(this.text);
 
   @override
-  List<Object> get props => [classroom, file];
+  List<Object> get props => [text];
 }
 
-class LoadMoreChats extends ClassChatEvent {
-  final ClassModel classroom;
-  final ChatMessageEntitiy lastChat;
+class ConsultationMessagesFetched extends ChatEvent {
+  final bool changeMaxReached;
 
-  LoadMoreChats(this.classroom, this.lastChat);
-
+  ConsultationMessagesFetched({this.changeMaxReached});
   @override
-  List<Object> get props => [classroom, lastChat];
+  List<Object> get props => [changeMaxReached];
 }

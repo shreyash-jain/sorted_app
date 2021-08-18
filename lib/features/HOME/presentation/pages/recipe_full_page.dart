@@ -85,7 +85,9 @@ class _RecipePageState extends State<RecipePage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          isReadMore = !isReadMore;
+                          setState(() {
+                            isReadMore = !isReadMore;
+                          });
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -96,18 +98,18 @@ class _RecipePageState extends State<RecipePage> {
                               Text(
                                 state.recipe.description,
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: (isReadMore) ? 10 : 3,
+                                maxLines: (isReadMore) ? 20 : 3,
                                 style: TextStyle(
                                     color: Colors.black54,
                                     fontFamily: 'Milliard',
                                     fontSize: Gparam.textSmall,
-                                    fontWeight: FontWeight.w600),
+                                    fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
                                 height: 8,
                               ),
                               Text(
-                                "read more",
+                                isReadMore ? "show less" : "read more",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(

@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/features/CONNECT/data/models/client_consultation_model.dart';
 import 'package:sorted/features/CONNECT/data/models/client_enrolls_model.dart';
 import 'package:sorted/features/CONNECT/domain/repositories/connect_repository.dart';
 import 'package:sorted/features/CONNECT/presentation/class_enroll_bloc/class_enroll_bloc.dart';
@@ -22,6 +23,8 @@ class ClientEnrollBloc extends Bloc<ClientEnrollEvent, ClientEnrollState> {
       ClientEnrollsModel clientEnrollsModel;
       List<ClassModel> requestedClasses = [];
       List<ClassModel> enrolledClasses = [];
+      List<ClientConsultationModel> enrolledConsultations = [];
+      List<ClientConsultationModel> requestedConsultations = [];
 
       var enrollResult = await repository.getEnrollsOfClient();
       enrollResult.fold((l) => failure = l, (r) => clientEnrollsModel = r);
@@ -49,8 +52,37 @@ class ClientEnrollBloc extends Bloc<ClientEnrollEvent, ClientEnrollState> {
           failure = ServerFailure();
         }
 
+        try {
+          List<Either<Failure, ClientConsultationModel>>
+              requestedConsultationsResult =
+              await Future.wait((clientEnrollsModel.requestedConsultation
+                  .map((e) => repository.getConsultationById(e.consultationId))
+                  .toList()));
+          requestedConsultationsResult.forEach((element) {
+            element.fold(
+                (l) => failure = l, (r) => requestedConsultations.add(r));
+          });
+        } catch (e) {
+          failure = ServerFailure();
+        }
+
+        try {
+          List<Either<Failure, ClientConsultationModel>>
+              enrolledConsultationsResult =
+              await Future.wait((clientEnrollsModel.enrolledConsultation
+                  .map((e) => repository.getConsultationById(e.consultationId))
+                  .toList()));
+          enrolledConsultationsResult.forEach((element) {
+            element.fold(
+                (l) => failure = l, (r) => enrolledConsultations.add(r));
+          });
+        } catch (e) {
+          failure = ServerFailure();
+        }
+
         if (failure == null) {
-          yield ClientEnrollLoaded(requestedClasses, enrolledClasses);
+          yield ClientEnrollLoaded(requestedClasses, enrolledClasses,
+              requestedConsultations, enrolledConsultations);
         } else
           yield ClientEnrollError(Failure.mapToString(failure));
       } else {

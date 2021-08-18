@@ -44,6 +44,7 @@ class RecipeModel extends Equatable {
     if (map == null) return null;
 
     String imageUrl = map['image_url'] ?? '';
+    https: //www.tarladalal.com/https://cdn.tarladalal.com/members/9306/big/big_sweet_potato_and_spring_onion_soup-7188.jpg?
 
     imageUrl = imageUrl.replaceAll("https://www.tarladalal.com/", "");
 
@@ -51,7 +52,7 @@ class RecipeModel extends Equatable {
       cook_time: map['cook_time'].toInt() ?? 0,
       description: map['description'] ?? '',
       id: map['id'] ?? 0,
-      image_url: map['image_url'] ?? '',
+      image_url: imageUrl,
       name: map['name'] ?? '',
       preparation_time: map['preparation_time'].toInt() ?? 0,
       total_time: map['total_time'] ?? 0,
@@ -126,7 +127,7 @@ class RecipeModel extends Equatable {
   }
 
   factory RecipeModel.fromMap(Map<String, dynamic> map) {
-     String imageUrl = map['image_url'] ?? '';
+    String imageUrl = map['image_url'] ?? '';
 
     imageUrl = imageUrl.replaceAll("https://www.tarladalal.com/", "");
     return RecipeModel(

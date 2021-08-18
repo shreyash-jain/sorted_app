@@ -30,6 +30,7 @@ class LoadWorkoutEntity extends WorkoutPlanEvent {
   @override
   List<Object> get props => [plan];
 }
+
 class LoadCurrentWorkoutPlan extends WorkoutPlanEvent {
   final int type;
   final ClassModel classroom;
@@ -73,4 +74,17 @@ class AddActivityAtDay extends WorkoutPlanEvent {
 
   @override
   List<Object> get props => [activityBoardInfo, workout, day];
+}
+
+class GetRecommendedWorkoutPlan extends WorkoutPlanEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class LoadCurrentConsultationWorkoutPlan extends WorkoutPlanEvent {
+  final ClientConsultationModel consultation;
+
+  LoadCurrentConsultationWorkoutPlan(this.consultation);
+  @override
+  List<Object> get props => [consultation];
 }

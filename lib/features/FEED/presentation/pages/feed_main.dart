@@ -186,6 +186,9 @@ class _FeedHomePageState extends State<FeedHomePage> {
                     },
                   ),
                 ),
+                SizedBox(
+                  height: 80,
+                )
               ],
             ),
           ),

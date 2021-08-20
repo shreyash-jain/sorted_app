@@ -127,7 +127,7 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                         ),
                         Text(
                           " " +
-                              (state.profile?.mindfulness_score ?? 0.0)
+                              (state.healthProfile?.mindfulness_score ?? 0.0)
                                   .toStringAsPrecision(3),
                           style: TextStyle(
                               fontFamily: 'Milliard',
@@ -147,15 +147,15 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                       child:
                           ListView(scrollDirection: Axis.horizontal, children: [
                         mindfulActivityTile("Talk about my feelings",
-                            state.profile.do_talk_ablout_feelings, 0),
+                            state.healthProfile.do_talk_ablout_feelings, 0),
                         mindfulActivityTile(
-                            "Enjoy my work", state.profile.do_enjoy_work, 1),
+                            "Enjoy my work", state.healthProfile.do_enjoy_work, 1),
                         mindfulActivityTile(
-                            "Do meditate", state.profile.do_meditation, 2),
+                            "Do meditate", state.healthProfile.do_meditation, 2),
                         mindfulActivityTile(
-                            "Love my self", state.profile.do_love_self, 3),
+                            "Love my self", state.healthProfile.do_love_self, 3),
                         mindfulActivityTile("Think positive",
-                            state.profile.do_stay_positive, 4),
+                            state.healthProfile.do_stay_positive, 4),
                       ])),
                   SizedBox(
                     height: 6,
@@ -183,13 +183,14 @@ class MindfulnessProfileWidhet extends StatelessWidget {
                           );
                         }
 
-                        if (state.profile != null &&
-                            state.profile.councellor_name.length != 0)
+                        if (state.healthProfile != null &&
+                            state.healthProfile.councellor_name.length != 0)
                           return PersonDisplay(
-                            name: state.profile?.councellor_name[index - 1] ??
+                            name: state.healthProfile
+                                    ?.councellor_name[index - 1] ??
                                 "None",
                             image_url:
-                                state.profile.councellor_image_url[index - 1],
+                                state.healthProfile.councellor_image_url[index - 1],
                           );
                         else {
                           return PersonDisplay(

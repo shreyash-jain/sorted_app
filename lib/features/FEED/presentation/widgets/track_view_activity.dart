@@ -20,7 +20,8 @@ class ProfileTrackActivityView extends StatelessWidget {
   DateFormat formatterDate = DateFormat('dd MMMM');
   DateFormat formatterTime = DateFormat('jm');
 
-  ProfileTrackActivityView({Key key, this.track, this.onClick}) : super(key: key);
+  ProfileTrackActivityView({Key key, this.track, this.onClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,7 @@ class ProfileTrackActivityView extends StatelessWidget {
                             children: [
                               Container(
                                 child: Gtheme.stext(track.name,
-                                    size: GFontSize.M, weight: GFontWeight.B1),
+                                    size: GFontSize.S, weight: GFontWeight.B1),
                               ),
                               SizedBox(
                                 height: 8,
@@ -83,7 +84,7 @@ class ProfileTrackActivityView extends StatelessWidget {
                                         : "Last filled on " +
                                             formatterDate
                                                 .format(state.summary.last_log),
-                                    size: GFontSize.XS,
+                                    size: GFontSize.XXS,
                                     weight: GFontWeight.L),
                               ),
                             ],
@@ -97,7 +98,7 @@ class ProfileTrackActivityView extends StatelessWidget {
                           state.summary.activities.length > 0))
                         Container(
                           child: Gtheme.stext("Total cal burnt today",
-                              size: GFontSize.XS, weight: GFontWeight.N),
+                              size: GFontSize.XXS, weight: GFontWeight.N),
                         ),
                       SizedBox(
                         height: 8,
@@ -107,7 +108,7 @@ class ProfileTrackActivityView extends StatelessWidget {
                         Container(
                           child: Gtheme.stext(
                               state.totalCalBurntToday.toString() + " Cal",
-                              size: GFontSize.M,
+                              size: GFontSize.S,
                               weight: GFontWeight.B),
                         ),
                     ],

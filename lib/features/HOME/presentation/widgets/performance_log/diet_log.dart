@@ -47,7 +47,7 @@ class _DietLogPageState extends State<DietLogPage> {
     performanceLogBloc =
         PerformanceLogBloc(sl(), sl(), homeStoriesBloc: widget.homeBloc)
           ..add(LoadDietlogStory(widget.summary));
-     sl<FirebaseAnalytics>()
+    sl<FirebaseAnalytics>()
         .logEvent(name: 'TrackAnalysisView', parameters: {"trackId": "1"});
 
     super.initState();
@@ -100,7 +100,7 @@ class _DietLogPageState extends State<DietLogPage> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding,
-                                  vertical: Gparam.widthPadding / 2),
+                                  vertical: Gparam.widthPadding / 4),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -134,7 +134,7 @@ class _DietLogPageState extends State<DietLogPage> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding,
-                                  vertical: Gparam.widthPadding / 2),
+                                  vertical: Gparam.widthPadding / 4),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -168,7 +168,7 @@ class _DietLogPageState extends State<DietLogPage> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding,
-                                  vertical: Gparam.widthPadding / 2),
+                                  vertical: Gparam.widthPadding / 4),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -222,7 +222,6 @@ class _DietLogPageState extends State<DietLogPage> {
     print("print activity ${p1.name}");
     int localDaySlot = daySlot;
     setState(() {
-      daySlot = -1;
       if (searchController.isOpen) searchController.close();
     });
     showDialog(

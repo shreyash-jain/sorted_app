@@ -10,14 +10,33 @@ class ProfileInitial extends ProfileState {
 }
 
 class ProfileLoaded extends ProfileState {
-  final HealthProfile profile;
+  final HealthProfile healthProfile;
   final UserDetail details;
 
   ProfileLoaded(
-    this.profile,
+    this.healthProfile,
     this.details,
   );
 
   @override
-  List<Object> get props => [profile, details];
+  List<Object> get props => [healthProfile, details];
+
+  ProfileLoaded copyWith({
+    HealthProfile healthProfile,
+    UserDetail details,
+  }) {
+    return ProfileLoaded(
+      healthProfile ?? this.healthProfile,
+      details ?? this.details,
+    );
+  }
+}
+
+class ProfileError extends ProfileState {
+  final String message;
+
+  ProfileError(this.message);
+
+  @override
+  List<Object> get props => [message];
 }

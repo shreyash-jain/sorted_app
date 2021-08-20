@@ -9,9 +9,11 @@ class CacheDataClass {
 
   static final CacheDataClass cacheData = CacheDataClass._();
 
+  clearDetails() {
+    _userDetail = null;
+  }
+
   setUserDetail(UserDetail detail) {
-
-
     _userDetail = detail;
     print("setUserDetail" + _userDetail.toString());
   }
@@ -24,7 +26,6 @@ class CacheDataClass {
     return dayAtSortit;
   }
 
-  
   UserDetail getUserDetail() {
     print("getUserDetail" + _userDetail.toString());
     return _userDetail;

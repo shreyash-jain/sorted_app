@@ -114,10 +114,10 @@ class AuthenticationRepository {
     }
   }
 
-  Future<int> saveDeviceToken() {
+  Future<int> saveDeviceToken(String token) {
     print(saveDeviceToken);
     try {
-      _authDataSource.saveDeviceToken();
+      _authDataSource.saveDeviceToken(token);
       return Future.value(1);
     } on Exception {
       throw ServerException();

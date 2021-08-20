@@ -109,10 +109,10 @@ class _ExpertPackagesCatalogueState extends State<ExpertPackagesCatalogue> {
                                                                   healthConditions
                                                                       .join(
                                                                           ','),
-                                                                          prefferedSlot: preferedSlot,
+                                                              prefferedSlot:
+                                                                  preferedSlot,
                                                               initialClientMessage:
                                                                   details);
-
 
                                                       consultationEnrollBloc.add(
                                                           EnrollRequestEvent(
@@ -129,20 +129,6 @@ class _ExpertPackagesCatalogueState extends State<ExpertPackagesCatalogue> {
                             )),
                         SizedBox(
                           height: 10,
-                        ),
-                        ExpansionTile(
-                          title: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Gparam.widthPadding / 2),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Gtheme.stext("About Trainer",
-                                    size: GFontSize.S, weight: GFontWeight.B1),
-                              ],
-                            ),
-                          ),
-                          children: <Widget>[],
                         ),
                       ],
                     ),

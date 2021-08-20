@@ -10,7 +10,8 @@ class DayDietWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
+    return  ExpansionTile(
+      iconColor: Theme.of(context).primaryColor,
       tilePadding: EdgeInsets.only(right: Gparam.widthPadding),
       childrenPadding: EdgeInsets.all(0),
       title: Padding(

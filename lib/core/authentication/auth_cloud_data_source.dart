@@ -32,7 +32,7 @@ abstract class AuthCloudDataSource {
   void updateUserInCloud(UserDetail detail);
   Future<UserDetail> getUserFromCloud();
   Future<void> addUserDetailInCloud(UserDetail detail);
-  Future<void> saveDeviceToken();
+  Future<void> saveDeviceToken(String token);
   Future<DayAtSortit> getDayAtSortIt();
 }
 
@@ -125,16 +125,16 @@ class AuthCloudDataSourceImpl implements AuthCloudDataSource {
     await file.writeAsString(text);
   }
 
-  Future<void> saveDeviceToken() async {
+  Future<void> saveDeviceToken(String fcmToken) async {
     print("token " + saveDeviceToken.toString());
-    User user = auth.currentUser;
+     User user = auth.currentUser;
 
-    var result = await auth.currentUser.getIdToken();
 
-    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
-    // Get the token for this device
-    String fcmToken = await _fcm.getToken();
+    // final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+
+    // // Get the token for this device
+    // String fcmToken = await _fcm.getToken();
     print("token " + fcmToken.toString());
 
     // Save it to Firestore

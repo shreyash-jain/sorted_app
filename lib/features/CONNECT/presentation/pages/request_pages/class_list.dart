@@ -59,7 +59,8 @@ class _ClassListPageState extends State<ClassListPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        ExpansionTile(
+                         ExpansionTile(
+                          iconColor: Theme.of(context).primaryColor,
                           title: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Gparam.widthPadding / 2),
@@ -82,6 +83,7 @@ class _ClassListPageState extends State<ClassListPage> {
                         ),
                         if (state.classroom.description != '')
                           ExpansionTile(
+                            iconColor: Theme.of(context).primaryColor,
                             title: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding / 2),
@@ -104,7 +106,8 @@ class _ClassListPageState extends State<ClassListPage> {
                               )
                             ],
                           ),
-                        ExpansionTile(
+                    ExpansionTile(
+                          iconColor: Theme.of(context).primaryColor,
                           title: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Gparam.widthPadding / 2),

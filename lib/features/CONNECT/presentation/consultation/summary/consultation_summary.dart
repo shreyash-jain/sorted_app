@@ -65,7 +65,8 @@ class _ConsultationSummaryState extends State<ConsultationSummary> {
                             height: 10,
                           ),
                         
-                          ExpansionTile(
+                         ExpansionTile(
+                            iconColor: Theme.of(context).primaryColor,
                             title: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding / 2),
@@ -96,6 +97,7 @@ class _ConsultationSummaryState extends State<ConsultationSummary> {
                             ],
                           ),
                           ExpansionTile(
+                            iconColor: Theme.of(context).primaryColor,
                             title: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding / 2),
@@ -135,7 +137,8 @@ class _ConsultationSummaryState extends State<ConsultationSummary> {
                                         ])),
                             ],
                           ),
-                          ExpansionTile(
+                         ExpansionTile(
+                            iconColor: Theme.of(context).primaryColor,
                             title: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding / 2),
@@ -177,7 +180,8 @@ class _ConsultationSummaryState extends State<ConsultationSummary> {
                           SizedBox(
                             height: 6,
                           ),
-                          ExpansionTile(
+                        ExpansionTile(
+                            iconColor: Theme.of(context).primaryColor,
                             title: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: Gparam.widthPadding / 2),

@@ -68,7 +68,7 @@ class ProfileTrackView extends StatelessWidget {
                           children: [
                             Container(
                               child: Gtheme.stext(track.name,
-                                  size: GFontSize.M, weight: GFontWeight.B1),
+                                  size: GFontSize.S, weight: GFontWeight.B1),
                             ),
                             SizedBox(
                               height: 8,
@@ -81,7 +81,7 @@ class ProfileTrackView extends StatelessWidget {
                                       : "Last filled on " +
                                           formatterDate
                                               .format(summary.last_log),
-                                  size: GFontSize.XS,
+                                  size: GFontSize.XXS,
                                   weight: GFontWeight.L),
                             ),
                           ],
@@ -99,7 +99,7 @@ class ProfileTrackView extends StatelessWidget {
                                 property.n_stat_condition,
                                 summary.last_log,
                                 summary.currentValue),
-                            size: GFontSize.XS,
+                            size: GFontSize.XXS,
                             weight: GFontWeight.N),
                       ),
                     SizedBox(
@@ -113,7 +113,7 @@ class ProfileTrackView extends StatelessWidget {
                               property.property_type,
                               property.n_stat_condition,
                             ),
-                            size: GFontSize.M,
+                            size: GFontSize.S,
                             weight: GFontWeight.B),
                       ),
                   ],

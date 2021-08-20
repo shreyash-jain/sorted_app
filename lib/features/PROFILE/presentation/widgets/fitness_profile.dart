@@ -147,7 +147,7 @@ class FitnessProfileWidget extends StatelessWidget {
                         ),
                         Text(
                           " " +
-                              (state.profile?.fitness_score ?? 0.0)
+                              (state.healthProfile?.fitness_score ?? 0.0)
                                   .toStringAsPrecision(3),
                           style: TextStyle(
                               fontFamily: 'Milliard',
@@ -167,17 +167,17 @@ class FitnessProfileWidget extends StatelessWidget {
                       child:
                           ListView(scrollDirection: Axis.horizontal, children: [
                         fitnessActivityTile(
-                            "Go on a walk/Run", state.profile.do_walk, 0),
+                            "Go on a walk/Run", state.healthProfile.do_walk, 0),
                         fitnessActivityTile(
-                            "Do Exercise", state.profile.do_exercise, 1),
+                            "Do Exercise", state.healthProfile.do_exercise, 1),
                         fitnessActivityTile(
-                            "Do Yoga", state.profile.do_yoga, 2),
+                            "Do Yoga", state.healthProfile.do_yoga, 2),
                         fitnessActivityTile(
-                            "Do Dance", state.profile.do_dance, 3),
+                            "Do Dance", state.healthProfile.do_dance, 3),
                         fitnessActivityTile(
-                            "Play Sports", state.profile.play_sports, 4),
+                            "Play Sports", state.healthProfile.play_sports, 4),
                         fitnessActivityTile(
-                            "Ride Cycle", state.profile.ride_cycle, 5),
+                            "Ride Cycle", state.healthProfile.ride_cycle, 5),
                       ])),
                   SizedBox(
                     height: 6,
@@ -201,15 +201,16 @@ class FitnessProfileWidget extends StatelessWidget {
                                       : GColors.B,
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
-                              if (state.profile != null &&
-                                  state.profile.trainer_name.length != 0)
+                              if (state.healthProfile != null &&
+                                  state.healthProfile.trainer_name.length != 0)
                                 PersonDisplay(
-                                  name: state.profile.trainer_name[index - 1],
+                                  name: state.healthProfile.trainer_name[index - 1],
                                   image_url: state
-                                      .profile.trainer_image_url[index - 1],
+                                      .healthProfile
+                                      .trainer_image_url[index - 1],
                                 ),
-                              if (state.profile != null ||
-                                  state.profile.trainer_name.length == 0)
+                              if (state.healthProfile != null ||
+                                  state.healthProfile.trainer_name.length == 0)
                                 PersonDisplay(
                                   name: "None",
                                   image_url: null,
@@ -226,16 +227,17 @@ class FitnessProfileWidget extends StatelessWidget {
                                       : GColors.B,
                                   size: GFontSize.XS,
                                   weight: GFontWeight.N),
-                              if (state.profile != null &&
-                                  state.profile.nutritionist_name.length != 0)
+                              if (state.healthProfile != null &&
+                                  state.healthProfile.nutritionist_name.length != 0)
                                 PersonDisplay(
                                   name: state
-                                      .profile.nutritionist_name[index - 1],
-                                  image_url: state.profile
+                                      .healthProfile
+                                      .nutritionist_name[index - 1],
+                                  image_url: state.healthProfile
                                       .nutritionist_image_url[index - 1],
                                 ),
-                              if (state.profile != null ||
-                                  state.profile.trainer_name.length == 0)
+                              if (state.healthProfile != null ||
+                                  state.healthProfile.trainer_name.length == 0)
                                 PersonDisplay(
                                   name: "None",
                                   image_url: null,

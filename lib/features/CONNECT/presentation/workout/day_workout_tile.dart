@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/CONNECT/presentation/workout/activity_tile_view.dart';
@@ -11,6 +10,7 @@ class DayActivityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      iconColor: Theme.of(context).primaryColor,
       tilePadding: EdgeInsets.only(right: Gparam.widthPadding),
       childrenPadding: EdgeInsets.all(0),
       title: Padding(

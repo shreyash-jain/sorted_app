@@ -56,7 +56,7 @@ class _ClientEnrollHomeWidgetState extends State<ClientEnrollHomeWidget> {
                           padding: EdgeInsets.symmetric(
                               horizontal: Gparam.widthPadding),
                           child: Gtheme.stext("Requested Class",
-                              size: GFontSize.M, weight: GFontWeight.N),
+                              size: GFontSize.S, weight: GFontWeight.N),
                         ),
                       if (state.requestedClasses.length > 0)
                         SizedBox(

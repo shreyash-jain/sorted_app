@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 
@@ -22,7 +21,7 @@ class SearchFilter extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-            color: Colors.orange.shade50,
+            color: Theme.of(context).primaryColor.withOpacity(.1),
             borderRadius: BorderRadius.circular(5)),
         child: Row(
           children: [
@@ -33,7 +32,11 @@ class SearchFilter extends StatelessWidget {
                   print("ruuunnnn");
                   onClick(v, filterId);
                 }),
-            Gtheme.stext(text, size: GFontSize.XS, weight: GFontWeight.N),
+            Gtheme.stext(
+              text,
+              size: GFontSize.XS,
+              weight: GFontWeight.N,
+            ),
             SizedBox(
               width: 8,
             ),

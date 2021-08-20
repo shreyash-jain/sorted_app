@@ -112,20 +112,7 @@ class _ExpertPackageRequestPageState extends State<ExpertPackageRequestPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        ExpansionTile(
-                          title: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Gparam.widthPadding / 2),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Gtheme.stext("About Trainer",
-                                    size: GFontSize.S, weight: GFontWeight.B1),
-                              ],
-                            ),
-                          ),
-                          children: <Widget>[],
-                        ),
+                     
                       ],
                     ),
                   ),

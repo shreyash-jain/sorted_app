@@ -8,8 +8,8 @@ import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
 import '../../features/CONNECT/data/models/client_consultation_model.dart'
-    as _i41;
-import '../../features/CONNECT/data/models/expert/expert_calendar.dart' as _i33;
+    as _i42;
+import '../../features/CONNECT/data/models/expert/expert_calendar.dart' as _i34;
 import '../../features/CONNECT/presentation/consultation/pages/consultation_main.dart'
     as _i27;
 import '../../features/CONNECT/presentation/pages/class/classroom_main.dart'
@@ -25,15 +25,15 @@ import '../../features/CONNECT/presentation/pages/request_pages/packages_list.da
     as _i17;
 import '../../features/CONNECT/presentation/workout/activity_full_page.dart'
     as _i28;
-import '../../features/HOME/data/models/class_model.dart' as _i34;
-import '../../features/HOME/data/models/motivation/pep_talks.dart' as _i35;
-import '../../features/HOME/data/models/recipes/recipe.dart' as _i31;
-import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i32;
-import '../../features/HOME/domain/entities/day_affirmations.dart' as _i29;
+import '../../features/HOME/data/models/class_model.dart' as _i35;
+import '../../features/HOME/data/models/motivation/pep_talks.dart' as _i36;
+import '../../features/HOME/data/models/recipes/recipe.dart' as _i32;
+import '../../features/HOME/data/models/recipes/tagged_recipe.dart' as _i33;
+import '../../features/HOME/domain/entities/day_affirmations.dart' as _i30;
 import '../../features/HOME/presentation/bloc_affirmation/affirmation_bloc.dart'
-    as _i30;
+    as _i31;
 import '../../features/HOME/presentation/home_stories_bloc/home_stories_bloc.dart'
-    as _i38;
+    as _i39;
 import '../../features/HOME/presentation/pages/affirmation_pv.dart' as _i8;
 import '../../features/HOME/presentation/pages/challenge_pv.dart' as _i11;
 import '../../features/HOME/presentation/pages/fit_info_pv.dart' as _i21;
@@ -49,13 +49,16 @@ import '../../features/HOME/user_plans/activity_plan_view.dart' as _i26;
 import '../../features/HOME/user_plans/diet_plan_view.dart' as _i25;
 import '../../features/ONBOARDING/presentation/pages/onboard_page.dart' as _i5;
 import '../../features/ONSTART/presentation/pages/start_page.dart' as _i4;
-import '../../features/PLANNER/data/models/activity.dart' as _i42;
+import '../../features/PLANNER/data/models/activity.dart' as _i43;
+import '../../features/PROFILE/presentation/bloc/profile_bloc.dart' as _i44;
+import '../../features/PROFILE/presentation/page/edit_profile_page.dart'
+    as _i29;
 import '../../features/SETTINGS/presentation/pages/settings_page.dart' as _i9;
 import '../../features/SPLASH/splash.dart' as _i3;
-import '../../features/TRACKERS/COMMON/models/activity_summary.dart' as _i39;
-import '../../features/TRACKERS/COMMON/models/diet_summary.dart' as _i40;
-import '../../features/TRACKERS/COMMON/models/track_model.dart' as _i36;
-import '../../features/TRACKERS/COMMON/models/track_summary.dart' as _i37;
+import '../../features/TRACKERS/COMMON/models/activity_summary.dart' as _i40;
+import '../../features/TRACKERS/COMMON/models/diet_summary.dart' as _i41;
+import '../../features/TRACKERS/COMMON/models/track_model.dart' as _i37;
+import '../../features/TRACKERS/COMMON/models/track_summary.dart' as _i38;
 import '../../features/TRACKERS/presentation/pages/track_analysis_page.dart'
     as _i22;
 import '../../features/USER_INTRODUCTION/presentation/pages/userIntroMain.dart'
@@ -262,6 +265,14 @@ class ARouter extends _i1.RootStackRouter {
           final args = data.argsAs<ActivityRouteArgs>(
               orElse: () => const ActivityRouteArgs());
           return _i28.ActivityPage(key: args.key, activity: args.activity);
+        }),
+    ProfileEditRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<ProfileEditRouteArgs>(
+              orElse: () => const ProfileEditRouteArgs());
+          return _i29.ProfileEditPage(
+              key: args.key, profileBloc: args.profileBloc);
         })
   };
 
@@ -295,7 +306,8 @@ class ARouter extends _i1.RootStackRouter {
         _i1.RouteConfig(DietPlanView.name, path: '/diet-plan-view'),
         _i1.RouteConfig(ActivityPlanView.name, path: '/activity-plan-view'),
         _i1.RouteConfig(ConsultationMain.name, path: '/consultation-main'),
-        _i1.RouteConfig(ActivityRoute.name, path: '/activity-page')
+        _i1.RouteConfig(ActivityRoute.name, path: '/activity-page'),
+        _i1.RouteConfig(ProfileEditRoute.name, path: '/profile-edit-page')
       ];
 }
 
@@ -375,9 +387,9 @@ class SortedHomeArgs {
 class AffirmationPV extends _i1.PageRouteInfo<AffirmationPVArgs> {
   AffirmationPV(
       {_i2.Key key,
-      List<_i29.DayAffirmation> affirmations,
+      List<_i30.DayAffirmation> affirmations,
       int startIndex,
-      _i30.AffirmationBloc outerBloc})
+      _i31.AffirmationBloc outerBloc})
       : super(name,
             path: '/affirmation-pV',
             args: AffirmationPVArgs(
@@ -395,11 +407,11 @@ class AffirmationPVArgs {
 
   final _i2.Key key;
 
-  final List<_i29.DayAffirmation> affirmations;
+  final List<_i30.DayAffirmation> affirmations;
 
   final int startIndex;
 
-  final _i30.AffirmationBloc outerBloc;
+  final _i31.AffirmationBloc outerBloc;
 }
 
 class SettingsRoute extends _i1.PageRouteInfo<SettingsRouteArgs> {
@@ -431,8 +443,8 @@ class RecipeRoute extends _i1.PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute(
       {_i2.Key key,
       int type,
-      _i31.RecipeModel recipe,
-      _i32.TaggedRecipe taggedRecipe})
+      _i32.RecipeModel recipe,
+      _i33.TaggedRecipe taggedRecipe})
       : super(name,
             path: '/recipe-page',
             args: RecipeRouteArgs(
@@ -451,9 +463,9 @@ class RecipeRouteArgs {
 
   final int type;
 
-  final _i31.RecipeModel recipe;
+  final _i32.RecipeModel recipe;
 
-  final _i32.TaggedRecipe taggedRecipe;
+  final _i33.TaggedRecipe taggedRecipe;
 }
 
 class ClassListRoute extends _i1.PageRouteInfo<ClassListRouteArgs> {
@@ -532,7 +544,7 @@ class ExpertPackagesCatalogueArgs {
 class ClientRequestForm extends _i1.PageRouteInfo<ClientRequestFormArgs> {
   ClientRequestForm(
       {_i2.Key key,
-      _i33.ExpertCalendarModel calendarModel,
+      _i34.ExpertCalendarModel calendarModel,
       int packageType,
       dynamic Function(List<int>, List<int>, List<int>, DateTime, String, int)
           onPressEnroll})
@@ -553,7 +565,7 @@ class ClientRequestFormArgs {
 
   final _i2.Key key;
 
-  final _i33.ExpertCalendarModel calendarModel;
+  final _i34.ExpertCalendarModel calendarModel;
 
   final int packageType;
 
@@ -562,7 +574,7 @@ class ClientRequestFormArgs {
 }
 
 class ClassroomMain extends _i1.PageRouteInfo<ClassroomMainArgs> {
-  ClassroomMain({_i2.Key key, _i34.ClassModel classroom})
+  ClassroomMain({_i2.Key key, _i35.ClassModel classroom})
       : super(name,
             path: '/classroom-main',
             args: ClassroomMainArgs(key: key, classroom: classroom));
@@ -575,11 +587,11 @@ class ClassroomMainArgs {
 
   final _i2.Key key;
 
-  final _i34.ClassModel classroom;
+  final _i35.ClassModel classroom;
 }
 
 class PepTalkPlayer extends _i1.PageRouteInfo<PepTalkPlayerArgs> {
-  PepTalkPlayer({_i2.Key key, _i35.PepTalkModel talk})
+  PepTalkPlayer({_i2.Key key, _i36.PepTalkModel talk})
       : super(name,
             path: '/pep-talk-player',
             args: PepTalkPlayerArgs(key: key, talk: talk));
@@ -592,12 +604,12 @@ class PepTalkPlayerArgs {
 
   final _i2.Key key;
 
-  final _i35.PepTalkModel talk;
+  final _i36.PepTalkModel talk;
 }
 
 class FitInfoPV extends _i1.PageRouteInfo<FitInfoPVArgs> {
   FitInfoPV(
-      {_i2.Key key, _i36.TrackModel trackModel, _i37.TrackSummary summary})
+      {_i2.Key key, _i37.TrackModel trackModel, _i38.TrackSummary summary})
       : super(name,
             path: '/fit-info-pV',
             args: FitInfoPVArgs(
@@ -611,15 +623,15 @@ class FitInfoPVArgs {
 
   final _i2.Key key;
 
-  final _i36.TrackModel trackModel;
+  final _i37.TrackModel trackModel;
 
-  final _i37.TrackSummary summary;
+  final _i38.TrackSummary summary;
 }
 
 class PerformanceAnalysisRoute
     extends _i1.PageRouteInfo<PerformanceAnalysisRouteArgs> {
   PerformanceAnalysisRoute(
-      {_i2.Key key, _i37.TrackSummary summary, _i36.TrackModel track})
+      {_i2.Key key, _i38.TrackSummary summary, _i37.TrackModel track})
       : super(name,
             path: '/performance-analysis-page',
             args: PerformanceAnalysisRouteArgs(
@@ -633,16 +645,16 @@ class PerformanceAnalysisRouteArgs {
 
   final _i2.Key key;
 
-  final _i37.TrackSummary summary;
+  final _i38.TrackSummary summary;
 
-  final _i36.TrackModel track;
+  final _i37.TrackModel track;
 }
 
 class ActivityLogRoute extends _i1.PageRouteInfo<ActivityLogRouteArgs> {
   ActivityLogRoute(
       {_i2.Key key,
-      _i38.HomeStoriesBloc homeBloc,
-      _i39.ActivityLogSummary summary})
+      _i39.HomeStoriesBloc homeBloc,
+      _i40.ActivityLogSummary summary})
       : super(name,
             path: '/activity-log-page',
             args: ActivityLogRouteArgs(
@@ -656,14 +668,14 @@ class ActivityLogRouteArgs {
 
   final _i2.Key key;
 
-  final _i38.HomeStoriesBloc homeBloc;
+  final _i39.HomeStoriesBloc homeBloc;
 
-  final _i39.ActivityLogSummary summary;
+  final _i40.ActivityLogSummary summary;
 }
 
 class DietLogRoute extends _i1.PageRouteInfo<DietLogRouteArgs> {
   DietLogRoute(
-      {_i2.Key key, _i38.HomeStoriesBloc homeBloc, _i40.DietLogSummary summary})
+      {_i2.Key key, _i39.HomeStoriesBloc homeBloc, _i41.DietLogSummary summary})
       : super(name,
             path: '/diet-log-page',
             args: DietLogRouteArgs(
@@ -677,9 +689,9 @@ class DietLogRouteArgs {
 
   final _i2.Key key;
 
-  final _i38.HomeStoriesBloc homeBloc;
+  final _i39.HomeStoriesBloc homeBloc;
 
-  final _i40.DietLogSummary summary;
+  final _i41.DietLogSummary summary;
 }
 
 class DietPlanView extends _i1.PageRouteInfo<DietPlanViewArgs> {
@@ -710,7 +722,7 @@ class ActivityPlanViewArgs {
 }
 
 class ConsultationMain extends _i1.PageRouteInfo<ConsultationMainArgs> {
-  ConsultationMain({_i2.Key key, _i41.ClientConsultationModel consultation})
+  ConsultationMain({_i2.Key key, _i42.ClientConsultationModel consultation})
       : super(name,
             path: '/consultation-main',
             args: ConsultationMainArgs(key: key, consultation: consultation));
@@ -723,11 +735,11 @@ class ConsultationMainArgs {
 
   final _i2.Key key;
 
-  final _i41.ClientConsultationModel consultation;
+  final _i42.ClientConsultationModel consultation;
 }
 
 class ActivityRoute extends _i1.PageRouteInfo<ActivityRouteArgs> {
-  ActivityRoute({_i2.Key key, _i42.ActivityModel activity})
+  ActivityRoute({_i2.Key key, _i43.ActivityModel activity})
       : super(name,
             path: '/activity-page',
             args: ActivityRouteArgs(key: key, activity: activity));
@@ -740,5 +752,22 @@ class ActivityRouteArgs {
 
   final _i2.Key key;
 
-  final _i42.ActivityModel activity;
+  final _i43.ActivityModel activity;
+}
+
+class ProfileEditRoute extends _i1.PageRouteInfo<ProfileEditRouteArgs> {
+  ProfileEditRoute({_i2.Key key, _i44.ProfileBloc profileBloc})
+      : super(name,
+            path: '/profile-edit-page',
+            args: ProfileEditRouteArgs(key: key, profileBloc: profileBloc));
+
+  static const String name = 'ProfileEditRoute';
+}
+
+class ProfileEditRouteArgs {
+  const ProfileEditRouteArgs({this.key, this.profileBloc});
+
+  final _i2.Key key;
+
+  final _i44.ProfileBloc profileBloc;
 }

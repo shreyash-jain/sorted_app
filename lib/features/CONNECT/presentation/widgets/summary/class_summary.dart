@@ -88,8 +88,8 @@ class _ClassroomSummaryState extends State<ClassroomSummary>
                             SizedBox(
                               height: 10,
                             ),
-                            ExpansionTile(
-                              iconColor: Colors.orange,
+                           ExpansionTile(
+                              iconColor: Theme.of(context).primaryColor,
                               title: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: Gparam.widthPadding / 2),
@@ -128,7 +128,7 @@ class _ClassroomSummaryState extends State<ClassroomSummary>
                               ],
                             ),
                             ExpansionTile(
-                              iconColor: Colors.orange,
+                              iconColor: Theme.of(context).primaryColor,
                               title: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: Gparam.widthPadding / 2),
@@ -138,18 +138,13 @@ class _ClassroomSummaryState extends State<ClassroomSummary>
                                     Gtheme.stext("Fee",
                                         size: GFontSize.S,
                                         weight: GFontWeight.B1),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.edit,
-                                      size: 20,
-                                    )
                                   ],
                                 ),
                               ),
                               children: <Widget>[],
                             ),
                             ExpansionTile(
-                              iconColor: Colors.orange,
+                              iconColor: Theme.of(context).primaryColor,
                               title: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: Gparam.widthPadding / 2),
@@ -200,7 +195,7 @@ class _ClassroomSummaryState extends State<ClassroomSummary>
                                       SizedBox(
                                         width: 12,
                                       ),
-                                      Gtheme.stext("Go Live",
+                                      Gtheme.stext("Join Class",
                                           weight: GFontWeight.B1),
                                     ],
                                   ),

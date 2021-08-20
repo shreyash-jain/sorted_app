@@ -138,7 +138,6 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                         
                           BlocProvider(
                             create: (context) => homeStoriesBloc,
                             child:
@@ -159,58 +158,56 @@ class _FlexibleAreaState extends State<FlexibleSpaceArea> {
                                           ...state.subsTracks
                                               .asMap()
                                               .entries
-                                              .map(
-                                                (e) => StoryCircleWidget(
-                                                    storyName: e.value.name,
-                                                    track: e.value,
-                                                    isActive:
-                                                        state.isLoading[e.key],
-                                                    onClick: (a, b, c) {
-                                                      // showDialog(
-                                                      //   context: context,
-                                                      //   builder: (BuildContext
-                                                      //           context) =>
-                                                      //       _buildWeightPopupDialog(
-                                                      //           context),
-                                                      // );
+                                              .map((e) {
+                                            return StoryCircleWidget(
+                                                storyName: e.value.name,
+                                                track: e.value,
+                                                isActive:
+                                                    state.isLoading[e.key],
+                                                onClick: (a, b, c) {
+                                                  // showDialog(
+                                                  //   context: context,
+                                                  //   builder: (BuildContext
+                                                  //           context) =>
+                                                  //       _buildWeightPopupDialog(
+                                                  //           context),
+                                                  // );
 
-                                                      if (state.isLoading[
-                                                              e.key] ==
-                                                          false) {
-                                                        if (e.value.id == 1) {
-                                                          context.router.push(
-                                                              DietLogRoute(
-                                                                  summary: state
-                                                                      .dietLogSummary,
-                                                                  homeBloc:
-                                                                      homeStoriesBloc));
-                                                        } else if (e.value.id ==
-                                                            2) {
-                                                          context.router.push(
-                                                              ActivityLogRoute(
-                                                                  summary: state
-                                                                      .activityLogSummary,
-                                                                  homeBloc:
-                                                                      homeStoriesBloc));
-                                                        } else {
-                                                          new PerformanceLogBloc(
-                                                              sl(), sl(),
-                                                              homeStoriesBloc:
-                                                                  homeStoriesBloc)
-                                                            ..add(LoadFromStory(
-                                                                state.trackSummaries[
-                                                                    e.key],
-                                                                e.value,
-                                                                context));
-                                                        }
-                                                      }
+                                                  if (state.isLoading[e.key] ==
+                                                      false) {
+                                                    if (e.value.id == 1) {
+                                                      context.router.push(
+                                                          DietLogRoute(
+                                                              summary: state
+                                                                  .dietLogSummary,
+                                                              homeBloc:
+                                                                  homeStoriesBloc));
+                                                    } else if (e.value.id ==
+                                                        2) {
+                                                      context.router.push(
+                                                          ActivityLogRoute(
+                                                              summary: state
+                                                                  .activityLogSummary,
+                                                              homeBloc:
+                                                                  homeStoriesBloc));
+                                                    } else {
+                                                      new PerformanceLogBloc(
+                                                          sl(), sl(),
+                                                          homeStoriesBloc:
+                                                              homeStoriesBloc)
+                                                        ..add(LoadFromStory(
+                                                            state.trackSummaries[
+                                                                e.key],
+                                                            e.value,
+                                                            context));
+                                                    }
+                                                  }
 
-                                                      print("Say");
-                                                    },
-                                                    filePath: e.value.icon,
-                                                    urlType: 0),
-                                              )
-                                              .toList(),
+                                                  print("Say");
+                                                },
+                                                filePath: e.value.icon,
+                                                urlType: 0);
+                                          }).toList(),
 
                                           // AffirmationCircleWidget(
                                           //     affirmationBloc: affirmationBloc),

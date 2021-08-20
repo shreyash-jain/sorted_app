@@ -55,7 +55,7 @@ class ProfileTop extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: Gparam.widthPadding / 2),
                   child: Text(
-                    name,
+                    state.details.name,
                     style: TextStyle(
                         fontFamily: 'Milliard',
                         fontSize: Gparam.textSmall,

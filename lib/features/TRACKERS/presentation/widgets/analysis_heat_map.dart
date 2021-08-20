@@ -181,7 +181,7 @@ class _ListAnalysisState extends State<ListAnalysis> {
               Util.fromTimeToString(valuelogmap.entries.elementAt(i).key)] =
           valuelogmap.entries.elementAt(i).value;
       daycolors[Util.fromTimeToString(valuelogmap.entries.elementAt(i).key)] =
-          Colors.blue.shade300;
+          Color(0xFF21739d).withAlpha(120);
     }
   }
 

@@ -59,7 +59,7 @@ class _ProfileState extends State<ProfilePage>
 
   @override
   void initState() {
-    bloc = ProfileBloc(sl(), sl())..add(LoadProfile());
+    bloc = ProfileBloc(sl(), sl(), sl())..add(LoadProfile());
 
     super.initState();
     tab_controller = TabController(length: 1, vsync: this);
@@ -80,7 +80,7 @@ class _ProfileState extends State<ProfilePage>
             BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
           if (state is ProfileLoaded)
             return Scaffold(
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Colors.white,
               appBar: AppBar(
                 elevation: 2,
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -88,7 +88,7 @@ class _ProfileState extends State<ProfilePage>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      state.details.userName,
+                      state.details.name,
                       style: TextStyle(
                           fontFamily: 'Milliard',
                           fontWeight: FontWeight.w700,
@@ -120,15 +120,21 @@ class _ProfileState extends State<ProfilePage>
                         SizedBox(
                           width: 8,
                         ),
-                        Text(
-                          "Edit profile",
-                          style: TextStyle(
-                              fontFamily: 'Milliard',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Theme.of(context).highlightColor),
-                          overflow: TextOverflow.clip,
-                          softWrap: false,
+                        InkWell(
+                          onTap: () {
+                            context.router
+                                .push(ProfileEditRoute(profileBloc: bloc));
+                          },
+                          child: Text(
+                            "Edit profile",
+                            style: TextStyle(
+                                fontFamily: 'Milliard',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Theme.of(context).highlightColor),
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
+                          ),
                         ),
                       ],
                     ),

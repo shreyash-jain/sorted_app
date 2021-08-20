@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sorted/core/error/failures.dart';
+import 'package:sorted/core/global/database/cacheDataClass.dart';
 import 'package:sorted/core/global/database/sqflite_init.dart';
 import 'package:sorted/core/global/entities/day_at_sortit.dart';
 import 'package:sorted/core/global/injection_container.dart';
@@ -80,6 +81,9 @@ class AuthenticationRepository {
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
   Future<Either<Failure, int>> logInWithGoogle() async {
     Failure failure;
+    if (_firebaseAuth != null && _firebaseAuth.currentUser != null) {
+      await logOut();
+    }
     try {
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 
@@ -119,13 +123,13 @@ class AuthenticationRepository {
     }
   }
 
-  Future<int> saveDeviceToken() async {
+  Future<int> saveDeviceToken(String token) async {
     print(saveDeviceToken);
 
     var userId = await _firebaseAuth.currentUser.getIdToken();
 
     try {
-      _authDataSource.saveDeviceToken();
+      _authDataSource.saveDeviceToken(token);
       return Future.value(1);
     } on Exception {
       throw ServerException();
@@ -176,6 +180,7 @@ class AuthenticationRepository {
   /// Throws a [LogOutFailure] if an exception occurs.
   Future<void> logOut() async {
     await SqlDatabaseService.db.cleanDatabase();
+    sl<CacheDataClass>().clearDetails();
 
     try {
       await Future.wait([

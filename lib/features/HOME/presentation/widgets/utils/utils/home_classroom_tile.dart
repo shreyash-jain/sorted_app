@@ -88,7 +88,7 @@ class HomeClassRoomTile extends StatelessWidget {
                           Border.all(color: Colors.grey.shade300, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Gtheme.stext(" View Class ",
-                      size: GFontSize.XXS,
+                      size: GFontSize.XXXS,
                       weight: GFontWeight.N,
                       color: GColors.B),
                 ),

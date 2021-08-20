@@ -112,7 +112,7 @@ Future<void> init() async {
   ///
 
   sl.registerFactory(
-    () => ProfileBloc(sl(), sl()),
+    () => ProfileBloc(sl(), sl(), sl()),
   );
 
   sl.registerFactory(
@@ -208,6 +208,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ConnectRepository>(
     () => ConnectRepositoryImpl(
       networkInfo: sl(),
+      remoteApiDataSource: sl(),
       remoteDataSource: sl(),
     ),
   );

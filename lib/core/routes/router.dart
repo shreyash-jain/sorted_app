@@ -25,6 +25,7 @@ import 'package:sorted/features/HOME/user_plans/diet_plan_view.dart';
 
 import 'package:sorted/features/ONBOARDING/presentation/pages/onboard_page.dart';
 import 'package:sorted/features/ONSTART/presentation/pages/start_page.dart';
+import 'package:sorted/features/PROFILE/presentation/page/edit_profile_page.dart';
 
 import 'package:sorted/features/SETTINGS/presentation/pages/settings_page.dart';
 import 'package:sorted/features/SPLASH/splash.dart';
@@ -61,6 +62,7 @@ import 'package:sorted/features/USER_INTRODUCTION/presentation/pages/userIntroMa
     AutoRoute(page: ActivityPlanView),
     AutoRoute(page: ConsultationMain),
     AutoRoute(page: ActivityPage),
+    AutoRoute(page: ProfileEditPage),
   ],
 )
 class $ARouter {}

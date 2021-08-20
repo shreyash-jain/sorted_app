@@ -510,23 +510,32 @@ class UserIntroductionBloc extends Bloc<FlowEvent, UserIntroductionState> {
     var healthResult = await repository.getHealthProfile();
     healthResult.fold((l) => failure = l, (r) => healthProfile = r);
     if (failure == null) {
-      downloadedState = LoginState(
-          userDetail: userDetail,
-          isOtpLoading: false,
-          healthProfile: healthProfile,
-          isPhoneCorrect: (userDetail != null &&
-                  userDetail.mobileNumber.toString().length == 10)
-              ? true
-              : false,
-          valid: checkValidity(userDetail),
-          message: (userDetail != null &&
-                  userDetail.mobileNumber.toString().length == 10)
-              ? ""
-              : "Please enter your mobile number");
-      if ((userDetail == null ||
-          userDetail.mobileNumber.toString().length < 10))
-        initializeTruecallerSDK(downloadedState);
-      yield downloadedState;
+      if ((userDetail != null &&
+          userDetail.mobileNumber.toString().length == 10)) {
+        UserDetail toSaveDetail = userDetail.copyWith(
+            currentDevice: deviceName, currentDeviceId: deviceId);
+
+        repository.addUser(toSaveDetail);
+        yield SuccessState();
+      } else {
+        downloadedState = LoginState(
+            userDetail: userDetail,
+            isOtpLoading: false,
+            healthProfile: healthProfile,
+            isPhoneCorrect: (userDetail != null &&
+                    userDetail.mobileNumber.toString().length == 10)
+                ? true
+                : false,
+            valid: checkValidity(userDetail),
+            message: (userDetail != null &&
+                    userDetail.mobileNumber.toString().length == 10)
+                ? ""
+                : "Please enter your mobile number");
+        if ((userDetail == null ||
+            userDetail.mobileNumber.toString().length < 10))
+          initializeTruecallerSDK(downloadedState);
+        yield downloadedState;
+      }
     } else {
       yield Error(message: mapFailureToString(failure));
     }

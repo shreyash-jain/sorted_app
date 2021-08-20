@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,13 +19,20 @@ class SplashPage extends StatelessWidget {
         width: 70,
         height: 70,
         child: BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             print(state);
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 print("authenticated");
-                sl<AuthenticationRepository>().saveDeviceToken();
+                final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+
+                // Get the token for this device
+                String fcmToken = await _fcm.getToken();
+                sl<AuthenticationRepository>().saveDeviceToken(fcmToken);
                 context.router.removeLast();
+                FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+                  sl<AuthenticationRepository>().saveDeviceToken(token);
+                });
 
                 context.router.push(
                   MyStartRoute(title: "start Page"),

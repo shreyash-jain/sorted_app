@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:sorted/core/global/constants/constants.dart';
-import 'package:sorted/features/CONNECT/presentation/class_notice.dart';
+import 'package:sorted/features/CONNECT/presentation/class_resource.dart';
 import 'package:sorted/features/CONNECT/presentation/resources/class_resources.dart';
 import 'package:sorted/features/CONNECT/presentation/widgets/chat/chat_main.dart';
+import 'package:sorted/features/CONNECT/presentation/widgets/class_notice.dart';
 import 'package:sorted/features/CONNECT/presentation/widgets/summary/class_summary.dart';
 import 'package:sorted/features/CONNECT/presentation/workout/classroom_workout.dart';
 
@@ -219,16 +220,19 @@ class _ClassroomMainState extends State<ClassroomMain>
               controller: tab_controller,
               children: [
                 ClassroomSummary(classroom: _classroom),
+                
                 // ClassroomClientList(
                 //   classroom: _classroom,
                 // ),
+                
                 ClassroomWorkout(classroom: _classroom),
 
                 ChatWidget(classroom: _classroom),
+
                 ChatNoticeBoardWidget(classroom: _classroom),
-                ChatNoticeBoardWidget(
-                  classroom: _classroom,
-                ),
+
+                ChatResourceBoardWidget(classroom: _classroom),
+
               ],
             ),
           ),

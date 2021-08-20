@@ -69,7 +69,7 @@ class ProfileTrackDietView extends StatelessWidget {
                             children: [
                               Container(
                                 child: Gtheme.stext(track.name,
-                                    size: GFontSize.M, weight: GFontWeight.B1),
+                                    size: GFontSize.S, weight: GFontWeight.B1),
                               ),
                               SizedBox(
                                 height: 8,
@@ -77,13 +77,12 @@ class ProfileTrackDietView extends StatelessWidget {
                               Container(
                                 child: Gtheme.stext(
                                     (state.summary == null ||
-                                            state.summary.diets.length ==
-                                                0)
+                                            state.summary.diets.length == 0)
                                         ? "Not filled"
                                         : "Last filled on " +
                                             formatterDate
                                                 .format(state.summary.last_log),
-                                    size: GFontSize.XS,
+                                    size: GFontSize.XXS,
                                     weight: GFontWeight.L),
                               ),
                             ],
@@ -97,7 +96,7 @@ class ProfileTrackDietView extends StatelessWidget {
                           state.summary.diets.length > 0))
                         Container(
                           child: Gtheme.stext("Total cal taken today",
-                              size: GFontSize.XS, weight: GFontWeight.N),
+                              size: GFontSize.XXS, weight: GFontWeight.N),
                         ),
                       SizedBox(
                         height: 8,
@@ -107,7 +106,7 @@ class ProfileTrackDietView extends StatelessWidget {
                         Container(
                           child: Gtheme.stext(
                               state.totalCalTakenToday.toString() + " Cal",
-                              size: GFontSize.M,
+                              size: GFontSize.S,
                               weight: GFontWeight.B),
                         ),
                     ],

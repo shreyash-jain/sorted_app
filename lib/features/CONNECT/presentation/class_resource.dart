@@ -13,16 +13,16 @@ import 'package:sorted/features/CONNECT/presentation/resource_bloc/resource_bloc
 import 'package:sorted/features/CONNECT/presentation/widgets/notice_tile.dart';
 import 'package:sorted/features/HOME/data/models/class_model.dart';
 
-class ChatNoticeBoardWidget extends StatefulWidget {
+class ChatResourceBoardWidget extends StatefulWidget {
   final ClassModel classroom;
 
-  ChatNoticeBoardWidget({Key key, this.classroom}) : super(key: key);
+  ChatResourceBoardWidget({Key key, this.classroom}) : super(key: key);
 
   @override
-  _ChatNoticeBoardWidgetState createState() => _ChatNoticeBoardWidgetState();
+  _ChatResourceBoardWidgetState createState() => _ChatResourceBoardWidgetState();
 }
 
-class _ChatNoticeBoardWidgetState extends State<ChatNoticeBoardWidget> {
+class _ChatResourceBoardWidgetState extends State<ChatResourceBoardWidget> {
   ResourceBloc resourceBloc;
   TextEditingController textController = TextEditingController();
   @override

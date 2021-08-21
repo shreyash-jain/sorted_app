@@ -14,3 +14,22 @@ class GetTrackData extends TrackAnalysisEvent {
 }
 
 
+class UpdateTrackPropertySettings extends TrackAnalysisEvent {
+  final TrackPropertySettings settings;
+ 
+
+  UpdateTrackPropertySettings(this.settings);
+
+  List<Object> get props => [settings];
+}
+
+
+class UpdateTrackSettings extends TrackAnalysisEvent {
+  final TrackUserSettings settings;
+
+  UpdateTrackSettings(this.settings);
+
+  List<Object> get props => [settings];
+}
+
+

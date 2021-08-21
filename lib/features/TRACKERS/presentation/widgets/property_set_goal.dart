@@ -12,6 +12,7 @@ import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_settings.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_summary.dart';
+import 'package:sorted/features/TRACKERS/presentation/widgets/set_goal_slider.dart';
 
 class PropertySetGoal extends StatefulWidget {
   final TrackModel track;
@@ -36,11 +37,14 @@ class _PropertySetGoalState extends State<PropertySetGoal> {
   DateFormat formatterTime = DateFormat('jm');
   int tracktype;
   int stattype;
+  int aimtype = 1;
 
   @override
   void initState() {
     tracktype = widget.property.property_type;
     stattype = widget.property.n_stat_condition;
+    if (widget.property.property_type == 2)
+      aimtype = widget.property.n_aim_type;
 
     super.initState();
   }
@@ -62,7 +66,7 @@ class _PropertySetGoalState extends State<PropertySetGoal> {
                 children: [
                   Container(
                     child: Gtheme.stext(
-                        "Set your ${stattype != 0 ? "daily " : ""}goal in ${widget.property.property_type == 4 ? "mins" : ""} ${widget.property.n_unit}",
+                        "🎯 set your ${stattype != 0 ? "daily " : ""}goal in ${widget.property.property_type == 4 ? "mins" : ""} ${widget.property.n_unit}",
                         size: GFontSize.S,
                         weight: GFontWeight.N),
                   ),
@@ -79,12 +83,18 @@ class _PropertySetGoalState extends State<PropertySetGoal> {
                 decoration: BoxDecoration(
                     color: Colors.grey.shade100,
                     borderRadius: BorderRadius.circular(10)),
-                child: Row(
+                child: Column(
                   children: [
-                    Gtheme.stext("Set your Daily Goal",
-                        size: GFontSize.S, weight: GFontWeight.N),
-                    Gtheme.stext("  coming soon",
-                        size: GFontSize.XXS, weight: GFontWeight.L),
+                    Row(
+                      children: [
+                        Gtheme.stext("Set your Daily Goal",
+                            size: GFontSize.S, weight: GFontWeight.N),
+                      ],
+                    ),
+                    PropertySetSlider(
+                        track: widget.track,
+                        property: widget.property,
+                        propertySettings: widget.propertySettings)
                   ],
                 ),
               ),

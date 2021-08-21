@@ -10,14 +10,22 @@ import 'package:sorted/core/global/widgets/image_placeholder_widget.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_log.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_model.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_property_model.dart';
+import 'package:sorted/features/TRACKERS/COMMON/models/track_property_settings.dart';
 import 'package:sorted/features/TRACKERS/COMMON/models/track_summary.dart';
 
 class ListAnalysis extends StatefulWidget {
   final TrackModel track;
   final List<List<TrackLog>> logs;
+  final TrackPropertySettings settings;
   final TrackPropertyModel property;
   final ScrollController controller;
-  ListAnalysis({Key key, this.track, this.logs, this.property, this.controller})
+  ListAnalysis(
+      {Key key,
+      this.track,
+      this.logs,
+      this.property,
+      this.controller,
+      this.settings})
       : super(key: key);
 
   @override
@@ -75,7 +83,7 @@ class _ListAnalysisState extends State<ListAnalysis> {
               Row(
                 children: [
                   Container(
-                    child: Gtheme.stext("Monthly analysis",
+                    child: Gtheme.stext("🗓️ Monthly analysis",
                         size: GFontSize.S, weight: GFontWeight.N),
                   ),
                 ],
@@ -181,8 +189,86 @@ class _ListAnalysisState extends State<ListAnalysis> {
               Util.fromTimeToString(valuelogmap.entries.elementAt(i).key)] =
           valuelogmap.entries.elementAt(i).value;
       daycolors[Util.fromTimeToString(valuelogmap.entries.elementAt(i).key)] =
-          Color(0xFF21739d).withAlpha(120);
+          getDayColor(valuelogmap.entries.elementAt(i).value);
     }
+  }
+
+  Color getDayColor(double value) {
+    int hasGoal = widget.property.has_goal;
+    if (hasGoal == 0) return Color(0xFF21739d);
+    int aimtype = widget.property.n_aim_type;
+    if (widget.settings != null) {
+      switch (aimtype) {
+        case 2:
+          if (widget.settings.n_u_aim_start <= value) {
+            if (widget.property.property_type == 2 && widget.property.n_max > 0)
+              return Colors.greenAccent
+                  .withOpacity(value / widget.property.n_max);
+            else if (widget.property.property_type == 4)
+              return Colors.greenAccent.withOpacity(value / 24);
+            else
+              return Color(0xFF21739d);
+          } else if (widget.settings.n_u_aim_start > value) {
+            if (widget.property.property_type == 2 && widget.property.n_max > 0)
+              return Colors.redAccent.withOpacity(
+                  (widget.property.n_max - value) / widget.property.n_max);
+            else if (widget.property.property_type == 4)
+              return Colors.redAccent.withOpacity(24 - value / 24);
+            else
+              return Color(0xFF21739d);
+          }
+          break;
+        case 1:
+          if (widget.settings.n_u_aim_start > value) {
+            if (widget.property.property_type == 2 && widget.property.n_max > 0)
+              return Colors.greenAccent.withOpacity(
+                  (widget.property.n_max - value) / widget.property.n_max);
+            else if (widget.property.property_type == 4)
+              return Colors.greenAccent.withOpacity(24 - value / 24);
+            else
+              return Color(0xFF21739d);
+          } else if (widget.settings.n_u_aim_start <= value) {
+            if (widget.property.property_type == 2 && widget.property.n_max > 0)
+              return Colors.redAccent
+                  .withOpacity((value) / widget.property.n_max);
+            else if (widget.property.property_type == 4)
+              return Colors.redAccent.withOpacity(value / 24);
+            else
+              return Color(0xFF21739d);
+          }
+          break;
+        case 3:
+          if (widget.settings.n_u_aim_end >= value &&
+              widget.settings.n_u_aim_start <= value) {
+            if (widget.property.property_type == 2 && widget.property.n_max > 0)
+              return Colors.greenAccent;
+            else if (widget.property.property_type == 4)
+              return Colors.greenAccent;
+            else
+              return Color(0xFF21739d);
+          } else if (widget.settings.n_u_aim_start > value) {
+            if (widget.property.property_type == 2 && widget.property.n_max > 0)
+              return Colors.redAccent.withOpacity(
+                  (widget.property.n_max - value) / widget.property.n_max);
+            else if (widget.property.property_type == 4)
+              return Colors.redAccent.withOpacity(24 - value / 24);
+            else
+              return Color(0xFF21739d);
+          } else {
+            if (widget.property.property_type == 2 && widget.property.n_max > 0)
+              return Colors.redAccent
+                  .withOpacity((value) / widget.property.n_max);
+            else if (widget.property.property_type == 4)
+              return Colors.redAccent.withOpacity(value / 24);
+            else
+              return Color(0xFF21739d);
+          }
+          break;
+
+        default:
+      }
+    } else
+      return Color(0xFF21739d);
   }
 
   bool isSameDate(DateTime thisDate, DateTime other) {

@@ -43,7 +43,6 @@ class _MyHomePageState extends State<MyStartPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Theme.of(context).primaryColor,
 
       body: Center(
         // Center is a layout widget. It takes a single child and positions it

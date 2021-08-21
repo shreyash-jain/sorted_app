@@ -22,6 +22,24 @@ class TrackDataLoaded extends TrackAnalysisState {
   @override
   List<Object> get props =>
       [data, track, properties, summary, trackSettings, propertiesSettings];
+
+  TrackDataLoaded copyWith({
+    List<List<TrackLog>> data,
+    TrackModel track,
+    List<TrackPropertyModel> properties,
+    TrackSummary summary,
+    TrackUserSettings trackSettings,
+    List<TrackPropertySettings> propertiesSettings,
+  }) {
+    return TrackDataLoaded(
+      data ?? this.data,
+      track ?? this.track,
+      properties ?? this.properties,
+      summary ?? this.summary,
+      trackSettings ?? this.trackSettings,
+      propertiesSettings ?? this.propertiesSettings,
+    );
+  }
 }
 
 class TrackDataError extends TrackAnalysisState {

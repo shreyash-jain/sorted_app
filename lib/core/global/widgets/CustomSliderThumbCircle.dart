@@ -34,7 +34,7 @@ class CustomSliderThumbCircle extends SliderComponentShape {
     final Canvas canvas = context.canvas;
 
     final paint = Paint()
-      ..color = Colors.black38 //Thumb Background Color
+      ..color = Color(0xFF21739d) //Thumb Background Color
       ..style = PaintingStyle.fill;
 
     TextSpan span = new TextSpan(
@@ -54,7 +54,7 @@ class CustomSliderThumbCircle extends SliderComponentShape {
     Offset textCenter =
         Offset(center.dx - (tp.width / 2), center.dy - (tp.height / 2));
 
-    canvas.drawCircle(center, thumbRadius * .9, paint);
+    canvas.drawCircle(center, thumbRadius * .7, paint);
   }
 
   String getValue(double value) {

@@ -55,10 +55,11 @@ class _RateLogState extends State<RateLog> {
     return SingleChildScrollView(
       child: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 20,
+              height: 30,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: Gparam.widthPadding),
@@ -66,7 +67,7 @@ class _RateLogState extends State<RateLog> {
                   size: GFontSize.XS, weight: GFontWeight.B1),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             SliderRatingWidget(
               fullWidth: true,
@@ -98,8 +99,6 @@ class _RateLogState extends State<RateLog> {
       ),
     );
   }
-
- 
 
   String getStatString(int statCondition) {
     switch (statCondition) {

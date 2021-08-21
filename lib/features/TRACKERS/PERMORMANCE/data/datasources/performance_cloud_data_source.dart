@@ -231,7 +231,7 @@ class PerformanceCloudDataSourceImpl implements PerformanceCloud {
     var snapShot = cloudDb
         .collection(
             'users/${user.uid}/performance_data/${setting.track_id}/properties')
-        .doc({setting.property_id}.toString())
+        .doc(setting.property_id.toString())
         .set(setting.toMap());
     return 1;
   }

@@ -33,7 +33,6 @@ class AuthenticationRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
-      'https://www.googleapis.com/auth/calendar.events.readonly',
     ],
   );
 

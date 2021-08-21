@@ -34,7 +34,7 @@ class TrackAnalysisPrevLogs extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    child: Gtheme.stext("Past Logs",
+                    child: Gtheme.stext("📊 Past Logs",
                         size: GFontSize.S, weight: GFontWeight.N),
                   ),
                 ],

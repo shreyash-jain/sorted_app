@@ -54,7 +54,7 @@ class SquareWidget extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: "Milliard",
                     fontSize: 10,
-                    color: Colors.black38,
+                    color: Colors.black54,
                     fontWeight: FontWeight.w500),
               )
           ],

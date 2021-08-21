@@ -165,7 +165,9 @@ class _DialPainter extends CustomPainter {
 
 class _Dial extends StatefulWidget {
   const _Dial(
-      {@required this.duration, @required this.onChanged, this.snapToMins = 1.0});
+      {@required this.duration,
+      @required this.onChanged,
+      this.snapToMins = 1.0});
 
   final Duration duration;
   final ValueChanged<Duration> onChanged;
@@ -201,7 +203,7 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
     _minutes = _minuteHand();
   }
 
-   ThemeData themeData;
+  ThemeData themeData;
   MaterialLocalizations localizations;
   MediaQueryData media;
 
@@ -220,9 +222,9 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-   Tween<double> _thetaTween;
-   Animation<double> _theta;
-   AnimationController _thetaController;
+  Tween<double> _thetaTween;
+  Animation<double> _theta;
+  AnimationController _thetaController;
 
   final double _pct = 0.0;
   int _hours = 0;
@@ -430,7 +432,7 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
         backgroundColor = Colors.grey[200];
         break;
       case Brightness.dark:
-        backgroundColor = themeData.backgroundColor;
+        backgroundColor = themeData.primaryColor;
         break;
     }
 
@@ -455,7 +457,7 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
             selectedValue: selectedDialValue,
             labels: _buildMinutes(theme.textTheme),
             backgroundColor: backgroundColor,
-            accentColor: themeData.accentColor,
+            accentColor: themeData.primaryColor,
             theta: _theta.value,
             textDirection: Directionality.of(context),
           ),
@@ -505,7 +507,7 @@ class _DurationPickerDialogState extends State<_DurationPickerDialog> {
   Duration get selectedDuration => _selectedDuration;
   Duration _selectedDuration;
 
-   MaterialLocalizations localizations;
+  MaterialLocalizations localizations;
 
   void _handleTimeChanged(Duration value) {
     setState(() {

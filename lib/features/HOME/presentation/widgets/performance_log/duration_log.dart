@@ -130,6 +130,7 @@ class _DurationLogState extends State<DurationLog> {
                       alignment: Alignment.center,
                       child: DurationPicker(
                         duration: _duration,
+                        
                         onChange: (val) {
                           setState(() => _duration = val);
                           value = initialValue + _duration.inMinutes;

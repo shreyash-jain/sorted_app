@@ -67,6 +67,7 @@ class _PerformanceAnalysisPageState extends State<PerformanceAnalysisPage> {
                       if (state.properties[0].property_type != 1)
                         ListAnalysis(
                           controller: scrollController,
+                          settings: state.propertiesSettings[0],
                           track: state.track,
                           property: state.properties[0],
                           logs: state.data,

@@ -41,74 +41,86 @@ class _SliderRatingWidgetState extends State<SliderRatingWidget> {
       width: this.widget.fullWidth
           ? double.infinity
           : (this.widget.sliderHeight) * 5.5,
-      height: (this.widget.sliderHeight),
+      height: (this.widget.sliderHeight) * 2,
       child: Padding(
         padding: EdgeInsets.fromLTRB(this.widget.sliderHeight * paddingFactor,
             2, this.widget.sliderHeight * paddingFactor, 2),
-        child: Row(
-          children: <Widget>[
-            Text(
-              '${this.widget.minString}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: this.widget.sliderHeight * .3,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-                fontFamily: "Milliard",
-              ),
-            ),
-            SizedBox(
-              width: this.widget.sliderHeight * .1,
-            ),
-            Expanded(
-              child: Center(
-                child: SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    activeTrackColor: Colors.black.withOpacity(.5),
-                    inactiveTrackColor: Colors.black.withOpacity(.2),
-                    trackHeight: 12.0,
-                    thumbColor: Colors.white,
-                    valueIndicatorShape: PaddleSliderValueIndicatorShape(),
-                    thumbShape: CustomSliderThumbCircle(
-                      thumbRadius: this.widget.sliderHeight * .4,
-                      min: this.widget.min,
-                      max: this.widget.max,
-                    ),
-                    overlayColor: Colors.black.withOpacity(.4),
-                    valueIndicatorColor: Colors.grey,
-                    activeTickMarkColor: Colors.grey,
-                    inactiveTickMarkColor: Colors.blue.withOpacity(.7),
-                  ),
-                  child: Slider(
-                      value: _value,
-                      label: (_value * (widget.max))
-                                  .toStringAsFixed(widget.precision)
-                                  .toString() +
-                              " " +
-                              this.widget.unit ??
-                          "",
-                      divisions: 20,
-                      onChanged: (value) {
-                        setState(() {
-                          _value = value;
-                        });
-                        widget.onUpdate(_value);
-                      }),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: this.widget.sliderHeight * .1,
                 ),
-              ),
+                Expanded(
+                  child: Center(
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: Theme.of(context).primaryColor,
+                        inactiveTrackColor: Colors.black.withOpacity(.1),
+                        trackHeight: 6.0,
+                        thumbColor: Colors.white,
+                        valueIndicatorShape: PaddleSliderValueIndicatorShape(),
+                        thumbShape: CustomSliderThumbCircle(
+                          thumbRadius: this.widget.sliderHeight * .4,
+                          min: this.widget.min,
+                          max: this.widget.max,
+                        ),
+                        overlayColor: Theme.of(context).primaryColor,
+                        valueIndicatorColor: Colors.grey,
+                        activeTickMarkColor: Theme.of(context).primaryColor,
+                        inactiveTickMarkColor: Theme.of(context).primaryColor,
+                      ),
+                      child: Slider(
+                          value: _value,
+                          label: (_value * (widget.max))
+                                      .toStringAsFixed(widget.precision)
+                                      .toString() +
+                                  " " +
+                                  this.widget.unit ??
+                              "",
+                          divisions: 20,
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value;
+                            });
+                            widget.onUpdate(_value);
+                          }),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: this.widget.sliderHeight * .1,
+                ),
+              ],
             ),
             SizedBox(
-              width: this.widget.sliderHeight * .1,
+              height: 20,
             ),
-            Text(
-              '${this.widget.maxString}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: this.widget.sliderHeight * .3,
-                fontFamily: "Milliard",
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
+            Row(
+              children: <Widget>[
+                Text(
+                  '${this.widget.minString}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: this.widget.sliderHeight * .3,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                    fontFamily: "Milliard",
+                  ),
+                ),
+                Spacer(),
+                Text(
+                  '${this.widget.maxString}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: this.widget.sliderHeight * .3,
+                    fontFamily: "Milliard",
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

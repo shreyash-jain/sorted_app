@@ -65,8 +65,6 @@ List<TrackPropertySettings> getAllDefaultPropertySettings() {
 
 //track model id global path -> tracking/data/tracks/1/
 
-
-
 TrackPropertyModel foodItems = new TrackPropertyModel(
   id: 1,
   track_id: 1,
@@ -200,7 +198,7 @@ TrackPropertyModel bodyFatRatio = new TrackPropertyModel(
     n_min: 0,
     n_after_decimal: 1,
     n_max: 100,
-    has_goal: 1);
+    has_goal: 0);
 TrackPropertySettings fatSettings =
     new TrackPropertySettings(track_id: 5, property_id: 10, n_u_aim_start: 25);
 
@@ -258,7 +256,7 @@ TrackPropertyModel fasting = new TrackPropertyModel(
     d_max_duration_min: 24,
     has_goal: 1);
 TrackPropertySettings fastingSettings =
-    new TrackPropertySettings(track_id: 8, property_id: 14, d_u_day_aim: 6);
+    new TrackPropertySettings(track_id: 8, property_id: 14, n_u_aim_start: 6);
 
 TrackPropertyModel sugar = new TrackPropertyModel(
     id: 15,
@@ -400,15 +398,15 @@ TrackPropertyModel sleep = new TrackPropertyModel(
     property_type: 4,
     is_manual_fill: 1,
     property_key: "sleep",
-    rl_default_aim_index: 2,
+    n_aim_type: 3,
     property_question: "Add your sleep duration",
     property_name: "Sleep duration",
     property_description: "Track the time duration of your fast",
     d_is_realtime: 0,
     d_max_duration_min: 24,
     has_goal: 1);
-TrackPropertySettings sleepSettings =
-    new TrackPropertySettings(track_id: 14, property_id: 22, d_u_day_aim: 7);
+TrackPropertySettings sleepSettings = new TrackPropertySettings(
+    track_id: 14, property_id: 22, n_u_aim_start: 7, n_u_aim_end: 9);
 
 TrackPropertyModel screentime = new TrackPropertyModel(
     id: 23,
@@ -421,7 +419,7 @@ TrackPropertyModel screentime = new TrackPropertyModel(
     property_description: "What was your total screen time ?",
     d_is_realtime: 0,
     d_max_duration_min: 12,
-    rl_default_aim_index: 1,
+    n_aim_type: 1,
     has_goal: 1);
 TrackPropertySettings screentimeSettings =
-    new TrackPropertySettings(track_id: 16, property_id: 23, d_u_day_aim: 2);
+    new TrackPropertySettings(track_id: 16, property_id: 23, n_u_aim_start: 2);

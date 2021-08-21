@@ -77,6 +77,26 @@ class TrackAnalysisBloc extends Bloc<TrackAnalysisEvent, TrackAnalysisState> {
         yield TrackDataLoaded([[], [], []], track, properties, summary,
             trackSettings, propertySettings);
       }
+    } else if (event is UpdateTrackPropertySettings) {
+      Failure failure;
+      if (state is TrackDataLoaded) {
+        var prevState = state as TrackDataLoaded;
+        repository.setPropertySettings(event.settings);
+        List<TrackPropertySettings> settings =
+            List<TrackPropertySettings>.from(prevState.propertiesSettings);
+        var index = settings.indexWhere(
+            (element) => element.property_id == event.settings.property_id);
+        if (index != -1) settings[index] = event.settings;
+        yield prevState.copyWith(propertiesSettings: settings);
+      }
+    } else if (event is UpdateTrackSettings) {
+      Failure failure;
+      if (state is TrackDataLoaded) {
+        var prevState = state as TrackDataLoaded;
+        repository.setTrackSettings(event.settings);
+
+        yield prevState.copyWith(trackSettings: event.settings);
+      }
     }
   }
 

@@ -11,7 +11,7 @@ description: Get it done
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+2
+version: 1.0.2+4
 
 environment:
   sdk: ">=2.10.0 <3.0.0"
@@ -101,6 +101,7 @@ dependencies:
   jitsi_meet:
   just_audio:
   simple_url_preview:
+  in_app_update:
 
 dev_dependencies:
   auto_route_generator:

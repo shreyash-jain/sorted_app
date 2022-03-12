@@ -49,7 +49,7 @@ class UserRequestFormBloc
 
       if (failure == null) {
         print("worked");
-        if (type == 1 || type == 0)
+       
         // for fitness profile
         {
           fitnessGoals = FitnessGoals.fromHealthProfile(healthProfile);
@@ -58,27 +58,13 @@ class UserRequestFormBloc
 
           foodPreferences =
               UserFoodPreferences.fromHealthProfile(healthProfile);
+
           yield LoadedFormState(userDetails,
               DateTime.now().add(Duration(days: 1)), 7, event.calendarModel,
               fitnessGoals: fitnessGoals,
               foodPreferences: foodPreferences,
               healthConditions: healthConditions);
-        } else if (type == 2) {
-          mindfulGoals = MindfulGoals.fromHealthProfile(healthProfile);
-          yield LoadedFormState(
-            userDetails,
-            DateTime.now().add(Duration(days: 1)),
-            7,
-            event.calendarModel,
-            mindfulGoals: mindfulGoals,
-          );
-        } else
-          yield LoadedFormState(
-            userDetails,
-            DateTime.now().add(Duration(days: 1)),
-            7,
-            event.calendarModel,
-          );
+        } 
       } else {
         print("not worked");
       }

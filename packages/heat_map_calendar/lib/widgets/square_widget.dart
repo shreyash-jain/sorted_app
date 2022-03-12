@@ -36,11 +36,23 @@ class SquareWidget extends StatelessWidget {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            if (day.opacity != 0)
+            if (day.opacity != 0 && day.day != null)
               Text(
                 day.opacity.toStringAsFixed(1).toString(),
                 style: TextStyle(
                     fontFamily: "Milliard",
+                    shadows: [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 8,
+                        spreadRadius: 8,
+                      ),
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 8,
+                        spreadRadius: 8,
+                      )
+                    ],
                     fontSize:
                         (day.opacity.toStringAsFixed(1).toString().length > 3)
                             ? 9

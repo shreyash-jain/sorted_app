@@ -65,6 +65,8 @@ class TrackAnalysisBloc extends Bloc<TrackAnalysisEvent, TrackAnalysisState> {
             yield TrackDataLoaded(data, track, properties, summary,
                 trackSettings, propertySettings);
           } else {
+
+            
             yield TrackDataLoaded([[], [], []], track, properties, summary,
                 trackSettings, propertySettings);
           }
@@ -74,6 +76,8 @@ class TrackAnalysisBloc extends Bloc<TrackAnalysisEvent, TrackAnalysisState> {
         } else
           yield TrackDataError(Failure.mapToString(failure));
       } else {
+
+
         yield TrackDataLoaded([[], [], []], track, properties, summary,
             trackSettings, propertySettings);
       }
@@ -102,12 +106,19 @@ class TrackAnalysisBloc extends Bloc<TrackAnalysisEvent, TrackAnalysisState> {
 
   Future<TrackPropertySettings> getPropertySettings(
       int trackId, int propertyId) async {
+
+
+
     TrackPropertySettings thisProperty;
     var result = await repository.getPropertySettings(propertyId, trackId);
     result.fold((l) {
+
+
       thisProperty = getAllDefaultPropertySettings().singleWhere(
           (element) => (element.property_id == propertyId),
           orElse: () => TrackPropertySettings());
+
+
     }, (r) => thisProperty = r);
     if (thisProperty.property_id == 0)
       thisProperty = getAllDefaultPropertySettings().singleWhere(

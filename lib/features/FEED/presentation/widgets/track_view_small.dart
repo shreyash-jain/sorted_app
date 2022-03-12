@@ -197,7 +197,7 @@ class ProfileTrackView extends StatelessWidget {
     } else if (type == 3)
       return "Average value for today";
     else if (type == 4)
-      return "Today's total duration ";
+      return "Total in Hours on $dateString";
     else
       return "";
   }

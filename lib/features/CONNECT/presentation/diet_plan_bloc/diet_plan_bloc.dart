@@ -563,11 +563,19 @@ class DietPlanBloc extends Bloc<DietPlanEvent, DietPlanState> {
     var mealsName = mealItems.split(',').toList();
     var mealsId = mealIds.split(',').toList();
     for (var i = 0; i < mealsName.length; i++) {
-      diets.add(DietModel(
-        name: mealsName[i],
-        recipeId: int.parse((mealsId[i]?.split(':').toList())[0] ?? "-1") ?? -1,
-        servings: int.parse((mealsId[i]?.split(':').toList())[1] ?? "-1") ?? -1,
-      ));
+      int recipeId = -1;
+      try {
+        recipeId = int.parse((mealsId[i]?.split(':').toList())[0]);
+      } catch (e) {}
+
+      if (mealsId.length > i && recipeId != -1)
+        diets.add(DietModel(
+          name: mealsName[i],
+          recipeId:
+              int.parse((mealsId[i]?.split(':').toList())[0] ?? "-1") ?? -1,
+          servings:
+              int.parse((mealsId[i]?.split(':').toList())[1] ?? "-1") ?? -1,
+        ));
     }
     return diets;
   }

@@ -282,6 +282,7 @@ class _PropertySetSliderState extends State<PropertySetSlider> {
                         TextSpan(
                             text: initialAim1.toStringAsFixed(
                                     widget.property.n_after_decimal) +
+                                " " +
                                 widget.property.n_unit,
                             style: TextStyle(
                               color: Colors.black,

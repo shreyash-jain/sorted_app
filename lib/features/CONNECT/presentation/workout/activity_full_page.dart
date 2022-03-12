@@ -67,7 +67,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                   height:
                                       (Gparam.width - 2 * Gparam.widthPadding) *
                                           .9,
-                                  fit: BoxFit.cover),
+                                  fit: BoxFit.fitWidth),
                             )),
                       ),
                     SizedBox(

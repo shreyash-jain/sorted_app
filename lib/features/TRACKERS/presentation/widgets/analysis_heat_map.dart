@@ -195,27 +195,27 @@ class _ListAnalysisState extends State<ListAnalysis> {
 
   Color getDayColor(double value) {
     int hasGoal = widget.property.has_goal;
-    if (hasGoal == 0) return Color(0xFF21739d);
+    if (hasGoal == 0) return Color(0xFF6a9fba);
     int aimtype = widget.property.n_aim_type;
+
     if (widget.settings != null) {
       switch (aimtype) {
         case 2:
           if (widget.settings.n_u_aim_start <= value) {
             if (widget.property.property_type == 2 && widget.property.n_max > 0)
-              return Colors.greenAccent
-                  .withOpacity(value / widget.property.n_max);
+              return Colors.green.withOpacity(value / widget.property.n_max);
             else if (widget.property.property_type == 4)
-              return Colors.greenAccent.withOpacity(value / 24);
+              return Colors.greenAccent.withOpacity((value / 60) / 24);
             else
-              return Color(0xFF21739d);
+              return Color(0xFF6a9fba);
           } else if (widget.settings.n_u_aim_start > value) {
             if (widget.property.property_type == 2 && widget.property.n_max > 0)
               return Colors.redAccent.withOpacity(
                   (widget.property.n_max - value) / widget.property.n_max);
             else if (widget.property.property_type == 4)
-              return Colors.redAccent.withOpacity(24 - value / 24);
+              return Colors.redAccent.withOpacity(24 - (value / 60) / 24);
             else
-              return Color(0xFF21739d);
+              return Color(0xFF6a9fba);
           }
           break;
         case 1:
@@ -224,51 +224,52 @@ class _ListAnalysisState extends State<ListAnalysis> {
               return Colors.greenAccent.withOpacity(
                   (widget.property.n_max - value) / widget.property.n_max);
             else if (widget.property.property_type == 4)
-              return Colors.greenAccent.withOpacity(24 - value / 24);
+              return Colors.greenAccent.withOpacity(24 - (value / 60) / 24);
             else
-              return Color(0xFF21739d);
+              return Color(0xFF6a9fba);
           } else if (widget.settings.n_u_aim_start <= value) {
             if (widget.property.property_type == 2 && widget.property.n_max > 0)
               return Colors.redAccent
                   .withOpacity((value) / widget.property.n_max);
             else if (widget.property.property_type == 4)
-              return Colors.redAccent.withOpacity(value / 24);
+              return Colors.redAccent.withOpacity((value / 60) / 24);
             else
-              return Color(0xFF21739d);
+              return Color(0xFF6a9fba);
           }
           break;
         case 3:
           if (widget.settings.n_u_aim_end >= value &&
               widget.settings.n_u_aim_start <= value) {
             if (widget.property.property_type == 2 && widget.property.n_max > 0)
-              return Colors.greenAccent;
+              return Colors.green;
             else if (widget.property.property_type == 4)
-              return Colors.greenAccent;
+              return Colors.green;
             else
-              return Color(0xFF21739d);
+              return Color(0xFF6a9fba);
           } else if (widget.settings.n_u_aim_start > value) {
             if (widget.property.property_type == 2 && widget.property.n_max > 0)
               return Colors.redAccent.withOpacity(
                   (widget.property.n_max - value) / widget.property.n_max);
             else if (widget.property.property_type == 4)
-              return Colors.redAccent.withOpacity(24 - value / 24);
+              return Colors.redAccent.withOpacity(24 - (value / 60) / 24);
             else
-              return Color(0xFF21739d);
+              return Color(0xFF6a9fba);
           } else {
             if (widget.property.property_type == 2 && widget.property.n_max > 0)
               return Colors.redAccent
                   .withOpacity((value) / widget.property.n_max);
             else if (widget.property.property_type == 4)
-              return Colors.redAccent.withOpacity(value / 24);
+              return Colors.redAccent.withOpacity((value / 60) / 24);
             else
-              return Color(0xFF21739d);
+              return Color(0xFF6a9fba);
           }
           break;
 
         default:
+          return Color(0xFF6a9fba);
       }
     } else
-      return Color(0xFF21739d);
+      return Color(0xFF6a9fba);
   }
 
   bool isSameDate(DateTime thisDate, DateTime other) {

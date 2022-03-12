@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sorted/core/global/constants/constants.dart';
 import 'package:sorted/features/HOME/presentation/widgets/performance_log/widgets/diet_tile.dart';
@@ -10,8 +9,9 @@ class DayDietWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ExpansionTile(
+    return ExpansionTile(
       iconColor: Theme.of(context).primaryColor,
+      initiallyExpanded: true,
       tilePadding: EdgeInsets.only(right: Gparam.widthPadding),
       childrenPadding: EdgeInsets.all(0),
       title: Padding(

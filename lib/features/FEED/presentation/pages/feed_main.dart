@@ -79,45 +79,13 @@ class _FeedHomePageState extends State<FeedHomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Icon(
-                              Icons.camera_outlined,
-                              size: 20,
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Gtheme.stext("Photo",
-                                size: GFontSize.XXS, weight: GFontWeight.N),
-                          ],
-                        ),
-                      ),
-                      Flexible(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.upload_outlined,
-                              size: 20,
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Gtheme.stext("Gallery",
-                                size: GFontSize.XXS, weight: GFontWeight.N),
-                          ],
-                        ),
-                      ),
-                      Flexible(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
                               Icons.question_answer_outlined,
                               size: 20,
                             ),
                             SizedBox(
                               width: 8,
                             ),
-                            Gtheme.stext("Discussion",
+                            Gtheme.stext("Add Discussion",
                                 size: GFontSize.XXS, weight: GFontWeight.N),
                           ],
                         ),
@@ -142,7 +110,8 @@ class _FeedHomePageState extends State<FeedHomePage> {
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                  width: 3.0, color: Colors.lightBlue),
+                                  width: 3.0,
+                                  color: Theme.of(context).primaryColor),
                             ),
                           ),
                           child: Gtheme.stext(

@@ -84,7 +84,7 @@ class _ConsultationResourcesWidgetState
                         SizedBox(
                           height: 16,
                         ),
-                        Gtheme.stext("No resources added by you"),
+                        Gtheme.stext("No resource added by your expert"),
                       ],
                     ))),
                   if (state.messages.isNotEmpty)

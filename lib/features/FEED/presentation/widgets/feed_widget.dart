@@ -16,14 +16,15 @@ class FeedWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (post.senderUrl != null && post.senderUrl != "")
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(5),
                   child: CachedNetworkImage(
                     imageUrl: post.senderUrl,
-                    width: 40,
-                    height: 40,
+                    width: 30,
+                    height: 30,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Center(
                       child: ImagePlaceholderWidget(),
@@ -44,7 +45,7 @@ class FeedWidget extends StatelessWidget {
                       height: 4,
                     ),
                     Gtheme.stext("Sortit Pro team",
-                        size: GFontSize.XXS, weight: GFontWeight.B),
+                        size: GFontSize.S, weight: GFontWeight.N),
                   ],
                 ),
               ),
@@ -62,7 +63,7 @@ class FeedWidget extends StatelessWidget {
                 imageUrl: post.feedUrl,
                 width: Gparam.width,
                 height: Gparam.width,
-                fit: BoxFit.cover,
+                fit: BoxFit.fitWidth,
                 placeholder: (context, url) => Center(
                   child: ImagePlaceholderWidget(),
                 ),

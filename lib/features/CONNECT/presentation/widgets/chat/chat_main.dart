@@ -99,12 +99,12 @@ class _ChatWidgetState extends State<ChatWidget> {
                               : ListView.builder(
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    Timer(
-                                      Duration(seconds: 1),
-                                      () => _scrollController.jumpTo(
-                                          _scrollController
-                                              .position.maxScrollExtent),
-                                    );
+                                    Timer(Duration(seconds: 1), () {
+                                      if (_scrollController.hasClients)
+                                        _scrollController.jumpTo(
+                                            _scrollController
+                                                .position.maxScrollExtent);
+                                    });
                                     return index >= state.messages.length
                                         ? BottomLoader()
                                         : (state.messages[index].isSender)
@@ -156,8 +156,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                           ),
                           FloatingActionButton(
                             onPressed: () {
-                              chatBloc
-                                  .add(AddNewClassMessage(_messageController.text));
+                              chatBloc.add(
+                                  AddNewClassMessage(_messageController.text));
                               _messageController.clear();
                             },
                             child: Icon(

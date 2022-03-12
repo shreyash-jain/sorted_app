@@ -47,8 +47,7 @@ class _DurationLogState extends State<DurationLog> {
       myDouble = 0.0;
     }
 
-    if (_property.n_stat_condition == 1 &&
-        widget.summary.last_log != null &&
+    if (widget.summary.last_log != null &&
         !sameDay(DateTime.now(), widget.summary.last_log)) myDouble = 0.0;
 
     if (myDouble is double) // 123.45
@@ -130,7 +129,6 @@ class _DurationLogState extends State<DurationLog> {
                       alignment: Alignment.center,
                       child: DurationPicker(
                         duration: _duration,
-                        
                         onChange: (val) {
                           setState(() => _duration = val);
                           value = initialValue + _duration.inMinutes;

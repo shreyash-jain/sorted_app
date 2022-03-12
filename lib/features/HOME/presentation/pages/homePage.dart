@@ -11,6 +11,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -89,7 +90,8 @@ class _SortedHomeState extends State<SortedHome>
   TabController tab_Controller;
   DateTime today = DateTime.now();
   double top;
-
+  bool updateAvailable = false;
+  AppUpdateInfo _updateInfo;
   final _cameraKey = GlobalKey<CameraScreenState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -114,6 +116,7 @@ class _SortedHomeState extends State<SortedHome>
       initialScrollOffset: 0.0, // NEW
       keepScrollOffset: true, // NEW
     );
+    checkForUpdate();
 
     tabController = new AnimationController(
         duration: Duration(milliseconds: 300), vsync: this)
@@ -127,6 +130,28 @@ class _SortedHomeState extends State<SortedHome>
         Tween<double>(begin: 0.0, end: 0.0).animate(positionController);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => runAfterBuild(context));
+  }
+
+  Future<void> checkForUpdate() async {
+
+    InAppUpdate.checkForUpdate().then((info) {
+      setState(() {
+        _updateInfo = info;
+      });
+      if (_updateInfo?.updateAvailability ==
+          UpdateAvailability.updateAvailable) {
+        if (mounted)
+          setState(() {
+            updateAvailable = true;
+          });
+        else {
+          updateAvailable = true;
+        }
+      }
+    }).catchError((e) {
+      //showSnack(e.toString(), false);
+    });
+    
   }
 
   @override
@@ -280,6 +305,40 @@ class _SortedHomeState extends State<SortedHome>
                                 child: ListView(children: <Widget>[
                                   ClientEnrollHomeWidget(),
                                   HomePlanner(),
+
+                                  if (updateAvailable)
+                                    Padding(
+                                        padding:
+                                            EdgeInsets.all(Gparam.widthPadding),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Container(
+                                            color: Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(.1),
+                                            child: ListTile(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              title: Gtheme.stext(
+                                                  "Add update available"),
+                                              trailing: Icon(
+                                                Icons.download,
+                                                color: Colors.black,
+                                              ),
+                                              selected: true,
+                                              onTap: () {
+                                                setState(() {
+                                                  InAppUpdate
+                                                          .performImmediateUpdate()
+                                                      .catchError((e) {});
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        )),
 
                                   //HomeBlogWidget(blogBloc: blogBloc),
                                   SizedBox(

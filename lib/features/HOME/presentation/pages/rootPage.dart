@@ -65,21 +65,14 @@ class _RootHomeState extends State<RootHome> {
     );
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            _createHeader(),
-            ListTile(
-              title: Text('0.0.1'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+  
       body: Stack(
         children: [
           IndexedStack(

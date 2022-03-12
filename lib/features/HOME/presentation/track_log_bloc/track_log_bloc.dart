@@ -673,10 +673,18 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
         return value.toStringAsFixed(0);
       }
     } else if (newLog.property_type == 4) {
+
+
+
       if (prevSummary.track_logs.length != 0) {
+
+
+
         if (sameDay(prevSummary.last_log, newLog.time)) {
           double value;
           try {
+
+            
             value = double.parse(prevSummary.currentValue) +
                 double.parse(newLog.value);
           } catch (c) {
@@ -684,6 +692,8 @@ class PerformanceLogBloc extends Bloc<PerformanceEvent, PerformanceLogState> {
           }
           return value.toStringAsFixed(1);
         } else {
+
+
           double value;
           try {
             value = double.parse(newLog.value);

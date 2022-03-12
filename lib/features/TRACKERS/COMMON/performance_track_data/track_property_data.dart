@@ -253,6 +253,7 @@ TrackPropertyModel fasting = new TrackPropertyModel(
     property_description: "Track the time duration of your fast",
     property_question: "How much time did you fast ?",
     d_is_realtime: 1,
+    n_aim_type: 2,
     d_max_duration_min: 24,
     has_goal: 1);
 TrackPropertySettings fastingSettings =
@@ -291,10 +292,10 @@ TrackPropertyModel egg = new TrackPropertyModel(
     n_min: 0,
     n_after_decimal: 0,
     n_stat_condition: 1,
-    n_aim_type: 0,
+    n_aim_type: 2,
     has_goal: 1);
 TrackPropertySettings eggSettings =
-    new TrackPropertySettings(track_id: 10, property_id: 16);
+    new TrackPropertySettings(track_id: 10, property_id: 16, n_u_aim_start: 5);
 
 TrackPropertyModel greentea = new TrackPropertyModel(
     id: 17,

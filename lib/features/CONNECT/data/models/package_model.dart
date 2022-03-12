@@ -29,8 +29,15 @@ class ConsultationPackageModel extends Equatable {
   String topics;
   String dynamicLink;
   String description;
-  
-
+  int feeType;
+  int monthlyFee;
+  int discountPercentage;
+  int isAtHome;
+  int isOnline;
+  int isAtInstitute;
+  int hasDemoSession;
+  int coupleDiscount;
+  int tripleDiscount;
   ConsultationPackageModel({
     this.id = '',
     this.name = '',
@@ -45,10 +52,19 @@ class ConsultationPackageModel extends Equatable {
     this.topics = '',
     this.dynamicLink = '',
     this.description = '',
+    this.feeType = 0,
+    this.monthlyFee = 0,
+    this.discountPercentage = 0,
+    this.isAtHome = 0,
+    this.isOnline = 0,
+    this.isAtInstitute = 0,
+    this.hasDemoSession = 0,
+    this.coupleDiscount = 0,
+    this.tripleDiscount = 0,
   });
 
   ConsultationPackageModel copyWith({
-     String id,
+    String id,
     String name,
     List<int> days,
     int type,
@@ -61,6 +77,15 @@ class ConsultationPackageModel extends Equatable {
     String topics,
     String dynamicLink,
     String description,
+    int feeType,
+    int monthlyFee,
+    int discountPercentage,
+    int isAtHome,
+    int isOnline,
+    int isAtInstitute,
+    int hasDemoSession,
+    int coupleDiscount,
+    int tripleDiscount,
   }) {
     return ConsultationPackageModel(
       id: id ?? this.id,
@@ -76,6 +101,15 @@ class ConsultationPackageModel extends Equatable {
       topics: topics ?? this.topics,
       dynamicLink: dynamicLink ?? this.dynamicLink,
       description: description ?? this.description,
+      feeType: feeType ?? this.feeType,
+      monthlyFee: monthlyFee ?? this.monthlyFee,
+      discountPercentage: discountPercentage ?? this.discountPercentage,
+      isAtHome: isAtHome ?? this.isAtHome,
+      isOnline: isOnline ?? this.isOnline,
+      isAtInstitute: isAtInstitute ?? this.isAtInstitute,
+      hasDemoSession: hasDemoSession ?? this.hasDemoSession,
+      coupleDiscount: coupleDiscount ?? this.coupleDiscount,
+      tripleDiscount: tripleDiscount ?? this.tripleDiscount,
     );
   }
 
@@ -94,6 +128,15 @@ class ConsultationPackageModel extends Equatable {
       'topics': topics,
       'dynamicLink': dynamicLink,
       'description': description,
+      'feeType': feeType,
+      'monthlyFee': monthlyFee,
+      'discountPercentage': discountPercentage,
+      'isAtHome': isAtHome,
+      'isOnline': isOnline,
+      'isAtInstitute': isAtInstitute,
+      'hasDemoSession': hasDemoSession,
+      'coupleDiscount': coupleDiscount,
+      'tripleDiscount': tripleDiscount,
     };
   }
 
@@ -112,6 +155,15 @@ class ConsultationPackageModel extends Equatable {
       topics: map['topics'] ?? '',
       dynamicLink: map['dynamicLink'] ?? '',
       description: map['description'] ?? '',
+      feeType: map['feeType'] ?? 0,
+      monthlyFee: map['monthlyFee'] ?? 0,
+      discountPercentage: map['discountPercentage'] ?? 0,
+      isAtHome: map['isAtHome'] ?? 0,
+      isOnline: map['isOnline'] ?? 0,
+      isAtInstitute: map['isAtInstitute'] ?? 0,
+      hasDemoSession: map['hasDemoSession'] ?? 0,
+      coupleDiscount: map['coupleDiscount'] ?? 0,
+      tripleDiscount: map['tripleDiscount'] ?? 0,
     );
   }
 
@@ -139,6 +191,15 @@ class ConsultationPackageModel extends Equatable {
       topics,
       dynamicLink,
       description,
+      feeType,
+      monthlyFee,
+      discountPercentage,
+      isAtHome,
+      isOnline,
+      isAtInstitute,
+      hasDemoSession,
+      coupleDiscount,
+      tripleDiscount,
     ];
   }
 }

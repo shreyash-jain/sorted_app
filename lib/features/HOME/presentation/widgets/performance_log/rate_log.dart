@@ -79,8 +79,8 @@ class _RateLogState extends State<RateLog> {
                     TrackLog(
                         property_id: _property.id,
                         track_id: _property.track_id,
-                        value: (widget.property.r_max +
-                                (widget.property.r_min -
+                        value: (widget.property.r_min +
+                                (widget.property.r_max -
                                         widget.property.r_min) *
                                     v)
                             .toStringAsFixed(0),
